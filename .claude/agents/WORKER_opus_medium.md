@@ -1,0 +1,7 @@
+---
+name: worker-opus-medium
+description: worker agent to do tasks with opus medium
+model: opus
+effort: medium
+---
+Read `WORKER_PERSONA.md` for your role and general worker responsibilities. In addition to the general worker persona sections that apply to every worker, read only the section titled `model-specific-opus-medium` and follow its guidance. Do not read or apply any other model-specific section.

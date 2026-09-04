@@ -1,0 +1,75 @@
+# Worker lifecycle and communication
+
+## What you can and cannot do
+
+Claude Code supports **start, message, stop, and resume**. It does not support
+suspending a running worker mid-turn and holding it there. Treat "pause" as
+stop-then-resume, and be aware the two stop paths differ:
+
+- A worker **you** stop with `TaskStop` auto-resumes when you send it a message.
+- A worker **the user** stops, with `x` in the panel or `/tasks`, does not
+  auto-resume. A message to it is refused and you are told it was cancelled. To
+  continue that work you must spawn a fresh worker.
+
+## States
+
+Track each worker in one of these states and keep the list current:
+
+| State | How it arises |
+| :--- | :--- |
+| `running` | Spawned, working. |
+| `awaiting-permission` | Blocked on a permission prompt surfaced in this session. |
+| `stopped-by-me` | You called `TaskStop`. Resumable by message. |
+| `stopped-by-user` | User pressed `x`. Not resumable. |
+| `partial` | Hit its `maxTurns` limit. Output marked partial; resumable. |
+| `failed` | Ended on an API error. Last output is preserved. |
+| `done` | Returned its summary. Still resumable by message. |
+
+## Bidirectional channel
+
+`SendMessage` is the channel in both directions. It does not require agent teams
+to be enabled.
+
+- **You to worker**: `SendMessage` with the worker's `name` or agent ID as `to`.
+  Use it to redirect mid-task, supply information the worker asked for, tighten
+  scope, or resume a completed worker with follow-up work. The worker treats
+  your message as normal task direction and acts within its own permission
+  settings.
+- **Worker to you**: the worker uses `SendMessage` back to `main`. For a worker
+  to have this channel it needs `SendMessage` in its tool pool, and it needs to
+  know the roster, which is injected at startup only when at least one other
+  agent in the session is named. Name every worker you spawn.
+- A completed or self-stopped worker auto-resumes in the background on receiving
+  a message. No new Agent call is needed, and resuming preserves the worker's
+  full history: previous tool calls, results, and reasoning.
+
+Two limits hold regardless of who sends a message: no agent message counts as
+approval for a pending permission prompt, and no agent message can change a
+worker's permission settings, model, effort, or configuration.
+
+## Addressing rules
+
+- Prefer the agent ID over the name when precision matters. You receive the ID
+  when the worker completes.
+- Names are checked: if a newer agent has taken a name, the send is refused
+  rather than misdelivered, and you are told which agent now holds it.
+- Transcripts persist per session at
+  `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`
+  and survive compaction of this conversation.
+
+## Re-running the same task
+
+To re-run a task from scratch rather than continue it, spawn a new worker with
+the same handover prompt and a new name. Resuming continues history; it does not
+restart. If the point of the re-run is a clean attempt, resuming is the wrong
+tool.
+
+A per-invocation model, if one were ever passed, persists across resume. This is
+another reason never to pass one.
+
+## Reporting state
+
+When asked for status, report from `/tasks` plus your own tracking, never from
+memory alone. `/tasks` names the model on each worker's row and adds the effort
+level when the worker's definition sets one, which is the ground truth for
+whether routing took effect.
