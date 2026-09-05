@@ -5,21 +5,28 @@ Responsible for: the one signal CLAUDE.md says has no automatic source,
 routing appropriateness. For every fixture in test/fixtures/routing.jsonl it
 asks a non-interactive orchestrator (`claude -p`) to assess and select but
 not spawn, parses the one-line verdict, and scores cell agreement, axis
-agreement and provisioning direction. With --record it writes the dogfood
-log the charter requires to test/results/.
+agreement and provisioning direction. With --runs N it repeats the full pass
+N times and aggregates with a Wilson score interval. With --record it writes
+the dogfood log the charter requires to test/results/.
 
 Deliberately does not: spawn workers (so a run costs one orchestrator turn
 per fixture and no worker tokens), install the bundle (do that first from
 dist/ into the consumer project), or tune anything.
 
-The one non-obvious thing: this script has not yet been run against a live
-install. The `claude -p --output-format json` field names (`result`,
-`total_cost_usd`) are taken from the documentation as of 2026-09-05. The
-first live run will confirm or correct them; record that in FINDINGS.md.
+The one non-obvious thing: a single pass conflates model judgement with the
+small-sample noise inherent in a stochastic model call, so `--runs N`
+repeats the full fixture pass N times and reports a 95 percent Wilson score
+interval per fixture and overall, instead of treating one pass as ground
+truth. A single pass is confirmed live (E12, `docs/FINDINGS.md`), but its
+recorded results predate the fixed calibration instruction (D6,
+`docs/DECISIONS.md`) and are not comparable with runs made after it. With
+`--json`, output nests under a top-level "runs" list even when --runs is 1,
+so downstream tooling has one schema regardless of run count.
 
 Usage:
     python3 test/harness/score_routing.py --project ~/consumer --model sonnet --dry-run
     python3 test/harness/score_routing.py --project ~/consumer --model sonnet --record
+    python3 test/harness/score_routing.py --project ~/consumer --model sonnet --runs 5 --record
     python3 test/harness/score_routing.py --project ~/consumer --only F08,F15,F17 --json
 """
 from __future__ import annotations
@@ -116,13 +123,30 @@ def score(fixture: dict, verdict: str) -> dict:
             "direction": direction, "parsed": bool(m), "raw": verdict.strip()[:200]}
 
 
+def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """95 percent Wilson score interval for a binomial proportion, z=1.96 by default.
+
+    Preferred here over a normal approximation because it stays inside [0, 1]
+    and is not degenerate at n=0 or at successes in {0, n}, all of which occur
+    with the small run counts this script is used at.
+    """
+    if n == 0:
+        return (0.0, 1.0)
+    p_hat = successes / n
+    denom = 1 + z * z / n
+    centre = (p_hat + z * z / (2 * n)) / denom
+    margin = (z / denom) * ((p_hat * (1 - p_hat) / n + z * z / (4 * n * n)) ** 0.5)
+    return (max(0.0, centre - margin), min(1.0, centre + margin))
+
+
 def render(rows: list[dict], meta: dict) -> str:
     n = len(rows)
     agreed = sum(r["agree"] for r in rows)
     over = sum(r["direction"] == "over" for r in rows)
     under = sum(r["direction"] == "under" for r in rows)
     unparsed = sum(not r["parsed"] for r in rows)
-    lines = [f"# Routing score {meta['when']} at {meta['git']}", "",
+    run_label = f" (run {meta['run']} of {meta['runs']})" if meta.get("runs", 1) > 1 else ""
+    lines = [f"# Routing score{run_label} {meta['when']} at {meta['git']}", "",
              f"Orchestrator model: {meta['model'] or 'session default'}. Bundle: {meta['bundle']}. "
              f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}.", "",
              f"Agreement {agreed}/{n}. Over-provisioned {over}, under-provisioned {under}, unparsed {unparsed}. "
@@ -136,16 +160,47 @@ def render(rows: list[dict], meta: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def render_summary(fixture_ids: list[str], per_fixture_agree: dict[str, list[bool]],
+                    overall_successes: int, overall_n: int, run_costs: list[float | None], meta: dict) -> str:
+    lo, hi = wilson_interval(overall_successes, overall_n)
+    known = [c for c in run_costs if c is not None]
+    cost_line = (f" Mean cost per run: USD {sum(known) / len(known):.4f}; "
+                 f"total across {len(known)} costed of {len(run_costs)} runs: USD {sum(known):.4f}."
+                 if known else " Cost not reported for any run.")
+    lines = [f"# Routing score summary, {meta['runs']} runs, {meta['when']} at {meta['git']}", "",
+             f"Orchestrator model: {meta['model'] or 'session default'}. Bundle: {meta['bundle']}. "
+             f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}.", "",
+             f"Overall agreement {overall_successes}/{overall_n} "
+             f"({overall_successes / overall_n:.1%}, 95% Wilson [{lo:.1%}, {hi:.1%}])." + cost_line, "",
+             "| Fixture | Agreements | Runs | Rate | 95% Wilson interval |",
+             "| :--- | :--- | :--- | :--- | :--- |"]
+    for fid in fixture_ids:
+        agrees = per_fixture_agree[fid]
+        s, n = sum(agrees), len(agrees)
+        flo, fhi = wilson_interval(s, n)
+        lines.append(f"| {fid} | {s} | {n} | {s / n:.0%} | [{flo:.0%}, {fhi:.0%}] |")
+    lines += ["", "A wide interval on a fixture run only a few times is sample noise, not necessarily "
+              "a wrong rule; widen --runs before concluding the rubric is wrong for that cell "
+              "(ROUTING.md section 4 still wants three or more disagreements on one starting cell)."]
+    return "\n".join(lines) + "\n"
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--project", required=True, type=Path, help="consumer project with the dist/ bundle installed")
     ap.add_argument("--model", choices=("sonnet", "opus", "fable"), help="orchestrator model passed to claude -p")
     ap.add_argument("--only", help="comma-separated fixture ids")
+    ap.add_argument("--runs", type=int, default=1,
+                     help="repeat the full fixture pass this many times and aggregate with a Wilson interval (default 1)")
     ap.add_argument("--dry-run", action="store_true", help="print the commands; run nothing")
     ap.add_argument("--json", action="store_true")
-    ap.add_argument("--record", action="store_true", help="write test/results/<date>-routing.md")
+    ap.add_argument("--record", action="store_true",
+                     help="write test/results/<date>-routing-<model>.md (one file per run, plus a -summary.md when --runs > 1)")
     args = ap.parse_args(argv)
 
+    if args.runs < 1:
+        print("refusing to run: --runs must be at least 1", file=sys.stderr)
+        return 2
     set_env = [v for v in BLOCKING_ENV if os.environ.get(v) not in (None, "", "0")]
     if set_env:
         print(f"refusing to run: {set_env} set; unset them so frontmatter effort and model apply (CLAUDE.md invariants 1, 3, 4)", file=sys.stderr)
@@ -161,41 +216,83 @@ def main(argv: list[str]) -> int:
     bundle = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no .claude/ORCHESTRATOR_VERSION)"
 
     fixtures = load_fixtures(set(args.only.split(",")) if args.only else None)
-    rows: list[dict] = []
-    total_cost = 0.0
-    cost_known = True
-    for fx in fixtures:
-        try:
-            verdict, cost, shown = run_orchestrator(project, args.model, fx["task"] + VERDICT_INSTRUCTION, args.dry_run)
-        except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
-            verdict, cost, shown = f"[error] {exc}", None, ""
-        if args.dry_run:
-            print(f"{fx['id']}: {shown}")
-            continue
-        if cost is None:
-            cost_known = False
-        else:
-            total_cost += float(cost)
-        rows.append(score(fx, verdict))
-        if not args.json:
-            r = rows[-1]
-            print(f"{r['id']} expected {r['expected']:<20} chosen {r['chosen']:<20} {'agree' if r['agree'] else 'DISAGREE'} {r['direction']}")
+    fixture_ids = [fx["id"] for fx in fixtures]
+
     if args.dry_run:
+        for fx in fixtures:
+            _, _, shown = run_orchestrator(project, args.model, fx["task"] + VERDICT_INSTRUCTION, True)
+            print(f"{fx['id']}: {shown}")
+        print(f"--runs {args.runs}: would make {args.runs * len(fixtures)} total calls "
+              f"({len(fixtures)} fixtures x {args.runs} runs)")
         return 0
 
-    git_rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
     reviewed = "no" if any("pending human review" in fx.get("assigned_by", "") for fx in fixtures) else "yes"
-    meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "model": args.model,
-            "bundle": bundle, "project": str(project), "reviewed": reviewed,
-            "cost": f"USD {total_cost:.4f}" if cost_known else "not reported"}
+    git_rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
+
+    all_runs: list[list[dict]] = []
+    run_costs: list[float | None] = []
+    for run_idx in range(1, args.runs + 1):
+        rows: list[dict] = []
+        total_cost = 0.0
+        cost_known = True
+        if args.runs > 1 and not args.json:
+            print(f"=== run {run_idx}/{args.runs} ===")
+        for fx in fixtures:
+            try:
+                verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + VERDICT_INSTRUCTION, False)
+            except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
+                verdict, cost = f"[error] {exc}", None
+            if cost is None:
+                cost_known = False
+            else:
+                total_cost += float(cost)
+            rows.append(score(fx, verdict))
+            if not args.json:
+                r = rows[-1]
+                print(f"{r['id']} expected {r['expected']:<20} chosen {r['chosen']:<20} {'agree' if r['agree'] else 'DISAGREE'} {r['direction']}")
+        all_runs.append(rows)
+        run_costs.append(total_cost if cost_known else None)
+
+        run_meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "model": args.model,
+                    "bundle": bundle, "project": str(project), "reviewed": reviewed,
+                    "cost": f"USD {total_cost:.4f}" if cost_known else "not reported",
+                    "run": run_idx, "runs": args.runs}
+        if not args.json:
+            prefix = f"run {run_idx}/{args.runs} " if args.runs > 1 else ""
+            print(f"\n{prefix}agreement {sum(r['agree'] for r in rows)}/{len(rows)}; bundle {bundle}; fixtures human-reviewed: {reviewed}")
+        if args.record:
+            RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+            suffix = "" if args.runs == 1 else f"-run{run_idx}-of-{args.runs}"
+            out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-{args.model or 'default'}{suffix}.md"
+            out.write_text(render(rows, run_meta), encoding="utf-8", newline="\n")
+            print(f"recorded {out.relative_to(REPO_ROOT)}")
+
+    per_fixture_agree: dict[str, list[bool]] = {fid: [] for fid in fixture_ids}
+    for rows in all_runs:
+        for r in rows:
+            per_fixture_agree[r["id"]].append(r["agree"])
+    overall_successes = sum(sum(v) for v in per_fixture_agree.values())
+    overall_n = sum(len(v) for v in per_fixture_agree.values())
+    summary_meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "model": args.model,
+                     "bundle": bundle, "project": str(project), "reviewed": reviewed, "runs": args.runs}
+
     if args.json:
-        print(json.dumps({"meta": meta, "rows": rows}, indent=2))
-    else:
-        print(f"\nagreement {sum(r['agree'] for r in rows)}/{len(rows)}; bundle {bundle}; fixtures human-reviewed: {reviewed}")
-    if args.record:
+        print(json.dumps({
+            "meta": summary_meta,
+            "runs": [{"run": i + 1, "cost": run_costs[i], "rows": all_runs[i]} for i in range(args.runs)],
+            "overall_agreement": {"successes": overall_successes, "n": overall_n,
+                                   "wilson_95": wilson_interval(overall_successes, overall_n)},
+        }, indent=2))
+    elif args.runs > 1:
+        lo, hi = wilson_interval(overall_successes, overall_n)
+        print(f"\noverall agreement {overall_successes}/{overall_n} "
+              f"({overall_successes / overall_n:.1%}, 95% Wilson [{lo:.1%}, {hi:.1%}]) across {args.runs} runs")
+
+    if args.record and args.runs > 1:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-{args.model or 'default'}.md"
-        out.write_text(render(rows, meta), encoding="utf-8", newline="\n")
+        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-{args.model or 'default'}-summary.md"
+        out.write_text(render_summary(fixture_ids, per_fixture_agree, overall_successes, overall_n, run_costs, summary_meta),
+                        encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
     return 0
 
