@@ -59,11 +59,11 @@ or later for the effort level to appear on the row.
 - Workers nest three layers deep by default. `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
   is said to change this, but it is not among the documented environment
   variables as of 2026-09-05; verify before relying on it.
-- Workers run as background subagents. The documentation describes a fork as
-  inheriting the parent's full conversation context and says nothing about a
-  reduced tool set, so the claim that background workers lose built-in tools
-  is unverified as of 2026-09-05. Confirm `SendMessage` is in a worker's tool
-  list before relying on the return channel (see `docs/FINDINGS.md`).
+- Workers run as background subagents. Whether they lose any built-in tools
+  beyond what has been checked is still unverified as of 2026-09-05, but
+  `SendMessage` is confirmed present and working even for a plain, unnamed
+  worker (`docs/FINDINGS.md`). A message a worker sends to `main` is queued for
+  the orchestrator's next turn, not delivered mid-turn.
 - Routing is a judgement made by a model reading a rubric, not a deterministic
   classifier. Expect to tune the table against your own task mix rather than
   trusting it out of the box.

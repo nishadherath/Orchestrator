@@ -40,6 +40,7 @@ Confirmed by a live `/tasks` row or command output on the installed version, not
 | `CLAUDE_SESSION_ID` is empty in a session's Bash context | `echo "[$CLAUDE_SESSION_ID]"` in the orchestrator session printed `[]` | E6; `src/commands/workers.md`'s documented fallback (most recently modified session directory) is the path actually exercised, not a defensive extra |
 | Worker transcript path, and that it records both effort and model | `ls ~/.claude/projects/*/*/subagents/` while a worker ran listed 8 `agent-{agentId}.jsonl` files (accumulated from earlier E1-E6 spawns, not all from one worker), each paired with an undocumented `agent-{agentId}.meta.json`; `grep -c` on the running worker's `.jsonl` found 6 lines matching `effort` and 7 matching `model` | E7; confirms the path, and answers open question 1: effort appears in the transcript, not only the panel |
 | A new definition added to an already-existing `.claude/agents/` directory is picked up without restarting the session, but only after a lag, not on the next message | `probe-haiku.md` was absent from the listed subagent types immediately after being written; it and a second file (`probe-sonnet.md`) written moments later both appeared together on the next check | Incidental to E8; bears on open question "the startup-only file watcher" and on E11, which still needs to test a directory that did not exist at startup |
+| `SendMessage` is available to a plain, unnamed background worker, and works | An unnamed `worker-sonnet-low` called `SendMessage` to send "test" to `main`; it returned `{"success":true,"message":"Message queued for the main conversation's next turn."}` | E9 (retried with a direct-use task after the self-reported tool list omitted it); resolves `src/README.md`'s "Known limits" worry. New fact: `SendMessage` is queued for the orchestrator's next turn, not delivered mid-turn |
 
 ## Contradicted by documentation, 2026-09-05
 
@@ -66,5 +67,5 @@ reproducible command on a named version.
 | :--- | :--- | :--- |
 | `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` changes the nesting depth | `src/README.md` | Set it to 1, spawn a worker that spawns a worker, observe the refusal |
 | The agents file watcher covers only directories that existed at startup | `src/README.md` | Create `.claude/agents/` mid-session, add a definition, check whether it is listed without restart |
-| Background workers run with a reduced built-in tool set | `src/README.md` | Spawn a worker that lists its available tools and reports them |
+| Background workers run with a reduced built-in tool set, beyond `SendMessage` (now confirmed present, see above) | `src/README.md` | A self-reported tool list is unreliable (E9 got "PowerShell" as a tool name, which does not exist); needs a test that exercises tools rather than lists them |
 | Only the top-level worker's summary returns to the orchestrator from nested workers | `src/ROUTING.md` section 5 | Spawn a worker that spawns a worker; compare what returns |
