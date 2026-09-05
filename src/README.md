@@ -25,9 +25,11 @@ into `~/.claude/` to make the workers available everywhere). Then either append
 and add the line "Read ORCHESTRATOR.md before delegating any task."
 
 If `.claude/agents/` did not exist before your current session started, restart
-Claude Code. The file watcher appears to cover only directories that existed
-at startup; this is observed behaviour, unverified against the documentation
-as of 2026-09-05.
+Claude Code; a definition added afterwards will not appear, confirmed empirically
+2026-09-05 (`docs/FINDINGS.md`), even after a wait, and this is not documented
+behaviour. If the directory already existed at startup, a new definition added to
+it does get picked up without a restart, but only after a lag of a turn or two,
+not immediately.
 
 ## Settings that will break this
 
