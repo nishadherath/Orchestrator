@@ -114,3 +114,44 @@ after it. Re-run E12 before drawing further conclusions from routing scores.
 Reversal: seed orchestrator-scratch with the actual artefacts instead, and drop
 the sentence, if a future stage wants the orchestrator scored on noticing
 missing context as well as on axis judgement.
+
+## 2026-09-05 D7. Clarify is a first-class routing outcome
+
+Decision: `action: clarify` stands alongside `action: spawn` as a legitimate
+orchestrator response, not a failure to route. `test/harness/score_routing.py`
+already scores it and fixture F16 already expects it; `src/ROUTING.md` itself
+states no rule for when clarify is the correct answer.
+
+Why: Jeb's call, made after E12 showed a sonnet orchestrator and an opus
+orchestrator disagreeing sharply on how often to clarify (3 of 17 verdicts
+against 9 of 17, `docs/FINDINGS.md`) with no rule in `ROUTING.md` to referee
+the disagreement. Leaving clarify unruled treats every clarify verdict as
+unscoreable uncertainty instead of a defined choice.
+
+Deferred: the rule itself, when clarify is correct as distinct from a
+low-confidence spawn, is judgement work scoped for a later stage of the
+improvement plan. This entry records only that clarify is in scope, not what
+the rule says.
+
+Reversal: drop clarify from `score_routing.py` and retire fixture F16 if a
+future review decides the orchestrator should always spawn and let the worker
+report underspecification instead (`ROUTING.md` section 4 already covers that
+path).
+
+## 2026-09-05 D8. orchestrator-scratch is the consumer project
+
+Decision: `orchestrator-scratch` is the consumer project for fixture
+calibration (`score_routing.py`), any cost or quality benchmark built later,
+and dogfooding (`test/harness/empirical-checklist.md` item E13's protocol). It
+is not this repository; `CLAUDE.md`'s Dogfooding section already forbids
+running from here.
+
+Why: Jeb's call. The project already has the `dist/` bundle installed and
+carries the E1 to E13 empirical history and the two dogfood runs recorded in
+`test/results/2026-09-05-dogfood.md`, so it continues existing work rather than
+starting fresh in one of the six unconnected sibling directories (Book,
+Provenance, TealElephant, Tsunami, WikiSkills, Wuxing).
+
+Reversal: name a different project here if orchestrator-scratch's synthetic,
+no-other-codebase nature becomes a problem for a specific measurement; D6
+already works around this for fixture calibration.
