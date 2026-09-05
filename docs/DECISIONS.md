@@ -155,3 +155,48 @@ Provenance, TealElephant, Tsunami, WikiSkills, Wuxing).
 Reversal: name a different project here if orchestrator-scratch's synthetic,
 no-other-codebase nature becomes a problem for a specific measurement; D6
 already works around this for fixture calibration.
+
+## 2026-09-05 D9. The routing table names all eighteen triples; one documented tie-break
+
+Decision: `src/ROUTING.md`'s table is total over the three axes it defines.
+Five combinations that previously had no row now do: mechanical-short-
+consequential (`worker-sonnet-medium`, closing the exact gap fixture F17 had
+already worked around), mechanical-long-contained and mechanical-long-
+consequential (one new row, "Mechanical, long horizon", at `worker-sonnet-high`,
+mirroring structured's own long-horizon row in not splitting by blast),
+structured-short-consequential (widened into the existing medium-consequential
+row, now `worker-sonnet-high` for short or medium), and open-short-
+consequential (widened into the existing medium-or-long-consequential row, now
+any horizon, `worker-opus-xhigh`). The one remaining double match, open-long-
+consequential (`worker-opus-xhigh` and `worker-fable-xhigh`), is not closed by
+picking a winner; it is documented as a tie-break in the table's constraints:
+prefer `worker-opus-xhigh`, and reach for `worker-fable-xhigh` only when the
+task itself demands sustained, self-directed investigation, not merely because
+it is long and consequential. Fixture F12 (open, long, consequential, no such
+demand, confirmed `worker-opus-xhigh`) is cited as the worked example.
+`test/harness/check.py`'s new ROUTE-TOTAL check enforces both: zero gaps, and
+any remaining double match must name both workers in a tie-break sentence
+still present in the file, or the check fails.
+
+Why: Jeb asked for the fix and the check together so the tree is never red
+between them (2026-09-05 conversation). Every new row uses a rule already
+established and confirmed elsewhere rather than a fresh judgement call: the
+mechanical-short-consequential fill is fixture F17's own rationale, made into
+a table row instead of a worked-around gap; the mechanical-long row mirrors
+structured's existing blast-agnostic long-horizon row, one model-effort step
+below it; the two widened rows extend an adjacent row's horizon range rather
+than inventing a new cell; the open-long-consequential tie-break's default
+(`worker-opus-xhigh`) is fixture F12's own confirmed answer, not a new one.
+
+Verified: ROUTE-TOTAL added to `test/harness/check.py`, passes (18 triples, 0
+gaps, 1 documented tie-break). Checked it actually catches regressions, not
+just the current state: removing the tie-break sentence and deleting the new
+mechanical-long row each independently produced the expected FAIL, both
+reverted before this commit. `tools/generate_workers.py` regenerated the three
+affected worker definitions (`sonnet-medium`, `sonnet-high`, `opus-xhigh`) with
+0 drift after. Fixture F17's rationale and note updated to describe a closed
+gap rather than an open one; its `assessment`, `expected_cell` and
+`assigned_by` are unchanged, so it did not need re-review.
+
+Reversal: remove a row and its ROUTE_TOTAL_ALLOWED_CONFLICTS entry together;
+the check will immediately say which triple lost coverage.

@@ -1,6 +1,6 @@
 ---
 name: worker-sonnet-high
-description: Sonnet at high effort. Routed for: structured, medium, consequential. Select by subagent_type only; never pass a model parameter.
+description: Sonnet at high effort. Routed for: mechanical, long horizon; structured, short or medium, consequential. Select by subagent_type only; never pass a model parameter.
 model: sonnet
 effort: high
 ---

@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import itertools
 import json
 import os
 import re
@@ -195,6 +196,105 @@ def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
           "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py")
 
 
+# A conflict here is allowed only if ROUTING.md documents the tie-break: the
+# exact workers named, and a substring proving the disambiguating sentence is
+# still present. If either changes, the check fails again rather than going
+# silently stale.
+ROUTE_TOTAL_ALLOWED_CONFLICTS: dict[tuple[str, str, str], tuple[frozenset[str], str]] = {
+    ("open", "long", "consequential"): (
+        frozenset({"worker-opus-xhigh", "worker-fable-xhigh"}),
+        "Prefer `worker-opus-xhigh`; route to `worker-fable-xhigh`",
+    ),
+}
+
+
+def _parse_routing_assessment(text: str) -> tuple[set[str], set[str], set[str], list[str]]:
+    """Split one ROUTING.md table row's Assessment cell into axis value sets.
+
+    An axis absent from the text means "any value of that axis", handled by
+    the caller. A comma-separated chunk matching none of the three axis
+    vocabularies (e.g. "sustained autonomous investigation", or the whole
+    text of the frontier-escalation row) is returned unrecognised rather than
+    dropped, so the caller can tell a real classification row from an
+    escalation-only one instead of miscounting it as a gap or gaining a
+    3-axis match it never made.
+    """
+    parts = [p.strip() for p in text.split(",")]
+    sens: set[str] = set()
+    hor: set[str] = set()
+    bla: set[str] = set()
+    unrecognised: list[str] = []
+    for part in parts:
+        lower = part.lower()
+        if lower.endswith(" horizon"):
+            lower = lower[: -len(" horizon")]
+        lower = lower.replace("any horizon", "short or medium or long")
+        tokens = [t.strip() for t in re.split(r"\s+or\s+", lower)]
+        matched = False
+        for tok in tokens:
+            if tok in SENSITIVITY:
+                sens.add(tok); matched = True
+            elif tok in HORIZON:
+                hor.add(tok); matched = True
+            elif tok in BLAST:
+                bla.add(tok); matched = True
+        if not matched:
+            unrecognised.append(part)
+    return sens, hor, bla, unrecognised
+
+
+def check_route_total(r: Report) -> None:
+    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
+    parsed_rows: list[tuple[str, str]] = []
+    in_table = False
+    for line in routing.splitlines():
+        if line.startswith("| Assessment"):
+            in_table = True
+            continue
+        if in_table and line.startswith("| :---"):
+            continue
+        if in_table and not line.startswith("|"):
+            break
+        if not in_table:
+            continue
+        m = re.match(r"^\|\s*(?P<assessment>[^|]+?)\s*\|\s*(?P<worker>[^|]+?)\s*\|\s*$", line)
+        assert m, f"ROUTING.md: unparseable table row: {line!r}"
+        parsed_rows.append((m.group("assessment"), m.group("worker")))
+
+    coverage: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
+    for assessment, worker_cell in parsed_rows:
+        sens, hor, bla, unrecognised = _parse_routing_assessment(assessment)
+        if not sens and not hor and not bla:
+            continue  # escalation-only row (the frontier row); not a fresh classification
+        # Bare names, not the backtick-wrapped cell text, so these compare
+        # equal to ROUTE_TOTAL_ALLOWED_CONFLICTS's plain worker-name entries.
+        names = re.findall(r"worker-[a-z]+-[a-z]+", worker_cell)
+        assert names, f"ROUTING.md: no worker name found in cell {worker_cell!r}"
+        hor_expanded = hor or set(HORIZON)
+        bla_expanded = bla or set(BLAST)
+        for s, h, b in itertools.product(sens, hor_expanded, bla_expanded):
+            for name in names:
+                coverage.setdefault((s, h, b), []).append((name, assessment))
+
+    universe = list(itertools.product(SENSITIVITY, HORIZON, BLAST))
+    problems: list[str] = [f"no row covers {t}" for t in universe if t not in coverage]
+    for t in universe:
+        if t not in coverage:
+            continue
+        workers = {w for w, _ in coverage[t]}
+        if len(workers) <= 1:
+            continue
+        allowed = ROUTE_TOTAL_ALLOWED_CONFLICTS.get(t)
+        if allowed and workers == allowed[0] and allowed[1] in routing:
+            continue
+        problems.append(f"{t} matches conflicting workers {sorted(workers)} with no documented tie-break")
+
+    r.add("ROUTE-TOTAL", "every (sensitivity, horizon, blast) triple resolves to one worker, or a documented tie-break",
+          not problems,
+          f"{len(universe)} triples, all covered, {len(ROUTE_TOTAL_ALLOWED_CONFLICTS)} documented tie-break" if not problems
+          else "; ".join(problems))
+
+
 def check_environment(r: Report) -> None:
     teams = os.environ.get("CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS")
     r.add("INV1", "Invariant 1: agent teams off so effort is per-worker", teams in (None, "", "0"),
@@ -362,6 +462,7 @@ def main(argv: list[str]) -> int:
     defs = check_definitions(report)
     check_generator(report)
     check_routing(report, defs)
+    check_route_total(report)
     check_environment(report)
     check_available_models(report)
     check_invariant7(report)

@@ -1,6 +1,6 @@
 ---
 name: worker-opus-xhigh
-description: Opus at xhigh effort. Routed for: open, medium or long, consequential. Select by subagent_type only; never pass a model parameter.
+description: Opus at xhigh effort. Routed for: open, any horizon, consequential. Select by subagent_type only; never pass a model parameter.
 model: opus
 effort: xhigh
 ---
