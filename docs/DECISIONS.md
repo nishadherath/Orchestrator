@@ -88,3 +88,29 @@ trade-off recorded here rather than left implicit.
 
 Reversal: none. Reopening this needs a new decision entry, not an edit to this
 one.
+
+## 2026-09-05 D6. The calibration instruction assumes referenced artefacts exist
+
+Decision: score_routing.py's VERDICT_INSTRUCTION now tells the orchestrator
+under test to assume every artefact a fixture task refers to exists, even
+though orchestrator-scratch (the consumer project used for calibration, see
+D8) has none of them: no ticket for F01, no pull request for F09, no gateway
+logs for F11, no theme.css for F15, and more generally no existing codebase
+for the fixtures that assume one (docs/duration.md and duration.spec.ts in
+F04, RateLimiter's doc comment in F05, src/legacy/ in F07, and others).
+
+Why: without the instruction, an orchestrator that checks its inputs before
+spawning is correct to answer action: clarify on any of these, which is
+indistinguishable in score_routing.py's output from an orchestrator that
+cannot judge the task. The fixtures test routing judgement, not whether the
+orchestrator notices a scratch project is empty; the instruction removes the
+second effect so the score measures the first.
+
+Impact: the results in test/results/2026-09-05-routing-sonnet.md and
+test/results/2026-09-05-routing-opus.md (empirical-checklist.md item E12) were
+recorded before this sentence existed and are not comparable with any run made
+after it. Re-run E12 before drawing further conclusions from routing scores.
+
+Reversal: seed orchestrator-scratch with the actual artefacts instead, and drop
+the sentence, if a future stage wants the orchestrator scored on noticing
+missing context as well as on axis judgement.

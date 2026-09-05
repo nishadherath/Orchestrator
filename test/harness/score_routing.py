@@ -46,8 +46,9 @@ BLOCKING_ENV = ("CLAUDE_CODE_EFFORT_LEVEL", "CLAUDE_CODE_SUBAGENT_MODEL_FORCE", 
 
 VERDICT_INSTRUCTION = (
     "\n\nThis is a routing calibration run. Assess and select only; do not spawn a "
-    "worker and do not do the task. Reply with exactly one line, nothing else, in "
-    "the form:\n"
+    "worker and do not do the task. Assume every artefact the task refers to exists, "
+    "even though this project does not contain it. Reply with exactly one line, "
+    "nothing else, in the form:\n"
     "assessment: <mechanical|structured|open>, <short|medium|long>, <contained|consequential>; "
     "worker: <worker-name or none>; action: <spawn|clarify>"
 )
