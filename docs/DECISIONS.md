@@ -200,3 +200,56 @@ gap rather than an open one; its `assessment`, `expected_cell` and
 
 Reversal: remove a row and its ROUTE_TOTAL_ALLOWED_CONFLICTS entry together;
 the check will immediately say which triple lost coverage.
+
+## 2026-09-05 D10. The clarify rule: ask only for what the repository cannot answer
+
+Decision: `src/ROUTING.md` section 1.1 defines when the orchestrator asks the
+user instead of routing. Spawn is the default. Clarify is correct only when
+either the objective is not discoverable (no acceptance criteria exist and none
+could be derived from the repository, so a worker would invent the definition of
+done rather than find it) or the task is both irreversible and materially
+ambiguous (it deletes, migrates, publishes or spends, and what the user wants is
+genuinely unclear). Everything else routes, with the reading stated in the line
+that names the worker. The section also names five reasons that are not grounds
+to ask (urgency or seniority; irreversible but clear; an artefact the
+orchestrator cannot see; wanting more context to feel confident; an unspecified
+method), and requires a clarify to name the decision, give the options, and say
+which one it would take absent an answer.
+
+Why this shape rather than a confidence threshold: the two costs are asymmetric
+and the asymmetry runs against asking. A worker started on a slightly wrong
+reading costs tokens, and its persona already requires it to report back rather
+than guess when acceptance criteria are absent, with `ROUTING.md` section 4
+defining the recovery. A question to the user spends attention, which is the
+scarcer resource and often unavailable in this system's normal mode of use, and
+spends it at the worst moment: before anyone has read the code. A cheap worker's
+question is grounded in what it found; the orchestrator's is not. That argument
+is what selects "discoverability" as the test rather than "confidence": the
+things a worker can find are not grounds to ask, and the things it cannot find
+(the user's intent, the user's acceptance of an irreversible risk) are.
+
+Validation: applied by hand to all seventeen calibration fixtures, the rule
+reproduces every confirmed answer, including the three designed to punish
+over-caution (F08 blast radius, F15 urgency, F17 irreversible but fully
+specified), and it selects clarify only for F16. Applied to the E12 opus run,
+it contradicts all nine of that run's clarify verdicts, five of which
+(F01, F09, F11, F15, F17) had axis assessments matching the human fixture
+exactly, meaning the model assessed correctly and asked anyway. This is a hand
+check of the rule's logic against the fixture set, not a measured run; no live
+run has been made under this rule.
+
+Known gap: no fixture exercises the second condition. Every current fixture
+either fails it or is covered by the first. F17 is its near miss, irreversible
+but completely specified, and is therefore a spawn. A fixture for irreversible
+plus genuinely ambiguous belongs in the fixture expansion Jeb has deferred; it
+is not added here because an unreviewed row would flip the whole corpus's
+human-reviewed flag to "no" in every future `score_routing.py` report.
+
+Guard: `test/harness/check.py`'s CLARIFY check asserts the section and both
+condition names are still present, and that at least one fixture sets
+`expected_action: clarify`. Verified it fails when a condition is reworded away.
+
+Reversal: D7 already records the alternative, which is to drop clarify from
+`score_routing.py`, retire F16, and let workers report underspecification
+through section 4 alone. That remains available; this rule narrows clarify
+enough that the difference between the two is now small.

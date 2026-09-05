@@ -295,6 +295,39 @@ def check_route_total(r: Report) -> None:
           else "; ".join(problems))
 
 
+# The clarify rule's load-bearing sentences (D10). If the section is deleted or
+# its two conditions are reworded away, score_routing.py keeps scoring an action
+# the rubric no longer defines, which is the state D7 was raised to end.
+CLARIFY_REQUIRED = (
+    "### 1.1 Ask or route",
+    "**No discoverable objective.**",
+    "**Irreversible and materially ambiguous.**",
+)
+
+
+def check_clarify(r: Report) -> None:
+    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
+    missing = [s for s in CLARIFY_REQUIRED if s not in routing]
+    exercised = 0
+    if FIXTURES.exists():
+        for line in FIXTURES.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                if json.loads(line).get("expected_action") == "clarify":
+                    exercised += 1
+            except json.JSONDecodeError:
+                continue  # malformed lines are check_fixtures' report, not this one
+    problems: list[str] = []
+    if missing:
+        problems.append(f"ROUTING.md is missing {missing}")
+    if not exercised:
+        problems.append("no fixture sets expected_action clarify, so the rule is never exercised")
+    r.add("CLARIFY", "the clarify rule is stated in ROUTING.md and at least one fixture exercises it",
+          not problems,
+          f"rule present with both conditions, {exercised} clarify fixture" if not problems else "; ".join(problems))
+
+
 def check_environment(r: Report) -> None:
     teams = os.environ.get("CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS")
     r.add("INV1", "Invariant 1: agent teams off so effort is per-worker", teams in (None, "", "0"),
@@ -463,6 +496,7 @@ def main(argv: list[str]) -> int:
     check_generator(report)
     check_routing(report, defs)
     check_route_total(report)
+    check_clarify(report)
     check_environment(report)
     check_available_models(report)
     check_invariant7(report)

@@ -38,6 +38,41 @@ task is done?
 - Consequential: output is committed, published, depended on by other work, or
   hard to verify by reading it.
 
+### 1.1 Ask or route
+
+Every assessment ends in one of two actions: spawn a worker, or ask the user.
+Spawn is the default. Ask only for what the repository cannot answer, because a
+worker that starts on a slightly wrong reading costs tokens and returns a
+specific, grounded question (its persona requires it to report rather than
+guess, and section 4 says what to do when it does), while a question from you
+spends the user's attention, which is scarcer, and spends it from the weakest
+possible position: before anyone has read the code.
+
+Ask only when one of these holds:
+
+- **No discoverable objective.** No acceptance criteria exist and none could be
+  derived from the repository, so a worker would be inventing the definition of
+  done rather than finding it. "Make the app faster" is this: faster at what,
+  measured how, against what budget.
+- **Irreversible and materially ambiguous.** The task deletes, migrates,
+  publishes or spends, and what the user wants is genuinely unclear. A wrong
+  guess cannot be recovered by re-running at a higher cell.
+
+Otherwise spawn, and state the reading you took in the same line that names the
+worker and the assessment, so a wrong reading is visible immediately and cheap
+to correct.
+
+Do not ask because the task is urgent, important, or came from someone senior;
+because it is irreversible but clear, since publishing a named version is both;
+because it refers to an artefact you cannot see, such as a ticket or a pull
+request, which the worker will find; because more context would make you feel
+more confident; or because the method is unspecified, which is the worker's job
+to choose.
+
+When you do ask, name the decision, give the options you can see, and say which
+one you would take if no answer comes. A question that only reports confusion
+moves no work.
+
 ## 2. Select the worker
 
 Route to the cheapest cell that clears the bar. Do not round up "to be safe":
