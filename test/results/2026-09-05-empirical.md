@@ -12,5 +12,6 @@ live checks cannot run from that sandbox).
 | :--- | :--- | :--- | :--- |
 | E1 | `claude --version` | `2.1.245 (Claude Code)` | The version every later row refers to |
 | E2 | Spawned `worker-sonnet-low` with "reply with the word ready and stop"; read `/tasks` while it ran | Row read "Sonnet 5 (low)" | Effort appears on the `/tasks` row at v2.1.245 (above the v2.1.243 threshold); `worker-sonnet-low` routed to sonnet at low effort as its definition sets, confirming invariants 2 and 3 held with the env unset |
+| E3 | Spawned `worker-sonnet-medium` with a four-tool-call task; `TaskStop` while running; `SendMessage` "continue" | A running row reappeared under the same agent ID | Auto-resume on message for the `TaskStop` half of invariant 7 |
 
-Remaining checklist items (E3-E13) not yet run this session.
+Remaining checklist items (E4-E13) not yet run this session.

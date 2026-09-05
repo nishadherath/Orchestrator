@@ -34,6 +34,7 @@ Confirmed by a live `/tasks` row or command output on the installed version, not
 | :--- | :--- | :--- |
 | Effort level appears on the `/tasks` row at v2.1.245 | Row read "Sonnet 5 (low)" for `worker-sonnet-low` spawned with a trivial task | E2 |
 | `worker-sonnet-low` actually runs on sonnet at low effort with the env unset | Same `/tasks` row | E2; invariants 2 and 3 |
+| A `TaskStop`-stopped worker auto-resumes on `SendMessage` | `worker-sonnet-medium` stopped mid-task via `TaskStop`, then messaged "continue": a running row reappeared under the same agent ID | E3; half of invariant 7 (the `TaskStop` half) |
 
 ## Contradicted by documentation, 2026-09-05
 
@@ -52,7 +53,6 @@ reproducible command on a named version.
 | :--- | :--- | :--- |
 | `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` changes the nesting depth | `src/README.md` | Set it to 1, spawn a worker that spawns a worker, observe the refusal |
 | A worker can `SendMessage` to the orchestrator addressed as `main` | `src/LIFECYCLE.md`, `src/WORKER_PERSONA.md` | Spawn a named worker whose only instruction is to message `main`; observe arrival |
-| A completed or `TaskStop`-stopped worker auto-resumes on receiving a message | `src/LIFECYCLE.md`, `CLAUDE.md` invariant 7 | Message a completed worker; check `/tasks` for a new running row with the same agent ID |
 | A worker stopped by the user with `x` refuses messages and cannot be resumed | `src/LIFECYCLE.md`, `CLAUDE.md` invariant 7 | Stop a worker from the panel, message it, record the response text |
 | `CLAUDE_SESSION_ID` is set inside a session | `src/commands/workers.md` | `echo $CLAUDE_SESSION_ID` from Bash inside a session |
 | Worker transcripts live at `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl` | `src/LIFECYCLE.md`, `src/commands/workers.md`, `CLAUDE.md` | `ls` the path while a worker runs; note what the file records about model and effort |
