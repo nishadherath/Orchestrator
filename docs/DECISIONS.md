@@ -36,3 +36,24 @@ generated file is caught. To update: rebuild from source, copy in, run
 
 Reversal: vendor the generator if the persona starts changing in step with this
 repository.
+
+## 2026-09-05 D3. Worker definitions are generated with the persona inlined
+
+Decision: `src/agents/*.md` are produced by `tools/generate_workers.py` from
+`src/WORKER_PERSONA.md` and the routing table in `src/ROUTING.md`. The shared
+persona is inlined into each definition. A cell's `model-specific-*` section is
+inlined only when non-empty. Each description states the cell, the assessments
+that route to it (or that none do), and the instruction never to pass `model`.
+
+Why: the hand-written definitions told each worker to read `WORKER_PERSONA.md`
+by bare relative name, which fails when the definitions are installed globally,
+and cost a tool call at startup to load an empty section. Descriptions are the
+one field the orchestrator sees in the Agent tool listing without reading the
+rubric; identical descriptions carried no information. Deriving the routed
+assessments from the table keeps one source of truth.
+
+Kept: all fifteen cells, because CLAUDE.md fixes the count. Six are not in the
+routing table and their descriptions say so. Dropping them is a charter change.
+
+Reversal: if the empirical checklist shows a worker benefits from knowing its
+cell, fill the sections in; no generator change is needed.

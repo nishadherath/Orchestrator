@@ -9,8 +9,10 @@
   commands/
     workers.md                                      (the /workers status command)
 CLAUDE.md                                           (ROUTING.md + LIFECYCLE.md)
-WORKER_PERSONA.md                                   (at repo root)
 ```
+
+The shared worker persona is inlined into every definition, so the consumer
+project needs no separate persona file.
 
 Put the workers in `.claude/agents/` for one project, or `~/.claude/agents/` to
 make them available everywhere. Append the contents of `ROUTING.md` and

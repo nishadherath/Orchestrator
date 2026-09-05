@@ -42,10 +42,15 @@ Dogfooding is allowed only under the protocol in "Dogfooding" below.
 src/
   ROUTING.md            assessment rubric and spawn protocol
   LIFECYCLE.md          state model, messaging, resume semantics
-  WORKER_PERSONA.md     shared persona plus 15 model-specific sections
+  WORKER_PERSONA.md     shared persona plus 15 model-specific sections; the
+                        generator's source
   README.md             install instructions and settings traps
-  agents/               the 15 WORKER_{model}_{effort}.md definitions
+  agents/               the 15 WORKER_{model}_{effort}.md definitions,
+                        generated; never hand-edited
   commands/workers.md   the /workers fleet status command
+tools/
+  generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
+                        the ROUTING.md table
 test/
   harness/              verification scripts
   fixtures/             calibration tasks with known-correct cells
