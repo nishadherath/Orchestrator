@@ -18,7 +18,9 @@ make them available everywhere. Append the contents of `ROUTING.md` and
 them from `CLAUDE.md`.
 
 If `.claude/agents/` did not exist before your current session started, restart
-Claude Code. The file watcher only covers directories that existed at startup.
+Claude Code. The file watcher appears to cover only directories that existed
+at startup; this is observed behaviour, unverified against the documentation
+as of 2026-09-05.
 
 ## Settings that will break this
 
@@ -37,21 +39,24 @@ Verify each before relying on the routing.
 
 Spawn one worker and run `/tasks` while it runs. The row shows the model and,
 because the definition sets `effort`, the effort level. If either differs from
-the cell you routed to, a substitution happened. Requires Claude Code v2.1.242
+the cell you routed to, a substitution happened. Requires Claude Code v2.1.243
 or later for the effort level to appear on the row.
 
 ## Known limits
 
 - No true pause. Stop and resume only, and a user-stopped worker cannot be
-  resumed at all.
+  resumed at all. The user-stopped case is observed behaviour, unverified
+  against the documentation as of 2026-09-05.
 - 20 concurrent workers per session. Resuming a finished worker takes a fresh
   slot without checking the limit, so resumes can push you past it.
-- Workers nest three layers deep by default. Change with
-  `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`.
-- Fork mode is on by default in interactive sessions, so workers run in the
-  background with a reduced built-in tool set. `SendMessage`, `TaskStop`,
-  `Bash`, `Read`, `Edit`, `Write`, `Grep`, `Glob`, `WebFetch`, `WebSearch` and
-  `Skill` all survive, which is everything this scheme needs.
+- Workers nest three layers deep by default. `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
+  is said to change this, but it is not among the documented environment
+  variables as of 2026-09-05; verify before relying on it.
+- Workers run as background subagents. The documentation describes a fork as
+  inheriting the parent's full conversation context and says nothing about a
+  reduced tool set, so the claim that background workers lose built-in tools
+  is unverified as of 2026-09-05. Confirm `SendMessage` is in a worker's tool
+  list before relying on the return channel (see `docs/FINDINGS.md`).
 - Routing is a judgement made by a model reading a rubric, not a deterministic
   classifier. Expect to tune the table against your own task mix rather than
   trusting it out of the box.

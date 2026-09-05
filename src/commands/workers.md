@@ -17,6 +17,10 @@ Gather from these sources, in order:
    ls -la ~/.claude/projects/*/`basename $CLAUDE_SESSION_ID`/subagents/ 2>/dev/null
    ```
 
+   `CLAUDE_SESSION_ID` is not among the documented environment variables as of
+   2026-09-05. If it is unset, use the most recently modified session directory
+   under `~/.claude/projects/*/`.
+
    Each `agent-{agentId}.jsonl` is one worker. File mtime gives last activity.
    A `compact_boundary` system entry means that worker auto-compacted, which is
    a signal its task was larger than its cell was sized for.

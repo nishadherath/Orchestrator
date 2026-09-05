@@ -9,7 +9,9 @@ stop-then-resume, and be aware the two stop paths differ:
 - A worker **you** stop with `TaskStop` auto-resumes when you send it a message.
 - A worker **the user** stops, with `x` in the panel or `/tasks`, does not
   auto-resume. A message to it is refused and you are told it was cancelled. To
-  continue that work you must spawn a fresh worker.
+  continue that work you must spawn a fresh worker. The split between the two
+  stop paths is observed behaviour, unverified against the documentation as of
+  2026-09-05.
 
 ## States
 
@@ -35,13 +37,15 @@ to be enabled.
   scope, or resume a completed worker with follow-up work. The worker treats
   your message as normal task direction and acts within its own permission
   settings.
-- **Worker to you**: the worker uses `SendMessage` back to `main`. For a worker
+- **Worker to you**: the worker uses `SendMessage` back to `main` (the `main`
+  address is unverified against the documentation as of 2026-09-05). For a worker
   to have this channel it needs `SendMessage` in its tool pool, and it needs to
   know the roster, which is injected at startup only when at least one other
   agent in the session is named. Name every worker you spawn.
 - A completed or self-stopped worker auto-resumes in the background on receiving
   a message. No new Agent call is needed, and resuming preserves the worker's
-  full history: previous tool calls, results, and reasoning.
+  full history: previous tool calls, results, and reasoning. Auto-resume is
+  observed behaviour, unverified against the documentation as of 2026-09-05.
 
 Two limits hold regardless of who sends a message: no agent message counts as
 approval for a pending permission prompt, and no agent message can change a
@@ -55,7 +59,8 @@ worker's permission settings, model, effort, or configuration.
   rather than misdelivered, and you are told which agent now holds it.
 - Transcripts persist per session at
   `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`
-  and survive compaction of this conversation.
+  and survive compaction of this conversation. The path is observed, not
+  documented, as of 2026-09-05; confirm it on your version.
 
 ## Re-running the same task
 
