@@ -9,7 +9,7 @@ lifecycle.
 Before delegating, classify the task on three axes and record the verdict in one
 line before you spawn.
 
-**Intelligence sensitivity** — would a weaker model produce a materially worse
+**Intelligence sensitivity.** Would a weaker model produce a materially worse
 artefact, or merely a slower path to the same artefact?
 
 - Mechanical: the correct output is fully determined by the instruction.
@@ -24,7 +24,7 @@ artefact, or merely a slower path to the same artefact?
   security review, evaluating trade-offs, work where a wrong answer is expensive
   to discover later.
 
-**Horizon** — how many dependent steps, and how much exploration, before the
+**Horizon.** How many dependent steps, and how much exploration, before the
 task is done?
 
 - Short: under roughly ten tool calls, no branching.
@@ -32,7 +32,7 @@ task is done?
 - Long: sustained multi-stage work, repeated tool calling, wide search,
   investigation that reshapes the plan as it goes.
 
-**Blast radius** — what does a wrong answer cost?
+**Blast radius.** What does a wrong answer cost?
 
 - Contained: output is easy to inspect and cheap to redo.
 - Consequential: output is committed, published, depended on by other work, or
