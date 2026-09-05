@@ -142,8 +142,9 @@ or you will tune against anecdote.
 These are unresolved, not decided. Do not close one without evidence in
 `docs/FINDINGS.md`.
 
-- Does the effort level appear in the worker transcript, or only in the panel?
-  Automated verification depends on this.
+- ~~Does the effort level appear in the worker transcript, or only in the panel?~~
+  Resolved 2026-09-05 (E7, `docs/FINDINGS.md`): it appears in the transcript. Each worker's
+  `agent-{agentId}.jsonl` also has a sibling `agent-{agentId}.meta.json`, undocumented before this check.
 - Do the fifteen `model-specific-*` persona sections earn their existence? A
   plausible finding is that effort-specific guidance is noise and only
   model-specific guidance matters, collapsing fifteen sections to three.
