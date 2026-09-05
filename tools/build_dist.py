@@ -61,6 +61,7 @@ def planned_files(version: str) -> dict[Path, str]:
     lifecycle = (SRC / "LIFECYCLE.md").read_text(encoding="utf-8")
     out[DIST / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version) + routing.rstrip("\n") + "\n\n" + lifecycle
     out[DIST / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
+    out[DIST / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
     assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"
     return out
 
