@@ -1,6 +1,6 @@
 # Recurring token cost
 
-Bundle version `2026-09-05-660308c` (`dist/.claude/ORCHESTRATOR_VERSION`).
+Bundle version `2026-09-05-4cf35f7` (`dist/.claude/ORCHESTRATOR_VERSION`).
 Measured 2026-09-05 by counting UTF-8 bytes in `dist/` and dividing by four,
 the same approximation `test/harness/empirical-checklist.md` uses for its E12
 cost estimate. This is an estimate, not a token count: the real count comes
@@ -11,7 +11,7 @@ change to `src/ROUTING.md`, `src/LIFECYCLE.md`, `src/WORKER_PERSONA.md` or
 
 | Artefact | Paid on | Chars | Tokens (chars / 4) |
 | :--- | :--- | :--- | :--- |
-| `dist/ORCHESTRATOR.md` | every orchestrator turn, once appended to the consumer's `CLAUDE.md` | 10,166 | ~2,542 |
+| `dist/ORCHESTRATOR.md` | every orchestrator turn, once appended to the consumer's `CLAUDE.md` | 11,976 | ~2,994 |
 | 15 worker descriptions (`dist/.claude/agents/*.md` frontmatter) | every orchestrator turn, in the Agent tool's subagent_type listing | 2,528 | ~632 |
 | One worker definition (`dist/.claude/agents/WORKER_*.md`, persona inlined) | once per worker start, to that worker only | 1,918 to 1,999 (mean 1,950) | ~480 to ~500 (mean ~488) |
 | `dist/.claude/commands/workers.md` | once per `/workers` invocation | 1,983 | ~496 |
@@ -32,6 +32,14 @@ sees about each cell without opening its definition, about 169 characters
 each; a worker definition is a self-contained persona so a worker needs no
 file read at startup (D3); `/workers` is invoked rather than persistent, so
 its cost is per call rather than per turn.
+
+The largest single addition to date is the clarify rule (`ROUTING.md` section
+1.1, D10), about 1,810 characters or 452 tokens of the figure above, a rise of
+roughly 18 percent in what every orchestrator turn pays. What it buys: E12
+measured an opus orchestrator answering clarify on 9 of 17 fixtures, 5 of them
+with a correct axis assessment, which is a whole wasted turn each time plus the
+user's attention. If a measured run under this rule shows the clarify rate is
+no better than it was without it, this section is the first thing to prune.
 
 What is not measured here: actual provider token counts (characters per token
 vary by tokeniser and content), the Claude Code system prompt itself, and
