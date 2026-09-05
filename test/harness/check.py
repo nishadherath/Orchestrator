@@ -152,8 +152,8 @@ def check_definitions(r: Report) -> dict[str, dict[str, str]]:
           f"{len(files)} files" if not problems else "; ".join(problems))
     r.add("INV5", "Invariant 5: no haiku cell", all(d.get("model") != "haiku" for d in defs.values()),
           "no definition sets model: haiku. The original justification (haiku lacks effort levels) was "
-          "disproved empirically 2026-09-05 (FINDINGS.md); this guards only the exclusion, pending a "
-          "decision on whether to add haiku cells")
+          "disproved empirically 2026-09-05 (FINDINGS.md); the exclusion itself is a decision, not a gap "
+          "(DECISIONS.md D5, 2026-09-05).")
     return defs
 
 

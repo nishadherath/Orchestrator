@@ -82,12 +82,11 @@ than trusting them.
    overrides the session level but not this environment variable.
 4. **`CLAUDE_CODE_SUBAGENT_MODEL_FORCE` beats everything.** It flattens all
    fifteen cells onto one model.
-5. **Haiku is excluded from the routing table.** Not because it lacks effort levels:
-   that was this invariant's original justification and E8 (`docs/FINDINGS.md`,
-   2026-09-05) disproved it directly, a defined `effort: high` haiku worker showed
-   "Haiku 4.5 (high)" on its `/tasks` row. The exclusion itself stands only as an
-   unreviewed carry-over until a decision is recorded in `docs/DECISIONS.md` on
-   whether to add haiku cells now that the platform supports it.
+5. **Haiku is excluded from the routing table, permanently.** Not because it
+   lacks effort levels: that was this invariant's original justification and E8
+   (`docs/FINDINGS.md`, 2026-09-05) disproved it directly, a defined `effort: high`
+   haiku worker showed "Haiku 4.5 (high)" on its `/tasks` row. The exclusion
+   itself is a decision, not a gap: `docs/DECISIONS.md` D5, 2026-09-05.
 6. **A blocked model is substituted, not failed.** An `availableModels`
    allowlist that excludes fable will run fable-routed work on something else.
 7. **A user-stopped worker cannot be resumed.** Only orchestrator-stopped and

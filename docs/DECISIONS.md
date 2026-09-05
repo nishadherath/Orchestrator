@@ -73,3 +73,18 @@ bypassed would make both unenforceable.
 
 Reversal: split `ORCHESTRATOR.md` back into two files if a consumer needs to
 adopt routing without lifecycle management.
+
+## 2026-09-05 D5. Haiku is permanently excluded from the worker matrix
+
+Decision: haiku is not, and will not become, a worker cell. Invariant 5 in
+CLAUDE.md stands as a decision, not a carry-over pending review.
+
+Why: Jeb's call, made after E8 (`docs/FINDINGS.md`) disproved the invariant's
+original justification (a defined `effort: high` haiku worker showed "Haiku 4.5
+(high)" on its `/tasks` row, so haiku does honour effort). The justification
+was wrong; the exclusion stands anyway. This forgoes the cell most likely to
+undercut `worker-sonnet-low` on cost for mechanical, short, contained work, a
+trade-off recorded here rather than left implicit.
+
+Reversal: none. Reopening this needs a new decision entry, not an edit to this
+one.
