@@ -14,6 +14,7 @@ Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
   ORCHESTRATOR_VERSION                              (date and source commit)
 ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md)
 README.md                                           (this file)
+preflight.py                                        (checks the settings below)
 ```
 
 The shared worker persona is inlined into every definition, so the consumer
@@ -22,7 +23,9 @@ project needs no separate persona file.
 Copy `.claude/` into the consumer project (or merge `agents/` and `commands/`
 into `~/.claude/` to make the workers available everywhere). Then either append
 `ORCHESTRATOR.md` to the project's `CLAUDE.md`, or copy it beside `CLAUDE.md`
-and add the line "Read ORCHESTRATOR.md before delegating any task."
+and add the line "Read ORCHESTRATOR.md before delegating any task." Then run
+`python3 preflight.py` from the project root: it checks every row of the table
+below except organisation effort limits, which needs an administrator.
 
 If `.claude/agents/` did not exist before your current session started, restart
 Claude Code; a definition added afterwards will not appear, confirmed empirically
@@ -33,7 +36,8 @@ not immediately.
 
 ## Settings that will break this
 
-Verify each before relying on the routing.
+`python3 preflight.py` checks these mechanically; the table explains why each
+one matters and is what the script's messages point back to.
 
 | Setting | Required state | Why |
 | :--- | :--- | :--- |

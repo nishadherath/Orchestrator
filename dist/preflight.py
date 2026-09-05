@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Preflight check: verify the orchestrator's environment before trusting the routing.
+
+Responsible for: turning README.md's "Settings that will break this" table
+into a script a consumer runs once, instead of checking six things by hand.
+Exits 0 only if every check that can be verified from a shell passes; a WARN
+is something this script cannot verify (an admin-controlled policy, or a
+version it could not parse) and needs a human to confirm.
+
+Deliberately does not: install the bundle, spawn a worker, or check the
+routing table's correctness. That needs test/harness/score_routing.py, run
+from this repository against this project, not this script.
+
+Ships standalone in dist/, without the rest of this repository, so it does
+not import tools/cells.py; MODELS is declared here for that reason, not from
+missed deduplication.
+
+Usage:
+    python3 preflight.py                run from the consumer project's root
+    python3 preflight.py --json
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+MODELS = ("sonnet", "opus", "fable")
+
+# The version FINDINGS.md names as the first to show effort on the /tasks
+# row (this repository's docs/FINDINGS.md, checked 2026-09-05 against the
+# Claude Code changelog). A lower version does not break routing; it only
+# means /tasks cannot be used to verify routing took effect.
+MIN_VERSION_FOR_EFFORT_ROW = (2, 1, 243)
+
+BLOCKING_ENV = {
+    "CLAUDE_CODE_EFFORT_LEVEL": (None, "Overrides frontmatter effort on every worker."),
+    "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": ({None, "", "0"},
+        "When set, Claude Code ignores every worker's model field and flattens the whole scheme onto one model."),
+    "CLAUDE_CODE_SUBAGENT_MODEL": (None,
+        "A default for workers without a model. Harmless here since every worker sets one, but leave it clear to avoid confusion."),
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": (None,
+        "Named subagents launch as teammates and follow the lead's effort level instead of their own definition."),
+}
+
+
+def check_env() -> list[dict]:
+    out = []
+    for name, (required, why) in BLOCKING_ENV.items():
+        value = os.environ.get(name)
+        ok = (value is None) if required is None else (value in required)
+        out.append({"check": f"env:{name}", "status": "PASS" if ok else "FAIL",
+                    "detail": f"{name} is {'unset' if value is None else f'{value!r}'}. {why}"})
+    return out
+
+
+def check_available_models(cwd: Path) -> dict:
+    candidates = [Path.home() / ".claude" / "settings.json",
+                  cwd / ".claude" / "settings.json",
+                  cwd / ".claude" / "settings.local.json"]
+    found: list[str] = []
+    blocked: list[str] = []
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            blocked.append(f"{path}: unparseable ({exc})")
+            continue
+        allow = data.get("availableModels")
+        if allow is None:
+            continue
+        found.append(str(path))
+        allow_text = json.dumps(allow).lower()
+        for model in MODELS:
+            if model not in allow_text:
+                blocked.append(f"{path}: availableModels does not mention {model}")
+    if not found and not blocked:
+        return {"check": "availableModels", "status": "PASS",
+                "detail": f"no availableModels allowlist in {[str(c) for c in candidates if c.exists()] or 'any checked settings file'}. "
+                          "A managed enterprise policy is not checked here; a blocked model is substituted, not failed, so a "
+                          "silent substitution is still possible from that layer."}
+    return {"check": "availableModels", "status": "PASS" if not blocked else "FAIL",
+            "detail": f"allowlist in {found}" if not blocked else "; ".join(blocked)}
+
+
+def check_version() -> dict:
+    if shutil.which("claude") is None:
+        return {"check": "claude --version", "status": "WARN", "detail": "`claude` not found on PATH; cannot check the version"}
+    try:
+        proc = subprocess.run(["claude", "--version"], capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {"check": "claude --version", "status": "WARN", "detail": f"could not run `claude --version`: {exc}"}
+    out = proc.stdout.strip()
+    m = re.search(r"(\d+)\.(\d+)\.(\d+)", out)
+    if not m:
+        return {"check": "claude --version", "status": "WARN", "detail": f"could not parse a version from {out!r}"}
+    version = tuple(int(g) for g in m.groups())
+    ok = version >= MIN_VERSION_FOR_EFFORT_ROW
+    tail = "" if ok else (f" This is below v{'.'.join(map(str, MIN_VERSION_FOR_EFFORT_ROW))}, the version FINDINGS.md "
+                           "names as the first to show effort on the /tasks row; routing may still work, but you "
+                           "cannot verify it from /tasks.")
+    return {"check": "claude --version", "status": "PASS" if ok else "WARN", "detail": f"{out}.{tail}"}
+
+
+def check_bundle(cwd: Path) -> dict:
+    agents_dir = cwd / ".claude" / "agents"
+    if not agents_dir.is_dir():
+        return {"check": "bundle installed", "status": "FAIL",
+                "detail": f"{agents_dir} missing; install dist/ first (README.md)"}
+    count = len(list(agents_dir.glob("WORKER_*.md")))
+    version_file = cwd / ".claude" / "ORCHESTRATOR_VERSION"
+    version = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no ORCHESTRATOR_VERSION file)"
+    return {"check": "bundle installed", "status": "PASS" if count == 15 else "FAIL",
+            "detail": f"{count} of 15 worker definitions found in {agents_dir}; bundle version {version}"}
+
+
+def main(argv: list[str]) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--json", action="store_true")
+    args = ap.parse_args(argv)
+
+    cwd = Path.cwd()
+    checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd)]
+    checks.append({"check": "organisation effort limits", "status": "WARN",
+                    "detail": "not checkable from a shell; ask your admin whether any model has a capped effort "
+                              "level, which runs silently under json output or in background agents (README.md)"})
+
+    failed = sum(c["status"] == "FAIL" for c in checks)
+    warned = sum(c["status"] == "WARN" for c in checks)
+
+    if args.json:
+        print(json.dumps({"result": "FAIL" if failed else "PASS", "checks": checks}, indent=2))
+    else:
+        for c in checks:
+            print(f"{c['status']:4}  {c['check']}\n      {c['detail']}")
+        print(f"\n{'FAIL' if failed else 'PASS'}: {failed} failing, {warned} needing manual follow-up, of {len(checks)} checks")
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

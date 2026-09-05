@@ -1,6 +1,6 @@
 # Recurring token cost
 
-Bundle version `2026-09-05-5286329` (`dist/.claude/ORCHESTRATOR_VERSION`).
+Bundle version `2026-09-05-c230619` (`dist/.claude/ORCHESTRATOR_VERSION`).
 Measured 2026-09-05 by counting UTF-8 bytes in `dist/` and dividing by four,
 the same approximation `test/harness/empirical-checklist.md` uses for its E12
 cost estimate. This is an estimate, not a token count: the real count comes
