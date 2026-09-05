@@ -15,5 +15,6 @@ live checks cannot run from that sandbox).
 | E3 | Spawned `worker-sonnet-medium` with a four-tool-call task; `TaskStop` while running; `SendMessage` "continue" | A running row reappeared under the same agent ID | Auto-resume on message for the `TaskStop` half of invariant 7 |
 | E4 | Spawned `worker-sonnet-low` with a two-tool-call task; stopped via `x` in the panel; `SendMessage` "continue" | Orchestrator received: "Agent ... was stopped by the user and won't be resumed. Treat its work as cancelled; only launch a new agent if the user explicitly asks." No running row reappeared | The `x`-stopped half of invariant 7; invariant 7 is now fully confirmed |
 | E5 | Spawned named worker `ping-test` (worker-sonnet-low) with "send the word PING to main using SendMessage, then stop" | A distinct "Message from @ping-test" notification arrived, separate from the completion summary | `main` is a working `SendMessage` address; arrival is labelled by sender name, not literally "main" |
+| E6 | `echo "[$CLAUDE_SESSION_ID]"` in the orchestrator session | Printed `[]`, empty | `CLAUDE_SESSION_ID` unset; the `/workers` fallback path (most recent session directory) is the one actually used |
 
-Remaining checklist items (E6-E13) not yet run this session.
+Remaining checklist items (E7-E13) not yet run this session.
