@@ -39,6 +39,7 @@ Confirmed by a live `/tasks` row or command output on the installed version, not
 | A named worker's `SendMessage` to `main` reaches the orchestrator | Named worker `ping-test` sent "PING" to `main`; a distinct incoming notification "Message from @ping-test" appeared in the orchestrator session, separate from the task-completion summary | E5; `main` is a working address, delivery is labelled by the sender's name on arrival, not literally "main" |
 | `CLAUDE_SESSION_ID` is empty in a session's Bash context | `echo "[$CLAUDE_SESSION_ID]"` in the orchestrator session printed `[]` | E6; `src/commands/workers.md`'s documented fallback (most recently modified session directory) is the path actually exercised, not a defensive extra |
 | Worker transcript path, and that it records both effort and model | `ls ~/.claude/projects/*/*/subagents/` while a worker ran listed 8 `agent-{agentId}.jsonl` files (accumulated from earlier E1-E6 spawns, not all from one worker), each paired with an undocumented `agent-{agentId}.meta.json`; `grep -c` on the running worker's `.jsonl` found 6 lines matching `effort` and 7 matching `model` | E7; confirms the path, and answers open question 1: effort appears in the transcript, not only the panel |
+| A new definition added to an already-existing `.claude/agents/` directory is picked up without restarting the session, but only after a lag, not on the next message | `probe-haiku.md` was absent from the listed subagent types immediately after being written; it and a second file (`probe-sonnet.md`) written moments later both appeared together on the next check | Incidental to E8; bears on open question "the startup-only file watcher" and on E11, which still needs to test a directory that did not exist at startup |
 
 ## Contradicted by documentation, 2026-09-05
 
@@ -46,6 +47,14 @@ Confirmed by a live `/tasks` row or command output on the installed version, not
 | :--- | :--- | :--- |
 | Effort appears on the `/tasks` row from v2.1.242 | The changelog entry is v2.1.243 | Corrected in `CLAUDE.md` and `src/README.md` |
 | Fork mode is on by default and gives workers a reduced built-in tool set | A fork inherits the parent's full conversation context; no reduced tool set is described | `src/README.md` bullet rewritten; the tool-set claim is now listed below as unverified |
+
+## Contradicted by empirical check, 2026-09-05
+
+Claims stated in this repository's own files that a live test disproved, as distinct from the documentation-contradicted claims above.
+
+| Claim as previously written | What was observed | Action taken |
+| :--- | :--- | :--- |
+| Invariant 5: haiku has no effort levels, given as the reason for excluding it | A worker defined with `model: haiku, effort: high` (`probe-haiku`, scratch project only) showed "Haiku 4.5 (high)" on its `/tasks` row: haiku honours effort | Invariant 5's justification struck from `CLAUDE.md`; the exclusion itself is left in place pending a decision on whether to add haiku cells, an open question CLAUDE.md now flags under invariant 5 |
 
 ## Unverified, 2026-09-05
 
@@ -56,7 +65,6 @@ reproducible command on a named version.
 | Claim | Used in | How to verify |
 | :--- | :--- | :--- |
 | `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` changes the nesting depth | `src/README.md` | Set it to 1, spawn a worker that spawns a worker, observe the refusal |
-| Haiku has no effort levels | `CLAUDE.md` invariant 5 | Define a haiku worker with `effort: high`; check whether `/tasks` shows an effort level |
 | The agents file watcher covers only directories that existed at startup | `src/README.md` | Create `.claude/agents/` mid-session, add a definition, check whether it is listed without restart |
 | Background workers run with a reduced built-in tool set | `src/README.md` | Spawn a worker that lists its available tools and reports them |
 | Only the top-level worker's summary returns to the orchestrator from nested workers | `src/ROUTING.md` section 5 | Spawn a worker that spawns a worker; compare what returns |

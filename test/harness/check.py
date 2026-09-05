@@ -151,7 +151,9 @@ def check_definitions(r: Report) -> dict[str, dict[str, str]]:
     r.add("DEF", "15 definitions parse and match the 3x5 matrix", not problems,
           f"{len(files)} files" if not problems else "; ".join(problems))
     r.add("INV5", "Invariant 5: no haiku cell", all(d.get("model") != "haiku" for d in defs.values()),
-          "no definition sets model: haiku. That haiku lacks effort levels is unverified (FINDINGS.md); this only guards the exclusion")
+          "no definition sets model: haiku. The original justification (haiku lacks effort levels) was "
+          "disproved empirically 2026-09-05 (FINDINGS.md); this guards only the exclusion, pending a "
+          "decision on whether to add haiku cells")
     return defs
 
 
