@@ -253,3 +253,22 @@ Reversal: D7 already records the alternative, which is to drop clarify from
 `score_routing.py`, retire F16, and let workers report underspecification
 through section 4 alone. That remains available; this rule narrows clarify
 enough that the difference between the two is now small.
+
+## 2026-09-05 D11. Erratum to D10: the E12 clarify counts
+
+Correction: D10 says the clarify rule "contradicts all nine of that run's
+clarify verdicts". The opus run recorded ten clarify verdicts, not nine
+(F01, F04, F05, F07, F08, F09, F11, F15, F16, F17), and the sonnet run
+recorded four, not three (F10, F13, F16, F17). Nine and three are the counts
+with F16 excluded, where clarify is the confirmed answer and the rule agrees
+with the model. D10's substance is unchanged: the rule contradicts nine of the
+ten opus clarify verdicts and endorses the tenth.
+
+Why this is an entry rather than an edit: this ledger's header forbids editing
+earlier entries. The same miscount was also in `docs/FINDINGS.md`, which carries
+no such rule and was corrected in place in the same commit.
+
+How it happened: the count was taken from the "Chosen" column of the recorded
+results tables, which renders a correct clarify as `[clarify]`, rather than from
+the raw verdict strings. `grep -c "action: clarify"` on the two files in
+`test/results/` gives ten and four.
