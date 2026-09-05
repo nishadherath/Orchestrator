@@ -25,9 +25,11 @@ into `~/.claude/` to make the workers available everywhere). Then either append
 and add the line "Read ORCHESTRATOR.md before delegating any task."
 
 If `.claude/agents/` did not exist before your current session started, restart
-Claude Code. The file watcher appears to cover only directories that existed
-at startup; this is observed behaviour, unverified against the documentation
-as of 2026-09-05.
+Claude Code; a definition added afterwards will not appear, confirmed empirically
+2026-09-05 (`docs/FINDINGS.md`), even after a wait, and this is not documented
+behaviour. If the directory already existed at startup, a new definition added to
+it does get picked up without a restart, but only after a lag of a turn or two,
+not immediately.
 
 ## Settings that will break this
 
@@ -59,11 +61,11 @@ or later for the effort level to appear on the row.
 - Workers nest three layers deep by default. `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
   is said to change this, but it is not among the documented environment
   variables as of 2026-09-05; verify before relying on it.
-- Workers run as background subagents. The documentation describes a fork as
-  inheriting the parent's full conversation context and says nothing about a
-  reduced tool set, so the claim that background workers lose built-in tools
-  is unverified as of 2026-09-05. Confirm `SendMessage` is in a worker's tool
-  list before relying on the return channel (see `docs/FINDINGS.md`).
+- Workers run as background subagents. Whether they lose any built-in tools
+  beyond what has been checked is still unverified as of 2026-09-05, but
+  `SendMessage` is confirmed present and working even for a plain, unnamed
+  worker (`docs/FINDINGS.md`). A message a worker sends to `main` is queued for
+  the orchestrator's next turn, not delivered mid-turn.
 - Routing is a judgement made by a model reading a rubric, not a deterministic
   classifier. Expect to tune the table against your own task mix rather than
   trusting it out of the box.
