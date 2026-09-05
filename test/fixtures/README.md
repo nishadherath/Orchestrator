@@ -5,10 +5,12 @@ harness validates the file; `test/harness/score_routing.py` runs the tasks
 through an orchestrator and scores the cell it picks. Tune the routing table
 against these, never against anecdote.
 
-Review status: every row is marked `assigned_by: claude, 2026-09-05; pending
-human review`. Until a human replaces that value, the expected cells are a
-proposal, not ground truth, and a scored run measures agreement with the
-proposal.
+Review status: all 17 rows are marked `assigned_by: claude, 2026-09-05;
+reviewed and confirmed by Jeb, 2026-09-05`. The expected cells are ground
+truth, not a proposal: a scored run measures routing agreement against a
+human-confirmed label. A fixture added later without that confirmation is a
+proposal until it gets one, and score_routing.py's report notes when any
+loaded fixture still says "pending human review".
 
 ## Schema, one JSON object per line
 
