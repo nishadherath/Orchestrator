@@ -1,6 +1,9 @@
 # Worker orchestration setup
 
-## Layout
+Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
+`.claude/ORCHESTRATOR_VERSION`; quote that version in any report.
+
+## Layout of the bundle
 
 ```
 .claude/
@@ -8,16 +11,18 @@
     WORKER_sonnet_low.md ... WORKER_fable_max.md   (the 15 worker definitions)
   commands/
     workers.md                                      (the /workers status command)
-CLAUDE.md                                           (ROUTING.md + LIFECYCLE.md)
+  ORCHESTRATOR_VERSION                              (date and source commit)
+ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md)
+README.md                                           (this file)
 ```
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file.
 
-Put the workers in `.claude/agents/` for one project, or `~/.claude/agents/` to
-make them available everywhere. Append the contents of `ROUTING.md` and
-`LIFECYCLE.md` to your `CLAUDE.md`, or keep them as separate files and reference
-them from `CLAUDE.md`.
+Copy `.claude/` into the consumer project (or merge `agents/` and `commands/`
+into `~/.claude/` to make the workers available everywhere). Then either append
+`ORCHESTRATOR.md` to the project's `CLAUDE.md`, or copy it beside `CLAUDE.md`
+and add the line "Read ORCHESTRATOR.md before delegating any task."
 
 If `.claude/agents/` did not exist before your current session started, restart
 Claude Code. The file watcher appears to cover only directories that existed

@@ -51,14 +51,19 @@ src/
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
+  build_dist.py         assembles dist/ from src/; refuses if the harness fails
 test/
-  harness/              verification scripts
+  harness/              check.py (static assertions), score_routing.py
+                        (fixture calibration), empirical-checklist.md (the
+                        checks that need a live session), persona.sha256
   fixtures/             calibration tasks with known-correct cells
   results/              dated harness output, committed
 docs/
   DECISIONS.md          decision ledger, append-only
   FINDINGS.md           verified behaviour of Claude Code itself
-dist/                   assembled installable bundle
+dist/                   assembled installable bundle; .claude/ plus
+                        ORCHESTRATOR.md and README.md, stamped with the
+                        source commit
 ```
 
 ## Invariants

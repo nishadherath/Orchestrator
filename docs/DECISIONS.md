@@ -57,3 +57,19 @@ routing table and their descriptions say so. Dropping them is a charter change.
 
 Reversal: if the empirical checklist shows a worker benefits from knowing its
 cell, fill the sections in; no generator change is needed.
+
+## 2026-09-05 D4. dist/ is committed and built only on a green harness
+
+Decision: `tools/build_dist.py` runs `test/harness/check.py` and refuses to
+build on any FAIL. The bundle is committed, stamped in
+`.claude/ORCHESTRATOR_VERSION` with the date and the source commit it was
+built from, and `-dirty` if the tree was not clean. The bundle carries
+`ORCHESTRATOR.md` (ROUTING.md and LIFECYCLE.md concatenated) rather than the two
+files separately, so a consumer installs one file beside `CLAUDE.md`.
+
+Why: the charter says nothing ships from `dist/` until the harness passes and
+that dogfooding must name the bundle version. A build step that can be
+bypassed would make both unenforceable.
+
+Reversal: split `ORCHESTRATOR.md` back into two files if a consumer needs to
+adopt routing without lifecycle management.
