@@ -158,8 +158,12 @@ These are unresolved, not decided. Do not close one without evidence in
   is a guess.
 - Is the three-axis rubric better than a simpler two-axis one? Blast radius and
   intelligence sensitivity may be measuring the same thing.
-- Does the orchestrator's own model matter? An orchestrator on sonnet routing
-  work to opus is the interesting cheap case, and is untested.
+- ~~Does the orchestrator's own model matter?~~ Answered 2026-09-05 (E12, `docs/FINDINGS.md`),
+  one run per model: a sonnet orchestrator scored higher fixture agreement than an opus one
+  (11/17 versus 8/17) at roughly a fifth of the cost, because opus defaulted to asking for
+  clarification even where its own risk assessment matched the human fixture. Whether that
+  caution is worth the cost in a real workload, rather than just a worse fixture score, is
+  still a judgement call for Jeb, not a closed question.
 
 ## Dogfooding
 

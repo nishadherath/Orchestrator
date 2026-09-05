@@ -191,7 +191,7 @@ def main(argv: list[str]) -> int:
         print(f"\nagreement {sum(r['agree'] for r in rows)}/{len(rows)}; bundle {bundle}; fixtures human-reviewed: {reviewed}")
     if args.record:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing.md"
+        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-{args.model or 'default'}.md"
         out.write_text(render(rows, meta), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
     return 0
