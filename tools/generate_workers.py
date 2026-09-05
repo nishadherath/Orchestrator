@@ -30,12 +30,12 @@ import sys
 import tempfile
 from pathlib import Path
 
-# The cell matrix is a charter decision (CLAUDE.md invariant 5 excludes haiku;
-# the effort values are the documented ones). Change CLAUDE.md before this.
-MODELS: tuple[str, ...] = ("sonnet", "opus", "fable")
-EFFORTS: tuple[str, ...] = ("low", "medium", "high", "xhigh", "max")
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
+# tools/ is put on sys.path so `cells` resolves regardless of how this file is
+# invoked: as a script, or loaded via importlib.util as check.py does.
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
+
 PERSONA_PATH = REPO_ROOT / "src" / "WORKER_PERSONA.md"
 ROUTING_PATH = REPO_ROOT / "src" / "ROUTING.md"
 AGENTS_DIR = REPO_ROOT / "src" / "agents"

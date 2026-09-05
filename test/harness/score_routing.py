@@ -38,8 +38,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = REPO_ROOT / "test" / "fixtures" / "routing.jsonl"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
 
-MODELS = ("sonnet", "opus", "fable")
-EFFORTS = ("low", "medium", "high", "xhigh", "max")
+# tools/ is put on sys.path so `cells` resolves when this file runs as a script.
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
+
 BLOCKING_ENV = ("CLAUDE_CODE_EFFORT_LEVEL", "CLAUDE_CODE_SUBAGENT_MODEL_FORCE", "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS")
 
 VERDICT_INSTRUCTION = (

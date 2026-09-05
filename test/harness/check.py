@@ -42,8 +42,10 @@ FIXTURES = REPO_ROOT / "test" / "fixtures" / "routing.jsonl"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
 PERSONA_MANIFEST = REPO_ROOT / "test" / "harness" / "persona.sha256"
 
-MODELS = ("sonnet", "opus", "fable")
-EFFORTS = ("low", "medium", "high", "xhigh", "max")
+# tools/ is put on sys.path so `cells` resolves when this file runs as a script.
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
+
 SENSITIVITY = ("mechanical", "structured", "open")
 HORIZON = ("short", "medium", "long")
 BLAST = ("contained", "consequential")
