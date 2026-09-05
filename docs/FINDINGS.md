@@ -36,6 +36,7 @@ Confirmed by a live `/tasks` row or command output on the installed version, not
 | `worker-sonnet-low` actually runs on sonnet at low effort with the env unset | Same `/tasks` row | E2; invariants 2 and 3 |
 | A `TaskStop`-stopped worker auto-resumes on `SendMessage` | `worker-sonnet-medium` stopped mid-task via `TaskStop`, then messaged "continue": a running row reappeared under the same agent ID | E3; half of invariant 7 (the `TaskStop` half) |
 | A worker stopped by the user (`x` in the panel) refuses `SendMessage` and is not resumed | `worker-sonnet-low` stopped via `x`, then messaged "continue"; the orchestrator received: "Agent ... was stopped by the user and won't be resumed. Treat its work as cancelled; only launch a new agent if the user explicitly asks." No running row reappeared | E4; the other half of invariant 7. Invariant 7 is now fully confirmed: `TaskStop` resumes, `x` does not |
+| A named worker's `SendMessage` to `main` reaches the orchestrator | Named worker `ping-test` sent "PING" to `main`; a distinct incoming notification "Message from @ping-test" appeared in the orchestrator session, separate from the task-completion summary | E5; `main` is a working address, delivery is labelled by the sender's name on arrival, not literally "main" |
 
 ## Contradicted by documentation, 2026-09-05
 
@@ -53,7 +54,6 @@ reproducible command on a named version.
 | Claim | Used in | How to verify |
 | :--- | :--- | :--- |
 | `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` changes the nesting depth | `src/README.md` | Set it to 1, spawn a worker that spawns a worker, observe the refusal |
-| A worker can `SendMessage` to the orchestrator addressed as `main` | `src/LIFECYCLE.md`, `src/WORKER_PERSONA.md` | Spawn a named worker whose only instruction is to message `main`; observe arrival |
 | `CLAUDE_SESSION_ID` is set inside a session | `src/commands/workers.md` | `echo $CLAUDE_SESSION_ID` from Bash inside a session |
 | Worker transcripts live at `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl` | `src/LIFECYCLE.md`, `src/commands/workers.md`, `CLAUDE.md` | `ls` the path while a worker runs; note what the file records about model and effort |
 | Haiku has no effort levels | `CLAUDE.md` invariant 5 | Define a haiku worker with `effort: high`; check whether `/tasks` shows an effort level |
