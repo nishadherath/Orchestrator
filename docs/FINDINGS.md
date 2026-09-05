@@ -7,8 +7,8 @@ evidence of intent. The `/tasks` row and a worker transcript on the installed
 version are evidence of behaviour. A claim moves from unverified to verified
 only on one of those two, and the entry names the version it was seen on.
 
-Installed version at the last empirical check: none recorded yet. Run
-`test/harness/empirical-checklist.md` and record `claude --version` here.
+Installed version at the last empirical check: 2.1.245, checked 2026-09-05
+(E1, `test/results/2026-09-05-empirical.md`).
 
 ## Verified against documentation, 2026-09-05
 
@@ -25,6 +25,15 @@ Installed version at the last empirical check: none recorded yet. Run
 | Subagents nest up to 3 levels deep by default | `src/ROUTING.md` section 5, `src/README.md` | [sub-agents](https://code.claude.com/docs/en/sub-agents) |
 | A model blocked by the `availableModels` allowlist is substituted, not failed | `CLAUDE.md` invariant 6, `src/README.md` | [agent-teams](https://code.claude.com/docs/en/agent-teams) |
 | `/tasks` shows the model and effort level each subagent ran on, from v2.1.243 | `CLAUDE.md`, `src/README.md`, `src/commands/workers.md` | [changelog](https://code.claude.com/docs/en/changelog) |
+
+## Empirically verified, 2026-09-05
+
+Confirmed by a live `/tasks` row or command output on the installed version, not just by documentation. See `test/results/2026-09-05-empirical.md` for the session this was run in.
+
+| Claim | Evidence | Settles |
+| :--- | :--- | :--- |
+| Effort level appears on the `/tasks` row at v2.1.245 | Row read "Sonnet 5 (low)" for `worker-sonnet-low` spawned with a trivial task | E2 |
+| `worker-sonnet-low` actually runs on sonnet at low effort with the env unset | Same `/tasks` row | E2; invariants 2 and 3 |
 
 ## Contradicted by documentation, 2026-09-05
 
