@@ -121,4 +121,80 @@ figure for that run.
 
 ## Outcome
 
-Not yet run. Append after `--pilot --record` completes.
+Run 2026-09-07, `--pilot --record`, bundle `2026-09-06-04d2acc`, at harness
+commit `c287aa4` (after two harness bugs were found and fixed mid-pilot: a
+Windows path-encoding issue and a Windows Subsystem for Linux cold-start
+issue in bash resolution, both in `test/harness/benchmark.py`'s own git
+history, not in the tasks or fixtures themselves). Full table in
+`test/results/2026-09-07-benchmark-04d2acc-pilot.md`.
+
+**Frontier cell.** T1 matched the prediction exactly: cleared at
+`worker-sonnet-low` on the first rung, 5 of 5 (100%). T5 beat the
+prediction: it also cleared at `worker-sonnet-low` on the first rung, 5 of
+5 (100%), two rungs cheaper than the predicted `worker-sonnet-medium` or
+`worker-sonnet-high`, and three cheaper than the table's assigned
+`worker-opus-high`. This is search only, not a confirmed frontier (this
+pilot ran no confirmation phase), so it is steering signal, not proof that
+`worker-opus-high` is wrong for this triple, but it is a clear enough gap
+to flag for the full six-task benchmark rather than wait for it.
+
+**Tokens and wall clock.** Wall clock held for both tasks, comfortably: T1's
+five runs ranged 27.5 to 41.8 seconds (predicted under 60, falsified only
+above 180); T5's ranged 22.6 to 31.3 seconds (predicted under 90, falsified
+only above 240). Tokens could not be checked: `run_cell()` already captured
+each call's `usage`, `duration_ms`, and `num_turns` into `extras`, but
+`render()` silently dropped it, so this run's own record had no token
+figures to check the prediction against. Fixed in the harness afterward
+(commit `5633010`) by printing the raw `extras` verbatim per run rather
+than a computed total, since the `usage` field's exact shape is itself
+still unverified (docs/FINDINGS.md) and a total built on a guessed key name
+would encode an assumption as fact. The token half of this prediction is
+unscored for this run, not held or falsified; a future run will carry the
+figures to check it.
+
+**Grader reliability.** T1: zero false results across 5 runs, as predicted.
+T5: predicted at least one false negative (a correct diagnosis phrased
+without the literal `pricing.py` or `apply_discount` strings); none
+occurred, 5 of 5 passed. Per this document's own framing, that is worth
+noting as evidence the grader survives real phrasing better than expected,
+not as a licence to skip the manual check: this run's own passing reports
+were not captured (`report_text` is only stored on a failing run, by
+design), so they were not individually reread. The pre-fix aborted run's
+several `worker-sonnet-low` attempts on the same fixture (same forwarder,
+same task) all named `pricing.py` and `apply_discount` explicitly, which is
+corroborating context, not a check of this specific run's five reports.
+
+**Reset reliability.** Zero `reset_task` failures, as predicted:
+`reset_task` is unguarded in `run_one()`, so any failure there would have
+aborted the whole run rather than let it finish and record.
+
+**Harness-level errors.** No prediction was made, since this pattern (a
+`claude -p` call asked to do nothing but spawn one named worker and relay
+its report) was unmeasured. Outcome: zero forwarder-side failures across
+all 10 runs. A first, clean data point on this pattern's reliability, on
+one small pair of tasks.
+
+**Containment.** Zero violations, as predicted. Checked directly in
+`orchestrator-scratch`: after the run, only `bench-T1/` shows edits (the
+search runs' own rename), plus two pre-existing, unrelated files
+(`RESEARCH_NOTES.md`, `ai_authorship_detector.py`) left uncommitted from
+the 2026-09-05 dogfooding session, confirmed by modification time to
+predate this pilot by about 10.6 hours, not caused by it.
+
+**Cost.** USD 1.4240 total (T1 USD 0.8638, T5 USD 0.5602), well under the
+predicted USD 8 ceiling, and consistent with the design's own basis for
+that estimate: both tasks cleared on the first, cheapest rung with no need
+to climb. The `total_cost_usd` rollup assumption (docs/FINDINGS.md) remains
+formally unconfirmed (no manual `/cost` cross-check was taken during this
+run), but the recorded per-run costs are non-trivial, vary run to run in a
+plausible range for the actual work done, and are not, for example,
+uniformly zero or uniformly identical, which is suggestive rather than
+confirmatory.
+
+**What this does and does not mean.** Two data points, one task each, is
+not a verdict on ROUTING.md. T1's row for mechanical, short, contained
+holds up cleanly. T5's result is the more interesting one: an open,
+short-horizon, tightly scoped task cleared at the cheapest cell on the
+ladder, three rungs below the table's `worker-opus-high`, which the current
+table does not distinguish from a less scoped open task. Worth a closer
+look with the full six-task benchmark before touching ROUTING.md itself.
