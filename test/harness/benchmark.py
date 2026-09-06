@@ -406,8 +406,9 @@ def render(meta: dict, task_reports: list[dict]) -> str:
                 lines += ["", f"`{c['candidate']}` is the cheapest cell on the ladder; there is no cell "
                               "below to confirm exclusivity against."]
             lines += ["", f"Frontier confirmed: {'yes' if c['frontier_confirmed'] else 'no'}."]
-        lines += ["", "### Per-run detail", "", "| Cell | Run | Pass | Cost | Wall-clock (s) | Notes |",
-                  "| :--- | :--- | :--- | :--- | :--- | :--- |"]
+        lines += ["", "### Per-run detail", "",
+                  "| Cell | Run | Pass | Cost | Wall-clock (s) | Notes | Extras (raw) |",
+                  "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |"]
         run_no_by_cell: dict[str, int] = {}
         all_runs = [(e["cell"], r) for e in tr["search_log"] for r in e["runs"]]
         if tr.get("confirmation"):
@@ -424,8 +425,16 @@ def render(meta: dict, task_reports: list[dict]) -> str:
                 if r.get("report_text"):
                     note += " || worker: " + r["report_text"][:200].replace("|", "/").replace("\n", " ")
             wall_clock_str = "" if r["wall_clock"] is None else f"{r['wall_clock']:.1f}"
+            # Raw, not a computed token total: the claude -p JSON's "usage"
+            # field shape is unverified (docs/FINDINGS.md), so this reports
+            # exactly what came back rather than a figure built on a guessed
+            # key name. Kept so a completed run's own record file is enough
+            # to check the pre-registration's token predictions later,
+            # without needing to re-run anything.
+            extras_str = (json.dumps(r["extras"], separators=(",", ":"))[:300]
+                          .replace("|", "/").replace("\n", " ")) if r.get("extras") else ""
             lines.append(f"| {cell} | {run_no_by_cell[cell]} | {'yes' if r['passed'] else 'no'} | "
-                         f"{money(r['cost'])} | {wall_clock_str} | {note} |")
+                         f"{money(r['cost'])} | {wall_clock_str} | {note} | {extras_str} |")
         lines.append("")
     return "\n".join(lines) + "\n"
 
