@@ -315,3 +315,47 @@ re-measured.
 Reversal: restore the row and delete both allow-list entries if the experiment
 exonerates it, or record the replacement design if it does not. Either outcome
 closes this entry; it is not intended to stand.
+
+## 2026-09-06 D13. Rows must be fixture-backed; coverage is not a goal
+
+Decision: a row in the routing table must be backed by a fixture whose confirmed
+answer lands on it. `test/harness/check.py` asserts this as ROW-BACKED. Totality
+over the eighteen triples is no longer a goal, and the mechanical long-horizon
+gap opened by D12 becomes permanent until a fixture justifies filling it. This
+supersedes D9's premise that covering every combination is worth having for its
+own sake, and closes D12, which was written as a temporary state pending the
+experiment that has now run.
+
+Why: the experiment settled it. Removing D9's `Mechanical, long horizon` row and
+changing nothing else recovered both fixtures it had broken, 3 of 3 each, and
+lifted sonnet from 32/51 to 39/51. The control fixture stayed identically wrong
+in 11 of 11 observations across three bundles. So a row is not a passive
+destination that only matters when selected; its presence changes how tasks are
+classified. A row with nothing behind it can therefore cost accuracy on tasks it
+wrongly attracts, which is what D9's row did.
+
+Retrospective check on the rule: of the nine classifying rows in the table
+today, all nine are fixture-backed. The one row this rule would have rejected is
+exactly the one that regressed. Reinstating it makes ROW-BACKED fail by name,
+verified before this entry was written. The rule would have prevented D9's
+regression.
+
+Known and unmeasured: three covered triples have no fixture at all,
+(mechanical, medium, consequential), (open, short, consequential) and
+(structured, short, consequential). The last two were introduced by D9's
+widening of two rows. They are reported by ROW-BACKED rather than failed,
+because removing them is itself an untested change and adding fixtures needs
+Jeb. They are the blind spots: by the mechanism proven above they could be
+attracting real tasks, and no fixture would show it. Settle them during fixture
+expansion, by adding backing or removing the widening, not by argument.
+
+Also unresolved: F12 fell from 2 of 3 to 0 of 3 in the same experiment, twice
+being read as structured rather than open, which may be a weaker pull toward
+`Structured, long horizon` now that it is the only bare long-horizon row. Three
+runs cannot separate that from noise, and F12 was already unstable in the
+previous bundle. It is cheap to settle with more runs and should not be patched
+on this evidence.
+
+Reversal: restore the row and delete both ROUTE_TOTAL_ALLOWED_GAPS entries if a
+fixture ever lands on mechanical long-horizon work. The fixture comes first; the
+row follows it, not the other way round.

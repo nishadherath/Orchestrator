@@ -254,9 +254,9 @@ def _parse_routing_assessment(text: str) -> tuple[set[str], set[str], set[str], 
     return sens, hor, bla, unrecognised
 
 
-def check_route_total(r: Report) -> None:
-    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    parsed_rows: list[tuple[str, str]] = []
+def _routing_rows(routing: str) -> list[tuple[str, str]]:
+    """Walk ROUTING.md's routing table, returning (assessment cell, worker cell) per row."""
+    rows: list[tuple[str, str]] = []
     in_table = False
     for line in routing.splitlines():
         if line.startswith("| Assessment"):
@@ -270,7 +270,66 @@ def check_route_total(r: Report) -> None:
             continue
         m = re.match(r"^\|\s*(?P<assessment>[^|]+?)\s*\|\s*(?P<worker>[^|]+?)\s*\|\s*$", line)
         assert m, f"ROUTING.md: unparseable table row: {line!r}"
-        parsed_rows.append((m.group("assessment"), m.group("worker")))
+        rows.append((m.group("assessment"), m.group("worker")))
+    return rows
+
+
+def _fixture_triples() -> dict[tuple[str, str, str], list[tuple[str, str]]]:
+    """Map each fixture's confirmed assessment triple to its (id, expected cell)."""
+    out: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
+    if not FIXTURES.exists():
+        return out
+    for line in FIXTURES.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue  # check_fixtures reports malformed lines
+        a = row.get("assessment")
+        if not a or not row.get("expected_cell"):
+            continue
+        key = (a.get("sensitivity"), a.get("horizon"), a.get("blast"))
+        out.setdefault(key, []).append((row.get("id", "?"), row["expected_cell"]))
+    return out
+
+
+def check_row_backed(r: Report) -> None:
+    """Every routing row must be justified by a fixture that lands on it (D13).
+
+    Measured 2026-09-06: a row with no fixture behind it does not merely sit
+    unused, it changes how tasks are assessed and can pull correct answers off
+    other rows. D9's "Mechanical, long horizon" row had no backing fixture and
+    cost two fixtures that were correct before it existed. This check is that
+    lesson made mechanical.
+    """
+    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
+    fixtures = _fixture_triples()
+    unbacked_rows: list[str] = []
+    covered: set[tuple[str, str, str]] = set()
+    for assessment, worker_cell in _routing_rows(routing):
+        sens, hor, bla, _ = _parse_routing_assessment(assessment)
+        if not sens and not hor and not bla:
+            continue  # escalation-only row; no assessment triple to back
+        names = re.findall(r"worker-[a-z]+-[a-z]+", worker_cell)
+        backed = False
+        for t in itertools.product(sens, hor or set(HORIZON), bla or set(BLAST)):
+            covered.add(t)
+            if any(cell in names for _, cell in fixtures.get(t, [])):
+                backed = True
+        if not backed:
+            unbacked_rows.append(assessment)
+    speculative = sorted(t for t in covered if t not in fixtures)
+    detail = (f"{len(covered)} covered triples, {len(covered) - len(speculative)} fixture-backed, "
+              f"{len(speculative)} speculative: {speculative}") if not unbacked_rows else \
+             f"rows with no fixture landing on them: {unbacked_rows}"
+    r.add("ROW-BACKED", "every routing row is justified by a fixture whose confirmed answer lands on it",
+          not unbacked_rows, detail)
+
+
+def check_route_total(r: Report) -> None:
+    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
+    parsed_rows = _routing_rows(routing)
 
     coverage: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
     for assessment, worker_cell in parsed_rows:
@@ -521,6 +580,7 @@ def main(argv: list[str]) -> int:
     check_generator(report)
     check_routing(report, defs)
     check_route_total(report)
+    check_row_backed(report)
     check_clarify(report)
     check_environment(report)
     check_available_models(report)

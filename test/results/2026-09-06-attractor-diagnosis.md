@@ -119,3 +119,19 @@ it is a before-and-after fixture run. It is also direct evidence for the open
 architectural question of whether assessment should be a schema-forced
 classifier that never sees the cell list, with the table applied afterwards in
 code.
+
+## Outcome, added 2026-09-06 after the experiment
+
+The experiment ran on bundle `2026-09-06-04d2acc`, sonnet, three runs
+(`2026-09-06-routing-sonnet-04d2acc-summary.md`). Every prediction above held:
+F03 recovered 3 of 3, F07 recovered 3 of 3, the F08 control stayed wrong 3 of 3
+with an identical assessment, and agreement rose from 32/51 to 39/51 against a
+predicted 38/51.
+
+H1 is confirmed and H2 is rejected. The labels were correct before the row,
+wrong with it, and correct again without it, so the ambiguity was not
+pre-existing and merely revealed. The row was the cause.
+
+Consequences recorded in D13: rows must be fixture-backed, totality is not a
+goal, and the gap stays. Two loose ends are named there rather than patched, the
+three speculative triples that no fixture covers and F12's unexplained movement.

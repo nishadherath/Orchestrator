@@ -109,6 +109,17 @@ persona until you look at the actual `/tasks` row.
 touches the frontmatter of multiple worker files, regenerate them from the
 generator rather than hand-editing fifteen files, and diff the result.
 
+**A routing row must earn its place.** A row in `src/ROUTING.md`'s table is not
+a passive destination. Measured on 2026-09-06, adding one changed how tasks were
+classified: two fixtures answered correctly before the row existed were answered
+incorrectly with it and correctly again once it was removed, reaching it by
+bending different axes (`test/results/2026-09-06-attractor-diagnosis.md`, D13).
+Coverage is therefore not a goal in itself, and a row with no fixture behind it
+is a liability rather than a convenience. Every row must be backed by a fixture
+whose confirmed answer lands on it, asserted by the harness's ROW-BACKED check,
+and any change to the table needs a before-and-after fixture run, because no
+static check can see this class of defect.
+
 **Regression harness before delivery.** Nothing ships out of `dist/` until the
 harness passes. Adding a new cell, changing the routing table, or changing the
 persona all require a harness run with results committed to `test/results/`.
