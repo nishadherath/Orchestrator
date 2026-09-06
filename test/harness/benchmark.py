@@ -221,14 +221,15 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
     except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
         error = str(exc)
     if error is not None:
-        return {"cell": cell, "passed": False, "cost": None, "wall_clock": None,
-                "error": error, "grade_output": "[not graded: forwarder call failed]", "extras": {}}
+        return {"cell": cell, "passed": False, "cost": None, "wall_clock": None, "error": error,
+                "grade_output": "[not graded: forwarder call failed]", "extras": {}, "report_text": None}
     try:
         passed, grade_output = grade(dest, task, report_text, grade_timeout)
     except subprocess.TimeoutExpired:
         passed, grade_output = False, "[grader timed out]"
-    return {"cell": cell, "passed": passed, "cost": cost, "wall_clock": elapsed,
-            "error": None, "grade_output": "" if passed else grade_output, "extras": extras}
+    return {"cell": cell, "passed": passed, "cost": cost, "wall_clock": elapsed, "error": None,
+            "grade_output": "" if passed else grade_output, "extras": extras,
+            "report_text": None if passed else report_text}
 
 
 def search(project: Path, task: dict, dest: Path, r_search: int, fraction: float,
@@ -436,6 +437,13 @@ def main(argv: list[str]) -> int:
             if not args.json:
                 status = "pass" if record["passed"] else ("ERROR" if record["error"] else "FAIL")
                 print(f"{task_id} {cell}: {status}")
+                if not record["passed"]:
+                    if record["error"]:
+                        print(f"  forwarder error: {record['error'][:500]}")
+                    else:
+                        print(f"  grader said: {record['grade_output'][:500]}")
+                        if record.get("report_text"):
+                            print(f"  worker's relayed report: {record['report_text'][:500]}")
 
         candidate, search_log = search(project, task, dest, r_search, args.steer_fraction,
                                         args.forwarder_model, args.timeout, args.grade_timeout, on_run)
