@@ -123,6 +123,20 @@ def score(fixture: dict, verdict: str) -> dict:
             "direction": direction, "parsed": bool(m), "raw": verdict.strip()[:200]}
 
 
+def bundle_tag(bundle: str) -> str:
+    """Short filesystem-safe identifier for a bundle, used in result filenames.
+
+    Result files are keyed by date, model and bundle. Without the bundle, two
+    runs of the same model on the same day silently overwrite each other, which
+    is exactly what happened on 2026-09-06 when the attractor experiment
+    clobbered the run it was meant to be compared against.
+    """
+    m = re.search(r"[0-9a-f]{7,40}", bundle)
+    if m:
+        return m.group(0)[:7]
+    return re.sub(r"[^A-Za-z0-9]+", "-", bundle).strip("-")[:20] or "unknown"
+
+
 def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
     """95 percent Wilson score interval for a binomial proportion, z=1.96 by default.
 
@@ -263,7 +277,8 @@ def main(argv: list[str]) -> int:
         if args.record:
             RESULTS_DIR.mkdir(parents=True, exist_ok=True)
             suffix = "" if args.runs == 1 else f"-run{run_idx}-of-{args.runs}"
-            out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-{args.model or 'default'}{suffix}.md"
+            out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
+                                  f"{args.model or 'default'}-{bundle_tag(bundle)}{suffix}.md")
             out.write_text(render(rows, run_meta), encoding="utf-8", newline="\n")
             print(f"recorded {out.relative_to(REPO_ROOT)}")
 
@@ -290,7 +305,8 @@ def main(argv: list[str]) -> int:
 
     if args.record and args.runs > 1:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-{args.model or 'default'}-summary.md"
+        out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
+                              f"{args.model or 'default'}-{bundle_tag(bundle)}-summary.md")
         out.write_text(render_summary(fixture_ids, per_fixture_agree, overall_successes, overall_n, run_costs, summary_meta),
                         encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
