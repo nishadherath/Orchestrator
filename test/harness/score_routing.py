@@ -59,6 +59,17 @@ VERDICT_INSTRUCTION = (
     "assessment: <mechanical|structured|open>, <short|medium|long>, <contained|consequential>; "
     "worker: <worker-name or none>; action: <spawn|clarify>"
 )
+ASSESS_ONLY_INSTRUCTION = (
+    "\n\nThis is a routing calibration run. Assess this task only. Do not select a "
+    "worker, do not spawn one, and do not do the task. Assume every artefact the task "
+    "refers to exists, even though this project does not contain it. Reply with exactly "
+    "one line, nothing else, in the form:\n"
+    "assessment: <mechanical|structured|open>, <short|medium|long>, <contained|consequential>"
+)
+ASSESS_ONLY_RE = re.compile(
+    r"assessment:\s*(?P<sensitivity>\w+)\s*,\s*(?P<horizon>\w+)\s*,\s*(?P<blast>\w+)",
+    re.IGNORECASE,
+)
 VERDICT_RE = re.compile(
     r"assessment:\s*(?P<sensitivity>\w+)\s*,\s*(?P<horizon>\w+)\s*,\s*(?P<blast>\w+)\s*;\s*"
     r"worker:\s*(?P<worker>[\w-]+)\s*;\s*action:\s*(?P<action>\w+)",
@@ -93,6 +104,28 @@ def run_orchestrator(project: Path, model: str | None, prompt: str, dry_run: boo
         raise RuntimeError(f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}")
     data = json.loads(proc.stdout)
     return str(data.get("result", "")), data.get("total_cost_usd"), shown
+
+
+def score_assess_only(fixture: dict, verdict: str) -> dict:
+    """Score an assessment-only verdict: no cell is chosen, so agreement means all three axes.
+
+    Kept separate from score() rather than folded into it because the two
+    measure different things and sharing a code path would invite comparing
+    numbers that are not comparable.
+    """
+    m = ASSESS_ONLY_RE.search(verdict)
+    expected = fixture.get("assessment")
+    exp_text = "/".join(expected[k] for k in ("sensitivity", "horizon", "blast")) if expected else "[no assessment]"
+    if not m or not expected:
+        return {"id": fixture["id"], "expected": exp_text, "chosen": "[unparsed]" if not m else "[n/a]",
+                "agree": False, "axes_agree": None, "direction": "n/a", "parsed": bool(m),
+                "raw": verdict.strip()[:200]}
+    got = {k: m.group(k).lower() for k in ("sensitivity", "horizon", "blast")}
+    axes_agree = sum(expected[k] == got[k] for k in got)
+    return {"id": fixture["id"], "expected": exp_text,
+            "chosen": "/".join(got[k] for k in ("sensitivity", "horizon", "blast")),
+            "agree": axes_agree == 3, "axes_agree": axes_agree, "direction": "n/a",
+            "parsed": True, "raw": verdict.strip()[:200]}
 
 
 def score(fixture: dict, verdict: str) -> dict:
@@ -162,7 +195,9 @@ def render(rows: list[dict], meta: dict) -> str:
     run_label = f" (run {meta['run']} of {meta['runs']})" if meta.get("runs", 1) > 1 else ""
     lines = [f"# Routing score{run_label} {meta['when']} at {meta['git']}", "",
              f"Orchestrator model: {meta['model'] or 'session default'}. Bundle: {meta['bundle']}. "
-             f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}.", "",
+             f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}. "
+             f"Mode: {meta.get('mode', 'assess and select')}"
+             + (", so agreement means all three axes correct and no cell was chosen." if meta.get("mode") == "assessment only" else "."), "",
              f"Agreement {agreed}/{n}. Over-provisioned {over}, under-provisioned {under}, unparsed {unparsed}. "
              f"Cost reported by claude: {meta['cost']}.", "",
              "| Fixture | Expected | Chosen | Agree | Axes agree | Direction | Raw verdict |",
@@ -183,7 +218,9 @@ def render_summary(fixture_ids: list[str], per_fixture_agree: dict[str, list[boo
                  if known else " Cost not reported for any run.")
     lines = [f"# Routing score summary, {meta['runs']} runs, {meta['when']} at {meta['git']}", "",
              f"Orchestrator model: {meta['model'] or 'session default'}. Bundle: {meta['bundle']}. "
-             f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}.", "",
+             f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}. "
+             f"Mode: {meta.get('mode', 'assess and select')}"
+             + (", so agreement means all three axes correct and no cell was chosen." if meta.get("mode") == "assessment only" else "."), "",
              f"Overall agreement {overall_successes}/{overall_n} "
              f"({overall_successes / overall_n:.1%}, 95% Wilson [{lo:.1%}, {hi:.1%}])." + cost_line, "",
              "| Fixture | Agreements | Runs | Rate | 95% Wilson interval |",
@@ -206,6 +243,8 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--only", help="comma-separated fixture ids")
     ap.add_argument("--runs", type=int, default=1,
                      help="repeat the full fixture pass this many times and aggregate with a Wilson interval (default 1)")
+    ap.add_argument("--assess-only", action="store_true",
+                     help="ask for the assessment triple only, not a worker; agreement then means all three axes correct")
     ap.add_argument("--dry-run", action="store_true", help="print the commands; run nothing")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--record", action="store_true",
@@ -234,7 +273,8 @@ def main(argv: list[str]) -> int:
 
     if args.dry_run:
         for fx in fixtures:
-            _, _, shown = run_orchestrator(project, args.model, fx["task"] + VERDICT_INSTRUCTION, True)
+            instruction = ASSESS_ONLY_INSTRUCTION if args.assess_only else VERDICT_INSTRUCTION
+            _, _, shown = run_orchestrator(project, args.model, fx["task"] + instruction, True)
             print(f"{fx['id']}: {shown}")
         print(f"--runs {args.runs}: would make {args.runs * len(fixtures)} total calls "
               f"({len(fixtures)} fixtures x {args.runs} runs)")
@@ -252,15 +292,16 @@ def main(argv: list[str]) -> int:
         if args.runs > 1 and not args.json:
             print(f"=== run {run_idx}/{args.runs} ===")
         for fx in fixtures:
+            instruction = ASSESS_ONLY_INSTRUCTION if args.assess_only else VERDICT_INSTRUCTION
             try:
-                verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + VERDICT_INSTRUCTION, False)
+                verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + instruction, False)
             except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
                 verdict, cost = f"[error] {exc}", None
             if cost is None:
                 cost_known = False
             else:
                 total_cost += float(cost)
-            rows.append(score(fx, verdict))
+            rows.append(score_assess_only(fx, verdict) if args.assess_only else score(fx, verdict))
             if not args.json:
                 r = rows[-1]
                 print(f"{r['id']} expected {r['expected']:<20} chosen {r['chosen']:<20} {'agree' if r['agree'] else 'DISAGREE'} {r['direction']}")
@@ -270,7 +311,8 @@ def main(argv: list[str]) -> int:
         run_meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "model": args.model,
                     "bundle": bundle, "project": str(project), "reviewed": reviewed,
                     "cost": f"USD {total_cost:.4f}" if cost_known else "not reported",
-                    "run": run_idx, "runs": args.runs}
+                    "run": run_idx, "runs": args.runs,
+                    "mode": "assessment only" if args.assess_only else "assess and select"}
         if not args.json:
             prefix = f"run {run_idx}/{args.runs} " if args.runs > 1 else ""
             print(f"\n{prefix}agreement {sum(r['agree'] for r in rows)}/{len(rows)}; bundle {bundle}; fixtures human-reviewed: {reviewed}")
@@ -278,7 +320,8 @@ def main(argv: list[str]) -> int:
             RESULTS_DIR.mkdir(parents=True, exist_ok=True)
             suffix = "" if args.runs == 1 else f"-run{run_idx}-of-{args.runs}"
             out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
-                                  f"{args.model or 'default'}-{bundle_tag(bundle)}{suffix}.md")
+                                  f"{args.model or 'default'}-{bundle_tag(bundle)}"
+                                  f"{'-assessonly' if args.assess_only else ''}{suffix}.md")
             out.write_text(render(rows, run_meta), encoding="utf-8", newline="\n")
             print(f"recorded {out.relative_to(REPO_ROOT)}")
 
@@ -289,7 +332,8 @@ def main(argv: list[str]) -> int:
     overall_successes = sum(sum(v) for v in per_fixture_agree.values())
     overall_n = sum(len(v) for v in per_fixture_agree.values())
     summary_meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "model": args.model,
-                     "bundle": bundle, "project": str(project), "reviewed": reviewed, "runs": args.runs}
+                     "bundle": bundle, "project": str(project), "reviewed": reviewed, "runs": args.runs,
+                     "mode": "assessment only" if args.assess_only else "assess and select"}
 
     if args.json:
         print(json.dumps({
@@ -306,7 +350,8 @@ def main(argv: list[str]) -> int:
     if args.record and args.runs > 1:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
-                              f"{args.model or 'default'}-{bundle_tag(bundle)}-summary.md")
+                              f"{args.model or 'default'}-{bundle_tag(bundle)}"
+                              f"{'-assessonly' if args.assess_only else ''}-summary.md")
         out.write_text(render_summary(fixture_ids, per_fixture_agree, overall_successes, overall_n, run_costs, summary_meta),
                         encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
