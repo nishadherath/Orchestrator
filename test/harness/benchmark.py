@@ -14,28 +14,43 @@ for both, per the reporting threshold in docs/BENCHMARK-DESIGN.md.
 
 Deliberately does not: run tasks concurrently (docs/BENCHMARK-DESIGN.md
 notes this as future work, at the cost of a more complicated harness), grade
-anything but exit codes (a model grading a model is circular here), build
-the full six-task set (only whatever task directories exist under
-test/fixtures/benchmark/ are run, which for now is the pilot pair T1 and T5,
-D14), or sandbox a worker's file writes to its assigned directory: the
-handover tells it to stay under `bench-<task>/`, but nothing enforces that,
-so a stray edit elsewhere in the project is a real possibility this script
-cannot detect or undo.
+anything but exit codes (a model grading a model is circular here), or
+sandbox a worker's file writes to its assigned directory: the handover
+tells it to stay under `bench-<task>/`, but nothing enforces that, so a
+stray edit elsewhere in the project is a real possibility this script
+cannot detect or undo. It runs whatever task directories exist under
+test/fixtures/benchmark/ (all six, T1 through T6, as of D14's follow-on
+fixture work; the pilot itself restricted this to T1 and T5 via --pilot).
 
 The one non-obvious thing: whether a spawned worker's cost and tokens roll
 up into the parent `claude -p --output-format json` call's total_cost_usd is
 unverified (docs/FINDINGS.md); every cost figure this script reports
 inherits that assumption, and the pilot is partly how it gets checked.
 
+Every completed run is appended immediately to a checkpoint file inside
+--project (Checkpoint, below), not just held in memory until the end. A
+run that dies partway (a network drop, a machine going to sleep, Ctrl-C)
+loses at most the one run in flight: the next invocation with the same
+task set, sample sizes, forwarder model, permission mode, and bundle picks
+up mid-task, mid-cell, or mid-run instead of starting the whole benchmark
+over. Changing any of those between invocations, or editing a fixture the
+checkpoint already has results for, is treated as a different measurement
+and refused rather than silently mixed; pass --fresh to archive the old
+checkpoint and start clean instead.
+
 Usage:
     python3 test/harness/benchmark.py --project ~/consumer --dry-run
     python3 test/harness/benchmark.py --project ~/consumer --pilot --record
     python3 test/harness/benchmark.py --project ~/consumer --tasks T1 --confirm --record
+    python3 test/harness/benchmark.py --project ~/consumer --confirm --record
+    # interrupted mid-run: rerun the same command unchanged to resume, or
+    # add --fresh to discard the partial checkpoint and start over
 """
 from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import math
 import ntpath
@@ -70,6 +85,12 @@ LADDER = (
 PILOT_TASKS = ("T1", "T5")
 FORWARDER_MODEL_DEFAULT = "sonnet"
 REPORT_FILE = "BENCHMARK_REPORT.txt"
+
+# Lives inside --project, next to the bench-<task>/ directories it describes,
+# not in this repository: it is per-invocation working state for one benchmark
+# attempt against one project, not a durable result (those go to test/results/
+# via --record). A dot-prefix keeps it out of any task's own file tree.
+CHECKPOINT_FILENAME = ".benchmark-checkpoint.jsonl"
 
 # claude -p starts in Manual permission mode by default (docs/en/permission-modes),
 # which blocks Edit and Bash with nobody present to approve them - confirmed the
@@ -126,6 +147,22 @@ def discover_tasks(only: list[str] | None) -> list[dict]:
     else:
         ids = sorted(p.name for p in BENCH_FIXTURES.iterdir() if p.is_dir() and (p / "task.md").exists())
     return [load_task(task_id) for task_id in ids]
+
+
+def fixture_fingerprint(task: dict) -> str:
+    """Hash everything that defines what a run against this task actually
+    measures: the prompt, the grader, and every file in the starting repo.
+    Checked against a checkpoint's stored fingerprint before reusing its
+    runs, so editing a fixture between invocations is caught rather than
+    silently blending pre- and post-edit results into one reported rate."""
+    h = hashlib.sha256()
+    h.update(task["task_text"].encode("utf-8"))
+    h.update(task["grade_script"].read_bytes())
+    for f in sorted(task["repo"].rglob("*")):
+        if f.is_file():
+            h.update(f.relative_to(task["repo"]).as_posix().encode("utf-8"))
+            h.update(f.read_bytes())
+    return h.hexdigest()
 
 
 def bundle_tag(bundle: str) -> str:
@@ -310,21 +347,124 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
             "report_text": None if passed else report_text}
 
 
+# Fields that define what a checkpoint's recorded runs actually measure.
+# Changing any of these between invocations makes old runs incomparable to
+# new ones, so a mismatch here is refused rather than silently mixed (a
+# fixture's own content is checked separately, per task, since which tasks
+# are even in --tasks can differ without touching an unrelated task's
+# fixture). Deliberately excludes --timeout/--grade-timeout (how long a
+# call is allowed to run doesn't change what a completed run means) and
+# --confirm (running the confirmation phase now, on a checkpoint built
+# without it, is a legitimate extension, not a different measurement).
+CHECKPOINT_IDENTITY_FIELDS = ("tasks", "r_search", "r_confirm", "steer_fraction", "forwarder_model",
+                              "permission_mode", "bundle")
+
+
+class Checkpoint:
+    """Every completed run, appended to disk the moment it finishes, so an
+    interrupted invocation (network drop, machine sleep, Ctrl-C) can resume
+    mid-task, mid-cell, or mid-run on the next invocation instead of
+    discarding already-paid-for work back to the start. search() and
+    confirm() consult prior_runs() before making a call they might not need
+    to repeat, and call record() the moment each new one returns.
+
+    The file is JSON Lines: one {"kind": "meta", ...} header written once,
+    then one {"kind": "run", ...} line per completed run. A line that fails
+    to parse (a partial write from a hard kill mid-append) is skipped with a
+    warning rather than aborting the whole resume; everything before it is
+    still trusted."""
+
+    def __init__(self, path: Path):
+        self.path = path
+        self._runs: dict[tuple[str, str, str], list[dict]] = {}
+
+    def prior_runs(self, task_id: str, phase: str, cell: str) -> list[dict]:
+        return self._runs.get((task_id, phase, cell), [])
+
+    def total_runs(self) -> int:
+        return sum(len(v) for v in self._runs.values())
+
+    def record(self, task_id: str, phase: str, cell: str, result: dict) -> None:
+        self._runs.setdefault((task_id, phase, cell), []).append(result)
+        self._append({"kind": "run", "task": task_id, "phase": phase, "cell": cell, "result": result})
+
+    def write_meta(self, meta: dict) -> None:
+        self._append({"kind": "meta", "meta": meta})
+
+    def _append(self, row: dict) -> None:
+        with self.path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(row, default=str) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+
+    @classmethod
+    def load(cls, path: Path) -> tuple["Checkpoint", dict | None]:
+        """Read an existing checkpoint, if any. Returns a Checkpoint
+        populated with whatever prior runs it holds, and its stored meta
+        dict (None if the file does not exist or has no meta line yet, e.g.
+        a fresh file about to be written to for the first time)."""
+        cp = cls(path)
+        meta = None
+        if not path.exists():
+            return cp, meta
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                print(f"warning: {path} line {lineno} did not parse (a partial write from an "
+                      "interrupted run?); ignoring it, resuming from everything before it",
+                      file=sys.stderr)
+                continue
+            if row.get("kind") == "meta":
+                meta = row["meta"]
+            elif row.get("kind") == "run":
+                cp._runs.setdefault((row["task"], row["phase"], row["cell"]), []).append(row["result"])
+        return cp, meta
+
+
+def describe_checkpoint_mismatch(old: dict, new: dict) -> list[str]:
+    """Human-readable reasons an existing checkpoint's meta does not match
+    this invocation, or its fixtures have changed underneath it. Empty means
+    safe to resume."""
+    diffs = []
+    for key in CHECKPOINT_IDENTITY_FIELDS:
+        if old.get(key) != new.get(key):
+            diffs.append(f"{key}: checkpoint has {old.get(key)!r}, this invocation has {new.get(key)!r}")
+    old_hashes, new_hashes = old.get("fixture_hashes", {}), new.get("fixture_hashes", {})
+    changed = sorted(t for t in set(old_hashes) & set(new_hashes) if old_hashes[t] != new_hashes[t])
+    if changed:
+        diffs.append(f"fixture(s) edited since the checkpoint was written: {changed}")
+    return diffs
+
+
 def search(project: Path, task: dict, dest: Path, r_search: int, fraction: float,
            forwarder_model: str, permission_args: list[str], timeout: float, grade_timeout: float,
-           on_run=None) -> tuple[str | None, list[dict]]:
+           checkpoint: Checkpoint, on_run=None) -> tuple[str | None, list[dict]]:
     """Climb LADDER, R_search runs per cell, stop at the first cell whose
     pass rate clears the permissive steering threshold. Returns (candidate
-    cell, or None if the ladder was exhausted; per-cell log)."""
+    cell, or None if the ladder was exhausted; per-cell log).
+
+    Runs already recorded in `checkpoint` for a (task, cell) are reused
+    instead of repeated, whether that cell was fully covered by a previous
+    invocation or only partway through; only the remaining runs, if any, are
+    actually executed, and each is checkpointed the moment it returns."""
     threshold = steer_threshold(r_search, fraction)
     log = []
     for cell in LADDER:
-        runs = []
-        for _ in range(r_search):
+        prior = checkpoint.prior_runs(task["id"], "search", cell)
+        if prior and on_run:
+            on_run(cell, {"summary": True, "n": len(prior), "successes": sum(r["passed"] for r in prior)},
+                   from_checkpoint=True)
+        runs = list(prior)
+        for _ in range(len(prior), r_search):
             record = run_one(project, task, dest, cell, forwarder_model, permission_args, timeout, grade_timeout)
+            checkpoint.record(task["id"], "search", cell, record)
             runs.append(record)
             if on_run:
-                on_run(cell, record)
+                on_run(cell, record, from_checkpoint=False)
         successes = sum(r["passed"] for r in runs)
         met = successes >= threshold
         log.append({"cell": cell, "successes": successes, "n": r_search, "met": met, "runs": runs})
@@ -335,20 +475,30 @@ def search(project: Path, task: dict, dest: Path, r_search: int, fraction: float
 
 def confirm(project: Path, task: dict, dest: Path, candidate: str, r_confirm: int,
             forwarder_model: str, permission_args: list[str], timeout: float, grade_timeout: float,
-            on_run=None) -> dict:
+            checkpoint: Checkpoint, on_run=None) -> dict:
     """Re-run the candidate and the cell below it at R_confirm each. The
     frontier claim requires the candidate's Wilson lower bound above 0.7 and
-    the cell below to fail that same bar (docs/BENCHMARK-DESIGN.md)."""
+    the cell below to fail that same bar (docs/BENCHMARK-DESIGN.md).
+
+    Same reuse-from-checkpoint behaviour as search(), keyed by phase
+    "confirm" so a cell's search runs and confirm runs never collide even
+    when it is the same cell (the candidate itself, at idx 0, is confirmed
+    but was also just searched)."""
     idx = LADDER.index(candidate)
     cells = [candidate] if idx == 0 else [candidate, LADDER[idx - 1]]
     results = {}
     for cell in cells:
-        runs = []
-        for _ in range(r_confirm):
+        prior = checkpoint.prior_runs(task["id"], "confirm", cell)
+        if prior and on_run:
+            on_run(cell, {"summary": True, "n": len(prior), "successes": sum(r["passed"] for r in prior)},
+                   from_checkpoint=True)
+        runs = list(prior)
+        for _ in range(len(prior), r_confirm):
             record = run_one(project, task, dest, cell, forwarder_model, permission_args, timeout, grade_timeout)
+            checkpoint.record(task["id"], "confirm", cell, record)
             runs.append(record)
             if on_run:
-                on_run(cell, record)
+                on_run(cell, record, from_checkpoint=False)
         successes = sum(r["passed"] for r in runs)
         lo, hi = wilson_interval(successes, r_confirm)
         results[cell] = {"successes": successes, "n": r_confirm, "lo": lo, "hi": hi, "runs": runs}
@@ -462,6 +612,9 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--dry-run", action="store_true", help="print what would run; touch nothing")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--record", action="store_true", help="write test/results/<date>-benchmark-<bundle tag>*.md")
+    ap.add_argument("--fresh", action="store_true",
+                     help="archive any existing checkpoint in --project and start this run from scratch, "
+                          "instead of resuming it")
     args = ap.parse_args(argv)
 
     if args.pilot:
@@ -529,37 +682,74 @@ def main(argv: list[str]) -> int:
         return 0
 
     git_rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
+    permission_mode = "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools"
+
+    checkpoint_path = project / CHECKPOINT_FILENAME
+    checkpoint, existing_meta = Checkpoint.load(checkpoint_path)
+    identity = {"tasks": sorted(t["id"] for t in tasks), "fixture_hashes": {t["id"]: fixture_fingerprint(t) for t in tasks},
+                "r_search": r_search, "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction,
+                "forwarder_model": args.forwarder_model, "permission_mode": permission_mode, "bundle": bundle}
+    if args.fresh:
+        if checkpoint_path.exists():
+            stamp = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
+            backup = checkpoint_path.with_name(checkpoint_path.name + f".abandoned-{stamp}")
+            checkpoint_path.rename(backup)
+            print(f"--fresh: archived the existing checkpoint to {backup.name}")
+        checkpoint = Checkpoint(checkpoint_path)
+        checkpoint.write_meta(identity)
+    elif existing_meta is None:
+        checkpoint.write_meta(identity)
+    else:
+        mismatches = describe_checkpoint_mismatch(existing_meta, identity)
+        if mismatches:
+            print(f"refusing to run: {checkpoint_path} was built with a different measurement:", file=sys.stderr)
+            for m in mismatches:
+                print(f"  - {m}", file=sys.stderr)
+            print("pass --fresh to archive it and start over, or rerun with the original settings to resume it",
+                  file=sys.stderr)
+            return 2
+        prior_total = checkpoint.total_runs()
+        if prior_total and not args.json:
+            print(f"resuming from {checkpoint_path.name}: {prior_total} prior run(s) already recorded")
+
     task_reports = []
     for task in tasks:
         dest = seed_task(project, task)
         if not args.json:
             print(f"=== {task['id']} ===")
 
-        def on_run(cell, record, task_id=task["id"]):
-            if not args.json:
-                status = "pass" if record["passed"] else ("ERROR" if record["error"] else "FAIL")
-                print(f"{task_id} {cell}: {status}")
-                if not record["passed"]:
-                    if record["error"]:
-                        print(f"  forwarder error: {record['error'][:500]}")
-                    else:
-                        print(f"  grader said: {record['grade_output'][:500]}")
-                        if record.get("report_text"):
-                            print(f"  worker's relayed report: {record['report_text'][:500]}")
+        def on_run(cell, record, from_checkpoint=False, task_id=task["id"]):
+            if args.json:
+                return
+            if record.get("summary"):
+                print(f"{task_id} {cell}: {record['successes']}/{record['n']} already recorded (from checkpoint)")
+                return
+            status = "pass" if record["passed"] else ("ERROR" if record["error"] else "FAIL")
+            suffix = " (from checkpoint)" if from_checkpoint else ""
+            print(f"{task_id} {cell}: {status}{suffix}")
+            if not record["passed"]:
+                if record["error"]:
+                    print(f"  forwarder error: {record['error'][:500]}")
+                else:
+                    print(f"  grader said: {record['grade_output'][:500]}")
+                    if record.get("report_text"):
+                        print(f"  worker's relayed report: {record['report_text'][:500]}")
 
         candidate, search_log = search(project, task, dest, r_search, args.steer_fraction,
-                                        args.forwarder_model, permission_args, args.timeout, args.grade_timeout, on_run)
+                                        args.forwarder_model, permission_args, args.timeout, args.grade_timeout,
+                                        checkpoint, on_run)
         report = {"task": task, "search_log": search_log, "candidate": candidate}
         if args.confirm and candidate:
             report["confirmation"] = confirm(project, task, dest, candidate, args.r_confirm,
-                                              args.forwarder_model, permission_args, args.timeout, args.grade_timeout, on_run)
+                                              args.forwarder_model, permission_args, args.timeout, args.grade_timeout,
+                                              checkpoint, on_run)
         task_reports.append(report)
 
     meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "bundle": bundle,
             "project": str(project), "forwarder_model": args.forwarder_model, "r_search": r_search,
             "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction, "confirm": args.confirm,
             "mode": "pilot" if args.pilot else "full",
-            "permission_mode": "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools"}
+            "permission_mode": permission_mode}
 
     if args.json:
         def strip_task(tr):
@@ -579,6 +769,9 @@ def main(argv: list[str]) -> int:
                               f"{bundle_tag(bundle)}{suffix}.md")
         out.write_text(render(meta, task_reports), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
+    if not args.json:
+        print(f"checkpoint at {checkpoint_path.name} (inside --project) retained; safe to delete, "
+              "or leave it and pass --fresh next time to start a new run against this project")
     return 0
 
 
