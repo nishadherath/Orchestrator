@@ -404,3 +404,43 @@ pass mark, since a grader is a boolean.
 Reversal: if the pilot shows the planted-defect grader is unreliable, the open
 row of the task set needs a different instrument, and the benchmark covers only
 mechanical and structured work until it has one.
+
+## 2026-09-06 D15. R_confirm corrected from 8 to 9: the original could not clear its own bar
+
+Decision: `docs/BENCHMARK-DESIGN.md`'s confirmation sample size, R_confirm, is
+corrected from 8 to 9, and `test/harness/benchmark.py`'s `--r-confirm` default
+changes with it.
+
+Why: D14's "Sample size, honestly" section asserted "eight successes out of
+eight gives [67.6%, 100%], which clears the reporting bar." That is
+arithmetically wrong: 67.6% does not exceed the stated 0.7 bar. Checked
+directly against `wilson_interval()`: a perfect 8 of 8 record gives a lower
+bound of 0.6756, which cannot clear ">0.7", not as a rounding artefact but by
+the actual value. Nine is the smallest sample size where a perfect record
+clears it: `wilson_interval(9, 9)` gives 0.7008, and the intended contrast
+survives at the new size too (`wilson_interval(8, 9)`, one miss out of nine,
+gives 0.5650, well short of the bar).
+
+Found while smoke-testing an unrelated feature (the checkpoint/resume
+mechanism added the same day), not by reviewing the arithmetic on its own: a
+disposable smoke fixture happened to produce a perfect confirmation record,
+which the harness then reported as "Frontier confirmed: no" despite the
+record being flawless. That is the shape of defect this project's testing
+discipline exists to catch before it costs real runs, and it did, though not
+by the route anyone would have planned: had the six-task benchmark been run
+against the old default first, every task's confirmation phase would have
+reported "no" regardless of how well it actually performed, and the mistake
+would have read as a finding about the tasks rather than an arithmetic error
+in the harness.
+
+What changes: `docs/BENCHMARK-DESIGN.md`'s "Sample size, honestly" section,
+and its "Cost and wall clock" section's run counts and cost figures (12, not
+11, runs for a task that clears at the ladder's floor; 27, not 25, runs for a
+long-horizon task assumed to climb three rungs; the total estimate moves from
+about USD 27 to 95 to about USD 30 to 103). `test/results/2026-09-06-
+benchmark-full-preregistration.md` is corrected to match, since no run had
+yet been made against it; the correction predates any measurement it would
+otherwise have to account for.
+
+Reversal: none anticipated. This is an arithmetic correction, not a
+judgement call open to being weighed differently later.

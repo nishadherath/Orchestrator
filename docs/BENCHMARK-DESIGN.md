@@ -92,10 +92,14 @@ steering threshold as evidence.
 
 Three runs is enough to steer and not enough to report. A 3 of 3 result carries
 a Wilson interval of [44%, 100%], which supports no claim about capability. Hence
-R_search = 3 and R_confirm = 8, with the samples concentrated where the answer
+R_search = 3 and R_confirm = 9, with the samples concentrated where the answer
 is rather than spread across cells already known to be too weak or needlessly
-strong. Eight successes out of eight gives [67.6%, 100%], which clears the
-reporting bar; seven of eight does not, which is the intended strictness.
+strong. Nine is the smallest sample size a perfect record can clear the
+reporting bar at: nine successes out of nine gives [70.1%, 100%], which clears
+it; eight of nine does not, which is the intended strictness (D15; an earlier
+R_confirm = 8 could not clear its own bar even at a perfect 8 of 8, which
+gives [67.6%, 100%], caught only once the harness was smoke-tested against a
+perfect record).
 
 ## Cost and wall clock, with the assumptions stated
 
@@ -109,9 +113,9 @@ the two tasks least likely to need an expensive cell.
   mechanical; T5, open) costs USD 0.07 to 0.25 per run, mean about USD 0.15,
   and takes 23 to 42 seconds, mean about 32. Both tasks cleared on the
   cheapest rung, 5 of 5, no climbing. Applied to the real protocol
-  (R_search = 3, and R_confirm = 8 with no cell below to also confirm, since
-  `worker-sonnet-low` is the ladder's floor): 11 runs per such task, about
-  USD 1.65 and 6 minutes wall clock.
+  (R_search = 3, and R_confirm = 9 with no cell below to also confirm, since
+  `worker-sonnet-low` is the ladder's floor): 12 runs per such task, about
+  USD 1.80 and 6.4 minutes wall clock.
 - Unmeasured: T2, T3, T4, and T6 are new shapes this pilot did not touch,
   and three of the four are long horizon by design, the one axis most
   likely to push a task up the ladder. T2 in particular has no existing
@@ -121,20 +125,23 @@ the two tasks least likely to need an expensive cell.
   cheaply too.
 - So the total is still dominated by a guess, the same one this section
   made before the pilot: assume the three long-horizon tasks each climb
-  about 3 rungs before clearing (9 search runs) and confirm at 25 runs
-  total (9 search, 8 candidate, 8 the cell below), at a blended USD 5 to 15
+  about 3 rungs before clearing (9 search runs) and confirm at 27 runs
+  total (9 search, 9 candidate, 9 the cell below), at a blended USD 5 to 15
   per million tokens and 40k to 80k tokens per run at those tiers (the one
   data point above `worker-sonnet-low` remains the 2026-09-05 dogfood run,
   `worker-fable-xhigh` on an open-ended build: 102.9k tokens, 6 minutes 14
   seconds, no cost recorded for that run). That puts the three long-horizon
-  tasks at roughly USD 7.50 to 30 each, USD 22.50 to 90 together.
+  tasks at roughly USD 8 to 32 each, USD 24 to 97 together.
 - Total estimate: the three short-horizon tasks (T1, T3, T5) at about USD
-  1.65 each, call it USD 5 together, plus USD 22.50 to 90 for the three
-  long-horizon tasks, so **about USD 27 to 95** for the full benchmark. That
-  is essentially unchanged from the pre-pilot guess of USD 26 to 79, not
-  because the pilot found nothing, but because what it found does not bear
-  on the part of the estimate that was ever uncertain. The real fix is
-  measuring T2, T4, and T6, not extrapolating from T1 and T5.
+  1.80 each, call it USD 5.5 together, plus USD 24 to 97 for the three
+  long-horizon tasks, so **about USD 30 to 103** for the full benchmark.
+  That is essentially unchanged from the pre-pilot guess of USD 26 to 79,
+  not because the pilot found nothing, but because what it found does not
+  bear on the part of the estimate that was ever uncertain (the R_confirm
+  correction in D15 moved this figure a little further, for an unrelated
+  reason: the original arithmetic behind R_confirm = 8 was simply wrong,
+  not a finding about any task). The real fix is measuring T2, T4, and T6,
+  not extrapolating from T1 and T5.
 - Wall clock is still the real constraint. If a long-horizon task needs 25
   runs at several minutes each for the pricier cells, that task alone can
   run 30 minutes to well over an hour; three of them serially is the bulk

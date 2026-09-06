@@ -598,7 +598,9 @@ def main(argv: list[str]) -> int:
                      help="pilot mode (D14): restricts tasks to T1,T5, defaults --r-search to 5, and refuses --confirm")
     ap.add_argument("--confirm", action="store_true", help="run the confirmation phase after the search phase")
     ap.add_argument("--r-search", type=int, default=None, help="runs per cell while searching (default 3, or 5 with --pilot)")
-    ap.add_argument("--r-confirm", type=int, default=8, help="runs per cell while confirming (default 8)")
+    ap.add_argument("--r-confirm", type=int, default=9,
+                     help="runs per cell while confirming (default 9: the smallest sample size where a "
+                          "perfect record clears the >0.7 Wilson lower bound reporting threshold, D15)")
     ap.add_argument("--steer-fraction", type=float, default=2 / 3,
                      help="fraction of R_search runs that must pass to stop climbing (default 2/3, the stated '2 of 3' at n=3)")
     ap.add_argument("--forwarder-model", default=FORWARDER_MODEL_DEFAULT, choices=("sonnet", "opus", "fable"),

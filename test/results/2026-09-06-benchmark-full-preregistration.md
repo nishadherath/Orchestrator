@@ -12,9 +12,12 @@ have fixtures, each verified by hand against a pristine state, a correct
 reference answer, and at least one plausible wrong answer before being
 trusted. This run uses the design's real protocol, not the pilot's
 loosened one: R_search = 3 (not 5), steering threshold 2 of 3 (not 4 of
-5), and a confirmation phase (R_confirm = 8, Wilson lower bound above
+5), and a confirmation phase (R_confirm = 9, Wilson lower bound above
 0.7, the cell below failing the same bar), which the pilot deliberately
-skipped.
+skipped. R_confirm = 9, not the 8 `docs/BENCHMARK-DESIGN.md` originally
+specified: 8 could never clear its own reporting bar even at a perfect
+8 of 8 (D15, corrected the same day this document was written, before
+any run was made against it).
 
 ## Design
 
@@ -112,23 +115,24 @@ case across any of the six subtrees, checked the same way as the pilot: a
 `bench-<task>/`.
 
 **Cost.** `docs/BENCHMARK-DESIGN.md`'s own estimate, revised after the
-pilot, is about USD 27 to 95 for the whole benchmark, dominated by a
-guess for T2, T4, and T6 because the pilot tested neither a long-horizon
-task nor a task without an existing row. The frontier predictions above
-narrow that guess: if T1, T3, and T5 clear at the floor as predicted (11
-runs each, no cell below to also confirm), that is about USD 5 together,
-close to the design's own figure for the short-horizon group. If T2 and
-T4 clear one or two rungs up rather than the assigned row's higher tiers,
-and T6 needs several rungs but not the very top, a tighter total than the
-design's own USD 27 to 95 is plausible, something closer to USD 20 to 60.
-Predict the actual total lands inside the design's wider range regardless
-of where in it; falsified by a total under USD 15 (would mean even the
-predicted floor-clearing tasks cost less than the pilot's own measurement
-suggests) or over USD 95 (would mean the design's upper bound, already
-revised once, still understated the long-horizon tasks).
+pilot and again by D15's R_confirm correction, is about USD 30 to 103 for
+the whole benchmark, dominated by a guess for T2, T4, and T6 because the
+pilot tested neither a long-horizon task nor a task without an existing
+row. The frontier predictions above narrow that guess: if T1, T3, and T5
+clear at the floor as predicted (12 runs each, no cell below to also
+confirm), that is about USD 5.5 together, close to the design's own
+figure for the short-horizon group. If T2 and T4 clear one or two rungs
+up rather than the assigned row's higher tiers, and T6 needs several
+rungs but not the very top, a tighter total than the design's own USD 30
+to 103 is plausible, something closer to USD 22 to 65. Predict the
+actual total lands inside the design's wider range regardless of where
+in it; falsified by a total under USD 17 (would mean even the predicted
+floor-clearing tasks cost less than the pilot's own measurement
+suggests) or over USD 103 (would mean the design's upper bound, already
+revised twice, still understated the long-horizon tasks).
 
 **Wall clock.** `docs/BENCHMARK-DESIGN.md` already flags this as the real
-constraint: three long-horizon tasks serially, each potentially needing 25
+constraint: three long-horizon tasks serially, each potentially needing 27
 runs at several minutes for the pricier cells, could run well over an
 hour on their own. Predict the whole run, all six tasks, finishes inside
 three hours of wall clock. Falsified by anything past five hours, which
