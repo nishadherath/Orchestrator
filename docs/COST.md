@@ -1,7 +1,8 @@
 # Recurring token cost
 
-Bundle version `2026-09-06-04d2acc` (`dist/.claude/ORCHESTRATOR_VERSION`). This bundle is
-experimental: D12 removes one routing row for a measurement.
+Bundle version `2026-09-06-04d2acc` (`dist/.claude/ORCHESTRATOR_VERSION`). The mechanical,
+long-horizon row D12 removed for a measurement was never reinstated: D13 made the gap
+permanent policy, so this bundle is not experimental, it is current.
 Measured 2026-09-05 by counting UTF-8 bytes in `dist/` and dividing by four,
 the same approximation `test/harness/empirical-checklist.md` uses for its E12
 cost estimate. This is an estimate, not a token count: the real count comes
