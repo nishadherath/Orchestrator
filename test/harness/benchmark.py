@@ -37,7 +37,6 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
-import functools
 import math
 import ntpath
 import os
@@ -214,53 +213,74 @@ def run_cell(project: Path, cell: str, task_text: str, workdir_rel: str,
     return str(data.get("result", "")), data.get("total_cost_usd"), elapsed, extras
 
 
-@functools.lru_cache(maxsize=1)
-def _bash_is_wsl() -> bool:
-    """Whether the `bash` this machine's PATH resolves is WSL's launcher
-    stub rather than a Windows-native build (Git-Bash, MSYS, Cygwin, or
-    anything else bundled on PATH). A Windows machine can have several
-    `bash.exe` on PATH at once, and WSL's runs inside its own Linux root:
-    it has no "C:/..." at all and needs "/mnt/c/..." instead, while every
-    other flavour understands the drive-letter form directly and silently
-    fails with "No such file or directory" if handed the wrong shape,
-    with nothing in that error naming the shape as the problem. `uname -r`
-    is WSL's own documented self-identification (its kernel release string
-    contains "microsoft"). Cached: this is one fact about the machine's
-    PATH, not about any particular run.
+def _wsl_mount_path(path: Path) -> str | None:
+    r"""A Windows drive path rendered the way WSL's own filesystem view
+    needs it: "/mnt/<lowercase-drive>/..." instead of "C:\...". None if
+    `path` has no drive component (already a real POSIX path, e.g. on
+    Linux/macOS), since there is nothing to retry with in that case.
+    ntpath, not os.path: this only ever matters for a Windows-style
+    drive path regardless of which OS is running this code (including a
+    test on Linux/macOS), so parse it with the module that always
+    understands that syntax rather than the one that varies by host.
     """
-    try:
-        proc = subprocess.run(["bash", "-c", "uname -r"], capture_output=True,
-                               text=True, timeout=10)
-        return "microsoft" in proc.stdout.lower()
-    except Exception:
-        return False
-
-
-def _bash_script_path(path: Path) -> str:
-    r"""Render `path` the way this machine's resolved `bash` needs to see
-    it (see _bash_is_wsl). Off WSL, .as_posix() is enough: on Windows, a
-    native "C:\...\grade.sh" path handed to git-bash as a bare argument
-    loses its lone backslashes (MSYS's argv translation treats them as
-    escape introducers), so bash sees a path with no separators at all;
-    forward slashes survive that translation and are a no-op elsewhere.
-    """
-    if _bash_is_wsl():
-        # ntpath, not os.path: this branch only ever matters for a Windows-
-        # style "C:\..." path, regardless of which OS is running this test,
-        # so parse it with the module that always understands that syntax
-        # rather than the one that varies by host.
-        drive, rest = ntpath.splitdrive(str(path))
-        if drive:
-            return "/mnt/" + drive[0].lower() + rest.replace("\\", "/")
-    return path.as_posix()
+    drive, rest = ntpath.splitdrive(str(path))
+    if not drive:
+        return None
+    return "/mnt/" + drive[0].lower() + rest.replace("\\", "/")
 
 
 def grade(dest: Path, task: dict, report_text: str | None, timeout: float) -> tuple[bool, str]:
+    r"""Run task["grade_script"] under `bash`, cwd=dest.
+
+    A previous version pre-detected whether the resolved `bash` was WSL's
+    launcher stub (which needs "/mnt/c/..." instead of "C:\...") by
+    probing `uname -r` once and caching the answer for the whole process.
+    That probe carried its own short timeout, and WSL2 shuts its VM down
+    after a few minutes idle and cold-boots it on next use (documented
+    behaviour, not a guess): the first probe on a cold VM could exceed
+    that timeout, get silently treated as "not WSL" by the except-and-
+    fall-back logic, and then poison every later grade() call in the same
+    run with the wrong path shape, since the wrong answer stayed cached.
+    That is a real bug this run into (docs/FINDINGS.md), not a
+    hypothesis: it reproduced on a live pilot run.
+
+    So instead of pre-detecting anything, just try the direct path, and
+    if bash's own stderr says specifically that path could not be found,
+    retry once with the WSL-mount form. Self-healing regardless of which
+    bash flavour resolves, and regardless of cold or warm boot, since
+    whatever the VM's own startup delay is gets absorbed into a real
+    grading attempt's own `timeout`, not a separate hardcoded one.
+    """
     if report_text is not None:
         (dest / REPORT_FILE).write_text(report_text, encoding="utf-8")
-    proc = subprocess.run(["bash", _bash_script_path(task["grade_script"])], cwd=dest,
-                           capture_output=True, text=True, timeout=timeout)
-    return proc.returncode == 0, (proc.stdout + proc.stderr).strip()
+
+    def run_grader(script_path: str) -> subprocess.CompletedProcess:
+        return subprocess.run(["bash", script_path], cwd=dest,
+                               capture_output=True, text=True, timeout=timeout)
+
+    def script_not_found(proc: subprocess.CompletedProcess, script_path: str) -> bool:
+        return proc.returncode != 0 and f"{script_path}: No such file or directory" in proc.stderr
+
+    script = task["grade_script"]
+    posix_path = script.as_posix()
+    proc = run_grader(posix_path)
+    if not script_not_found(proc, posix_path):
+        return proc.returncode == 0, (proc.stdout + proc.stderr).strip()
+
+    mnt_path = _wsl_mount_path(script)
+    if mnt_path is None:
+        return False, (proc.stdout + proc.stderr).strip()
+
+    retry = run_grader(mnt_path)
+    if not script_not_found(retry, mnt_path):
+        return retry.returncode == 0, (retry.stdout + retry.stderr).strip()
+
+    # Neither path shape found the script: a real problem (wrong grade_script
+    # path, missing fixture), not the WSL-vs-native shape issue this retry
+    # exists for. Report both attempts so this is never mistaken for one.
+    combined = (f"tried {posix_path!r}: {(proc.stdout + proc.stderr).strip()} | "
+                f"tried {mnt_path!r}: {(retry.stdout + retry.stderr).strip()}")
+    return False, combined
 
 
 def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: str,
