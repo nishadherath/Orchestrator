@@ -157,12 +157,20 @@ These are unresolved, not decided. Do not close one without evidence in
   is a guess.
 - Is the three-axis rubric better than a simpler two-axis one? Blast radius and
   intelligence sensitivity may be measuring the same thing.
-- ~~Does the orchestrator's own model matter?~~ Answered 2026-09-05 (E12, `docs/FINDINGS.md`),
-  one run per model: a sonnet orchestrator scored higher fixture agreement than an opus one
-  (11/17 versus 8/17) at roughly a fifth of the cost, because opus defaulted to asking for
-  clarification even where its own risk assessment matched the human fixture. Whether that
-  caution is worth the cost in a real workload, rather than just a worse fixture score, is
-  still a judgement call for Jeb, not a closed question.
+- ~~Does the orchestrator's own model matter?~~ Answered 2026-09-06, three runs per model
+  on bundle `2026-09-05-4cf35f7` (`test/results/2026-09-06-routing-{sonnet,opus}-summary.md`):
+  yes, and opus is the better orchestrator. Opus scored 45/51 (88.2 percent, 95 percent Wilson
+  [76.6, 94.5]) against sonnet's 32/51 (62.7 percent, [49.0, 74.7]); the intervals do not
+  overlap. Opus cost 7.0 times more in total and 5.0 times more per correct verdict
+  (USD 0.2245 against USD 0.0451).
+
+  This reverses the earlier answer. E12 (2026-09-05, one run per model) recorded sonnet ahead
+  on both counts, but it ran before the calibration instruction was fixed (D6) and before the
+  clarify rule existed (D10). Opus's apparent weakness was almost entirely spurious clarifying,
+  which the clarify rule removed: it now clarifies exactly once per run, on F16, where clarify
+  is the confirmed answer. Whether opus's accuracy is worth 5 times the cost per correct verdict
+  depends on what one wrong routing decision costs, which is the cost and quality benchmark's
+  question, not this one's.
 
 ## Dogfooding
 
