@@ -237,7 +237,7 @@ def _bash_is_wsl() -> bool:
 
 
 def _bash_script_path(path: Path) -> str:
-    """Render `path` the way this machine's resolved `bash` needs to see
+    r"""Render `path` the way this machine's resolved `bash` needs to see
     it (see _bash_is_wsl). Off WSL, .as_posix() is enough: on Windows, a
     native "C:\...\grade.sh" path handed to git-bash as a bare argument
     loses its lone backslashes (MSYS's argv translation treats them as
