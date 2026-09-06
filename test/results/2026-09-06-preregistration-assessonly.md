@@ -93,3 +93,47 @@ python3 test/harness/score_routing.py --project <orchestrator-scratch> --model s
 
 Predicted spend about USD 1.50. Output is written with an `-assessonly` tag in
 the filename, so it cannot overwrite the control.
+
+## Outcome, added 2026-09-06 after the run
+
+Null. Removing the cell request did not improve the assessment, and the axis
+totals are all but identical.
+
+| Measure | Control | Treatment | Predicted | Verdict |
+| :--- | :--- | :--- | :--- | :--- |
+| Exact triple | 27/47 = 57.4% | 25/48 = 52.1% | 60 to 70% | Falsified, inside the no-effect band |
+| Axis calls | 116/141 = 82.3% | 116/144 = 80.6% | 84 to 90% | Falsified, inside the no-effect band |
+| Horizon axis | 74.5% | 75.0% | 80 to 88% | Falsified, unchanged |
+| Cost per run | USD 0.6302 | USD 0.3602 | 0.45 to 0.60 | Cheaper than predicted |
+
+The within-experiment control held: F08's horizon stayed wrong 3 of 3, now 14
+of 14 observations across four run sets.
+
+Output coupling is therefore not the mechanism behind D13. The orchestrator was
+not choosing a cell and back-filling axes to justify it; asked for the axes
+alone, on the same bundle, it produces the same quality of assessment. By
+elimination, D13's effect comes from menu visibility, the table being present in
+context at all, which this experiment deliberately could not test because
+`ORCHESTRATOR.md` carries the table in both conditions.
+
+Two fixtures moved down, F01 and F15, both 3 of 3 to 1 of 3, and both are the
+simplest mechanical, short, contained cases. Two moved up, F10 and F12. With
+three runs each these are not distinguishable from noise and no conclusion is
+drawn from them.
+
+A defect in the first version of this mode is recorded here rather than
+quietly fixed: F16 has no confirmed assessment, and the scorer counted it as
+three failures instead of excluding it, which is why the run's own summary file
+reads 25/51 (49.0%) rather than the 25/48 (52.1%) used above. The recorded
+summary is left as the machine produced it. `score_routing.py` now drops
+unscorable fixtures in this mode before spending anything on them.
+
+## What follows
+
+The practical protection against D13 is already in place and does not depend on
+knowing the mechanism: ROW-BACKED refuses a row with no fixture behind it, and
+CLAUDE.md requires a before-and-after fixture run for any table change. Testing
+menu visibility would need a bundle whose `ORCHESTRATOR.md` omits the table, and
+it is only worth running if the answer would change what gets built. If the
+system is not going to separate assessment from the table, the knowledge is
+inert.

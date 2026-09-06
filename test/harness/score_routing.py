@@ -269,6 +269,15 @@ def main(argv: list[str]) -> int:
     bundle = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no .claude/ORCHESTRATOR_VERSION)"
 
     fixtures = load_fixtures(set(args.only.split(",")) if args.only else None)
+    if args.assess_only:
+        # A fixture with no confirmed assessment (F16, whose correct answer is to
+        # clarify) cannot be scored on axes. Drop it rather than counting it as a
+        # failure, which is what the first run of this mode did, understating the
+        # result by three observations and spending tokens on an unscorable call.
+        dropped = [fx["id"] for fx in fixtures if not fx.get("assessment")]
+        fixtures = [fx for fx in fixtures if fx.get("assessment")]
+        if dropped and not args.json:
+            print(f"assess-only: skipping {dropped}, no confirmed assessment to score against")
     fixture_ids = [fx["id"] for fx in fixtures]
 
     if args.dry_run:
