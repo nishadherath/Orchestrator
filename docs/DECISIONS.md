@@ -359,3 +359,48 @@ on this evidence.
 Reversal: restore the row and delete both ROUTE_TOTAL_ALLOWED_GAPS entries if a
 fixture ever lands on mechanical long-horizon work. The fixture comes first; the
 row follows it, not the other way round.
+
+## 2026-09-06 D14. The benchmark is specified, staged behind a pilot, and graded only by exit codes
+
+Decision: `docs/BENCHMARK-DESIGN.md` specifies the cost and quality benchmark.
+Three commitments in it are decisions rather than details.
+
+**Deterministic grading only.** Every task must have a grader that is a command
+with an exit code. A model grading a model is circular when model capability is
+the thing under test. Open-ended work is made gradable by planting a known
+defect and matching on the location the worker reports, which converts a
+judgement into a string comparison. A task whose quality cannot be reduced to
+an exit code does not enter the benchmark, however representative it feels.
+
+**A staircase, not a grid.** The question is where each task's cheapest
+sufficient cell sits, so the protocol searches up the cost ladder and stops,
+rather than filling a nine-by-six grid. Steering up the ladder uses a permissive
+threshold (2 of 3) and claiming a frontier uses a strict one (8 runs, Wilson
+lower bound above 0.7, and the cell below must fail the same bar). A report
+never cites the steering threshold as evidence.
+
+**A pilot before the benchmark.** Two tasks, full ladder, five runs each, no
+confirmation phase, roughly 30 to 50 runs. Its purpose is to measure the
+parameters the design guesses at, not to answer the question: tokens and wall
+clock per run per cell, whether the planted-defect grader survives real worker
+phrasing, and whether the repository reset between runs is reliable. Size the
+full benchmark from those numbers. This project has twice been corrected by
+cheap measurements that contradicted confident reasoning, most recently on
+2026-09-06 when a predicted improvement turned out to be nothing at all.
+
+Why this matters beyond cost: it is what makes the fixtures defensible. A
+fixture's `expected_cell` is currently Jeb's judgement, and D13 requires every
+routing row to be backed by such a fixture, so the table rests on opinion. A
+measured frontier per task class lets expected cells be derived from evidence
+and turns ROW-BACKED into a check that every row is grounded.
+
+Recorded limits, so they are not discovered later: blast radius cannot be
+measured this way, because it describes what a wrong answer costs the owner and
+cannot change a grader's exit code, so any rule depending on it rests on
+judgement. The benchmark also says nothing about whether the orchestrator picks
+the frontier cell, which stays the fixtures' job, nor about quality above the
+pass mark, since a grader is a boolean.
+
+Reversal: if the pilot shows the planted-defect grader is unreliable, the open
+row of the task set needs a different instrument, and the benchmark covers only
+mechanical and structured work until it has one.
