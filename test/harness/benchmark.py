@@ -357,7 +357,14 @@ def render(meta: dict, task_reports: list[dict]) -> str:
                 all_runs += [(cell, r) for r in res["runs"]]
         for cell, r in all_runs:
             run_no_by_cell[cell] = run_no_by_cell.get(cell, 0) + 1
-            note = r["error"] or ("" if r["passed"] else r["grade_output"][:200].replace("|", "/").replace("\n", " "))
+            if r["error"]:
+                note = r["error"]
+            elif r["passed"]:
+                note = ""
+            else:
+                note = "grader: " + r["grade_output"][:200].replace("|", "/").replace("\n", " ")
+                if r.get("report_text"):
+                    note += " || worker: " + r["report_text"][:200].replace("|", "/").replace("\n", " ")
             wall_clock_str = "" if r["wall_clock"] is None else f"{r['wall_clock']:.1f}"
             lines.append(f"| {cell} | {run_no_by_cell[cell]} | {'yes' if r['passed'] else 'no'} | "
                          f"{money(r['cost'])} | {wall_clock_str} | {note} |")
