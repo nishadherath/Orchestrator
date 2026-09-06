@@ -207,6 +207,17 @@ ROUTE_TOTAL_ALLOWED_CONFLICTS: dict[tuple[str, str, str], tuple[frozenset[str], 
     ),
 }
 
+# A triple may be left uncovered only if the decision ledger argues for it. The
+# value is a substring that must still be present in docs/DECISIONS.md, so
+# deleting the argument re-fails the check. The justification deliberately lives
+# in the ledger rather than in ROUTING.md: ROUTING.md ships to the orchestrator
+# on every turn, and naming an uncovered combination there would put the very
+# words whose effect is under measurement back into the prompt (D12).
+ROUTE_TOTAL_ALLOWED_GAPS: dict[tuple[str, str, str], str] = {
+    ("mechanical", "long", "contained"): "D12. Mechanical long-horizon work is temporarily uncovered",
+    ("mechanical", "long", "consequential"): "D12. Mechanical long-horizon work is temporarily uncovered",
+}
+
 
 def _parse_routing_assessment(text: str) -> tuple[set[str], set[str], set[str], list[str]]:
     """Split one ROUTING.md table row's Assessment cell into axis value sets.
@@ -277,7 +288,20 @@ def check_route_total(r: Report) -> None:
                 coverage.setdefault((s, h, b), []).append((name, assessment))
 
     universe = list(itertools.product(SENSITIVITY, HORIZON, BLAST))
-    problems: list[str] = [f"no row covers {t}" for t in universe if t not in coverage]
+    decisions = (REPO_ROOT / "docs" / "DECISIONS.md").read_text(encoding="utf-8")
+    problems: list[str] = []
+    documented_gaps = 0
+    for t in universe:
+        if t in coverage:
+            continue
+        reason = ROUTE_TOTAL_ALLOWED_GAPS.get(t)
+        if reason and reason in decisions:
+            documented_gaps += 1
+            continue
+        if reason:
+            problems.append(f"{t} is an allowed gap but its argument is missing from DECISIONS.md")
+        else:
+            problems.append(f"no row covers {t}")
     for t in universe:
         if t not in coverage:
             continue
@@ -291,7 +315,8 @@ def check_route_total(r: Report) -> None:
 
     r.add("ROUTE-TOTAL", "every (sensitivity, horizon, blast) triple resolves to one worker, or a documented tie-break",
           not problems,
-          f"{len(universe)} triples, all covered, {len(ROUTE_TOTAL_ALLOWED_CONFLICTS)} documented tie-break" if not problems
+          f"{len(universe)} triples, {documented_gaps} documented gap(s), "
+          f"{len(ROUTE_TOTAL_ALLOWED_CONFLICTS)} documented tie-break(s)" if not problems
           else "; ".join(problems))
 
 

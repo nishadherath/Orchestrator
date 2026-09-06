@@ -272,3 +272,46 @@ How it happened: the count was taken from the "Chosen" column of the recorded
 results tables, which renders a correct clarify as `[clarify]`, rather than from
 the raw verdict strings. `grep -c "action: clarify"` on the two files in
 `test/results/` gives ten and four.
+
+## 2026-09-06 D12. Mechanical long-horizon work is temporarily uncovered, for a measurement
+
+Decision: the row `| Mechanical, long horizon | worker-sonnet-high |`, added by
+D9, is removed. The two triples it covered, mechanical-long-contained and
+mechanical-long-consequential, are deliberately uncovered while a single
+experiment runs. `ROUTE-TOTAL` gains an allow-list of documented gaps, keyed by
+triple, each requiring a substring of this entry to still be present in this
+ledger, so removing the argument re-fails the check.
+
+Why: measured on 2026-09-06, that row cost more accuracy than the gap it
+filled. Two fixtures answered correctly before it existed are answered
+incorrectly after, reaching it from opposite directions: F03 bends its horizon
+from medium to long, F07 bends its sensitivity from structured to mechanical.
+Sonnet does this in 6 of 6 opportunities, opus in 3 of 6. F08 is a control,
+assessed identically in 8 of 8 observations across both bundles and both
+models. On the axis that flipped in each fixture, correct in 4 of 4
+observations before the row and 3 of 12 after, Fisher exact one-sided
+p = 0.0192. Full diagnosis in
+`test/results/2026-09-06-attractor-diagnosis.md`.
+
+The experiment this enables: remove the row, change nothing else, run sonnet
+three times. Predictions were recorded in the diagnosis before the run. If F03
+and F07 recover, adding a row can cost more than the gap it fills, and D9's
+premise that coverage is worth having for its own sake is wrong. If they stay
+wrong, the ambiguity was always in the axis definitions rather than the table,
+and the row is exonerated and should be restored.
+
+Why the argument lives here and not in `ROUTING.md`: that file ships to the
+orchestrator on every turn, and naming the uncovered combination there would
+put the very words whose effect is being measured back into the prompt. The
+gap is therefore invisible to the orchestrator and documented only to whoever
+edits this repository. That is a deliberate trade against the bundle being
+self-describing, and it holds only while this experiment is open.
+
+The bundle built from this state is experimental and should not be used for
+real work: an orchestrator meeting a mechanical, long-horizon task has no row
+and no guidance for it, which is exactly the pre-D9 condition being
+re-measured.
+
+Reversal: restore the row and delete both allow-list entries if the experiment
+exonerates it, or record the replacement design if it does not. Either outcome
+closes this entry; it is not intended to stand.

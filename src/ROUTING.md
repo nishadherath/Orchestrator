@@ -84,7 +84,6 @@ only when a named axis above demands it.
 | Mechanical, short, contained | `worker-sonnet-low` |
 | Mechanical, short, consequential | `worker-sonnet-medium` |
 | Mechanical, medium horizon | `worker-sonnet-medium` |
-| Mechanical, long horizon | `worker-sonnet-high` |
 | Structured, short or medium, contained | `worker-sonnet-medium` |
 | Structured, short or medium, consequential | `worker-sonnet-high` |
 | Structured, long horizon | `worker-sonnet-xhigh` |
@@ -93,10 +92,10 @@ only when a named axis above demands it.
 | Open, long horizon, sustained autonomous investigation | `worker-fable-xhigh` |
 | Frontier problem where every cheaper cell has already failed | `worker-opus-max` or `worker-fable-max` |
 
-This table names every one of the eighteen (sensitivity, horizon, blast)
-combinations exactly once, with one documented exception below. Adding a row,
-widening one, or removing one changes what this covers; run
-`test/harness/check.py` (its ROUTE-TOTAL check) after any edit here.
+This table covers the (sensitivity, horizon, blast) combinations, with
+documented exceptions recorded in `docs/DECISIONS.md`. Adding a row, widening
+one, or removing one changes what this covers; run `test/harness/check.py`
+(its ROUTE-TOTAL check) after any edit here.
 
 Constraints on the table:
 
