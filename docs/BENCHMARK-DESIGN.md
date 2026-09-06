@@ -99,24 +99,49 @@ reporting bar; seven of eight does not, which is the intended strictness.
 
 ## Cost and wall clock, with the assumptions stated
 
-Every figure here is an estimate to be replaced by measurement.
+Revised 2026-09-07 from the pilot (T1 and T5, `test/results/
+2026-09-06-benchmark-pilot-preregistration.md`'s Outcome section). What
+changed: the cheap end is now measured, not guessed. What did not change:
+the uncertainty that actually drives the total, because the pilot tested
+the two tasks least likely to need an expensive cell.
 
-- Worker runs, unlike the orchestrator verdicts measured so far, do real work.
-  The one recorded example is the 2026-09-05 dogfood run: `worker-fable-xhigh`,
-  102.9k tokens, 6 minutes 14 seconds, 53 tool calls. A `worker-sonnet-low` run
-  on T1 should be an order of magnitude smaller.
-- Assume a mean of 35k tokens per run across the ladder, weighted toward the
-  cheap end because the staircase starts there.
-- Staircase: about 3 cells reached per task on average, 3 runs each, 6 tasks,
-  so roughly 54 runs. Confirmation: 2 cells, 8 runs, 6 tasks, 96 runs. Total
-  about 150 runs, about 5.3M tokens.
-- At a blended USD 5 per million that is about USD 26; at USD 15, about USD 79.
-  The spread is wide because the model mix is exactly what the benchmark is
-  measuring.
-- Wall clock is the real constraint, not money. At 2 to 4 minutes per run,
-  150 runs is 5 to 10 hours serially. Claude Code allows 20 concurrent
-  subagents, so a runner that keeps 8 in flight brings that under an hour and a
-  half, at the cost of a more complicated harness.
+- Measured: `worker-sonnet-low` on a short-horizon, contained task (T1,
+  mechanical; T5, open) costs USD 0.07 to 0.25 per run, mean about USD 0.15,
+  and takes 23 to 42 seconds, mean about 32. Both tasks cleared on the
+  cheapest rung, 5 of 5, no climbing. Applied to the real protocol
+  (R_search = 3, and R_confirm = 8 with no cell below to also confirm, since
+  `worker-sonnet-low` is the ladder's floor): 11 runs per such task, about
+  USD 1.65 and 6 minutes wall clock.
+- Unmeasured: T2, T3, T4, and T6 are new shapes this pilot did not touch,
+  and three of the four are long horizon by design, the one axis most
+  likely to push a task up the ladder. T2 in particular has no existing
+  routing row to even aim at (D13's mechanical long-horizon gap); it is
+  the one triple this benchmark could newly justify rather than confirm.
+  Nothing about the pilot's result licenses assuming these three clear
+  cheaply too.
+- So the total is still dominated by a guess, the same one this section
+  made before the pilot: assume the three long-horizon tasks each climb
+  about 3 rungs before clearing (9 search runs) and confirm at 25 runs
+  total (9 search, 8 candidate, 8 the cell below), at a blended USD 5 to 15
+  per million tokens and 40k to 80k tokens per run at those tiers (the one
+  data point above `worker-sonnet-low` remains the 2026-09-05 dogfood run,
+  `worker-fable-xhigh` on an open-ended build: 102.9k tokens, 6 minutes 14
+  seconds, no cost recorded for that run). That puts the three long-horizon
+  tasks at roughly USD 7.50 to 30 each, USD 22.50 to 90 together.
+- Total estimate: the three short-horizon tasks (T1, T3, T5) at about USD
+  1.65 each, call it USD 5 together, plus USD 22.50 to 90 for the three
+  long-horizon tasks, so **about USD 27 to 95** for the full benchmark. That
+  is essentially unchanged from the pre-pilot guess of USD 26 to 79, not
+  because the pilot found nothing, but because what it found does not bear
+  on the part of the estimate that was ever uncertain. The real fix is
+  measuring T2, T4, and T6, not extrapolating from T1 and T5.
+- Wall clock is still the real constraint. If a long-horizon task needs 25
+  runs at several minutes each for the pricier cells, that task alone can
+  run 30 minutes to well over an hour; three of them serially is the bulk
+  of a working session. This harness deliberately does not run tasks
+  concurrently (see the module docstring), so there is no shortcut here
+  short of building that, which the original estimate already flagged as
+  the more complicated harness.
 
 ## Run the pilot first
 
