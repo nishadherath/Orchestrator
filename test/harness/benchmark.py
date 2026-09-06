@@ -70,6 +70,21 @@ PILOT_TASKS = ("T1", "T5")
 FORWARDER_MODEL_DEFAULT = "sonnet"
 REPORT_FILE = "BENCHMARK_REPORT.txt"
 
+# claude -p starts in Manual permission mode by default (docs/en/permission-modes),
+# which blocks Edit and Bash with nobody present to approve them - confirmed the
+# hard way on the first real pilot run, where a spawned worker correctly reported
+# it had no write permission rather than silently doing nothing. acceptEdits
+# auto-approves file edits in the working directory; the explicit allowedTools
+# entry is for the one Bash command a task.md asks a worker to self-check with.
+# Whether this propagates from the forwarder session to a worker it spawns via
+# the Task tool is not confirmed by documentation alone (docs/FINDINGS.md); the
+# first run against this flag is the check. --dangerously-skip-permissions is
+# the documented pattern for "run fully unattended inside a container", but its
+# own warning restricts it to an isolated container or VM without internet
+# access, not a bare machine, so it is opt-in here, never the default.
+FORWARDER_PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *)"]
+BYPASS_PERMISSION_ARGS = ["--dangerously-skip-permissions"]
+
 BENCHMARK_INSTRUCTION = (
     "\n\nThis is a benchmark run, not a real request. Spawn exactly one worker "
     "with subagent_type `{cell}`, using the Task tool, and nothing else: do not "
@@ -181,12 +196,12 @@ def reset_task(project: Path, dest: Path) -> None:
 
 
 def run_cell(project: Path, cell: str, task_text: str, workdir_rel: str,
-             forwarder_model: str, timeout: float) -> tuple[str, float | None, float, dict]:
+             forwarder_model: str, permission_args: list[str], timeout: float) -> tuple[str, float | None, float, dict]:
     """Ask a cheap forwarder orchestrator to spawn exactly one worker of the
     given cell on the task, scoped to workdir_rel. Returns (report text, cost
     in USD or None, wall-clock seconds, raw JSON extras worth recording)."""
     prompt = BENCHMARK_INSTRUCTION.format(cell=cell, workdir=workdir_rel, task=task_text)
-    cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", forwarder_model]
+    cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", forwarder_model, *permission_args]
     start = time.monotonic()
     proc = subprocess.run(cmd, capture_output=True, text=True, cwd=project, timeout=timeout)
     elapsed = time.monotonic() - start
@@ -200,13 +215,18 @@ def run_cell(project: Path, cell: str, task_text: str, workdir_rel: str,
 def grade(dest: Path, task: dict, report_text: str | None, timeout: float) -> tuple[bool, str]:
     if report_text is not None:
         (dest / REPORT_FILE).write_text(report_text, encoding="utf-8")
-    proc = subprocess.run(["bash", str(task["grade_script"])], cwd=dest,
+    # .as_posix(), not str(): on Windows, a native "C:\...\grade.sh" path handed
+    # to git-bash as a bare argument loses its lone backslashes (MSYS's argv
+    # translation treats them as escape introducers), so bash sees a path with no
+    # separators at all and fails to find the file. Forward slashes survive that
+    # translation on both platforms.
+    proc = subprocess.run(["bash", task["grade_script"].as_posix()], cwd=dest,
                            capture_output=True, text=True, timeout=timeout)
     return proc.returncode == 0, (proc.stdout + proc.stderr).strip()
 
 
 def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: str,
-            timeout: float, grade_timeout: float) -> dict:
+            permission_args: list[str], timeout: float, grade_timeout: float) -> dict:
     """One reset-run-grade cycle. Never raises: a worker or grader failure is
     a data point (a fail), not an error, though a harness-level error (the
     forwarder call itself failing) is recorded distinctly so it is not
@@ -217,7 +237,7 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
     report_text, cost, elapsed, extras = None, None, None, {}
     try:
         report_text, cost, elapsed, extras = run_cell(project, cell, task["task_text"], workdir_rel,
-                                                        forwarder_model, timeout)
+                                                        forwarder_model, permission_args, timeout)
     except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
         error = str(exc)
     if error is not None:
@@ -233,7 +253,7 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
 
 
 def search(project: Path, task: dict, dest: Path, r_search: int, fraction: float,
-           forwarder_model: str, timeout: float, grade_timeout: float,
+           forwarder_model: str, permission_args: list[str], timeout: float, grade_timeout: float,
            on_run=None) -> tuple[str | None, list[dict]]:
     """Climb LADDER, R_search runs per cell, stop at the first cell whose
     pass rate clears the permissive steering threshold. Returns (candidate
@@ -243,7 +263,7 @@ def search(project: Path, task: dict, dest: Path, r_search: int, fraction: float
     for cell in LADDER:
         runs = []
         for _ in range(r_search):
-            record = run_one(project, task, dest, cell, forwarder_model, timeout, grade_timeout)
+            record = run_one(project, task, dest, cell, forwarder_model, permission_args, timeout, grade_timeout)
             runs.append(record)
             if on_run:
                 on_run(cell, record)
@@ -256,7 +276,7 @@ def search(project: Path, task: dict, dest: Path, r_search: int, fraction: float
 
 
 def confirm(project: Path, task: dict, dest: Path, candidate: str, r_confirm: int,
-            forwarder_model: str, timeout: float, grade_timeout: float,
+            forwarder_model: str, permission_args: list[str], timeout: float, grade_timeout: float,
             on_run=None) -> dict:
     """Re-run the candidate and the cell below it at R_confirm each. The
     frontier claim requires the candidate's Wilson lower bound above 0.7 and
@@ -267,7 +287,7 @@ def confirm(project: Path, task: dict, dest: Path, candidate: str, r_confirm: in
     for cell in cells:
         runs = []
         for _ in range(r_confirm):
-            record = run_one(project, task, dest, cell, forwarder_model, timeout, grade_timeout)
+            record = run_one(project, task, dest, cell, forwarder_model, permission_args, timeout, grade_timeout)
             runs.append(record)
             if on_run:
                 on_run(cell, record)
@@ -290,7 +310,8 @@ def render(meta: dict, task_reports: list[dict]) -> str:
                      "0.7, and the cell below must fail the same bar." if meta.get("confirm") else " No confirmation phase.")
     lines = [f"# Benchmark run, {meta['mode']}, {meta['when']} at {meta['git']}", "",
              f"Bundle: {meta['bundle']}. Project: `{meta['project']}`. "
-             f"Forwarder model: {meta['forwarder_model']}. Ladder: {' -> '.join(LADDER)}.", "",
+             f"Forwarder model: {meta['forwarder_model']}. Permission mode: {meta['permission_mode']}. "
+             f"Ladder: {' -> '.join(LADDER)}.", "",
              f"R_search={meta['r_search']}, steer threshold={steer_threshold(meta['r_search'], meta['steer_fraction'])} "
              f"of {meta['r_search']} (permissive; ceil({meta['steer_fraction']:.3f} x n); never cited as evidence, "
              f"docs/BENCHMARK-DESIGN.md)." + confirm_line, "",
@@ -358,6 +379,10 @@ def main(argv: list[str]) -> int:
                      help="fraction of R_search runs that must pass to stop climbing (default 2/3, the stated '2 of 3' at n=3)")
     ap.add_argument("--forwarder-model", default=FORWARDER_MODEL_DEFAULT, choices=("sonnet", "opus", "fable"),
                      help=f"model for the trivial forwarding orchestrator, not the worker cell under test (default {FORWARDER_MODEL_DEFAULT})")
+    ap.add_argument("--unattended-bypass", action="store_true",
+                     help="use --dangerously-skip-permissions instead of the narrower acceptEdits default. "
+                          "Anthropic's own docs restrict this to an isolated container or VM without internet "
+                          "access; do not pass this against a bare machine")
     ap.add_argument("--timeout", type=float, default=1200, help="seconds allowed per claude -p call (default 1200)")
     ap.add_argument("--grade-timeout", type=float, default=60, help="seconds allowed per grade.sh call (default 60)")
     ap.add_argument("--dry-run", action="store_true", help="print what would run; touch nothing")
@@ -412,10 +437,13 @@ def main(argv: list[str]) -> int:
         print("refusing to run: no task directories found", file=sys.stderr)
         return 2
 
+    permission_args = BYPASS_PERMISSION_ARGS if args.unattended_bypass else FORWARDER_PERMISSION_ARGS
+
     if args.dry_run:
         for task in tasks:
             preview = BENCHMARK_INSTRUCTION.format(cell=LADDER[0], workdir=f"bench-{task['id']}", task=task["task_text"])
-            shown = " ".join(["claude", "-p", "<prompt>", "--output-format", "json", "--model", args.forwarder_model])
+            shown = " ".join(["claude", "-p", "<prompt>", "--output-format", "json",
+                               "--model", args.forwarder_model, *permission_args])
             print(f"{task['id']}: {shown}")
             print(f"  first prompt would be:\n{preview}\n")
         max_search_calls = len(tasks) * r_search * len(LADDER)
@@ -446,17 +474,18 @@ def main(argv: list[str]) -> int:
                             print(f"  worker's relayed report: {record['report_text'][:500]}")
 
         candidate, search_log = search(project, task, dest, r_search, args.steer_fraction,
-                                        args.forwarder_model, args.timeout, args.grade_timeout, on_run)
+                                        args.forwarder_model, permission_args, args.timeout, args.grade_timeout, on_run)
         report = {"task": task, "search_log": search_log, "candidate": candidate}
         if args.confirm and candidate:
             report["confirmation"] = confirm(project, task, dest, candidate, args.r_confirm,
-                                              args.forwarder_model, args.timeout, args.grade_timeout, on_run)
+                                              args.forwarder_model, permission_args, args.timeout, args.grade_timeout, on_run)
         task_reports.append(report)
 
     meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "bundle": bundle,
             "project": str(project), "forwarder_model": args.forwarder_model, "r_search": r_search,
             "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction, "confirm": args.confirm,
-            "mode": "pilot" if args.pilot else "full"}
+            "mode": "pilot" if args.pilot else "full",
+            "permission_mode": "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools"}
 
     if args.json:
         def strip_task(tr):
