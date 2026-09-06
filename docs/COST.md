@@ -1,6 +1,7 @@
 # Recurring token cost
 
-Bundle version `2026-09-05-4cf35f7` (`dist/.claude/ORCHESTRATOR_VERSION`).
+Bundle version `2026-09-06-04d2acc` (`dist/.claude/ORCHESTRATOR_VERSION`). This bundle is
+experimental: D12 removes one routing row for a measurement.
 Measured 2026-09-05 by counting UTF-8 bytes in `dist/` and dividing by four,
 the same approximation `test/harness/empirical-checklist.md` uses for its E12
 cost estimate. This is an estimate, not a token count: the real count comes
@@ -11,9 +12,9 @@ change to `src/ROUTING.md`, `src/LIFECYCLE.md`, `src/WORKER_PERSONA.md` or
 
 | Artefact | Paid on | Chars | Tokens (chars / 4) |
 | :--- | :--- | :--- | :--- |
-| `dist/ORCHESTRATOR.md` | every orchestrator turn, once appended to the consumer's `CLAUDE.md` | 11,976 | ~2,994 |
-| 15 worker descriptions (`dist/.claude/agents/*.md` frontmatter) | every orchestrator turn, in the Agent tool's subagent_type listing | 2,528 | ~632 |
-| One worker definition (`dist/.claude/agents/WORKER_*.md`, persona inlined) | once per worker start, to that worker only | 1,918 to 1,999 (mean 1,950) | ~480 to ~500 (mean ~488) |
+| `dist/ORCHESTRATOR.md` | every orchestrator turn, once appended to the consumer's `CLAUDE.md` | 11,913 | ~2,978 |
+| 15 worker descriptions (`dist/.claude/agents/*.md` frontmatter) | every orchestrator turn, in the Agent tool's subagent_type listing | 2,502 | ~625 |
+| One worker definition (`dist/.claude/agents/WORKER_*.md`, persona inlined) | once per worker start, to that worker only | 1,918 to 1,999 (mean 1,948) | ~479 to ~499 (mean ~487) |
 | `dist/.claude/commands/workers.md` | once per `/workers` invocation | 1,983 | ~496 |
 
 Command that produced these counts, from the repository root:
@@ -28,7 +29,7 @@ wc -c dist/.claude/commands/workers.md
 What this buys: `ORCHESTRATOR.md` is the whole routing rubric and lifecycle
 protocol, paid once per orchestrator turn so the orchestrator can classify and
 select without a file read; the fifteen descriptions are what the orchestrator
-sees about each cell without opening its definition, about 169 characters
+sees about each cell without opening its definition, about 167 characters
 each; a worker definition is a self-contained persona so a worker needs no
 file read at startup (D3); `/workers` is invoked rather than persistent, so
 its cost is per call rather than per turn.
