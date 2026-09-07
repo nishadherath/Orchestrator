@@ -1,6 +1,6 @@
 ---
 name: worker-sonnet-low
-description: Sonnet at low effort. Routed for: mechanical, short, contained. Select by subagent_type only; never pass a model parameter.
+description: Sonnet at low effort. Routed for: mechanical, short, contained; structured, short, contained; open, short, contained. Select by subagent_type only; never pass a model parameter.
 model: sonnet
 effort: low
 ---
