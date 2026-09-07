@@ -1118,3 +1118,46 @@ Reversal: a future run against this wording still splitting roughly
 evenly between short and medium would mean the reword did not supply
 the missing signal, and F05 should be treated as a fixture that is
 inherently borderline rather than one with a recoverable authoring gap.
+## 2026-09-08 D32. F11 accepted as is: correct worker, imprecise horizon, by Jeb's call
+
+Decision: no further change to F11. D29's reword stays as the fixture's
+final wording for this round.
+
+Why: the confirming run requested after D29 shows F11 choosing
+worker-opus-xhigh in 3 of 3 runs, but horizon reads as medium in all
+three, not the long that D28 corrected it to. The correct worker is
+reached through ROUTING.md's "open, any horizon, consequential" row,
+which does not depend on horizon at all, rather than through the
+fable-xhigh versus opus-xhigh distinction section 2 exists to test.
+F12, backing the same tie-break, reads long correctly in all three runs
+of the identical batch, so the gap is specific to F11's own wording, not
+a general problem with the test. The likely cause is a genuine tension
+D29 introduced without noticing it: the sentence added to settle the
+tie-break, that the investigation "converges cleanly... rather than
+sending you chasing a different theory", reads as a quick resolution,
+which pulls horizon toward medium even as it correctly keeps sensitivity
+open and settles the tie-break itself.
+
+Two reword attempts (D28, D29) have already gone into this fixture, each
+fixing one problem while shifting another. Put the finding to Jeb rather
+than attempting a third reword unprompted: worker choice, the thing that
+actually drives cost, is correct in every recorded run; the horizon
+misread does not change routing outcomes for this specific triple, only
+the fixture's value as a clean test of the tie-break condition
+specifically. Jeb chose to accept the current wording rather than
+continue iterating.
+
+What this leaves open: F11 is not, at present, a clean confirmation that
+the orchestrator reads long horizon correctly under this task's shape,
+only that it reaches the correct worker regardless. F12 remains the
+fixture actually confirming correct long-horizon reading for this tie-
+break; F11's contribution is narrower than D28 intended, limited to
+demonstrating the fable-xhigh versus opus-xhigh choice resolves toward
+opus once the task states its own convergence, independent of whether
+horizon is read correctly alongside it.
+
+Reversal: a future attempt at rewording, if one is wanted later, should
+treat "converges cleanly" and "reads as long" as requirements in
+tension for this specific task shape and test drafts against both
+before committing, rather than optimising one axis at a time as the
+last two rounds did.
