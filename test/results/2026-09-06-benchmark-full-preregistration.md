@@ -171,3 +171,131 @@ cost tier rather than running all six tasks back to back.
 - Wall clock or cost run well past the predictions: the "run all six in one
   sitting" assumption behind this design needs revisiting before any
   further benchmark task is added to the set.
+
+## Outcome
+
+Run 2026-09-07 11:52, `--confirm --record`, bundle `2026-09-06-04d2acc`, at
+harness commit `d3470a7`. Full table in
+`test/results/2026-09-07-benchmark-04d2acc.md`. 90 runs total, USD 15.0132,
+72.6 minutes of summed wall clock, longest single run 121.5 seconds.
+
+**Frontier cell.** Five of six tasks confirmed at `worker-sonnet-low`, the
+cheapest cell on the whole ladder, each at 9 of 9 (Wilson lower bound
+70.1%, clearing 0.7):
+
+| Task | Row's assigned cell | Predicted stopping cell | Actual confirmed cell |
+| :--- | :--- | :--- | :--- |
+| T1 | `worker-sonnet-low` | `worker-sonnet-low` | `worker-sonnet-low`, matched |
+| T2 | none | `worker-sonnet-low` or `worker-sonnet-medium` | `worker-sonnet-low`, matched the cheaper option |
+| T3 | `worker-sonnet-medium` | `worker-sonnet-low` | `worker-sonnet-low`, matched, one rung below the assigned row |
+| T4 | `worker-sonnet-xhigh` | `worker-sonnet-medium` or `worker-sonnet-high` | not confirmed; invalidated (see below) |
+| T5 | `worker-opus-high` | `worker-sonnet-low` | `worker-sonnet-low`, matched, three rungs below the assigned row |
+| T6 | `worker-fable-xhigh` | `worker-opus-high` or `worker-opus-xhigh` | `worker-sonnet-low`, six rungs below the assigned row and below the prediction too |
+
+T4's search climbed exactly as predicted for the row (`worker-sonnet-xhigh`,
+2 of 3, met the steering threshold, matching ROUTING.md's assigned cell for
+this triple precisely), but confirmation returned 3 of 9 at
+`worker-sonnet-xhigh` and 0 of 9 at `worker-sonnet-high`, "Frontier
+confirmed: no". All 25 of T4's failing runs, across every cell tested from
+`worker-sonnet-low` through `worker-sonnet-xhigh`, cited the identical
+grader message ("KVStore still appears 1 time(s)") while also reporting the
+full functional test suite passing. That is a fixture defect, not a
+capability result: the pristine `store.py`'s own docstring named the class
+it describes, which the grader's strict recursive grep counted alongside
+genuine leftover code. Fixed and recorded as D16; T4's row in this table is
+not evidence either way and needs a fresh run against the corrected
+fixture.
+
+T6 is the sharpest finding here. F13, its fixture backing, was independently
+reviewed and confirmed by Jeb before this run, specifically because it
+looked closely analogous in shape. It cleared six rungs below that row, the
+full width of the ladder, not the two or three rungs the routing table's
+other judgement calls have shown so far. Read together with T3 and T5 also
+clearing below their assigned rows, five of five valid results this run
+landed at the ladder's floor. That pattern is itself worth flagging on its
+own terms before touching ROUTING.md: it is at least as consistent with
+these particular fixtures being easier than the open-ended work they stand
+in for as it is with the table's judgement-set rows being systematically
+over-provisioned, and this run cannot distinguish the two. The T4 defect
+found this same session is a reminder that a fixture can look right and
+still not test what it claims to; five-for-five at the floor is a reason to
+look hard at the fixtures themselves before drawing a routing conclusion
+from them, not a reason to wait indefinitely.
+
+**Tokens and wall clock.** Tokens remain unscored: `render()` still writes
+each run's raw `usage` JSON rather than a computed total, the same gap the
+pilot's outcome noted, since the `usage` field's exact shape is itself
+unverified (docs/FINDINGS.md). Wall clock held for every group. T1, T3, T5
+(predicted under 60 seconds at the floor cell): T3 and T5 stayed under 42
+seconds throughout; T1 ranged 30.7 to 67.6 seconds, one run over the
+60-second target but nowhere near the 180-second falsification bar. T2, T4
+(predicted under 3 minutes): T2 ranged up to 121.5 seconds, T4 up to 119.0
+seconds, both comfortably inside the 180-second target. T6 (predicted under
+6 minutes at an assumed opus-tier cell): ranged 19.6 to 41.5 seconds,
+because it cleared at the floor rather than needing the tier the prediction
+assumed, so the number holds without testing what it was meant to test.
+
+**Grader reliability.** T1, T2, T3, T5, T6: zero false results across 60
+runs, as predicted for deterministic mechanical and structured graders. T4:
+predicted zero false results on the strength of catching one instance of
+this defect class during fixture construction; that confidence was wrong.
+25 of 30 runs, 83%, were false negatives from a second instance of the
+identical defect. Worth stating plainly rather than folding into the
+frontier discussion above: a grader that has been checked once for a
+failure mode is not thereby cleared of a second occurrence of the same
+mode, and this project's own testing discipline caught it again only
+because the failure pattern in the real run was this uniform.
+
+T6's report-phrasing prediction (at least one correct diagnosis phrased
+without the literal `tax.py` or `get_tax_amount`) is unscored: `report_text`
+is only captured on a failing run, by design, and all 12 of T6's runs
+passed. Same situation the pilot recorded for T5's grader; no data either
+way yet.
+
+**Reset reliability.** Zero `reset_task` failures across all 90 runs, as
+predicted.
+
+**Harness-level errors.** Zero forwarder-side failures across all 90 runs,
+and zero runs reached the 1200-second `--timeout` ceiling (longest run,
+121.5 seconds), both as predicted.
+
+**Containment.** Checked directly in `orchestrator-scratch`: every modified
+or new file sits inside a `bench-T*/` directory, `__pycache__/` directories,
+or the checkpoint file at the project root (`.benchmark-checkpoint.jsonl`,
+this session's own resume feature, working as intended). `RESEARCH_NOTES.md`
+and `ai_authorship_detector.py` still show modified, the same two files the
+pilot's outcome flagged; their modification times (2026-09-06, ahead of
+this run's 2026-09-07 11:52 start) confirm they predate this run and are
+unrelated to it, same finding as the pilot. Zero containment violations, as
+predicted.
+
+**Cost.** USD 15.0132 total, below this document's own stated falsification
+floor of USD 17. That is not a measurement surprise so much as the same
+finding as the frontier section from a different angle: the design's cost
+estimate assumed T2, T4, and T6 would each need to climb one or more rungs
+and, for T4 and T6, that a confirmation phase would run at a pricier tier.
+Five of six tasks instead cleared at the cheapest cell on the first attempt,
+so the run never spent the money the estimate priced in for climbing. The
+prediction is formally falsified on the low side; the reason is the same
+over-provisioning pattern already under discussion above, not an error in
+the cost arithmetic itself.
+
+**Wall clock.** 72.6 minutes summed across all 90 runs, comfortably inside
+the three-hour prediction (falsified only past five hours).
+
+**What this does and does not mean.** T1's row holds cleanly, the one
+result fully consistent with its assigned cell. T2 is the first
+fixture-backed data point for D13's permanent mechanical-long-horizon gap,
+and it clears cheaply, exactly the outcome this document said would argue
+for leaving that gap alone. T3 and T5 both clear below their assigned rows,
+extending the over-provisioning pattern the pilot first found with T5 alone
+to a second and third triple, T5 now at the confirmed reporting bar rather
+than search-only steering signal. T6 is the standout: a fixture-backed row,
+independently reviewed, cleared six rungs below where it was pinned. T4's
+result is not usable and needs a fresh run before it means anything.
+Taken together, this is enough to say the routing table's judgement-set
+rows warrant a closer look, but the uniformity of the result (five for five
+at the floor, on the same day a second fixture defect was found) is reason
+enough to check the surviving fixtures (F04, F09, F13 in particular) for
+their own version of T4's problem before treating this as settled evidence
+against ROUTING.md itself.
