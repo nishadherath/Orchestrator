@@ -790,3 +790,45 @@ Reversal: if the re-run shows no improvement on F13 or F19, or a
 regression elsewhere, these two sentences come out and the gap goes back
 to being logged as an open, unexplained live-classification pattern
 rather than a documentation fix.
+## 2026-09-07 D24. D23's horizon sentence reverted: it fixed F19 but broke F03 on its first run
+
+Decision: ROUTING.md section 1's Long-horizon bullet goes back to its
+pre-D23 wording. The blast radius sentence D23 added stays; it fixed F13
+with no observed side effect. Only the horizon sentence, "Sheer
+repetition counts too: a mechanical task repeated across enough files or
+call sites is long horizon on volume alone, with no exploration or
+judgement required," is withdrawn.
+
+Why: the score_routing.py run against the D23 bundle (70b2eed) landed
+exactly where D23 asked it to on the two fixtures it targeted, F13 and
+F19 both exact, but F03 misjudged for the first time across four runs
+on this bundle lineage, horizon bent from medium to long, the same
+failure shape D12 measured and D22's re-run was built to guard against.
+F03 moves about forty files with one uniform operation each; F19's
+underlying benchmark fixture, T2, renames a function across about
+thirty files but has to find and verify every call site per file. The
+sentence named only volume, so nothing in it stopped the orchestrator
+from reading F03's larger file count as long horizon too, even though
+F03 was deliberately authored as medium. Sheer repetition count was
+never the real distinguishing factor; D18's own reasoning ("the axis
+that makes mechanical work long-horizon... is not the axis that makes
+work harder") was correct about T2 specifically, but generalising it
+into a volume-only rule in ROUTING.md's own text asked the orchestrator
+to apply a threshold that does not actually exist.
+
+D23's own reversal clause named this exact contingency, "a regression
+elsewhere," as grounds to withdraw the wording. Jeb chose to act on it
+immediately rather than wait for a second run to confirm, and to keep
+the blast sentence, which showed no comparable harm.
+
+What still has to happen: a fresh score_routing.py run against a
+rebuilt bundle should show F03 back to exact and F19 back to its old
+miss (medium instead of long), confirming the reversal undid what it
+was meant to and nothing else moved. F19 goes back to being a
+documented, open live-classification gap rather than a solved one; a
+correct, properly scoped statement of what actually distinguishes F03
+from T2's task, if one exists, is future work, not this entry.
+
+Reversal: if the confirming run does not show F03 recovering, or shows
+some other unexplained shift, this entry's own account of the cause is
+wrong and needs redoing before anything further is attempted.

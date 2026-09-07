@@ -30,9 +30,7 @@ task is done?
 - Short: under roughly ten tool calls, no branching.
 - Medium: tens of tool calls, some exploration, one or two decision points.
 - Long: sustained multi-stage work, repeated tool calling, wide search,
-  investigation that reshapes the plan as it goes. Sheer repetition counts
-  too: a mechanical task repeated across enough files or call sites is long
-  horizon on volume alone, with no exploration or judgement required.
+  investigation that reshapes the plan as it goes.
 
 **Blast radius.** What does a wrong answer cost? Judge the deliverable
 itself, not how serious the situation it concerns sounds: a report on a
