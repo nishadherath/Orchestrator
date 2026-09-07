@@ -56,6 +56,12 @@ TASK = (
     "read or write any files; reply with the explainer text only."
 )
 
+DIRECT_PREAMBLE = (
+    "This is a diagnostic run, not a real request. Do this task yourself, "
+    "in this turn: do not spawn a worker, do not use the Task tool, and do "
+    "not ask a clarifying question.\n\n"
+)
+
 SMOKE_TASK = (
     "Write a short explainer, about 150 words, of what TCP congestion "
     "control is. Do not read or write any files; reply with the explainer "
@@ -114,12 +120,18 @@ def main(argv: list[str]) -> int:
                      help="use a much smaller ~150 word task, one rep per condition, as a quick sanity check")
     ap.add_argument("--dry-run", action="store_true", help="print the two prompts; run nothing")
     ap.add_argument("--record", action="store_true", help="write a result file to test/results/")
+    ap.add_argument("--condition", choices=("spawn", "direct", "both"), default="both",
+                     help="run only one condition, e.g. to re-run a fixed DIRECT prompt without paying for SPAWN again")
     args = ap.parse_args(argv)
 
     task = SMOKE_TASK if args.smoke_test else TASK
     reps = 1 if args.smoke_test else args.reps
     timeout = args.timeout if args.timeout is not None else (90.0 if args.smoke_test else 600.0)
-    conditions = (("SPAWN", spawn_prompt(task)), ("DIRECT", task))
+    all_conditions = (("SPAWN", spawn_prompt(task)), ("DIRECT", DIRECT_PREAMBLE + task))
+    if args.condition == "both":
+        conditions = all_conditions
+    else:
+        conditions = tuple(c for c in all_conditions if c[0].lower() == args.condition)
 
     if args.dry_run:
         for name, prompt in conditions:
