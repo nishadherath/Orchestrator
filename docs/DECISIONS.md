@@ -832,3 +832,25 @@ from T2's task, if one exists, is future work, not this entry.
 Reversal: if the confirming run does not show F03 recovering, or shows
 some other unexplained shift, this entry's own account of the cause is
 wrong and needs redoing before anything further is attempted.
+## 2026-09-07 D25. D24's reversal confirmed: F03 recovered, F19 back to its documented miss, nothing else moved
+
+Decision: none. This closes D24's own "what still has to happen"
+clause rather than opening a new question.
+
+Why: the confirming score_routing.py run against the rebuilt bundle
+(2f1651a) landed exactly where D24 predicted. F03 is exact again
+(mechanical, medium, contained), recovered from the single miss that
+triggered the reversal. F19 is back to misjudging horizon as medium
+instead of long, the same miss it had before D23, now standing as the
+open gap D22 already logged rather than a new problem. F13 stayed
+exact on the blast sentence D23 kept. F08, F09, and F11 disagree,
+unchanged from every run so far on this fixture set. Agreement reached
+15 of 19, the best of any run recorded this session.
+
+What this settles: the blast sentence added in D23 is confirmed
+working with no observed cost across two runs now. The horizon
+question, why F19's task reads correctly as long horizon by D18's
+reasoning but no wording tried so far states that correctly without
+also pulling in F03, remains open and unattempted again this session.
+
+Reversal: not applicable; this entry only records a confirmation.
