@@ -332,3 +332,57 @@ the six-rung gap was never mostly about the hint, and F13's row deserves
 the closer look on its own terms.
 
 Command: `python3 test/harness/benchmark.py --project <orchestrator-scratch> --confirm --record --fresh`
+
+## Outcome, replication
+
+Run 2026-09-07 14:29, `--confirm --record --fresh`, bundle
+`2026-09-06-04d2acc`, at harness commit `a219d55`. Full table in
+`test/results/2026-09-07-benchmark-04d2acc.md` (the same filename as the
+first run; the first run's content is preserved in git history at commit
+`a6b7426`). 72 runs, USD 10.8043, 48.0 minutes summed wall clock, longest
+single run 119.2 seconds. Zero failing runs anywhere in the file, zero
+harness-level errors, zero containment violations (the same two pre-
+existing, unrelated files as both prior runs, `RESEARCH_NOTES.md` and
+`ai_authorship_detector.py`, again untouched by this run).
+
+**All six tasks confirmed at `worker-sonnet-low`, 9 of 9, Wilson lower
+bound 70.1%.** T1, T2, T3, and T5 replicated exactly, as predicted. T4 and
+T6 are the two results this replication was for:
+
+- **T4**: search never needed to test above `worker-sonnet-low`, meeting
+  the steering threshold on the first cell (3 of 3). This is a stronger
+  result than the prediction asked for ("plausibly `worker-sonnet-low`
+  itself"): with D16's docstring defect gone, T4 turned out not merely to
+  clear below its assigned `worker-sonnet-xhigh`, but to sit at the exact
+  same floor as every other task. The original run's confirmation failure
+  was entirely the fixture defect; there is no residual difficulty here
+  once the grader stops false-failing correct ports.
+- **T6**: unchanged at `worker-sonnet-low`, not the "at least one rung up"
+  the D17 prediction expected if the docstring hint were a real
+  contributor to the original six-rung gap. It was not: the gap between
+  `worker-sonnet-low` and the fixture-backed `worker-fable-xhigh` row
+  stands at its full original width, on a fixture now cleared of the one
+  hint found in it. Fixing the hint was still the right call (a fixture
+  should not signpost its own answer, regardless of what removing the
+  signpost does to the result), but it does not explain the gap. F13's row
+  itself is the remaining question.
+
+**Wall clock.** T1, T3, T5 stayed under 52 seconds throughout (T1: 28.2 to
+51.3s; T3: 28.0 to 44.5s; T5: 20.7 to 39.8s). T2 and T4 stayed under 2
+minutes (T2: 32.1 to 119.2s; T4: 40.4 to 54.7s, tighter and more consistent
+than the first run's `worker-sonnet-xhigh` cells, as expected at a cheaper
+cell). T6: 19.0 to 43.4s.
+
+**What this settles.** Six for six at the ladder's floor, with zero
+failures anywhere in a 72-run replication, is no longer explainable by a
+fluke in either direction. T1's row holds. T2 is now a well-supported
+fixture-backed case for leaving D13's permanent gap alone. T3 and T5
+confirm over-provisioned rows a second time each, cleanly. T4 turned out to
+have no real difficulty once D16's defect was removed, so it is not a
+finding against `worker-sonnet-xhigh` at all, only against the fixture that
+used to obscure the true floor. T6 is the one result that survived direct
+scrutiny (its one identified hint, removed) and still shows the widest gap
+in the set: `worker-fable-xhigh`, a row independently reviewed and
+confirmed before this benchmark existed, six rungs above where its own
+fixture-backed evidence now sits twice over. That is no longer a reason to
+audit the fixture further; it is a reason to look at the row.
