@@ -696,3 +696,51 @@ Reversal: a future fixture confirming `worker-fable-xhigh` (or a cell
 above it) for the `contained` triple would reopen the first half of this
 entry. A future benchmark result or documented failure against F18's
 scenario, or Jeb's own reassessment of it, would reopen the second half.
+
+## 2026-09-07 D22. The mechanical long-horizon gap is half closed: `contained` gets a row, `consequential` stays open
+
+Decision: `ROUTING.md` gains `Mechanical or open, long horizon, contained`
+routed to `worker-sonnet-low`, merged with the existing `Open, long
+horizon, contained` row from D21 for the same reason D21 merged
+`worker-sonnet-low`'s short-horizon rows: `tools/generate_workers.py`'s
+200-character description cap. `(mechanical, long, consequential)` stays an open gap in
+`ROUTE_TOTAL_ALLOWED_GAPS`, now under its own argument rather than
+sharing D12's ("D22. Mechanical long-horizon, consequential work remains uncovered"),
+pending a fixture of its own the way T2 was for the contained half.
+
+Why: T2, benchmarked specifically for the mechanical-long-contained
+triple, confirmed `worker-sonnet-low` at 9 of 9 in both the original run
+and its replication, the same standard of evidence D19 and D21 already
+acted on for other rows. D13 made this exact gap "permanent until a
+fixture justifies filling it"; T2 is that fixture.
+
+The history this has to reckon with: D9 added a `Mechanical, long
+horizon` row pointing to `worker-sonnet-high`. D12 removed it after
+measurement showed its presence, not its destination worker, pulled two
+unrelated fixtures into wrong classifications: F03 (bending its horizon
+from medium to long) and F07 (bending its sensitivity from structured to
+mechanical), both scored correctly before the row existed and wrongly
+after, recovering cleanly once it was removed. `docs/DECISIONS.md` D13
+then closed the question by ruling the gap fixture-backed-or-permanent,
+which is the standing this entry now acts on. Nothing about T2's
+evidence rules out the same attractor recurring with a different
+destination worker: the row's mere presence, not what it points to, was
+the mechanism D12 measured. This entry does not claim the row is safe,
+only that it is now evidenced and narrower in scope than D9's (blast
+made explicit, `contained` only, `consequential` still uncovered).
+
+What still has to happen before this counts as settled: a
+`score_routing.py` run against this table must show F03 and F07 still
+resolving correctly. Jeb reviewed and confirmed this decision to proceed
+on that basis, 2026-09-07.
+
+`test/fixtures/routing.jsonl` gains F19, a mechanical rename across
+roughly thirty files with the existing test suite defining correctness,
+matching T2's shape. Drafted by Claude and reviewed and confirmed by
+Jeb, 2026-09-07.
+
+Reversal: if the re-run shows F03 or F07 regressing, remove the row and
+restore D12's full two-triple gap rather than narrowing it, since that
+would reproduce the exact failure mode D12 measured. If it holds, this
+entry stands and `(mechanical, long, consequential)` remains the only
+open half, pending its own fixture.

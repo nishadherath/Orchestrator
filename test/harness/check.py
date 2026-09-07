@@ -214,8 +214,7 @@ ROUTE_TOTAL_ALLOWED_CONFLICTS: dict[tuple[str, str, str], tuple[frozenset[str], 
 # on every turn, and naming an uncovered combination there would put the very
 # words whose effect is under measurement back into the prompt (D12).
 ROUTE_TOTAL_ALLOWED_GAPS: dict[tuple[str, str, str], str] = {
-    ("mechanical", "long", "contained"): "D12. Mechanical long-horizon work is temporarily uncovered",
-    ("mechanical", "long", "consequential"): "D12. Mechanical long-horizon work is temporarily uncovered",
+    ("mechanical", "long", "consequential"): "D22. Mechanical long-horizon, consequential work remains uncovered",
 }
 
 
