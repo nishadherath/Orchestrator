@@ -744,3 +744,49 @@ restore D12's full two-triple gap rather than narrowing it, since that
 would reproduce the exact failure mode D12 measured. If it holds, this
 entry stands and `(mechanical, long, consequential)` remains the only
 open half, pending its own fixture.
+## 2026-09-07 D23. Section 1's axis definitions gain two lines; F13 and F19 were correctly authored all along
+
+Decision: ROUTING.md section 1 gains two clarifying sentences. Blast
+radius: "Judge the deliverable itself, not how serious the situation it
+concerns sounds: a report on a severe incident is still contained if it
+is read and checked before anyone acts on it." Horizon's Long bullet
+gains: "Sheer repetition counts too: a mechanical task repeated across
+enough files or call sites is long horizon on volume alone, with no
+exploration or judgement required." No fixture or table row changes.
+
+Why: D22's re-run, done as two independent opus runs against the
+681f8d8 bundle, answered its own question cleanly: F03 and F07 both land
+exact both times, no attractor. But the same two runs also repeated a
+pattern already visible in the stale ccd6350 run: F13 misjudged blast as
+consequential three times running, and F19 misjudged horizon as medium
+twice running, in both cases landing one cell above the fixture's own
+expected_cell.
+
+Re-examining the two fixtures, rather than the live orchestrator's
+verdicts, found both were authored correctly and deliberately. F13's own
+note field already states the reasoning: "Contained because the output
+is a report; the horizon and openness carry it," a distinction D21 drew
+on purpose against F18's explicit downstream-action framing. F19's long
+horizon rests on D18's own settled reasoning, "the axis that makes
+mechanical work long-horizon (repetition count) is not the axis that
+makes work harder," reasoning T2 was built specifically to test. Neither
+fixture needed changing.
+
+What the fixtures got right, though, was never written into ROUTING.md
+section 1 itself, only argued out in DECISIONS.md and in the fixtures'
+own rationale fields, none of which the orchestrator reads when
+classifying a live task. That gap, not a fixture defect and not a
+recurrence of D12's attractor, is the more likely explanation for three
+consistent F13 misses and two consistent F19 misses.
+
+What still has to happen before this counts as settled: a fresh
+score_routing.py run against the rebuilt bundle must show F13 and F19
+landing on their expected cells, or at least closer to them, without
+disturbing F03, F07, or any other fixture currently agreeing. Jeb
+reviewed and confirmed this approach before the wording was drafted,
+2026-09-07.
+
+Reversal: if the re-run shows no improvement on F13 or F19, or a
+regression elsewhere, these two sentences come out and the gap goes back
+to being logged as an open, unexplained live-classification pattern
+rather than a documentation fix.

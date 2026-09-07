@@ -30,9 +30,14 @@ task is done?
 - Short: under roughly ten tool calls, no branching.
 - Medium: tens of tool calls, some exploration, one or two decision points.
 - Long: sustained multi-stage work, repeated tool calling, wide search,
-  investigation that reshapes the plan as it goes.
+  investigation that reshapes the plan as it goes. Sheer repetition counts
+  too: a mechanical task repeated across enough files or call sites is long
+  horizon on volume alone, with no exploration or judgement required.
 
-**Blast radius.** What does a wrong answer cost?
+**Blast radius.** What does a wrong answer cost? Judge the deliverable
+itself, not how serious the situation it concerns sounds: a report on a
+severe incident is still contained if it is read and checked before anyone
+acts on it.
 
 - Contained: output is easy to inspect and cheap to redo.
 - Consequential: output is committed, published, depended on by other work, or
