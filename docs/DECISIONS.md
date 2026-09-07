@@ -444,3 +444,41 @@ otherwise have to account for.
 
 Reversal: none anticipated. This is an arithmetic correction, not a
 judgement call open to being weighed differently later.
+
+## 2026-09-07 D16. T4 fixture defect: its own docstring tripped its grader; the real run's T4 result is invalidated
+
+Decision: `store.py`'s pristine docstring in the T4 fixture is corrected to
+remove its own "KVStore" self-reference. T4's result in the real six-task
+benchmark run (`test/results/2026-09-07-benchmark-04d2acc.md`) does not
+measure task difficulty and must be disregarded; T4 needs a fresh run
+against the corrected fixture.
+
+Why: that run's T4 confirmation phase reported "Frontier confirmed: no"
+(worker-sonnet-xhigh 3/9, worker-sonnet-high 0/9) after search climbed
+cleanly to the row ROUTING.md predicts. All 25 of T4's failing runs, across
+every tested cell from worker-sonnet-low through worker-sonnet-xhigh, cited
+the identical grader message, "FAIL: KVStore still appears 1 time(s), the
+port is incomplete", and every one of those 25 also reported the full
+functional test suite passing ("Ran 19 tests... OK"). The pristine
+`store.py`'s own module docstring read "...this old interface (KVStore) is
+being ported to a new one across every caller", planting a literal
+"KVStore" mention that grade.sh's strict recursive grep counts alongside
+genuine leftover code, by design going beyond "supplied tests pass" (see
+grade.sh's own header comment). Workers uniformly and correctly identified
+the mention as historical prose describing the task, not a leftover
+reference, and left it exactly as task.md gave them no reason to touch a
+comment describing the port rather than code participating in it. This is
+the same defect class as `test_new_interface.py`'s docstring, which named
+the same class in its own prose and was caught and rewritten before T4 was
+first committed (`cf91c34`); this instance shipped because the reference
+port built to verify the fixture used a hand-written docstring from the
+start and never exercised the pristine one's wording.
+
+What changes: `store.py`'s docstring now describes the old interface
+without naming it, matching the treatment already given to
+`test_new_interface.py`. All three fixture states (pristine fails, a
+complete port passes, a partial port fails) reverified unchanged after the
+edit.
+
+Reversal: none anticipated. This is a fixture-authoring defect, not a
+judgement call open to being weighed differently later.

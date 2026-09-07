@@ -1,5 +1,5 @@
 """Key-value storage backend for the T4 fixture. See task.md: this old
-interface (KVStore) is being ported to a new one across every caller."""
+interface is being ported to a new one across every caller."""
 
 
 class KVStore:
