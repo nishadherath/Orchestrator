@@ -948,3 +948,48 @@ Reversal: a future row for this space, built and tested against a
 wider batch of runs before being called settled rather than after two,
 would reopen this. Jeb chose to act on the reversal clause immediately
 rather than gather further data first, 2026-09-07.
+## 2026-09-08 D28. F11 corrected and reworded: horizon raised to long, the fable-xhigh test settled explicitly
+
+Decision: F11's horizon changes from medium to long. Its task text
+gains a sentence naming why the investigation converges (the gateway's
+own logged fields correlate cleanly to one upstream service), so it no
+longer stays silent on the fable-xhigh versus opus-xhigh test D21
+introduced. `expected_cell` stays `worker-opus-xhigh`, unchanged.
+ROUTING.md section 2's tie-break note now cites F11 alongside F12 as a
+confirmed no-such-demand instance.
+
+Why the horizon correction: the same evidence class as F08 (D26).
+Roughly fourteen of fifteen recorded observations across every model
+and every table state since 2026-09-05 read F11 as long horizon, not
+the fixture's assigned medium, including runs from before the
+fable-xhigh/opus-xhigh split existed, where the misread had no effect
+on the chosen cell and so was never visible as a disagreement.
+
+Why the reword, not just the correction: once horizon reads correctly
+as long, F11 sits on the exact boundary D21 built for F12 and F18,
+and F11's text, authored 2026-09-05, predates that boundary and never
+settles which side it falls on. Live runs after the horizon issue
+alone would still land on worker-fable-xhigh close to the rate already
+observed (4 of 5 recent runs), not because the task demands sustained,
+plan-reshaping investigation, but because nothing in its text said it
+did not. Rather than retarget the fixture to match that drift, or
+leave the ambiguity open, the task gains the same kind of concrete,
+narrative detail F18 and F12 already carry, so the fixture tests the
+distinction on purpose instead of by accident.
+
+Why this reading rather than the other one: F11 could have been
+reworded either way, toward F18's plan-reshaping shape or toward F12's
+fixed-contract one. Retargeting to fable-xhigh would have made F11
+redundant with F18, both testing the same thing under different
+window dressing. Keeping it a fixed-contract case alongside F12 gives
+the suite a genuine minimal pair instead: two intermittent,
+no-reproduction, ships-on-diagnosis scenarios, identical in shape,
+opposite only on the one dimension the tie-break actually turns on.
+That is more informative than either fixture alone, and it is why
+ROUTING.md section 2 now names both.
+
+Reversal: a future run showing F11, correctly read as long horizon,
+still landing on worker-fable-xhigh despite the added correlating-
+fields language would mean the reword did not do its job, and either
+the wording needs to be stronger or the fixture should be retargeted
+after all.

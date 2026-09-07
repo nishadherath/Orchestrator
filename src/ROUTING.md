@@ -116,8 +116,8 @@ Constraints on the table:
   consequential work. Prefer `worker-opus-xhigh`; route to `worker-fable-xhigh`
   only when the task itself demands sustained, self-directed investigation
   that reshapes its own plan as it goes, not merely because it is long and
-  consequential (fixture F12 is open, long, consequential with no such
-  demand, and the confirmed answer there is `worker-opus-xhigh`).
+  consequential (fixtures F11 and F12 are both open, long, consequential with
+  no such demand, and the confirmed answer for both is `worker-opus-xhigh`).
 
 ## 3. Spawn and hand over
 
