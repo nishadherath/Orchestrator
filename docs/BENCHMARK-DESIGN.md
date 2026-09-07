@@ -43,8 +43,8 @@ in this benchmark, however representative it feels.
 
 ## Task set
 
-Six tasks, each a fixed starting state in a scratch repository, a prompt, and a
-grader command.
+Seven tasks, each a fixed starting state in a scratch repository, a prompt,
+and a grader command.
 
 | Task | Sensitivity | Horizon | Grader |
 | :--- | :--- | :--- | :--- |
@@ -54,6 +54,18 @@ grader command.
 | T4 | Structured | Long | A module ported to a new interface, existing suite green throughout |
 | T5 | Open | Short | One planted defect in a small module; report names file and function |
 | T6 | Open | Long | One planted defect reachable only through a chain of three files; same grader |
+| T7 | Open | Long | One planted defect shared by four simulated services with different call patterns; reproducible by running the code at varying sizes; two unrelated red herrings; same grader |
+
+T7 exists because T6, run and confirmed twice, was found to be a weaker proxy
+for its row than intended: F13, the fixture backing `worker-fable-xhigh`'s
+"sustained autonomous investigation" row, describes a multi-service
+p99-latency regression traced through traces and profiles, and T6's actual
+shape, a defect reachable through a chain of three files in one repository,
+is considerably smaller. T7 raises the scale deliberately (four simulated
+services, a shared root cause reachable only by noticing which services it
+does and does not affect and why, plus two red herrings that require ruling
+out rather than a single chain to follow) before the fable-xhigh row is
+touched on T6's evidence alone (D19, `docs/DECISIONS.md`).
 
 Blast radius is deliberately not varied. It describes what a wrong answer costs
 the owner, not what the worker can do, so it cannot change a grader's exit
