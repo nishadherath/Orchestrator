@@ -1161,3 +1161,38 @@ treat "converges cleanly" and "reads as long" as requirements in
 tension for this specific task shape and test drafts against both
 before committing, rather than optimising one axis at a time as the
 last two rounds did.
+## 2026-09-08 D33. F05 reworded again: a concrete obstacle, not just a named decision
+
+Decision: F05's task text gains a specific reason simulating time is
+non-trivial, that `RateLimiter` has no clock parameter to begin with, so
+a seam has to be found or introduced before the clock-skew case can be
+written at all. `assessment`, `expected_cell` and sensitivity are
+unchanged from D31.
+
+Why: D31 narrowed F05's split from roughly even across the whole session
+to 2 of 3 in the confirming batch, an improvement but not a settled
+result; one run still read horizon as short. Re-reading D31's own
+wording against what actually earns medium in section 1's definition
+("some exploration, one or two decision points"): stating that a
+decision exists ("has to be worked out") without saying why it is
+non-trivial reads as a small, quickly-resolved step, not exploration.
+The gap is not the presence of a decision but its weight. Naming the
+concrete obstacle, no clock parameter exists yet, turns "decide how to
+simulate time" into "find or build a seam before you can even start
+the hardest of the three cases", which is investigation-before-action
+rather than a single quick call. This is still a standard, well-known
+testing technique (dependency injection or monkeypatching for time), so
+structured sensitivity is unaffected for the same reason D31 gave: the
+expected behaviour per case remains fully specified by the doc comment,
+only the mechanics of making time controllable are left to the worker.
+
+What still has to happen: a fresh confirming run is needed to check
+whether this wording settles the split D31 only narrowed. `--only F05`
+is sufficient since nothing else changed.
+
+Reversal: a future run still splitting between short and medium after
+this reword would mean the fixture's actual scope, a single test file
+with no existing scaffolding to bound it, is simply closer to the
+boundary than a wording fix can settle, and F05 should be accepted as
+an inherently borderline control (the way F18's single blip was
+accepted as noise) rather than reworded a third time.
