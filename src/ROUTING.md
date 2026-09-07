@@ -92,7 +92,7 @@ only when a named axis above demands it.
 | Structured, long horizon | `worker-sonnet-xhigh` |
 | Open, medium, contained | `worker-opus-high` |
 | Open, any horizon, consequential | `worker-opus-xhigh` |
-| Mechanical or open, long horizon, contained | `worker-sonnet-low` |
+| Open, long horizon, contained | `worker-sonnet-low` |
 | Open, long horizon, consequential, sustained autonomous investigation | `worker-fable-xhigh` |
 | Frontier problem where every cheaper cell has already failed | `worker-opus-max` or `worker-fable-max` |
 

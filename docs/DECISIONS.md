@@ -895,3 +895,56 @@ instance; ROW-BACKED still passes.
 Reversal: a future fixture built specifically for structured, long,
 consequential work, confirmed at worker-sonnet-xhigh, would restock
 that triple with real evidence rather than leave it speculative.
+## 2026-09-07 D27. D22's row is reverted: F03 and F07 regressed on the identical, unchanged bundle
+
+Decision: the merged row `Mechanical or open, long horizon, contained`
+is split back apart. `Open, long horizon, contained` (`worker-sonnet-
+low`) is restored to D21's original wording. The mechanical half D22
+added is removed outright, and D12's full two-triple gap is restored:
+`(mechanical, long, contained)` and `(mechanical, long, consequential)`
+both go back into `ROUTE_TOTAL_ALLOWED_GAPS`, both keyed to the reason
+"D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07". F19, the fixture D22
+added to back the mechanical half, is removed from
+`test/fixtures/routing.jsonl`; there is no longer a row for its triple
+to test against, and a fixture asserting a cell for an intentionally
+uncovered gap would only read as a permanent, uninformative failure in
+every future run.
+
+Why: D22's own reversal clause said plainly what a regression on F03 or
+F07 means, remove the row and restore D12's full gap rather than
+narrow it. Three more runs came in against the identical, unchanged
+bundle (2f1651a) after D24's earlier fix, no code difference between
+any of them. F03 and F07 were both exact in one of the three; in the
+other two, one or the other regressed, each time bending toward
+exactly D12's original signature, F03's horizon from medium to long,
+F07's sensitivity from structured to mechanical. Two regressions in
+three identical runs is not the occasional flakiness the earlier
+"confirmed clean" call (based on two runs before this data existed)
+took it for.
+
+Why only the mechanical half comes out, not D21's own open, long,
+contained row: the one data point available for D21 alone, before D22
+ever merged the mechanical case in, showed F03 and F07 both exact (the
+stale ccd6350 run, recorded before this session's D22 reinstall). Every
+regression observed happens to bend toward the mechanical reading
+specifically, matching D9's original row, which was mechanical-only
+and produced this same signature at a similar rate. D22's own reversal
+clause is scoped to what D22 itself added; D21 carries its own separate
+T6/T7 evidence and is not implicated by this data. One clean
+observation is not strong confirmation D21's row is safe on its own,
+only that reverting exactly D22's contribution, rather than both
+decisions' combined contribution, is the change the evidence actually
+points at.
+
+What this leaves open: T2's worker-capability evidence (worker-
+sonnet-low, 9 of 9 twice) for a large mechanical rename is still real
+and still stands; what is missing is a way to route the orchestrator
+there without also making it misread nearby fixtures, the same
+unsolved problem D12 originally identified and D18 confirmed measured
+rather than solved. `(mechanical, long, contained)` and `(mechanical,
+long, consequential)` are both open again, exactly as D12 left them.
+
+Reversal: a future row for this space, built and tested against a
+wider batch of runs before being called settled rather than after two,
+would reopen this. Jeb chose to act on the reversal clause immediately
+rather than gather further data first, 2026-09-07.
