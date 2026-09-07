@@ -538,3 +538,56 @@ rather than still open.
 Reversal: unchanged from D13's own terms. A future fixture landing above
 `worker-sonnet-low` on this triple would reopen the question; T2 alone
 does not.
+
+## 2026-09-07 D19. ROUTING.md: two rows lowered to worker-sonnet-low on double-confirmed benchmark evidence
+
+Decision: two of ROUTING.md's rows are split by horizon and lowered for
+their short-horizon half, on the strength of the full six-task benchmark
+and its clean replication:
+
+- `Structured, short or medium, contained` (`worker-sonnet-medium`) becomes
+  `Structured, short, contained` (`worker-sonnet-low`) and `Structured,
+  medium, contained` (`worker-sonnet-medium`, unchanged).
+- `Open, short or medium, contained` (`worker-opus-high`) becomes `Open,
+  short, contained` (`worker-sonnet-low`) and `Open, medium, contained`
+  (`worker-opus-high`, unchanged).
+
+`test/fixtures/routing.jsonl`'s F04 and F09, the routing-classification
+fixtures for these exact triples, have their `expected_cell` updated to
+match (`worker-sonnet-low` for both), since `score_routing.py` scores an
+orchestrator's table-reading against these fields and a stale expectation
+would mark a correct reading of the new table as wrong.
+
+Why: T3 (structured, short, contained) and T5 (open, short, contained), the
+benchmark's fixtures for these exact triples, each confirmed
+`worker-sonnet-low` at the 95% Wilson reporting bar in two independent full
+runs, with zero failing runs across 24 confirmations each (T5 also cleared
+the pilot's search phase at the same cell before the full protocol
+existed, a third data point). Both rows previously bundled short and medium
+horizon together on one cell; only the short-horizon instance has capability
+evidence behind it (F04 and F09 are both short-horizon), so the medium half
+of each row is left exactly as it was rather than extended past what was
+measured. `docs/BENCHMARK-DESIGN.md` and `test/results/2026-09-06-
+benchmark-full-preregistration.md` (original run and replication) carry the
+measurements this decision rests on.
+
+What does not change here: the `worker-fable-xhigh` row for `Open, long
+horizon, sustained autonomous investigation`. T6, that row's benchmark
+fixture, also confirmed `worker-sonnet-low` twice, a six-rung gap below F13,
+the row's own backing fixture. That result is real and not yet acted on:
+F13's actual task ("p99 latency doubled across four services... no single
+obvious cause... traces, profiles and the repositories") describes
+substantially more scope than T6's three-file, single-repo trace, and
+whether T6 is a fair proxy for what F13's row is meant to cover is an open
+question raised back to Jeb rather than settled by this entry.
+
+Also not done here: re-running `score_routing.py` against the new table, to
+check the orchestrator still reads it correctly. That is the table-
+compliance question this benchmark does not measure (it measures worker
+capability, not orchestrator classification); worth doing before treating
+this change as fully verified end to end.
+
+Reversal: a future fixture landing above `worker-sonnet-low` on either
+short-horizon triple would reopen this; none is expected on the current
+evidence, which is now two independent full runs plus, for T5, a third
+pilot data point.

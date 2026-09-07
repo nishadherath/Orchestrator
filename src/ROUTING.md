@@ -84,10 +84,12 @@ only when a named axis above demands it.
 | Mechanical, short, contained | `worker-sonnet-low` |
 | Mechanical, short, consequential | `worker-sonnet-medium` |
 | Mechanical, medium horizon | `worker-sonnet-medium` |
-| Structured, short or medium, contained | `worker-sonnet-medium` |
+| Structured, short, contained | `worker-sonnet-low` |
+| Structured, medium, contained | `worker-sonnet-medium` |
 | Structured, short or medium, consequential | `worker-sonnet-high` |
 | Structured, long horizon | `worker-sonnet-xhigh` |
-| Open, short or medium, contained | `worker-opus-high` |
+| Open, short, contained | `worker-sonnet-low` |
+| Open, medium, contained | `worker-opus-high` |
 | Open, any horizon, consequential | `worker-opus-xhigh` |
 | Open, long horizon, sustained autonomous investigation | `worker-fable-xhigh` |
 | Frontier problem where every cheaper cell has already failed | `worker-opus-max` or `worker-fable-max` |
