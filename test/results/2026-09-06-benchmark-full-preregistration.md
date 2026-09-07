@@ -299,3 +299,36 @@ at the floor, on the same day a second fixture defect was found) is reason
 enough to check the surviving fixtures (F04, F09, F13 in particular) for
 their own version of T4's problem before treating this as settled evidence
 against ROUTING.md itself.
+
+## Replication, pending: both fixture fixes in place
+
+Written before the replication run, per the same pre-registration
+discipline as the original document. D16 (T4's docstring self-reference)
+and D17 (T6's docstring case hint) are both fixed and reverified; this is a
+full fresh run of all six tasks, not just the two changed ones, so T1, T2,
+T3, and T5 also get an independent replication of an unusually uniform
+result (five of five valid tasks landing at `worker-sonnet-low` last time).
+
+**T1, T2, T3, T5.** Unchanged fixtures. Predict each replicates its
+confirmed cell exactly: `worker-sonnet-low`, 9 of 9.
+
+**T4.** D16 removed the only source of every prior failure; nothing else
+about the port's difficulty changed. Predict the search phase no longer
+needs to climb to `worker-sonnet-xhigh` to meet the steering threshold, and
+the confirmed cell lands well below the original row, plausibly
+`worker-sonnet-low` itself, matching the pattern the other five tasks
+already showed. Confirming at `worker-sonnet-xhigh` or above, the original
+row, would be the surprise here: it would mean the docstring was never the
+sole cause and something else in the port's difficulty was being masked
+alongside it.
+
+**T6.** D17 removed a hint, not a grading defect, so the honest prediction
+is a smaller shift than T4's, not a guaranteed one. Predict the confirmed
+cell moves up from `worker-sonnet-low` by at least one rung now that the
+case mismatch is not signposted in the same file as the reproduce path;
+anything from `worker-sonnet-medium` up would support the hint as a real
+contributor. Confirming again at `worker-sonnet-low` unchanged would argue
+the six-rung gap was never mostly about the hint, and F13's row deserves
+the closer look on its own terms.
+
+Command: `python3 test/harness/benchmark.py --project <orchestrator-scratch> --confirm --record --fresh`
