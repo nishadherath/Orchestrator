@@ -591,3 +591,44 @@ Reversal: a future fixture landing above `worker-sonnet-low` on either
 short-horizon triple would reopen this; none is expected on the current
 evidence, which is now two independent full runs plus, for T5, a third
 pilot data point.
+
+## 2026-09-07 D20. First observed forwarder hallucination: T7's confirmation is inconclusive, not a capability result
+
+Decision: T7's first confirmation attempt (8 of 9, Wilson lower bound
+56.5%, does not clear 0.7) does not settle T7's frontier. One of the nine
+runs is a forwarder failure, not a worker result, and should be treated as
+void rather than as evidence against `worker-sonnet-low`.
+
+Why: that run's raw checkpoint record shows `num_turns: 1`, `duration_ms:
+6010` (six seconds), and no tool use at all. Its entire "report" is the
+forwarder inventing, in its first and only turn, a fictional prior
+exchange: a "misrouted worker" spawned as `worker-opus-high`, an
+"automated background-task event" reporting that worker's completion, and
+a claim of already having flagged this and being unable to proceed without
+a decision. None of this happened. `run_cell()` invokes `claude -p` with
+no `--resume` or `--continue` flag (confirmed by reading
+`test/harness/benchmark.py` directly), so there is no mechanism by which
+state from an earlier run could leak into this one, and the prompt
+template (`BENCHMARK_INSTRUCTION`) contains nothing resembling background
+tasks or worker mismatches. The forwarder fabricated the entire scenario
+from a clean context and never attempted to spawn the worker it was asked
+to spawn.
+
+This is a new failure shape, not one of the three the pre-registrations
+anticipated (a refusal, an unparseable reply, a spawned worker that is not
+the one asked for). Across the six-task benchmark's 162 runs (90 original,
+72 replication) plus T7's 12, this is the first occurrence: 1 in 174,
+about 0.6%, still consistent with the "under 1 in 20" prediction but no
+longer "zero", and the first time the specific shape (a confabulated
+narrative rather than a plain refusal or mis-spawn) has been seen.
+
+What changes: nothing in the harness or the fixture. T7's confirmation
+needs a fresh attempt before its frontier is known; a single anomalous run
+this rare does not by itself indicate anything about T7's actual
+difficulty, and repeating it costs one more run of the same task.
+
+Reversal: if this recurs at a rate meaningfully above the observed 1 in
+174 baseline, or recurs specifically on T7 rather than spread across
+tasks, it stops being a rare flake and becomes something to investigate on
+its own, per the harness-level-errors reasoning already in the full
+pre-registration.

@@ -71,3 +71,25 @@ containment violations outside `bench-T7/`, zero `reset_task` failures.
 eighteen confirmation runs at two cells. Using the full run's per-run cost
 range at comparable cells (USD 0.10 to 0.35), predict total cost for this
 single task lands between USD 2 and 10.
+
+## Outcome, first attempt: inconclusive
+
+Run 2026-09-07 15:14, `--tasks T7 --confirm --record --fresh`, bundle
+`2026-09-06-04d2acc`, at harness commit `bde72dd`. Search cleared
+`worker-sonnet-low` cleanly, 3 of 3. Confirmation returned 8 of 9 (89%,
+Wilson lower bound 56.5%), which does not clear the 0.7 bar, so "Frontier
+confirmed: no" as recorded. That result does not stand: one of the nine
+confirmation runs is a forwarder hallucination, not a worker result
+(D20, `docs/DECISIONS.md`), leaving only 8 genuine attempts, all 8 passing.
+Eight of eight does not itself clear the bar either (D15: `wilson_interval
+(8, 8)` = 0.6756), so this needs a fresh confirmation run, not a discard of
+the one bad run in place.
+
+Every genuine attempt that reached the grader passed. The wall-clock and
+cost predictions both held even on this partial, inconclusive run: search's
+three runs averaged 67.3 seconds (predicted "meaningful margin" above T6's
+19-44 second range, met), and total cost across all 12 runs was
+approximately USD 2.67, inside the predicted USD 2 to 10.
+
+Command for a clean re-attempt:
+`python3 test/harness/benchmark.py --project <orchestrator-scratch> --tasks T7 --confirm --record --fresh`
