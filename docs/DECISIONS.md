@@ -993,3 +993,42 @@ still landing on worker-fable-xhigh despite the added correlating-
 fields language would mean the reword did not do its job, and either
 the wording needs to be stronger or the fixture should be retargeted
 after all.
+## 2026-09-08 D29. D28's reword overcorrected: it settled the fable-xhigh test but broke sensitivity instead
+
+Decision: F11's task text is reworded a second time. `assessment`,
+`expected_cell` and horizon all stay exactly as D28 left them (open,
+long, consequential; worker-opus-xhigh); only the task's wording
+changes again.
+
+Why: the confirming run requested after D28 landed showed F11 at 0 of
+3, and all three raw verdicts were identical: sensitivity read as
+structured, horizon as medium, not the assessed open and long at all.
+D28's fable-xhigh fix worked exactly as intended wherever the run did
+reach the tie-break, but the reword never reached it, because naming
+the gateway's specific correlating fields ("upstream target, latency,
+and connection state... point cleanly at one upstream service once
+correlated") made the whole task read as a known, mechanical
+correlation exercise rather than an open judgement call with no clear
+reproduction. The fix for one axis broke the axis the fixture depends
+on to be tested at all.
+
+The correction keeps D28's structural idea, that the task should say
+outright why the investigation converges rather than leave it silent,
+but stops naming which fields do the correlating. The new text says
+nothing is obvious at a glance and judgement is needed about where to
+even look, which is what open sensitivity with no reproduction
+actually requires, while still saying the evidence confirms the right
+hypothesis cleanly once found, rather than sending the investigation
+chasing a different theory, which is what keeps it on the fixed-
+contract side of the fable-xhigh boundary rather than F18's plan-
+reshaping one. Nothing else about F11 changes: same triple, same
+expected_cell, same reason for existing.
+
+What still has to happen: a fresh confirming run is needed to check
+this wording lands on open sensitivity and worker-opus-xhigh together,
+since no run has yet tested this exact text.
+
+Reversal: a future run showing this wording still misread as
+structured or medium, or landing on worker-fable-xhigh after all,
+would mean two attempts at reworking F11's text have failed and the
+fixture should be retargeted rather than reworded a third time.
