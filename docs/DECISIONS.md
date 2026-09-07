@@ -854,3 +854,44 @@ reasoning but no wording tried so far states that correctly without
 also pulling in F03, remains open and unattempted again this session.
 
 Reversal: not applicable; this entry only records a confirmation.
+## 2026-09-07 D26. F08's horizon was miscalibrated at authoring, corrected from long to medium
+
+Decision: F08's assessment changes from structured/long/consequential to
+structured/medium/consequential, and its expected_cell from
+worker-sonnet-xhigh to worker-sonnet-high, an already-covered cell backed
+independently by F06. No change to ROUTING.md or any table row.
+
+Why: F08 has been misjudged the exact same way in every recorded run
+since 2026-09-05, both orchestrator models, across every table state
+this project has had, roughly seventeen observations with zero
+exceptions. D12 itself used F08 as a stability control for the
+attractor experiment ("assessed identically in 8 of 8 observations
+across both bundles and both models") without checking whether that
+identical answer was the correct one; it was treated as a baseline, not
+a target.
+
+Re-reading F08's task against ROUTING.md's own definitions rather than
+against the live verdicts: it ports one payment webhook handler,
+following a written migration guide, keeping the log format
+byte-identical. That is a single bounded translation, not repeated
+work. Compare F07, structured/long/contained, converting thirty
+callback-style modules one at a time, correctly and consistently read
+as long horizon every run this session, where the repetition genuinely
+drives the horizon call. F08 has no repetition to drive it. Its actual
+shape matches F06, structured/medium/consequential, a single schema
+change other work depends on, which has never once been misclassified.
+F08 was authored to test something else entirely, whether the
+orchestrator rounds up on blast radius alone (its own note field says
+so), and that purpose survives the correction unchanged: worker-sonnet-
+high is still the blast-adjusted cell a correct reading lands on,
+distinct from over-provisioning to an opus-tier worker.
+
+What changes in check.py's accounting: the triple (structured, long,
+consequential) moves from fixture-backed to speculative, since F08 was
+its only direct instance. The row itself, Structured, long horizon,
+carries no blast qualifier and stays backed through F07's contained
+instance; ROW-BACKED still passes.
+
+Reversal: a future fixture built specifically for structured, long,
+consequential work, confirmed at worker-sonnet-xhigh, would restock
+that triple with real evidence rather than leave it speculative.
