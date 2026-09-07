@@ -512,3 +512,29 @@ rather than partly an artefact of this hint.
 
 Reversal: none anticipated for the fix itself. Whether the six-rung gap
 survives re-measurement is an open question this decision does not settle.
+
+## 2026-09-07 D18. Mechanical long-horizon work now has a fixture, and it confirms the gap should stay open
+
+Decision: none to ROUTING.md itself. This closes the "known and unmeasured"
+item D13 flagged for the mechanical-long-horizon gap: it is now measured,
+and the measurement supports leaving the gap as is.
+
+Why: T2, built for the full six-task benchmark, is exactly the fixture D13
+said this gap lacked, a mechanical rename repeated across thirty files.
+Confirmed at `worker-sonnet-low`, 9 of 9, twice, in both the original run
+and its replication after D16/D17's fixture fixes (unrelated to T2, which
+was never touched by either). Sheer volume does not move this task off the
+cheapest cell on the ladder, which is the outcome D13's own reasoning
+predicted: the axis that makes mechanical work long-horizon (repetition
+count) is not the axis that makes work harder (judgement, ambiguity,
+consequence).
+
+What changes: nothing in ROUTING.md or `check.py`. D13's reversal condition
+("if a fixture ever lands on mechanical long-horizon work") does not fire
+here, since landing means a fixture forcing a row above the floor, and T2
+does the opposite. Recorded so the blind spot D13 named is marked settled
+rather than still open.
+
+Reversal: unchanged from D13's own terms. A future fixture landing above
+`worker-sonnet-low` on this triple would reopen the question; T2 alone
+does not.
