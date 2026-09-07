@@ -27,6 +27,7 @@ unless the item says otherwise.
 | E11 | Start a session in a scratch project with no `.claude/agents/`. Create the directory and one definition mid-session. Ask the session to list available subagent types. | Listed or not, without restart | The startup-only file watcher |
 | E12 | From this repository: `python3 test/harness/score_routing.py --project <consumer> --model sonnet --record`, then again with `--model opus`. Review `test/fixtures/routing.jsonl` first and replace `assigned_by` on rows you agree with. | The two results files; the reported cost | Routing appropriateness; open question 6 (orchestrator model) |
 | E13 | Give the orchestrator one real task from the consumer project's backlog. Let it route and run. | Bundle version, task, cell chosen, whether you agreed, `/tasks` row, tokens | The dogfooding log the charter requires |
+| E14 | `python3 test/harness/cost_rollup_check.py --project <consumer> --reps 2 --record` | The two `total_cost_usd` means and the printed ratio | Whether a spawned worker's cost reaches the parent `total_cost_usd` (`test/harness/benchmark.py`'s whole cost measurement depends on it, still unverified) |
 
 Cost of E12, with assumptions stated so you can substitute your own: one
 orchestrator turn per fixture, 17 fixtures, about 3K tokens of bundle text
