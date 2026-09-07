@@ -4,12 +4,17 @@
 # consumer project, after writing BENCHMARK_REPORT.txt there with the
 # worker's relayed final report.
 #
-# Pass condition: the report names api_client.py, names create_order
-# specifically (not get_order, list_orders, or cancel_order, all of which
-# are genuinely safe to retry), and names the duplicate-side-effect risk in
-# some form. This is a string match, not a correctness check on any fix the
-# worker may also have proposed (grading a diagnosis, not a patch, is the
-# point of this task shape; docs/BENCHMARK-DESIGN.md).
+# Pass condition: the report names create_order specifically (not
+# get_order, list_orders, or cancel_order, all of which are genuinely safe
+# to retry), and names the duplicate-side-effect risk in some form. This
+# is a string match, not a correctness check on any fix the worker may
+# also have proposed (grading a diagnosis, not a patch, is the point of
+# this task shape; docs/BENCHMARK-DESIGN.md). Corrected 2026-09-08 (D30):
+# an earlier version also required the literal string "api_client.py",
+# which is redundant once create_order is required (that name is unique
+# to api_client.py in this fixture) and produced false negatives against
+# reports that correctly diagnose the bug by function name without
+# restating which file defines it.
 set -u
 
 if [ ! -f BENCHMARK_REPORT.txt ]; then
@@ -17,10 +22,6 @@ if [ ! -f BENCHMARK_REPORT.txt ]; then
     exit 1
 fi
 
-if ! grep -qi "api_client\.py" BENCHMARK_REPORT.txt; then
-    echo "FAIL: report does not name api_client.py"
-    exit 1
-fi
 if ! grep -qi "create_order" BENCHMARK_REPORT.txt; then
     echo "FAIL: report does not name create_order"
     exit 1

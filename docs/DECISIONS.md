@@ -1032,3 +1032,52 @@ Reversal: a future run showing this wording still misread as
 structured or medium, or landing on worker-fable-xhigh after all,
 would mean two attempts at reworking F11's text have failed and the
 fixture should be retargeted rather than reworded a third time.
+## 2026-09-08 D30. T8's grader had a false-negative bug: it required naming the file, not just the function
+
+Decision: `test/fixtures/benchmark/T8/grade.sh` drops its requirement
+that the report contain the literal string `api_client.py`. The pass
+condition is now: names `create_order` specifically, and names the
+duplicate-side-effect risk. Both were already required; only the
+filename check is removed.
+
+Why: T8's real run (`2026-09-08-benchmark-af94deb.md`) reported search
+2 of 3 and confirmation 7 of 9, below the 0.7 Wilson lower bound.
+Reading the three failing reports in full (retrieved from the
+consumer project's `.benchmark-checkpoint.jsonl`, no new `claude -p`
+calls needed) found each one correctly identifying `create_order` as
+the non-idempotent POST wrapped in the same retry policy as the
+read-only calls, and each correctly describing the lost-response-after-
+success duplicate-order mechanism, in as much or more precision than
+the passing reports. All three failed the same grader line, "report
+does not name api_client.py", because none of them happened to restate
+the filename while discussing the function directly. `create_order` is
+defined nowhere else in the fixture, so requiring it already
+establishes correct localisation; the filename check added nothing but
+a way for a correct answer to fail on phrasing.
+
+The pre-registration for this run (`2026-09-07-T8-preregistration.md`)
+had already named this as the more likely grader failure mode ahead of
+time ("the reverse risk, a correct diagnosis phrased without any of the
+accepted terms, remains the more likely failure mode") but the
+construction-time test cases for it happened to phrase the correct
+diagnosis with the filename included, so the risk went unverified until
+real worker output triggered it.
+
+What changed once corrected: re-grading all twelve stored T8 reports
+offline against the fixed script (recorded in
+`2026-09-08-benchmark-af94deb-T8-regrade.md`) flips the three false
+negatives to passes and nothing else, since the fix only removes a
+check. Search becomes 3 of 3, confirmation becomes 9 of 9, Wilson lower
+bound 70.1%, clearing the bar. `worker-sonnet-low` is the confirmed
+frontier. F09's row (open, short, contained, worker-sonnet-low) is
+confirmed at F09's own scale rather than needing escalation, the
+question this task was built to settle.
+
+What still has to happen: none. F09's diagnostic closes here alongside
+F08 (D26) and F11 (D28, D29).
+
+Reversal: none anticipated for the grader fix itself, the same class of
+correction as D16. If a future T8 run at a wider sample shows
+`worker-sonnet-low` failing on the actual risk content rather than on
+phrasing, that would be new capability evidence, not a reason to
+reinstate this check.
