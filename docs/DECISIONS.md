@@ -1081,3 +1081,40 @@ correction as D16. If a future T8 run at a wider sample shows
 `worker-sonnet-low` failing on the actual risk content rather than on
 phrasing, that would be new capability evidence, not a reason to
 reinstate this check.
+## 2026-09-08 D31. F05 reworded: the hidden decision point behind "medium" made explicit
+
+Decision: F05's task text gains a second sentence saying that
+simulating the passage of time for the clock-skew and refill cases is
+left for the worker to work out. `assessment`, `expected_cell` and
+sensitivity are unchanged.
+
+Why: F05 has disagreed with its own assessed medium horizon in roughly
+half of every recorded run since 2026-09-05, both orchestrator models,
+across every table state this project has had. It never matched F08's
+or F11's pattern of unanimous or near-unanimous disagreement, which is
+what would point to the assessed axis itself being wrong; the clearest
+single data point is two opposite results at the identical commit,
+nine hours apart, which rules out a table-wording cause entirely (the
+same reasoning D27 used to separate genuine attractor regressions from
+noise). Re-reading the task against F04, its nearest neighbour
+(structured, short, contained, a single function to a written
+contract with tests supplied): F05 gives the worker a doc comment
+naming three cases, not a formal contract, and no existing test file
+to bound scope, and correctly covering the clock-skew case requires
+deciding how to simulate time passing, a genuine decision point the
+compact original text left implicit. That fits "some exploration, one
+or two decision points" in section 1's own definition of medium, and
+distinguishes F05 from F04 on a real basis rather than by degree of
+compactness in the task text alone. The live model's frequent short
+reading looks like it is missing that decision point because the
+original text reads as a flat enumeration of three named cases, not
+because medium is the wrong call.
+
+What still has to happen: a fresh confirming run is needed to check
+whether stating the decision point explicitly resolves the split, the
+same open question D29 left for F11.
+
+Reversal: a future run against this wording still splitting roughly
+evenly between short and medium would mean the reword did not supply
+the missing signal, and F05 should be treated as a fixture that is
+inherently borderline rather than one with a recoverable authoring gap.
