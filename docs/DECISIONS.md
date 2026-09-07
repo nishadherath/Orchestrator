@@ -482,3 +482,33 @@ edit.
 
 Reversal: none anticipated. This is a fixture-authoring defect, not a
 judgement call open to being weighed differently later.
+
+## 2026-09-07 D17. T6 fixture: a docstring hinted at its own bug, ahead of the trace it was meant to require
+
+Decision: `cart.py`'s docstring in the T6 fixture is corrected to use
+consistent case, removing an inadvertent hint at the planted defect.
+
+Why: the real six-task run found T3, T5, and T6 all clearing several rungs
+below their assigned or fixture-backed rows, T6 by the widest margin (six
+rungs below `worker-fable-xhigh`, the row F13 backs). Auditing all three for
+a quieter version of T4's self-reference defect (D16) found nothing in T3
+or T5, but T6's `cart.py` read "...region is a two-letter code such as
+\"ca\" or \"NY\".\"\"\"", mixing case right next to a bug that is exactly a
+missing case normalization in `tax.py`'s `RATES` lookup. That is not a
+grading defect: grade.sh only checks the worker's relayed report, so
+nothing here could produce a false pass or fail. It is a fixture-design
+issue: a worker could notice the mismatched case before running the
+reproduce command or tracing past `cart.py`, which is a shortcut past the
+three-file trace this fixture, and by extension F13's row, is meant to
+require.
+
+What changes: the docstring now reads "CA" or "NY" consistently. All three
+fixture states (no report fails, a correct diagnosis passes, a plausible
+wrong diagnosis fails) reverified unchanged. T6's confirmed result in the
+real run is not thereby invalidated the way T4's was, since the grading
+itself was never wrong, but it should be re-measured against the corrected
+fixture before the six-rung gap is read as a clean finding about F13's row
+rather than partly an artefact of this hint.
+
+Reversal: none anticipated for the fix itself. Whether the six-rung gap
+survives re-measurement is an open question this decision does not settle.
