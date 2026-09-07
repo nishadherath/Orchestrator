@@ -1,4 +1,4 @@
-# Benchmark run, full, 2026-09-07 15:14 at bde72dd
+# Benchmark run, full, 2026-09-07 15:47 at 59babc4
 
 Bundle: 2026-09-06-04d2acc. Project: `C:\Users\Bob\Desktop\Code\Claude\orchestrator-scratch`. Forwarder model: sonnet. Permission mode: acceptEdits+allowedTools. Ladder: worker-sonnet-low -> worker-sonnet-medium -> worker-sonnet-high -> worker-sonnet-xhigh -> worker-opus-high -> worker-opus-xhigh -> worker-fable-xhigh.
 
@@ -12,7 +12,7 @@ Cost figures assume a spawned worker's cost rolls up into the forwarder's report
 
 | Cell | Passes | Runs | Rate | Threshold met | Mean cost | Mean wall-clock (s) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| worker-sonnet-low | 3 | 3 | 100% | yes | USD 0.2194 | 67.3 |
+| worker-sonnet-low | 3 | 3 | 100% | yes | USD 0.2640 | 74.6 |
 
 Candidate frontier: `worker-sonnet-low`.
 
@@ -20,26 +20,26 @@ Candidate frontier: `worker-sonnet-low`.
 
 | Cell | Passes | Runs | Rate | 95% Wilson interval | Clears 0.7 lower bound |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| worker-sonnet-low | 8 | 9 | 89% | [56.5%, 98.0%] | no |
+| worker-sonnet-low | 9 | 9 | 100% | [70.1%, 100.0%] | yes |
 
 `worker-sonnet-low` is the cheapest cell on the ladder; there is no cell below to confirm exclusivity against.
 
-Frontier confirmed: no.
+Frontier confirmed: yes.
 
 ### Per-run detail
 
 | Cell | Run | Pass | Cost | Wall-clock (s) | Notes | Extras (raw) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| worker-sonnet-low | 1 | yes | USD 0.3121 | 81.9 |  | {"usage":{"input_tokens":4,"cache_creation_input_tokens":17610,"cache_read_input_tokens":59537,"output_tokens":1826,"output_tokens_details":{"thinking_tokens":46},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens |
-| worker-sonnet-low | 2 | yes | USD 0.1080 | 54.2 |  | {"usage":{"input_tokens":4,"cache_creation_input_tokens":5624,"cache_read_input_tokens":71080,"output_tokens":1380,"output_tokens_details":{"thinking_tokens":16},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens" |
-| worker-sonnet-low | 3 | yes | USD 0.2381 | 65.8 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":10585,"cache_read_input_tokens":115617,"output_tokens":1627,"output_tokens_details":{"thinking_tokens":152},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
-| worker-sonnet-low | 4 | yes | USD 0.2771 | 89.4 |  | {"usage":{"input_tokens":2,"cache_creation_input_tokens":2030,"cache_read_input_tokens":45655,"output_tokens":1446,"output_tokens_details":{"thinking_tokens":0},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens": |
-| worker-sonnet-low | 5 | yes | USD 0.1329 | 49.6 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":10459,"cache_read_input_tokens":115571,"output_tokens":1496,"output_tokens_details":{"thinking_tokens":205},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
-| worker-sonnet-low | 6 | yes | USD 0.1900 | 74.0 |  | {"usage":{"input_tokens":4,"cache_creation_input_tokens":5863,"cache_read_input_tokens":71080,"output_tokens":1623,"output_tokens_details":{"thinking_tokens":16},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens" |
-| worker-sonnet-low | 7 | no | USD 0.5804 | 118.9 | grader: FAIL: report does not name shared/serialize.py || worker: The `worker-opus-high` task (the misrouted worker from before) has finished and returned a full diagnosis. However, I still haven't received your decision on how to handle the subagent_type mismatch I | {"usage":{"input_tokens":2,"cache_creation_input_tokens":3205,"cache_read_input_tokens":45818,"output_tokens":392,"output_tokens_details":{"thinking_tokens":205},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens" |
-| worker-sonnet-low | 8 | yes | USD 0.1726 | 71.9 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":1838,"cache_read_input_tokens":124516,"output_tokens":1762,"output_tokens_details":{"thinking_tokens":159},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_token |
-| worker-sonnet-low | 9 | yes | USD 0.1423 | 42.4 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":10541,"cache_read_input_tokens":115608,"output_tokens":1557,"output_tokens_details":{"thinking_tokens":239},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
-| worker-sonnet-low | 10 | yes | USD 0.1476 | 47.8 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":9391,"cache_read_input_tokens":114228,"output_tokens":1861,"output_tokens_details":{"thinking_tokens":270},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_token |
-| worker-sonnet-low | 11 | yes | USD 0.1564 | 66.1 |  | {"usage":{"input_tokens":4,"cache_creation_input_tokens":5654,"cache_read_input_tokens":71080,"output_tokens":1421,"output_tokens_details":{"thinking_tokens":16},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens" |
-| worker-sonnet-low | 12 | yes | USD 0.2080 | 89.2 |  | {"usage":{"input_tokens":4,"cache_creation_input_tokens":5859,"cache_read_input_tokens":71080,"output_tokens":1648,"output_tokens_details":{"thinking_tokens":41},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens" |
+| worker-sonnet-low | 1 | yes | USD 0.3192 | 86.4 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":22627,"cache_read_input_tokens":104023,"output_tokens":2128,"output_tokens_details":{"thinking_tokens":150},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
+| worker-sonnet-low | 2 | yes | USD 0.2252 | 53.4 |  | {"usage":{"input_tokens":2,"cache_creation_input_tokens":1919,"cache_read_input_tokens":45444,"output_tokens":1338,"output_tokens_details":{"thinking_tokens":34},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens" |
+| worker-sonnet-low | 3 | yes | USD 0.2477 | 84.1 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":18432,"cache_read_input_tokens":101902,"output_tokens":2062,"output_tokens_details":{"thinking_tokens":235},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
+| worker-sonnet-low | 4 | yes | USD 0.6585 | 127.8 |  | {"usage":{"input_tokens":2,"cache_creation_input_tokens":2386,"cache_read_input_tokens":48696,"output_tokens":2558,"output_tokens_details":{"thinking_tokens":723},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens |
+| worker-sonnet-low | 5 | yes | USD 0.4857 | 124.4 |  | {"usage":{"input_tokens":2,"cache_creation_input_tokens":2387,"cache_read_input_tokens":40180,"output_tokens":2446,"output_tokens_details":{"thinking_tokens":670},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens |
+| worker-sonnet-low | 6 | yes | USD 0.2174 | 68.8 |  | {"usage":{"input_tokens":8,"cache_creation_input_tokens":10913,"cache_read_input_tokens":155678,"output_tokens":1820,"output_tokens_details":{"thinking_tokens":150},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
+| worker-sonnet-low | 7 | yes | USD 0.2277 | 65.5 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":11222,"cache_read_input_tokens":115599,"output_tokens":2262,"output_tokens_details":{"thinking_tokens":308},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
+| worker-sonnet-low | 8 | yes | USD 0.1562 | 62.9 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":2227,"cache_read_input_tokens":124513,"output_tokens":2150,"output_tokens_details":{"thinking_tokens":374},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_token |
+| worker-sonnet-low | 9 | yes | USD 0.1681 | 75.5 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":1982,"cache_read_input_tokens":124513,"output_tokens":1968,"output_tokens_details":{"thinking_tokens":170},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_token |
+| worker-sonnet-low | 10 | yes | USD 0.2328 | 79.0 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":11099,"cache_read_input_tokens":115565,"output_tokens":2094,"output_tokens_details":{"thinking_tokens":208},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
+| worker-sonnet-low | 11 | yes | USD 0.2458 | 91.4 |  | {"usage":{"input_tokens":6,"cache_creation_input_tokens":11740,"cache_read_input_tokens":105657,"output_tokens":1724,"output_tokens_details":{"thinking_tokens":195},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_toke |
+| worker-sonnet-low | 12 | yes | USD 0.1824 | 78.1 |  | {"usage":{"input_tokens":4,"cache_creation_input_tokens":6242,"cache_read_input_tokens":71078,"output_tokens":2003,"output_tokens_details":{"thinking_tokens":452},"server_tool_use":{"web_search_requests":0,"web_fetch_requests":0},"service_tier":"standard","cache_creation":{"ephemeral_1h_input_tokens |
 

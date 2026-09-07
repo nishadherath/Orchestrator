@@ -93,3 +93,19 @@ approximately USD 2.67, inside the predicted USD 2 to 10.
 
 Command for a clean re-attempt:
 `python3 test/harness/benchmark.py --project <orchestrator-scratch> --tasks T7 --confirm --record --fresh`
+
+## Outcome, second attempt: clean confirmation
+
+Run 2026-09-07 15:47, `--tasks T7 --confirm --record --fresh`, at harness
+commit `59babc4`. Search 3 of 3, confirmation 9 of 9 (Wilson lower bound
+70.1%, clears 0.7). Zero failing runs, zero harness anomalies (no repeat of
+D20's forwarder hallucination), containment clean. 12 runs, USD 3.3667,
+16.6 minutes, longest single run 127.8 seconds.
+
+This is the outcome the pre-registration flagged as the strongest case for
+change: T7, built at a deliberately larger scale than T6 specifically to
+be a fairer proxy for F13's actual task (a multi-service investigation
+requiring live reproduction, not a single three-file trace), also
+confirms `worker-sonnet-low`. Two independently-sized fixtures for this
+triple now land at the floor, not one. See D21 for the routing change this
+settles.
