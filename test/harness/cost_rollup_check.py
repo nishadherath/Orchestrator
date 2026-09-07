@@ -195,7 +195,7 @@ def main(argv: list[str]) -> int:
                        indent=2),
             "```",
         ]
-        out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        out.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
         print(f"\nwrote {out}")
 
     return 0
