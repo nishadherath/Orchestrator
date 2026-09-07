@@ -81,17 +81,16 @@ only when a named axis above demands it.
 
 | Assessment | Worker |
 | :--- | :--- |
-| Mechanical, short, contained | `worker-sonnet-low` |
+| Mechanical, structured or open, short, contained | `worker-sonnet-low` |
 | Mechanical, short, consequential | `worker-sonnet-medium` |
 | Mechanical, medium horizon | `worker-sonnet-medium` |
-| Structured, short, contained | `worker-sonnet-low` |
 | Structured, medium, contained | `worker-sonnet-medium` |
 | Structured, short or medium, consequential | `worker-sonnet-high` |
 | Structured, long horizon | `worker-sonnet-xhigh` |
-| Open, short, contained | `worker-sonnet-low` |
 | Open, medium, contained | `worker-opus-high` |
 | Open, any horizon, consequential | `worker-opus-xhigh` |
-| Open, long horizon, sustained autonomous investigation | `worker-fable-xhigh` |
+| Open, long horizon, contained | `worker-sonnet-low` |
+| Open, long horizon, consequential, sustained autonomous investigation | `worker-fable-xhigh` |
 | Frontier problem where every cheaper cell has already failed | `worker-opus-max` or `worker-fable-max` |
 
 This table covers the (sensitivity, horizon, blast) combinations, with

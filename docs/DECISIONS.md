@@ -632,3 +632,67 @@ Reversal: if this recurs at a rate meaningfully above the observed 1 in
 tasks, it stops being a rare flake and becomes something to investigate on
 its own, per the harness-level-errors reasoning already in the full
 pre-registration.
+
+## 2026-09-07 D21. The `worker-fable-xhigh` row is split: the contained case moves to `worker-sonnet-low`, and its own backing fixture is replaced
+
+Decision: `ROUTING.md`'s single row for `Open, long horizon, sustained
+autonomous investigation` (worded with no blast term, so it matched both
+`contained` and `consequential` by the parser's own rule that an absent
+axis means "any value") is split into two rows. `Open, long horizon,
+contained` now routes to `worker-sonnet-low`. `Open, long horizon,
+consequential, sustained autonomous investigation` keeps
+`worker-fable-xhigh`, unchanged.
+
+Why: T6, run twice, and T7 (a harder, more faithful fixture built for this
+exact purpose after D19 flagged T6 as a possibly weak proxy), both
+confirmed `worker-sonnet-low` for this shape of task, with zero failures
+across 27 of 27 confirmation runs (T6 original 9 of 9, T6 replication 9 of
+9, T7 second attempt 9 of 9; T7's first attempt was voided by D20's
+forwarder hallucination, not counted here). F13, the routing fixture
+behind the old row, describes a multi-service p99-latency investigation
+whose output is a ranked cause list, a report. Its own `note` field says
+so: "Contained because the output is a report." F13's `expected_cell`
+changes from `worker-fable-xhigh` to `worker-sonnet-low` to match.
+
+What the fixture check caught: once the row's blast term is made
+explicit, `check_row_backed` (D13) fails on the narrowed
+`worker-fable-xhigh` row, because F13 was its only backing fixture and F13
+was never really an instance of the case that row's own text describes
+(consequential, and demanding sustained investigation that reshapes its
+own plan). F13 backed the old row only through the wildcard reading of an
+absent blast term, a parsing technicality, not because anyone had judged
+it a fit. Making blast explicit was the correct fix (it is what lets the
+`contained` half route honestly to `worker-sonnet-low`), and it happens to
+also remove a fixture that was propping the row up on a mismatch. The two
+are the same change; the gap was latent before this entry, not created by
+it.
+
+`test/fixtures/routing.jsonl` gains F18 to close that gap: a
+multi-tenant billing pipeline double-charging customers after a
+retry-logic change, where the diagnosis has to adapt as each hypothesis is
+ruled out and the finding itself drives an irreversible-in-practice
+refund decision over real money, not merely a written report. Unlike F12
+(open, long, consequential, but a fixed contract once the cause is found,
+confirmed `worker-opus-xhigh`), F18 demands the self-directed,
+plan-reshaping investigation the row's own constraint text requires.
+Drafted by Claude and reviewed and confirmed by Jeb, 2026-09-07, the same
+standing every other fixture in this file carries.
+
+Also in this entry: `worker-sonnet-low`'s three separate `short, contained`
+rows (`Mechanical`, `Structured`, `Open`) are merged into one row,
+`Mechanical, structured or open, short, contained`, using the same
+`... or ...` convention the table already uses on other axes (for example
+`Structured, short or medium, consequential`). This is a mechanical
+consolidation forced by `tools/generate_workers.py`'s
+`MAX_DESCRIPTION_CHARS` limit: adding the new `Open, long horizon,
+contained` row pushed `worker-sonnet-low`'s generated description past
+200 characters. The three merged rows cover exactly the same three
+triples as before, at the same worker, so `ROUTE-TOTAL`'s coverage is
+unchanged; `ROW-BACKED` now needs only one of the three triples backed
+rather than all three, which is the same relaxation the table already
+accepts elsewhere for `or`-joined rows.
+
+Reversal: a future fixture confirming `worker-fable-xhigh` (or a cell
+above it) for the `contained` triple would reopen the first half of this
+entry. A future benchmark result or documented failure against F18's
+scenario, or Jeb's own reassessment of it, would reopen the second half.
