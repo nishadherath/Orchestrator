@@ -1196,3 +1196,36 @@ with no existing scaffolding to bound it, is simply closer to the
 boundary than a wording fix can settle, and F05 should be accepted as
 an inherently borderline control (the way F18's single blip was
 accepted as noise) rather than reworded a third time.
+## 2026-09-08 D34. score_routing.py no longer silently overwrites recorded evidence
+
+Decision: `score_routing.py` gains two safeguards. Result filenames now
+include a `--only` tag when one is given, and any write that would still
+land on an existing path is redirected to the first free `-2`, `-3`, ...
+variant instead. No change to what gets scored or how; this is recording
+only.
+
+Why: date, model and bundle key result filenames, a scheme `bundle_tag`
+already improved once after a 2026-09-06 collision, but it is still not
+enough. A targeted `--only F05 --runs 3` run against the same bundle as
+an earlier full-suite `--runs 3` run produces the identical filename,
+and this session hit exactly that twice on 2026-09-08: once confirming
+D26/D27/D28's fixes and again confirming D33's F05 reword, both times
+silently overwriting an already-committed batch that had to be recovered
+by hand from git history before the new evidence could be kept. A script
+whose entire purpose is producing a dogfood record for CLAUDE.md should
+not be able to destroy the record it already produced.
+
+What changed: `only_tag()` folds `--only`'s fixture ids into the
+filename, sorted and de-duplicated so argument order does not matter.
+`unique_path()` is the backstop for every other way two runs can still
+share a name (an identical rerun later the same day, an assess-only
+variant, anything not yet anticipated): if the target exists it appends
+a numeric suffix rather than writing over it. Verified against a
+temporary directory: a first write lands on the plain name, a second
+identical write lands on `-2`, a third on `-3`.
+
+Reversal: none anticipated. A future scheme that keys filenames on
+something more specific than date, model, bundle and fixture subset
+could drop `unique_path` as no longer load-bearing, but keeping it costs
+nothing and remains the correct behaviour regardless of what else keys
+the name.

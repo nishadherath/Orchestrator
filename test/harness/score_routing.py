@@ -170,6 +170,41 @@ def bundle_tag(bundle: str) -> str:
     return re.sub(r"[^A-Za-z0-9]+", "-", bundle).strip("-")[:20] or "unknown"
 
 
+def only_tag(only: str | None) -> str:
+    """Short filesystem-safe suffix for a --only fixture subset, used in result
+    filenames.
+
+    Date, model and bundle are not enough to key a filename on their own: a
+    targeted `--only F05 --runs 3` run against the same bundle as an earlier
+    full-suite `--runs 3` run produces the identical name and silently
+    overwrote the earlier run's recorded evidence, twice in one session on
+    2026-09-08 (D34, docs/DECISIONS.md).
+    """
+    if not only:
+        return ""
+    return "-only-" + "+".join(sorted(set(only.split(","))))
+
+
+def unique_path(path: Path) -> Path:
+    """Return `path` unchanged if nothing is there yet, otherwise the first
+    `-2`, `-3`, ... variant that is free.
+
+    Last-resort guard, not a substitute for bundle_tag and only_tag above:
+    two runs can still share every one of date, model, bundle and --only (an
+    identical rerun later the same day). A script whose entire purpose is
+    recording evidence should never silently destroy evidence it already
+    recorded (D34).
+    """
+    if not path.exists():
+        return path
+    n = 2
+    while True:
+        candidate = path.with_name(f"{path.stem}-{n}{path.suffix}")
+        if not candidate.exists():
+            return candidate
+        n += 1
+
+
 def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
     """95 percent Wilson score interval for a binomial proportion, z=1.96 by default.
 
@@ -328,9 +363,10 @@ def main(argv: list[str]) -> int:
         if args.record:
             RESULTS_DIR.mkdir(parents=True, exist_ok=True)
             suffix = "" if args.runs == 1 else f"-run{run_idx}-of-{args.runs}"
-            out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
+            out = unique_path(RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
                                   f"{args.model or 'default'}-{bundle_tag(bundle)}"
-                                  f"{'-assessonly' if args.assess_only else ''}{suffix}.md")
+                                  f"{only_tag(args.only)}"
+                                  f"{'-assessonly' if args.assess_only else ''}{suffix}.md"))
             out.write_text(render(rows, run_meta), encoding="utf-8", newline="\n")
             print(f"recorded {out.relative_to(REPO_ROOT)}")
 
@@ -358,9 +394,10 @@ def main(argv: list[str]) -> int:
 
     if args.record and args.runs > 1:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
+        out = unique_path(RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-routing-"
                               f"{args.model or 'default'}-{bundle_tag(bundle)}"
-                              f"{'-assessonly' if args.assess_only else ''}-summary.md")
+                              f"{only_tag(args.only)}"
+                              f"{'-assessonly' if args.assess_only else ''}-summary.md"))
         out.write_text(render_summary(fixture_ids, per_fixture_agree, overall_successes, overall_n, run_costs, summary_meta),
                         encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
