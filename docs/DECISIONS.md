@@ -1229,3 +1229,75 @@ something more specific than date, model, bundle and fixture subset
 could drop `unique_path` as no longer load-bearing, but keeping it costs
 nothing and remains the correct behaviour regardless of what else keys
 the name.
+
+## 2026-09-11 D35. Branch the-system adopted; charter amended; plan revised
+
+Decision: work proceeds on branch `the-system`, created from `main` at
+`3f25243`. `CLAUDE.md` gaining an "Active plan" section is recorded here
+as a charter amendment, since it binds every future session in this
+repository to a stage-by-stage approval protocol rather than the free
+delegation the charter previously described. The protocol: one stage per
+session, the session confirms with Jeb that it is on the stage's required
+model class and effort before starting, Jeb approves the stage explicitly
+in the conversation, each task is its own commit with the harness green,
+and the plan's checkboxes and status lines are updated in the same commit
+as the work they record.
+
+Why: `docs/PLAN.md` and `docs/REVIEW.md` were authored by Claude (Fable
+5.1) on 2026-09-10, in the Cowork session that closed the F05, F08, F09
+and F11 diagnostics (D26 to D34), and were reviewed and approved by Jeb
+before the project moved to Claude Code. Jeb landed all four files
+(`CLAUDE.md`'s amendment, `docs/PLAN.md`, `docs/REVIEW.md`, and
+`src/System/SYSTEM.md`) on `main` in commit `3f25243`, the commit the
+adopted plan cites as the handover point. This entry is Stage 0.3 of that
+plan, the first task any session on `the-system` performs.
+
+`src/System/SYSTEM.md` was repaired in the same 2026-09-10 session before
+being committed: line endings converted from CRLF to LF, a trailing
+newline added, and fourteen characters a code-page conversion had turned
+into `?` were restored as the Unicode characters a re-read of context
+made unambiguous (twelve arrows and one less-than-or-equal-to sign in
+section 3's pseudocode, one further arrow in section 7), matching the
+multiplication and division signs that had survived the same conversion
+intact. The seven remaining question marks in the file (section 1's
+Critic row, the six question headings at its end) are genuine content,
+not corruption, and were left as written.
+
+`SYSTEM.md` is the second half of an exchange. It refers throughout to
+"the eight-step sequence from the previous answer" and "the forty
+techniques from the previous answer", and neither is in this repository.
+Stage 9 of the revised plan addresses this: ask Jeb for the missing half
+first, and reconstruct only the minimum needed to proceed if he does not
+have it.
+
+What changed on 2026-09-11: the plan was revised by Claude (Sonnet 5,
+running as the first Claude Code session on this machine) at Jeb's
+request, after a full read of the repository and a harness run turned up
+two things the adopted plan did not know about. First, the platform
+version had moved from 2.1.245, the version every row of `FINDINGS.md`
+was verified against, to 2.1.263, with nothing re-checked in between.
+Second, `check.py`'s PERSONA check failed on this machine: a path-
+separator mismatch between how the manifest stores names and how the
+check compared them, not a content change (Stage 0.2 fixes this in the
+same session). Both were artefacts of this being the first session run
+outside the Cowork environment the plan and review were written in.
+
+The revision's substantive reordering: the two-stage classifier, which
+the review names as the fix to the routing table's central defect (an
+attractor bending unrelated classifications toward a newly added row),
+moves from an optional pull-forward late in the plan to the default path,
+directly after a reporting bar is given to the routing side. The
+experiment that would find a benchmark task the cheapest cell fails is
+separated from the framework track and run first, because every task
+built so far has cleared at the floor, and the framework's own
+falsification test needs a task the floor cannot pass to have a subject.
+The framework track (recovering `SYSTEM.md`'s missing half, building the
+Controller, running the fleet against a baseline) is gated on that
+result rather than built regardless. Full detail is in `docs/PLAN.md`,
+"Revision of 2026-09-11".
+
+Reversal: none anticipated for the branch or the charter amendment
+themselves. The revision's reordering is itself reversible by a future
+decision entry if a later stage's evidence contradicts the priority
+judgement it rests on; the plan's own protocol requires such a change to
+be recorded rather than made in place.
