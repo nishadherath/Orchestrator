@@ -5,7 +5,7 @@ Cowork session that produced `docs/REVIEW.md`), reviewed and approved by Jeb.
 Revised 2026-09-11 by Claude (Fable 5.1, the first Claude Code session on this
 machine) at Jeb's request, after a full read of the repository and a harness
 run; what changed and why is under "Revision of 2026-09-11" and is recorded in
-D35. Status of the plan as a whole: **not started**.
+D35. Status of the plan as a whole: **in progress (since 2026-09-11)**.
 
 This plan does two things, in a fixed order. First it repairs, instruments and
 measures the orchestrator as it stands, and replaces the routing mechanism
@@ -217,7 +217,7 @@ improvising.
 
 ## Stage 0. Migration and repair
 
-Status: **not started**
+Status: **done (2026-09-11, 7690ec4)**
 Model: sonnet, low. Mechanical git and file work plus one small, fully
 specified code fix; nothing here needs judgement.
 
@@ -229,14 +229,18 @@ Entry: a Claude Code session in this repository, on any branch.
 
 Tasks:
 
-- [ ] 0.1 Run `git branch --show-current`. If it is not `the-system`, and
+- [x] 0.1 Run `git branch --show-current`. If it is not `the-system`, and
       the branch exists, check it out; if it does not exist, create it with
       `git checkout -b the-system` from `main` at `3f25243` or later. Then
       `git status --short`: commit the revised `docs/PLAN.md` as one change
       ("adopt the staged plan, revised 2026-09-11"), together with anything
       else from the adopted plan's four files that is still uncommitted.
       Note in this task's tick which of the two branch cases happened.
-- [ ] 0.2 Make `check.py`'s PERSONA check portable. Build the current-file
+      Done 2026-09-11 (`d10cf4d`): the branch did not exist, created from
+      `main` at `3f25243`. The four adopted-plan files were already
+      committed on `main` in that commit; only the 2026-09-11 revision of
+      `docs/PLAN.md` was uncommitted, and this commit lands it.
+- [x] 0.2 Make `check.py`'s PERSONA check portable. Build the current-file
       map from `path.relative_to(REPO_ROOT).as_posix()`, normalise recorded
       names the same way when the manifest is read, and write the manifest
       with `as_posix()` so a Linux run and a Windows run produce the same
@@ -246,7 +250,10 @@ Tasks:
       which the check globs) and with `PLAN.md` and `REVIEW.md` under
       `docs/*.md`; it did on 2026-09-11 and this task confirms it after the
       edit. Fix any other finding in the same task. Own commit.
-- [ ] 0.3 D35, a decision entry recording: the branch and its purpose; that
+      Done 2026-09-11 (`7e7a8cb`): current-file keys and recorded-manifest
+      names both normalised to forward slashes; no hash regenerated.
+      `check.py` reports 16 pass, 1 skip (INV7), 0 fail on this machine.
+- [x] 0.3 D35, a decision entry recording: the branch and its purpose; that
       `CLAUDE.md` gained an "Active plan" section and this is a charter
       amendment; the approval protocol; that the plan and review were
       authored by Claude on 2026-09-10 and approved by Jeb; the commit in
@@ -257,7 +264,8 @@ Tasks:
       repository, which Stage 9 addresses; and the 2026-09-11 revision, what
       moved, why, and that the version gap and the Windows harness defect
       were found on the first Claude Code session.
-- [ ] 0.4 Update this stage's status line and commit it.
+      Done 2026-09-11 (`7690ec4`).
+- [x] 0.4 Update this stage's status line and commit it.
 
 Exit criteria: on `the-system`, tree clean, all files committed, `check.py`
 reports 0 failing on this machine, D35 present.
