@@ -494,8 +494,12 @@ def _is_definition_line(rel: Path, line: str) -> bool:
 
 
 def check_persona_manifest(r: Report, update: bool) -> None:
+    # Paths are normalised to POSIX form (forward slashes) on both the write
+    # and read sides so the manifest compares equal on Windows and Linux;
+    # str(Path) yields backslashes on Windows, which made every entry here
+    # register as changed on a Windows run even with identical content.
     files = persona_files()
-    current = {str(p.relative_to(REPO_ROOT)): cr_stripped_sha256(p) for p in files}
+    current = {p.relative_to(REPO_ROOT).as_posix(): cr_stripped_sha256(p) for p in files}
     if update:
         with PERSONA_MANIFEST.open("w", encoding="utf-8", newline="\n") as fh:
             for name, digest in sorted(current.items()):
@@ -509,7 +513,7 @@ def check_persona_manifest(r: Report, update: bool) -> None:
     recorded: dict[str, str] = {}
     for line in PERSONA_MANIFEST.read_text(encoding="utf-8").splitlines():
         digest, _, name = line.partition("  ")
-        recorded[name] = digest
+        recorded[name.replace("\\", "/")] = digest
     changed = sorted(n for n in current if recorded.get(n) != current[n])
     missing = sorted(set(recorded) - set(current))
     extra = sorted(set(current) - set(recorded))
