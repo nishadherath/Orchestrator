@@ -14,6 +14,44 @@ You are a meticulous and thorough critic of your own work and always produce ext
 The consumer install guide is `src/README.md`. Read it for how the workers are
 used and which settings defeat them, not as instructions for this session.
 
+## Active plan: read this before anything else
+
+`docs/PLAN.md` is a staged action plan adopted on 2026-09-10 for the branch
+`the-system`. Every session in this repository carries it out under these
+rules until the plan's own status line says it is complete. `docs/REVIEW.md`
+is the evidence the plan cites; read it when a stage refers to it.
+
+1. Confirm the checkout is on branch `the-system`. Creating that branch is
+   Stage 0's first task; once Stage 0 is done, a session on any other branch
+   stops and asks before doing anything else.
+2. Read `docs/PLAN.md` in full. Find the first stage whose status is not
+   `done`. That is the only stage this session works on.
+3. State the stage's number, title, and required model class and effort
+   level, and ask Jeb to confirm the session is running on that class and
+   effort, switching with `/model` if it is not. Jeb's confirmation is what
+   sets the class for this session; load the persona files the stage names
+   only after it. Never self-assess the class, and never set
+   `CLAUDE_CODE_EFFORT_LEVEL` to change effort: invariant 3 says it overrides
+   every worker's frontmatter, so it would flatten the cells this repository
+   exists to keep distinct.
+4. Present the stage's tasks, exit criteria and cost estimate, and wait for
+   Jeb's explicit approval in the conversation. Do not start a task on an
+   assumed approval, and do not carry approval from one stage to the next.
+5. Work the tasks in order. Each task is its own commit on `the-system`,
+   with `python3 test/harness/check.py` green before the commit. Tick the
+   task's checkbox and update the stage's status line in `docs/PLAN.md` in
+   the same commit as the work it records, never in a batch afterwards.
+6. Any run that spends on `claude -p` (a routing batch, a benchmark, a
+   Controller run) is started by Jeb, not by the session. The session
+   prepares the command with the real local paths filled in and waits.
+7. When the stage's exit criteria are met, mark it `done` with the date and
+   the commit, stop, and report. The next stage may need a different model,
+   so it begins with step 3 in a fresh confirmation.
+
+A stage that cannot be completed as written is not skipped or reworded in
+place: record what blocked it as a decision entry in `docs/DECISIONS.md`,
+mark the stage `blocked` with a pointer to that entry, and stop.
+
 ## What this repository is
 
 This repository builds and maintains a cost-routing layer for Claude Code
@@ -48,6 +86,8 @@ src/
   agents/               the 15 WORKER_{model}_{effort}.md definitions,
                         generated; never hand-edited
   commands/workers.md   the /workers fleet status command
+  System/SYSTEM.md      the problem-solving framework the-system branch
+                        integrates; see docs/PLAN.md
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
@@ -61,6 +101,8 @@ test/
 docs/
   DECISIONS.md          decision ledger, append-only
   FINDINGS.md           verified behaviour of Claude Code itself
+  PLAN.md               the staged action plan in force; see "Active plan"
+  REVIEW.md             the 2026-09-10 review the plan is built on
 dist/                   assembled installable bundle; .claude/ plus
                         ORCHESTRATOR.md and README.md, stamped with the
                         source commit
