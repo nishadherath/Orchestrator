@@ -19,8 +19,10 @@ sandbox a worker's file writes to its assigned directory: the handover
 tells it to stay under `bench-<task>/`, but nothing enforces that, so a
 stray edit elsewhere in the project is a real possibility this script
 cannot detect or undo. It runs whatever task directories exist under
-test/fixtures/benchmark/ (all six, T1 through T6, as of D14's follow-on
-fixture work; the pilot itself restricted this to T1 and T5 via --pilot).
+test/fixtures/benchmark/, discovered from the directory rather than a fixed
+list (eight, T1 through T8, as of D30's follow-on fixture work; the pilot
+itself restricted this to T1 and T5 via --pilot; --tasks restricts to any
+named subset).
 
 The one non-obvious thing: whether a spawned worker's cost and tokens roll
 up into the parent `claude -p --output-format json` call's total_cost_usd is
@@ -172,6 +174,40 @@ def bundle_tag(bundle: str) -> str:
     if m:
         return m.group(0)[:7]
     return re.sub(r"[^A-Za-z0-9]+", "-", bundle).strip("-")[:20] or "unknown"
+
+
+def tasks_tag(tasks: str | None) -> str:
+    """Short filesystem-safe suffix for a --tasks subset, used in result
+    filenames.
+
+    Date and bundle are not enough to key a filename on their own: a
+    `--tasks T7` run against the same bundle as an earlier full-suite run
+    produces the identical name and silently overwrote the six-task
+    original on 2026-09-06 (recovered from git history in D36,
+    docs/DECISIONS.md; the fix mirrors score_routing.py's own only_tag,
+    added for the identical defect there by D34)."""
+    if not tasks:
+        return ""
+    return "-tasks-" + "+".join(sorted(set(tasks.split(","))))
+
+
+def unique_path(path: Path) -> Path:
+    """Return `path` unchanged if nothing is there yet, otherwise the first
+    `-2`, `-3`, ... variant that is free.
+
+    Last-resort guard, not a substitute for bundle_tag and tasks_tag above:
+    two runs can still share every one of date, bundle and --tasks (an
+    identical rerun later the same day). A script whose entire purpose is
+    recording evidence should never silently destroy evidence it already
+    recorded (D34, D36)."""
+    if not path.exists():
+        return path
+    n = 2
+    while True:
+        candidate = path.with_name(f"{path.stem}-{n}{path.suffix}")
+        if not candidate.exists():
+            return candidate
+        n += 1
 
 
 def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
@@ -767,8 +803,8 @@ def main(argv: list[str]) -> int:
     if args.record:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         suffix = "-pilot" if args.pilot else ""
-        out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-benchmark-"
-                              f"{bundle_tag(bundle)}{suffix}.md")
+        out = unique_path(RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-benchmark-"
+                              f"{bundle_tag(bundle)}{tasks_tag(args.tasks)}{suffix}.md"))
         out.write_text(render(meta, task_reports), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
     if not args.json:

@@ -1301,3 +1301,75 @@ themselves. The revision's reordering is itself reversible by a future
 decision entry if a later stage's evidence contradicts the priority
 judgement it rests on; the plan's own protocol requires such a change to
 be recorded rather than made in place.
+
+## 2026-09-11 D36. benchmark.py's own filename collision, fixed and recovered
+
+Decision: `test/harness/benchmark.py` gains the same two safeguards D34
+gave `score_routing.py`: a `tasks_tag()` helper folds a `--tasks` subset
+into the result filename, and `unique_path()` redirects any write that
+would still land on an existing path to the first free `-2`, `-3`, ...
+variant. The two historical versions of `test/results/2026-09-07-
+benchmark-04d2acc.md` that this collision overwrote are recovered from
+git history into their own files, and the file at that name today,
+which the collision left holding unrelated content, is renamed to
+describe what it actually contains.
+
+Why: this is the identical defect D34 fixed in `score_routing.py`, in
+its sibling script. Result filenames were keyed on date and bundle
+only. `git log --oneline -- test/results/2026-09-07-benchmark-04d2acc.md`
+shows four commits touching that one path: `a6b7426`, the real six-task
+benchmark run; `17b9052`, its replication, run to settle whether D16's
+and D17's fixture fixes changed T4 and T6's results (they did, and did
+not, respectively); `59babc4`, T7's first confirmation attempt,
+overwriting the six-task replication under the same name; and `92c77d7`,
+T7's clean second confirmation attempt, overwriting `59babc4` in turn.
+Every `--tasks T7` run after the six-task run shared its filename because
+neither carried the task subset. `test/results/2026-09-06-benchmark-
+full-preregistration.md` already documents the first overwrite in its
+own text (line 340, "the same filename as the first run; the first run's
+content is preserved in git history at commit `a6b7426`"), written at
+the time by the session that caused it, but nothing was done about it
+until now.
+
+What changed: `test/results/2026-09-07-benchmark-04d2acc-original.md`
+holds `a6b7426`'s content, the real six-task run `docs/DECISIONS.md` D16
+cites and `2026-09-06-benchmark-full-preregistration.md` line 179 cites.
+`test/results/2026-09-07-benchmark-04d2acc-replication.md` holds
+`17b9052`'s content, the replication `2026-09-06-benchmark-full-
+preregistration.md` line 340 cites. Both citing documents are dated
+evidentiary records and are left unedited, per the ledger's append-only
+convention; this entry is the pointer from their stale filename to
+where the content now lives. `test/results/2026-09-07-benchmark-04d2acc.md`,
+which held `92c77d7`'s content (T7's confirmed run, not a six-task run
+at all), is renamed to `test/results/2026-09-07-benchmark-04d2acc-tasks-
+T7.md`, the name the fixed script would have produced for that run.
+`benchmark.py`'s docstring is also corrected: it said six tasks with a
+fixed list; there are eight, T1 through T8, discovered from the
+directory rather than hardcoded.
+
+Recovering `a6b7426`'s content reopened a second, separate defect its
+own commit message had already flagged and left unresolved: `check.py`'s
+PROSE check fails on a worker's verbatim quoted report, at a single US
+spelling naming a category of test the worker's own report used,
+because a raw benchmark result dump is checked as authored prose. That
+commit's message argued correctly that rewriting a worker's exact words
+to pass a style check would corrupt the evidentiary record, and left the
+question of whether `PROSE_GLOBS` should exempt such files open.
+Resolved here, narrowly:
+`check_prose` now skips the banned-word, banned-phrase, US-spelling and
+em-dash checks (not the CR and trailing-newline checks, which are about
+the file's own formatting) on any line containing `benchmark.py`'s own
+`render()` markers, the literal substrings `"grader: "` or
+`" || worker: "` it inserts when relaying a run's grader output or a
+worker's report. The exemption is keyed to that literal content, not to
+a file name, so authored text sharing a result file with relayed
+content stays checked.
+
+Verified: a temporary-directory test of `tasks_tag()` and `unique_path()`
+mirrors D34's own verification, an identical write lands on the plain
+name, a second on `-2`, a third on `-3`; `--tasks T7` produces
+`-tasks-T7` in the filename. `test/harness/check.py` reports 0 failing
+(109 files clean, up from 107) after the rename, the two recovered
+files, and the PROSE exemption.
+
+Reversal: none anticipated, for the same reason D34 gave its own fix.

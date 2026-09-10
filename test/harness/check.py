@@ -471,18 +471,18 @@ def check_prose(r: Report) -> None:
             problems.append(f"{rel}: no trailing newline")
         text = raw.decode("utf-8")
         for n, line in enumerate(text.splitlines(), 1):
-            if EM_DASH in line:
+            if EM_DASH in line and not _is_relayed_line(line):
                 problems.append(f"{rel}:{n}: em-dash")
             stripped = URL_RE.sub("", CODE_SPAN_RE.sub("", line))
             low = stripped.lower()
             for w in BANNED_WORDS:
-                if re.search(rf"\b{w}\b", low) and not _is_definition_line(rel, line):
+                if re.search(rf"\b{w}\b", low) and not _is_definition_line(rel, line) and not _is_relayed_line(line):
                     problems.append(f"{rel}:{n}: banned word {w!r}")
             for ph in BANNED_PHRASES:
-                if ph in low and not _is_definition_line(rel, line):
+                if ph in low and not _is_definition_line(rel, line) and not _is_relayed_line(line):
                     problems.append(f"{rel}:{n}: banned phrase {ph!r}")
             for pat in US_SPELLINGS:
-                if re.search(pat, stripped, flags=re.IGNORECASE) and not _is_definition_line(rel, line):
+                if re.search(pat, stripped, flags=re.IGNORECASE) and not _is_definition_line(rel, line) and not _is_relayed_line(line):
                     problems.append(f"{rel}:{n}: US spelling matches {pat!r}")
     r.add("PROSE", "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
           not problems, f"{len(prose_files())} files clean" if not problems else "; ".join(problems[:12]))
@@ -491,6 +491,18 @@ def check_prose(r: Report) -> None:
 def _is_definition_line(rel: Path, line: str) -> bool:
     """The harness and the persona list the banned terms; those lines are exempt."""
     return rel.name == "check.py" and ("BANNED" in line or "US_SPELLINGS" in line or line.lstrip().startswith("r\""))
+
+
+def _is_relayed_line(line: str) -> bool:
+    """A line carrying a worker's or grader's own words, quoted verbatim by
+    benchmark.py's render(), is not authored prose and is exempt from the
+    style checks below (D36, docs/DECISIONS.md; the exemption a6b7426's
+    commit message flagged as a pending decision and left unresolved).
+    Rewriting a worker's exact words to pass a style check would corrupt
+    the evidentiary record; detected by the literal "grader: " / "worker: "
+    markers render() inserts, not by file name, so authored text sharing a
+    result file with relayed text stays checked."""
+    return "grader: " in line or " || worker: " in line
 
 
 def check_persona_manifest(r: Report, update: bool) -> None:
