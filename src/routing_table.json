@@ -1,0 +1,90 @@
+{
+  "_comment": "Single source of truth for src/ROUTING.md section 2, per D39 (docs/DECISIONS.md) and docs/CLASSIFIER-DESIGN.md. Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. Do not hand-edit ROUTING.md's table out of sync with this file; check.py's TABLE-PROSE check catches drift.",
+  "axes": {
+    "sensitivity": ["mechanical", "structured", "open"],
+    "horizon": ["short", "medium", "long"],
+    "blast": ["contained", "consequential"],
+    "self_directed": [false, true],
+    "prior_failure": ["none", "failed_at_xhigh"]
+  },
+  "rules": [
+    {
+      "id": "frontier",
+      "text": "Frontier problem where every cheaper cell has already failed",
+      "conditions": {"prior_failure": ["failed_at_xhigh"]},
+      "worker": "worker-opus-max",
+      "also_acceptable": ["worker-fable-max"],
+      "escalation_only": true
+    },
+    {
+      "id": "open-long-consequential-self-directed",
+      "text": "Open, long horizon, consequential, sustained autonomous investigation",
+      "conditions": {"sensitivity": ["open"], "horizon": ["long"], "blast": ["consequential"], "self_directed": [true]},
+      "worker": "worker-fable-xhigh"
+    },
+    {
+      "id": "short-contained",
+      "text": "Mechanical, structured or open, short, contained",
+      "conditions": {"horizon": ["short"], "blast": ["contained"]},
+      "worker": "worker-sonnet-low"
+    },
+    {
+      "id": "mechanical-short-consequential",
+      "text": "Mechanical, short, consequential",
+      "conditions": {"sensitivity": ["mechanical"], "horizon": ["short"], "blast": ["consequential"]},
+      "worker": "worker-sonnet-medium"
+    },
+    {
+      "id": "mechanical-medium",
+      "text": "Mechanical, medium horizon",
+      "conditions": {"sensitivity": ["mechanical"], "horizon": ["medium"]},
+      "worker": "worker-sonnet-medium"
+    },
+    {
+      "id": "structured-medium-contained",
+      "text": "Structured, medium, contained",
+      "conditions": {"sensitivity": ["structured"], "horizon": ["medium"], "blast": ["contained"]},
+      "worker": "worker-sonnet-medium"
+    },
+    {
+      "id": "structured-short-or-medium-consequential",
+      "text": "Structured, short or medium, consequential",
+      "conditions": {"sensitivity": ["structured"], "horizon": ["short", "medium"], "blast": ["consequential"]},
+      "worker": "worker-sonnet-high"
+    },
+    {
+      "id": "structured-long",
+      "text": "Structured, long horizon",
+      "conditions": {"sensitivity": ["structured"], "horizon": ["long"]},
+      "worker": "worker-sonnet-xhigh"
+    },
+    {
+      "id": "open-medium-contained",
+      "text": "Open, medium, contained",
+      "conditions": {"sensitivity": ["open"], "horizon": ["medium"], "blast": ["contained"]},
+      "worker": "worker-opus-high"
+    },
+    {
+      "id": "open-any-consequential",
+      "text": "Open, any horizon, consequential",
+      "conditions": {"sensitivity": ["open"], "blast": ["consequential"]},
+      "worker": "worker-opus-xhigh"
+    },
+    {
+      "id": "open-long-contained",
+      "text": "Open, long horizon, contained",
+      "conditions": {"sensitivity": ["open"], "horizon": ["long"], "blast": ["contained"]},
+      "worker": "worker-sonnet-low"
+    }
+  ],
+  "documented_gaps": [
+    {
+      "conditions": {"sensitivity": "mechanical", "horizon": "long", "blast": "contained"},
+      "reason": "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07"
+    },
+    {
+      "conditions": {"sensitivity": "mechanical", "horizon": "long", "blast": "consequential"},
+      "reason": "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07"
+    }
+  ]
+}
