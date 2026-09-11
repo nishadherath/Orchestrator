@@ -798,12 +798,23 @@ Tasks:
       grade: B (opus) cell agreement 92.2% [86.8%, 95.5%], cost per verdict
       USD 0.103. C (sonnet, effort low) cell agreement 58.2% [50.2%,
       65.7%], cost per verdict USD 0.013.
-- [ ] 6.4 D40, the verdict against the pre-registration, on agreement and
+- [x] 6.4 D40, the verdict against the pre-registration, on agreement and
       cost per verdict together. If a two-stage configuration wins, ship
       it: flag removed, `dist/` rebuilt, `ROUTING.md` section 2 rewritten to
       describe the mechanism, fixtures updated, install into
       `orchestrator-scratch` logged per the dogfooding protocol. If not,
       record it and leave the flag out of `dist/`.
+      Done 2026-09-11 (D40). Neither configuration clears both rules: B
+      (opus) fails on cost (USD 0.1030 against a USD 0.0532 ceiling), C
+      (sonnet, effort low) fails on accuracy (58.2 percent cell agreement,
+      Wilson lower bound 50.2 percent, against A's 91.4 percent
+      requirement). No two-stage classifier ships; `dist/` and `ROUTING.md`
+      are untouched, `--rubric-only` stays in `build_dist.py` as a
+      measurement tool. A live bug in `resolve_two_axis` was found and
+      fixed during the run (see 6.3); `self_directed` was found to fire
+      spuriously in 37.9 percent of sonnet-at-low-effort verdicts against a
+      5.9 percent true rate, a concrete design defect for any future
+      attempt, independent of the shipping verdict.
 - [ ] 6.5 Update this stage's status line and commit it.
 
 Exit criteria: the pre-registered runs recorded with their grade labels;

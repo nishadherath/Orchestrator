@@ -1641,3 +1641,122 @@ escalation mechanism, or if E22 measures a minimal schema-forced verdict
 above the USD 0.0532 ceiling, which would close the cheap-router route to
 acceptance criterion 6 and make the whole two-stage question a defect fix
 rather than an economic one.
+
+## 2026-09-11 D40. The two-stage classifier does not ship: "prompt", not "system"
+
+Decision: neither configuration measured against the Stage 5 pre-
+registration (`test/results/2026-09-11-classifier-preregistration.md`)
+clears the shipping rule. No two-stage classifier ships. The `--rubric-
+only` flag stays in `build_dist.py` as a measurement tool; `dist/` and
+`ROUTING.md` are untouched, and the flag is not removed from the codebase,
+since it remains useful for any future attempt at this design.
+
+### The numbers, reporting grade (nine runs, 153 verdicts each)
+
+| Configuration | Cell agreement | 95% Wilson lower bound | Cost per verdict |
+| :--- | :--- | :--- | :--- |
+| A (prose, opus, already measured) | 95.7% | 91.4% | USD 0.1645 |
+| B (two-stage, opus) | 92.2% | 86.8% | USD 0.1030 |
+| C (two-stage, sonnet, effort low) | 58.2% | 50.2% | USD 0.0130 |
+
+Rule 1 (non-inferior on accuracy: lower bound at or above A's 91.4 percent):
+B fails at 86.8 percent, close but short. C fails decisively at 50.2
+percent.
+
+Rule 2 (cheap enough: below the derived USD 0.0532 ceiling): B fails at
+USD 0.1030, roughly double the ceiling. C passes clearly at USD 0.0130.
+
+No configuration passes both. The decision rule required all three; B
+fails on cost, C fails on accuracy, and there is no configuration that
+was cheap and accurate together. This is exactly the pattern the premise
+ledger's dissolution check anticipated in the abstract (`docs/PREMISES.md`):
+opus-quality classification costs opus prices, and a cheap model does not
+reproduce opus-quality classification.
+
+### Predictions scored
+
+| Prediction | Predicted | Actual | Verdict |
+| :--- | :--- | :--- | :--- |
+| B, cell agreement | 93-97%, centre 95 | 92.2% | Falsified, narrowly (0.8 points below the floor) |
+| B, all-fields agreement | 78-88%, centre 83 | 77.8% | Falsified, narrowly (0.2 points below the floor) |
+| B, cost per verdict | USD 0.10-0.14 | USD 0.1030 | Held |
+| B indistinguishable from A on cell agreement | Deliberate null | 95 percent Wilson intervals overlap (B [86.8, 95.5], A [91.4, 97.9]) | Held |
+| C, cell agreement | 75-88%, centre 82 | 58.2% | Falsified, decisively |
+| C, all-fields agreement | 60-75%, centre 68 | 48.4% | Falsified, decisively |
+| C, cost per verdict | USD 0.01-0.03 | USD 0.0130 | Held |
+| D, retained-field agreement (steering only) | 72-85%, centre 79 | 60.8% | Falsified |
+| D, cost per verdict | USD 0.01-0.03 | USD 0.0148 | Held |
+| F09 improves but lands between 5 and 7 of 9 | 5-7 of 9 | 3 of 9 (B) | Falsified, worse than predicted |
+| Unparsed rate under 2 percent (opus) / 8 percent (sonnet, effort low) | as stated | 0 of 153 (opus); 1 of 153 (sonnet, 0.65 percent) | Held, both |
+| `self_directed` fires well above the one-in-seventeen base rate; a rate above 20 percent needs a sharper definition or removal | as stated | Opus: 24 of 153 (15.7 percent), under the trigger. Sonnet at effort low: 58 of 153 (37.9 percent), well over it | Confirmed for sonnet, not triggered for opus |
+
+Cost predictions held cleanly across every configuration; the cost side of
+this design was well understood before any run. Accuracy predictions were
+close for opus and badly wrong for the cheap model, in the direction that
+matters: the cheaper the model, the worse the miss, which is the opposite
+of what the cost thesis needs.
+
+### The `self_directed` field is a real design defect, independent of the shipping verdict
+
+At sonnet, effort low, the model claims `self_directed: true` in 37.9
+percent of verdicts, against a true rate of one fixture in seventeen (5.9
+percent). This is exactly the failure shape the pre-registration named in
+advance and set a 20 percent trigger for. An unanchored boolean with no
+worked contrast in its own definition invites a "yes" bias, and it invites
+it more at lower model capability, which is the opposite of what a cheap
+router needs. Any future two-stage design should either give `self_directed`
+a much sharper definition, with contrasting examples, or remove it and
+handle the frontier and tie-break cases a different way; `docs/CLASSIFIER-
+DESIGN.md` already names moving `prior_failure` to `ROUTING.md` section 4's
+escalation logic as one option, and the same argument now applies to
+`self_directed`.
+
+### The bug found during measurement
+
+`tools/route.py`'s `resolve_two_axis` crashed live during configuration D's
+first attempt: a model correctly reported `prior_failure: failed_at_xhigh`
+for F14, and the frontier rule, which matches on `prior_failure` alone
+regardless of horizon, returned the same rule at all three horizons
+uniformly; `worker-opus-max` was deliberately absent from the cost ladder
+the collapse ranks against, and the lookup raised `ValueError`. Fixed by
+short-circuiting on an escalation-only match before attempting cost-
+ranking. `score_routing.py` has no per-fixture checkpoint (unlike
+`benchmark.py`), so the interrupted run's partial spend was not
+recoverable; D was re-run clean after the fix, at no material additional
+cost since D is the cheap configuration.
+
+### What this means for acceptance criterion 6 and the project's own thesis
+
+Criterion 6 required the shipped routing mechanism, if any, to be chosen
+on agreement and cost per verdict together, against a baseline that
+includes B0 at zero router cost. No mechanism is shipped, so criterion 6
+is satisfied by inaction: the existing prose table, which criterion 7
+already requires to be stated honestly at close-out, remains the
+mechanism, unimproved by this stage.
+
+This also sharpens the premise ledger's dissolution finding
+(`docs/PREMISES.md`) rather than reversing it. The dissolution check
+showed the table cannot beat B0 on cost with an opus-priced router. This
+stage shows the reason is not incidental: cheap classification of this
+task is not currently achievable at the accuracy the table needs.
+Whatever value the routing table has above the floor, it is not
+obtainable by asking a cheaper model to do the same assessment job a more
+expensive one does passably.
+
+### What is not settled
+
+The two-axis question (D) remains formally undecided, per the pre-
+registration's own advance agreement: this fixture suite cannot decide it,
+and D's poor showing is consistent with either "horizon matters" or "the
+cheap model classifies badly regardless of which axes it is asked for",
+which the suite cannot distinguish. F13 scored 0 of 9 fields correct under
+every configuration tested (B, C and D alike), which is worth a fixture-
+level look in a future stage: either F13 is genuinely hard to classify
+without a table for context, or its wording invites a specific,
+consistent misreading.
+
+Reversal: a materially cheaper high-accuracy model, or a redesigned
+`self_directed`/`prior_failure` schema that removes the sonnet-class
+over-firing, would be grounds to re-run this measurement. Nothing here
+forecloses trying again; it records that this attempt, on this evidence,
+does not clear the bar.
