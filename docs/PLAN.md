@@ -634,7 +634,7 @@ Cost: session only.
 
 ## Stage 5. Two-stage classifier: design
 
-Status: **not started**
+Status: **done (2026-09-11, e50cad2)**
 Model: opus, xhigh. This changes the shipped product's routing mechanism and
 is the hardest reasoning in the plan.
 
@@ -734,7 +734,7 @@ Tasks:
       measurement-before-delivery split, the metric change, the two-axis
       variant's undecidability on this suite, the horizon non-monotonicity,
       and the derived cost ceiling. Reversal conditions are E20 and E22.
-- [ ] 5.6 Update this stage's status line and commit it.
+- [x] 5.6 Update this stage's status line and commit it.
 
 Exit criteria: design document committed; pre-registration committed;
 D39; no code yet.
