@@ -150,10 +150,78 @@ def resolve(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     raise NoRuleMatches(sensitivity, horizon, blast, reason)
 
 
+# Cost order for the two-axis collapse below: cheapest first. Identical to
+# benchmark.py's own LADDER; duplicated rather than shared, because both
+# scripts are meant to stand alone (the same rationale generate_workers.py's
+# bundle_tag() and score_routing.py's wilson_interval() already give for
+# their own duplicated helpers). Does not include worker-opus-max or
+# worker-fable-max (the frontier row, reached only via prior_failure, never
+# by the collapse below) or the cells ROUTING.md's constraints call rarely
+# right (worker-sonnet-max, worker-fable-low, worker-fable-medium), since
+# none of the six (sensitivity, blast) pairs the collapse considers reaches
+# any of those five.
+COST_ORDER = (
+    "worker-sonnet-low",
+    "worker-sonnet-medium",
+    "worker-sonnet-high",
+    "worker-sonnet-xhigh",
+    "worker-opus-high",
+    "worker-opus-xhigh",
+    "worker-fable-xhigh",
+)
+
+
+def resolve_two_axis(sensitivity: Sensitivity, blast: Blast,
+                      self_directed: bool = False, prior_failure: PriorFailure = "none",
+                      table: dict | None = None) -> Rule:
+    """The two-axis classifier variant (docs/CLASSIFIER-DESIGN.md): resolve on
+    sensitivity and blast alone, taking the cheapest cell the three-axis
+    table gives across all three horizons for that pair, per P12
+    (docs/PREMISES.md, the project's own standing policy of taking the
+    cheaper of two defensible cells).
+
+    Computed from the three-axis table each call rather than a second,
+    hand-maintained table, so there is exactly one source of truth and the
+    collapse cannot drift from what resolve() would give per horizon.
+
+    Raises NoRuleMatches only if every horizon is a gap for this
+    (sensitivity, blast) pair; if at least one horizon resolves, the
+    cheapest resolving one wins even if others are gaps (mechanical,
+    contained collapses to worker-sonnet-low this way, since long is a
+    documented gap but short and medium both resolve).
+
+    Known limitation, not specially handled: self_directed genuinely
+    implies a long horizon (ROUTING.md's own wording, "reshapes its own
+    plan as it goes"), but this function tries it against all three
+    horizons regardless, and at open/consequential the cheaper
+    worker-opus-xhigh from a hypothetical short or medium horizon wins over
+    worker-fable-xhigh, silently ignoring the self_directed signal rather
+    than honouring it. `docs/CLASSIFIER-DESIGN.md`'s pre-registration
+    already excludes the two-axis configuration from cell-agreement
+    scoring for the same underlying reason (dropping an axis changes the
+    correct answer), so this is recorded here rather than fixed: fixing it
+    would mean deciding what the two-axis variant does with a field whose
+    only defined meaning already depends on the axis being dropped.
+    """
+    table = table if table is not None else load_table()
+    candidates: list[Rule] = []
+    last_exc: NoRuleMatches | None = None
+    for horizon in table["axes"]["horizon"]:
+        try:
+            candidates.append(resolve(sensitivity, horizon, blast, self_directed, prior_failure, table))
+        except NoRuleMatches as exc:
+            last_exc = exc
+    if not candidates:
+        raise last_exc
+    return min(candidates, key=lambda rule: COST_ORDER.index(rule["worker"]))
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--sensitivity", required=True, choices=("mechanical", "structured", "open"))
-    ap.add_argument("--horizon", required=True, choices=("short", "medium", "long"))
+    ap.add_argument("--horizon", choices=("short", "medium", "long"),
+                     help="omit to use the two-axis variant (docs/CLASSIFIER-DESIGN.md): "
+                          "the cheapest cell across all three horizons for this sensitivity/blast")
     ap.add_argument("--blast", required=True, choices=("contained", "consequential"))
     ap.add_argument("--self-directed", action="store_true",
                      help="the task demands sustained, self-directed investigation "
@@ -164,7 +232,10 @@ def main(argv: list[str]) -> int:
     args = ap.parse_args(argv)
 
     try:
-        rule = resolve(args.sensitivity, args.horizon, args.blast, args.self_directed, args.prior_failure)
+        if args.horizon is None:
+            rule = resolve_two_axis(args.sensitivity, args.blast, args.self_directed, args.prior_failure)
+        else:
+            rule = resolve(args.sensitivity, args.horizon, args.blast, args.self_directed, args.prior_failure)
     except NoRuleMatches as exc:
         print(str(exc), file=sys.stderr)
         return 1
