@@ -504,7 +504,7 @@ framework track to open.
 
 Tasks:
 
-- [ ] 4.1 `docs/PREMISES.md`: a ledger of every premise the routing layer
+- [x] 4.1 `docs/PREMISES.md`: a ledger of every premise the routing layer
       rests on. One row per premise: id, statement, class (law, maths,
       policy, habit, unverified), source (a decision entry, a file, a run),
       confidence, cheapest verification, status. Cover `ROUTING.md` section
@@ -514,6 +514,19 @@ Tasks:
       and the assumptions `BENCHMARK-DESIGN.md` names. Cap the ledger at
       forty rows by merging, as `SYSTEM.md` requires; if it will not fit,
       the merging itself is a finding.
+      Done 2026-09-11. Forty rows exactly, each with a class, a cheapest
+      verification and a status. Roughly 11 laws, 11 unverified, 10
+      policies, 5 falsified, 2 habits, 1 maths. Two merges did the
+      compression and both are recorded as findings: the fixtures collapse
+      68 premises into 2 rows, and `ROUTING.md`'s constraints paragraph
+      collapses 3 unmeasured quality claims into 1. The layer rests on
+      about 110 distinct premises; forty is a readable summary, not a
+      complete enumeration. Two free arithmetic checks the ledger prompted
+      are recorded with it: the fixture suite confounds sensitivity with
+      horizon (a 35 point prediction lift), which bears directly on whether
+      Stage 6's two-axis comparison can be decisive; and four of the five
+      table rows with no fixture behind them are consequential, putting the
+      least evidenced rows on the one axis the benchmark cannot measure.
 - [ ] 4.2 Goal ladder for the project, three rungs: route each task to the
       cheapest sufficient cell; get the same quality for less money than one
       capable cell; and the rung above that, which the Framer states rather
