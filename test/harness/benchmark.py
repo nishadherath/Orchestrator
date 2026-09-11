@@ -20,9 +20,9 @@ tells it to stay under `bench-<task>/`, but nothing enforces that, so a
 stray edit elsewhere in the project is a real possibility this script
 cannot detect or undo. It runs whatever task directories exist under
 test/fixtures/benchmark/, discovered from the directory rather than a fixed
-list (eight, T1 through T8, as of D30's follow-on fixture work; the pilot
-itself restricted this to T1 and T5 via --pilot; --tasks restricts to any
-named subset).
+list (T1 through T8 from D30's follow-on fixture work, plus T9 and T10 from
+docs/PLAN.md Stage 7; the pilot itself restricted this to T1 and T5 via
+--pilot; --tasks restricts to any named subset).
 
 The one non-obvious thing: whether a spawned worker's cost and tokens roll
 up into the parent `claude -p --output-format json` call's total_cost_usd is
