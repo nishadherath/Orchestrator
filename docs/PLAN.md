@@ -569,11 +569,19 @@ Tasks:
       together with the decision rule for Gate D (what Stage 7 must show for
       Stages 9 to 12 to run) and the multiplier in criterion 2. This is
       Gate A. Record the fixed criteria and the rule verbatim in D38.
-- [ ] 4.5 List any platform questions the ledger exposes that Stage 2 did
+- [x] 4.5 List any platform questions the ledger exposes that Stage 2 did
       not answer, appended to `test/harness/empirical-checklist.md` as E20
       onward (E19 was consumed during Stage 2 by an unplanned finding, the
       `/tasks` tool question, `docs/FINDINGS.md`), each with what to run,
       what it settles, and which stage needs it.
+      Done 2026-09-11, taken before 4.4 because Gate A waits on Jeb and
+      this does not. Three: E20, whether `compact_boundary` is the reliable
+      undersizing signal `CLAUDE.md` claims (P29), which Stage 5 needs
+      before it proposes replacing an entire axis with it; E21, whether an
+      escalation leaves any machine-readable trace, which is one of the two
+      missing terms in cost per solved task; E22, the real cost of a
+      minimal schema-forced classification call, which is the `R` term the
+      whole cost thesis turns on.
 - [ ] 4.6 D38: the ledger's adoption, the fixed criteria, the goal ladder,
       the dissolution verdict, B0 for the project, and the Gate D rule.
 - [ ] 4.7 Update this stage's status line and commit it.
