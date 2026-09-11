@@ -274,7 +274,7 @@ Cost: no model calls beyond the session.
 
 ## Stage 1. Documentation and harness hygiene
 
-Status: **not started**
+Status: **done (2026-09-11, 16c3e49)**
 Model: sonnet, medium. Load `python.sonnet.md` for task 1.3.
 
 Purpose: the stale statements and the one remaining evidence-loss defect
@@ -282,14 +282,16 @@ Purpose: the stale statements and the one remaining evidence-loss defect
 
 Tasks:
 
-- [ ] 1.1 `test/fixtures/README.md`: eighteen fixtures, not seventeen; F17's
+- [x] 1.1 `test/fixtures/README.md`: eighteen fixtures, not seventeen; F17's
       gap was closed by D9 and the "Coverage" paragraph is rewritten from the
       current table (F18 backs the `worker-fable-xhigh` row; F19 was removed
       by D27); the review-status line names F18's `assigned_by` date.
-- [ ] 1.2 `test/fixtures/benchmark/README.md`: T1 to T8 exist; two sentences
+      Done 2026-09-11 (`446fea1`).
+- [x] 1.2 `test/fixtures/benchmark/README.md`: T1 to T8 exist; two sentences
       on the open-task grader convention and the three grader defects found
       so far (D16, D17, D30) and what each taught.
-- [ ] 1.3 `test/harness/benchmark.py`: the docstring says six tasks; say
+      Done 2026-09-11 (`e9638bb`).
+- [x] 1.3 `test/harness/benchmark.py`: the docstring says six tasks; say
       eight and that new tasks are discovered from the directory. Then the
       filename defect: result files are keyed by date and bundle only, so a
       `--tasks T7` run overwrote the six-task result under the same name
@@ -301,7 +303,12 @@ Tasks:
       into distinctly named files under `test/results/`, using the commits
       `git log --oneline -- test/results/2026-09-07-benchmark-04d2acc.md`
       lists. Record as D36.
-- [ ] 1.4 `docs/COST.md`: recompute against the installed bundle
+      Done 2026-09-11 (`359dc2f`, D36). Recovering the original also
+      reopened a PROSE defect a6b7426's own commit message had flagged and
+      left unresolved (a worker's verbatim US spelling); resolved in the
+      same commit by exempting benchmark.py's own relay markers from the
+      word-level checks, not by filename.
+- [x] 1.4 `docs/COST.md`: recompute against the installed bundle
       (`2026-09-07-af94deb`; the commands are in the file), and add two
       measured lines the file lacks. First, the cost of a routing verdict
       against the cost of the work it routes: mean opus verdict cost per
@@ -314,13 +321,18 @@ Tasks:
       repository (the files "State at handover" lists), in bytes and
       estimated tokens, so the development side's overhead is on the same
       ledger as the product's.
-- [ ] 1.5 `CLAUDE.md` "Open questions worth developing": add the three
+      Done 2026-09-11 (`27d6943`). Ratio 1.003: at the floor, the router
+      costs essentially the same as the work it routes.
+- [x] 1.5 `CLAUDE.md` "Open questions worth developing": add the three
       `REVIEW.md` found missing: no benchmark task yet fails the cheapest
       cell, so nothing above the floor is measured; the router's own cost
       is not on the ledger; horizon is the least reliable axis and the
       table has been adapting to that without saying so. Keep the existing
       entries untouched.
-- [ ] 1.6 Update this stage's status line and commit it.
+      Done 2026-09-11 (`16c3e49`). The router-cost question is added
+      already resolved, since task 1.4 in this same stage answered it;
+      listing it as open would have been stale on arrival.
+- [x] 1.6 Update this stage's status line and commit it.
 
 Exit criteria: harness green after every commit; D36 present; the recovered
 six-task result files exist under distinct names; `COST.md` carries the
