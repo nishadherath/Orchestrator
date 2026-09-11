@@ -77,6 +77,13 @@
       "worker": "worker-sonnet-low"
     }
   ],
+  "documented_overlaps": [
+    {
+      "_comment": "At (open, long, consequential, self_directed=true) both rules below match; table order picks the first. This is the deliberate disambiguation D39 records replacing the old worker-opus-xhigh / worker-fable-xhigh tie-break: at self_directed=false only open-any-consequential matches, so ordering is inert there. check.py's ROUTE-TOTAL asserts no other pair of rules overlaps like this.",
+      "winner": "open-long-consequential-self-directed",
+      "loser": "open-any-consequential"
+    }
+  ],
   "documented_gaps": [
     {
       "conditions": {"sensitivity": "mechanical", "horizon": "long", "blast": "contained"},

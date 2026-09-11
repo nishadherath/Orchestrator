@@ -106,6 +106,26 @@ def _matches(rule: Rule, values: dict[str, object]) -> bool:
     return True
 
 
+def matching_rules(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
+                    self_directed: bool = False, prior_failure: PriorFailure = "none",
+                    table: dict | None = None) -> list[Rule]:
+    """Every rule matching this assessment, in table order, not just the first.
+
+    `resolve` below only needs the first, but the harness's ROUTE-TOTAL check
+    uses this to assert the table is a genuine partition at the values that
+    are supposed to be unambiguous: at most one non-frontier rule should ever
+    match a given (sensitivity, horizon, blast, self_directed) combination.
+    More than one would mean two rules silently overlap and the answer
+    depends on list order, which first-match-wins would hide rather than
+    catch.
+    """
+    table = table if table is not None else load_table()
+    _validate_axes(table, sensitivity, horizon, blast, self_directed, prior_failure)
+    values = {"sensitivity": sensitivity, "horizon": horizon, "blast": blast,
+              "self_directed": self_directed, "prior_failure": prior_failure}
+    return [rule for rule in table["rules"] if _matches(rule, values)]
+
+
 def resolve(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
             self_directed: bool = False, prior_failure: PriorFailure = "none",
             table: dict | None = None) -> Rule:
@@ -116,12 +136,9 @@ def resolve(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     since an unrecognised value is an input defect, not routing coverage.
     """
     table = table if table is not None else load_table()
-    _validate_axes(table, sensitivity, horizon, blast, self_directed, prior_failure)
-    values = {"sensitivity": sensitivity, "horizon": horizon, "blast": blast,
-              "self_directed": self_directed, "prior_failure": prior_failure}
-    for rule in table["rules"]:
-        if _matches(rule, values):
-            return rule
+    matches = matching_rules(sensitivity, horizon, blast, self_directed, prior_failure, table)
+    if matches:
+        return matches[0]
     reason = None
     for gap in table.get("documented_gaps", []):
         gc = gap["conditions"]

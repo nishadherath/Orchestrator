@@ -181,11 +181,21 @@ def load_generator():
     return module
 
 
+def load_route():
+    """Import tools/route.py the same way load_generator() imports its sibling."""
+    spec = importlib.util.spec_from_file_location("route", REPO_ROOT / "tools" / "route.py")
+    assert spec and spec.loader, "cannot load tools/route.py"
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    named = set(load_generator().routing_assessments(routing))
+    gen = load_generator()
+    named = set(gen.routing_assessments(gen.load_routing_table()))
     unknown = sorted(named - set(defs))
-    r.add("ROUTE", "every worker named in ROUTING.md has a definition", not unknown,
+    r.add("ROUTE", "every worker named in src/routing_table.json has a definition", not unknown,
           f"{len(named)} names resolve" if not unknown else f"unresolved: {unknown}")
     unrouted = sorted(set(defs) - named)
     mislabelled = [n for n in unrouted if "Not in the routing table" not in defs[n].get("description", "")]
@@ -196,87 +206,14 @@ def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
           "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py")
 
 
-# A conflict here is allowed only if ROUTING.md documents the tie-break: the
-# exact workers named, and a substring proving the disambiguating sentence is
-# still present. If either changes, the check fails again rather than going
-# silently stale.
-ROUTE_TOTAL_ALLOWED_CONFLICTS: dict[tuple[str, str, str], tuple[frozenset[str], str]] = {
-    ("open", "long", "consequential"): (
-        frozenset({"worker-opus-xhigh", "worker-fable-xhigh"}),
-        "Prefer `worker-opus-xhigh`; route to `worker-fable-xhigh`",
-    ),
-}
+def _fixture_rows() -> list[dict]:
+    """Every fixture with a confirmed assessment triple, as parsed rows.
 
-# A triple may be left uncovered only if the decision ledger argues for it. The
-# value is a substring that must still be present in docs/DECISIONS.md, so
-# deleting the argument re-fails the check. The justification deliberately lives
-# in the ledger rather than in ROUTING.md: ROUTING.md ships to the orchestrator
-# on every turn, and naming an uncovered combination there would put the very
-# words whose effect is under measurement back into the prompt (D12).
-ROUTE_TOTAL_ALLOWED_GAPS: dict[tuple[str, str, str], str] = {
-    ("mechanical", "long", "contained"): "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07",
-    ("mechanical", "long", "consequential"): "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07",
-}
-
-
-def _parse_routing_assessment(text: str) -> tuple[set[str], set[str], set[str], list[str]]:
-    """Split one ROUTING.md table row's Assessment cell into axis value sets.
-
-    An axis absent from the text means "any value of that axis", handled by
-    the caller. A comma-separated chunk matching none of the three axis
-    vocabularies (e.g. "sustained autonomous investigation", or the whole
-    text of the frontier-escalation row) is returned unrecognised rather than
-    dropped, so the caller can tell a real classification row from an
-    escalation-only one instead of miscounting it as a gap or gaining a
-    3-axis match it never made.
+    self_directed and prior_failure default to (False, "none") for a fixture
+    that predates them, matching route.resolve()'s own defaults, though every
+    fixture has carried both explicitly since D39 (docs/DECISIONS.md).
     """
-    parts = [p.strip() for p in text.split(",")]
-    sens: set[str] = set()
-    hor: set[str] = set()
-    bla: set[str] = set()
-    unrecognised: list[str] = []
-    for part in parts:
-        lower = part.lower()
-        if lower.endswith(" horizon"):
-            lower = lower[: -len(" horizon")]
-        lower = lower.replace("any horizon", "short or medium or long")
-        tokens = [t.strip() for t in re.split(r"\s+or\s+", lower)]
-        matched = False
-        for tok in tokens:
-            if tok in SENSITIVITY:
-                sens.add(tok); matched = True
-            elif tok in HORIZON:
-                hor.add(tok); matched = True
-            elif tok in BLAST:
-                bla.add(tok); matched = True
-        if not matched:
-            unrecognised.append(part)
-    return sens, hor, bla, unrecognised
-
-
-def _routing_rows(routing: str) -> list[tuple[str, str]]:
-    """Walk ROUTING.md's routing table, returning (assessment cell, worker cell) per row."""
-    rows: list[tuple[str, str]] = []
-    in_table = False
-    for line in routing.splitlines():
-        if line.startswith("| Assessment"):
-            in_table = True
-            continue
-        if in_table and line.startswith("| :---"):
-            continue
-        if in_table and not line.startswith("|"):
-            break
-        if not in_table:
-            continue
-        m = re.match(r"^\|\s*(?P<assessment>[^|]+?)\s*\|\s*(?P<worker>[^|]+?)\s*\|\s*$", line)
-        assert m, f"ROUTING.md: unparseable table row: {line!r}"
-        rows.append((m.group("assessment"), m.group("worker")))
-    return rows
-
-
-def _fixture_triples() -> dict[tuple[str, str, str], list[tuple[str, str]]]:
-    """Map each fixture's confirmed assessment triple to its (id, expected cell)."""
-    out: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
+    out: list[dict] = []
     if not FIXTURES.exists():
         return out
     for line in FIXTURES.read_text(encoding="utf-8").splitlines():
@@ -289,94 +226,99 @@ def _fixture_triples() -> dict[tuple[str, str, str], list[tuple[str, str]]]:
         a = row.get("assessment")
         if not a or not row.get("expected_cell"):
             continue
-        key = (a.get("sensitivity"), a.get("horizon"), a.get("blast"))
-        out.setdefault(key, []).append((row.get("id", "?"), row["expected_cell"]))
+        out.append({
+            "id": row.get("id", "?"),
+            "sensitivity": a.get("sensitivity"), "horizon": a.get("horizon"), "blast": a.get("blast"),
+            "self_directed": row.get("self_directed", False), "prior_failure": row.get("prior_failure", "none"),
+            "expected_cell": row["expected_cell"], "also_acceptable": row.get("also_acceptable", []),
+        })
     return out
 
 
 def check_row_backed(r: Report) -> None:
-    """Every routing row must be justified by a fixture that lands on it (D13).
+    """Every routing rule must be justified by a fixture that lands on it (D13).
 
     Measured 2026-09-06: a row with no fixture behind it does not merely sit
     unused, it changes how tasks are assessed and can pull correct answers off
     other rows. D9's "Mechanical, long horizon" row had no backing fixture and
     cost two fixtures that were correct before it existed. This check is that
-    lesson made mechanical.
+    lesson made mechanical. Since D39 the table is data (src/routing_table.json)
+    and "backed" is asked of each non-escalation rule directly, rather than by
+    re-deriving triples from ROUTING.md's prose.
     """
-    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    fixtures = _fixture_triples()
-    unbacked_rows: list[str] = []
-    covered: set[tuple[str, str, str]] = set()
-    for assessment, worker_cell in _routing_rows(routing):
-        sens, hor, bla, _ = _parse_routing_assessment(assessment)
-        if not sens and not hor and not bla:
-            continue  # escalation-only row; no assessment triple to back
-        names = re.findall(r"worker-[a-z]+-[a-z]+", worker_cell)
-        backed = False
-        for t in itertools.product(sens, hor or set(HORIZON), bla or set(BLAST)):
-            covered.add(t)
-            if any(cell in names for _, cell in fixtures.get(t, [])):
-                backed = True
+    route_lib = load_route()
+    table = route_lib.load_table()
+    fixtures = _fixture_rows()
+    unbacked_rules: list[str] = []
+    for rule in table["rules"]:
+        if rule.get("escalation_only"):
+            continue  # the frontier row; no assessment triple backs a "prior failure" fact
+        names = {rule["worker"], *rule.get("also_acceptable", [])}
+        backed = any(
+            f["expected_cell"] in names
+            and route_lib.matching_rules(f["sensitivity"], f["horizon"], f["blast"],
+                                          f["self_directed"], f["prior_failure"], table)[:1] == [rule]
+            for f in fixtures
+        )
         if not backed:
-            unbacked_rows.append(assessment)
-    speculative = sorted(t for t in covered if t not in fixtures)
-    detail = (f"{len(covered)} covered triples, {len(covered) - len(speculative)} fixture-backed, "
-              f"{len(speculative)} speculative: {speculative}") if not unbacked_rows else \
-             f"rows with no fixture landing on them: {unbacked_rows}"
-    r.add("ROW-BACKED", "every routing row is justified by a fixture whose confirmed answer lands on it",
-          not unbacked_rows, detail)
+            unbacked_rules.append(rule["id"])
+    covered_ids = [rule["id"] for rule in table["rules"] if not rule.get("escalation_only")]
+    detail = (f"{len(covered_ids)} rules, {len(covered_ids) - len(unbacked_rules)} fixture-backed, "
+              f"{len(unbacked_rules)} unbacked") if not unbacked_rules else \
+             f"rules with no fixture landing on them: {unbacked_rules}"
+    r.add("ROW-BACKED", "every routing rule is justified by a fixture whose confirmed answer lands on it",
+          not unbacked_rules, detail)
 
 
 def check_route_total(r: Report) -> None:
-    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    parsed_rows = _routing_rows(routing)
-
-    coverage: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
-    for assessment, worker_cell in parsed_rows:
-        sens, hor, bla, unrecognised = _parse_routing_assessment(assessment)
-        if not sens and not hor and not bla:
-            continue  # escalation-only row (the frontier row); not a fresh classification
-        # Bare names, not the backtick-wrapped cell text, so these compare
-        # equal to ROUTE_TOTAL_ALLOWED_CONFLICTS's plain worker-name entries.
-        names = re.findall(r"worker-[a-z]+-[a-z]+", worker_cell)
-        assert names, f"ROUTING.md: no worker name found in cell {worker_cell!r}"
-        hor_expanded = hor or set(HORIZON)
-        bla_expanded = bla or set(BLAST)
-        for s, h, b in itertools.product(sens, hor_expanded, bla_expanded):
-            for name in names:
-                coverage.setdefault((s, h, b), []).append((name, assessment))
-
-    universe = list(itertools.product(SENSITIVITY, HORIZON, BLAST))
+    """Every (sensitivity, horizon, blast) triple resolves to a worker, or a
+    documented gap; and no two rules silently overlap outside the one
+    disambiguation D39 documents (self_directed within open, long,
+    consequential). Reads src/routing_table.json via tools/route.py rather
+    than parsing ROUTING.md's prose.
+    """
+    route_lib = load_route()
+    table = route_lib.load_table()
     decisions = (REPO_ROOT / "docs" / "DECISIONS.md").read_text(encoding="utf-8")
+    universe = list(itertools.product(SENSITIVITY, HORIZON, BLAST))
+
     problems: list[str] = []
     documented_gaps = 0
-    for t in universe:
-        if t in coverage:
-            continue
-        reason = ROUTE_TOTAL_ALLOWED_GAPS.get(t)
-        if reason and reason in decisions:
-            documented_gaps += 1
-            continue
-        if reason:
-            problems.append(f"{t} is an allowed gap but its argument is missing from DECISIONS.md")
-        else:
-            problems.append(f"no row covers {t}")
-    for t in universe:
-        if t not in coverage:
-            continue
-        workers = {w for w, _ in coverage[t]}
-        if len(workers) <= 1:
-            continue
-        allowed = ROUTE_TOTAL_ALLOWED_CONFLICTS.get(t)
-        if allowed and workers == allowed[0] and allowed[1] in routing:
-            continue
-        problems.append(f"{t} matches conflicting workers {sorted(workers)} with no documented tie-break")
+    documented_overlaps = table.get("documented_overlaps", [])
+    for s, h, b in universe:
+        for self_directed in (False, True):
+            matches = [m for m in route_lib.matching_rules(s, h, b, self_directed, "none", table)
+                       if not m.get("escalation_only")]
+            if not matches:
+                if self_directed:
+                    continue  # a gap is a property of the triple; self_directed=False already reported it
+                reason = None
+                for gap in table.get("documented_gaps", []):
+                    gc = gap["conditions"]
+                    if (gc["sensitivity"], gc["horizon"], gc["blast"]) == (s, h, b):
+                        reason = gap["reason"]
+                        break
+                if reason and reason in decisions:
+                    documented_gaps += 1
+                elif reason:
+                    problems.append(f"({s}, {h}, {b}) is a documented gap but its argument is missing from DECISIONS.md")
+                else:
+                    problems.append(f"no rule covers ({s}, {h}, {b})")
+                continue
+            if len(matches) == 1:
+                continue
+            ids = {m["id"] for m in matches}
+            allowed = next((o for o in documented_overlaps
+                            if {o["winner"], o["loser"]} == ids), None)
+            if allowed and matches[0]["id"] == allowed["winner"]:
+                continue
+            problems.append(f"({s}, {h}, {b}, self_directed={self_directed}) matches {sorted(ids)} "
+                             f"with no documented, correctly-ordered overlap")
 
-    r.add("ROUTE-TOTAL", "every (sensitivity, horizon, blast) triple resolves to one worker, or a documented tie-break",
-          not problems,
+    r.add("ROUTE-TOTAL", "every (sensitivity, horizon, blast) triple resolves to one worker, with self_directed "
+          "disambiguating rather than conflicting", not problems,
           f"{len(universe)} triples, {documented_gaps} documented gap(s), "
-          f"{len(ROUTE_TOTAL_ALLOWED_CONFLICTS)} documented tie-break(s)" if not problems
-          else "; ".join(problems))
+          f"{len(documented_overlaps)} documented overlap(s)" if not problems else "; ".join(problems))
 
 
 # The clarify rule's load-bearing sentences (D10). If the section is deleted or
@@ -387,6 +329,32 @@ CLARIFY_REQUIRED = (
     "**No discoverable objective.**",
     "**Irreversible and materially ambiguous.**",
 )
+
+
+def check_table_data(r: Report) -> None:
+    """Every fixture's recorded assessment resolves, through tools/route.py,
+    to that fixture's own expected_cell or an also_acceptable value (D39,
+    docs/DECISIONS.md; docs/CLASSIFIER-DESIGN.md). Deterministic and free,
+    replacing a class of drift that previously showed up only in a paid
+    score_routing.py run, or not at all: pre-flighting this exact check
+    against the three-axis table alone is what surfaced that the table has
+    five inputs, not three.
+    """
+    route_lib = load_route()
+    table = route_lib.load_table()
+    fixtures = _fixture_rows()
+    mismatches: list[str] = []
+    for f in fixtures:
+        try:
+            rule = route_lib.resolve(f["sensitivity"], f["horizon"], f["blast"],
+                                      f["self_directed"], f["prior_failure"], table)
+            got = rule["worker"]
+        except route_lib.NoRuleMatches as exc:
+            got = f"[gap: {exc}]"
+        if got != f["expected_cell"] and got not in f["also_acceptable"]:
+            mismatches.append(f"{f['id']}: table gives {got}, fixture expects {f['expected_cell']}")
+    r.add("TABLE-DATA", "every fixture's assessment resolves through route.py to its expected cell",
+          not mismatches, f"{len(fixtures)} fixtures checked" if not mismatches else "; ".join(mismatches))
 
 
 def check_clarify(r: Report) -> None:
@@ -564,6 +532,10 @@ def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
             a = row.get("assessment") or {}
             if a.get("sensitivity") not in SENSITIVITY or a.get("horizon") not in HORIZON or a.get("blast") not in BLAST:
                 problems.append(f"{fid}: assessment outside vocabulary: {a}")
+            if not isinstance(row.get("self_directed"), bool):
+                problems.append(f"{fid}: self_directed missing or not a bool: {row.get('self_directed')!r}")
+            if row.get("prior_failure") not in ("none", "failed_at_xhigh"):
+                problems.append(f"{fid}: prior_failure outside vocabulary: {row.get('prior_failure')!r}")
             for cell in [row.get("expected_cell")] + list(row.get("also_acceptable", [])):
                 if cell not in defs:
                     problems.append(f"{fid}: unknown cell {cell!r}")
@@ -597,6 +569,7 @@ def main(argv: list[str]) -> int:
     check_routing(report, defs)
     check_route_total(report)
     check_row_backed(report)
+    check_table_data(report)
     check_clarify(report)
     check_environment(report)
     check_available_models(report)
