@@ -1542,3 +1542,102 @@ Reversal: the criteria are fixed and are not reopened on results, which is
 the point of fixing them. If a criterion is found to be incoherent rather
 than merely demanding, that is a new decision entry saying so, not an
 edit here.
+
+## 2026-09-11 D39. The two-stage classifier design, and a table with five inputs
+
+Decision: `docs/CLASSIFIER-DESIGN.md` is adopted as the design, and
+`test/results/2026-09-11-classifier-preregistration.md` fixes Stage 6's
+measurement. No code is written in Stage 5. The design's load-bearing
+choices are recorded here.
+
+**The routing table is a function of five inputs, not three.** This is the
+finding the rest of the design turns on, and it was made by pre-flighting
+the free check the design proposes rather than by reasoning. Encoding
+`ROUTING.md` section 2 as a function of the assessment triple and resolving
+all seventeen assessed fixtures through it mismatches on two. F14 routes
+through the frontier row, which is conditioned on a documented failure at
+`xhigh` on the same task. F18 routes through the fable-xhigh tie-break,
+which fires only when the task demands sustained self-directed
+investigation. F11 and F12 carry F18's triple exactly and correctly route to
+`worker-opus-xhigh`, so the triple is not what separates them.
+
+The table has been described as a three-axis function since D9 wrote it
+total, and the harness's ROUTE-TOTAL check counts eighteen triples on that
+basis. Both are right about what they cover and silent about the two rows
+that need more. A human reading the prose resolves the extra conditions
+without noticing them; a classifier emitting only the triple cannot, and
+would route F14 and F18 wrongly by the fixtures' own labels. Adding
+`self_directed` and `prior_failure` as enumerated fields makes the table a
+pure function again, and all seventeen fixtures then resolve, checked
+2026-09-11.
+
+`prior_failure` is the weaker of the two and the design says so. It is not
+an assessment of the task; it is a fact about what has already been tried,
+and escalation already has its own home in `ROUTING.md` section 4. Moving
+the frontier row there would leave a four-field schema that is purely about
+the task. That change alters what F14 measures, which is a fixture change
+under D37 and needs a reporting-grade run behind it, so the design records
+the option and does not take it.
+
+**Measurement is separated from delivery, and measurement comes first.**
+E15 verified exactly one workable mechanism, a Bash-invoked script, and only
+with `--permission-mode acceptEdits --allowedTools "Bash(python3 *)"`.
+Without them the call is silently blocked. Shipping that mechanism would add
+a Bash-permission requirement to an install that currently needs none, and a
+consumer who declines would get an orchestrator that quietly falls back to
+its own judgement, which is the silent-substitution class this repository
+exists to prevent. Measuring the classifier needs no shipped mechanism at
+all: the harness asks for the assessment and applies the table in Python.
+So the design measures first and builds the delivery mechanism only if the
+measurement earns it, which is the null-hypothesis rule applied to the
+project's own proposal.
+
+**Field agreement replaces cell agreement as the primary metric**, because
+cell agreement forgives 24 of 72 possible single-field errors, 33.3 percent.
+Horizon is the most forgiven at 42.9 percent, sensitivity 28.6, blast 25.0.
+Sixteen covered triples map to six cells, so the table absorbs axis error by
+construction. Two consequences are recorded. The 2026-09-11 baseline's 95.7
+percent is an upper bound on assessment quality rather than an estimate of
+it. And horizon is simultaneously the least reliable axis (P03) and the one
+the metric penalises least, which is a sufficient explanation for why
+horizon is exactly the axis that drifted across F03, F05, F08, F11 and F18:
+nothing was pushing back on it.
+
+**The two-axis variant cannot be decided by this fixture suite**, and the
+pre-registration says so before the run rather than after. Two independent
+reasons. Dropping an axis changes the correct answer, and the fixtures
+encode three-axis answers, so scoring the variant on cell agreement marks it
+wrong four times in seventeen by construction (F03, F05, F07 and F10 all
+collapse to the floor). And the suite confounds the two axes at issue:
+sensitivity predicts horizon at 70.6 percent against a 35.3 percent base
+rate (`docs/PREMISES.md`). The variant is still measured, because the
+marginal cost is a few dollars once the flag exists, but a null result is
+agreed in advance to be uninformative.
+
+One further finding came out of the collapse arithmetic and does not depend
+on any model run. **Open and contained is not monotonic in horizon**: short
+routes to `worker-sonnet-low`, medium to `worker-opus-high`, long back down
+to `worker-sonnet-low`. That shape is the result of real measurement, D19
+and D21 lowering the long-horizon row on T6 and T7 evidence, so it is not an
+error. But it means horizon is not ordinally coherent in the band where the
+table has the most evidence behind it, and a model reasoning that longer
+implies harder implies a stronger cell would be wrong there. That is an
+argument against the axis that needs no classifier measurement at all.
+
+**The shipping rule's cost ceiling is derived, not chosen.** A router pays
+for itself only when it costs less than the floor-failure rate times one
+floor run. The observed rate is 0 of 8 benchmark tasks, whose 95 percent
+Wilson upper bound is 32.4 percent, and a floor run costs USD 0.1641. So the
+ceiling is USD 0.0532 per verdict, and a router above it cannot pay at any
+failure rate the current evidence permits. The opus router measured on
+2026-09-11 exceeds it by 3.1 times. If no configuration clears the ceiling,
+none ships and the prose table stands; that outcome is a result, and it
+would say the mechanism cannot be made cheap enough to pay for itself on
+this evidence.
+
+Reversal: the design is reopened if E20 finds `compact_boundary` is not a
+reliable undersizing signal, which would remove the two-axis variant's
+escalation mechanism, or if E22 measures a minimal schema-forced verdict
+above the USD 0.0532 ceiling, which would close the cheap-router route to
+acceptance criterion 6 and make the whole two-stage question a defect fix
+rather than an economic one.

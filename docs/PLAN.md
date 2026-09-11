@@ -729,7 +729,11 @@ Tasks:
       evidence permits. The opus router exceeds that by 3.1 times. Total
       estimate USD 10 to 40, below the plan's USD 45 to 72, because the
       baseline is already measured.
-- [ ] 5.5 D39, the design.
+- [x] 5.5 D39, the design.
+      Done 2026-09-11 (D39), recording the five-input finding, the
+      measurement-before-delivery split, the metric change, the two-axis
+      variant's undecidability on this suite, the horizon non-monotonicity,
+      and the derived cost ceiling. Reversal conditions are E20 and E22.
 - [ ] 5.6 Update this stage's status line and commit it.
 
 Exit criteria: design document committed; pre-registration committed;
