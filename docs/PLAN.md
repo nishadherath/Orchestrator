@@ -647,7 +647,7 @@ for the horizon question.
 
 Tasks:
 
-- [ ] 5.1 `docs/CLASSIFIER-DESIGN.md`: the mechanism by which the
+- [x] 5.1 `docs/CLASSIFIER-DESIGN.md`: the mechanism by which the
       orchestrator persona obtains a routing decision without the table in
       its prompt, chosen from the mechanisms Stage 2.2 found workable, with
       the reason and the FINDINGS row it rests on. Section 1 of
@@ -657,19 +657,56 @@ Tasks:
       still one source of truth. If Stage 2.2 found no workable mechanism,
       design the fallback (assessment schema-forced first, the table applied
       by the persona second) and state what it does and does not remove.
-- [ ] 5.2 The metric. Because the classifier never sees the table, the
+      Done 2026-09-11 (`docs/CLASSIFIER-DESIGN.md`). Mechanism: the
+      Bash-invoked script, the only one Stage 2.2 verified, but the design
+      separates measuring the classifier from shipping it and does
+      measurement first, because measuring needs no shipped mechanism at
+      all and shipping adds a Bash-permission requirement with a silent
+      failure mode. Table moves to `src/routing_table.json`, rendered back
+      into `ORCHESTRATOR.md` at build time so consumers still read prose
+      and there is still one source. Central finding, made while
+      pre-flighting the TABLE-DATA check: the routing table is not a
+      function of the three axes. F14 and F18 route through rows
+      conditioned on prior failure and on self-directed investigation,
+      neither of which the triple carries. With those two as enumerated
+      fields the table is a pure function and all seventeen assessed
+      fixtures resolve.
+- [x] 5.2 The metric. Because the classifier never sees the table, the
       natural measure is axis agreement against each fixture's recorded
       assessment triple, and cell agreement follows from the table in code.
       State both, and specify a deterministic `check.py` check (TABLE-DATA)
       asserting that `route.py` resolves every fixture's assessment triple
       to that fixture's expected cell. That check replaces one class of paid
       fixture run with a free one.
-- [ ] 5.3 The two-axis variant as a configuration flag: assessment on
+      Done 2026-09-11. Field agreement is primary, cell agreement derived
+      in code, and the gap between them reported, because the gap is what
+      the current metric hides: cell agreement forgives 24 of 72 possible
+      single-field errors, 33.3 percent, and horizon is the most forgiven
+      axis at 42.9 percent. That gives a causal account of why horizon
+      drifted across five fixtures, since it is both the least reliable
+      axis and the one the metric penalises least. TABLE-DATA specified
+      and pre-flighted: it fails today on F14 and F18 with three fields,
+      which is how the five-field finding was made, and passes on all
+      seventeen with five.
+- [x] 5.3 The two-axis variant as a configuration flag: assessment on
       sensitivity and blast only, horizon dropped, with escalation driven by
       the worker-side signal (`compact_boundary` in the transcript, per
       `CLAUDE.md`) rather than an orchestrator-side prediction. State the
       fixtures whose expected cells change under it and how they are
       scored.
+      Done 2026-09-11. Collapse rule is cheapest-across-horizons, which is
+      P12's standing policy. Four fixtures change cell, all downward to the
+      floor: F03, F05, F07, F10. Two findings. Open and contained is not
+      monotonic in horizon under the current table (short to the floor,
+      medium to `worker-opus-high`, long back to the floor), so horizon is
+      not ordinally coherent in the band with the most measured evidence
+      behind it. And the variant cannot be scored on fixture cell
+      agreement at all, because dropping an axis changes the correct
+      answer the fixtures encode; it would be marked wrong four times out
+      of seventeen by construction. Combined with the suite's
+      sensitivity-to-horizon confound, the conclusion recorded in the
+      design is that this fixture suite cannot decide the two-axis
+      question, and the pre-registration says so in advance.
 - [ ] 5.4 Pre-register Stage 6's measurement: three configurations (current
       prose table; two-stage with three axes; two-stage with two axes).
       Steer each at three runs; report at nine for the prose baseline
