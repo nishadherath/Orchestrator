@@ -213,6 +213,20 @@ def resolve_two_axis(sensitivity: Sensitivity, blast: Blast,
             last_exc = exc
     if not candidates:
         raise last_exc
+    # The frontier rule matches on prior_failure alone, ignoring sensitivity,
+    # horizon and blast, so if prior_failure="failed_at_xhigh" it matches
+    # identically at all three horizons: candidates here are either all the
+    # frontier rule or none of them, never a mix. Its worker (worker-opus-max)
+    # is deliberately absent from COST_ORDER (it is not a rung on the cost
+    # ladder the collapse ranks), so it is returned directly rather than run
+    # through cost-ranking, which would raise ValueError on the missing
+    # lookup. Found live, 2026-09-11, Stage 6.3 (docs/PLAN.md): a two-stage
+    # classifier call replied prior_failure: failed_at_xhigh for a real
+    # fixture and crashed exactly this path before this fix. Recorded with
+    # Stage 6.4's D40, which covers this same measurement run.
+    escalation = next((c for c in candidates if c.get("escalation_only")), None)
+    if escalation:
+        return escalation
     return min(candidates, key=lambda rule: COST_ORDER.index(rule["worker"]))
 
 
