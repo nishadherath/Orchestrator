@@ -828,7 +828,7 @@ result criterion 6 wants.
 
 ## Stage 7. A task the floor cannot clear
 
-Status: **not started**
+Status: **in progress (7.1 done 2026-09-11, 6a07bfd)**
 Model: opus, high. Move to opus xhigh only for a hardening round (task 7.3's
 rule), and record the switch.
 
@@ -840,7 +840,7 @@ evidence, and the framework track has no subject.
 
 Tasks:
 
-- [ ] 7.1 Benchmark tasks T9, T10 and T11, in two shapes so the result does
+- [x] 7.1 Benchmark tasks T9, T10 and T11, in two shapes so the result does
       not rest on one. T9 and T10: a small repository plus a `PROBLEM.md`
       whose stated constraints include one or more planted false premises,
       a habit or policy presented as a law, where the intended solution is
@@ -855,6 +855,25 @@ Tasks:
       Test each grader against a correct report in two phrasings, two
       plausible wrong ones, and one adversarial one before any run (the D16
       and D30 lesson), and record the results in the pre-registration.
+      Departure, made deliberately and recorded here rather than reworded
+      in place: T9's and T10's graders are behavioural, not the three
+      string-match checks prescribed above. That prescription was written
+      before the task shapes were concrete, and both tasks turned out to
+      change code rather than only diagnose, which makes behavioural
+      grading available and strictly better. Three of the four graders
+      written for this benchmark before Stage 7 needed correcting for false
+      negatives on phrasing (D16, D17, D30), and a behavioural check cannot
+      have that defect. Both graders still compute and print the report
+      string signals as diagnostics, so the analysis loses nothing; they
+      just do not gate. The artefact criterion survives intact, as
+      `MEASUREMENT.txt` for T9 and `IMPACT.txt` for T10, because
+      `PROBLEM.md` states it as an acceptance criterion in both. T11 stays
+      a string-match grader, since it is diagnose-only, and gains a third
+      gating check the T5 to T8 graders do not have: the report must state
+      the mechanism, without which a shotgun list of every candidate would
+      pass. Each of the three graders was tested six ways, one more than
+      the five prescribed, and the results are recorded in the commits
+      35909b1, 9a30586 and 6a07bfd and restated in the pre-registration.
 - [ ] 7.2 Pre-register in `test/results/<date>-T9-T11-preregistration.md`
       on the T7 template, with this prediction stated outright:
       `worker-sonnet-low` fails at least one of T9 to T11 at the reporting
