@@ -770,9 +770,20 @@ Tasks:
       prior_failure's own wording) kept intact. 18 checks, 0 failing
       throughout; `dist/` confirmed unaffected by `git status` after a
       rubric-only build.
-- [ ] 6.2 `score_routing.py` gains `--classifier {prose,two-stage}` and
+- [x] 6.2 `score_routing.py` gains `--classifier {prose,two-stage}` and
       `--axes {3,2}` so all three configurations run through the same
       scorer, and records cost per verdict per configuration.
+      Done 2026-09-11 (`92f2c97`, `5e3b0fb`). Refuses to run two-stage
+      against a project whose bundle is not `dist-rubric-only/`, per the
+      pre-registration's own constraint. Field agreement is the primary
+      metric feeding the run's grade; cell agreement is derived through
+      `tools/route.py` and reported alongside, never as the grade, since it
+      forgives up to a third of single-field errors. Verified end to end
+      at zero cost: dry-run against a freshly installed rubric-only scratch
+      project (`orchestrator-scratch-rubric-only`, not committed to this
+      repository) for both 3 and 2 axes, and synthetic verdicts covering a
+      correct reply, a wrong field, F18's self_directed case, and an
+      unparseable reply.
 - [ ] 6.3 Run the configurations per the Stage 5 pre-registration. Jeb runs;
       the session prepares real-path commands and analyses.
 - [ ] 6.4 D40, the verdict against the pre-registration, on agreement and
