@@ -427,7 +427,7 @@ stated: fewer than twenty short calls, most at sonnet.
 
 ## Stage 3. A reporting bar for routing runs
 
-Status: **not started**
+Status: **done (2026-09-11, b3022e3)**
 Model: sonnet, high. Load `python.sonnet.md`.
 
 Purpose: `REVIEW.md`, "The routing side has no reporting bar". The benchmark
