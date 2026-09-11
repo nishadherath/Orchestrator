@@ -353,13 +353,18 @@ platform question nobody has asked, all of which are cheap probes.
 
 Tasks:
 
-- [ ] 2.1 Re-run E1, E2, E4, E5 and E7 from
+- [x] 2.1 Re-run E1, E2, E4, E5 and E7 from
       `test/harness/empirical-checklist.md` on the installed version, plus
       the parse half of E12 (`score_routing.py --dry-run`, then one
       `--only F01` pass, checking the `claude -p --output-format json` field
       names still parse). Record each row as re-verified on the version
       seen, with the evidence, or as changed. A changed result that touches
       an invariant blocks the plan: decision entry, `blocked`, stop.
+      Done 2026-09-11. E1, E4, E5, E7 and E12's parse half all re-verified
+      unchanged on 2.1.263, no invariant affected. E2 could not be
+      re-verified: no callable equivalent of `/tasks` exists for an agent
+      session (E19, a new finding, `docs/FINDINGS.md`), so the check needs
+      a human watching the panel live, which this round did not do.
 - [ ] 2.2 E15, the classifier mechanism Stage 5 depends on. Can an
       orchestrator obtain a routing verdict from code and act on it without
       the table in its prompt? Try each candidate in the scratch project:
@@ -486,9 +491,10 @@ Tasks:
       Stages 9 to 12 to run) and the multiplier in criterion 2. This is
       Gate A. Record the fixed criteria and the rule verbatim in D38.
 - [ ] 4.5 List any platform questions the ledger exposes that Stage 2 did
-      not answer, appended to `test/harness/empirical-checklist.md` as E19
-      onward, each with what to run, what it settles, and which stage needs
-      it.
+      not answer, appended to `test/harness/empirical-checklist.md` as E20
+      onward (E19 was consumed during Stage 2 by an unplanned finding, the
+      `/tasks` tool question, `docs/FINDINGS.md`), each with what to run,
+      what it settles, and which stage needs it.
 - [ ] 4.6 D38: the ledger's adoption, the fixed criteria, the goal ladder,
       the dissolution verdict, B0 for the project, and the Gate D rule.
 - [ ] 4.7 Update this stage's status line and commit it.

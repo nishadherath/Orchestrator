@@ -7,8 +7,10 @@ evidence of intent. The `/tasks` row and a worker transcript on the installed
 version are evidence of behaviour. A claim moves from unverified to verified
 only on one of those two, and the entry names the version it was seen on.
 
-Installed version at the last empirical check: 2.1.245, checked 2026-09-05
-(E1, `test/results/2026-09-05-empirical.md`).
+Installed version at the last empirical check: 2.1.263, checked 2026-09-11
+(`docs/PLAN.md` Stage 2, task 2.1). Every row below dated 2026-09-05 was
+checked on 2.1.245; where a row has since been re-verified, its own line
+says so.
 
 ## Verified against documentation, 2026-09-05
 
@@ -53,6 +55,37 @@ Confirmed by a live `/tasks` row or command output on the installed version, not
 | A spawned subagent's cost and token usage roll up into the parent `claude -p --output-format json` session's `total_cost_usd` | Two task sizes, each run through `test/harness/cost_rollup_check.py`: a 150 word task (one SPAWN, one DIRECT) and a 2000 word task (two SPAWN, two DIRECT). SPAWN's `total_cost_usd` was consistently higher than DIRECT's, not lower: 0.1707 against 0.0386 at 150 words (4.4 times), 0.2929 against 0.0708 mean at 2000 words (4.1 times). A broken roll-up would leave SPAWN reflecting only the forwarder's brief spawn-and-relay overhead, cheaper than doing the work directly; instead it consistently cost more, consistent with the worker's own separate session genuinely being counted | E14; `test/results/2026-09-07-cost-rollup-check-smoke.md` and `-full.md`. Confirms the one assumption `test/harness/benchmark.py`'s whole cost measurement depends on; every T1 through T7 figure recorded this session stands |
 | A bare task given directly to a forwarder session with the orchestrator persona installed, with no instruction overriding that persona, produces unstable behaviour rather than a clean control | DIRECT's first attempt (2000 word task, no do-not-spawn instruction) returned in 70.3 seconds on one rep and never returned inside a 600 second timeout on the other, identical prompt both times. Adding an explicit preamble telling the forwarder to do the task itself and not spawn made both reps return in under 120 seconds | E14 (incidental); `test/results/2026-09-07-cost-rollup-check-full.md`. A caution for any future harness comparison that asks an orchestrator-primed session to act outside its installed routing persona |
 
+## Re-verified, 2026-09-11 (v2.1.263)
+
+`docs/PLAN.md` Stage 2, task 2.1: re-running the checklist items every
+earlier row here depended on, since nothing had been checked since v2.1.245.
+Run from an interactive session with cwd `orchestrator-scratch`, reported
+back into the Orchestrator repository session driving this stage.
+
+| Claim | Evidence on 2.1.263 | Settles |
+| :--- | :--- | :--- |
+| `worker-sonnet-low` still runs on sonnet at low effort with the env unset | `worker-sonnet-low` spawned as `ready-check` with "reply ready and stop"; its transcript `agent-ab01be9fd525b2f3d.jsonl` confirms `claude-sonnet-5`, matching the cell | E2 partial (see the contradiction below for what could not be re-verified) |
+| A named worker's `SendMessage` to `main` still reaches the orchestrator | `worker-sonnet-low` spawned as `ping-check` sent PING to `main`; a distinct "Message from @ping-check" notification arrived, separate from the completion summary | E5 confirmed unchanged on this version |
+| A `TaskStop`-stopped worker still auto-resumes on `SendMessage`, under the same agent ID | `worker-sonnet-medium` spawned as `stop-resume-check` (agent `a6d6f3d5f66a243dc`), `TaskStop`'d (notification: `status: killed`), then messaged "continue"; `ListAgents` showed a running row reappear under the identical agent ID, and the worker finished normally, itself reporting the interruption | E4 confirmed unchanged on this version. "Killed" is the notification's own word for the stopped state; `LIFECYCLE.md`'s `stopped-by-me` is a description of the same state, not a literal string this version emits |
+| The worker transcript (`.jsonl`) still records both `effort` and `model` per turn | On a fresh `worker-sonnet-medium` spawn (`transcript-check`, agent `a3d19e886f017abba`), the `.jsonl` contains `"model":"claude-sonnet-5"` and `"effort":"medium"`. The `.meta.json` sidecar does not: it carries only `agentType`, `name`, `description`, `toolUseId` and `spawnDepth` | E7 confirmed unchanged on this version, and sharper than the original: the effort/model fields live specifically in the `.jsonl`, never in the sidecar, which the original E7 did not distinguish |
+| `score_routing.py`'s `claude -p --output-format json` field names (`result`, `total_cost_usd`) still parse | Two `--only F01 --record` passes against bundle `af94deb`, run minutes apart: both scored exact agreement (`worker-sonnet-low` expected and chosen). The second collided on filename with the first by `unique_path`'s own design and landed on the `-2` variant automatically, incidentally re-confirming D34's fix as well. Cost fell from USD 0.1974 to USD 0.0852 between the two, consistent with the existing sequential-caching finding above | E12 parse-half confirmed unchanged on this version. `test/results/2026-09-11-routing-opus-af94deb-only-F01.md` and `-only-F01-2.md` |
+
+**E19, a new finding not previously checked: no agent session, including
+the orchestrator, can invoke or read `/tasks` itself.** It is a
+terminal-only interactive panel; there is no `TaskList`-equivalent tool,
+confirmed by `ToolSearch` returning nothing for it from inside a live
+session. A row also clears from the panel the instant a fast task
+completes (matching `src/commands/workers.md`'s own "a successful
+worker's row is removed immediately"), so even a human watching needs a
+task with enough tool calls to leave a visible window, not the instant
+"reply ready and stop" tasks E2 through E11 use. This means E2's original
+2026-09-05 claim ("Row read 'Sonnet 5 (low)'") was necessarily a human's
+own observation at the time, not something the session itself produced,
+though `test/results/2026-09-05-empirical.md` does not say so explicitly.
+E2 is not re-verified on 2.1.263 by this round: no human watched `/tasks`
+live during this session's checks. See the contradiction this exposes,
+below.
+
 ## Contradicted by documentation, 2026-09-05
 
 | Claim as previously written | What the documentation says | Action taken |
@@ -67,6 +100,12 @@ Claims stated in this repository's own files that a live test disproved, as dist
 | Claim as previously written | What was observed | Action taken |
 | :--- | :--- | :--- |
 | Invariant 5: haiku has no effort levels, given as the reason for excluding it | A worker defined with `model: haiku, effort: high` (`probe-haiku`, scratch project only) showed "Haiku 4.5 (high)" on its `/tasks` row: haiku honours effort | Invariant 5's justification struck from `CLAUDE.md`; the exclusion itself is left in place pending a decision on whether to add haiku cells, an open question CLAUDE.md now flags under invariant 5 |
+
+## Contradicted by empirical check, 2026-09-11
+
+| Claim as previously written | What was observed | Action taken |
+| :--- | :--- | :--- |
+| `LIFECYCLE.md`'s "Reporting state": "report from `/tasks` plus your own tracking, never from memory alone", and `src/commands/workers.md`'s step 1, "Run `/tasks` and read every row" | Neither instruction is literally followable by the agent reading it. `/tasks` has no corresponding callable tool in a live session, confirmed by `ToolSearch` returning nothing for it; it is a human-facing terminal panel only. An orchestrator or the `/workers` skill itself cannot execute this step no matter how it is worded | Recorded here, no `src/` edit yet: `docs/PLAN.md` Stage 2's exit criteria excludes changes to `src/`. Both files need rewording to describe what an agent can actually do (`ListAgents`, transcript inspection under `subagents/`, and the worker's own completion or resume notifications), with `/tasks` and a human's own glance kept only as the ground-truth cross-check `CLAUDE.md`'s "Verification is the hard problem" section already frames it as. Flagged for the next stage that touches `LIFECYCLE.md` or `src/commands/workers.md` |
 
 ## Unverified, 2026-09-05
 
