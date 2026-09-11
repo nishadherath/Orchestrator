@@ -874,7 +874,7 @@ Tasks:
       pass. Each of the three graders was tested six ways, one more than
       the five prescribed, and the results are recorded in the commits
       35909b1, 9a30586 and 6a07bfd and restated in the pre-registration.
-- [ ] 7.2 Pre-register in `test/results/<date>-T9-T11-preregistration.md`
+- [x] 7.2 Pre-register in `test/results/<date>-T9-T11-preregistration.md`
       on the T7 template, with this prediction stated outright:
       `worker-sonnet-low` fails at least one of T9 to T11 at the reporting
       bar. Present it with the cost estimate; this is Gate B.
