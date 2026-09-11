@@ -23,6 +23,15 @@ recorded results predate the fixed calibration instruction (D6,
 `--json`, output nests under a top-level "runs" list even when --runs is 1,
 so downstream tooling has one schema regardless of run count.
 
+Every rendered file and summary carries a grade, `steering` below nine runs
+or `reporting` at nine or more, matching `benchmark.py`'s own two-threshold
+discipline (`docs/BENCHMARK-DESIGN.md`). A table or fixture change is
+confirmed only on a reporting-grade run for every fixture it touches (D37,
+`docs/DECISIONS.md`); below that it is steering, useful for narrowing where
+to look but not for a table change. The summary also states, per fixture,
+whether its 95 percent Wilson lower bound clears 0.7, the same bar
+`benchmark.py` uses.
+
 Usage:
     python3 test/harness/score_routing.py --project ~/consumer --model sonnet --dry-run
     python3 test/harness/score_routing.py --project ~/consumer --model sonnet --record
@@ -205,6 +214,15 @@ def unique_path(path: Path) -> Path:
         n += 1
 
 
+REPORTING_THRESHOLD = 9  # runs; below this a result is steering, not reporting (D37, docs/DECISIONS.md)
+WILSON_BAR = 0.7  # the reporting bar's lower-bound requirement, matching benchmark.py
+
+
+def run_grade(runs: int) -> str:
+    """steering below REPORTING_THRESHOLD runs, reporting at or above it (D37)."""
+    return "reporting" if runs >= REPORTING_THRESHOLD else "steering"
+
+
 def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
     """95 percent Wilson score interval for a binomial proportion, z=1.96 by default.
 
@@ -227,12 +245,15 @@ def render(rows: list[dict], meta: dict) -> str:
     over = sum(r["direction"] == "over" for r in rows)
     under = sum(r["direction"] == "under" for r in rows)
     unparsed = sum(not r["parsed"] for r in rows)
+    grade = run_grade(meta.get("runs", 1))
     run_label = f" (run {meta['run']} of {meta['runs']})" if meta.get("runs", 1) > 1 else ""
-    lines = [f"# Routing score{run_label} {meta['when']} at {meta['git']}", "",
+    lines = [f"# Routing score, {grade}{run_label} {meta['when']} at {meta['git']}", "",
              f"Orchestrator model: {meta['model'] or 'session default'}. Bundle: {meta['bundle']}. "
              f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}. "
              f"Mode: {meta.get('mode', 'assess and select')}"
              + (", so agreement means all three axes correct and no cell was chosen." if meta.get("mode") == "assessment only" else "."), "",
+             f"Grade: {grade}" + (f" (fewer than {REPORTING_THRESHOLD} runs; steering only, not a basis for a table or fixture change, D37)"
+                                   if grade == "steering" else f" (at or above {REPORTING_THRESHOLD} runs)") + ".", "",
              f"Agreement {agreed}/{n}. Over-provisioned {over}, under-provisioned {under}, unparsed {unparsed}. "
              f"Cost reported by claude: {meta['cost']}.", "",
              "| Fixture | Expected | Chosen | Agree | Axes agree | Direction | Raw verdict |",
@@ -247,27 +268,40 @@ def render(rows: list[dict], meta: dict) -> str:
 def render_summary(fixture_ids: list[str], per_fixture_agree: dict[str, list[bool]],
                     overall_successes: int, overall_n: int, run_costs: list[float | None], meta: dict) -> str:
     lo, hi = wilson_interval(overall_successes, overall_n)
+    grade = run_grade(meta["runs"])
     known = [c for c in run_costs if c is not None]
     cost_line = (f" Mean cost per run: USD {sum(known) / len(known):.4f}; "
                  f"total across {len(known)} costed of {len(run_costs)} runs: USD {sum(known):.4f}."
                  if known else " Cost not reported for any run.")
-    lines = [f"# Routing score summary, {meta['runs']} runs, {meta['when']} at {meta['git']}", "",
+    clears = {fid: wilson_interval(sum(per_fixture_agree[fid]), len(per_fixture_agree[fid]))[0] >= WILSON_BAR
+              for fid in fixture_ids}
+    clears_count = sum(clears.values())
+    lines = [f"# Routing score summary, {grade}, {meta['runs']} runs, {meta['when']} at {meta['git']}", "",
              f"Orchestrator model: {meta['model'] or 'session default'}. Bundle: {meta['bundle']}. "
              f"Project: `{meta['project']}`. Fixtures reviewed by a human: {meta['reviewed']}. "
              f"Mode: {meta.get('mode', 'assess and select')}"
              + (", so agreement means all three axes correct and no cell was chosen." if meta.get("mode") == "assessment only" else "."), "",
+             f"Grade: {grade}" + (f" (fewer than {REPORTING_THRESHOLD} runs; steering only, not a basis for a table or fixture change, D37)"
+                                   if grade == "steering" else f" (at or above {REPORTING_THRESHOLD} runs)") + ".", "",
              f"Overall agreement {overall_successes}/{overall_n} "
              f"({overall_successes / overall_n:.1%}, 95% Wilson [{lo:.1%}, {hi:.1%}])." + cost_line, "",
-             "| Fixture | Agreements | Runs | Rate | 95% Wilson interval |",
-             "| :--- | :--- | :--- | :--- | :--- |"]
+             f"{clears_count} of {len(fixture_ids)} fixtures clear the {WILSON_BAR:.0%} Wilson lower bound"
+             + ("." if grade == "reporting" else f", but this is steering grade (fewer than {REPORTING_THRESHOLD} runs): "
+                "a fixture clearing the bar here is not yet reporting-grade confirmation."), "",
+             "| Fixture | Agreements | Runs | Rate | 95% Wilson interval | Clears 0.7 |",
+             "| :--- | :--- | :--- | :--- | :--- | :--- |"]
     for fid in fixture_ids:
         agrees = per_fixture_agree[fid]
         s, n = sum(agrees), len(agrees)
         flo, fhi = wilson_interval(s, n)
-        lines.append(f"| {fid} | {s} | {n} | {s / n:.0%} | [{flo:.0%}, {fhi:.0%}] |")
+        lines.append(f"| {fid} | {s} | {n} | {s / n:.0%} | [{flo:.0%}, {fhi:.0%}] | {'yes' if clears[fid] else 'no'} |")
     lines += ["", "A wide interval on a fixture run only a few times is sample noise, not necessarily "
               "a wrong rule; widen --runs before concluding the rubric is wrong for that cell "
-              "(ROUTING.md section 4 still wants three or more disagreements on one starting cell)."]
+              "(ROUTING.md section 4 still wants three or more disagreements on one starting cell). "
+              "\"Clears 0.7\" is the same reporting bar benchmark.py uses; below nine runs it cannot "
+              "read yes at all, even for a perfect record (eight of eight gives a lower bound of "
+              "67.6 percent, nine of nine is the smallest perfect record that clears 70 percent), "
+              "so a \"no\" at steering grade is structural, not evidence the rubric is wrong."]
     return "\n".join(lines) + "\n"
 
 

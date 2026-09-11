@@ -437,12 +437,19 @@ record the policy.
 
 Tasks:
 
-- [ ] 3.1 `score_routing.py`: label every rendered file and summary with its
+- [x] 3.1 `score_routing.py`: label every rendered file and summary with its
       grade. `steering` when runs are fewer than nine; `reporting` at nine
       or more. In the summary, add a per-fixture column stating whether that
       fixture's 95 percent Wilson lower bound exceeds 0.7, and an overall
       line stating how many fixtures clear it. The Wilson function already
       exists; this is presentation and one comparison.
+      Done 2026-09-11, verified live with `--only F01 --runs 3 --record`
+      (`test/results/2026-09-11-routing-opus-af94deb-only-F01-summary.md`):
+      the header, the grade line, and the new `Clears 0.7` column all
+      render correctly. Also found and corrected while writing this: below
+      nine runs the bar cannot clear at all, not merely "by chance" as a
+      first draft claimed; eight of eight gives a lower bound of 67.6
+      percent, still short of 0.7.
 - [ ] 3.2 D37, the policy: a change to `ROUTING.md`'s table or to a
       fixture's assessment is called confirmed only on a reporting-grade run
       for every fixture the change touches. Below that it is steering, and
