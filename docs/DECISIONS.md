@@ -1373,3 +1373,49 @@ name, a second on `-2`, a third on `-3`; `--tasks T7` produces
 files, and the PROSE exemption.
 
 Reversal: none anticipated, for the same reason D34 gave its own fix.
+
+## 2026-09-11 D37. A table or fixture change is confirmed only at reporting grade
+
+Decision: a change to `ROUTING.md`'s table, or to a fixture's `assessment`
+or `expected_cell`, is called confirmed only when every fixture the change
+touches has a reporting-grade `score_routing.py` run behind it, nine runs
+or more per Stage 3.1's new grade label. Below that, the change is
+steering: useful for narrowing where to look next, never cited as the
+reason a change is correct. This is `score_routing.py`'s side of the
+discipline `BENCHMARK-DESIGN.md` already states for `benchmark.py`
+("A report never cites the steering threshold as evidence").
+
+Retroactively, without editing any of them: D23 through D33 all rest on
+steering-grade runs, three per batch. This is not a defect discovered now;
+it is what those entries' own evidence sections already show, read against
+a bar that did not exist in writing until this decision. Nothing about
+their conclusions is withdrawn. A future session revisiting F03, F05, F07,
+F08, F11, F13 or F19's history should read those entries' verdicts as
+steering-grade findings, not reporting-grade confirmations, until a
+reporting-grade run backs the same fixtures.
+
+Why the asymmetry existed until now: an opus routing pass over the full
+eighteen-fixture set costs about USD 3 (`docs/COST.md`'s own figures put a
+run at USD 2.95 to 2.97), so nine passes is about USD 27. During the week
+of calibration that produced D23 through D33, USD 27 per table edit was
+judged too much to spend on each of what turned out to be a rapid sequence
+of small wording corrections, most of them settled or reverted within the
+same session. That judgement was reasonable for calibration, where the
+question was "does this wording read differently at all", answerable at
+three runs. It is not reasonable for a change this project intends to keep:
+`ROUTING.md` is a shipped artefact, and USD 27 is not a large cost against
+what a wrongly confirmed row then costs downstream, in over- or under-
+provisioned routing on every task it touches from that point on.
+
+What changes going forward: any session editing `ROUTING.md`'s table or a
+fixture's `assessment`/`expected_cell` runs `score_routing.py --runs 9
+--record` (or reuses an existing reporting-grade run against the identical
+bundle and fixture set) before writing the confirming decision entry, the
+same before-and-after discipline the attractor finding (D13) already
+requires, now with the run count that discipline needs to mean something.
+
+Reversal: none anticipated for the policy itself. The threshold of nine
+is `benchmark.py`'s own (D15's corrected value, the smallest sample size a
+perfect record can clear 0.7 at); a future change to that constant should
+change both scripts together, since they are meant to agree on what
+"reporting" means.

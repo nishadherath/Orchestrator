@@ -450,7 +450,7 @@ Tasks:
       nine runs the bar cannot clear at all, not merely "by chance" as a
       first draft claimed; eight of eight gives a lower bound of 67.6
       percent, still short of 0.7.
-- [ ] 3.2 D37, the policy: a change to `ROUTING.md`'s table or to a
+- [x] 3.2 D37, the policy: a change to `ROUTING.md`'s table or to a
       fixture's assessment is called confirmed only on a reporting-grade run
       for every fixture the change touches. Below that it is steering, and
       the ledger entry says so. Retroactively, without editing them, note
@@ -459,6 +459,7 @@ Tasks:
       about USD 3 per pass on opus, so nine passes is about USD 27, and
       that was judged too much per decision during calibration. It is not
       too much per table change.
+      Done 2026-09-11 (D37).
 - [ ] 3.3 Jeb's call at this stage's approval: one reporting-grade opus run
       against the current table, `--runs 9 --record`, about USD 27, to
       establish the branch's baseline. Recommended, because Stage 6 needs
