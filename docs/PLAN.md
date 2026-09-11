@@ -342,7 +342,7 @@ Cost: no model calls beyond the session.
 
 ## Stage 2. Platform re-verification and mechanism probes
 
-Status: **not started**
+Status: **done (2026-09-11, 9ee0afa)**
 Model: sonnet, medium. Load `python.sonnet.md`. Empirical work in
 `orchestrator-scratch`, recorded in `docs/FINDINGS.md`.
 
@@ -416,7 +416,7 @@ Tasks:
       version line, E15 to E18, and E19 were recorded across the 2.1 and
       2.2-2.3 commits as each result came in, ahead of this task's own
       commit.
-- [ ] 2.5 Update this stage's status line and commit it.
+- [x] 2.5 Update this stage's status line and commit it.
 
 Exit criteria: every re-run row carries 2.1.263 or later and its evidence;
 E15 answered with at least one workable mechanism, or none, stated plainly;
