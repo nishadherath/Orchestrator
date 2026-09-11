@@ -285,3 +285,112 @@ It is "routing buys a lower chance of an undetected-wrong answer on
 consequential work, at a measured premium of about one floor run per task".
 That is a coherent product. It has a different acceptance test from the one
 this project has been running, and that test is not yet built.
+
+## Metric interrogation
+
+`SYSTEM.md` requires the metric to be interrogated before anything is
+generated against it, so that the work is not optimised against a proxy.
+
+**What the current metric measures.** `score_routing.py` reports agreement:
+did the orchestrator pick the cell the fixture names. The fixture's cell is a
+human label (P16, P17), so the metric measures agreement with one person's
+judgement, recorded once in 2026-09-05 and 2026-09-07 reviews. It has three
+properties worth separating.
+
+It is reproducible, and now at reporting grade: 155 of 162, 2026-09-11. That
+is a real property and the instrument is sound for what it does.
+
+It is silent on whether the label is right. Above the floor, `expected_cell`
+has never been checked against a measured frontier, which `BENCHMARK-DESIGN.md`
+states plainly about its own inputs.
+
+It has no term for the router's own cost. This is the sharp one. **A router
+could score 100 percent agreement and still make the system strictly more
+expensive than not routing at all**, because agreement measures where the
+task was sent, never what the sending cost. The dissolution check above shows
+this is not hypothetical: at the measured figures, the perfectly-agreeing
+router loses to B0 on every task that belongs at the floor, which is every
+task measured so far.
+
+**The metric the project should optimise.** Cost per task solved at the
+reporting bar:
+
+> total spend across all attempts, including every routing verdict and every
+> escalation, divided by the number of tasks whose grader passes at the
+> reporting bar, compared against the same figure for B0 on the same tasks.
+
+**How far the instruments are from measuring it.** Four terms, two of them
+measured:
+
+| Term | Status |
+| :--- | :--- |
+| Router cost per verdict | Measured. USD 0.1645, 108 opus verdicts, 2026-09-11 |
+| Worker cost per run, per cell | Measured at the floor, 96 runs. Unmeasured above it: the only data point above the floor is a single `worker-fable-xhigh` dogfooding run at 103k tokens with no cost recorded |
+| Escalation rate, and the cost of the attempts it discards | Not instrumented. `ROUTING.md` section 4 requires the orchestrator to record every escalation; nothing collects the record, and neither harness counts one |
+| Tasks solved at the reporting bar | Measured for T1 to T8, all at the floor. No task requiring a cell above the floor has been built |
+
+Both missing terms are about what happens above the floor, which is the same
+gap the ledger finds everywhere else.
+
+**The problem underneath the metric.** Even fully instrumented, cost per
+solved task measured on this benchmark would not settle the question, and the
+reason cuts against the dissolution check above rather than for it.
+
+In the benchmark, every failure at the floor is caught, because a
+deterministic grader runs on every attempt. B0 therefore gets a free and
+perfect failure detector, and escalation is triggered exactly when it should
+be. In real use no such detector exists; failure is caught by whoever reads
+the output against acceptance criteria, and some fraction of wrong-but-
+plausible answers is not caught at all. So a benchmark measurement of cost
+per solved task is biased in B0's favour by an unknown amount, and the size
+of that bias is precisely the value of the routing table.
+
+This is the same quantity as P05, reached from the other direction, and it is
+the honest reason the table cannot simply be deleted on the arithmetic above.
+Measuring it needs an instrument nobody here has designed: a task set where
+the floor produces answers that pass a grader and are still wrong, or a
+detection-rate measurement on real work. The first is close to a
+contradiction in terms. The second is E13 repeated at scale, with someone
+reading every output.
+
+**What would close the gap, cheapest first.** An escalation counter, which is
+a harness feature nobody has built and which the metric cannot do without. A
+cost per run for cells above the floor, which Stage 7 produces as a
+by-product of climbing the ladder. A detection-rate measurement, which needs
+a design that does not exist.
+
+## The load-bearing unverified premises
+
+`SYSTEM.md` requires that any answer name which premises are both unverified
+and load-bearing, on the grounds that quick mode's characteristic failure is
+not a worse answer but a confident one resting on an unmeasured premise. For
+this project, ranked by what their falsity would cost:
+
+1. **P07**, that routing to the cheapest sufficient cell costs less overall.
+   The thesis. Contradicted for the measured territory; no territory where it
+   holds has been measured.
+2. **P05**, that blast radius warrants a higher cell. The expensive half of
+   the table rests on it, and P33 says this method can never verify it. It is
+   a risk-appetite policy shipped in the voice of a capability fact.
+3. **P17**, that each fixture's `expected_cell` above the floor is the
+   cheapest sufficient destination. Seventeen judgements; eight destinations
+   measured, all at the floor.
+4. **P02**, that sensitivity predicts which model class a task needs. The
+   entire model axis rests on it, and eight of eight tasks including open
+   ones cleared at the cheapest model.
+5. **P29**, that `compact_boundary` reliably signals an undersized cell.
+   Nobody has checked it, and Stage 5's two-axis variant proposes replacing
+   an entire assessment axis with it.
+6. **P15**, that handover quality is fixed so the cell is the only lever.
+   Never stated aloud before this ledger, never tested, and at rung 3 it
+   competes directly with routing for the same budget.
+7. **P19** and **P34**, that eighteen fixtures and eight synthetic tasks
+   represent the work this will actually meet. Everything generalises through
+   these two, and the only contrary evidence is E13, where Jeb disagreed with
+   the routing on both real tasks tried.
+8. **P11**, the three cell-quality claims in `ROUTING.md`'s constraints
+   paragraph. Shipped to every consumer as fact, measured never.
+
+Numbers one to four are what Stage 7 exists to attack. Number five is a
+single cheap run that should happen before Stage 5 commits to a design.
+Number six is a single cheap run that nobody has scheduled.

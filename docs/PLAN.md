@@ -548,10 +548,22 @@ Tasks:
       defect fix but the only route by which the cost thesis can be true
       at all: at USD 0.02 a verdict the required failure rate falls to
       12 percent.
-- [ ] 4.3 Metric interrogation: fixture agreement measures agreement with a
+- [x] 4.3 Metric interrogation: fixture agreement measures agreement with a
       human label, not with a measured frontier. State the metric the
       project should be optimising (cost per task solved at the reporting
       bar) and how far the current instruments are from measuring it.
+      Done 2026-09-11. Two of the four terms in cost per solved task are
+      measured; both missing ones are about what happens above the floor.
+      The sharpest finding is that the current metric has no term for the
+      router's own cost, so a router could score 100 percent agreement and
+      still make the system strictly more expensive than not routing. The
+      deepest finding cuts against Stage 4.2's own conclusion: the
+      benchmark hands B0 a free and perfect failure detector that real use
+      does not supply, so any benchmark measurement of cost per solved task
+      is biased in B0's favour by an unknown amount, and the size of that
+      bias is exactly the value of the routing table. The ledger also ends
+      with the load-bearing unverified list `SYSTEM.md` requires, eight
+      premises ranked by what their falsity would cost.
 - [ ] 4.4 Present the acceptance criteria from this plan's "Proposed
       acceptance criteria" to Jeb with any amendments the ledger suggests,
       together with the decision rule for Gate D (what Stage 7 must show for
