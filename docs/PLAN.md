@@ -153,25 +153,30 @@ distinct.
   within a session and paid once per stage. Stage 1.4 puts the number on
   `COST.md` so it is on the ledger with everything else.
 
-## Proposed acceptance criteria
+## Acceptance criteria, fixed at Gate A on 2026-09-11
 
 `SYSTEM.md` requires acceptance criteria to be fixed before any generation.
-These are proposed here and fixed at Gate A (end of Stage 4), where Jeb may
-change them. After Gate A they are not revised in the light of results.
+These were proposed when this plan was written, amended by the premise ledger
+(`docs/PREMISES.md`, Stage 4), and fixed by Jeb at Gate A on 2026-09-11. They
+are recorded verbatim in D38. **After Gate A they are not revised in the light
+of results.**
 
 1. A benchmark task set exists on which `worker-sonnet-low`'s confirmed pass
    rate fails the reporting bar (nine runs, 95 percent Wilson lower bound
    above 0.7) and some higher cell clears it. Without this, nothing above
-   the floor is measured, and Stages 9 to 12 have no subject.
+   the floor is measured, and Stages 9 to 12 have no subject. Existence is
+   the gate; the cost case additionally needs the rate at which tasks fail
+   at the floor, which Stage 8 estimates from whatever sample exists, with
+   the sample's limits stated.
 2. If the framework track runs: on that set, the fleet in quick mode beats
    B0 (one cell running the eight steps as a single prompt) at the reporting
-   bar, at a cost per solved task no more than three times B0's. The
-   multiplier is Jeb's to set at Gate A; three is the proposal.
+   bar, at a cost per solved task no more than three times B0's.
 3. Every routing row above the floor is either backed by a measured
-   frontier or removed, with the one documented exception that a row whose
-   only justification is blast radius is a policy row, stated as such in
-   the premise ledger, and kept or dropped at Gate C on that footing.
-   Judgement fixtures alone no longer back a row that routes above
+   frontier or removed, with one documented exception: a row whose only
+   justification is blast radius is a policy row, and it is labelled as such
+   in `src/ROUTING.md` itself, not only in the premise ledger, so a consumer
+   reading the shipped table can tell a capability claim from a risk-appetite
+   choice. Judgement fixtures alone no longer back a row that routes above
    `worker-sonnet-low`.
 4. The harness stays green at every commit and no invariant is weakened.
    A charter amendment (Stage 10 names one) is a decision entry, not a
@@ -180,12 +185,27 @@ change them. After Gate A they are not revised in the light of results.
    affected fixture. Below that it is steering.
 6. The cost of a routing verdict is on the ledger beside the cost of the
    work it routes, and the shipped routing mechanism is chosen on measured
-   agreement and cost per verdict together, never on agreement alone.
+   agreement and cost per verdict together, never on agreement alone. The
+   comparison baseline includes zero router cost, which is B0: a mechanism
+   cheaper than another router but still losing to not routing at all does
+   not satisfy this criterion.
+7. At close-out, the table's remaining case is stated in one sentence as
+   either a measured cost saving or an accepted risk-appetite policy, and
+   `src/ROUTING.md` says which.
 
 If criterion 2 fails, the framework track's deliverable is the B0 brief as a
 handover template for the top rows, and that outcome is recorded as a result,
 not a failure. `SYSTEM.md`'s own words: "if it does not beat it by a margin
 that pays for itself, you have a prompt, not a system."
+
+**The caveat that qualifies all seven, recorded at Gate A.** The benchmark
+gives B0 a free and perfect failure detector, because a deterministic grader
+runs on every attempt; real use has no such detector. Every comparison these
+criteria describe is therefore biased in B0's favour by an unknown amount,
+and the size of that bias is precisely the value of the routing table
+(`docs/PREMISES.md`, metric interrogation). The criteria cannot correct for
+this. A result that goes against the table by a narrow margin should be read
+with it in mind.
 
 ## Human gates
 
@@ -193,15 +213,23 @@ Beyond the per-stage approval `CLAUDE.md` requires:
 
 - **Gate A**, end of Stage 4: Jeb fixes the acceptance criteria, the goal
   ladder, and the decision rule Gate D will apply. Cheap, high leverage, the
-  gate `SYSTEM.md` puts first.
+  gate `SYSTEM.md` puts first. **Passed 2026-09-11**, D38: seven criteria
+  fixed, three amended from the proposal and one added, the multiplier in
+  criterion 2 set at three, and the Gate D rule fixed as below.
 - **Gate B**, start of Stage 7: Jeb approves the spend before the floor
   ladder runs. The pre-registration is presented with the cost estimate
   attached.
 - **Gate C**, end of Stage 8: Jeb accepts or rejects the wiring of the floor
   evidence into the routing table on the before-and-after evidence.
 - **Gate D**, before Stage 9: Jeb decides whether the framework track runs,
-  by the rule fixed at Gate A. The default is closed unless criterion 1
-  holds. Jeb may open it anyway; the reason is recorded.
+  by the rule fixed at Gate A on 2026-09-11: Stages 9 to 12 run only if
+  criterion 1 holds, meaning at least one benchmark task where
+  `worker-sonnet-low` fails the reporting bar and a higher cell clears it.
+  If criterion 1 fails after the two hardening rounds Stage 7 allows, the
+  framework track closes with a decision entry, and the same failure
+  triggers the question of whether the routing table should collapse toward
+  B0, which criterion 3 handles at Stage 8. Jeb may open the track despite
+  the rule; the reason is recorded.
 - **Gate E**, start of Stage 11: Jeb approves the spend before the fleet
   runs.
 - **Gate F**, end of Stage 12: Jeb accepts or rejects the wiring of the
@@ -564,11 +592,21 @@ Tasks:
       bias is exactly the value of the routing table. The ledger also ends
       with the load-bearing unverified list `SYSTEM.md` requires, eight
       premises ranked by what their falsity would cost.
-- [ ] 4.4 Present the acceptance criteria from this plan's "Proposed
+- [x] 4.4 Present the acceptance criteria from this plan's "Proposed
       acceptance criteria" to Jeb with any amendments the ledger suggests,
       together with the decision rule for Gate D (what Stage 7 must show for
       Stages 9 to 12 to run) and the multiplier in criterion 2. This is
       Gate A. Record the fixed criteria and the rule verbatim in D38.
+      Done 2026-09-11. Gate A passed: Jeb accepted all four ledger-driven
+      changes as recommended. Criterion 1 amended (existence is the gate,
+      the rate is what the cost case separately needs), criterion 3 amended
+      (blast-only rows are labelled policy in `ROUTING.md` itself, not only
+      in the ledger), criterion 6 amended (the comparison baseline includes
+      B0 at zero router cost), criterion 7 added (the table's remaining
+      case is stated at close-out as either a measured saving or an
+      accepted risk-appetite policy). Multiplier fixed at three. Gate D
+      rule fixed. This plan's criteria section is now the fixed set, not
+      the proposal.
 - [x] 4.5 List any platform questions the ledger exposes that Stage 2 did
       not answer, appended to `test/harness/empirical-checklist.md` as E20
       onward (E19 was consumed during Stage 2 by an unplanned finding, the
@@ -582,8 +620,10 @@ Tasks:
       missing terms in cost per solved task; E22, the real cost of a
       minimal schema-forced classification call, which is the `R` term the
       whole cost thesis turns on.
-- [ ] 4.6 D38: the ledger's adoption, the fixed criteria, the goal ladder,
+- [x] 4.6 D38: the ledger's adoption, the fixed criteria, the goal ladder,
       the dissolution verdict, B0 for the project, and the Gate D rule.
+      Done 2026-09-11 (D38), in the same commit as 4.4, since the entry is
+      the record of what that gate decided.
 - [ ] 4.7 Update this stage's status line and commit it.
 
 Exit criteria: `PREMISES.md` committed and PROSE-clean; every premise has a

@@ -1419,3 +1419,126 @@ is `benchmark.py`'s own (D15's corrected value, the smallest sample size a
 perfect record can clear 0.7 at); a future change to that constant should
 change both scripts together, since they are meant to agree on what
 "reporting" means.
+
+## 2026-09-11 D38. The premise ledger, and Gate A's fixed acceptance criteria
+
+Decision: `docs/PREMISES.md` is adopted as the routing layer's premise
+ledger, and the seven acceptance criteria below are fixed. Gate A passed
+2026-09-11: Jeb accepted the ledger's three proposed amendments, the one
+proposed addition, the multiplier, and the Gate D rule, all as
+recommended. After this entry the criteria are not revised in the light of
+results, per `SYSTEM.md`.
+
+### The criteria, verbatim as fixed
+
+1. A benchmark task set exists on which `worker-sonnet-low`'s confirmed
+   pass rate fails the reporting bar (nine runs, 95 percent Wilson lower
+   bound above 0.7) and some higher cell clears it. Without this, nothing
+   above the floor is measured, and Stages 9 to 12 have no subject.
+   Existence is the gate; the cost case additionally needs the rate at
+   which tasks fail at the floor, which Stage 8 estimates from whatever
+   sample exists, with the sample's limits stated.
+2. If the framework track runs: on that set, the fleet in quick mode beats
+   B0 (one cell running the eight steps as a single prompt) at the
+   reporting bar, at a cost per solved task no more than three times B0's.
+3. Every routing row above the floor is either backed by a measured
+   frontier or removed, with one documented exception: a row whose only
+   justification is blast radius is a policy row, and it is labelled as
+   such in `src/ROUTING.md` itself, not only in the premise ledger, so a
+   consumer reading the shipped table can tell a capability claim from a
+   risk-appetite choice. Judgement fixtures alone no longer back a row
+   that routes above `worker-sonnet-low`.
+4. The harness stays green at every commit and no invariant is weakened.
+   A charter amendment (Stage 10 names one) is a decision entry, not a
+   quiet edit.
+5. No routing-table change is described as confirmed below nine runs per
+   affected fixture. Below that it is steering.
+6. The cost of a routing verdict is on the ledger beside the cost of the
+   work it routes, and the shipped routing mechanism is chosen on measured
+   agreement and cost per verdict together, never on agreement alone. The
+   comparison baseline includes zero router cost, which is B0: a mechanism
+   cheaper than another router but still losing to not routing at all does
+   not satisfy this criterion.
+7. At close-out, the table's remaining case is stated in one sentence as
+   either a measured cost saving or an accepted risk-appetite policy, and
+   `src/ROUTING.md` says which.
+
+### The Gate D rule, verbatim as fixed
+
+Stages 9 to 12 run only if criterion 1 holds, meaning at least one
+benchmark task where `worker-sonnet-low` fails the reporting bar and a
+higher cell clears it. If criterion 1 fails after the two hardening rounds
+Stage 7 allows, the framework track closes with a decision entry, and the
+same failure triggers the question of whether the routing table should
+collapse toward B0, which criterion 3 handles at Stage 8. Jeb may open the
+track despite the rule; the reason is recorded.
+
+### What the amendments were, and why
+
+Criteria 1, 3 and 6 were amended and criterion 7 added, each because the
+ledger found the proposal admitted an outcome nobody would want.
+
+Criterion 1 asked only that a floor-failing task exist. The dissolution
+arithmetic (`PREMISES.md`) shows the table beats B0 only when the router's
+cost is below the floor-failure rate times one floor run, so an existence
+proof is compatible with a rate of a fraction of a percent and the table
+still losing on cost. Existence stays the gate, because it is the right
+test for whether anything above the floor is measurable at all; the rate
+is now named as what the cost case separately needs.
+
+Criterion 3 allowed a blast-only row to be kept as policy, but only the
+premise ledger would have said so. A consumer installing the bundle reads
+`ROUTING.md`, not this repository's ledger, and was therefore going to
+receive a risk-appetite choice written in the voice of a capability fact.
+The amendment moves the label into the shipped file. The ledger also found
+that four of the five table rows with no fixture behind them are
+consequential, so this amendment covers most of the unbacked set rather
+than an edge case.
+
+Criterion 6 as proposed could have been satisfied by choosing the cheaper
+of two routers while both lost to not routing at all, which is the actual
+situation measured on 2026-09-11 (`docs/COST.md`: an opus verdict costs
+USD 0.1645 against a floor run's USD 0.1641). The amendment names B0, at
+zero router cost, as part of the comparison.
+
+Criterion 7 is new. Without it the project could reach Stage 13 having
+measured everything and never stated what it concluded about its own
+central claim.
+
+### The caveat recorded at Gate A
+
+The benchmark gives B0 a free and perfect failure detector, because a
+deterministic grader runs on every attempt. Real use has no such detector:
+failure is caught by whoever reads the output against acceptance criteria,
+and some fraction of wrong-but-plausible answers is not caught at all.
+Every comparison these criteria describe is therefore biased in B0's
+favour by an unknown amount, and the size of that bias is precisely the
+value of the routing table. The criteria cannot correct for this, and no
+instrument in the repository can measure it. A result that goes against
+the table by a narrow margin is read with this in mind.
+
+### What else the ledger fixed
+
+The goal ladder's third rung, which the plan left to the Framer, is stated
+as total cost in tokens, wall clock and the user's attention per unit of
+work that can be trusted without re-checking. At that rung routing competes
+with levers this project has never compared it against, of which handover
+quality (P15) is the largest and is untested by construction.
+
+The dissolution verdict: the routing problem does not dissolve, but it
+shrinks from a cost problem to an insurance problem, and to something much
+smaller than a fifteen-cell table implies. B0 for the project is
+`ROUTING.md` sections 1.1, 3 and 4 unchanged with section 2 deleted, which
+is to say every mechanism B0 needs already ships.
+
+The consequence for Stages 5 and 6, which were scheduled as a fix for the
+attractor defect: a cheap classifier is also the only route by which the
+cost thesis can be true at all. At an opus verdict's price no floor-failure
+rate suffices; at USD 0.02 a verdict the required rate falls to about 12
+percent. E22 was added to the empirical checklist to measure that figure
+before either stage commits to a mechanism.
+
+Reversal: the criteria are fixed and are not reopened on results, which is
+the point of fixing them. If a criterion is found to be incoherent rather
+than merely demanding, that is a new decision entry saying so, not an
+edit here.
