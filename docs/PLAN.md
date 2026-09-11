@@ -743,7 +743,7 @@ Cost: session only.
 
 ## Stage 6. Two-stage classifier: implement and measure
 
-Status: **not started**
+Status: **done (2026-09-11, 022043c)**
 Model: sonnet, high. Load `python.sonnet.md`.
 
 Tasks:
@@ -815,7 +815,7 @@ Tasks:
       spuriously in 37.9 percent of sonnet-at-low-effort verdicts against a
       5.9 percent true rate, a concrete design defect for any future
       attempt, independent of the shipping verdict.
-- [ ] 6.5 Update this stage's status line and commit it.
+- [x] 6.5 Update this stage's status line and commit it.
 
 Exit criteria: the pre-registered runs recorded with their grade labels;
 D40; harness green; `dist/` in whichever state D40 selects.
