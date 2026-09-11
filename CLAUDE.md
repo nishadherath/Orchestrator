@@ -224,6 +224,28 @@ These are unresolved, not decided. Do not close one without evidence in
   is the confirmed answer. Whether opus's accuracy is worth 5 times the cost per correct verdict
   depends on what one wrong routing decision costs, which is the cost and quality benchmark's
   question, not this one's.
+- Does any benchmark task exist that `worker-sonnet-low` measurably fails? Eight
+  of eight tasks built so far, T1 through T8, confirmed at the floor once each
+  fixture's grader was correct (`docs/REVIEW.md`), so every routing row above
+  `worker-sonnet-low` remains an untested hypothesis rather than a measured
+  frontier. `docs/PLAN.md` Stage 7 is built to answer this directly.
+- ~~Is the cost of a routing verdict on the ledger, alongside the cost of the
+  work it routes?~~ Resolved 2026-09-11 (`docs/COST.md`): it was not, until
+  this stage. Mean opus verdict cost per fixture (USD 0.1645, pooled across
+  108 verdicts against bundle `2026-09-07-af94deb`) against mean
+  `worker-sonnet-low` cost per benchmark run (USD 0.1641, pooled across 96
+  runs, T1 through T8) is a ratio of 1.003: at the cheapest cell, which is
+  where every measured task has landed, the router costs essentially the
+  same as the work it routes.
+- Is horizon assessable before any tool call is made, or is the table's own
+  history evidence that it is the least reliable of the three axes? F03,
+  F05, F08, F11 and F18 all needed correction specifically on horizon
+  (`docs/DECISIONS.md`), and the table has evolved so that the
+  open-and-consequential row ignores horizon entirely and `worker-sonnet-low`
+  absorbs short horizon on every sensitivity. A worker-side signal already
+  exists (`compact_boundary` in the transcript) that may belong to
+  escalation rather than to upfront assessment. `docs/PLAN.md` Stages 5 and
+  6 test dropping horizon from the assessed axes.
 
 ## Dogfooding
 
