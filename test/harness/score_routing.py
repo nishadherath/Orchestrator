@@ -158,10 +158,13 @@ def load_fixtures(only: set[str] | None) -> list[dict]:
     return [r for r in rows if not only or r["id"] in only]
 
 
-def run_orchestrator(project: Path, model: str | None, prompt: str, dry_run: bool) -> tuple[str, float | None, str]:
+def run_orchestrator(project: Path, model: str | None, prompt: str, dry_run: bool,
+                      effort: str | None = None) -> tuple[str, float | None, str]:
     cmd = ["claude", "-p", prompt, "--output-format", "json"]
     if model:
         cmd += ["--model", model]
+    if effort:
+        cmd += ["--effort", effort]
     shown = " ".join(cmd[:2]) + " <prompt> " + " ".join(cmd[3:])
     if dry_run:
         return "", None, shown
@@ -514,6 +517,9 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--project", required=True, type=Path, help="consumer project with the dist/ bundle installed")
     ap.add_argument("--model", choices=("sonnet", "opus", "fable"), help="orchestrator model passed to claude -p")
+    ap.add_argument("--effort", choices=EFFORTS, help="orchestrator effort level passed to claude -p's own "
+                     "--effort flag (a top-level session's effort, verified 2026-09-11 via `claude -p --help`; "
+                     "distinct from a subagent's frontmatter effort, invariant 1)")
     ap.add_argument("--only", help="comma-separated fixture ids")
     ap.add_argument("--runs", type=int, default=1,
                      help="repeat the full fixture pass this many times and aggregate with a Wilson interval (default 1)")
@@ -576,7 +582,7 @@ def main(argv: list[str]) -> int:
     if args.dry_run:
         for fx in fixtures:
             instruction = select_instruction(args.classifier, args.axes, args.assess_only)
-            _, _, shown = run_orchestrator(project, args.model, fx["task"] + instruction, True)
+            _, _, shown = run_orchestrator(project, args.model, fx["task"] + instruction, True, args.effort)
             print(f"{fx['id']}: {shown}")
         print(f"--runs {args.runs}: would make {args.runs * len(fixtures)} total calls "
               f"({len(fixtures)} fixtures x {args.runs} runs)")
@@ -596,7 +602,7 @@ def main(argv: list[str]) -> int:
         for fx in fixtures:
             instruction = select_instruction(args.classifier, args.axes, args.assess_only)
             try:
-                verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + instruction, False)
+                verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + instruction, False, args.effort)
             except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
                 verdict, cost = f"[error] {exc}", None
             if cost is None:

@@ -8,14 +8,28 @@ tested is `docs/CLASSIFIER-DESIGN.md`, recorded as D39.
 
 Stage 6 runs this. Nothing here changes after the first run.
 
+**Correction, 2026-09-11, before any of B, C or D was run.** This document
+originally named configurations C and D's model "sonnet-low", a worker cell
+name, without checking whether a bare `--model` argument to `claude -p`
+could express effort at all. It cannot: `score_routing.py`'s `--model`
+takes only `sonnet`, `opus` or `fable`, and effort needed a separate
+mechanism, unconfirmed until now (E23, `docs/FINDINGS.md`: `claude -p
+--help` lists a top-level `--effort` flag, distinct from a subagent's
+frontmatter effort). `score_routing.py` gained a matching `--effort`
+argument in the same commit that found this (Stage 6.2, `docs/PLAN.md`).
+Every "sonnet-low" below is corrected to "sonnet, effort low", and the
+run commands now show both flags. This is an implementation-detail
+correction, made before any measurement it affects had happened; no
+prediction, threshold or decision rule below is touched.
+
 ## The configurations
 
 | Id | Configuration | Model | Assessment seen by the model | New spend |
 | :--- | :--- | :--- | :--- | :--- |
 | A | Current prose table, assess and select | opus | Rubric and destination table | None. Already measured at reporting grade |
 | B | Two-stage, five fields | opus | Rubric only, no destination table | 3 runs, steering |
-| C | Two-stage, five fields | sonnet-low | Rubric only, no destination table | 3 runs, steering |
-| D | Two-stage, two axes plus the two extra fields | sonnet-low | Rubric only, horizon not requested | 3 runs, steering |
+| C | Two-stage, five fields | sonnet, effort low | Rubric only, no destination table | 3 runs, steering |
+| D | Two-stage, two axes plus the two extra fields | sonnet, effort low | Rubric only, horizon not requested | 3 runs, steering |
 
 A is `test/results/2026-09-11-routing-opus-af94deb-summary.md`: 155 of 162,
 95.7 percent, 95 percent Wilson [91.4 percent, 97.9 percent], at USD 0.1645
@@ -124,6 +138,32 @@ D additionally rests on P29, that `compact_boundary` reliably signals an
 undersized cell, which is unverified and is what E20 measures. E20 should run
 before D's result is given any weight.
 
+## Commands
+
+Added 2026-09-11 alongside the "sonnet-low" correction above, since the
+original text described the four configurations without ever giving the
+concrete invocation Jeb runs. All four are run from
+`C:\Users\Bob\Desktop\Code\Claude\Orchestrator`. B, C and D require a
+`dist-rubric-only/` install (`python3 tools/build_dist.py --rubric-only`,
+Stage 6.1) in a project separate from the one running configuration A's
+prose baseline, per the implementation constraints below; `<rubric-project>`
+names that project.
+
+```
+# B: two-stage, five fields, opus
+python3 test/harness/score_routing.py --project <rubric-project> --model opus --classifier two-stage --runs 3 --record
+
+# C: two-stage, five fields, sonnet at effort low (the shipping candidate)
+python3 test/harness/score_routing.py --project <rubric-project> --model sonnet --effort low --classifier two-stage --runs 3 --record
+
+# D: two-stage, two axes, sonnet at effort low
+python3 test/harness/score_routing.py --project <rubric-project> --model sonnet --effort low --classifier two-stage --axes 2 --runs 3 --record
+```
+
+Whichever of B, C or D clears the decision rule's shape at steering grade
+runs again at `--runs 9` in place of `--runs 3` for the reporting-grade
+result the rule actually requires.
+
 ## Implementation constraints that protect validity
 
 **Remove the destination table, not all of section 2.** `ROUTING.md` section
@@ -149,7 +189,7 @@ Jeb confirms them as he confirms any fixture label.
 
 | Shape | Predicted rate | What it would mean |
 | :--- | :--- | :--- |
-| Unparsed assessment, model emits prose instead of the enumerated line | Under 2 percent for opus, under 8 percent for sonnet-low | The schema is not forced hard enough; the fix is prompt shape, not model |
+| Unparsed assessment, model emits prose instead of the enumerated line | Under 2 percent for opus, under 8 percent for sonnet at effort low | The schema is not forced hard enough; the fix is prompt shape, not model |
 | Model refuses or clarifies when the table is absent | Under 5 percent | The table was carrying more than destinations, and the rubric alone underspecifies the job |
 | `self_directed` set true far more often than the one fixture that needs it | Plausible, and the main new risk | An unanchored boolean invites yes; if it fires above 20 percent the field needs a sharper definition or removal |
 | Cost per verdict for C above USD 0.0532 | Under 20 percent | The cheap-router route to rung 2 closes, and the dissolution check's conclusion stands unchallenged |
@@ -162,10 +202,10 @@ Jeb confirms them as he confirms any fixture label.
 | B, 3 runs | 54 | About USD 6 to 8 |
 | C, 3 runs | 54 | About USD 0.50 to 1.60 |
 | D, 3 runs | 54 | About USD 0.50 to 1.60 |
-| Reporting-grade run for the shipping candidate, 9 runs | 162 | About USD 2 to 5 at sonnet-low, about USD 20 to 26 at opus |
+| Reporting-grade run for the shipping candidate, 9 runs | 162 | About USD 2 to 5 at sonnet, effort low, about USD 20 to 26 at opus |
 
-Total: roughly USD 10 to 15 if the shipping candidate is a sonnet-low
-configuration, roughly USD 30 to 40 if it is the opus one. Both are below the
+Total: roughly USD 10 to 15 if the shipping candidate is the sonnet,
+effort low configuration, roughly USD 30 to 40 if it is the opus one. Both are below the
 plan's Stage 6 estimate of USD 45 to 72, because Stage 3.3's baseline removed
 the need to re-measure configuration A.
 
