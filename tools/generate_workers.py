@@ -2,8 +2,9 @@
 """Generate the fifteen worker definitions in src/agents/ from two sources.
 
 Responsible for: turning src/WORKER_PERSONA.md (shared persona plus one
-optional section per cell) and the routing table in src/ROUTING.md into one
-Claude Code subagent definition per cell, with the persona inlined so a
+optional section per cell) and the routing table in src/routing_table.json
+(D39, docs/DECISIONS.md; formerly parsed from src/ROUTING.md's prose) into
+one Claude Code subagent definition per cell, with the persona inlined so a
 worker needs no file read at startup and no file in the consumer project.
 
 Deliberately does not: decide which cells exist (the matrix below is fixed by
@@ -37,7 +38,7 @@ sys.path.insert(0, str(REPO_ROOT / "tools"))
 from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
 
 PERSONA_PATH = REPO_ROOT / "src" / "WORKER_PERSONA.md"
-ROUTING_PATH = REPO_ROOT / "src" / "ROUTING.md"
+ROUTING_TABLE_PATH = REPO_ROOT / "src" / "routing_table.json"
 AGENTS_DIR = REPO_ROOT / "src" / "agents"
 
 GENERATED_MARKER = (
@@ -88,29 +89,28 @@ def split_persona(text: str) -> tuple[str, dict[str, str]]:
     return general_body, {k: "\n".join(v).strip("\n") for k, v in sections.items()}
 
 
-ROW_RE = re.compile(r"^\|\s*(?P<assessment>[^|]+?)\s*\|\s*(?P<worker>[^|]+?)\s*\|\s*$")
-NAME_RE = re.compile(r"`(worker-[a-z]+-[a-z]+)`")
+def load_routing_table(path: Path = ROUTING_TABLE_PATH) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def routing_assessments(text: str) -> dict[str, list[str]]:
-    """Map each worker name in the ROUTING.md table to the assessments naming it."""
+def routing_assessments(table: dict) -> dict[str, list[str]]:
+    """Map each worker name in src/routing_table.json to the rule texts naming it.
+
+    Per D39 (docs/DECISIONS.md), the table is data; this reads
+    src/routing_table.json's ordered rules rather than parsing ROUTING.md's
+    prose. Each rule's own `text` field is its human-readable description,
+    already worded to match what a description sentence needs (see
+    src/ROUTING.md section 2, which this file was transcribed from), and a
+    rule's `worker` plus any `also_acceptable` names all receive that text,
+    matching how the frontier rule names both worker-opus-max and
+    worker-fable-max.
+    """
     out: dict[str, list[str]] = {}
-    in_table = False
-    for line in text.splitlines():
-        if line.startswith("| Assessment"):
-            in_table = True
-            continue
-        if in_table and line.startswith("| :---"):
-            continue
-        if in_table and not line.startswith("|"):
-            break
-        if not in_table:
-            continue
-        m = ROW_RE.match(line)
-        assert m, f"{ROUTING_PATH}: unparseable table row: {line!r}"
-        for name in NAME_RE.findall(m.group("worker")):
-            out.setdefault(name, []).append(m.group("assessment"))
-    assert out, f"{ROUTING_PATH}: routing table not found"
+    for rule in table["rules"]:
+        names = [rule["worker"], *rule.get("also_acceptable", [])]
+        for name in names:
+            out.setdefault(name, []).append(rule["text"])
+    assert out, f"{ROUTING_TABLE_PATH}: no rules found"
     return out
 
 
@@ -163,12 +163,12 @@ def main(argv: list[str]) -> int:
     args = ap.parse_args(argv)
 
     general, sections = split_persona(PERSONA_PATH.read_text(encoding="utf-8"))
-    routed = routing_assessments(ROUTING_PATH.read_text(encoding="utf-8"))
+    routed = routing_assessments(load_routing_table())
     expected_cells = {f"{m}-{e}" for m in MODELS for e in EFFORTS}
     unknown = set(sections) - expected_cells
     assert not unknown, f"{PERSONA_PATH}: sections for cells outside the matrix: {sorted(unknown)}"
     unknown_routed = set(routed) - {worker_name(m, e) for m in MODELS for e in EFFORTS}
-    assert not unknown_routed, f"{ROUTING_PATH}: table names workers outside the matrix: {sorted(unknown_routed)}"
+    assert not unknown_routed, f"{ROUTING_TABLE_PATH}: table names workers outside the matrix: {sorted(unknown_routed)}"
 
     AGENTS_DIR.mkdir(parents=True, exist_ok=True)
     report: list[dict[str, str]] = []
