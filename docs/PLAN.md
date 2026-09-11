@@ -518,7 +518,7 @@ Cost: session only, plus about USD 27 if 3.3 is taken.
 
 ## Stage 4. Premise ledger and acceptance criteria (Frame)
 
-Status: **not started**
+Status: **done (2026-09-11, 255d5ff)**
 Model: opus, xhigh. This is `SYSTEM.md`'s Framer role, "highest value per
 token in the system; a wrong ledger wastes everything after it". Fable at
 xhigh is the deep-mode alternative if Jeb wants a second, independent pass;
@@ -624,7 +624,7 @@ Tasks:
       the dissolution verdict, B0 for the project, and the Gate D rule.
       Done 2026-09-11 (D38), in the same commit as 4.4, since the entry is
       the record of what that gate decided.
-- [ ] 4.7 Update this stage's status line and commit it.
+- [x] 4.7 Update this stage's status line and commit it.
 
 Exit criteria: `PREMISES.md` committed and PROSE-clean; every premise has a
 class and a cheapest verification; Gate A passed with the criteria and the
