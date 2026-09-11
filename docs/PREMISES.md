@@ -159,3 +159,129 @@ Four of those five are consequential, which is to say the table's least
 evidenced rows are concentrated on the axis the benchmark cannot measure at
 all (P05, P33). That is not a coincidence. It is the same gap seen from two
 directions.
+
+## Goal ladder
+
+`SYSTEM.md` asks for three rungs, so that the stated goal can be replaced by
+the goal behind it where that turns out to be cheaper to reach.
+
+**Rung 1, the stated goal.** Route each task to the cheapest worker cell
+that clears the bar.
+
+**Rung 2, the goal behind it.** Get the same quality for less money than
+sending everything to one capable cell. This is `CLAUDE.md`'s own framing and
+the reason the benchmark exists. Rung 1 is one mechanism for reaching rung 2,
+not the only one.
+
+**Rung 3, the goal behind that.** Spend the least total cost, in tokens, wall
+clock and the user's attention, per unit of finished work that can be
+trusted without re-checking. Rung 3 is where the project's value actually
+sits, and at rung 3 routing competes for budget with levers this project has
+never compared it against. The ledger names four: handover quality (P15,
+untested by construction), the clarify rule's 1,810 characters on every turn
+(P14), the escalation policy itself (P12), and the six unrouted cells whose
+descriptions are paid on every turn for no traffic (P10). A better handover
+might lift the floor's capability more cheaply than routing above it ever
+can, and nothing here has tested that.
+
+## Dissolution check
+
+`SYSTEM.md` asks whether the problem stops existing once a premise is
+reclassified. Reclassify P36, the router's cost, from assumed-small to
+measured, and much of the routing problem does dissolve. The arithmetic is
+below and it is not close.
+
+Let `R` be the router's cost for one verdict and `F` the cost of one run at
+the floor cell. Both are measured, 2026-09-11, `docs/COST.md`: `R` is USD
+0.1645 across 108 opus verdicts, `F` is USD 0.1641 across 96
+`worker-sonnet-low` benchmark runs.
+
+Compare two designs on the same task. The table assesses, then runs the cell
+it chose. B0 runs the floor, and escalates one cell up if the work fails its
+stated acceptance criteria.
+
+| Task | Table | B0 | Result |
+| :--- | :--- | :--- | :--- |
+| Belongs at the floor | `R + F` = USD 0.3286 | `F` = USD 0.1641 | B0 is 2.00 times cheaper |
+| Needs one rung up, at cost `X` | `R + X` | `F + X` | B0 cheaper by USD 0.0004, a tie |
+
+Generalise with `p`, the fraction of tasks that genuinely fail at the floor.
+The table's expected cost is `R + (1 - p)F + pX`; B0's is `F + pX`. The table
+wins when `R < pF`, which is to say when the router costs less than the floor
+run it lets you skip, weighted by how often skipping it is right.
+
+At the measured figures that condition is `p > 100.2 percent`. **No
+floor-failure rate can make the current table cheaper than B0, because the
+router costs slightly more than the entire floor run it exists to avoid.**
+The most routing can ever save is one floor run, and it charges more than one
+floor run to do it.
+
+Three things this arithmetic does not say, all of which matter.
+
+**It is generous to the table, not to B0.** It assumes the router is always
+right. The 2026-09-11 baseline puts it at 95.7 percent, and every mis-route
+adds a wasted run to the table's side.
+
+**It assumes one rung of escalation.** A task needing two or more rungs above
+the floor makes B0 pay for every cell it climbs through, and there the table
+starts to win: the table beats B0 whenever `R` is less than the sum of the
+cells B0 would climb past. No such task has been observed. All eight
+benchmark tasks built so far land at the floor itself.
+
+**It assumes failure at the floor is detected.** This is the real case for
+the table and the arithmetic cannot see it. A cheap answer that is wrong and
+looks right is not caught by an acceptance check, and on consequential work
+it is expensive to discover later. That is exactly P05, the risk-appetite
+premise the benchmark structurally cannot measure (P33).
+
+A cheaper router changes the picture completely, because `R` is the only term
+the project controls:
+
+| Router cost per verdict | Floor-failure rate needed for the table to pay |
+| :--- | :--- |
+| USD 0.1645, opus today | impossible, over 100 percent |
+| USD 0.08 | 48.8 percent |
+| USD 0.04 | 24.4 percent |
+| USD 0.02 | 12.2 percent |
+| USD 0.01 | 6.1 percent |
+
+This reframes Stages 5 and 6. A two-stage classifier that assesses axes
+without the table in its prompt was proposed as a fix for the attractor
+defect (P08). The arithmetic says it is more than that: **a cheap classifier
+is the only route by which rung 2 can be true at all.** At USD 0.02 a
+verdict, roughly one task in eight needs to fail at the floor for routing to
+pay for itself. At opus prices, no rate suffices.
+
+## B0 for the project
+
+Stated so that it can be run, not just described:
+
+> Send every task to `worker-sonnet-low` with the same handover contract the
+> table's cells receive. If the returned work fails its stated acceptance
+> criteria, re-spawn one cell up, including what the previous attempt
+> produced and why it fell short. Ask the user only under the clarify rule.
+> Never consult a routing table.
+
+B0 is not hypothetical and it is not a strawman. It is a subset of the
+shipped product: `ROUTING.md` sections 1.1, 3 and 4 unchanged, section 2
+deleted. Every mechanism it needs already exists and is already paid for.
+
+What would show the table beats B0, in order of what each costs to obtain:
+
+1. A measured floor-failure rate `p` above `R/F`. Stage 7 establishes whether
+   any task fails at the floor at all; a rate needs a task sample that
+   resembles real work, which P19 and P34 both flag as unverified.
+2. A router cheap enough that the rate in hand clears `R/F`. Stages 5 and 6.
+3. A measured cost for an undetected-wrong answer on consequential work.
+   Nothing in the repository measures this, and the benchmark cannot. Without
+   it, P05 stays a policy, and the table's remaining case is a risk-appetite
+   case rather than a cost case.
+
+The verdict: the routing problem does not dissolve, but it **shrinks from a
+cost problem to an insurance problem**, and it shrinks to a much smaller
+thing than a fifteen-cell table implies. On the evidence available, the
+honest product claim is not "routing gets the same quality for less money".
+It is "routing buys a lower chance of an undetected-wrong answer on
+consequential work, at a measured premium of about one floor run per task".
+That is a coherent product. It has a different acceptance test from the one
+this project has been running, and that test is not yet built.

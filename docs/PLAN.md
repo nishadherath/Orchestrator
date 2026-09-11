@@ -527,13 +527,27 @@ Tasks:
       Stage 6's two-axis comparison can be decisive; and four of the five
       table rows with no fixture behind them are consequential, putting the
       least evidenced rows on the one axis the benchmark cannot measure.
-- [ ] 4.2 Goal ladder for the project, three rungs: route each task to the
+- [x] 4.2 Goal ladder for the project, three rungs: route each task to the
       cheapest sufficient cell; get the same quality for less money than one
       capable cell; and the rung above that, which the Framer states rather
       than this plan. Dissolution check: does the routing problem dissolve
       if the floor does everything? State B0 for the project explicitly
       ("route everything to `worker-sonnet-low`, escalate on failure") and
       what evidence would show the table beats it.
+      Done 2026-09-11. Rung 3 is stated as total cost, including the user's
+      attention, per unit of work that can be trusted without re-checking;
+      at that rung, routing competes with four levers the project has never
+      compared it against, handover quality among them. The dissolution
+      check is arithmetic rather than argument, from the two measured
+      figures in `COST.md`: the table beats B0 only when the router costs
+      less than the floor run it lets you skip, which at opus prices needs
+      a floor-failure rate above 100 percent and is therefore impossible.
+      The problem does not dissolve; it shrinks from a cost problem to an
+      insurance problem, and the insurance case rests on P05, which the
+      benchmark structurally cannot measure. A cheap classifier is not a
+      defect fix but the only route by which the cost thesis can be true
+      at all: at USD 0.02 a verdict the required failure rate falls to
+      12 percent.
 - [ ] 4.3 Metric interrogation: fixture agreement measures agreement with a
       human label, not with a measured frontier. State the metric the
       project should be optimising (cost per task solved at the reporting
