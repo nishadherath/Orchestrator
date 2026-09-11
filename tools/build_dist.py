@@ -15,9 +15,17 @@ dist/. That is the correct provenance; the bundle cannot know its own
 commit. A dirty working tree is stamped "-dirty" and should not be
 dogfooded.
 
+`--rubric-only` builds a second bundle, `dist-rubric-only/`, never `dist/`
+itself, for the two-stage classifier measurement (D39, docs/DECISIONS.md).
+It strips section 2's destination table from ORCHESTRATOR.md so a session
+can be asked to assess without the table in context, not merely instructed
+not to use it. `dist-rubric-only/` is gitignored: it is a measurement
+artefact for Stage 6, not a shipping deliverable, and is rebuilt on demand.
+
 Usage:
-    python3 tools/build_dist.py              build
-    python3 tools/build_dist.py --dry-run    list what would be written
+    python3 tools/build_dist.py                  build dist/
+    python3 tools/build_dist.py --dry-run        list what would be written
+    python3 tools/build_dist.py --rubric-only    build dist-rubric-only/ instead
 """
 from __future__ import annotations
 
@@ -43,6 +51,39 @@ delegating any task." Do not edit here; edit the source and rebuild.
 
 """
 
+RUBRIC_ONLY_TABLE_START = "| Assessment | Worker |"
+RUBRIC_ONLY_TABLE_END = "\nConstraints on the table:"
+RUBRIC_ONLY_REPLACEMENT = (
+    "The destination table is omitted from this bundle. Assess the three "
+    "axes as section 1 describes and state your assessment; the destination "
+    "is resolved separately, not by you reading a table.\n"
+)
+
+
+def rubric_only_routing(routing_text: str) -> str:
+    """Strip section 2's destination table from ROUTING.md's text, for the
+    two-stage classifier measurement (D39, docs/DECISIONS.md;
+    docs/CLASSIFIER-DESIGN.md). Removes only the table itself and the
+    sentence describing its coverage, which refers to a table no longer
+    present; keeps the paragraph before it (still correct general guidance)
+    and the constraints list after it (the self_directed and prior_failure
+    field definitions live there, in the tie-break and frontier wording).
+
+    Asserts on both markers rather than failing silently, so an edit to
+    ROUTING.md that moves or renames the table breaks this function loudly
+    instead of quietly shipping a rubric-only bundle that still contains
+    the table, or a normal bundle missing the constraints list.
+    """
+    start = routing_text.index(RUBRIC_ONLY_TABLE_START)
+    end = routing_text.index(RUBRIC_ONLY_TABLE_END)
+    assert start < end, "src/ROUTING.md: table start marker found after end marker"
+    # RUBRIC_ONLY_TABLE_END starts with the "\n" that opens its blank line;
+    # keeping it (routing_text[end:], not end + 1) combines with
+    # RUBRIC_ONLY_REPLACEMENT's own trailing "\n" to leave exactly one blank
+    # line before "Constraints on the table:", matching the surrounding
+    # document's own spacing.
+    return routing_text[:start] + RUBRIC_ONLY_REPLACEMENT + routing_text[end:]
+
 
 def version_stamp() -> str:
     rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
@@ -50,18 +91,30 @@ def version_stamp() -> str:
     return f"{dt.date.today().isoformat()}-{rev}{'-dirty' if dirty else ''}"
 
 
-def planned_files(version: str) -> dict[Path, str]:
-    """Map each dist path to its content. Pure; nothing is written here."""
+def planned_files(version: str, dist_dir: Path = DIST, rubric_only: bool = False) -> dict[Path, str]:
+    """Map each dist path to its content. Pure; nothing is written here.
+
+    `rubric_only` is the two-stage classifier measurement's mechanism
+    (D39, docs/DECISIONS.md; docs/CLASSIFIER-DESIGN.md): it strips section
+    2's destination table from ORCHESTRATOR.md so an installed session can
+    be asked to assess without the table in context, not merely instructed
+    not to use one. It writes to `dist_dir`, never the default `dist/`
+    unless the caller explicitly passes that path, so the ordinary build
+    (no flag) is byte-for-byte what it always was and both bundles can
+    exist side by side for the comparison.
+    """
     out: dict[Path, str] = {}
     for agent in sorted((SRC / "agents").glob("WORKER_*.md")):
-        out[DIST / ".claude" / "agents" / agent.name] = agent.read_text(encoding="utf-8")
-    out[DIST / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
-    out[DIST / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
+        out[dist_dir / ".claude" / "agents" / agent.name] = agent.read_text(encoding="utf-8")
+    out[dist_dir / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
+    out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
+    if rubric_only:
+        routing = rubric_only_routing(routing)
     lifecycle = (SRC / "LIFECYCLE.md").read_text(encoding="utf-8")
-    out[DIST / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version) + routing.rstrip("\n") + "\n\n" + lifecycle
-    out[DIST / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
-    out[DIST / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
+    out[dist_dir / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version) + routing.rstrip("\n") + "\n\n" + lifecycle
+    out[dist_dir / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
+    out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
     assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"
     return out
 
@@ -69,6 +122,10 @@ def planned_files(version: str) -> dict[Path, str]:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="list what would be written; write nothing")
+    ap.add_argument("--rubric-only", action="store_true",
+                     help="build the two-stage classifier measurement variant (D39) into "
+                          "dist-rubric-only/ instead of dist/, with section 2's destination "
+                          "table stripped from ORCHESTRATOR.md; the ordinary dist/ is untouched")
     args = ap.parse_args(argv)
 
     harness = subprocess.run([sys.executable, str(HARNESS)], capture_output=True, text=True, cwd=REPO_ROOT)
@@ -76,24 +133,25 @@ def main(argv: list[str]) -> int:
         print("refusing to build: harness failed\n" + harness.stdout[-1500:], file=sys.stderr)
         return 1
 
-    version = version_stamp()
-    files = planned_files(version)
+    dist_dir = DIST.with_name("dist-rubric-only") if args.rubric_only else DIST
+    version = version_stamp() + ("-rubric-only" if args.rubric_only else "")
+    files = planned_files(version, dist_dir, args.rubric_only)
     if args.dry_run:
         for path in sorted(files):
             print(f"would write {path.relative_to(REPO_ROOT)} ({len(files[path])} chars)")
         print(f"version {version}")
         return 0
 
-    staging = DIST.with_name("dist.tmp")
+    staging = dist_dir.with_name(dist_dir.name + ".tmp")
     if staging.exists():
         shutil.rmtree(staging)
     for path, content in files.items():
-        target = staging / path.relative_to(DIST)
+        target = staging / path.relative_to(dist_dir)
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8", newline="\n")
-    if DIST.exists():
-        shutil.rmtree(DIST)
-    staging.rename(DIST)
+    if dist_dir.exists():
+        shutil.rmtree(dist_dir)
+    staging.rename(dist_dir)
     for path in sorted(files):
         print(f"wrote {path.relative_to(REPO_ROOT)}")
     print(f"version {version}")
