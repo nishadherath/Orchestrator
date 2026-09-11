@@ -407,11 +407,15 @@ Tasks:
       created and zero permission denials on the blocking call. E18: 3, 6
       and 12 parallel calls all completed cleanly with the exact expected
       reply, no rate-limit failures observed at this scale.
-- [ ] 2.4 Record every result in `docs/FINDINGS.md` with the installed
+- [x] 2.4 Record every result in `docs/FINDINGS.md` with the installed
       version at the top of the file updated; append E15 to E18 to the
       checklist and mark them done; log the session in
       `test/results/<date>-empirical.md` (the harness's `unique_path`
       convention applies if the name collides).
+      Done 2026-09-11 (`test/results/2026-09-11-empirical.md`); the
+      version line, E15 to E18, and E19 were recorded across the 2.1 and
+      2.2-2.3 commits as each result came in, ahead of this task's own
+      commit.
 - [ ] 2.5 Update this stage's status line and commit it.
 
 Exit criteria: every re-run row carries 2.1.263 or later and its evidence;
