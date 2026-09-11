@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for src/ROUTING.md section 2, per D39 (docs/DECISIONS.md) and docs/CLASSIFIER-DESIGN.md. Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. Do not hand-edit ROUTING.md's table out of sync with this file; check.py's TABLE-PROSE check catches drift.",
+  "_comment": "Single source of truth for the routing decision, per D39 (docs/DECISIONS.md) and docs/CLASSIFIER-DESIGN.md. Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. src/ROUTING.md section 2's prose is hand-authored and transcribed from this file as of Stage 6.1; nothing yet checks the two stay in sync mechanically. That is a known gap, not a claimed guarantee, until Stage 6.4 decides whether ROUTING.md's prose is rewritten to describe the mechanism instead of restating the table.",
   "axes": {
     "sensitivity": ["mechanical", "structured", "open"],
     "horizon": ["short", "medium", "long"],
