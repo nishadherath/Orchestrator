@@ -784,8 +784,20 @@ Tasks:
       repository) for both 3 and 2 axes, and synthetic verdicts covering a
       correct reply, a wrong field, F18's self_directed case, and an
       unparseable reply.
-- [ ] 6.3 Run the configurations per the Stage 5 pre-registration. Jeb runs;
+- [x] 6.3 Run the configurations per the Stage 5 pre-registration. Jeb runs;
       the session prepares real-path commands and analyses.
+      Done 2026-09-11 (`e776fe3`, `594810a`, plus the two reporting-grade
+      recordings). Steering then reporting for B and C; steering only for D,
+      not scored on cell agreement per the pre-registration. A live bug
+      surfaced during D's first attempt: `resolve_two_axis` crashed when a
+      model correctly reported `prior_failure: failed_at_xhigh`, since the
+      frontier rule's worker is deliberately absent from the cost ladder
+      the two-axis collapse ranks against. Fixed and verified before any
+      further runs; D's crashed attempt wrote no file (`score_routing.py`
+      has no per-fixture checkpoint) and was re-run clean. At reporting
+      grade: B (opus) cell agreement 92.2% [86.8%, 95.5%], cost per verdict
+      USD 0.103. C (sonnet, effort low) cell agreement 58.2% [50.2%,
+      65.7%], cost per verdict USD 0.013.
 - [ ] 6.4 D40, the verdict against the pre-registration, on agreement and
       cost per verdict together. If a two-stage configuration wins, ship
       it: flag removed, `dist/` rebuilt, `ROUTING.md` section 2 rewritten to
