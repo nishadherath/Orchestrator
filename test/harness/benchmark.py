@@ -20,8 +20,8 @@ tells it to stay under `bench-<task>/`, but nothing enforces that, so a
 stray edit elsewhere in the project is a real possibility this script
 cannot detect or undo. It runs whatever task directories exist under
 test/fixtures/benchmark/, discovered from the directory rather than a fixed
-list (T1 through T8 from D30's follow-on fixture work, plus T9 and T10 from
-docs/PLAN.md Stage 7; the pilot itself restricted this to T1 and T5 via
+list (T1 through T8 from D30's follow-on fixture work, plus T9, T10 and T11
+from docs/PLAN.md Stage 7; the pilot itself restricted this to T1 and T5 via
 --pilot; --tasks restricts to any named subset).
 
 The one non-obvious thing: whether a spawned worker's cost and tokens roll
