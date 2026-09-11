@@ -460,12 +460,27 @@ Tasks:
       that was judged too much per decision during calibration. It is not
       too much per table change.
       Done 2026-09-11 (D37).
-- [ ] 3.3 Jeb's call at this stage's approval: one reporting-grade opus run
+- [x] 3.3 Jeb's call at this stage's approval: one reporting-grade opus run
       against the current table, `--runs 9 --record`, about USD 27, to
       establish the branch's baseline. Recommended, because Stage 6 needs
       the prose-table configuration at the bar and Stage 8 needs a
       before-measurement, and both would otherwise pay for it then.
-- [ ] 3.4 Update this stage's status line and commit it.
+      Done 2026-09-11 (`test/results/2026-09-11-routing-opus-af94deb-
+      summary.md`), USD 15.9079, the first reporting-grade routing
+      baseline this branch has. Overall agreement 155/162 (95.7 percent,
+      95% Wilson [91.4%, 97.9%]). 16 of 18 fixtures clear the 0.7 lower
+      bound cleanly at 100 percent. Two do not, and F09's result is a real
+      finding, not noise: 4 of 9 (44 percent, [19%, 73%]), the orchestrator
+      over-provisioning to `worker-opus-high` in 5 of 9 runs against the
+      confirmed floor cell, well past ROUTING.md section 4's three-
+      disagreement threshold for "the rubric is wrong for this task class".
+      F07 also falls short (7/9, 78 percent, [45%, 94%], 2 disagreements),
+      more likely noise at this sample size. Not acted on in this stage,
+      since Stage 3's purpose is instrumentation, not table changes (D37);
+      flagged here for Stage 5's classifier design and Stage 8's wiring
+      work, both of which should treat F09 as a known, reporting-grade-
+      confirmed weak point of the current prose classifier to test against.
+- [x] 3.4 Update this stage's status line and commit it.
 
 Exit criteria: a `--runs 9 --dry-run` prints the run plan; a `--runs 3
 --record` against a scratch project renders `steering` in the header and the

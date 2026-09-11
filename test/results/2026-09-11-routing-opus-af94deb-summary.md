@@ -1,0 +1,32 @@
+# Routing score summary, reporting, 9 runs, 2026-09-11 12:49 at 36d87fe
+
+Orchestrator model: opus. Bundle: 2026-09-07-af94deb. Project: `C:\Users\Bob\Desktop\Code\Claude\orchestrator-scratch`. Fixtures reviewed by a human: yes. Mode: assess and select.
+
+Grade: reporting (at or above 9 runs).
+
+Overall agreement 155/162 (95.7%, 95% Wilson [91.4%, 97.9%]). Mean cost per run: USD 1.7675; total across 9 costed of 9 runs: USD 15.9079.
+
+16 of 18 fixtures clear the 70% Wilson lower bound.
+
+| Fixture | Agreements | Runs | Rate | 95% Wilson interval | Clears 0.7 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| F01 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F02 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F03 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F04 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F05 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F06 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F07 | 7 | 9 | 78% | [45%, 94%] | no |
+| F08 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F09 | 4 | 9 | 44% | [19%, 73%] | no |
+| F10 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F11 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F12 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F13 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F14 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F15 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F16 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F17 | 9 | 9 | 100% | [70%, 100%] | yes |
+| F18 | 9 | 9 | 100% | [70%, 100%] | yes |
+
+A wide interval on a fixture run only a few times is sample noise, not necessarily a wrong rule; widen --runs before concluding the rubric is wrong for that cell (ROUTING.md section 4 still wants three or more disagreements on one starting cell). "Clears 0.7" is the same reporting bar benchmark.py uses; below nine runs it cannot read yes at all, even for a perfect record (eight of eight gives a lower bound of 67.6 percent, nine of nine is the smallest perfect record that clears 70 percent), so a "no" at steering grade is structural, not evidence the rubric is wrong.
