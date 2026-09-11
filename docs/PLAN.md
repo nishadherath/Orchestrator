@@ -365,7 +365,7 @@ Tasks:
       re-verified: no callable equivalent of `/tasks` exists for an agent
       session (E19, a new finding, `docs/FINDINGS.md`), so the check needs
       a human watching the panel live, which this round did not do.
-- [ ] 2.2 E15, the classifier mechanism Stage 5 depends on. Can an
+- [x] 2.2 E15, the classifier mechanism Stage 5 depends on. Can an
       orchestrator obtain a routing verdict from code and act on it without
       the table in its prompt? Try each candidate in the scratch project:
       the persona runs `python3 tools/route.py` via Bash with its axis
@@ -379,7 +379,13 @@ Tasks:
       which are workable. Stage 5 chooses among the workable ones; if none
       is, Stage 5 designs the fallback (the table stays in the prompt and
       the assessment is schema-forced first) and says so.
-- [ ] 2.3 E16 to E18, the substrate probes the Controller depends on, moved
+      Done 2026-09-11. The Bash-invoked script candidate is workable, but
+      only with the same permission flags `benchmark.py` already needs for
+      any headless Bash call; without them it is silently blocked, not
+      merely slow. The hook and MCP-tool candidates were not separately
+      live-tested this round (see `docs/FINDINGS.md`, E15); Stage 5 chooses
+      with that gap stated plainly.
+- [x] 2.3 E16 to E18, the substrate probes the Controller depends on, moved
       here from the adopted plan's Stage 5 because they are cheap and
       independent of any design. E16, cache prefix sharing: three
       `claude -p --output-format json` invocations in parallel from one
@@ -394,6 +400,13 @@ Tasks:
       largest N observed to work; quick mode needs three, deep mode up to
       twelve. Per-role cost stays in Stage 9 because it needs the role
       briefs.
+      Done 2026-09-11. E16: no cross-process cache sharing observed
+      between three genuinely parallel calls on an identical prefix, a
+      caution for Stage 10's Controller design. E17: the hook does reach a
+      spawned worker's own tool calls, confirmed by the file never being
+      created and zero permission denials on the blocking call. E18: 3, 6
+      and 12 parallel calls all completed cleanly with the exact expected
+      reply, no rate-limit failures observed at this scale.
 - [ ] 2.4 Record every result in `docs/FINDINGS.md` with the installed
       version at the top of the file updated; append E15 to E18 to the
       checklist and mark them done; log the session in
