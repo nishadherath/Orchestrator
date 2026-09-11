@@ -748,12 +748,28 @@ Model: sonnet, high. Load `python.sonnet.md`.
 
 Tasks:
 
-- [ ] 6.1 Implement `tools/route.py` and the table-as-data move per D39;
+- [x] 6.1 Implement `tools/route.py` and the table-as-data move per D39;
       `generate_workers.py` and `check.py` read the data file; the
       TABLE-DATA check is added and counted; ROUTE-TOTAL and ROW-BACKED keep
       their meaning; harness green; `dist/` rebuilt with the new mechanism
       behind a flag so the current behaviour is still available for the
       comparison. Own commit per component.
+      Done 2026-09-11, five commits (`cc4fab7`, `d65b476`, `5890f06`,
+      `5635bcc`, `f75b50b`). `src/routing_table.json`, an ordered rule list,
+      first match wins; `tools/route.py` resolves and is callable both as a
+      module and via CLI (the mechanism E15 verified). ROUTE-TOTAL and
+      ROW-BACKED rewritten against the data and gained a check the prose
+      version could not express: at most one non-frontier rule may match a
+      given input, or the overlap must be the one documented, ordered
+      exception, catching accidental future shadowing rather than trusting
+      list order silently. TABLE-DATA added, free, replacing the class of
+      drift a paid routing run used to be the only way to catch.
+      `build_dist.py --rubric-only` builds `dist-rubric-only/`, gitignored,
+      never touching `dist/`, with only the destination table stripped from
+      `ORCHESTRATOR.md` and the constraints paragraph (self_directed's and
+      prior_failure's own wording) kept intact. 18 checks, 0 failing
+      throughout; `dist/` confirmed unaffected by `git status` after a
+      rubric-only build.
 - [ ] 6.2 `score_routing.py` gains `--classifier {prose,two-stage}` and
       `--axes {3,2}` so all three configurations run through the same
       scorer, and records cost per verdict per configuration.
