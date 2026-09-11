@@ -707,13 +707,28 @@ Tasks:
       sensitivity-to-horizon confound, the conclusion recorded in the
       design is that this fixture suite cannot decide the two-axis
       question, and the pre-registration says so in advance.
-- [ ] 5.4 Pre-register Stage 6's measurement: three configurations (current
+- [x] 5.4 Pre-register Stage 6's measurement: three configurations (current
       prose table; two-stage with three axes; two-stage with two axes).
       Steer each at three runs; report at nine for the prose baseline
       (Stage 3.3's run if it was taken) and for the best two-stage
       configuration. Predicted axis and cell agreement per configuration,
       predicted cost per verdict per configuration (criterion 6), and the
       decision rule for shipping.
+      Done 2026-09-11 (`test/results/2026-09-11-classifier-preregistration.md`).
+      Four configurations, not three: the prose baseline is Stage 3.3's
+      existing reporting-grade run and is not re-run, and the two-stage
+      design is measured at both opus (isolating the mechanism against the
+      baseline's model) and `worker-sonnet-low` (the shipping candidate,
+      since the cost case needs a cheap router). Predictions written as
+      ranges with centres, including a deliberate null prediction that the
+      two-stage design will be indistinguishable from the baseline on cell
+      agreement. The shipping rule's cost ceiling is derived rather than
+      chosen: 0 of 8 benchmark tasks have failed at the floor, whose 95
+      percent Wilson upper bound is 32.4 percent, so a router must cost
+      below USD 0.0532 a verdict to pay for itself at any failure rate the
+      evidence permits. The opus router exceeds that by 3.1 times. Total
+      estimate USD 10 to 40, below the plan's USD 45 to 72, because the
+      baseline is already measured.
 - [ ] 5.5 D39, the design.
 - [ ] 5.6 Update this stage's status line and commit it.
 
