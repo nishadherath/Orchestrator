@@ -101,6 +101,7 @@ test/
 docs/
   DECISIONS.md          decision ledger, append-only
   FINDINGS.md           verified behaviour of Claude Code itself
+  FRONTIERS.md          what the benchmark has measured for each routing row
   PLAN.md               the staged action plan in force; see "Active plan"
   REVIEW.md             the 2026-09-10 review the plan is built on
 dist/                   assembled installable bundle; .claude/ plus
