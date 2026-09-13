@@ -43,3 +43,19 @@ orchestrator, recorded by `score_routing.py --record` as
 `test/results/2026-09-14-routing-opus-b6605f4-*.md`. Whether the cell
 chosen was agreed with is what those files score, fixture by fixture,
 against `expected_cell`.
+
+## Second install, the same day: bundle `2026-09-14-282981f`
+
+D43's table failed its after-measurement (D44), and the reopened table,
+the floor plus the escalation rule, is built at `282981f` with a clean
+stamp and installed the same way: `dist/.claude/` copied over the
+project's `.claude/`, `diff -rq` identical, `ORCHESTRATOR.md`, `README.md`
+and `preflight.py` copied to the root, preflight 0 failing of 8. Twelve
+worker definitions changed their description line only: every cell but
+`worker-sonnet-low`, `worker-opus-max` and `worker-fable-max` is now
+escalation-only. Persona text unchanged.
+
+The after-measurement for this install is nine runs of F14 and F16 only,
+by Jeb's decision at Gate C: with one destination there is nothing left to
+bend toward, and those are the two fixtures whose verdict can still
+disagree. Recorded as `test/results/2026-09-14-routing-opus-282981f-*.md`.
