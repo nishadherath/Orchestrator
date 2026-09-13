@@ -201,3 +201,19 @@ the better number. Containment and reset: clean.
 
 Command for T9's clean re-attempt, from the repository root:
 `python3 test/harness/benchmark.py --project "C:\Users\Bob\Desktop\Code\Claude\orchestrator-scratch" --tasks T9 --confirm --record --fresh`
+
+## Outcome, second attempt: T9 confirms at the floor
+
+Run 2026-09-13 22:41, `--tasks T9 --confirm --record --fresh`, harness at
+`1b5b20b` with both interpreter spellings allowed. Search 3 of 3,
+confirmation 9 of 9 at `worker-sonnet-low`, Wilson lower bound 70.1%,
+clears. 12 runs, USD 2.39, 17.5 minutes. Zero failing runs and zero runs
+matching D41's "requires approval" pattern in the checkpoint, which is the
+confirmation D41's reversal clause asked for: the allowlist was the cause.
+Recorded in `test/results/2026-09-13-benchmark-af94deb-tasks-T9.md`.
+
+Combined with the first attempt's seven genuine runs, T9 is now 16 of 16
+genuine attempts at the floor. D42 stands as written: the floor rejects a
+false measurement readily and fails only on acting against a falsified
+constraint. Final tally for the stage: T9 floor, T10 `worker-opus-high`,
+T11 floor. Total spend across both attempts USD 29.94.

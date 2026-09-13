@@ -224,11 +224,16 @@ These are unresolved, not decided. Do not close one without evidence in
   is the confirmed answer. Whether opus's accuracy is worth 5 times the cost per correct verdict
   depends on what one wrong routing decision costs, which is the cost and quality benchmark's
   question, not this one's.
-- Does any benchmark task exist that `worker-sonnet-low` measurably fails? Eight
-  of eight tasks built so far, T1 through T8, confirmed at the floor once each
-  fixture's grader was correct (`docs/REVIEW.md`), so every routing row above
-  `worker-sonnet-low` remains an untested hypothesis rather than a measured
-  frontier. `docs/PLAN.md` Stage 7 is built to answer this directly.
+- ~~Does any benchmark task exist that `worker-sonnet-low` measurably fails?~~
+  Answered 2026-09-13 (D42, `docs/PLAN.md` Stage 7): yes, one of eleven. T10
+  fails at every sonnet cell (xhigh 0 of 12) and confirms at `worker-opus-high`,
+  9 of 9. But what it fails on is not capability: all 20 failing sonnet runs
+  verified that the task's frozen-file constraint had a false justification,
+  wrote that down, and obeyed the constraint anyway; opus treated the falsified
+  justification as dissolving the instruction. T9 (a false measurement, not a
+  false constraint) and T11 (T7's lineage at larger scale) both confirmed at the
+  floor. The open question this leaves is whether that disposition generalises
+  beyond the one shape tested, and what a routing row that buys it should say.
 - ~~Is the cost of a routing verdict on the ledger, alongside the cost of the
   work it routes?~~ Resolved 2026-09-11 (`docs/COST.md`): it was not, until
   this stage. Mean opus verdict cost per fixture (USD 0.1645, pooled across

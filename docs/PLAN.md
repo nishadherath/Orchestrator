@@ -828,7 +828,7 @@ result criterion 6 wants.
 
 ## Stage 7. A task the floor cannot clear
 
-Status: **in progress (7.1 to 7.5 done 2026-09-13; T9 re-confirmation pending, D41)**
+Status: **done (2026-09-14, see the 7.6 commit)**
 Model: opus, high. Move to opus xhigh only for a hardening round (task 7.3's
 rule), and record the switch.
 
@@ -890,14 +890,15 @@ Tasks:
       T9,T10,T11 --confirm --record --fresh`. This is each task's raw
       frontier. Jeb runs; the session prepares and analyses.
       Run 2026-09-11, recorded at 6c2c62d. T9's confirmation was voided
-      by a harness defect (D41, fixed at b78df2a) and needs a fresh
-      nine-run attempt with `--tasks T9`; T10 and T11 are settled.
+      by a harness defect (D41, fixed at b78df2a); its fresh attempt on
+      2026-09-13 confirmed the floor, 9 of 9, with no recurrence of the
+      defect. Frontiers: T9 floor, T10 `worker-opus-high`, T11 floor.
 - [x] 7.5 D41: the results, whether criterion 1 is met, each task's
       frontier cell with its interval, and the Gate D verdict by the rule
       fixed at Gate A.
       Done 2026-09-13 as D42; D41 went to the harness defect that preceded
       it. Criterion 1 is met on T10; the Gate D rule's condition holds.
-- [ ] 7.6 Update this stage's status line and commit it.
+- [x] 7.6 Update this stage's status line and commit it.
 
 Exit criteria: three tasks with graders tested five ways; pre-registration
 committed before the run; the run recorded; D41; criterion 1 either met or
