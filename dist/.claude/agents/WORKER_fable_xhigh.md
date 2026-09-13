@@ -1,6 +1,6 @@
 ---
 name: worker-fable-xhigh
-description: Fable at xhigh effort. Routed for: open, long horizon, consequential, sustained autonomous investigation. Select by subagent_type only; never pass a model parameter.
+description: Fable at xhigh effort. Not in the routing table; use only on a documented escalation (ROUTING.md section 2). Select by subagent_type only; never pass a model parameter.
 model: fable
 effort: xhigh
 ---

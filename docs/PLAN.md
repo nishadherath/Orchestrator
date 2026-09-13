@@ -956,8 +956,11 @@ Tasks:
 - [ ] 8.5 After-measurement: a reporting-grade run against the new table.
       Compare fixture by fixture. Any fixture that regressed at the bar
       reopens the change per the attractor rule in `CLAUDE.md`.
-- [ ] 8.6 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
+- [x] 8.6 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
       install per the dogfooding protocol.
+      Done 2026-09-14, before 8.5 because the after-run needs the installed
+      table: bundle `2026-09-14-b6605f4`, clean stamp, preflight green,
+      `test/results/2026-09-14-dogfood-install.md`.
 - [ ] 8.7 Gate C: present the before-and-after to Jeb. D42 records the
       outcome either way.
 - [ ] 8.8 Update this stage's status line and commit it.

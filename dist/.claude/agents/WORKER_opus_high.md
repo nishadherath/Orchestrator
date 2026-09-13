@@ -1,6 +1,6 @@
 ---
 name: worker-opus-high
-description: Opus at high effort. Routed for: open, medium, contained. Select by subagent_type only; never pass a model parameter.
+description: Opus at high effort. Routed for: open, medium horizon. Select by subagent_type only; never pass a model parameter.
 model: opus
 effort: high
 ---
