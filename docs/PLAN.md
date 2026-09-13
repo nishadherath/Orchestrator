@@ -1007,7 +1007,7 @@ ledger is five entries ahead of them.
 
 ## Stage 9. Recover the missing half of SYSTEM.md, schemas, roles, B0
 
-Status: **not started**
+Status: **in progress (9.1 to 9.7 done 2026-09-14)**
 Model: opus, high. Authoring technique briefs and the B0 brief is judgement
 work; the record schemas that follow are structured and could be done at
 sonnet high, but one stage at opus high avoids a switch for a small saving.
@@ -1022,7 +1022,7 @@ of its comparison measured on the same tasks.
 
 Tasks:
 
-- [ ] 9.1 Ask Jeb for the first half of the exchange. If he supplies it,
+- [x] 9.1 Ask Jeb for the first half of the exchange. If he supplies it,
       commit it as `src/System/TECHNIQUES.md` (the forty briefs) and
       `src/System/STEPS.md` (the eight steps) with provenance in the header.
       If he does not have it, reconstruct the minimum: the eight steps are
@@ -1034,39 +1034,41 @@ Tasks:
       question, premise operation, output schema, and worked examples in
       relational-form language (one example each is enough to start; three
       is the target). Mark every brief `supplied` or `reconstructed`.
-- [ ] 9.2 `src/System/schemas/`: one JSON Schema per record type in section
+- [x] 9.2 `src/System/schemas/`: one JSON Schema per record type in section
       4's table: ProblemRecord, PremiseRecord, MeasurementRecord,
       CandidateRecord, CritiqueRecord, SelectionRecord, EvaluationRecord,
       SolutionRecord, GapReport, plus PhaseDigest and BudgetEntry from
       sections 6 and 7. Each schema's description names its single writer
       role. Every free-text field carries a length cap, per section 6.
       Every record carries `id`, `ledger_version` and `references`.
-- [ ] 9.3 `tools/validate_records.py`: validates a JSONL file against the
+- [x] 9.3 `tools/validate_records.py`: validates a JSONL file against the
       schemas, standard library only (no dependency beyond what
       `score_routing.py` already uses; if JSON Schema validation without a
       dependency is too much, a hand-written validator over the eleven
       types is acceptable and simpler). `check.py` gains a SCHEMA check
       that example records under `test/fixtures/system/` validate, and that
       a deliberately broken example is rejected.
-- [ ] 9.4 `src/System/ROLES.md`: one brief per role (Framer, Verifier,
+- [x] 9.4 `src/System/ROLES.md`: one brief per role (Framer, Verifier,
       Generator template with the technique family as a parameter, Critic,
       Selector, Librarian), each stating its input slice, its output
       schema, and the rule that it emits new records referencing old ids
       and never edits another role's record. The cell assignment per role
       is configuration, given as `SYSTEM.md` section 5's quick-mode column
       and marked in the file as a prior to be measured in Stage 11.
-- [ ] 9.5 `src/System/B0_BRIEF.md`: one handover prompt that runs all eight
+- [x] 9.5 `src/System/B0_BRIEF.md`: one handover prompt that runs all eight
       steps in a single worker. Output contract: a `ledger.jsonl` of records
       conforming to the schemas, and a `REPORT.md` carrying the answer, B0
       for the problem, and the non-negotiable from `SYSTEM.md` section 8:
       which premises are unverified and load-bearing.
-- [ ] 9.6 `benchmark.py` gains `--brief <file>`: prepends a brief to the
+- [x] 9.6 `benchmark.py` gains `--brief <file>`: prepends a brief to the
       handover so the same task can be run raw and with B0. Own commit.
-- [ ] 9.7 Per-role cost (E19 or the next free number): one Frame call at
+- [x] 9.7 Per-role cost (E19 or the next free number): one Frame call at
       the section 5 quick-mode cell, one Verify, one Generate, one
       Critique, on a toy problem, each with its brief; record cost, tokens
       and wall clock in `FINDINGS.md`. These are the parameters Stage 11's
       pre-registration needs.
+      Done 2026-09-14 as E24: USD 0.666 for one cold pass of the four
+      roles, 19 of 20 records schema-valid at first attempt.
 - [ ] 9.8 Run B0 on the Stage 7 tasks: the Stage 7.4 command with
       `--brief src/System/B0_BRIEF.md`. This is B0's frontier per task.
       Jeb runs; the session prepares and analyses.

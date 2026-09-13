@@ -194,7 +194,14 @@ def run(role: str, project: Path, timeout: float) -> dict:
     # Validate against the example ledger so references to it resolve.
     context = [("example", r) for r in ledger_records("ProblemRecord", "PremiseRecord", "FrameRecord", "CandidateRecord", "MeasurementRecord")]
     problems = v.validate_ledger(context + [(f"reply:{i+1}", r) for i, r in enumerate(records)], schemas)
-    problems = [p for p in problems if p.startswith("reply:")]
+    # A role re-emitting an id the example ledger already holds (prem-001 for
+    # the Framer's first premise, meas-001 for the Verifier's measurement) is
+    # expected here, since the roles are producing the records the example
+    # was written to stand in for; it is not a schema defect. The first run
+    # of this probe counted those collisions and overstated every role's
+    # problem count (test/results/2026-09-14-role-probe-*.md, corrected
+    # reading at the end of the file).
+    problems = [p for p in problems if p.startswith("reply:") and "already used at example" not in p]
     out["schema_problems"] = len(problems)
     out["schema_problem_sample"] = problems[:8]
     out["types_returned"] = sorted({r.get("type") for r in records if isinstance(r, dict)})
