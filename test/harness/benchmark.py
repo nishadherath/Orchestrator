@@ -102,11 +102,19 @@ CHECKPOINT_FILENAME = ".benchmark-checkpoint.jsonl"
 # entry is for the one Bash command a task.md asks a worker to self-check with.
 # Whether this propagates from the forwarder session to a worker it spawns via
 # the Task tool is not confirmed by documentation alone (docs/FINDINGS.md); the
-# first run against this flag is the check. --dangerously-skip-permissions is
+# first run against this flag is the check.
+#
+# Both spellings of the interpreter are allowed. Until 2026-09-13 only
+# `python3 *` was, and two of T9's nine confirmation runs were voided by it
+# (D41): the worker typed `python -m unittest`, which is outside a `python3 *`
+# allowlist, was told the command "requires approval" with nobody present to
+# approve it, and correctly refused to fabricate the measurement it could not
+# take. Nothing in a task tells a worker which spelling to use, and on Windows
+# `python` is the common one. --dangerously-skip-permissions is
 # the documented pattern for "run fully unattended inside a container", but its
 # own warning restricts it to an isolated container or VM without internet
 # access, not a bare machine, so it is opt-in here, never the default.
-FORWARDER_PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *)"]
+FORWARDER_PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *),Bash(python *)"]
 BYPASS_PERMISSION_ARGS = ["--dangerously-skip-permissions"]
 
 BENCHMARK_INSTRUCTION = (
@@ -720,7 +728,10 @@ def main(argv: list[str]) -> int:
         return 0
 
     git_rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
-    permission_mode = "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools"
+    # The allowlist is part of the label so that a checkpoint written under the
+    # narrower pre-D41 allowlist is refused as a different measurement rather
+    # than resumed into.
+    permission_mode = "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools[" + FORWARDER_PERMISSION_ARGS[-1] + "]"
 
     checkpoint_path = project / CHECKPOINT_FILENAME
     checkpoint, existing_meta = Checkpoint.load(checkpoint_path)

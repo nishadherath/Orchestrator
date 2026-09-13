@@ -1760,3 +1760,64 @@ Reversal: a materially cheaper high-accuracy model, or a redesigned
 over-firing, would be grounds to re-run this measurement. Nothing here
 forecloses trying again; it records that this attempt, on this evidence,
 does not clear the bar.
+
+## 2026-09-13 D41. Harness defect: the interpreter allowlist voids two of T9's nine confirmation runs
+
+Decision: T9's first confirmation attempt (7 of 9, Wilson lower bound
+45.3%, does not clear 0.7) does not settle T9's frontier. Two of the nine
+runs are harness failures, not worker results, and are void rather than
+evidence against `worker-sonnet-low`. The harness is fixed and T9 needs a
+fresh confirmation attempt, the same repair T7 needed after D20.
+
+Why: `benchmark.py` ran the forwarder with `--allowedTools "Bash(python3 *)"`,
+so the only shell command a worker could run without a human present was one
+spelled `python3`. Nothing in `task.md` or `PROBLEM.md` tells a worker which
+spelling to use, and on Windows `python` is the common one. The two voided
+runs' full report text, read from the checkpoint file rather than the
+results table (which truncates the report column at 200 characters), shows
+the same thing in both: the worker typed `python -m unittest` and
+`python bench.py`, was told the command "requires approval", found that
+`dangerouslyDisableSandbox` did not lift it, and stopped. One of them,
+verbatim: "I cannot fabricate test/benchmark output, so I'm stopping here
+rather than writing unverified numbers to MEASUREMENT.txt."
+
+Both reports also show the worker had already found and fixed the real
+defect before it was blocked: `_format_rows`'s `line not in out` scan,
+replaced with a set and a single join, which is the intended fix exactly,
+and both state outright that `EventStore.query()` is not the cost. So on
+the task's own terms the two voided runs are premise-rejection successes
+that failed only the artefact check, and they failed it for the right
+reason. That is worth recording on its own: a worker that will not invent
+a measurement it could not take is the behaviour `PROBLEM.md`'s "a claim
+about where time goes is not accepted without the measurement that
+produced it" is asking for.
+
+This is a different failure shape from D20. D20 was a forwarder that never
+spawned a worker and confabulated a result; this is a worker that did the
+work and was denied the one tool the task needs, by a harness setting.
+D20's rate was 1 in 174; this one hit 2 of 57 runs in this batch and,
+because it depends on which spelling the worker happens to type, it is a
+flake with a systematic cause, not a random one. It hit only T9: the
+checkpoint has no other run matching the "requires approval" pattern, so
+T10 and T11 are unaffected. T9's three search runs also did not hit it,
+which is consistent with the spelling being a per-run choice.
+
+What changes: `FORWARDER_PERMISSION_ARGS` now allows `Bash(python3 *)` and
+`Bash(python *)` both, and the checkpoint's `permission_mode` identity
+label carries the allowlist, so a checkpoint written under the narrower
+setting is refused as a different measurement rather than resumed into.
+The results table's 200-character truncation of the report column is left
+as it is; it is a display choice, the checkpoint keeps the full text, and
+this entry is the record of where to look.
+
+What does not change: the two runs stay in the recorded results file as
+they are, marked failed, with this entry as the reason they are not
+counted. The genuine sample is 7 of 7 passing, and per D15's arithmetic
+seven of seven has a lower bound of 0.646, eight of eight 0.676, and nine
+of nine 0.701, so no perfect record shorter than nine clears the bar; a
+fresh nine-run confirmation is required, not a discard of the two runs in
+place.
+
+Reversal: if the fresh attempt hits the same pattern with both spellings
+allowed, the cause is not the allowlist and this entry's diagnosis is
+wrong; the checkpoint's report text is the place to look first.
