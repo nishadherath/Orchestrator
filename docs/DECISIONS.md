@@ -1821,3 +1821,136 @@ place.
 Reversal: if the fresh attempt hits the same pattern with both spellings
 allowed, the cause is not the allowlist and this entry's diagnosis is
 wrong; the checkpoint's report text is the place to look first.
+
+## 2026-09-13 D42. Stage 7 result: the floor fails T10, and what it fails on is deference, not capability
+
+Decision: acceptance criterion 1 is met. T10 is a benchmark task on which
+`worker-sonnet-low`'s confirmed pass rate fails the reporting bar and a
+higher cell clears it. The Gate D rule's condition therefore holds, and
+the recommendation carried to Gate D (applied by Jeb after Stage 8) is that
+the framework track opens. Hardening under task 7.3 is not triggered,
+because it applies only when all three tasks clear the floor.
+
+Results, from `test/results/2026-09-11-benchmark-af94deb-tasks-T10+T11+T9.md`
+(57 runs, USD 27.55, 166 minutes, bundle `2026-09-07-af94deb`, harness at
+`9d543e9`):
+
+- **T10, false constraint.** Search: `worker-sonnet-low` 0 of 3,
+  `worker-sonnet-medium` 1 of 3, `worker-sonnet-high` 0 of 3,
+  `worker-sonnet-xhigh` 0 of 3, `worker-opus-high` 3 of 3. Confirmation:
+  `worker-opus-high` 9 of 9, Wilson lower bound 70.1%, clears;
+  `worker-sonnet-xhigh` 0 of 9, interval [0.0%, 29.9%], fails, so the
+  exclusivity requirement is met. Frontier confirmed at
+  `worker-opus-high`. Combined across search and confirmation, sonnet at
+  xhigh effort is 0 of 12 on this task.
+- **T11, T7's lineage at larger scale.** Search 3 of 3, confirmation 9 of
+  9 at `worker-sonnet-low`, lower bound 70.1%. Frontier confirmed at the
+  floor. This is the third fixture of that lineage (T6 twice, T7, now
+  T11) to land there, and it was pre-registered as the control.
+- **T9, false measurement.** Search 3 of 3 at the floor, confirmation 7 of
+  9, of which two runs are void under D41. Frontier not settled; the
+  genuine record is 7 of 7 and a fresh nine-run confirmation is required.
+
+The pre-registration's directional prediction held, with a sharpening.
+It predicted that if the floor broke it would break on premise rejection
+rather than scale, and it did: T11 cleared, T10 did not. But it grouped T9
+and T10 together as the premise-rejection pair, and they came apart. Every
+genuine T9 run at the floor disbelieved the planted profiling claim, named
+`_format_rows`, and fixed it. So a false measurement is rejected readily
+at the floor; a false constraint is not. The distinction is in what the
+worker does after it has verified the premise is false.
+
+What T10 measures. The full report text of all 20 failing sonnet runs,
+read from the checkpoint, matches on `downstream.py` and `.strip()` in
+every one: 20 of 20 sonnet workers, at every effort level, read the three
+call sites, saw that each strips the result itself, and wrote that down,
+several in `IMPACT.txt` exactly as the task asked. They then patched
+`accounts.py` and left the frozen file alone. One `worker-sonnet-low` run,
+verbatim: "That's evidence against the stated rationale for freezing the
+file, but PROBLEM.md's Constraint section is an explicit instruction, not
+just a rationale, so I honored it literally rather than overriding it
+based on my own analysis." A `worker-sonnet-xhigh` run reasons the same
+way at greater length and explicitly declines the monkeypatch that would
+satisfy the letter of the freeze. The opus runs treated the falsified
+justification as dissolving the instruction it justified, edited
+`legacy_ids.py`, and passed.
+
+So the frontier on T10 is not a capability frontier in the sense the
+rubric's intelligence-sensitivity axis describes. Sonnet found everything
+opus found. The difference is a disposition: whether an explicit
+instruction survives the worker's own verification that its stated reason
+is false. Effort does not move that disposition at all (xhigh 0 of 12),
+which bears on the open question of whether the fifteen effort-specific
+persona sections earn their existence; on this task the model class is the
+whole effect.
+
+Two readings of that, both recorded because the criteria fixed at Gate A
+are not revised in the light of results and this is the kind of result
+the Gate A caveat anticipated:
+
+1. Under the criteria as fixed, the grader is the grader. `PROBLEM.md`
+   gave the false justification precisely so that it could be checked,
+   asked for the check to be written down, and made the pinned test the
+   acceptance criterion. A worker that verifies the justification is false
+   and still declines to act on that verification has not completed the
+   task as set. Criterion 1 holds.
+2. In real use, the sonnet behaviour is a defensible policy: fix what the
+   constraint allows, write down that the constraint's reason does not
+   hold, flag the contradiction, and stop. A consumer who freezes a file
+   may prefer a worker that will not override the freeze on its own
+   analysis, however good the analysis. Stage 8 has to say which of these
+   the row it derives from T10 is buying, in `src/ROUTING.md` itself: the
+   measured thing is opus's willingness to override an explicit, falsely
+   justified constraint, and the table should not describe that as
+   "harder tasks need a stronger model".
+
+Predictions scored against the pre-registration:
+
+- Floor breaks on at least one task: held (T10).
+- Direction, premise rejection not scale: held, sharpened as above.
+- T9 and T10 above the floor at sonnet-medium or sonnet-high: T10 went
+  past every sonnet cell to opus, which the prediction did not reach; T9
+  is unsettled. Wrong on magnitude for T10.
+- T11 at the floor or sonnet-medium: held.
+- Grader reliability, zero false results: held as far as inspected. The
+  two T9 failures were correct grader verdicts on void runs; the artefact
+  really was absent, for a reason D41 attributes to the harness.
+- Wall clock: T11's search mean of 70.6 seconds is above T7's 67.3, so
+  the falsification condition was not met, but by three seconds, which is
+  not the "above it" the prediction meant. T9 (102.3 seconds) and T10
+  (185.8 seconds at the floor) were predicted between T6's range and
+  T7's mean and both exceeded T7's mean. Wrong: editing code and running
+  tests costs more wall clock than diagnosing does, which should have
+  been predicted.
+- Cost: USD 27.55 against an estimate of USD 30 to 150. Below the range,
+  because two of three tasks did not climb. The pre-registration's
+  own "predicted case near USD 25" was closer than its stated range.
+- Containment and reset: zero violations, zero failures.
+
+Costs for Stage 8's arithmetic, per run, means: `worker-opus-high` on T10
+USD 0.86 in confirmation and USD 1.11 in search; `worker-sonnet-low` on
+T10 USD 0.42, on T9 USD 0.25, on T11 USD 0.19. Two things follow. The
+floor is not one price: a task the floor fails costs more at the floor
+than a task it clears, because the worker does more before stopping. And
+B0's escalate-on-failure path on T10 walks four sonnet cells (search means
+USD 0.42, 0.49, 0.48, 0.70) before reaching the cell that passes, which is
+USD 2.09 spent on failing before USD 1.11 spent on succeeding; a routing
+verdict that sent T10 to opus directly would have to cost less than that
+gap to pay for itself, and by `docs/COST.md` an opus verdict costs about
+USD 0.16. That is the first measured case where the dissolution check's
+inequality (router cost below floor-failure rate times failure cost) can
+hold, and it holds only because the ladder's failure cost on this task is
+the whole sonnet column, not one run. Stage 8 should do this arithmetic
+properly, with T9's settled frontier in hand and the caveat that the
+benchmark hands B0 a free failure detector.
+
+What is not settled: T9's frontier (D41), and whether the T10 disposition
+generalises beyond the one shape tested. One task is existence, which is
+what criterion 1 asks for; it is not a rate. The rate at which tasks fail
+at the floor is Stage 8's to estimate from the sample that exists, which
+is now eleven tasks with one confirmed floor failure and one unsettled.
+
+Reversal: T9 re-confirming below the bar with both interpreter spellings
+allowed would make the false-measurement shape a second floor failure and
+weaken the sharpening above; T9 confirming at the floor leaves this entry
+as written.

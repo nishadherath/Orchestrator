@@ -828,7 +828,7 @@ result criterion 6 wants.
 
 ## Stage 7. A task the floor cannot clear
 
-Status: **in progress (7.1 done 2026-09-11, 6a07bfd)**
+Status: **in progress (7.1 to 7.5 done 2026-09-13; T9 re-confirmation pending, D41)**
 Model: opus, high. Move to opus xhigh only for a hardening round (task 7.3's
 rule), and record the switch.
 
@@ -878,19 +878,25 @@ Tasks:
       on the T7 template, with this prediction stated outright:
       `worker-sonnet-low` fails at least one of T9 to T11 at the reporting
       bar. Present it with the cost estimate; this is Gate B.
-- [ ] 7.3 Hardening rule: if all three clear at the floor, harden once (a
+- [x] 7.3 Hardening rule: if all three clear at the floor, harden once (a
       second false premise and one red herring each for T9 and T10, one
       more service and one more red herring for T11), re-run; if they clear
       again, stop hardening, record "the floor keeps winning" as a finding,
       and proceed with the hardest task. Two rounds is the cap, matching
       `SYSTEM.md`'s reframe cap.
-- [ ] 7.4 Run the ladder raw: `python3 test/harness/benchmark.py --project
+      Not triggered, 2026-09-13: T10 did not clear the floor (D42).
+- [x] 7.4 Run the ladder raw: `python3 test/harness/benchmark.py --project
       "C:\Users\Bob\Desktop\Code\Claude\orchestrator-scratch" --tasks
       T9,T10,T11 --confirm --record --fresh`. This is each task's raw
       frontier. Jeb runs; the session prepares and analyses.
-- [ ] 7.5 D41: the results, whether criterion 1 is met, each task's
+      Run 2026-09-11, recorded at 6c2c62d. T9's confirmation was voided
+      by a harness defect (D41, fixed at b78df2a) and needs a fresh
+      nine-run attempt with `--tasks T9`; T10 and T11 are settled.
+- [x] 7.5 D41: the results, whether criterion 1 is met, each task's
       frontier cell with its interval, and the Gate D verdict by the rule
       fixed at Gate A.
+      Done 2026-09-13 as D42; D41 went to the harness defect that preceded
+      it. Criterion 1 is met on T10; the Gate D rule's condition holds.
 - [ ] 7.6 Update this stage's status line and commit it.
 
 Exit criteria: three tasks with graders tested five ways; pre-registration

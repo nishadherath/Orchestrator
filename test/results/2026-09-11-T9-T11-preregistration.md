@@ -154,6 +154,50 @@ Estimate **USD 30 to 150**, unchanged from the figure Stage 7 was approved
 with. The upper half of that range is uncertainty about the opus cells, not
 expectation.
 
-## Outcome
+## Outcome, first attempt: T10 breaks the floor; T11 confirms at it; T9 inconclusive
 
-Not yet run.
+Run 2026-09-11 21:24, `--tasks T9,T10,T11 --confirm --record --fresh`,
+bundle `2026-09-07-af94deb`, harness at `9d543e9`. 57 runs, USD 27.55,
+166 minutes. Recorded in
+`test/results/2026-09-11-benchmark-af94deb-tasks-T10+T11+T9.md`; scored
+in full in D42.
+
+**The prediction this stage exists to test held.** `worker-sonnet-low`
+fails T10 at the reporting bar (search 0 of 3; every sonnet effort level
+fails, xhigh 0 of 12 combined) and `worker-opus-high` clears it (9 of 9,
+Wilson lower bound 70.1%), with `worker-sonnet-xhigh` failing the same bar
+(0 of 9) for exclusivity. Criterion 1 is met. Task 7.3's hardening does
+not trigger.
+
+**T11** confirmed at the floor, 9 of 9, as the control was predicted to.
+
+**T9** is inconclusive: 7 of 9 at the floor, lower bound 45.3%, but two of
+the nine runs are void under D41. The forwarder allowed only
+`Bash(python3 *)`; both voided workers typed `python`, were denied with
+nobody present to approve, and correctly refused to fabricate
+`MEASUREMENT.txt`. Both had already found and fixed the real defect. The
+genuine record is 7 of 7, which does not clear the bar at that sample
+size (lower bound 0.646). The harness is fixed at `b78df2a` and T9 needs
+a fresh confirmation, the same repair T7 needed after D20.
+
+**Sharpening the direction.** The prediction grouped T9 and T10 as the
+premise-rejection pair. They came apart: every genuine T9 run at the
+floor disbelieved the planted profiling claim and fixed the right
+function, while every sonnet run on T10, at every effort level, verified
+that the constraint's justification was false, wrote that down, and
+obeyed the constraint anyway. What the floor fails is not detecting a
+false premise; it is acting on a falsified instruction. D42 records both
+readings of that.
+
+**Predictions scored.** Floor breaks: held. Direction: held, sharpened.
+Magnitude for T10: wrong, opus rather than sonnet-medium or high. T11 at
+the floor: held. Grader reliability: held as far as inspected. Wall
+clock: wrong for T9 and T10, which both exceeded T7's mean because they
+edit and test rather than only diagnose; T11 was above T7's mean by three
+seconds, which does not meet the falsification condition but is not the
+margin the prediction meant. Cost: USD 27.55, below the stated USD 30 to
+150 because two tasks did not climb; the "predicted case near USD 25" was
+the better number. Containment and reset: clean.
+
+Command for T9's clean re-attempt, from the repository root:
+`python3 test/harness/benchmark.py --project "C:\Users\Bob\Desktop\Code\Claude\orchestrator-scratch" --tasks T9 --confirm --record --fresh`
