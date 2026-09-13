@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/BudgetEntry.schema.json",
+  "title": "BudgetEntry",
+  "description": "One model call's cost. The budget ledger is the sum of these per phase; per-phase caps are enforced against it. Single writer: Controller (every model call). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "BudgetEntry"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "phase": {
+      "enum": [
+        "intake",
+        "frame",
+        "verify",
+        "generate",
+        "critique",
+        "select",
+        "instantiate",
+        "close"
+      ]
+    },
+    "role": {
+      "enum": [
+        "controller",
+        "framer",
+        "verifier",
+        "generator",
+        "critic",
+        "selector",
+        "librarian",
+        "b0"
+      ]
+    },
+    "cell": {
+      "type": "string",
+      "pattern": "^worker-(sonnet|opus|fable)-(low|medium|high|xhigh|max)$"
+    },
+    "cost_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "tokens_in": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_out": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "wall_clock_s": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "phase",
+    "role",
+    "cell",
+    "cost_usd",
+    "tokens_in",
+    "tokens_out",
+    "wall_clock_s"
+  ]
+}

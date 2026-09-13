@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/SolutionRecord.schema.json",
+  "title": "SolutionRecord",
+  "description": "The answer, its audit trail, and which technique produced it. The training signal is the technique field. Single writer: Librarian (Close). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "SolutionRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$"
+    },
+    "answer": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "description": "The answer as the requester will read it."
+    },
+    "technique": {
+      "enum": [
+        "b0",
+        "subtract",
+        "re-represent",
+        "abduce",
+        "other"
+      ]
+    },
+    "unverified_load_bearing": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "PremiseRecords the answer depends on that remain unverified. Non-negotiable in every mode: this list is always present, even when empty."
+    },
+    "audit_trail": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Every record the answer rests on, in order."
+    },
+    "problem_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Copied from the FrameRecord, for the library index."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "candidate_id",
+    "answer",
+    "technique",
+    "unverified_load_bearing",
+    "audit_trail",
+    "problem_type"
+  ]
+}

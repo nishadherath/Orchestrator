@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/GapReport.schema.json",
+  "title": "GapReport",
+  "description": "What the run could not close: unmet criteria, unverified load-bearing premises, and the next cheapest test. Single writer: Librarian (Close). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "GapReport"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "best_candidate_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "The best candidate found, or null if nothing beat B0."
+    },
+    "unmet_criteria": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "description": "Acceptance criteria not met, verbatim from the FrameRecord."
+    },
+    "unverified_load_bearing": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "PremiseRecords the best answer depends on that remain unverified."
+    },
+    "next_cheapest_test": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "The one measurement most worth paying for next."
+    },
+    "termination": {
+      "enum": [
+        "budget_spent",
+        "dissolved",
+        "no_improvement",
+        "reframe_cap"
+      ],
+      "description": "Why the run stopped without meeting acceptance."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "best_candidate_id",
+    "unmet_criteria",
+    "unverified_load_bearing",
+    "next_cheapest_test",
+    "termination"
+  ]
+}

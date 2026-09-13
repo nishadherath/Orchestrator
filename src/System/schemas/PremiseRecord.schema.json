@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/PremiseRecord.schema.json",
+  "title": "PremiseRecord",
+  "description": "One premise of the problem, classified. The ledger is the set of these at a version. Single writer: Framer (Frame). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "PremiseRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "The premise in one sentence."
+    },
+    "class": {
+      "enum": [
+        "law",
+        "maths",
+        "policy",
+        "habit",
+        "unverified",
+        "verified"
+      ],
+      "description": "law: cannot be otherwise. maths: follows from definitions. policy: someone chose it and could choose otherwise. habit: nobody chose it. unverified: stated as fact, not yet checked. verified: checked, with a MeasurementRecord behind it."
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "Where the premise came from: the statement, the repository, the library, a measurement id."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "cheapest_verification": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "The cheapest check that would change this premise's class. Required for unverified premises; 'none' otherwise."
+    },
+    "load_bearing": {
+      "type": "boolean",
+      "description": "True if the current best answer depends on this premise."
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Id of the PremiseRecord this one replaces, when a premise changes class or is merged."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "text",
+    "class",
+    "source",
+    "confidence",
+    "cheapest_verification",
+    "load_bearing",
+    "supersedes"
+  ]
+}

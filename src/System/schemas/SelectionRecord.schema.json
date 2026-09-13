@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/SelectionRecord.schema.json",
+  "title": "SelectionRecord",
+  "description": "The shortlist for instantiation, with scores against the acceptance criteria and B0. Single writer: Selector (Select). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "SelectionRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "baseline_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "The current best: B0's CandidateRecord until something beats it."
+    },
+    "shortlist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^[a-z]+-[0-9]{3,}$"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "score": {
+            "type": "number"
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Gain divided by falsification cost, stated."
+          }
+        },
+        "required": [
+          "candidate_id",
+          "rank",
+          "score",
+          "basis"
+        ]
+      },
+      "description": "Ranked. May be empty; then the run returns the baseline."
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^[a-z]+-[0-9]{3,}$"
+          },
+          "reason": {
+            "enum": [
+              "derivable",
+              "loses_to_b0",
+              "rejected_by_critic",
+              "stale_ledger",
+              "other"
+            ]
+          }
+        },
+        "required": [
+          "candidate_id",
+          "reason"
+        ]
+      }
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "baseline_id",
+    "shortlist",
+    "excluded"
+  ]
+}
