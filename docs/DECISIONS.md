@@ -2068,3 +2068,108 @@ Reversal: any fixture that regressed at the bar in the after-measurement
 reopens this design per the attractor rule; the specific risk is that
 removing rows changes how opus reads the triples that still matter,
 which is exactly what D13 observed when a row was added.
+
+## 2026-09-14 D44. The after-measurement reopens D43: the one row above the floor is an attractor the orchestrator cannot find on its own fixture
+
+Decision: D43's four-rule table does not ship as designed. The
+after-measurement (`test/results/2026-09-14-table-collapse-before-after.md`)
+regressed four fixtures at the bar, and the regressions are all the same
+mechanism, so per Stage 8.5's rule the change is reopened here rather than
+patched. The reopened design, put to Jeb at Gate C, is below.
+
+What the measurement showed. Against the old table opus agreed 155 of 162;
+against D43's table, 134 of 162. The twelve fixtures that route to the
+floor under both readings are unchanged at nine of nine, and the six whose
+expected cell moved down on the sonnet side (F03, F05, F06, F07, F08, F17)
+are routed to the floor nine of nine each: opus reads the new table
+correctly wherever the table has one answer. The damage is confined to the
+one row above the floor, `open-medium` at `worker-opus-high`:
+
+- F10, the row's own backing fixture and T10's triple, was read medium
+  nine of nine under the old table and short eight of nine under the new
+  one, on unchanged fixture text and an unchanged rubric. It now lands on
+  the floor eight times in nine.
+- F11 and F12, open consequential investigations whose expected cell moved
+  from `worker-opus-xhigh` to the floor, were read long-or-medium and long
+  under the old table (the old consequential row made horizon irrelevant
+  to them), and medium nine of nine and seven of nine under the new one,
+  where medium is the only path to an opus cell. F18 moved two of nine the
+  same way.
+
+So the horizon read is not made independently of the destination: it
+moves to reach the cell the orchestrator has already decided on. D13
+observed this when a row was added; this is the same mechanism observed
+when rows are removed, and it is now measured at reporting grade in both
+directions. Horizon was already the axis corrected most often (`CLAUDE.md`
+open questions) and D42 already recorded that horizon is not what
+separates T10 from T9. A row that is reached by bending the one axis that
+selects it is not a routing row; it is a destination the orchestrator
+chooses first and justifies second.
+
+Why this cannot be fixed by rewording. The obvious patch is to rewrite
+section 2's description of the row so that F10 stops reading as short and
+F11 and F12 stop reading as medium. That is tuning prose against three
+fixtures, which is the anecdote-chasing D13 warned against, and it costs
+another USD 18 to check. More to the point, D42 already found the row's
+real discriminator: not "open and medium" but "the task requires acting
+against an explicit instruction whose stated reason the repository shows
+to be false", which is not assessable before any code is read and which
+the sonnet worker at the floor detects and reports on its own (every
+failing T10 run flagged the contradiction). The signal that selects the
+cell arrives from the worker, after the floor has run, not from the
+orchestrator before it.
+
+The reopened design. The table is the floor plus the escalation rule:
+
+1. `frontier`: `prior_failure` is `failed_at_xhigh`, `worker-opus-max`
+   or `worker-fable-max`, escalation only. Unchanged.
+2. `floor`: everything else, `worker-sonnet-low`.
+
+T10's evidence moves from section 2 to section 4, as the first measured
+escalation trigger: a worker that reports it cannot meet an acceptance
+criterion without acting against a stated constraint, and has checked the
+constraint's stated reason and found it false, is not re-run at the same
+cell; it is re-spawned at `worker-opus-high` with the contradiction named
+in the handover. That is what T10 measured: `worker-opus-high` nine of
+nine from a cold start on exactly that shape, every sonnet cell zero. The
+cheaper alternative, the orchestrator voiding the constraint itself and
+re-running the floor with the constraint lifted, is unmeasured and is
+recorded as the next thing worth measuring, not as a rule.
+
+Fixtures: F10's expected cell moves to `worker-sonnet-low`. F14 and F16
+are unchanged. Nothing else moves. ROW-BACKED holds with two rules.
+
+The rubric's three axes stay in section 1 for this stage, as D43 said,
+because removing them is a separate change. Under this table they route
+nothing, and the after-measurement of this design is what shows that an
+assessment which cannot change the destination still costs a verdict.
+Their removal is Stage 13's to decide, with that number in hand.
+
+After-measurement for the reopened design. With one destination there is
+no attractor left to bend toward, and the only fixtures whose verdict can
+disagree are F14 (escalation) and F16 (clarify). Two options are put to
+Jeb: the full nine-run pass (USD 18, the discipline as written) or nine
+runs of F14 and F16 only (about USD 2). Either is recorded as the after
+run; the choice is his.
+
+What this means for the criteria. Criterion 1 is unaffected: T10 exists
+and the floor fails it. Criterion 3 is met by removal: no row above the
+floor remains to be backed. Criterion 7's one sentence is now writable:
+the routing table is B0, route everything to `worker-sonnet-low` and
+escalate on evidence, with one measured escalation trigger and one
+mechanism rule; nothing above the floor is a measured cost saving. That
+is the dissolution outcome Stage 4.2 described, and the after-measurement
+of D43 is what forced it: the last row above the floor did not fall to
+lack of evidence for the cell, it fell to the orchestrator being unable to
+find the row on the fixture that backs it.
+
+Gate C alternatives, for the record: reject the change and revert to the
+eleven-rule table, which leaves criterion 3 unmet and blocks this stage;
+or ship D43's table as measured, with its one row reachable one time in
+nine on its own fixture, which 8.5's rule forbids and this entry does not
+recommend.
+
+Reversal: a classifier that reads horizon independently of the table
+(Stage 6's two-stage design was built for that and was rejected on cost
+and accuracy, D40) would reopen the question of an upfront row for T10's
+shape. Until one exists, the trigger lives in section 4.

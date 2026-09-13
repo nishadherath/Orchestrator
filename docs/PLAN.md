@@ -956,6 +956,12 @@ Tasks:
 - [ ] 8.5 After-measurement: a reporting-grade run against the new table.
       Compare fixture by fixture. Any fixture that regressed at the bar
       reopens the change per the attractor rule in `CLAUDE.md`.
+      Run 2026-09-14, bundle `b6605f4`, 134 of 162 against 155 of 162
+      before; F10, F11, F12 and F18 regressed at the bar, all by horizon
+      reads that moved toward the cell the orchestrator wanted. Change
+      reopened, D44: the reopened design is the floor plus the escalation
+      rule, with T10's evidence as a section 4 escalation trigger. The
+      after-run of the reopened design is pending Gate C.
 - [x] 8.6 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
       install per the dogfooding protocol.
       Done 2026-09-14, before 8.5 because the after-run needs the installed
