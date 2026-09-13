@@ -469,8 +469,18 @@ def _is_relayed_line(line: str) -> bool:
     Rewriting a worker's exact words to pass a style check would corrupt
     the evidentiary record; detected by the literal "grader: " / "worker: "
     markers render() inserts, not by file name, so authored text sharing a
-    result file with relayed text stays checked."""
-    return "grader: " in line or " || worker: " in line
+    result file with relayed text stays checked.
+
+    A line that is one JSON record (starts with the record-type key and
+    ends with a closing brace) is also relayed: tools/role_probe.py and the
+    Stage 10 Controller reproduce a role's records verbatim in result
+    files, and a record's field text is the model's words, not authored
+    prose. Records in test/fixtures/system/ are authored and would be
+    caught by this exemption too; they are kept to the house style by
+    hand, since the fixture emitter is not a model."""
+    stripped = line.strip()
+    return ("grader: " in line or " || worker: " in line
+            or (stripped.startswith('{"type": "') and stripped.endswith("}")))
 
 
 def check_persona_manifest(r: Report, update: bool) -> None:
