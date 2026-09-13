@@ -90,6 +90,8 @@ src/
                         integrates; see docs/PLAN.md
   System/STEPS.md       the eight steps, reconstructed (Stage 9.1, D47)
   System/TECHNIQUES.md  the three tier-1 technique briefs, reconstructed
+  System/ROLES.md       the six role briefs: input slice, output schema, cell prior
+  System/schemas/       twelve record schemas, one per blackboard record type
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
