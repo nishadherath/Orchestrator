@@ -2235,3 +2235,44 @@ routing line as a diagnostic record. Stage 13.
 Reversal: a second benchmark task the floor fails on a different shape,
 with a signal the orchestrator can read before any code is, would be
 grounds for a row; the standard for adding one is written into section 2.
+
+## 2026-09-14 D46. Gate D: the framework track opens, with an early exit after Stage 9
+
+Decision: Jeb applied Gate D on 2026-09-14 by the rule fixed at Gate A.
+Criterion 1 holds (D42: T10 exists and the floor fails it), so Stages 9
+to 12 open. Jeb added one rule to the plan, on the session's
+recommendation, and it is recorded here as a plan amendment:
+
+**Early exit.** Task 9.8 runs B0, the floor with `src/System/B0_BRIEF.md`
+prepended, over the Stage 7 tasks. If B0 confirms T10 at
+`worker-sonnet-low` at the reporting bar, the fleet has no subject: the
+one task the floor fails is cleared by the floor with a brief, criterion 2
+is answered as "a prompt, not a system" in `SYSTEM.md`'s own words, and
+the track's deliverable is the B0 brief as a handover template, which the
+plan already names as the criterion-2-fails outcome. In that case the
+track closes at the end of Stage 9 with a decision entry, Stages 10 to 12
+are marked `blocked` with a pointer to it, and the plan proceeds to Stage
+13. If B0 at the floor still fails T10, Stages 10 to 12 run as written.
+
+Why the early exit was recommended and accepted. The track's subject is
+tasks the floor fails, and there is one. On it, B0 with the section 4
+trigger already succeeds at `worker-opus-high` nine of nine for USD 1.53;
+a fleet cannot beat that pass rate and can only tie it under criterion 2's
+three-times cost bar, USD 4.59. Building Stages 10 to 12 to test that on
+one task is roughly USD 75 to 145 of runs plus the Controller. Against
+that, D42 found the floor's failure on T10 is deference, not capability:
+every sonnet run verified the constraint's reason was false and obeyed it
+anyway. That is the failure a brief addresses, and 9.8 is the measurement
+of whether it does, at about USD 30. If the brief is enough, the fleet has
+nothing to beat; if it is not, the deference is deeper than a prompt
+reaches and a fleet with a separate Critic role has a real subject. Either
+result is worth more than the build it replaces or justifies.
+
+Numbering: the plan's Gate D text names D43 as this entry; the ledger
+moved on (D41 harness defect, D42 Stage 7 result, D43 and D44 Stage 8
+design and reopening, D45 Gate C). The plan's forward references to
+decision numbers in Stages 9 to 12 are forecasts and will be off by the
+same amount.
+
+Reversal: none needed; the rule is applied at 9.8 on evidence and either
+branch is written into this entry.

@@ -995,6 +995,14 @@ closed, D43 records the verdict and the reason, Stages 9 to 12 are marked
 If Jeb opens the track despite the rule, D43 records that and why, and the
 stages run as written.
 
+**Applied 2026-09-14 (D46): the track opens.** Criterion 1 holds on T10.
+One amendment, recorded in D46: if task 9.8 shows B0 (the floor with the
+B0 brief) confirming T10 at `worker-sonnet-low`, the track closes at the
+end of Stage 9 with the B0 brief as its deliverable and Stages 10 to 12
+are marked `blocked (see the closing entry)`; otherwise they run as
+written. The plan's decision numbers from here on are forecasts; the
+ledger is five entries ahead of them.
+
 ---
 
 ## Stage 9. Recover the missing half of SYSTEM.md, schemas, roles, B0
