@@ -1,97 +1,83 @@
 {
-  "_comment": "Single source of truth for the routing decision, per D39 (docs/DECISIONS.md) and docs/CLASSIFIER-DESIGN.md. Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. src/ROUTING.md section 2's prose is hand-authored and transcribed from this file as of Stage 6.1; nothing yet checks the two stay in sync mechanically. That is a known gap, not a claimed guarantee, until Stage 6.4 decides whether ROUTING.md's prose is rewritten to describe the mechanism instead of restating the table.",
+  "_comment": "Single source of truth for the routing decision, per D39 (docs/DECISIONS.md) and docs/CLASSIFIER-DESIGN.md. Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. Rewritten from eleven rules to four by D43 (Stage 8) on the benchmark evidence in docs/FRONTIERS.md. src/ROUTING.md section 2's prose is hand-authored and transcribed from this file; nothing yet checks the two stay in sync mechanically. That is a known gap, not a claimed guarantee.",
   "axes": {
-    "sensitivity": ["mechanical", "structured", "open"],
-    "horizon": ["short", "medium", "long"],
-    "blast": ["contained", "consequential"],
-    "self_directed": [false, true],
-    "prior_failure": ["none", "failed_at_xhigh"]
+    "sensitivity": [
+      "mechanical",
+      "structured",
+      "open"
+    ],
+    "horizon": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "blast": [
+      "contained",
+      "consequential"
+    ],
+    "self_directed": [
+      false,
+      true
+    ],
+    "prior_failure": [
+      "none",
+      "failed_at_xhigh"
+    ]
   },
   "rules": [
     {
       "id": "frontier",
       "text": "Frontier problem where every cheaper cell has already failed",
-      "conditions": {"prior_failure": ["failed_at_xhigh"]},
+      "conditions": {
+        "prior_failure": [
+          "failed_at_xhigh"
+        ]
+      },
       "worker": "worker-opus-max",
-      "also_acceptable": ["worker-fable-max"],
+      "also_acceptable": [
+        "worker-fable-max"
+      ],
       "escalation_only": true
     },
     {
-      "id": "open-long-consequential-self-directed",
-      "text": "Open, long horizon, consequential, sustained autonomous investigation",
-      "conditions": {"sensitivity": ["open"], "horizon": ["long"], "blast": ["consequential"], "self_directed": [true]},
-      "worker": "worker-fable-xhigh"
-    },
-    {
-      "id": "short-contained",
-      "text": "Mechanical, structured or open, short, contained",
-      "conditions": {"horizon": ["short"], "blast": ["contained"]},
-      "worker": "worker-sonnet-low"
-    },
-    {
-      "id": "mechanical-short-consequential",
-      "text": "Mechanical, short, consequential",
-      "conditions": {"sensitivity": ["mechanical"], "horizon": ["short"], "blast": ["consequential"]},
-      "worker": "worker-sonnet-medium"
-    },
-    {
-      "id": "mechanical-medium",
-      "text": "Mechanical, medium horizon",
-      "conditions": {"sensitivity": ["mechanical"], "horizon": ["medium"]},
-      "worker": "worker-sonnet-medium"
-    },
-    {
-      "id": "structured-medium-contained",
-      "text": "Structured, medium, contained",
-      "conditions": {"sensitivity": ["structured"], "horizon": ["medium"], "blast": ["contained"]},
-      "worker": "worker-sonnet-medium"
-    },
-    {
-      "id": "structured-short-or-medium-consequential",
-      "text": "Structured, short or medium, consequential",
-      "conditions": {"sensitivity": ["structured"], "horizon": ["short", "medium"], "blast": ["consequential"]},
-      "worker": "worker-sonnet-high"
-    },
-    {
-      "id": "structured-long",
-      "text": "Structured, long horizon",
-      "conditions": {"sensitivity": ["structured"], "horizon": ["long"]},
-      "worker": "worker-sonnet-xhigh"
-    },
-    {
-      "id": "open-medium-contained",
-      "text": "Open, medium, contained",
-      "conditions": {"sensitivity": ["open"], "horizon": ["medium"], "blast": ["contained"]},
+      "id": "open-medium",
+      "text": "Open, medium horizon",
+      "conditions": {
+        "sensitivity": [
+          "open"
+        ],
+        "horizon": [
+          "medium"
+        ]
+      },
       "worker": "worker-opus-high"
     },
     {
-      "id": "open-any-consequential",
-      "text": "Open, any horizon, consequential",
-      "conditions": {"sensitivity": ["open"], "blast": ["consequential"]},
-      "worker": "worker-opus-xhigh"
+      "id": "open-short-or-long",
+      "text": "Open, short or long horizon",
+      "conditions": {
+        "sensitivity": [
+          "open"
+        ],
+        "horizon": [
+          "short",
+          "long"
+        ]
+      },
+      "worker": "worker-sonnet-low"
     },
     {
-      "id": "open-long-contained",
-      "text": "Open, long horizon, contained",
-      "conditions": {"sensitivity": ["open"], "horizon": ["long"], "blast": ["contained"]},
+      "id": "mechanical-or-structured",
+      "text": "Mechanical or structured, any horizon",
+      "conditions": {
+        "sensitivity": [
+          "mechanical",
+          "structured"
+        ]
+      },
       "worker": "worker-sonnet-low"
     }
   ],
-  "documented_overlaps": [
-    {
-      "_comment": "At (open, long, consequential, self_directed=true) both rules below match; table order picks the first. This is the deliberate disambiguation D39 records replacing the old worker-opus-xhigh / worker-fable-xhigh tie-break: at self_directed=false only open-any-consequential matches, so ordering is inert there. check.py's ROUTE-TOTAL asserts no other pair of rules overlaps like this.",
-      "winner": "open-long-consequential-self-directed",
-      "loser": "open-any-consequential"
-    }
-  ],
-  "documented_gaps": [
-    {
-      "conditions": {"sensitivity": "mechanical", "horizon": "long", "blast": "contained"},
-      "reason": "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07"
-    },
-    {
-      "conditions": {"sensitivity": "mechanical", "horizon": "long", "blast": "consequential"},
-      "reason": "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07"
-    }
-  ]
+  "documented_overlaps": [],
+  "documented_gaps": []
 }
