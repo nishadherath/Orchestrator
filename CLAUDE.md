@@ -92,6 +92,7 @@ src/
   System/TECHNIQUES.md  the three tier-1 technique briefs, reconstructed
   System/ROLES.md       the six role briefs: input slice, output schema, cell prior
   System/schemas/       twelve record schemas, one per blackboard record type
+  System/B0_BRIEF.md    the single-worker baseline: all eight steps in one handover
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
