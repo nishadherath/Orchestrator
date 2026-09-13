@@ -94,11 +94,13 @@ tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
   build_dist.py         assembles dist/ from src/; refuses if the harness fails
+  validate_records.py   validates a JSONL ledger against src/System/schemas/
 test/
   harness/              check.py (static assertions), score_routing.py
                         (fixture calibration), empirical-checklist.md (the
                         checks that need a live session), persona.sha256
   fixtures/             calibration tasks with known-correct cells
+                        plus system/, the example ledgers the SCHEMA check runs
   results/              dated harness output, committed
 docs/
   DECISIONS.md          decision ledger, append-only

@@ -502,6 +502,70 @@ def check_persona_manifest(r: Report, update: bool) -> None:
           f"{len(current)} files match" if ok else f"changed={changed} missing={missing} unlisted={extra}; rebuild from source, do not hand-edit (DECISIONS.md D2)")
 
 
+SYSTEM_FIXTURES = REPO_ROOT / "test" / "fixtures" / "system"
+# The line numbers in broken.jsonl that carry a deliberate defect. The check
+# asserts the validator reports exactly these and no others, so a validator
+# that goes blind to one defect class, or starts rejecting sound records,
+# fails here rather than in a Stage 10 run.
+BROKEN_LINES = {1, 2, 3, 5, 6, 10, 13, 16, 17, 18}
+
+
+def load_validator():
+    spec = importlib.util.spec_from_file_location("validate_records", REPO_ROOT / "tools" / "validate_records.py")
+    assert spec and spec.loader, "cannot load tools/validate_records.py"
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def check_schemas(r: Report) -> None:
+    """SCHEMA: every record type has a schema, valid.jsonl validates clean,
+    and broken.jsonl is rejected on exactly the documented lines (Stage 9.3)."""
+    valid = SYSTEM_FIXTURES / "valid.jsonl"
+    broken = SYSTEM_FIXTURES / "broken.jsonl"
+    if not valid.exists() or not broken.exists():
+        r.add("SCHEMA", "record schemas validate the example ledgers", False,
+              f"{SYSTEM_FIXTURES.relative_to(REPO_ROOT)} needs valid.jsonl and broken.jsonl")
+        return
+    try:
+        v = load_validator()
+        schemas = v.load_schemas()
+    except Exception as exc:
+        r.add("SCHEMA", "record schemas validate the example ledgers", False, f"validator failed to load: {exc}")
+        return
+    problems: list[str] = []
+    expected_types = {"ProblemRecord", "PremiseRecord", "FrameRecord", "MeasurementRecord", "CandidateRecord",
+                      "CritiqueRecord", "SelectionRecord", "EvaluationRecord", "SolutionRecord", "GapReport",
+                      "PhaseDigest", "BudgetEntry"}
+    missing = expected_types - set(schemas)
+    if missing:
+        problems.append(f"no schema for {sorted(missing)}")
+
+    records, parse = v.read_jsonl([valid])
+    found = v.validate_ledger(records, schemas, strict=True) + parse
+    if found:
+        problems.append(f"valid.jsonl: {len(found)} problem(s), first: {found[0]}")
+    types_seen = {rec.get("type") for _, rec in records if isinstance(rec, dict)}
+    if expected_types - types_seen:
+        problems.append(f"valid.jsonl lacks an example of {sorted(expected_types - types_seen)}")
+
+    records, parse = v.read_jsonl([broken])
+    found = v.validate_ledger(records, schemas, strict=True) + parse
+    lines = set()
+    for msg in found:
+        head = msg.split(": ", 1)[0]
+        try:
+            lines.add(int(head.rsplit(":", 1)[1]))
+        except (IndexError, ValueError):
+            problems.append(f"unparseable validator message: {msg}")
+    if lines != BROKEN_LINES:
+        problems.append(f"broken.jsonl rejected on lines {sorted(lines)}, expected {sorted(BROKEN_LINES)}")
+
+    r.add("SCHEMA", "record schemas validate the example ledgers", not problems,
+          f"{len(schemas)} schemas; valid.jsonl clean; broken.jsonl rejected on {len(BROKEN_LINES)} documented lines"
+          if not problems else "; ".join(problems))
+
+
 def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
     if not FIXTURES.exists():
         r.add("FIX", "routing fixtures are well-formed", False, f"{FIXTURES.relative_to(REPO_ROOT)} missing")
@@ -577,6 +641,7 @@ def main(argv: list[str]) -> int:
     check_prose(report)
     check_persona_manifest(report, args.update_persona_manifest)
     check_fixtures(report, defs)
+    check_schemas(report)
 
     when = dt.datetime.now()
     try:
