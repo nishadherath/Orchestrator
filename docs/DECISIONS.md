@@ -1954,3 +1954,117 @@ Reversal: T9 re-confirming below the bar with both interpreter spellings
 allowed would make the false-measurement shape a second floor failure and
 weaken the sharpening above; T9 confirming at the floor leaves this entry
 as written.
+
+## 2026-09-14 D43. Stage 8 design: the table collapses to the floor, one measured row, and the escalation rule
+
+Decision: `src/routing_table.json` is rewritten from eleven rules to four,
+before any edit is made, as follows. The design rests on `docs/FRONTIERS.md`
+(Stage 8.1) and on Jeb's risk-appetite decision, taken on 2026-09-14 and
+recorded here, to drop all four blast-radius rows rather than keep them
+as labelled policy.
+
+The four rules, in match order:
+
+1. `frontier`: `prior_failure` is `failed_at_xhigh`, `worker-opus-max`
+   (or `worker-fable-max`), escalation only. Unchanged. Mechanism, not a
+   capability claim; no benchmark task has exercised it.
+2. `open-medium`: sensitivity open, horizon medium, any blast,
+   `worker-opus-high`. The one measured frontier above the floor (T10,
+   9 of 9, with `worker-sonnet-xhigh` 0 of 9 below it). Its text says what
+   it buys, per D42: on T10 every failing sonnet run found what opus found
+   and declined to act against an explicit instruction whose stated reason
+   it had itself shown to be false; opus acted. The row's description in
+   `src/ROUTING.md` records that, records that T10 was classified as this
+   triple after the result was known, and records that T9, the same triple
+   with a false measurement in place of a false constraint, confirmed the
+   floor.
+3. `open-short-or-long`: sensitivity open, horizon short or long, any
+   blast, `worker-sonnet-low`. T5 and T8 (short), T6, T7 and T11 (long).
+4. `mechanical-or-structured`: sensitivity mechanical or structured, any
+   horizon, any blast, `worker-sonnet-low`. T1, T2, T3, T4.
+
+Rules 3 and 4 are written as two disjoint rules rather than one "anything
+else" rule so that `check.py`'s ROUTE-TOTAL, which treats every multiple
+match as an overlap needing a documented order, has nothing to document.
+The table becomes total: `documented_gaps` empties (D27's mechanical
+long-horizon gap closes on T2's evidence) and `documented_overlaps`
+empties (D39's `self_directed` disambiguation has nothing left to
+disambiguate).
+
+What goes, and on what grounds:
+
+- `mechanical-medium` (`worker-sonnet-medium`) and
+  `structured-medium-contained` (`worker-sonnet-medium`): no task at the
+  triple, bracketed by floor results at both ends of horizon. Criterion 3.
+- `structured-long` (`worker-sonnet-xhigh`): measured at the floor directly
+  by T4, twice. Criterion 3.
+- `mechanical-short-consequential` (`worker-sonnet-medium`),
+  `structured-short-or-medium-consequential` (`worker-sonnet-high`),
+  `open-any-consequential` (`worker-opus-xhigh`),
+  `open-long-consequential-self-directed` (`worker-fable-xhigh`): blast
+  radius only, unmeasurable by the benchmark by construction
+  (`docs/BENCHMARK-DESIGN.md`), dropped by Jeb's decision. The reasons
+  put to him: the rows cost three to five times the floor on open work
+  for a payoff nobody has measured; and the one thing opus is measured to
+  buy over sonnet, a willingness to override an instruction once its
+  stated reason is verified false, is the disposition least wanted
+  unsupervised on the consequential work those rows route to it.
+- `short-contained` and `open-long-contained` (both `worker-sonnet-low`):
+  absorbed into rules 3 and 4; nothing changes for the triples they
+  covered.
+
+Fixtures whose `expected_cell` follows the table: F03, F05, F07 (the three
+merged rows), F06, F08, F17 (structured and mechanical consequential), F11,
+F12 (open long consequential), F18 (open long consequential self-directed),
+all to `worker-sonnet-low`. F10 stays `worker-opus-high`, F14 stays
+`worker-opus-max`, the floor fixtures stay, F16 stays clarify. Nine of
+seventeen assessed fixtures change their confirmed answer, which is the
+size of the change and is why the after-measurement is not optional.
+
+What is deliberately not changed in this stage:
+
+- Section 1 of `src/ROUTING.md`, the rubric. Blast radius and the two
+  implicit inputs (`self_directed`, `prior_failure`) are still assessed
+  even though blast and `self_directed` now route nothing. The
+  after-measurement compares fixture by fixture against Stage 3.3's
+  before-measurement, and that comparison is only clean if the assessment
+  the orchestrator is asked for is the same in both runs and only the
+  table differs. Dropping an axis from the rubric is a second change, with
+  its own before-and-after, and it belongs to a later stage. Section 2 of
+  `src/ROUTING.md` says in words that blast is recorded but does not
+  change the cell.
+- The rubric's horizon axis, even though its only remaining job is to
+  separate T9 and T10's shape (medium) from T5 and T8 (short) and T6, T7
+  and T11 (long), all of which confirmed at the floor. D42 says the real
+  discriminator on T10 is not horizon but a falsified constraint the task
+  requires acting against, which no axis captures. Whether horizon is the
+  right predictor for the one row that needs one is a question for after
+  the after-measurement, not before it.
+- The worker definitions' persona text. Regenerating them changes their
+  descriptions (which name the rules routing to each cell) and nothing
+  else; eleven cells become "unrouted", which ROUTE-DESC requires them to
+  say.
+
+What this is. Stage 4.2's dissolution check asked whether the table beats
+B0 (route everything to the floor, escalate on failure). This design is
+most of the dissolution outcome, reached by measurement: the assessment
+that remains asks, in effect, one question, "is this open work at medium
+horizon?", plus the escalation check. The cost case for even that one
+question is Stage 8's remaining arithmetic, in D42's terms: an opus
+verdict costs about USD 0.16 (`docs/COST.md`), and on T10 it would have
+saved the USD 2.09 that B0's ladder spent on four failing sonnet cells
+before reaching opus. On every other task measured it saves nothing and
+costs USD 0.16. With one floor failure in eleven tasks, the break-even
+floor-failure rate is about 0.16 / 2.09, roughly 8 per cent, and the
+observed rate is 9 per cent with a sample that cannot distinguish 9 from 1
+or 30. That is stated here so Gate C sees it, not as a result.
+
+Before-measurement: `src/ROUTING.md` is byte-identical to `af94deb`, so
+Stage 3.3's nine-run opus baseline (155 of 162,
+`test/results/2026-09-11-routing-opus-af94deb-summary.md`) is the before
+run and 8.3 spends nothing.
+
+Reversal: any fixture that regressed at the bar in the after-measurement
+reopens this design per the attractor rule; the specific risk is that
+removing rows changes how opus reads the triples that still matter,
+which is exactly what D13 observed when a row was added.

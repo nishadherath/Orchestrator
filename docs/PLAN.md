@@ -913,7 +913,7 @@ expectation.
 
 ## Stage 8. Wire the floor evidence into routing
 
-Status: **not started**
+Status: **in progress (8.1 and 8.2 done 2026-09-14)**
 Model: opus, high. A change to the routing table with the before-and-after
 fixture discipline; opus is the measured better classifier and the better
 judge of what the fixtures now mean.
@@ -924,11 +924,11 @@ the frontier row) get a destination with measurement behind it, or go.
 
 Tasks:
 
-- [ ] 8.1 For each row above the floor, state what Stage 7 measured for its
+- [x] 8.1 For each row above the floor, state what Stage 7 measured for its
       task class: a frontier above the floor with its cell and interval, or
       none. Rows whose only justification is blast radius are policy rows
       (`PREMISES.md`) and are listed separately.
-- [ ] 8.2 Design the change and record it in D42 before editing anything.
+- [x] 8.2 Design the change and record it in D42 before editing anything.
       A row with a measured frontier stays or moves to that frontier. A row
       with none is removed or merged downward, and its fixtures' expected
       cells follow. Policy rows are presented to Jeb at Gate C with their
@@ -937,6 +937,10 @@ Tasks:
       is the dissolution outcome from Stage 4.2 made concrete: the table
       collapses to the floor plus the clarify rule plus whichever policy
       rows survive Gate C, and that is written as the result it is.
+      Done 2026-09-14 as D43 (D42 was taken by Stage 7's result). The
+      policy-row decision was taken before 8.4 rather than at Gate C, so
+      that one after-measurement runs against the final table; Jeb
+      dropped all four. Gate C still accepts or rejects the whole change.
 - [ ] 8.3 Before-measurement: reuse Stage 3.3's reporting-grade run, or
       Stage 6's reporting-grade run of the shipped configuration if the
       table has not changed since; otherwise run one now.
