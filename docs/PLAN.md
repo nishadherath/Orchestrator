@@ -941,9 +941,13 @@ Tasks:
       policy-row decision was taken before 8.4 rather than at Gate C, so
       that one after-measurement runs against the final table; Jeb
       dropped all four. Gate C still accepts or rejects the whole change.
-- [ ] 8.3 Before-measurement: reuse Stage 3.3's reporting-grade run, or
+- [x] 8.3 Before-measurement: reuse Stage 3.3's reporting-grade run, or
       Stage 6's reporting-grade run of the shipped configuration if the
       table has not changed since; otherwise run one now.
+      Done 2026-09-14, no spend: `src/ROUTING.md` is byte-identical to
+      `af94deb`, so Stage 3.3's run is the before-measurement
+      (`test/results/2026-09-11-routing-opus-af94deb-summary.md`, 155 of
+      162, 16 of 18 fixtures at the bar, USD 15.91 for nine runs).
 - [ ] 8.4 Edit the table (the data file if Stage 6 shipped, `ROUTING.md`'s
       prose table if not) and the affected fixtures' `expected_cell` (F10,
       F11, F12, F14, F18 at least). ROW-BACKED and TABLE-DATA must hold;
