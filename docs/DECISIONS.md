@@ -2173,3 +2173,65 @@ Reversal: a classifier that reads horizon independently of the table
 (Stage 6's two-stage design was built for that and was rejected on cost
 and accuracy, D40) would reopen the question of an upfront row for T10's
 shape. Until one exists, the trigger lives in section 4.
+
+## 2026-09-14 D45. Gate C passed: the routing table is the floor plus the escalation rule
+
+Decision: Jeb accepted D44's reopened design at Gate C on 2026-09-14, on
+the before-and-after evidence, and chose the F14-and-F16-only
+after-measurement for it. `src/routing_table.json` has two rules, `floor`
+(`worker-sonnet-low`, every assessed task) and `frontier` (escalation
+only). The shipped bundle is `2026-09-14-282981f`. Stage 8 is complete.
+
+The after-measurement of the reopened table
+(`test/results/2026-09-14-routing-opus-282981f-only-F14+F16-summary.md`):
+18 of 18, F14 nine of nine (`worker-opus-max` five, `worker-fable-max`
+four, both accepted by the rule), F16 nine of nine clarify. USD 2.31 for
+nine runs, USD 0.129 per verdict. Nothing to compare fixture by fixture
+against the before run for the other sixteen fixtures, because under this
+table their verdict has one possible value; that is the point of the
+table, not a gap in the measurement.
+
+Three reporting-grade runs are now on record for this stage: the
+eleven-rule table (155 of 162), D43's four-rule table (134 of 162), and
+this one. The middle run is the one that carries the finding: a row above
+the floor that the benchmark had measured a cell for was unreachable by
+the orchestrator on its own backing fixture, because the horizon read
+moved with the destination. That is D13's attractor at reporting grade in
+both directions, and it is the reason the table has no rows above the
+floor rather than one.
+
+Criteria, as of this entry:
+
+1. Met (D42): T10 exists and the floor fails it.
+2. Not yet tested: the framework track's question, Gate D.
+3. Met by removal: no row above the floor remains. The escalation rule is
+   a mechanism and is labelled as one in `src/ROUTING.md`.
+4. Met: harness green at every commit; no invariant weakened.
+5. Met: no table change described as confirmed below nine runs.
+6. Met by inaction (D40) and now by shape: the shipped mechanism is B0
+   plus one measured escalation trigger. The router's remaining verdict
+   cost, about USD 0.13 to 0.16 per task, buys the routing line and the
+   clarify decision and nothing else; whether that is worth paying is
+   Stage 13's sentence.
+7. Writable, and `src/ROUTING.md` section 2 now says it: nothing above the
+   floor is a measured cost saving; the table is route-to-the-floor with
+   one measured escalation trigger and one escalation mechanism.
+
+What the escalation trigger is worth, in D42's numbers, for Stage 13: on
+T10, B0 as originally conceived (one cell up per failure) spends USD 2.09
+on four failing sonnet cells before USD 1.11 succeeds; the trigger goes
+from the floor's USD 0.42 straight to opus, USD 1.53 in total. On the ten
+tasks the floor clears it costs nothing. An upfront router that found T10
+would spend USD 0.16 on every task to save USD 0.42 on one, and the
+after-measurement shows it would not reliably find T10's shape anyway.
+
+Open after this entry, for `CLAUDE.md`'s list: the rubric's three axes
+are assessed and route nothing. Their removal is a change with a
+before-and-after of its own, and the number that decides it is the cost
+of a verdict that cannot change the destination (USD 0.129 here on two
+fixtures; USD 0.16 on the full set before) against the value of the
+routing line as a diagnostic record. Stage 13.
+
+Reversal: a second benchmark task the floor fails on a different shape,
+with a signal the orchestrator can read before any code is, would be
+grounds for a row; the standard for adding one is written into section 2.

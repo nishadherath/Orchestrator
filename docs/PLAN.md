@@ -913,7 +913,7 @@ expectation.
 
 ## Stage 8. Wire the floor evidence into routing
 
-Status: **in progress (8.1 and 8.2 done 2026-09-14)**
+Status: **done (2026-09-14, see the 8.8 commit)**
 Model: opus, high. A change to the routing table with the before-and-after
 fixture discipline; opus is the measured better classifier and the better
 judge of what the fixtures now mean.
@@ -953,7 +953,7 @@ Tasks:
       F11, F12, F14, F18 at least). ROW-BACKED and TABLE-DATA must hold;
       `check.py` green. Regenerate the worker definitions.
       Done 2026-09-14 at 67c53c6; the tick landed one commit later.
-- [ ] 8.5 After-measurement: a reporting-grade run against the new table.
+- [x] 8.5 After-measurement: a reporting-grade run against the new table.
       Compare fixture by fixture. Any fixture that regressed at the bar
       reopens the change per the attractor rule in `CLAUDE.md`.
       Run 2026-09-14, bundle `b6605f4`, 134 of 162 against 155 of 162
@@ -961,15 +961,18 @@ Tasks:
       reads that moved toward the cell the orchestrator wanted. Change
       reopened, D44: the reopened design is the floor plus the escalation
       rule, with T10's evidence as a section 4 escalation trigger. The
-      after-run of the reopened design is pending Gate C.
+      after-run of the reopened design, F14 and F16 only by Jeb's choice at
+      Gate C, was 18 of 18 (D45).
 - [x] 8.6 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
       install per the dogfooding protocol.
       Done 2026-09-14, before 8.5 because the after-run needs the installed
       table: bundle `2026-09-14-b6605f4`, clean stamp, preflight green,
       `test/results/2026-09-14-dogfood-install.md`.
-- [ ] 8.7 Gate C: present the before-and-after to Jeb. D42 records the
+- [x] 8.7 Gate C: present the before-and-after to Jeb. D42 records the
       outcome either way.
-- [ ] 8.8 Update this stage's status line and commit it.
+      Passed 2026-09-14, D45: the reopened design (floor plus escalation
+      rule) accepted on the three runs' evidence.
+- [x] 8.8 Update this stage's status line and commit it.
 
 Exit criteria: two reporting-grade runs recorded; ROW-BACKED green; every
 row above the floor backed by a measured frontier, removed, or kept as a

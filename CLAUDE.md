@@ -243,15 +243,19 @@ These are unresolved, not decided. Do not close one without evidence in
   runs, T1 through T8) is a ratio of 1.003: at the cheapest cell, which is
   where every measured task has landed, the router costs essentially the
   same as the work it routes.
-- Is horizon assessable before any tool call is made, or is the table's own
-  history evidence that it is the least reliable of the three axes? F03,
-  F05, F08, F11 and F18 all needed correction specifically on horizon
-  (`docs/DECISIONS.md`), and the table has evolved so that the
-  open-and-consequential row ignores horizon entirely and `worker-sonnet-low`
-  absorbs short horizon on every sensitivity. A worker-side signal already
-  exists (`compact_boundary` in the transcript) that may belong to
-  escalation rather than to upfront assessment. `docs/PLAN.md` Stages 5 and
-  6 test dropping horizon from the assessed axes.
+- ~~Is horizon assessable before any tool call is made, or is the table's own
+  history evidence that it is the least reliable of the three axes?~~
+  Answered 2026-09-14 (D44, `test/results/2026-09-14-table-collapse-before-after.md`):
+  not independently of the destination. When the table was reduced to one
+  row above the floor, opus's horizon read on unchanged fixtures under an
+  unchanged rubric moved toward whichever cell it wanted: F10 from medium
+  nine of nine to short eight of nine, F11 from long-or-medium to medium
+  nine of nine. That is D13's attractor measured at reporting grade in both
+  directions, and it is why the shipped table (D45) has no rows above the
+  floor. T10's evidence lives in ROUTING.md section 4 as an escalation
+  trigger the floor worker raises after reading the code. The remaining
+  question is whether the three axes, which now route nothing, earn their
+  verdict cost as a diagnostic record; Stage 13 decides.
 
 ## Dogfooding
 
