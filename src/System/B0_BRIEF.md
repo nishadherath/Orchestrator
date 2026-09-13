@@ -5,7 +5,8 @@ Provenance: written 2026-09-14 for `docs/PLAN.md` task 9.5 from
 baseline `SYSTEM.md` says to build first: one worker, all eight steps,
 no fleet. `benchmark.py --brief` prepends it to a task; Stage 9.8
 measures it against the raw floor, and Stage 11 measures the fleet
-against it.
+against it. Everything above the rule below is provenance for this
+repository; `--brief` hands the worker only what follows the rule.
 
 ---
 

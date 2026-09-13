@@ -375,7 +375,7 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
     error = None
     report_text, cost, elapsed, extras = None, None, None, {}
     try:
-        report_text, cost, elapsed, extras = run_cell(project, cell, task["task_text"], workdir_rel,
+        report_text, cost, elapsed, extras = run_cell(project, cell, task.get("handover_text", task["task_text"]), workdir_rel,
                                                         forwarder_model, permission_args, timeout)
     except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
         error = str(exc)
@@ -401,7 +401,7 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
 # --confirm (running the confirmation phase now, on a checkpoint built
 # without it, is a legitimate extension, not a different measurement).
 CHECKPOINT_IDENTITY_FIELDS = ("tasks", "r_search", "r_confirm", "steer_fraction", "forwarder_model",
-                              "permission_mode", "bundle")
+                              "permission_mode", "bundle", "brief")
 
 
 class Checkpoint:
@@ -560,10 +560,13 @@ def money(cost: float | None) -> str:
 def render(meta: dict, task_reports: list[dict]) -> str:
     confirm_line = (f" R_confirm={meta['r_confirm']}, reporting threshold: 95% Wilson lower bound above "
                      "0.7, and the cell below must fail the same bar." if meta.get("confirm") else " No confirmation phase.")
+    brief_line = (f"Brief: {meta['brief']['name']} (sha256 {meta['brief']['sha256']}) prepended to every "
+                  "handover. " if meta.get("brief") else "No brief: raw handover. ")
     lines = [f"# Benchmark run, {meta['mode']}, {meta['when']} at {meta['git']}", "",
              f"Bundle: {meta['bundle']}. Project: `{meta['project']}`. "
              f"Forwarder model: {meta['forwarder_model']}. Permission mode: {meta['permission_mode']}. "
-             f"Ladder: {' -> '.join(LADDER)}.", "",
+             + brief_line
+             + f"Ladder: {' -> '.join(LADDER)}.", "",
              f"R_search={meta['r_search']}, steer threshold={steer_threshold(meta['r_search'], meta['steer_fraction'])} "
              f"of {meta['r_search']} (permissive; ceil({meta['steer_fraction']:.3f} x n); never cited as evidence, "
              f"docs/BENCHMARK-DESIGN.md)." + confirm_line, "",
@@ -658,6 +661,11 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--dry-run", action="store_true", help="print what would run; touch nothing")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--record", action="store_true", help="write test/results/<date>-benchmark-<bundle tag>*.md")
+    ap.add_argument("--brief", type=Path, default=None,
+                    help="prepend this file's text (after its first '---' line, if any) to every handover, above the task, separated by a rule "
+                         "(Stage 9.6: src/System/B0_BRIEF.md runs the eight steps in one worker). The brief's "
+                         "name and content hash join the checkpoint identity, so a run with a brief never "
+                         "resumes into one without, and the results file name carries the brief's stem")
     ap.add_argument("--fresh", action="store_true",
                      help="archive any existing checkpoint in --project and start this run from scratch, "
                           "instead of resuming it")
@@ -712,9 +720,23 @@ def main(argv: list[str]) -> int:
 
     permission_args = BYPASS_PERMISSION_ARGS if args.unattended_bypass else FORWARDER_PERMISSION_ARGS
 
+    brief_identity = None
+    if args.brief is not None:
+        brief_text = args.brief.read_text(encoding="utf-8").strip()
+        # A brief may open with a provenance block for the repository's benefit,
+        # ended by the first line that is exactly "---"; the worker gets only
+        # what follows it. A brief with no such line is passed whole.
+        brief_lines = brief_text.split("\n")
+        if "---" in brief_lines:
+            brief_text = "\n".join(brief_lines[brief_lines.index("---") + 1:]).strip()
+        brief_identity = {"name": args.brief.name,
+                          "sha256": hashlib.sha256(brief_text.encode("utf-8")).hexdigest()[:16]}
+        for task in tasks:
+            task["handover_text"] = brief_text + "\n\n---\n\n" + task["task_text"]
+
     if args.dry_run:
         for task in tasks:
-            preview = BENCHMARK_INSTRUCTION.format(cell=LADDER[0], workdir=f"bench-{task['id']}", task=task["task_text"])
+            preview = BENCHMARK_INSTRUCTION.format(cell=LADDER[0], workdir=f"bench-{task['id']}", task=task.get("handover_text", task["task_text"]))
             shown = " ".join(["claude", "-p", "<prompt>", "--output-format", "json",
                                "--model", args.forwarder_model, *permission_args])
             print(f"{task['id']}: {shown}")
@@ -737,7 +759,8 @@ def main(argv: list[str]) -> int:
     checkpoint, existing_meta = Checkpoint.load(checkpoint_path)
     identity = {"tasks": sorted(t["id"] for t in tasks), "fixture_hashes": {t["id"]: fixture_fingerprint(t) for t in tasks},
                 "r_search": r_search, "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction,
-                "forwarder_model": args.forwarder_model, "permission_mode": permission_mode, "bundle": bundle}
+                "forwarder_model": args.forwarder_model, "permission_mode": permission_mode, "bundle": bundle,
+                "brief": brief_identity}
     if args.fresh:
         if checkpoint_path.exists():
             stamp = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
@@ -798,6 +821,7 @@ def main(argv: list[str]) -> int:
             "project": str(project), "forwarder_model": args.forwarder_model, "r_search": r_search,
             "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction, "confirm": args.confirm,
             "mode": "pilot" if args.pilot else "full",
+            "brief": brief_identity,
             "permission_mode": permission_mode}
 
     if args.json:
@@ -814,6 +838,8 @@ def main(argv: list[str]) -> int:
     if args.record:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         suffix = "-pilot" if args.pilot else ""
+        if brief_identity:
+            suffix += "-brief-" + Path(brief_identity["name"]).stem.lower().replace("_", "-")
         out = unique_path(RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-benchmark-"
                               f"{bundle_tag(bundle)}{tasks_tag(args.tasks)}{suffix}.md"))
         out.write_text(render(meta, task_reports), encoding="utf-8", newline="\n")
