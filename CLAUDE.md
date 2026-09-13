@@ -88,6 +88,8 @@ src/
   commands/workers.md   the /workers fleet status command
   System/SYSTEM.md      the problem-solving framework the-system branch
                         integrates; see docs/PLAN.md
+  System/STEPS.md       the eight steps, reconstructed (Stage 9.1, D47)
+  System/TECHNIQUES.md  the three tier-1 technique briefs, reconstructed
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
