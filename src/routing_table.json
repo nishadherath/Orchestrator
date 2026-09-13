@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for the routing decision, per D39 (docs/DECISIONS.md) and docs/CLASSIFIER-DESIGN.md. Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. Rewritten from eleven rules to four by D43 (Stage 8) on the benchmark evidence in docs/FRONTIERS.md. src/ROUTING.md section 2's prose is hand-authored and transcribed from this file; nothing yet checks the two stay in sync mechanically. That is a known gap, not a claimed guarantee.",
+  "_comment": "Single source of truth for the routing decision, per D39 (docs/DECISIONS.md). Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. Reduced to the floor plus the escalation rule by D44 (Stage 8) after D43's four-rule table failed its after-measurement; the benchmark evidence is in docs/FRONTIERS.md and the before-and-after in test/results/2026-09-14-table-collapse-before-after.md. src/ROUTING.md section 2's prose is hand-authored and transcribed from this file; nothing yet checks the two stay in sync mechanically.",
   "axes": {
     "sensitivity": [
       "mechanical",
@@ -40,41 +40,9 @@
       "escalation_only": true
     },
     {
-      "id": "open-medium",
-      "text": "Open, medium horizon",
-      "conditions": {
-        "sensitivity": [
-          "open"
-        ],
-        "horizon": [
-          "medium"
-        ]
-      },
-      "worker": "worker-opus-high"
-    },
-    {
-      "id": "open-short-or-long",
-      "text": "Open, short or long horizon",
-      "conditions": {
-        "sensitivity": [
-          "open"
-        ],
-        "horizon": [
-          "short",
-          "long"
-        ]
-      },
-      "worker": "worker-sonnet-low"
-    },
-    {
-      "id": "mechanical-or-structured",
-      "text": "Mechanical or structured, any horizon",
-      "conditions": {
-        "sensitivity": [
-          "mechanical",
-          "structured"
-        ]
-      },
+      "id": "floor",
+      "text": "Every assessed task",
+      "conditions": {},
       "worker": "worker-sonnet-low"
     }
   ],
