@@ -576,6 +576,20 @@ def check_schemas(r: Report) -> None:
           if not problems else "; ".join(problems))
 
 
+def check_system_controller(r: Report) -> None:
+    """SYSTEM: tools/system_controller.py's --selftest passes: six scripted
+    scenarios (happy path, dissolution, budget exhaustion, stale-version
+    rejection, single-writer rejection, reframe cap), no claude -p calls
+    (docs/PLAN.md Stage 10.6)."""
+    script = REPO_ROOT / "tools" / "system_controller.py"
+    if not script.exists():
+        r.add("SYSTEM", "system_controller.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=60)
+    r.add("SYSTEM", "system_controller.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
 def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
     if not FIXTURES.exists():
         r.add("FIX", "routing fixtures are well-formed", False, f"{FIXTURES.relative_to(REPO_ROOT)} missing")
@@ -652,6 +666,7 @@ def main(argv: list[str]) -> int:
     check_persona_manifest(report, args.update_persona_manifest)
     check_fixtures(report, defs)
     check_schemas(report)
+    check_system_controller(report)
 
     when = dt.datetime.now()
     try:

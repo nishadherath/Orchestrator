@@ -102,6 +102,8 @@ tools/
   claudep.py            shared claude -p plumbing: invocation, permission
                         flags, the resumable Checkpoint class
   system_prompts.py     ROLES.md/TECHNIQUES.md/schema prompt-assembly helpers
+  system_controller.py  the Controller: quick-mode state machine, the Scribe,
+                        --selftest (no claude -p calls) and --record (real runs)
 test/
   harness/              check.py (static assertions), score_routing.py
                         (fixture calibration), empirical-checklist.md (the
