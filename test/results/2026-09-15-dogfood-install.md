@@ -45,3 +45,20 @@ the routing fixtures, which stop at the assessment; its evidence is
 Stage 9.8's benchmark (`2026-09-14-benchmark-282981f-tasks-*-brief-b0-brief.md`).
 No task in this install has yet fired it live from an orchestrator
 session; the first that does should be logged here.
+
+## Third install, same day: bundle `2026-09-15-484eb60`
+
+Stage 13.5's criterion-7 sentence (`src/ROUTING.md`, the frontier row
+stated as an accepted risk-appetite policy) is descriptive text about an
+already-unreachable-except-by-escalation row; it adds no new instruction
+and changes no destination, so no fixture re-measurement was commissioned
+for it, unlike Stage 12's two-step trigger change. `dist/` rebuilt and
+reinstalled the same way, `diff -rq` identical, preflight 0 failing of 8.
+
+While rebuilding, found and fixed a genuine bug in `tools/build_dist.py`:
+`version_stamp()`'s dirty check included `dist/` itself, so any build
+whose output actually changed stamped itself "-dirty" even with a
+source-clean commit, since the script's own not-yet-committed output
+always differs from what is on disk from the previous build. Fixed to
+exclude `dist/` and `dist-rubric-only/` from the check. This bundle's
+version, `484eb60`, is stamped clean and correctly so.
