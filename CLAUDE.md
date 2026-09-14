@@ -101,6 +101,7 @@ tools/
   role_probe.py         one measured call per fleet role at its quick-mode cell
   claudep.py            shared claude -p plumbing: invocation, permission
                         flags, the resumable Checkpoint class
+  system_prompts.py     ROLES.md/TECHNIQUES.md/schema prompt-assembly helpers
 test/
   harness/              check.py (static assertions), score_routing.py
                         (fixture calibration), empirical-checklist.md (the

@@ -27,10 +27,8 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
-import hashlib
 import importlib.util
 import json
-import re
 import shutil
 import subprocess
 import sys
@@ -43,6 +41,9 @@ LEDGER_EXAMPLE = REPO_ROOT / "test" / "fixtures" / "system" / "valid.jsonl"
 T10_REPO = REPO_ROOT / "test" / "fixtures" / "benchmark" / "T10" / "repo"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
 
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from system_prompts import OUTPUT_RULE, as_jsonl, role_section, schema_summary, technique_brief  # noqa: E402
+
 # src/System/ROLES.md, quick-mode column. Kept in step by hand; the probe
 # prints the cell it used so a drift is visible in the result file.
 CELLS = {
@@ -54,13 +55,6 @@ CELLS = {
 
 PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *),Bash(python *)"]
 
-OUTPUT_RULE = (
-    "\n\nReply with the records only: one JSON object per line, no prose before or after, no code fence. "
-    "Every record carries `type`, `id` (a lower-case prefix, a hyphen, three or more digits), "
-    "`ledger_version` and `references`. Field names and caps are as the schemas in the brief state; "
-    "when in doubt, fewer fields and shorter text."
-)
-
 
 def load_validator():
     spec = importlib.util.spec_from_file_location("validate_records", REPO_ROOT / "tools" / "validate_records.py")
@@ -70,38 +64,9 @@ def load_validator():
     return mod
 
 
-def role_section(role_heading: str) -> str:
-    """The role's own section of ROLES.md plus the rules that bind every role."""
-    text = (SYSTEM / "ROLES.md").read_text(encoding="utf-8")
-    rules = re.search(r"## Rules that bind every role\n(.*?)\n## ", text, re.S)
-    section = re.search(rf"\n## {re.escape(role_heading)}\n(.*?)(?=\n## |\Z)", text, re.S)
-    assert rules and section, f"ROLES.md lacks the section for {role_heading}"
-    return "Rules that bind every role:\n" + rules.group(1).strip() + f"\n\nYour role: {role_heading}\n" + section.group(1).strip()
-
-
-def schema_summary(*types: str) -> str:
-    """The properties and required list of each named schema, compactly."""
-    out = []
-    for t in types:
-        s = json.loads((SYSTEM / "schemas" / f"{t}.schema.json").read_text(encoding="utf-8"))
-        fields = []
-        for k, v in s["properties"].items():
-            if k == "type":
-                continue
-            kind = v.get("enum") or v.get("type") or "object"
-            cap = v.get("maxLength")
-            fields.append(f"{k}: {kind if not isinstance(kind, list) else '/'.join(map(str, kind))}" + (f" (<= {cap} chars)" if cap else ""))
-        out.append(f"{t}, required {s['required']}:\n  " + "\n  ".join(fields))
-    return "Output schemas:\n" + "\n".join(out)
-
-
 def ledger_records(*types: str, version: int | None = None) -> list[dict]:
     recs = [json.loads(l) for l in LEDGER_EXAMPLE.read_text(encoding="utf-8").splitlines() if l.strip()]
     return [r for r in recs if r["type"] in types and (version is None or r["ledger_version"] <= version)]
-
-
-def as_jsonl(records: list[dict]) -> str:
-    return "\n".join(json.dumps(r, ensure_ascii=False) for r in records)
 
 
 def build_prompt(role: str, project: Path) -> tuple[str, list[str]]:
@@ -132,8 +97,7 @@ def build_prompt(role: str, project: Path) -> tuple[str, list[str]]:
         ledger = ledger_records("PremiseRecord", "FrameRecord", "CandidateRecord", version=2)
         ledger = [r for r in ledger if r["type"] != "CandidateRecord" or r["technique"] == "b0"]
         brief = role_section("Generator (template; the technique family is the parameter)")
-        tech = (SYSTEM / "TECHNIQUES.md").read_text(encoding="utf-8")
-        family = re.search(r"## Family 1: Subtract.*?(?=\n---)", tech, re.S).group(0)
+        family = technique_brief("Subtract")
         return (brief + "\n\nYour technique brief:\n" + family + "\n\n" + schema_summary("CandidateRecord")
                 + "\n\nInput slice (the frozen ledger at version 2, including B0; no retrieved patterns, the library is empty):\n"
                 + as_jsonl(ledger)
