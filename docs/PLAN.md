@@ -1244,7 +1244,7 @@ run; twenty-seven runs; USD 15 to 55.
 
 ## Stage 12. Wire the fleet verdict into routing
 
-Status: **not started**
+Status: **in progress (12.1 done 2026-09-15)**
 Model: opus, high. A change to the routing table with the before-and-after
 fixture discipline.
 
@@ -1253,13 +1253,16 @@ that D46 measured. Which destination depends on the verdict.
 
 Tasks:
 
-- [ ] 12.1 Design the destination. If D46 says "system": how the
+- [x] 12.1 Design the destination. If D46 says "system": how the
       orchestrator persona hands a task to the Controller (a worker cell
       whose brief is "run `tools/system_controller.py` on this problem and
       return its `REPORT.md`" is the least invasive; the persona never runs
       the framework itself). If D46 says "prompt": a worker cell whose
       handover template is `B0_BRIEF.md`. Record the design in D47 before
       editing anything.
+      Done 2026-09-15 as D60 (the ledger had moved past D47): the brief
+      becomes the first move on section 4's measured trigger, at the
+      floor, with `worker-opus-high` behind it; the table is untouched.
 - [ ] 12.2 Before-measurement: Stage 8's after-measurement, if the table has
       not changed since; otherwise a reporting-grade run now.
 - [ ] 12.3 Edit the table and the affected fixtures. ROW-BACKED and

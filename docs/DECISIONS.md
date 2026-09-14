@@ -3208,3 +3208,57 @@ plan's USD 15 to 55.
 Reversal: a pre-registered re-run at a configuration whose projected
 cost per run is under USD 1.2, clearing nine of nine on T10 at that
 cost. None is scheduled.
+
+## 2026-09-15 D60. Stage 12 design: on the falsified-constraint trigger, the floor runs the B0 brief before opus is called
+
+Decision: the verdict is prompt (D59), so Stage 12 wires the B0 brief,
+not the Controller, and it wires it in exactly one place: `src/ROUTING.md`
+section 4's measured escalation trigger. Today that trigger re-spawns
+`worker-opus-high` directly and calls the cheaper alternative, voiding
+the constraint and re-running the floor, unmeasured. Stage 9.8 measured
+it: the floor with `B0_BRIEF.md` prepended took T10 from 0 of 12 raw to
+22 of 24 at USD 0.36 per run (D47), against `worker-opus-high` raw at 9
+of 9 and USD 0.86 to 1.11. The trigger becomes two steps: first
+`worker-sonnet-low` with the brief placed before the handover, naming
+the constraint, its stated reason and the evidence the first worker
+found; then, only if that attempt returns without meeting the criterion,
+`worker-opus-high` as before. Expected cost per solved T10-shaped task
+falls from about USD 1.0 to about USD 0.5 (0.36 plus one opus attempt in
+about one case in nine), and the confirmed cell stays behind the cheap
+one, so nothing that cleared the bar before is removed.
+
+What is not changed, and why. The routing table (`src/routing_table.json`)
+is untouched: the brief is a handover template, not a cell, and a
+sixteenth definition would break the three-by-five matrix every check
+assumes. The brief is not prepended to every floor handover: on T9 and
+T11, tasks the raw floor already clears nine of nine, the brief run cost
+USD 0.35 to 0.36 against the raw floor's USD 0.16 (`docs/COST.md`),
+doubling the cost of every task to fix the one shape in eleven. It is
+not embedded in `ORCHESTRATOR.md` either: 1,558 tokens on every
+orchestrator turn to cover a trigger that fires rarely is the recurring
+cost the persona's rule on persistent artefacts exists to refuse. The
+bundle ships it as `.claude/B0_BRIEF.md`, the worker-facing half only
+(everything after the provenance rule, the same cut `benchmark.py
+--brief` makes), and the orchestrator reads it when the trigger fires.
+
+Two things a consumer should know, written into `ORCHESTRATOR.md` beside
+the trigger. The brief instructs the worker to keep `ledger.jsonl` and
+write `REPORT.md` in its working directory; those files are the audit
+trail Stage 9 designed and they will appear in the consumer's tree. The
+brief's record is two batches of 8 of 9 on one task shape, which does
+not clear the reporting bar (9 of 9 does); it is shipped as the cheaper
+first move with the confirmed cell behind it, not as a confirmed cell.
+
+Measurement. The table did not change since Stage 8's after-measurement,
+so that run (D45, `2026-09-14-routing-opus-282981f-only-F14+F16-summary.md`)
+is the before. The after is a full eighteen-fixture reporting-grade run
+against the rebuilt bundle, not the two-fixture form Gate C chose: the
+edit is to the orchestrator's instructions, and D44 showed instruction
+text elsewhere in the file moving assessments on fixtures it never named.
+The sixteen floor fixtures have one admissible verdict, so any movement
+there is a regression the two-fixture form could not see. About USD 18
+to 27 (D45's full run cost USD 17.71).
+
+Reversal: Gate F. If Jeb rejects the wiring, section 4 returns to its
+D45 text and the brief leaves the bundle; the measurement that justified
+it stays on record either way.
