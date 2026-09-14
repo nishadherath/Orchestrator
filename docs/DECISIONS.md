@@ -3262,3 +3262,23 @@ to 27 (D45's full run cost USD 17.71).
 Reversal: Gate F. If Jeb rejects the wiring, section 4 returns to its
 D45 text and the brief leaves the bundle; the measurement that justified
 it stays on record either way.
+
+## 2026-09-15 D61. Gate F passed: the B0 brief is wired into the escalation trigger
+
+Decision: Jeb accepted the wiring at Gate F on 2026-09-15, on the
+before-and-after evidence (D60, Stage 12.4): 162 of 162 across all
+eighteen fixtures, nine runs each, no regression against D45's before
+run. Bundle `2026-09-15-9b5f64b` stands as shipped: `ORCHESTRATOR.md`
+section 4's falsified-constraint trigger runs the floor with
+`.claude/B0_BRIEF.md` first, `worker-opus-high` behind it. Stage 12 is
+complete.
+
+The one open item this gate does not settle: E27's cost doubling
+(USD 0.23 per verdict against USD 0.13 the day before) reproduced
+against the previous bundle too, so it is not attributed to this change
+and does not block it. Stage 13's cost sentence carries the current
+figure and notes it moved.
+
+Reversal: none pending. A future session finding section 4's two-step
+trigger fails on a task the single-step form would have caught reopens
+this as a decision entry, not a silent revert.

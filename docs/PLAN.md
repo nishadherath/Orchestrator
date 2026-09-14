@@ -1244,7 +1244,7 @@ run; twenty-seven runs; USD 15 to 55.
 
 ## Stage 12. Wire the fleet verdict into routing
 
-Status: **in progress (12.1 done 2026-09-15)**
+Status: **done (2026-09-15, Gate F passed, D61; see the 12.7 commit)**
 Model: opus, high. A change to the routing table with the before-and-after
 fixture discipline.
 
@@ -1289,9 +1289,10 @@ Tasks:
       install per the dogfooding protocol.
       Done 2026-09-15, bundle `2026-09-15-9b5f64b`, before 12.4 as in Stage
       8; `test/results/2026-09-15-dogfood-install.md`.
-- [ ] 12.6 Gate F: present the before-and-after to Jeb. D47 records the
+- [x] 12.6 Gate F: present the before-and-after to Jeb. D47 records the
       outcome either way.
-- [ ] 12.7 Update this stage's status line and commit it.
+      Passed 2026-09-15 as D61 (the ledger had moved past D47 by then).
+- [x] 12.7 Update this stage's status line and commit it.
 
 Exit criteria: the two runs recorded; ROW-BACKED green; Gate F passed;
 `dist/` rebuilt and stamped clean.
