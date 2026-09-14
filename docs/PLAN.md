@@ -1093,7 +1093,7 @@ USD 30 to 150, plus a few dollars of per-role probes.
 
 ## Stage 10. The Controller in code, quick mode
 
-Status: **in progress (10.1 to 10.8 done 2026-09-14; live toy run pending)**
+Status: **done 2026-09-14, e2cf3fc onward through D54**
 Model: sonnet, high. Load `python.sonnet.md`. The design decisions were made
 in Stages 4 and 9 and `SYSTEM.md` section 3 is the specification; this is
 implementation from a good brief, which is what `SYSTEM.md` says mid-size
@@ -1169,7 +1169,13 @@ Tasks:
       Done 2026-09-14 as D48 (the ledger had moved past D45 by then; see
       D46's numbering-drift note). Two Controllers resolved by scope: the
       persona and the Controller never own a budget on the same invocation.
-- [ ] 10.9 Update this stage's status line and commit it.
+- [x] 10.9 Update this stage's status line and commit it.
+      Done 2026-09-14 as D54. Five live runs crashed or silently completed
+      short of a valid record for every phase (D49-D53); the sixth
+      (`runs/20260914T160741/`) met the exit criteria in full, selecting a
+      candidate other than B0 for the first time. One dangling-reference
+      defect (D52) was confirmed recurring and is left as a known,
+      accepted limitation rather than blocking this stage.
 
 Exit criteria: `--dry-run` prints a correct quick-mode plan; `--selftest`
 passes and `check.py` counts it; one real quick-mode run on a toy problem

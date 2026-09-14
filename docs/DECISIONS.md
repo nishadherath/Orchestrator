@@ -2826,3 +2826,46 @@ Reversal: none needed; giving every phase the same one-shot correction
 Frame already had is a generalisation of an existing, working mechanism,
 not a new one, and 20/20 harness checks stay green including the new
 scenario.
+
+## 2026-09-14 D54. Sixth live run meets Stage 10.9's exit criteria; one
+known limitation confirmed recurring and left as accepted
+
+Decision: `runs/20260914T160741/` is the first of the six live toy runs to
+complete with every phase holding a valid record: `ProblemRecord`,
+`PremiseRecord`, `FrameRecord`, `MeasurementRecord`, `CandidateRecord`,
+`CritiqueRecord`, `SelectionRecord` (`sel-002`, landed on the retry D53
+added), `SolutionRecord`, a `PhaseDigest` per phase, and all eleven
+`BudgetEntry`s accepted with no phase-alias rejection. The winner was
+`cand-002` (subtract), the first run of the six to select something other
+than B0: the Framer again found the freeze's stated reason false
+(independently, as in the first run, D49), and this time a Generate
+candidate that acted on the finding survived Critique and beat B0 on the
+stated acceptance criteria.
+
+`validate_records.py` found one problem: `frame-002`'s `references` names
+`prem-014`, which resolves to nothing. This is the same mechanism D52
+already described and deliberately left unfixed, recurring in the sixth
+run rather than a new defect: `prem-014` was a `PremiseRecord` in the same
+batch as `frame-002`, correctly assigned that id by the Scribe, referenced
+correctly by `frame-002`, and then rejected on its own account (`source`:
+308 characters, cap 300) after the id was already spent. The one-shot
+retry Frame already had ran (`rejections.jsonl` shows exactly one
+rejection, not two), but its corrected reply evidently did not resubmit a
+fixed `prem-014`, so the reference stayed dangling. Two occurrences in six
+runs, both from a role over-running an unrelated field's character cap by
+a small margin, is enough to call this a known property of the mechanism
+rather than a fluke, and D52's assessment stands: it is an audit-trail
+integrity defect inside an otherwise-valid, otherwise-complete
+`FrameRecord`, not a missing phase record, so it does not fail this
+stage's exit criterion. It remains open for the hardening pass D52 named.
+
+Exit criteria (`docs/PLAN.md` Stage 10) are met: `--dry-run` prints the
+correct nine-step quick-mode plan; `--selftest` passes at ten scenarios
+and `check.py`'s SYSTEM check counts it; this run is the real end-to-end
+completion with valid records for every phase; D45 is present (as D48,
+per D46's renumbering note); harness green at 20/20.
+
+Reversal: would require a seventh run failing this same check for a
+different reason; none is expected, since every distinct failure mode
+found across the six runs (D49 through D53) is now fixed or, for the one
+exception above, explicitly accepted rather than merely unnoticed.
