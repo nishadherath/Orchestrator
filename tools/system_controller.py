@@ -168,26 +168,51 @@ class Scribe:
         runs after those structural checks. The caller decides what a
         rejection means for its phase; the Scribe only reports it.
 
-        Ids are assigned to the whole batch before any of it is validated,
-        so a forward reference within one batch resolves regardless of the
-        order the writer listed its records in (a FrameRecord's
-        `b0_candidate_id` naming a CandidateRecord that appears later in
-        the same reply, say). Each record's references are then checked
-        against the ledger plus every id in this batch, whether or not
-        that batch-mate itself goes on to pass its own validation; a
-        record whose only problem is a reference to a batch-mate that gets
-        rejected is a known, accepted simplification, not a case this
-        method resolves to a fixed point."""
+        Ids are assigned to the whole batch before any of it is validated.
+        This is not enough on its own to make a within-batch forward
+        reference resolve (a FrameRecord's `b0_candidate_id` naming the
+        CandidateRecord it was written alongside, say): a live run
+        (2026-09-14) showed the writer has no way to know in advance what
+        id the Scribe will assign, so its own guess almost never matches,
+        even when the writer is internally consistent about that guess
+        (and it was not always: one reply's `b0_candidate_id` did not even
+        match the `id` its own accompanying CandidateRecord claimed). So
+        every reference field this batch's records carry (`references`,
+        plus each type's field named in `validate_records.REF_FIELDS`) is
+        rewritten first, replacing any value that matches a raw id from
+        this same batch with the id the Scribe actually assigned it. A
+        value that is not one of this batch's raw ids (an id from the
+        existing ledger, or simply wrong) is left alone, so a genuine
+        dangling reference still gets caught by validation below.
+
+        Each record's references are then checked against the ledger plus
+        every id in this batch, whether or not that batch-mate itself goes
+        on to pass its own validation; a record whose only problem is a
+        reference to a batch-mate that gets rejected is a known, accepted
+        simplification, not a case this method resolves to a fixed
+        point."""
         candidates: list[dict] = []
         rejected: list[ScribeRejection] = []
+        id_map: dict[str, str] = {}
         for raw in records:
             reasons = self._check_ownership(raw, writer_role, expected_types)
             if reasons:
                 rejected.append(ScribeRejection(raw, reasons))
                 continue
             record = dict(raw)
-            record["id"] = self._next_id(record["type"])
+            new_id = self._next_id(record["type"])
+            if isinstance(raw.get("id"), str) and raw["id"] != new_id:
+                id_map[raw["id"]] = new_id
+            record["id"] = new_id
             candidates.append(record)
+
+        if id_map:
+            for record in candidates:
+                if isinstance(record.get("references"), list):
+                    record["references"] = [id_map.get(r, r) for r in record["references"]]
+                for field in validate_records.REF_FIELDS.get(record["type"], []):
+                    if record.get(field) in id_map:
+                        record[field] = id_map[record[field]]
 
         accepted: list[dict] = []
         for record in candidates:
@@ -313,7 +338,8 @@ class LiveRoleRunner:
         usage = res.extras.get("usage", {}) or {}
         entry = {"type": "BudgetEntry", "phase": phase, "role": role, "cell": f"worker-{model}-{effort}",
                   "cost_usd": res.cost_usd or 0.0, "tokens_in": usage.get("input_tokens", 0),
-                  "tokens_out": usage.get("output_tokens", 0), "wall_clock_s": round(res.elapsed_s, 1)}
+                  "tokens_out": usage.get("output_tokens", 0), "wall_clock_s": round(res.elapsed_s, 1),
+                  "ledger_version": 0, "references": []}
         return RoleReply(records=records, budget_entry=entry, unparsed=unparsed)
 
     def classify(self, phase: str, prompt: str, schema: dict, default: dict) -> tuple[dict, dict | None]:
@@ -333,7 +359,7 @@ class LiveRoleRunner:
         entry = {"type": "BudgetEntry", "phase": phase, "role": "controller", "cell": f"worker-{model}-{effort}",
                   "cost_usd": res.cost_usd or 0.0, "tokens_in": (res.extras.get("usage") or {}).get("input_tokens", 0),
                   "tokens_out": (res.extras.get("usage") or {}).get("output_tokens", 0),
-                  "wall_clock_s": round(res.elapsed_s, 1)}
+                  "wall_clock_s": round(res.elapsed_s, 1), "ledger_version": 0, "references": []}
         return result, entry
 
 
@@ -449,11 +475,19 @@ def build_frame_prompt(problem: dict, prior_measurements: list[dict], prior_ledg
             body.append("New measurements since the last freeze:\n" + as_jsonl(prior_measurements))
         if falsifying_critiques:
             body.append("Critiques claiming a ledger premise is false:\n" + as_jsonl(falsifying_critiques))
-        body.append("Produce ledger version " + str(_next_version(prior_ledger)) + ".")
+        body.append("Produce ledger version " + str(_next_version(prior_ledger)) + f". Copy `b0_candidate_id` "
+                     "verbatim from the prior FrameRecord above; it is not being re-assigned.")
     else:
         body.append("False-premise catalogue: " + catalogue)
         body.append("Input slice (the ProblemRecord):\n" + as_jsonl([problem]))
-        body.append("Produce ledger version 1: every PremiseRecord, one FrameRecord, and the B0 CandidateRecord.")
+        body.append("Produce ledger version 1: every PremiseRecord, one FrameRecord, and the B0 CandidateRecord. "
+                     "The `id` you give the B0 CandidateRecord and the `b0_candidate_id` you give the FrameRecord "
+                     "must be the exact same string: whichever of the two you write first, copy it into the other "
+                     "field rather than choosing separately. B0 takes every stated constraint at face value, "
+                     "including one you have just classified as policy or falsified: B0's `premise_operation` is "
+                     "`none` and its mechanism does not remove, re-represent or add anything. A candidate that acts "
+                     "on your own finding that a constraint's reason is false belongs in Generate, under a real "
+                     "technique, once the pipeline gets there, not folded into B0.")
     return "\n\n".join(body) + OUTPUT_RULE
 
 
@@ -1139,6 +1173,37 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
         check(len(gap["next_cheapest_test"]) <= 300,
               f"scenario 7: _gap_report truncates an oversized next_test to the schema's 300-character cap, got {len(gap['next_cheapest_test'])}")
 
+        # --- Scenario 8: a batch's own self-chosen ids get remapped ---
+        # Direct regression test for the second live bug this session found
+        # (2026-09-14): the Framer has no way to know the id the Scribe will
+        # assign, so a FrameRecord's b0_candidate_id naming the id its own
+        # co-emitted CandidateRecord chose for itself must be rewritten to
+        # the id the Scribe actually assigns that candidate, not left to
+        # dangle. Uses a fresh Scribe so ids start at 1, independent of the
+        # id assignments any other scenario made in this same process.
+        remap_dirs = RunDirs(tmp_path / "runs" / "s8-remap")
+        remap_dirs.create()
+        remap_scribe = Scribe(remap_dirs)
+        c8 = _canned()
+        problem8, prem8a, prem8b = c8["problem"], c8["frame_v1"][0], c8["frame_v1"][1]
+        remap_scribe.write([problem8], writer_role="controller", expected_types={"ProblemRecord"})
+        self_chosen_frame = dict(c8["frame_v1"][2])
+        self_chosen_frame["id"] = "my-frame-99"
+        self_chosen_frame["b0_candidate_id"] = "my-cand-42"
+        self_chosen_frame["references"] = ["my-cand-42"]
+        self_chosen_cand = dict(c8["frame_v1"][3])
+        self_chosen_cand["id"] = "my-cand-42"
+        self_chosen_cand["references"] = ["x1", "x2"]  # this batch's own self-chosen premise ids
+        accepted8, rejected8 = remap_scribe.write(
+            [dict(prem8a, id="x1"), dict(prem8b, id="x2"), self_chosen_frame, self_chosen_cand],
+            writer_role="framer", expected_types={"PremiseRecord", "FrameRecord", "CandidateRecord"})
+        check(not rejected8, f"scenario 8: a batch using its own self-chosen ids should validate after remapping, got {rejected8}")
+        remapped_frame = next((r for r in accepted8 if r["type"] == "FrameRecord"), None)
+        remapped_cand = next((r for r in accepted8 if r["type"] == "CandidateRecord"), None)
+        check(bool(remapped_frame and remapped_cand and remapped_frame["b0_candidate_id"] == remapped_cand["id"]),
+              f"scenario 8: b0_candidate_id is rewritten to the Scribe-assigned candidate id, got "
+              f"{remapped_frame and remapped_frame.get('b0_candidate_id')!r} vs {remapped_cand and remapped_cand.get('id')!r}")
+
     return (not problems, problems)
 
 
@@ -1161,7 +1226,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
         if ok:
-            print("selftest: PASS, 8 scenarios")
+            print("selftest: PASS, 9 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:

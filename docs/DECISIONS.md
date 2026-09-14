@@ -2623,3 +2623,79 @@ this fix, `rejections.jsonl` will now hold either the actual rejected
 record and the Scribe's reason, or the unparsed fragment verbatim, and
 whichever it is settles this entry's diagnosis rather than requiring
 another guess.
+
+## 2026-09-14 D51. Third live crash: cross-batch id references, and a B0 that had already applied a technique
+
+Decision: the third live run crashed the same way again, `RuntimeError:
+Frame: expected exactly one record, got 0`, and this time `rejections.jsonl`
+(added for D50) worked exactly as intended: it held the actual rejected
+`FrameRecord` and `CandidateRecord`, in full, with the Scribe's exact
+reasons. Two things follow from reading them, one a bug fix and one an
+observation for Stage 11.
+
+**The bug.** Every rejection was a dangling reference, not a schema
+violation: `frame-001`'s `b0_candidate_id` named `"cand-000"`, which
+resolved to nothing; the retry's `frame-002` named `"cand-001"`, also
+nothing; the retry's own `cand-002` listed `"frame-001"` in its
+`references`, also nothing. The Framer has no way to know in advance what
+id the Scribe will assign a record, so a self-chosen guess at a batch-mate's
+id essentially never matches, and this session's own docstring in
+`Scribe.write()` (D45's write() design) had asserted otherwise without
+testing it live: it claimed a forward reference "resolves regardless of
+the order the writer listed its records in" on the strength of ids being
+assigned before validation, which is necessary but not sufficient, since
+assigning fresh ids to a batch does nothing about a reference field that
+still holds the writer's own, different, guess.
+
+Worse, the writer was not even internally consistent about its own guess:
+`frame-001`'s `b0_candidate_id` (`"cand-000"`) did not match the `id` its
+own co-emitted `CandidateRecord` claimed (`"cand-001"`) in the same reply.
+
+Fixed two ways, one mechanical and one in the prompt. `Scribe.write()` now
+builds a map from every raw record's own self-chosen `id` (when it had a
+string one) to the id the Scribe actually assigns it, and rewrites
+`references` and each type's `REF_FIELDS` entry across the whole batch
+before validating, so an internally consistent self-reference resolves
+correctly regardless of what id the writer guessed. This does not save an
+internally inconsistent reply (nothing can reconstruct a reference to an id
+that was never actually used for anything in the batch), so
+`build_frame_prompt` also now tells the Framer directly, for the first
+Frame call: give the B0 `CandidateRecord` and the FrameRecord's
+`b0_candidate_id` the exact same string, whichever you decide first; and
+for re-entry: copy `b0_candidate_id` verbatim from the prior `FrameRecord`
+rather than choosing again. Selftest scenario 8 is a direct regression
+test: a batch using entirely self-chosen ids (`"my-frame-99"`,
+`"my-cand-42"`) for both the record and the field naming it, asserting
+both survive and the field is rewritten to the Scribe's real assignment.
+
+**A second, smaller bug found the same way.** Both `BudgetEntry`
+constructions (`LiveRoleRunner.__call__` and `.classify()`) were missing
+`ledger_version` and `references`, which every schema requires; every
+`BudgetEntry` this module has ever written live was rejected, silently,
+before `rejections.jsonl` existed to say so. Fixed by adding both fields
+(`ledger_version: 0`, `references: []`; a `BudgetEntry` is accounting, not
+a ledger position, so there is nothing more specific to put there).
+
+**The observation, not yet acted on beyond one prompt sentence.** The
+rejected `cand-001` was labelled `technique: "b0"` but its
+`premise_operation` was `"remove"` and its mechanism removed the freeze
+premise outright, exactly `subtract`'s job. That is not what B0 is: per
+`STEPS.md`'s reconstruction and `SYSTEM.md` itself, B0 is the answer a
+single pass gives taking every stated premise at face value, technique
+`none`. The retry's own second attempt (`cand-002`, also self-labelled
+`"b0"`) got this right: it kept the freeze and stripped in `accounts.py`
+instead. So across two attempts in one run, the same Framer produced two
+different things both called B0, one of which had already exploited the
+very finding B0 is supposed to hold constant. Added one instruction to
+`build_frame_prompt`'s first-call branch making this explicit (B0's
+`premise_operation` is `none`; a candidate that acts on a falsified
+constraint belongs in Generate, not folded into B0). This is flagged for
+Stage 11 specifically: if B0 is computed inconsistently, the fleet-versus-
+B0 comparison that stage exists to make is comparing against a moving
+target, and the pre-registration there should check this before trusting
+a B0 pass rate.
+
+Reversal: none needed for the id-remapping fix, which is structural. The
+B0 instruction is a single added sentence, not a redesign; if Stage 11's
+own B0 runs still show this drift, the fix belongs in `ROLES.md`'s Framer
+brief itself, not only in this one prompt-builder function.
