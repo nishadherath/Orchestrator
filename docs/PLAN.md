@@ -1263,11 +1263,19 @@ Tasks:
       Done 2026-09-15 as D60 (the ledger had moved past D47): the brief
       becomes the first move on section 4's measured trigger, at the
       floor, with `worker-opus-high` behind it; the table is untouched.
-- [ ] 12.2 Before-measurement: Stage 8's after-measurement, if the table has
+- [x] 12.2 Before-measurement: Stage 8's after-measurement, if the table has
       not changed since; otherwise a reporting-grade run now.
-- [ ] 12.3 Edit the table and the affected fixtures. ROW-BACKED and
+      Done 2026-09-15: the table has not changed since D45, so its
+      after-measurement (`2026-09-14-routing-opus-282981f-only-F14+F16-summary.md`,
+      18 of 18) is the before.
+- [x] 12.3 Edit the table and the affected fixtures. ROW-BACKED and
       TABLE-DATA must hold; `check.py` green. Regenerate the worker
       definitions.
+      Done 2026-09-15. The table and fixtures are unchanged by design
+      (D60); the edit is `ROUTING.md` section 4's trigger, `build_dist.py`
+      shipping `.claude/B0_BRIEF.md`, `preflight.py` checking for it, and
+      the README's layout. `generate_workers.py --check`: 15 definitions,
+      0 drifted. Harness green, 20 checks.
 - [ ] 12.4 After-measurement: a reporting-grade run against the new table,
       compared fixture by fixture; any regression at the bar reopens the
       change.

@@ -108,6 +108,7 @@ def planned_files(version: str, dist_dir: Path = DIST, rubric_only: bool = False
         out[dist_dir / ".claude" / "agents" / agent.name] = agent.read_text(encoding="utf-8")
     out[dist_dir / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
     out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
+    out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
     if rubric_only:
         routing = rubric_only_routing(routing)
@@ -117,6 +118,17 @@ def planned_files(version: str, dist_dir: Path = DIST, rubric_only: bool = False
     out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
     assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"
     return out
+
+
+def worker_half(brief_path: Path) -> str:
+    """The part of a brief a worker is handed: everything after the first
+    line that is exactly "---", which ends the provenance block kept for
+    this repository. The same cut `benchmark.py --brief` makes, so the
+    shipped `.claude/B0_BRIEF.md` is byte for byte what Stage 9.8 measured
+    (D60)."""
+    lines = brief_path.read_text(encoding="utf-8").strip().split("\n")
+    assert "---" in lines, f"{brief_path} has no provenance rule to cut at"
+    return "\n".join(lines[lines.index("---") + 1:]).strip() + "\n"
 
 
 def main(argv: list[str]) -> int:

@@ -117,8 +117,12 @@ def check_bundle(cwd: Path) -> dict:
     count = len(list(agents_dir.glob("WORKER_*.md")))
     version_file = cwd / ".claude" / "ORCHESTRATOR_VERSION"
     version = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no ORCHESTRATOR_VERSION file)"
-    return {"check": "bundle installed", "status": "PASS" if count == 15 else "FAIL",
-            "detail": f"{count} of 15 worker definitions found in {agents_dir}; bundle version {version}"}
+    # ORCHESTRATOR.md section 4's measured escalation trigger reads this file
+    # when it fires; without it, step 1 of that trigger has nothing to hand over.
+    brief = cwd / ".claude" / "B0_BRIEF.md"
+    brief_note = "" if brief.is_file() else f"; {brief} missing, section 4's escalation trigger cannot prepend it"
+    return {"check": "bundle installed", "status": "PASS" if count == 15 and brief.is_file() else "FAIL",
+            "detail": f"{count} of 15 worker definitions found in {agents_dir}; bundle version {version}{brief_note}"}
 
 
 def main(argv: list[str]) -> int:
