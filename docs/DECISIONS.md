@@ -2869,3 +2869,80 @@ Reversal: would require a seventh run failing this same check for a
 different reason; none is expected, since every distinct failure mode
 found across the six runs (D49 through D53) is now fixed or, for the one
 exception above, explicitly accepted rather than merely unnoticed.
+
+## 2026-09-14 D55. Stage 11 design: quick mode's paper output is graded through one floor-cell instantiation, on the B0 path
+
+Decision: Stage 11 compares the fleet with B0 on the Stage 7 tasks using
+each task's own `grade.sh`, and those graders are behavioural: they import
+the edited modules and probe them. Quick mode's output is paper by
+specification (`SYSTEM.md` section 8, "Instantiation: none; paper
+falsification only"; `STEPS.md`), so the Controller alone produces
+nothing a grader can see. The stage as written did not say how the gap
+is closed. It is closed like this, before any run and fixed for all of
+them:
+
+1. The Controller renders its output as `runs/<id>/REPORT.md`: the
+   answer, the acceptance criteria, the whole premise ledger at the
+   frozen version with each premise's class, the unverified load-bearing
+   list, the ranked alternatives from the `SelectionRecord`, and the audit
+   trail. Every line is a record's field, rendered by code. This is the
+   artefact Stage 12's worker brief already names, so nothing is built
+   for the benchmark alone.
+2. `test/harness/fleet_benchmark.py` runs, per attempt: reset the task's
+   working copy; run the Controller against it in quick mode (the roles
+   read the tree; six toy runs left `probe-T10/` byte-identical to its
+   fixture, and the harness records `git status` after the Controller so
+   any role edit is visible as such); hand `REPORT.md`, a fixed
+   instantiation instruction, and the task's own handover to one
+   `worker-sonnet-low` through `benchmark.py`'s forwarder path; grade the
+   tree with `grade.sh`. The instantiating cell is the floor because that
+   is the cell B0 ran on (Stage 9.8): the two arms then differ in exactly
+   one thing, the text that precedes the floor worker's edit, which is the
+   B0 brief on one side and the Controller's report on the other.
+3. The instantiation instruction is written once, hashed into the
+   checkpoint identity with the Controller's own source and prompt inputs
+   (`system_controller.py`, `system_prompts.py`, `claudep.py`, `ROLES.md`,
+   `TECHNIQUES.md`, the schemas), and never changed on a result. A code
+   change between invocations is refused as a different measurement.
+   `--runs` and `--tasks` are not part of the identity, so one pilot run
+   extends into nine, and tasks are added, on the same checkpoint.
+
+Why this and not the alternatives. Grading the paper answer with a rubric
+would put a model's judgement between the fleet and the pass rate, which
+`docs/BENCHMARK-DESIGN.md` rules out for the reason it gives (a model
+grading a model is circular), and would make the fleet's number
+incomparable to B0's. Adding Instantiate to the Controller itself would
+change the thing Stage 10 built and `SYSTEM.md` specifies, in the stage
+meant to measure it. Marking the stage blocked would be honest but
+unhelpful: the gap is closed by one report file and one harness that
+reuses `benchmark.py`'s seed, reset, forwarder and grader unchanged.
+
+What the design does not fix, stated so the verdict reads it correctly.
+The instantiating worker is told to apply the report's answer and not to
+redo the analysis, so a report whose answer is B0 ("honour the freeze;
+strip in `accounts.py`") is instantiated as exactly that and fails T10's
+grader, which requires `normalise()` itself to fold whitespace. That is
+the fleet's answer being graded, which is the point; it also means the
+fleet's T10 pass rate is, to first order, the rate at which its stop rule
+selects the candidate that edits the frozen file. Across the three toy
+runs that completed, the selected winner would pass T10's grader in one
+(run six, subtract) and fail in two (runs four and five, B0), and in run
+five the subtract candidate that would have passed lost only because its
+generator labelled the premise "no `normalise()` consumer exists outside
+`downstream.py`" as `unverified`, which the quick-mode stop rule treats
+as disqualifying; the same content labelled `policy` won run six. The
+pre-registration (Stage 11.1) predicts from this rather than from hope.
+
+Cost. Each attempt is one Controller run (USD 1.73 to 1.97 across the
+three completed toy runs, budget entries in `runs/<id>/budget.jsonl`) plus
+one floor instantiation (B0's per-run cost at the floor was USD 0.35 to
+0.37 on these tasks), about USD 2.3, against the plan's guess of USD 0.5
+to 2. D47 expected USD 1.0 to 1.5; the difference is two to three Framer
+calls at `worker-opus-high` per run (initial, re-entry after Verify, and
+a retry when a record is rejected), each USD 0.20 to 0.44 and dominated
+by output tokens, so the shared-prefix cache layout `SYSTEM.md` section
+5 describes would not recover it and is not attempted here.
+
+Reversal: Gate E. If Jeb prefers a different closing of the gap, the
+harness is one file and the Controller change is one function; both are
+reverted without touching anything Stage 10 measured.
