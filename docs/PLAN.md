@@ -1093,7 +1093,7 @@ USD 30 to 150, plus a few dollars of per-role probes.
 
 ## Stage 10. The Controller in code, quick mode
 
-Status: **in progress (10.1 done 2026-09-14)**
+Status: **in progress (10.1 to 10.6 done 2026-09-14)**
 Model: sonnet, high. Load `python.sonnet.md`. The design decisions were made
 in Stages 4 and 9 and `SYSTEM.md` section 3 is the specification; this is
 implementation from a good brief, which is what `SYSTEM.md` says mid-size
@@ -1122,16 +1122,16 @@ Tasks:
       -p subprocess call; those moved, plus benchmark.py's Checkpoint
       class, which system_controller.py's own resumable state can reuse
       without a third copy.
-- [ ] 10.2 `tools/system_controller.py`, command line: `--problem <file>
+- [x] 10.2 `tools/system_controller.py`, command line: `--problem <file>
       --project <consumer> --mode quick --record`, plus `--dry-run` printing
       the phase plan and `--selftest` (task 10.6). Every run gets a
       directory `runs/<id>/` inside `--project` holding `ledger.jsonl`, a
       `records/` directory, `budget.jsonl` and `digests.md`.
-- [ ] 10.3 The Scribe: validates every record against the Stage 9 schemas
+- [x] 10.3 The Scribe: validates every record against the Stage 9 schemas
       before it is appended; enforces one writer role per record type;
       rejects any candidate citing a ledger version other than the frozen
       one; assigns ids. Code only, no model calls.
-- [ ] 10.4 The state machine, quick mode only: Intake, Frame, the Verify
+- [x] 10.4 The state machine, quick mode only: Intake, Frame, the Verify
       loop until stable or the verify budget is spent (verify ceiling one
       tool call, no code), Generate with three isolated Generators run as
       parallel `claude -p` processes each given its brief and the frozen
@@ -1141,12 +1141,12 @@ Tasks:
       budget spent, or first candidate surviving critique with no unverified
       load-bearing premise, else B0. Reframe cap three. Phase digests under
       300 tokens, produced by code from the records, not by a model.
-- [ ] 10.5 The two Controller model calls ("is the ledger stable enough to
+- [x] 10.5 The two Controller model calls ("is the ledger stable enough to
       freeze"; "which technique families for this problem type") as
       schema-forced classification at `worker-sonnet-low`, using whatever
       structured-output mechanism Stage 2 found workable, validated on
       return. Everything else the Controller decides is code.
-- [ ] 10.6 `--selftest`: runs the state machine over canned records from
+- [x] 10.6 `--selftest`: runs the state machine over canned records from
       `test/fixtures/system/` with a fake role runner, no model calls, and
       asserts every transition, the stale-version rejection, the
       single-writer rejection, the reframe cap and each termination rule.
