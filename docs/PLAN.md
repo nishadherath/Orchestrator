@@ -1187,7 +1187,7 @@ model calls at cheap cells, per `SYSTEM.md` section 8).
 
 ## Stage 11. Fleet versus baseline
 
-Status: **not started**
+Status: **in progress (11.1 done 2026-09-14; Gate E pending)**
 Model: opus, high. Most of this stage is waiting on runs, so the session's
 own token cost is small; opus is here for the pre-registration and the
 verdict, which are judgement.
@@ -1197,13 +1197,21 @@ instrument. Criterion 2.
 
 Tasks:
 
-- [ ] 11.1 Pre-register in `test/results/<date>-fleet-v-b0-preregistration.md`:
+- [x] 11.1 Pre-register in `test/results/<date>-fleet-v-b0-preregistration.md`:
       predicted pass rate for quick mode on the Stage 7 tasks against B0's
       Stage 9 numbers; predicted cost per run from Stage 9's per-role
       figures; predicted cost per solved task for both; the decision rule
       with the Gate A multiplier; the failure shapes expected (forwarder
       confabulation per D20, Scribe rejections, budget exhaustion) and their
       predicted rates.
+      Done 2026-09-14, `test/results/2026-09-14-fleet-v-b0-preregistration.md`.
+      The stage as written had no way to grade quick mode's paper output
+      with the Stage 7 graders; D55 closes that with `REPORT.md` and
+      `test/harness/fleet_benchmark.py` (one floor-cell instantiation on
+      B0's own path) before this pre-registration was written. Predicted
+      verdict: prompt, on cost (USD 2.3 per run measured in Stage 10
+      against a ceiling of USD 1.227 per solved task), with a T10 pass
+      rate of 4 of 9.
 - [ ] 11.2 Gate E: present the pre-registration with the cost estimate to
       Jeb and wait for approval before any run.
 - [ ] 11.3 Run quick mode nine times per task with `--record`. Jeb runs; the
