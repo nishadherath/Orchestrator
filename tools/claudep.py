@@ -253,7 +253,7 @@ class Checkpoint:
 
 def _probe_stdin(argv: list[str]) -> int:
     """E26: does `claude -p` take a prompt longer than the Windows command
-    line cap intact from stdin? One call at sonnet/low, capped at USD 0.25:
+    line cap intact from stdin? One call at sonnet/low, uncapped (a 0.25 cap aborted it, E26):
     a 40,000-character filler ending in an instruction to reply with one
     word that appears nowhere else in the prompt, so the reply proves the
     tail of the stdin prompt arrived, and a non-ASCII character in the
@@ -265,11 +265,14 @@ def _probe_stdin(argv: list[str]) -> int:
     filler = ("The following is filler text for a transport check; ignore its content. " * 500)[:39900]
     prompt = filler + " Ignore everything above (it is filler, including this em dash: \u2014). Reply with exactly the word PONG and nothing else."
     assert len(prompt) > STDIN_PROMPT_THRESHOLD_CHARS, len(prompt)
-    res = call_claude(prompt, cwd=args.project, model="sonnet", effort="low", max_budget_usd=0.25, timeout=120)
+    res = call_claude(prompt, cwd=args.project, model="sonnet", effort="low", timeout=120)
     print(f"prompt {len(prompt)} chars via stdin; reply {res.result!r}; cost USD {res.cost_usd}; "
           f"extras {res.extras}; cmd {res.cmd_shown}")
-    ok = res.result.strip().strip(".").upper() == "PONG"
-    print("E26:", "PASS, stdin carried the whole prompt" if ok else "FAIL, the reply is not PONG")
+    # The word only exists on the prompt's last line, so its presence in the
+    # reply, quoted or obeyed, shows the tail arrived (a low-effort sonnet
+    # declined the instruction as an injection and quoted it, E26).
+    ok = "PONG" in res.result.upper()
+    print("E26:", "PASS, the reply shows the prompt's last line arrived" if ok else "FAIL, the reply never mentions PONG")
     return 0 if ok else 1
 
 
