@@ -1301,7 +1301,7 @@ Cost: about USD 27 per reporting-grade opus run, one or two runs.
 
 ## Stage 13. Close-out
 
-Status: **in progress (13.1 done 2026-09-15)**
+Status: **in progress (13.1 to 13.2 done 2026-09-15)**
 Model: sonnet, medium.
 
 Tasks:
@@ -1317,9 +1317,15 @@ Tasks:
       instead of silently dropped. "Active plan" replaced with a pointer;
       the seven-step working protocol it held is retired with the plan
       it governed.
-- [ ] 13.2 `docs/COST.md`: recompute against the final bundle, including
+- [x] 13.2 `docs/COST.md`: recompute against the final bundle, including
       the cost per verdict of the shipped classifier and the Controller's
       per-run cost if it shipped.
+      Done 2026-09-15. Verdict cost recomputed at USD 0.23 against D45's
+      0.13 to 0.16, a platform-side shift (E27) not attributed to this
+      plan's changes; the ratio to floor cost is stale and stated as such
+      rather than smoothed. The Controller did not ship (D59, verdict
+      prompt); its measured cost is recorded for the record, separately
+      from the recurring-cost tables above it.
 - [ ] 13.3 `docs/FINDINGS.md`: consolidate; every "unverified" row either
       moved up with evidence or left with the date it was last checked.
 - [ ] 13.4 This file: set the plan's status to complete with the date; every
