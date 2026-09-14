@@ -356,8 +356,9 @@ class LiveRoleRunner:
             result = _parse_schema_result(res, schema)
         except Exception:
             result = default
-        entry = {"type": "BudgetEntry", "phase": phase, "role": "controller", "cell": f"worker-{model}-{effort}",
-                  "cost_usd": res.cost_usd or 0.0, "tokens_in": (res.extras.get("usage") or {}).get("input_tokens", 0),
+        entry = {"type": "BudgetEntry", "phase": _PHASE_ALIASES.get(phase, phase), "role": "controller",
+                  "cell": f"worker-{model}-{effort}", "cost_usd": res.cost_usd or 0.0,
+                  "tokens_in": (res.extras.get("usage") or {}).get("input_tokens", 0),
                   "tokens_out": (res.extras.get("usage") or {}).get("output_tokens", 0),
                   "wall_clock_s": round(res.elapsed_s, 1), "ledger_version": 0, "references": []}
         return result, entry
@@ -721,7 +722,9 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         measurements: list[dict] = []
         for premise in unverified:
             recs = call("verify", "verifier", build_verify_prompt(problem, premise, project))
-            measurements += write_with_retry("verify", "verifier", recs, {"MeasurementRecord"}, None)
+            measurements += write_with_retry(
+                "verify", "verifier", recs, {"MeasurementRecord"},
+                lambda rej, premise=premise: _retry_prompt(build_verify_prompt(problem, premise, project), rej))
         if not measurements:
             break
         prior_ledger = [problem, frame, *scribe.premises(), b0]
@@ -741,7 +744,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
             break
 
     # ---- Controller call 1: is the ledger stable enough to freeze? (10.5) ----
-    stable = classify("controller_stable", build_stability_prompt(scribe.premises(), frame), STABILITY_SCHEMA,
+    stable = classify("controller-stability", build_stability_prompt(scribe.premises(), frame), STABILITY_SCHEMA,
                        default={"stable": frame["stable"], "reasoning": "fallback to FrameRecord.stable"})
     write_digest(scribe, dirs, "controller-stability", f"Controller classifies stable={stable['stable']}: "
                  f"{stable['reasoning'][:200]}", [])
@@ -749,7 +752,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         return r
 
     # ---- Controller call 2: which technique families? (10.5) ----
-    families = classify("controller_families", build_families_prompt(problem, frame), FAMILIES_SCHEMA,
+    families = classify("controller-families", build_families_prompt(problem, frame), FAMILIES_SCHEMA,
                          default={"families": list(TECHNIQUE_FAMILIES), "reasoning": "fallback: run all three"})
     chosen_families = families.get("families") or list(TECHNIQUE_FAMILIES)
     write_digest(scribe, dirs, "controller-families", f"Controller selects {chosen_families}: "
@@ -773,9 +776,11 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         with ThreadPoolExecutor(max_workers=max(1, len(chosen_families))) as pool:
             replies = list(pool.map(gen_one, chosen_families))
         generated: list[dict] = []
-        for reply in replies:
+        for family, reply in zip(chosen_families, replies):
             recs = commit_reply(reply)
-            generated += write_with_retry("generate", "generator", recs, {"CandidateRecord"}, None)
+            generated += write_with_retry(
+                "generate", "generator", recs, {"CandidateRecord"},
+                lambda rej, family=family: _retry_prompt(build_generate_prompt(family, ledger_slice, []), rej))
         candidates = [b0] + generated
         write_digest(scribe, dirs, "generate", f"{len(candidates) - 1} candidate(s) from {chosen_families}, "
                      "plus B0.", candidates[1:])
@@ -783,7 +788,9 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
             return r
 
         crit_records = call("critique", "critic", build_critique_prompt(ledger_slice, candidates))
-        critiques = write_with_retry("critique", "critic", crit_records, {"CritiqueRecord"}, None)
+        critiques = write_with_retry(
+            "critique", "critic", crit_records, {"CritiqueRecord"},
+            lambda rej: _retry_prompt(build_critique_prompt(ledger_slice, candidates), rej))
         write_digest(scribe, dirs, "critique", f"{len(critiques)} critique(s) for {len(candidates)} candidate(s).",
                      critiques)
         if (r := check_budget("critique")):
@@ -833,7 +840,9 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
     winner = winner or b0
 
     sel_records = call("select", "selector", build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]))
-    selections = write_with_retry("select", "selector", sel_records, {"SelectionRecord"}, None)
+    selections = write_with_retry(
+        "select", "selector", sel_records, {"SelectionRecord"},
+        lambda rej: _retry_prompt(build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]), rej))
     write_digest(scribe, dirs, "select", f"Winner (code, per the quick-mode stop rule): {winner['id']} "
                  f"({winner.get('technique')}).", selections)
     if (r := check_budget("select")):
@@ -1218,6 +1227,29 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
               f"scenario 8: b0_candidate_id is rewritten to the Scribe-assigned candidate id, got "
               f"{remapped_frame and remapped_frame.get('b0_candidate_id')!r} vs {remapped_cand and remapped_cand.get('id')!r}")
 
+        # --- Scenario 9: a rejected non-Frame record recovers via retry ---
+        # Direct regression test for the fourth and fifth live runs (2026-09-14,
+        # D52): Select (and Verify, Generate, Critique) passed retry_prompt=None
+        # to write_with_retry, so one rejected record left that phase with no
+        # record at all and no second attempt, even though run_quick's own
+        # stop rule never reads the SelectionRecord back and so never noticed.
+        # Scripts a first SelectionRecord with a free-text excluded[].reason
+        # (invalid: not one of the schema's five enum values) followed by a
+        # corrected one, and asserts the run both reaches a solution and the
+        # ledger actually holds a valid SelectionRecord, not zero.
+        c9 = _canned()
+        bad_selection = dict(c9["selection"][0])
+        bad_selection["excluded"] = [{"candidate_id": "cand-001", "reason": "loses to B0 on every measured criterion"}]
+        script9 = _happy_path_script()
+        script9[("select", "selector")] = [[bad_selection], c9["selection"]]
+        runner9 = FakeRoleRunner(script9)
+        result9 = run_quick("Duplicate accounts from whitespace; legacy_ids.py is frozen.", tmp_path,
+                             budget_usd=5.0, timeout=30, runner_factory=lambda _r: runner9, run_id="s9")
+        check(result9.outcome == "solution", f"scenario 9: expected outcome 'solution', got {result9.outcome!r}")
+        ledger9 = [json.loads(line) for line in (result9.run_dir / "ledger.jsonl").read_text(encoding="utf-8").splitlines()]
+        check(any(r["type"] == "SelectionRecord" for r in ledger9),
+              "scenario 9: a corrected SelectionRecord should reach the ledger after one retry, got none")
+
     return (not problems, problems)
 
 
@@ -1240,7 +1272,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
         if ok:
-            print("selftest: PASS, 9 scenarios")
+            print("selftest: PASS, 10 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:

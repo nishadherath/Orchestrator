@@ -2769,3 +2769,60 @@ information shown to every role that already called it, and 20/20 harness
 checks including SCHEMA and SYSTEM stay green. The dangling-reference gap
 stands as a known, documented limitation until the hardening pass above
 is scheduled.
+
+## 2026-09-14 D53. Fifth live run: D52's fix worked, but Select still landed
+zero records, for the reason `write_with_retry`'s design left open
+
+Decision: `schema_summary()`'s fix (D52) worked exactly as intended:
+`sel-001`'s rejection in `runs/20260914T153524/rejections.jsonl` shows the
+Selector wrote proper enum values (`rejected_by_critic`, `derivable`) this
+time, not free text. It was still rejected, on an unrelated cap
+(`shortlist[0].basis`: 325 characters, cap 300), and Select still ended
+with no record on the ledger, for the same structural reason as before:
+`write_with_retry("select", "selector", sel_records, {"SelectionRecord"},
+None)` passes no `retry_prompt`, so a rejection there is final. The same
+run's `validate_records.py` check came back clean (36 records, 0
+problems), and two `BudgetEntry`s were rejected on a different,
+independently-discovered bug: the classify() calls at the Controller's own
+stability and technique-family decisions passed `"controller_stable"` and
+`"controller_families"` as `phase`, which do not match `_PHASE_ALIASES`'
+keys (`"controller-stability"`, `"controller-families"`, hyphenated) and
+were never passed through the alias map at all in `LiveRoleRunner.classify()`
+(only `write_digest` applied it), so both entries hit the `BudgetEntry`
+schema's closed phase enum and were dropped.
+
+**The generalisation.** Of the five phases that call `write_with_retry`,
+only Frame was ever given a real `retry_prompt`; Verify, Generate, Critique
+and Select all pass `None`. This was survivable for Generate and Critique
+only by accident, because those calls run in batches with more than one
+candidate: Verify's and Select's calls do not, so any single-field
+overflow there is not a retryable nuisance, it is the whole phase. Two
+live runs in a row lost Select this way to two different single-field
+overflows, on two different roles' output, which is strong enough evidence
+that this is a property of the mechanism, not a coincidence of one
+prompt's wording.
+
+**The fix.** All five `write_with_retry` call sites now pass a real
+`retry_prompt`, built the same way Frame's already was:
+`lambda rej: _retry_prompt(build_X_prompt(...), rej)`, reusing the
+existing, already-correct `_retry_prompt` helper (append the rejection
+reasons and ask for corrected versions of only those records). Verify's
+and Generate's retry prompts close over their loop variable (`premise`,
+`family`) with the standard default-argument capture
+(`lambda rej, premise=premise: ...`) since both are built inside a `for`
+loop whose variable would otherwise be resolved late. Separately, the two
+`classify()` call sites now pass the hyphenated phase strings that match
+`_PHASE_ALIASES` and already match what the same lines' `write_digest`
+calls use two lines later, and `LiveRoleRunner.classify()` now applies
+`_PHASE_ALIASES.get(phase, phase)` to the `BudgetEntry` it builds, mirroring
+what `write_digest` already did for `PhaseDigest`. Locked in as `--selftest`
+scenario 9: a scripted Select rejection (an out-of-enum `excluded[].reason`)
+followed by a corrected reply, asserting both that the run still reaches
+`solution` and that the ledger actually holds a `SelectionRecord`
+afterwards, not zero. `check.py`'s SYSTEM description updated to ten
+scenarios and five live runs.
+
+Reversal: none needed; giving every phase the same one-shot correction
+Frame already had is a generalisation of an existing, working mechanism,
+not a new one, and 20/20 harness checks stay green including the new
+scenario.
