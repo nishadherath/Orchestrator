@@ -120,8 +120,10 @@ def role_edits(project: Path, dest: Path) -> str:
     different result and must be visible as one."""
     rel = str(dest.relative_to(project))
     out = subprocess.run(["git", "status", "--porcelain", "--", rel], cwd=project,
-                         capture_output=True, text=True, check=True).stdout.strip()
-    return out
+                         capture_output=True, text=True, check=True).stdout
+    # A Verifier's one tool call may run the tests, which writes
+    # __pycache__/; that is a byte-code cache, not an edit (seen live, D56).
+    return "\n".join(line for line in out.splitlines() if "__pycache__" not in line).strip()
 
 
 def run_one(project: Path, task: dict, dest: Path, run_index: int, forwarder_model: str,

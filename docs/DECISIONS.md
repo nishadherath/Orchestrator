@@ -2946,3 +2946,69 @@ by output tokens, so the shared-prefix cache layout `SYSTEM.md` section
 Reversal: Gate E. If Jeb prefers a different closing of the gap, the
 harness is one file and the Controller change is one function; both are
 reverted without touching anything Stage 10 measured.
+
+## 2026-09-15 D56. First fleet batch on T10: four of nine runs died in the Controller's plumbing; the five that completed all passed
+
+Decision: the first nine-run T10 batch (`test/results/2026-09-14-fleet-282981f-tasks-T10-2.md`,
+pilot in `...-tasks-T10.md`) is void as a measurement and is restarted
+with `--fresh` after two plumbing fixes. Its five completed runs, all
+passes at a mean USD 2.28, are recorded as steering-grade evidence only:
+the four that died were selected by the defects (a generator that
+numbered its list; a Critique prompt long enough to need a retry), and
+keeping only the survivors would be survivorship, not a rate. The
+pre-registration's checkpoint identity refuses to resume across a code
+change for exactly this reason, so the restart is what the harness
+enforces, not a choice made after seeing the results. The predictions in
+`test/results/2026-09-14-fleet-v-b0-preregistration.md` stand as written;
+only the Controller inputs hash changes (`3e356e82f2406f3b` to
+`d68617710ee7c1cc`), and the instruction hash does not.
+
+**Defect one, three runs (3, 7, 8), all in Generate:** `AttributeError:
+'int' object has no attribute 'get'` from the Scribe. `_parse_jsonl_reply`
+(D50) used `JSONDecoder.raw_decode`, which accepts any JSON value: a
+generator that wrote its candidates as a numbered list ("1. {...}") gave
+the Scribe the integer 1 as a record. Fixed: only a JSON object is a
+record; text before a line's first `{` is reported as an unparsed
+fragment and parsing resumes at the brace, so the record after "1." is
+kept rather than lost with the number. Selftest scenario 0 now feeds a
+numbered line and a bare number and asserts three dict records and three
+reported fragments.
+
+**Defect two, one run (2), in Critique:** `FileNotFoundError: [WinError
+206] The filename or extension is too long`. `claudep.call_claude` passed
+the prompt as a command-line argument, and Windows caps a process's
+command line at 32,767 characters. A Critique prompt with five candidates
+plus the ledger, doubled by D53's retry (which appends the whole original
+prompt), crossed it. Every earlier run stayed under it, including the B0
+brief at about 24k characters, which is why this is the first sighting.
+Fixed: a prompt over 30,000 characters goes to `claude -p` on stdin, the
+documented pipe usage; shorter prompts keep the exact argv every earlier
+run used, so no recorded measurement's invocation changed. Whether stdin
+carries a prompt this long intact is E26, verified live by
+`python3 tools/claudep.py --probe-stdin` before the batch restarts: one
+call at sonnet/low under USD 0.05, a 40k-character filler ending in an
+instruction to reply with a word that appears nowhere else in it.
+
+**A third defect found while fixing the second.** `subprocess.run(...,
+text=True)` decoded the CLI's stdout with the locale codec, cp1252 on
+this machine, while the CLI writes UTF-8: `runs/20260914T160741/digests.md`
+carries "â€”" where a classify() reply wrote an em dash. Every text field
+the Controller has stored from a live reply containing a non-ASCII
+character is mojibake to that extent; numbers, ids and ASCII text, which
+is everything the pass rates and costs rest on, are unaffected. Fixed by
+decoding and encoding as UTF-8 explicitly, for both transports.
+
+**Not a defect.** Run 4 was flagged "ROLE EDITS before instantiation:
+`?? bench-T10/__pycache__/`": the Verifier's one tool call ran the tests,
+which wrote byte-code caches. `role_edits()` now ignores `__pycache__`
+entries; a source edit would still be flagged and excluded as
+pre-registered.
+
+Cost of the void batch: USD 11.41 across the five completed runs, plus
+the four partial runs' Controller calls, which the harness does not total
+when a run dies (their `budget.jsonl` files do: about USD 4). Against the
+plan's Stage 11 estimate this is spend that bought two fixes and a
+finding, not a rate.
+
+Reversal: none; both fixes are structural and the third is a correctness
+fix with no reading that favours it being wrong.

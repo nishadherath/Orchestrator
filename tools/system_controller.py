@@ -423,16 +423,29 @@ def _parse_jsonl_reply(text: str) -> tuple[list[dict], list[str]]:
             nl = text.find("\n", i)
             i = n if nl == -1 else nl + 1
             continue
+        nl = text.find("\n", i)
+        line_end = n if nl == -1 else nl
+        if text[i] != "{":
+            # raw_decode accepts any JSON value, and a numbered list's "1."
+            # parses as the integer 1, which crashed the Scribe live (D56).
+            # Only an object can be a record, so anything before the line's
+            # first "{" is reported as a fragment and parsing resumes there;
+            # a line with no "{" at all is reported whole.
+            brace = text.find("{", i, line_end)
+            fragment = text[i:brace if brace != -1 else line_end].strip()
+            if fragment:
+                unparsed.append(fragment)
+            i = brace if brace != -1 else line_end + 1
+            continue
         try:
             obj, end = decoder.raw_decode(text, i)
             records.append(obj)
             i = end
         except json.JSONDecodeError:
-            nl = text.find("\n", i)
-            fragment = text[i:nl if nl != -1 else n].strip()
+            fragment = text[i:line_end].strip()
             if fragment:
                 unparsed.append(fragment)
-            i = n if nl == -1 else nl + 1
+            i = line_end + 1
     return records, unparsed
     return records
 
@@ -1075,15 +1088,18 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
         "  ]\n"
         "}\n"
         "not json at all, a stray line\n"
-        '{"type": "CandidateRecord", "id": "cand-001", "technique": "b0"}\n'
+        '2. {"type": "CandidateRecord", "id": "cand-001", "technique": "b0"}\n'
+        "3\n"
     )
     records, unparsed = _parse_jsonl_reply(mixed_reply)
     check([r["type"] for r in records] == ["PremiseRecord", "FrameRecord", "CandidateRecord"],
           f"scenario 0: a pretty-printed record parses alongside single-line ones, got types {[r.get('type') for r in records]}")
     check(records[1].get("goal_ladder") == ["line one", "line two"],
           f"scenario 0: the pretty-printed record's own multi-line array survives intact, got {records[1].get('goal_ladder')}")
-    check(unparsed == ["not json at all, a stray line"],
-          f"scenario 0: the one genuinely non-JSON line is reported, not silently dropped, got {unparsed}")
+    check(all(isinstance(r, dict) for r in records) and len(records) == 3,
+          f"scenario 0: a bare number is never a record (the live crash of D56), got {records}")
+    check(unparsed[0] == "not json at all, a stray line" and len(unparsed) == 3,
+          f"scenario 0: non-JSON lines and bare numbers are reported, not silently dropped, got {unparsed}")
 
     # --- Scenario 0b: schema_summary surfaces nested array-of-object shape ---
     # Direct regression test for the live bug (2026-09-14, D52): a top-level-only

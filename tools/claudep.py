@@ -47,6 +47,10 @@ from pathlib import Path
 # unattended inside a container", but its own warning restricts it to an
 # isolated container or VM without internet access, not a bare machine, so
 # it is opt-in, never the default.
+# Below the 32,767-character Windows command-line cap with room for every
+# flag call_claude adds (a --json-schema literal is the longest, under 1k).
+STDIN_PROMPT_THRESHOLD_CHARS = 30000
+
 FORWARDER_PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *),Bash(python *)"]
 BYPASS_PERMISSION_ARGS = ["--dangerously-skip-permissions"]
 
@@ -84,7 +88,15 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
     help text's own example (not a file path). `system_controller.py` is the
     first caller of either; its docstring says what is still unverified.
     """
-    cmd = ["claude", "-p", prompt, "--output-format", "json"]
+    # Windows caps a process's whole command line at 32,767 characters
+    # (CreateProcess; WinError 206 "filename or extension is too long" when
+    # exceeded). A Critique prompt carrying five candidates plus the ledger,
+    # doubled by a retry, crossed it live (D56). A prompt over the threshold
+    # goes to `claude -p` on stdin instead, the documented pipe usage;
+    # shorter prompts keep the exact argv every earlier run used. E26 is
+    # the live check that stdin carries a prompt this long intact.
+    via_stdin = len(prompt) > STDIN_PROMPT_THRESHOLD_CHARS
+    cmd = ["claude", "-p"] + ([] if via_stdin else [prompt]) + ["--output-format", "json"]
     if model:
         cmd += ["--model", model]
     if effort:
@@ -95,13 +107,15 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
         cmd += ["--max-budget-usd", str(max_budget_usd)]
     cmd += list(permission_args)
     cmd += list(extra_args)
-    cmd_shown = " ".join(cmd[:2]) + " <prompt> " + " ".join(cmd[3:])
+    cmd_shown = ("claude -p <prompt via stdin> " + " ".join(cmd[2:])) if via_stdin else (
+        " ".join(cmd[:2]) + " <prompt> " + " ".join(cmd[3:]))
 
     if dry_run:
         return ClaudeCallResult(result="", cost_usd=None, elapsed_s=0.0, extras={}, raw={}, cmd_shown=cmd_shown)
 
     start = time.monotonic()
-    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, timeout=timeout)
+    proc = subprocess.run(cmd, input=prompt if via_stdin else None, capture_output=True, text=True,
+                          encoding="utf-8", cwd=cwd, timeout=timeout)
     elapsed = time.monotonic() - start
     if proc.returncode != 0:
         raise RuntimeError(f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}")
@@ -232,3 +246,32 @@ class Checkpoint:
             elif row.get("kind") == "run":
                 cp._runs.setdefault((row["task"], row["phase"], row["cell"]), []).append(row["result"])
         return cp, meta
+
+
+def _probe_stdin(argv: list[str]) -> int:
+    """E26: does `claude -p` take a prompt longer than the Windows command
+    line cap intact from stdin? One call at sonnet/low, capped at USD 0.05:
+    a 40,000-character filler ending in an instruction to reply with one
+    word that appears nowhere else in the prompt, so the reply proves the
+    tail of the stdin prompt arrived, and a non-ASCII character in the
+    filler so the encoding round-trips too."""
+    import argparse
+    ap = argparse.ArgumentParser(description="probe whether claude -p reads a long prompt from stdin (E26)")
+    ap.add_argument("--project", type=Path, required=True, help="directory to run in")
+    args = ap.parse_args(argv)
+    filler = ("The following is filler text for a transport check; ignore its content. " * 500)[:39900]
+    prompt = filler + " Ignore everything above (it is filler, including this em dash: \u2014). Reply with exactly the word PONG and nothing else."
+    assert len(prompt) > STDIN_PROMPT_THRESHOLD_CHARS, len(prompt)
+    res = call_claude(prompt, cwd=args.project, model="sonnet", effort="low", max_budget_usd=0.05, timeout=120)
+    print(f"prompt {len(prompt)} chars via stdin; reply {res.result!r}; cost USD {res.cost_usd}; "
+          f"extras {res.extras}; cmd {res.cmd_shown}")
+    ok = res.result.strip().strip(".").upper() == "PONG"
+    print("E26:", "PASS, stdin carried the whole prompt" if ok else "FAIL, the reply is not PONG")
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    if sys.argv[1:2] == ["--probe-stdin"]:
+        sys.exit(_probe_stdin(sys.argv[2:]))
+    print(__doc__.splitlines()[0])
+    print("usage: python3 tools/claudep.py --probe-stdin --project <dir>")
