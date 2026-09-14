@@ -1028,6 +1028,20 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
     check(unparsed == ["not json at all, a stray line"],
           f"scenario 0: the one genuinely non-JSON line is reported, not silently dropped, got {unparsed}")
 
+    # --- Scenario 0b: schema_summary surfaces nested array-of-object shape ---
+    # Direct regression test for the live bug (2026-09-14, D52): a top-level-only
+    # summary told the Selector only "excluded: array", never that
+    # excluded[].reason is a five-value enum, so every live SelectionRecord was
+    # rejected and the run silently reached Close with no valid record for
+    # Select at all. Same blindness hit CandidateRecord.premises_introduced[].
+    sel_summary = schema_summary("SelectionRecord")
+    check("loses_to_b0" in sel_summary and "rejected_by_critic" in sel_summary,
+          f"scenario 0b: SelectionRecord's nested excluded[].reason enum is surfaced, got:\n{sel_summary}")
+    cand_summary = schema_summary("CandidateRecord")
+    check("premises_introduced" in cand_summary and "class" in cand_summary
+          and "law/maths/policy" in cand_summary.replace("\n", " "),
+          f"scenario 0b: CandidateRecord's nested premises_introduced[].class enum is surfaced, got:\n{cand_summary}")
+
     with tempfile.TemporaryDirectory(prefix="system-controller-selftest-") as tmp:
         tmp_path = Path(tmp)
 

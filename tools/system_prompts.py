@@ -50,6 +50,26 @@ def technique_brief(family: str) -> str:
     return m.group(0).strip()
 
 
+def _field_lines(name: str, v: dict, indent: str) -> list[str]:
+    """One field's line, plus recursed lines for the shape of an array-of-objects
+    or nested object's own properties. A top-level-only summary hid every nested
+    enum and cap (D52): a role told only `excluded: array` had no way to know
+    `excluded[].reason` is a five-value enum, and wrote free text instead."""
+    kind = v.get("enum") or v.get("type") or "object"
+    cap = v.get("maxLength")
+    line = f"{indent}{name}: {kind if not isinstance(kind, list) else '/'.join(map(str, kind))}"
+    if cap:
+        line += f" (<= {cap} chars)"
+    lines = [line]
+    item_schema = v.get("items") if v.get("type") == "array" else v if v.get("type") == "object" else None
+    if isinstance(item_schema, dict) and isinstance(item_schema.get("properties"), dict):
+        label = "each item" if v.get("type") == "array" else "fields"
+        lines.append(f"{indent}  {label}, required {item_schema.get('required', [])}:")
+        for ik, iv in item_schema["properties"].items():
+            lines.extend(_field_lines(ik, iv, indent + "    "))
+    return lines
+
+
 def schema_summary(*types: str) -> str:
     """The properties and required list of each named schema, compactly:
     enough for a role to write a valid record without seeing the full JSON
@@ -61,10 +81,7 @@ def schema_summary(*types: str) -> str:
         for k, v in s["properties"].items():
             if k == "type":
                 continue
-            kind = v.get("enum") or v.get("type") or "object"
-            cap = v.get("maxLength")
-            fields.append(f"{k}: {kind if not isinstance(kind, list) else '/'.join(map(str, kind))}"
-                          + (f" (<= {cap} chars)" if cap else ""))
+            fields.extend(_field_lines(k, v, ""))
         out.append(f"{t}, required {s['required']}:\n  " + "\n  ".join(fields))
     return "Output schemas:\n" + "\n".join(out)
 

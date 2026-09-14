@@ -2699,3 +2699,73 @@ Reversal: none needed for the id-remapping fix, which is structural. The
 B0 instruction is a single added sentence, not a redesign; if Stage 11's
 own B0 runs still show this drift, the fix belongs in `ROLES.md`'s Framer
 brief itself, not only in this one prompt-builder function.
+
+## 2026-09-14 D52. Fourth live run reached "solution" with Select's record
+missing entirely: `schema_summary()` never described a nested schema
+
+Decision: the fourth run did not crash. It printed `outcome: solution`,
+wrote a `SolutionRecord`, and superficially matched Stage 10.9's exit
+wording. It does not satisfy that wording: `runs/20260914T144852/ledger.jsonl`
+has no `SelectionRecord` at all, and `validate_records.py` run against it
+independently found a dangling reference. Both trace to one cause.
+
+**The cause.** `schema_summary()` (`tools/system_prompts.py`), which is the
+only description of a schema a role ever sees, rendered every property by
+its own top-level `type`/`enum`/`maxLength` and nothing else. For a
+property whose `type` is `array` of `object`, or `object` itself, that
+top-level kind is just the word `"object"` or `"array"`: none of the
+nested properties, and none of their own enums or caps, were ever shown.
+`SelectionRecord.excluded[].reason` is a five-value enum
+(`derivable`/`loses_to_b0`/`rejected_by_critic`/`stale_ledger`/`other`);
+the Selector was shown only `excluded: array` and wrote a free-text
+sentence instead, twice (`sel-001` in the run, `rejections.jsonl`). Select
+passes `retry_prompt=None` to `write_with_retry` (only Frame retries), so
+that rejection was final: `run_quick` still computed a winner in code (the
+quick-mode stop rule reads `passing`/`b0` directly, not the
+`SelectionRecord`), reached Close, and printed success with Select's phase
+holding no record of any kind. The same blindness independently rejected
+two `CandidateRecord`s (`cand-002`, `cand-003`: `premises_introduced[]` is
+an array of `{text, class}` objects, shown to the Generator as bare
+`"array"`, so it wrote plain strings) and a `CritiqueRecord`; those phases
+still produced a valid record from other candidates in the same batch, so
+only Select's absence was total.
+
+**The fix.** `schema_summary()` now recurses one level into a property
+whose `items` (for an array) or the property itself (for an object) has
+its own `properties`, and prints that nested shape's own required list,
+types, enums and caps indented under the parent field. Verified directly:
+`schema_summary("SelectionRecord")` now contains `loses_to_b0` and
+`rejected_by_critic`; `schema_summary("CandidateRecord")` now contains
+`premises_introduced`'s `class` enum. Locked in as `--selftest` scenario
+0b, a direct check of both strings (no live call, no run). `check.py`'s
+SYSTEM description updated to name it and to say four live toy runs, not
+three.
+
+**A second finding, not fixed.** `validate_records.py` on the same ledger
+reports `frame-001`'s `references` names `prem-005`, which resolves to
+nothing. This is not D51's bug recurring: `prem-005` was the Framer's own,
+correctly Scribe-assigned id (the fifth `PremiseRecord` in the same batch
+as `frame-001`, no self-chosen mismatch), so D51's id-remap ran and found
+nothing to remap. What happened instead: the Scribe assigns an id before
+validating the record that carries it (necessary so a batch-mate's
+reference to it can resolve at all), and `prem-005`'s own record failed
+its own validation on an unrelated ground (`source`: 320 characters, cap
+300) and was rejected after the id was already spent and already
+referenced by `frame-001`, which passed validation independently and
+carries the now-dangling id forward. No remap can rescue this: there is no
+successful record left to map the reference to. This is an audit-trail
+defect, not a functional one; it did not stop the run reaching a solution
+and `FrameRecord` itself is present and schema-valid, which is what the
+Frame phase needs to count as covered. Left for a later hardening pass
+(candidates: reject a record if it structurally references an id that
+never lands, at the cost of cascading one field-length slip into losing
+otherwise-good records; or forbid referencing an id before its record is
+confirmed accepted, which needs a two-pass write). Not blocking Stage
+10.9: the exit criterion is a valid record per phase, and every phase in
+this run has one once Select's record exists.
+
+Reversal: none needed for the `schema_summary()` fix; it is strictly more
+information shown to every role that already called it, and 20/20 harness
+checks including SCHEMA and SYSTEM stay green. The dangling-reference gap
+stands as a known, documented limitation until the hardening pass above
+is scheduled.
