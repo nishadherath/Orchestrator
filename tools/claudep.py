@@ -118,7 +118,10 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
                           encoding="utf-8", cwd=cwd, timeout=timeout)
     elapsed = time.monotonic() - start
     if proc.returncode != 0:
-        raise RuntimeError(f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}")
+        # A budget abort (--max-budget-usd) reports on stdout as JSON with
+        # an empty stderr; show whichever stream has the reason.
+        detail = proc.stderr.strip()[-400:] or proc.stdout.strip()[-400:]
+        raise RuntimeError(f"claude exited {proc.returncode}: {detail}")
     data = json.loads(proc.stdout)
     extras = {k: data.get(k) for k in ("usage", "duration_ms", "num_turns") if k in data}
     return ClaudeCallResult(result=str(data.get("result", "")), cost_usd=data.get("total_cost_usd"),
@@ -250,7 +253,7 @@ class Checkpoint:
 
 def _probe_stdin(argv: list[str]) -> int:
     """E26: does `claude -p` take a prompt longer than the Windows command
-    line cap intact from stdin? One call at sonnet/low, capped at USD 0.05:
+    line cap intact from stdin? One call at sonnet/low, capped at USD 0.25:
     a 40,000-character filler ending in an instruction to reply with one
     word that appears nowhere else in the prompt, so the reply proves the
     tail of the stdin prompt arrived, and a non-ASCII character in the
@@ -262,7 +265,7 @@ def _probe_stdin(argv: list[str]) -> int:
     filler = ("The following is filler text for a transport check; ignore its content. " * 500)[:39900]
     prompt = filler + " Ignore everything above (it is filler, including this em dash: \u2014). Reply with exactly the word PONG and nothing else."
     assert len(prompt) > STDIN_PROMPT_THRESHOLD_CHARS, len(prompt)
-    res = call_claude(prompt, cwd=args.project, model="sonnet", effort="low", max_budget_usd=0.05, timeout=120)
+    res = call_claude(prompt, cwd=args.project, model="sonnet", effort="low", max_budget_usd=0.25, timeout=120)
     print(f"prompt {len(prompt)} chars via stdin; reply {res.result!r}; cost USD {res.cost_usd}; "
           f"extras {res.extras}; cmd {res.cmd_shown}")
     ok = res.result.strip().strip(".").upper() == "PONG"
