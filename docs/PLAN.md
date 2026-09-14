@@ -5,7 +5,7 @@ Cowork session that produced `docs/REVIEW.md`), reviewed and approved by Jeb.
 Revised 2026-09-11 by Claude (Fable 5.1, the first Claude Code session on this
 machine) at Jeb's request, after a full read of the repository and a harness
 run; what changed and why is under "Revision of 2026-09-11" and is recorded in
-D35. Status of the plan as a whole: **in progress (since 2026-09-11)**.
+D35. Status of the plan as a whole: **complete (2026-09-15, D62)**.
 
 This plan does two things, in a fixed order. First it repairs, instruments and
 measures the orchestrator as it stands, and replaces the routing mechanism
@@ -15,14 +15,17 @@ problem-solving framework in `src/System/SYSTEM.md` with the orchestrator, on
 the terms `REVIEW.md` sets out. Read `REVIEW.md` first; every stage below
 cites it rather than restating its evidence.
 
-## How this plan is executed
+## How this plan was executed
 
-`CLAUDE.md`'s "Active plan" section is the binding protocol. In short: one
-stage per session, the session confirms with Jeb that it is on the stage's
-required model class and effort before starting, Jeb approves the stage
-explicitly, each task is its own commit on `the-system` with the harness
-green, and the checkboxes and status lines in this file are updated in the
-same commit as the work they record.
+`CLAUDE.md`'s "Active plan" section was the binding protocol while this
+plan was in progress; it is retired now that the plan is complete
+(Stage 13.1), replaced there with a one-line pointer to this file. In
+short, for the record: one stage per session, the session confirmed with
+Jeb that it was on the stage's required model class and effort before
+starting, Jeb approved the stage explicitly, each task was its own
+commit on `the-system` with the harness green, and the checkboxes and
+status lines in this file were updated in the same commit as the work
+they record.
 
 Status values for a stage: `not started`, `in progress (since <date>)`,
 `done (<date>, <commit>)`, `blocked (see D<n>)`. A blocked stage is never
@@ -1301,7 +1304,7 @@ Cost: about USD 27 per reporting-grade opus run, one or two runs.
 
 ## Stage 13. Close-out
 
-Status: **in progress (13.1 to 13.5 done 2026-09-15)**
+Status: **done (2026-09-15, see the 13.4 commit)**
 Model: sonnet, medium.
 
 Tasks:
@@ -1334,8 +1337,11 @@ Tasks:
       checked, still open; the installed-version header corrected to
       2.1.268; E25's max-budget-usd "aborts cleanly" clause resolved by
       E26/E27, not left unverified.
-- [ ] 13.4 This file: set the plan's status to complete with the date; every
+- [x] 13.4 This file: set the plan's status to complete with the date; every
       stage `done` or `blocked` with its pointer.
+      Done 2026-09-15. Every stage, 0 through 13, status `done` with its
+      date and commit; none blocked. Plan status line (top of file) set
+      to complete, 2026-09-15, D62.
 - [x] 13.5 D48: what the branch delivered against the six acceptance
       criteria, one line each, and the merge question for Jeb. The merge
       into `main` is Jeb's action, not the session's.
