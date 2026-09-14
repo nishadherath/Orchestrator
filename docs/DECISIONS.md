@@ -2476,3 +2476,78 @@ Reversal: if Stage 11 or 12 needs the persona to invoke the Controller
 mid-delegation rather than a human choosing the track upfront, this
 separation stops holding and the two-Controllers question needs a real
 answer rather than a scope split.
+
+## 2026-09-14 D49. First live Controller run: the Framer independently reproduced D42's finding, and two real bugs in the harness around it
+
+Decision: the first live `tools/system_controller.py` run crashed at Frame's
+dissolution check. Both the crash and what caused it are fixed
+(`59bb951`..`bc756ba`'s successors); this entry records the bug, the fix,
+and what the run showed about the Framer before it crashed, since that part
+is a genuine result worth keeping regardless of the bug.
+
+**The crash.** `ValueError: not enough values to unpack (expected 1, got
+0)` at `_gap_report`'s `(gap,), rej = scribe.write(...)`. The immediate
+cause was masked by the crash: unpacking `accepted` into `(gap,)` raises
+before the very next line's `assert not rej` can print anything useful, so
+the traceback named the wrong line. Fixed everywhere this module unpacks a
+`scribe.write()` result (`_gap_report`, Intake's `ProblemRecord`, Close's
+`SolutionRecord`): check `accepted` is non-empty before indexing it, with
+the rejection reasons in the assertion message.
+
+**Why the record was rejected.** `GapReport.next_cheapest_test` is capped
+at 300 characters. `_gap_report` was called with
+`frame.get("dissolution_reason", "")` as that field, and the Framer's live
+`dissolution_reason` was 555 characters, a genuine, well-formed paragraph
+explaining the reframe, not a runaway generation. `FrameRecord.dissolution_
+reason` itself is capped at 600, so the Framer's reply was correct against
+its own schema; the bug is that `_gap_report` reused a differently-capped
+field's content without checking the target field's cap. Fixed by
+truncating `next_test` to 300 characters inside `_gap_report`.
+
+**The more important bug.** The Framer set `dissolution_verdict:
+"reframed"`, not `"dissolved"`, and `run_quick` treated every non-`"stands"`
+verdict as the same hard stop. Per the schema's own description (Stage 9.2,
+`FrameRecord.schema.json`), the two mean different things: `dissolved` is
+"the problem does not exist as stated"; `reframed` is "it exists but not as
+stated; the goal ladder says how", and the Framer had already done that
+work in the same `FrameRecord` (a revised goal ladder, five new acceptance
+criteria, `problem_type` renamed to describe the actual shape). Stopping on
+`reframed` discarded a correct piece of the Framer's output and answered a
+question it was not asked. Fixed: only `dissolution_verdict == "dissolved"`
+stops the run; `reframed` continues into Verify and Generate using the
+FrameRecord already on the ledger, which already carries the reframed
+acceptance criteria. `--selftest` gained a seventh scenario locking in both
+fixes (a `reframed` run reaching a solution; a direct check that
+`_gap_report` truncates an oversized `next_test`), and its own count was
+updated in `check.py`'s SYSTEM check description.
+
+**What the run showed before it crashed, worth keeping regardless of the
+bug.** The toy problem was T10's shape, restated fresh, live, to
+`worker-opus-high` (the Framer's quick-mode cell) with no reference to this
+repository's own fixtures or prior decisions. Its `FrameRecord` and sixteen
+`PremiseRecord`s independently reproduced D42's finding: it found that the
+freeze's stated reason was false (`prem-005`, confidence 0.02, "All three
+call .strip() on the result"), derived the general property that makes
+stripping inside `normalise()` a no-op downstream (`prem-006`, a genuine
+`class: "maths"` premise, not asserted but proved: "x.strip().lower().strip()
+== x.lower().strip() for every str x"), correctly identified that
+`test_accounts.py` pins `normalise()` directly so no fix confined to
+`accounts.py` can satisfy it (`prem-008`), and even caught that the problem
+statement's own claim ("failing on one test") was wrong: it is failing on
+three (`prem-007`, found by actually running the tests, not by reading the
+count in the prompt). It also flagged, as a named unverified premise rather
+than an assumption, the one thing an outside reader cannot check from the
+repository alone: whether records already written by the live systems were
+stripped by an earlier, non-`.strip()`-calling version of `downstream.py`
+(`prem-014`). Sixteen premises against `ROLES.md`'s stated cap of 40; no
+merge was needed.
+
+This is not yet evidence about the fleet (Stage 11's question, whether
+Critique in a separate context catches what self-critique passes); the run
+never reached Generate. It is evidence that the Framer role, alone, at its
+configured cell, reasons at least as well live as the benchmark's workers
+did on the same shape, which is what Stage 10's exit criteria needed
+before Stage 11 can mean anything.
+
+Reversal: none needed; the fixes are structural and the selftest addition
+locks them in.

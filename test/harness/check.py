@@ -577,10 +577,11 @@ def check_schemas(r: Report) -> None:
 
 
 def check_system_controller(r: Report) -> None:
-    """SYSTEM: tools/system_controller.py's --selftest passes: six scripted
+    """SYSTEM: tools/system_controller.py's --selftest passes: seven scripted
     scenarios (happy path, dissolution, budget exhaustion, stale-version
-    rejection, single-writer rejection, reframe cap), no claude -p calls
-    (docs/PLAN.md Stage 10.6)."""
+    rejection, single-writer rejection, reframe cap, reframed-continues),
+    no claude -p calls (docs/PLAN.md Stage 10.6; scenario 7 added after the
+    live toy run in Stage 10.9 found the dissolution/reframe bug)."""
     script = REPO_ROOT / "tools" / "system_controller.py"
     if not script.exists():
         r.add("SYSTEM", "system_controller.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")

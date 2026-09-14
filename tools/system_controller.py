@@ -603,7 +603,9 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
     problem_record = {"type": "ProblemRecord", "statement": problem_text, "context": "",
                        "constraints": [], "budget_usd": budget_usd, "mode": "quick", "acceptance_criteria": [],
                        "ledger_version": 0, "references": []}
-    (problem,), _ = scribe.write([problem_record], writer_role="controller", expected_types={"ProblemRecord"})
+    accepted, rej = scribe.write([problem_record], writer_role="controller", expected_types={"ProblemRecord"})
+    assert accepted and not rej, f"ProblemRecord rejected: {rej}"
+    problem = accepted[0]
     write_digest(scribe, dirs, "intake", "Problem recorded verbatim; nothing judged yet.", [problem])
 
     if (r := check_budget("intake")):
@@ -620,7 +622,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
                  f"{frame.get('problem_type')!r}, dissolution {frame.get('dissolution_verdict')!r}."
                  f"{_premise_cap_note(frame)}", accepted)
 
-    if frame["dissolution_verdict"] != "stands":
+    if frame["dissolution_verdict"] == "dissolved":
         gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
         return RunResult("dissolved", gap, dirs.root, spent["usd"], calls["n"])
     if (r := check_budget("frame")):
@@ -645,7 +647,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         frame = new_frame
         write_digest(scribe, dirs, "verify", f"{len(measurements)} measurement(s); ledger v{frame['ledger_version']}, "
                      f"stable={frame['stable']}.{_premise_cap_note(frame)}", accepted + measurements)
-        if frame["dissolution_verdict"] != "stands":
+        if frame["dissolution_verdict"] == "dissolved":
             gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
             return RunResult("dissolved", gap, dirs.root, spent["usd"], calls["n"])
         if (r := check_budget("verify")):
@@ -728,7 +730,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
             frame = _one_of(accepted, "FrameRecord", "Frame re-entry (reframe)")
             write_digest(scribe, dirs, "reframe", f"Reframe {reframes}/{MAX_REFRAMES}: ledger v{frame['ledger_version']} "
                          f"after {len(falsified)} falsified-premise critique(s).{_premise_cap_note(frame)}", accepted)
-            if frame["dissolution_verdict"] != "stands":
+            if frame["dissolution_verdict"] == "dissolved":
                 gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
                 return RunResult("dissolved", gap, dirs.root, spent["usd"], calls["n"])
             if (r := check_budget("reframe")):
@@ -758,8 +760,9 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
            "technique": winner.get("technique", "b0"), "unverified_load_bearing": unverified_lb,
            "audit_trail": [problem["id"], frame["id"], winner["id"]], "problem_type": frame["problem_type"],
            "ledger_version": frame["ledger_version"], "references": [winner["id"]]}
-    (solution,), rej = scribe.write([sol], writer_role="librarian", expected_types={"SolutionRecord"})
-    assert not rej, f"SolutionRecord rejected: {rej}"
+    accepted, rej = scribe.write([sol], writer_role="librarian", expected_types={"SolutionRecord"})
+    assert accepted and not rej, f"SolutionRecord rejected: {rej}"
+    solution = accepted[0]
     write_digest(scribe, dirs, "close", f"Closed with {winner['id']}; {len(unverified_lb)} unverified "
                  "load-bearing premise(s) remain.", [solution])
     return RunResult("solution", solution, dirs.root, spent["usd"], calls["n"])
@@ -788,16 +791,23 @@ def _retry_prompt(original_prompt: str, rejected: list[ScribeRejection]) -> str:
 
 
 def _gap_report(scribe: Scribe, termination: str, next_test: str = "") -> dict:
+    """`next_test` is truncated to GapReport.next_cheapest_test's 300-character
+    cap: a caller passing a FrameRecord's dissolution_reason (capped at 600)
+    can overflow it, which is exactly what happened the first time this ran
+    live (a genuine, correct 555-character dissolution_reason from the
+    Framer got rejected here, and the ValueError from unpacking zero
+    accepted records masked the real cause; fixed by checking `rej` before
+    unpacking, below, as well as by truncating)."""
     frame = scribe.latest("FrameRecord")
     unmet = frame["acceptance_criteria"] if frame else []
     unverified = [p["id"] for p in scribe.premises() if p["class"] == "unverified" and p.get("load_bearing")]
     record = {"type": "GapReport", "best_candidate_id": None, "unmet_criteria": unmet,
-              "unverified_load_bearing": unverified, "next_cheapest_test": next_test or "none",
+              "unverified_load_bearing": unverified, "next_cheapest_test": (next_test or "none")[:300],
               "termination": termination, "ledger_version": scribe.frozen_version,
               "references": [frame["id"]] if frame else []}
-    (gap,), rej = scribe.write([record], writer_role="librarian", expected_types={"GapReport"})
-    assert not rej, f"GapReport rejected: {rej}"
-    return gap
+    accepted, rej = scribe.write([record], writer_role="librarian", expected_types={"GapReport"})
+    assert accepted and not rej, f"GapReport rejected: {rej}"
+    return accepted[0]
 
 
 # --------------------------------------------------------------------------
@@ -1023,6 +1033,34 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
         check(result6.outcome == "solution" and result6.record.get("technique") == "b0",
               f"scenario 6: exceeding the reframe cap should fall back to B0, got {result6.outcome}/{result6.record.get('technique')}")
 
+        # --- Scenario 7: "reframed" continues the pipeline; a long
+        # dissolution_reason does not crash a GapReport that never gets
+        # written. Added after the live toy run (2026-09-14) hit both bugs
+        # at once: the Framer correctly returned dissolution_verdict
+        # "reframed" (the problem exists, just not as stated, and the same
+        # FrameRecord already carries the reframed acceptance criteria),
+        # but the code treated any non-"stands" verdict as a hard stop, and
+        # the stop path fed a 555-character dissolution_reason into a field
+        # capped at 300, which crashed on the unpacking before the
+        # rejection could even be reported.
+        c7 = _canned()
+        reframed_frame = dict(c7["frame_v1"][2])
+        reframed_frame["dissolution_verdict"] = "reframed"
+        reframed_frame["dissolution_reason"] = "x" * 555
+        script7 = _happy_path_script()
+        script7[("frame", "framer")][0] = [c7["frame_v1"][0], c7["frame_v1"][1], reframed_frame, c7["frame_v1"][3]]
+        result7 = run_quick("A problem the Framer reframes rather than dissolves.", tmp_path,
+                             budget_usd=5.0, timeout=30,
+                             runner_factory=lambda _r: FakeRoleRunner(script7), run_id="s7")
+        check(result7.outcome == "solution",
+              f"scenario 7: a 'reframed' verdict should continue the pipeline to a solution, got {result7.outcome}")
+
+        gap_dirs = RunDirs(tmp_path / "runs" / "s7-gap")
+        gap_dirs.create()
+        gap = _gap_report(Scribe(gap_dirs), "dissolved", next_test="y" * 555)
+        check(len(gap["next_cheapest_test"]) <= 300,
+              f"scenario 7: _gap_report truncates an oversized next_test to the schema's 300-character cap, got {len(gap['next_cheapest_test'])}")
+
     return (not problems, problems)
 
 
@@ -1045,7 +1083,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
         if ok:
-            print("selftest: PASS, 6 scenarios")
+            print("selftest: PASS, 7 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
