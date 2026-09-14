@@ -19,9 +19,20 @@ Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
   commands/
     workers.md                                      (the /workers status command)
   ORCHESTRATOR_VERSION                              (date and source commit)
-  B0_BRIEF.md                                       (the brief ORCHESTRATOR.md section 4
-                                                     prepends on its measured escalation
-                                                     trigger; read on demand, not loaded)
+  B0_BRIEF.md                                       (a single-worker handover brief; not
+                                                     currently invoked automatically, kept
+                                                     for manual use as a cheap alternative)
+tools/
+  system_controller.py                              (the Controller: a quick-mode multi-
+                                                     role state machine ORCHESTRATOR.md
+                                                     section 4 invokes with the Bash tool
+                                                     on one scoped escalation trigger)
+  claudep.py, system_prompts.py,
+  validate_records.py                               (the Controller's own dependencies)
+src/System/
+  ROLES.md, TECHNIQUES.md, schemas/                 (what the Controller reads at
+                                                     runtime; do not remove these if you
+                                                     keep tools/system_controller.py)
 ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md)
 README.md                                           (this file)
 preflight.py                                        (checks the settings below)
@@ -29,7 +40,11 @@ preflight.py                                        (checks the settings below)
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on
-anything else in this repository being present at install time.
+anything else in this repository being present at install time. The
+Controller is the one exception to "nothing to run": `tools/` and
+`src/System/` must land at the project's root, in that same relative
+layout, or `python3 tools/system_controller.py` will not find its own
+dependencies when `ORCHESTRATOR.md` section 4 tries to invoke it.
 
 ## Install into a new project
 
@@ -40,18 +55,27 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    Bash:
    ```bash
    CONSUMER=/path/to/your/project
-   mkdir -p "$CONSUMER/.claude"
+   mkdir -p "$CONSUMER/.claude" "$CONSUMER/tools" "$CONSUMER/src/System"
    cp -r dist/.claude/. "$CONSUMER/.claude/"
    cp dist/ORCHESTRATOR.md dist/README.md dist/preflight.py "$CONSUMER/"
+   cp dist/tools/*.py "$CONSUMER/tools/"
+   cp -r dist/src/System/. "$CONSUMER/src/System/"
    ```
 
    PowerShell:
    ```powershell
    $Consumer = "C:\path\to\your\project"
-   New-Item -ItemType Directory -Force "$Consumer\.claude" | Out-Null
+   New-Item -ItemType Directory -Force "$Consumer\.claude","$Consumer\tools","$Consumer\src\System" | Out-Null
    Copy-Item -Recurse -Force "dist\.claude\*" "$Consumer\.claude\"
    Copy-Item -Force "dist\ORCHESTRATOR.md","dist\README.md","dist\preflight.py" "$Consumer\"
+   Copy-Item -Force "dist\tools\*.py" "$Consumer\tools\"
+   Copy-Item -Recurse -Force "dist\src\System\*" "$Consumer\src\System\"
    ```
+
+   The `tools/` and `src/System/` copies are what let `ORCHESTRATOR.md`
+   section 4 actually run the Controller when its trigger fires; skip them
+   only if you have deliberately decided not to use that trigger (see
+   "Known limits" below).
 
 2. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. Either paste
    `ORCHESTRATOR.md`'s content directly into `CLAUDE.md`, or, to keep the two
@@ -112,7 +136,31 @@ A project that already has a `CLAUDE.md`, and possibly its own
    already installed, these overwrite it; the version file's old value is
    what you are upgrading from, worth noting before you overwrite it.
 
-3. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
+   **Check `tools/` and `src/System/` before copying into them.** Unlike
+   `.claude/agents/`, an existing project very plausibly already has its
+   own `tools/` and `src/` directories full of its own application code,
+   and this bundle's file names (`claudep.py`, `system_prompts.py`, a
+   `System/` subdirectory) are generic enough to collide:
+
+   ```bash
+   ls "$CONSUMER/tools/"*.py "$CONSUMER/src/System" 2>/dev/null
+   ```
+
+   If that lists anything you did not just put there, do not overwrite it
+   sight unseen. Either place this bundle's Controller files under a
+   dedicated subdirectory instead (for example `tools/orchestrator/` and
+   `src/System/`, adjusting the paths `ORCHESTRATOR.md` section 4 uses to
+   match, since the scripts resolve every other path relative to their own
+   location), or skip shipping the Controller into this project at all and
+   remove or edit section 4's trigger to stop at `worker-opus-high`
+   directly, the same fallback it already uses if the Controller errors.
+   `B0_BRIEF.md` still works as a cheaper manual alternative either way.
+
+3. Copy `dist/tools/*.py` into `$CONSUMER/tools/` and `dist/src/System/`
+   into `$CONSUMER/src/System/` (or your chosen alternative location from
+   the check above), the same commands as step 1 of a new install.
+
+4. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
    existing `CLAUDE.md` rather than replacing the file. Where you add it
    matters less than that it is present; a natural place is near the top,
    beside any other file the project's `CLAUDE.md` already tells a session to
@@ -125,9 +173,9 @@ A project that already has a `CLAUDE.md`, and possibly its own
    not route" section explains why a second, competing set of rules is worse
    than none).
 
-4. Run `python3 preflight.py` from the project root, same as a new install.
+5. Run `python3 preflight.py` from the project root, same as a new install.
 
-5. Restart Claude Code **only if `.claude/agents/` did not already exist**
+6. Restart Claude Code **only if `.claude/agents/` did not already exist**
    before this session started. If the directory already existed (which it
    will, for most existing projects that already delegate to any subagent),
    the fifteen new definitions are picked up without a restart, typically
@@ -135,7 +183,7 @@ A project that already has a `CLAUDE.md`, and possibly its own
    your current session, restart anyway; it costs a few seconds and removes
    the question.
 
-6. Verify the install before delegating real work through it.
+7. Verify the install before delegating real work through it.
 
 ## Verifying it works
 
@@ -215,3 +263,13 @@ explains why, keyed by the commit named in the version string.
   (`src/ROUTING.md` sections 2 and 4). It was tuned against this
   repository's own benchmark tasks, not yours; treat it as a starting point
   and watch for a task class it routes wrongly on your own work.
+- The falsified-constraint trigger costs roughly USD 2.5 to 3.5 per fire,
+  since it runs the Controller (a multi-role state machine, several
+  `claude -p` calls) rather than a single worker. It fires rarely, only on
+  that one specific shape, but the orchestrator session pays for the
+  `claude -p` calls it makes directly with the Bash tool the same way any
+  other spend is billed; there is no separate approval gate on it beyond
+  what `ORCHESTRATOR.md` itself states. If you would rather this trigger
+  never spends without a human confirming first, edit `src/ROUTING.md`
+  section 4 to ask before running the Controller, or remove that step and
+  fall straight through to `worker-opus-high`.

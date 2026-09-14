@@ -62,3 +62,26 @@ source-clean commit, since the script's own not-yet-committed output
 always differs from what is on disk from the previous build. Fixed to
 exclude `dist/` and `dist-rubric-only/` from the check. This bundle's
 version, `484eb60`, is stamped clean and correctly so.
+
+## Fourth install, same day: bundle `2026-09-15-2763ce0`
+
+D63 (post-close-out, at Jeb's explicit direction): the Controller and its
+dependency chain now ship in `dist/tools/` and `dist/src/System/`, and
+`ROUTING.md` section 4's falsified-constraint trigger invokes it by
+default in place of the previous B0_BRIEF-then-opus-high sequence.
+Verified the shipped copy runs standalone before installing:
+`cd dist && python3 tools/system_controller.py --selftest` passed at 11
+scenarios, confirming the `REPO_ROOT`-relative dependency resolution
+works from the bundle's own layout, not only from this repository's.
+
+`orchestrator-scratch` already has its own `tools/build_dist.py`,
+`tools/cells.py` and `tools/generate_workers.py` (left over from earlier
+dogfooding, since this scratch project mirrors parts of this repository
+for benchmarking) — a live instance of exactly the collision risk
+`src/README.md`'s existing-project install path now warns about. No
+actual collision: the four shipped filenames (`system_controller.py`,
+`claudep.py`, `system_prompts.py`, `validate_records.py`) don't overlap
+with what was already there, confirmed identical byte-for-byte between
+`dist/tools/` and the installed copy. `preflight.py`'s new "Controller
+installed" check passes (all 6 files, 12 schemas). 0 failing of 9 checks
+(the check count itself grew by one, from the new Controller check).

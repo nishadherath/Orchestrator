@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/EvaluationRecord.schema.json",
+  "title": "EvaluationRecord",
+  "description": "The smallest concrete instance of a shortlisted candidate and its falsification test, run. Not written in quick mode. Single writer: Verifier (Instantiate). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "EvaluationRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$"
+    },
+    "instance": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "description": "The smallest concrete instance built."
+    },
+    "test": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "The falsification test run."
+    },
+    "result": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "description": "What happened, with numbers."
+    },
+    "artefact": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "Path or URI of the evidence."
+    },
+    "meets_acceptance": {
+      "type": "boolean"
+    },
+    "cost_usd": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "candidate_id",
+    "instance",
+    "test",
+    "result",
+    "artefact",
+    "meets_acceptance",
+    "cost_usd"
+  ]
+}
