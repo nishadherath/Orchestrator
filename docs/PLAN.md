@@ -1301,7 +1301,7 @@ Cost: about USD 27 per reporting-grade opus run, one or two runs.
 
 ## Stage 13. Close-out
 
-Status: **in progress (13.1 to 13.2 done 2026-09-15)**
+Status: **in progress (13.1 to 13.3 done 2026-09-15)**
 Model: sonnet, medium.
 
 Tasks:
@@ -1326,8 +1326,14 @@ Tasks:
       rather than smoothed. The Controller did not ship (D59, verdict
       prompt); its measured cost is recorded for the record, separately
       from the recurring-cost tables above it.
-- [ ] 13.3 `docs/FINDINGS.md`: consolidate; every "unverified" row either
+- [x] 13.3 `docs/FINDINGS.md`: consolidate; every "unverified" row either
       moved up with evidence or left with the date it was last checked.
+      Done 2026-09-15 as E28: the permission-propagation claim moved up
+      on accumulated evidence (dozens of benchmark and Controller runs,
+      zero denials); the two remaining unverified rows dated as last
+      checked, still open; the installed-version header corrected to
+      2.1.268; E25's max-budget-usd "aborts cleanly" clause resolved by
+      E26/E27, not left unverified.
 - [ ] 13.4 This file: set the plan's status to complete with the date; every
       stage `done` or `blocked` with its pointer.
 - [ ] 13.5 D48: what the branch delivered against the six acceptance
