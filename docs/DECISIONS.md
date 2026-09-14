@@ -2412,3 +2412,67 @@ Reversal: a third T10 confirmation at nine of nine would meet D46's
 condition as written, and the entry that ran it would say why a third
 attempt was justified after two genuine 8 of 9 results. None is planned;
 the two failures are too informative to average away.
+
+## 2026-09-14 D48. Charter amendment: the Controller is one exception to "no runtime beyond Claude Code itself"
+
+Decision: `CLAUDE.md`'s claim that this repository has "no build step and no
+runtime beyond Claude Code itself" is amended to name one exception:
+`tools/system_controller.py`, a Python program that owns a budget and a
+termination decision across a sequence of `claude -p` calls
+(`docs/PLAN.md` Stage 10). The sentence is edited in this commit.
+
+The plan's task 10.8 names this D45; the ledger has moved nine entries past
+that number since Stage 8 was written (D41 through D47 landed on other
+findings first), so this is D48 instead. Recorded here rather than silently
+renumbered, per the drift D46 already flagged.
+
+Why an exception rather than a rewrite of the charter's whole claim:
+everything else in this repository is still configuration and prose read by
+the orchestrator persona, with the harness (`test/harness/`) and the build
+tooling (`tools/generate_workers.py`, `tools/build_dist.py`) as the existing
+non-runtime exceptions the sentence already implicitly tolerates (they are
+development-time scripts, not something a consumer's Claude Code session
+runs). The Controller is different in kind from those: it is itself an
+execution engine a consumer would run, and `docs/REVIEW.md`'s "Two
+Controllers" finding is exactly why this needed a decision rather than a
+quiet addition to the same list.
+
+**The two-Controllers question, resolved by scope, not by demotion.**
+`docs/REVIEW.md` (2026-09-10) observed that `SYSTEM.md`'s design and this
+repository's orchestrator persona are both a budget owner and a terminator,
+"one of its three reasons peer-to-peer fails; two budget owners is not
+better. One of them has to be demoted." Stage 10 resolves this by keeping
+both, with disjoint scope rather than one subordinate to the other:
+
+- The orchestrator persona, under `ROUTING.md` and `LIFECYCLE.md`, owns
+  single-worker delegation: one task, one cell, one worker, inside a Claude
+  Code session. It is a budget owner in the sense that a session's own spend
+  is whatever workers it spawns cost, but it does not run a multi-role
+  pipeline or enforce a cross-call budget cap itself.
+- `tools/system_controller.py`, run directly (`python3
+  tools/system_controller.py ...`, not through the persona and not as
+  something the persona spawns), owns the eight-step quick-mode pipeline: a
+  problem, a sequence of role calls, one dollar budget checked before every
+  call, one termination decision. It never runs inside the same invocation
+  as the persona's own worker delegation; a user chooses one track or the
+  other for a given problem, not both at once.
+
+So there are not two budget owners active on the same decision at the same
+time; there are two mechanisms with non-overlapping jobs, and the sentence
+in `CLAUDE.md` that used to describe only the first now names the second as
+its stated exception. This does not settle whether the Controller pipeline
+is worth its cost against B0 (Stage 11's question); it settles that the
+Controller existing at all is a deliberate, charter-level decision rather
+than scope creep.
+
+What this does not change: `ROUTING.md`'s table, the harness's invariants,
+or the dogfooding protocol, none of which govern the Controller. A future
+stage that wires the Controller into the persona's own delegation path (so
+a worker could itself decide to invoke it) would need its own decision
+entry, because that would reintroduce the two-Controllers collision this
+entry currently avoids by keeping the paths separate.
+
+Reversal: if Stage 11 or 12 needs the persona to invoke the Controller
+mid-delegation rather than a human choosing the track upfront, this
+separation stops holding and the two-Controllers question needs a real
+answer rather than a scope split.

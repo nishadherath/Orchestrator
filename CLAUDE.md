@@ -61,8 +61,11 @@ routes it to the cheapest worker cell that clears the bar, hands over, and
 manages the worker's lifecycle.
 
 The artefacts are configuration and prose, not application code. There is no
-build step and no runtime beyond Claude Code itself. The work here is
-specification, verification, and calibration.
+build step and, with one exception, no runtime beyond Claude Code itself:
+`tools/system_controller.py` (`docs/PLAN.md` Stage 10, D48) is a Python
+program that owns a budget and a termination decision across a sequence of
+`claude -p` calls, run directly rather than through the orchestrator persona.
+Everything else is specification, verification, and calibration.
 
 ## Critical: this file does not route
 

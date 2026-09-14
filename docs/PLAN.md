@@ -1162,10 +1162,13 @@ Tasks:
       `subagent_type`, citing invariant 2; Stage 10 actually built direct
       `claude -p --model` calls, a different mechanism invariant 2 does not
       govern. Corrected in the same commit rather than left standing.
-- [ ] 10.8 D45, including the charter amendment: `CLAUDE.md`'s "no runtime
+- [x] 10.8 D45, including the charter amendment: `CLAUDE.md`'s "no runtime
       beyond Claude Code itself" gains the Controller as the one exception,
       with the reason (`REVIEW.md`, "Two Controllers"). Edit the sentence in
       `CLAUDE.md` in the same commit and cite D45 beside it.
+      Done 2026-09-14 as D48 (the ledger had moved past D45 by then; see
+      D46's numbering-drift note). Two Controllers resolved by scope: the
+      persona and the Controller never own a budget on the same invocation.
 - [ ] 10.9 Update this stage's status line and commit it.
 
 Exit criteria: `--dry-run` prints a correct quick-mode plan; `--selftest`
