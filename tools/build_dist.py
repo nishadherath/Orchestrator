@@ -87,7 +87,16 @@ def rubric_only_routing(routing_text: str) -> str:
 
 def version_stamp() -> str:
     rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
-    dirty = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
+    # dist/ and dist-rubric-only/ are this script's own output, always
+    # uncommitted relative to the source commit it just built from (the
+    # docstring's "one commit before the commit that adds dist/"), so
+    # including them here made every honest, source-clean build stamp
+    # itself "-dirty" (found 2026-09-15, Stage 13 close-out, when a
+    # ROUTING.md-only change produced a dirty stamp with git status
+    # showing nothing but dist/ itself modified). The dirty check exists
+    # to catch uncommitted *source* drift, which this excludes them from.
+    dirty = subprocess.run(["git", "status", "--porcelain", "--", ".", ":(exclude)dist", ":(exclude)dist-rubric-only"],
+                            capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
     return f"{dt.date.today().isoformat()}-{rev}{'-dirty' if dirty else ''}"
 
 
