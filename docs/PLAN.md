@@ -1151,12 +1151,17 @@ Tasks:
       asserts every transition, the stale-version rejection, the
       single-writer rejection, the reframe cap and each termination rule.
       `check.py` gains a SYSTEM check that invokes it.
-- [ ] 10.7 Isolation rules written into `ROLES.md` and cross-referenced from
+- [x] 10.7 Isolation rules written into `ROLES.md` and cross-referenced from
       `LIFECYCLE.md`: a Generator is never resumed, always spawned fresh; no
       role uses `SendMessage` to another; role-private state is discarded at
       phase end. This is where `LIFECYCLE.md`'s resume semantics and
       `SYSTEM.md`'s isolation rule are reconciled by rule rather than left
       to collide.
+      Done 2026-09-14. Found while writing it: ROLES.md rule 6's first draft
+      (Stage 9.4) wrongly described the Controller as spawning roles via
+      `subagent_type`, citing invariant 2; Stage 10 actually built direct
+      `claude -p --model` calls, a different mechanism invariant 2 does not
+      govern. Corrected in the same commit rather than left standing.
 - [ ] 10.8 D45, including the charter amendment: `CLAUDE.md`'s "no runtime
       beyond Claude Code itself" gains the Controller as the one exception,
       with the reason (`REVIEW.md`, "Two Controllers"). Edit the sentence in

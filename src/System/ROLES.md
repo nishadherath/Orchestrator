@@ -33,11 +33,66 @@ says which of the three it has.
 5. **Say what is unverified.** Any role whose output rests on an
    unverified premise names it. The Librarian's close record carries the
    list in every mode, empty or not.
-6. **Select by `subagent_type` only.** The cell per role is
-   configuration below, spawned by name; never pass a `model` parameter
-   (`CLAUDE.md` invariant 2). The fleet's cells are not chosen through
-   `ROUTING.md`'s table; that table routes single-worker delegation, and
-   the cells below are each role's own prior.
+6. **The cell is configuration, not a routing decision.** The fleet's
+   cells are not chosen through `ROUTING.md`'s table; that table routes
+   single-worker delegation by the orchestrator persona, and the cells
+   below are each role's own prior instead. Correction to this rule's
+   first draft (Stage 9.4): it originally said a role is "spawned by
+   `subagent_type`, never passing a `model` parameter", citing `CLAUDE.md`
+   invariant 2. That is invariant 2's rule for the persona's own Task-tool
+   delegation, and it does not describe how Stage 10 actually built the
+   Controller: `tools/system_controller.py` invokes `claude -p --model
+   <m> --effort <e>` directly, the same headless mechanism
+   `benchmark.py`'s forwarder and `score_routing.py`'s orchestrator calls
+   already use, with no `subagent_type` or Task tool involved at all,
+   because a headless `claude -p` call has no persona present to read a
+   worker definition file and no session to name one from. Passing
+   `--model` there is not a violation of invariant 2; it is the only way
+   a code-driven role invocation names a cell. See "Isolation" below for
+   how this mechanism relates to `LIFECYCLE.md`.
+
+## Isolation (task 10.7)
+
+`LIFECYCLE.md` describes a different spawning mechanism from the one
+`tools/system_controller.py` uses, and its resume semantics do not apply
+here at all, not merely by convention:
+
+- `LIFECYCLE.md` governs the orchestrator persona spawning a worker via
+  the Task tool, inside one Claude Code session: a running agent with a
+  name, an agent ID, a transcript, and a `SendMessage` channel that can
+  resume it.
+- The Controller's role calls are `claude -p` subprocess invocations,
+  each a fresh, independent process with its own `--output-format json`
+  reply and no session left behind afterwards. There is nothing to
+  resume: the process has already exited by the time its reply is
+  parsed. "Resume" is not refused here as a policy; it is not a concept
+  that applies to this mechanism, the same way `LIFECYCLE.md`'s state
+  table does not apply to a shell command that already returned.
+
+Given that, the isolation rules `SYSTEM.md` section 2 asks for translate
+directly into how `tools/system_controller.py` calls roles, rather than
+into anything about resuming:
+
+- **A Generator is never resumed, always spawned fresh.** Automatic,
+  not enforced: each of the three parallel Generator calls
+  (`tools/system_controller.py`'s `gen_one`) is its own `claude -p`
+  process with no prior turn, so there is no history to carry forward
+  even if the code tried to. Context isolation between Generators
+  (`SYSTEM.md` section 2's non-interference mechanism) follows from the
+  same fact: three separate processes cannot read each other's context
+  because none of them shares one.
+- **No role uses `SendMessage` to another.** Also automatic: a role's
+  prompt is built once by the Controller (`build_frame_prompt`,
+  `build_verify_prompt`, and so on) from its input slice, and its only
+  channel back is the one reply its process exits with. No role's
+  prompt ever tells it to contact another role, and none of the four
+  content-writing roles is given a tool that could.
+- **Role-private state is discarded at phase end.** Each `claude -p`
+  process's own working memory, tool results and reasoning die with the
+  process. Nothing server-side persists a role's scratch state between
+  calls; what persists is only what the Scribe accepted onto the
+  ledger, which is exactly the run-scoped shared memory `SYSTEM.md`
+  section 7 specifies, not the ephemeral tier.
 
 ## Cells per role, quick mode
 

@@ -1,5 +1,13 @@
 # Worker lifecycle and communication
 
+This file governs the orchestrator persona spawning a worker via the Task
+tool, inside one Claude Code session. It does not govern
+`tools/system_controller.py`'s role calls (`docs/PLAN.md` Stage 10): those
+are `claude -p` subprocess invocations, each a fresh process with no
+session left behind to resume. `src/System/ROLES.md`'s "Isolation" section
+says why the two mechanisms need separate treatment rather than one being
+a special case of the other.
+
 ## What you can and cannot do
 
 Claude Code supports **start, message, stop, and resume**. It does not support
