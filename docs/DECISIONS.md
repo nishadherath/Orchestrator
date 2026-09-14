@@ -2276,3 +2276,139 @@ same amount.
 
 Reversal: none needed; the rule is applied at 9.8 on evidence and either
 branch is written into this entry.
+
+## 2026-09-14 D47. Stage 9 result: the brief takes the floor from 0 of 12 to 22 of 24 on T10, and the two failures are the same hack
+
+Decision: Stage 9 is complete. The missing half of `SYSTEM.md`'s exchange
+was not recovered; `STEPS.md` and the three tier-1 briefs in
+`TECHNIQUES.md` are reconstructed and marked so. Twelve record schemas,
+a validator, `ROLES.md` and `B0_BRIEF.md` are committed. B0's frontier
+is measured beside the raw frontier on all three Stage 7 tasks. D46's
+early-exit condition is **not met**: B0 at the floor does not confirm
+T10 at the reporting bar, twice, so Stages 10 to 12 run as written, with
+a subject that this stage sharpened considerably.
+
+### Provenance (9.1)
+
+Jeb was asked for the first half of the exchange and supplied
+`src/System/SYSTEM.md` itself, three times, as the missing half. It is
+the document that cites "the previous answer"; it is not that answer.
+The eight steps and the forty techniques were therefore not recovered.
+`STEPS.md` rebuilds the eight steps from `SYSTEM.md` sections 3, 4 and
+8, naming each choice it had to make. `TECHNIQUES.md` holds subtract,
+re-represent and abduce, the tier-1 families section 5 names, as
+four-part briefs with three worked examples each drawn from this
+repository's own decisions so that every instance can be checked; the
+other thirty-seven techniques and tier 3 are listed as not reconstructed.
+A brief written without its source would be invention presented as
+recovery, and quick mode does not run tier 3, so nothing in Stages 10 to
+12 is blocked by the gap. If the original turns up, it replaces the
+reconstructed files and the marks change to `supplied`.
+
+### Schemas, validator, roles, brief (9.2 to 9.6)
+
+Twelve schemas rather than the plan's eleven: the Frame phase produces a
+goal ladder, a metric interrogation, a problem type, a dissolution
+verdict, acceptance criteria and B0, none of which are premises, and
+`FrameRecord` gives them a single-writer home. B0 itself is a
+`CandidateRecord` with `technique: "b0"` written by the Framer, the one
+documented exception to generators owning that type. The validator
+implements the subset of JSON Schema the twelve files use and refuses
+any keyword outside it; the SCHEMA check asserts the example ledger is
+clean and the broken ledger is rejected on exactly its ten documented
+lines. `ROLES.md` transcribes section 5's quick-mode cells as priors and
+says so. `B0_BRIEF.md` is 1,558 tokens and its provenance block is kept
+from the worker.
+
+### Per-role cost (9.7, E24)
+
+One cold pass of Framer, Verifier, Generator and Critic at their
+quick-mode cells on T10: USD 0.666, 19 of 20 records schema-valid at
+first attempt. The Critic's second record found a real defect in the
+example ledger, an introduced premise labelled `verified` with no
+measurement, which is rule 4 of `ROLES.md` doing its job unprompted.
+
+### B0's frontier beside the raw frontier (9.8)
+
+`test/results/2026-09-14-benchmark-282981f-tasks-T10+T11+T9-brief-b0-brief.md`
+and `...-tasks-T10-brief-b0-brief.md`, 48 runs, USD 17.55.
+
+| Task | Raw floor (Stage 7) | Raw frontier | Floor with the brief | B0 frontier |
+| --- | --- | --- | --- | --- |
+| T9 | 9 of 9 | `worker-sonnet-low` | 3 of 3, 9 of 9 | `worker-sonnet-low` |
+| T10 | 0 of 3; sonnet 0 of 12 | `worker-opus-high` (9 of 9) | 3 of 3, 8 of 9; then 3 of 3, 8 of 9 | not confirmed at the floor |
+| T11 | 9 of 9 | `worker-sonnet-low` | 3 of 3, 9 of 9 | `worker-sonnet-low` |
+
+T10 is the result. Raw, the floor never passed. With the brief, it passed
+22 of 24 attempts across two independent search-and-confirm runs. Each
+confirmation was 8 of 9, lower bound 56.5%, which does not clear 0.7;
+nine of nine is the smallest record that does (D15). The pooled 22 of 24
+has a lower bound of 74.2%, but pooling is not the protocol and this
+entry does not cite it as confirmation; it cites it as the size of the
+effect. Neither failure is void: both are genuine worker results, unlike
+T7's (D20) and T9's (D41) voided runs.
+
+Both failures are the same fix. The worker verified the freeze's stated
+reason was false, said so in `IMPACT.txt`, and then, rather than edit
+the frozen file, monkeypatched `legacy_ids.normalise` from `accounts.py`
+at import time, so that `test_accounts.py`, which imports `accounts`
+first, sees the patched function while `legacy_ids.py` stays
+byte-identical. One report, verbatim: "the frozen file's stated reason
+is false for this particular change, but the literal constraint still
+stands and was honored regardless." The grader imports `legacy_ids`
+directly and sees the original, and fails it, correctly: the fix depends
+on import order and is exactly the hack a `worker-sonnet-xhigh` run in
+Stage 7 reasoned its way out of as "import-order-dependent, fragile".
+
+So the brief fixes the deference D42 found in eleven of twelve runs: told
+that a constraint whose reason it has verified false is policy and may
+be acted against, the floor worker acts against it. In the twelfth it
+finds a way to obey the letter and pass the test at once, and that way
+is wrong. Its own step 5, the Critique it wrote for itself, passed the
+candidate; the worker's `crit-001` rejected B0 and accepted the
+monkeypatch. That is the single-context critique passing its own author's
+work, which is the failure `SYSTEM.md` section 2 says a separate context
+exists to prevent.
+
+### What this means for the track
+
+D46's rule: the track closes after Stage 9 only if B0 confirms T10 at
+the floor at the reporting bar. It did not, twice. Stages 10 to 12 run.
+
+The subject they run on is now precise. The fleet's claim to earn its
+cost in quick mode rests on adversarial critique in a separate context
+catching what a single worker's self-critique passes, and there is a
+measured, reproducible instance of exactly that: two of twenty-four B0
+runs shipped an import-order monkeypatch that their own critique step
+accepted. Stage 11's question becomes whether a Critic at
+`worker-opus-medium` (USD 0.18 per call, E24) reading the candidate
+without the generator's reasoning returns that candidate, and whether
+the fleet then clears nine of nine.
+
+Criterion 2's arithmetic, for the Stage 11 pre-registration. B0 at the
+floor with the brief costs USD 0.36 per run on T10 and passes 89% of the
+time, about USD 0.40 per solved task; three times that is USD 1.21. One
+cold pass of the four roles is USD 0.666; a quick-mode run adds two more
+generators, a Selector, a Librarian and the Controller's calls, so USD
+1.0 to 1.5 per run is the expectation, against a ceiling of USD 1.21 per
+solved task at nine of nine. That is tight, and the cache layout
+`SYSTEM.md` section 5 specifies (shared static prefix across roles) is
+what would make it fit. The fleet also has to beat 8 of 9 at the bar,
+which means nine of nine, since no other record clears 0.7 at that n.
+
+Also for the record: B0 with the brief at the floor, USD 0.40 per solved
+task at 89%, is cheaper per solved task than the raw frontier,
+`worker-opus-high` at USD 0.86 to 1.11 at 100%. If Stage 11 finds the
+fleet does not pay for itself, the cheapest measured way to solve T10 is
+the brief at the floor with the section 4 escalation trigger behind it,
+and that is a result, not a failure.
+
+### Cost of the stage
+
+USD 17.55 for 9.8 (48 runs), USD 0.67 for 9.7. Against the estimate of
+USD 30 to 150: below, because nothing climbed.
+
+Reversal: a third T10 confirmation at nine of nine would meet D46's
+condition as written, and the entry that ran it would say why a third
+attempt was justified after two genuine 8 of 9 results. None is planned;
+the two failures are too informative to average away.

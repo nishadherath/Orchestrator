@@ -996,6 +996,8 @@ If Jeb opens the track despite the rule, D43 records that and why, and the
 stages run as written.
 
 **Applied 2026-09-14 (D46): the track opens.** Criterion 1 holds on T10.
+The early exit was tested at 9.8 and not met (D47): B0 at the floor was
+8 of 9 on T10 twice, so Stages 10 to 12 run.
 One amendment, recorded in D46: if task 9.8 shows B0 (the floor with the
 B0 brief) confirming T10 at `worker-sonnet-low`, the track closes at the
 end of Stage 9 with the B0 brief as its deliverable and Stages 10 to 12
@@ -1007,7 +1009,7 @@ ledger is five entries ahead of them.
 
 ## Stage 9. Recover the missing half of SYSTEM.md, schemas, roles, B0
 
-Status: **in progress (9.1 to 9.7 done 2026-09-14)**
+Status: **done (2026-09-14, see the 9.10 commit)**
 Model: opus, high. Authoring technique briefs and the B0 brief is judgement
 work; the record schemas that follow are structured and could be done at
 sonnet high, but one stage at opus high avoids a switch for a small saving.
@@ -1069,12 +1071,17 @@ Tasks:
       pre-registration needs.
       Done 2026-09-14 as E24: USD 0.666 for one cold pass of the four
       roles, 19 of 20 records schema-valid at first attempt.
-- [ ] 9.8 Run B0 on the Stage 7 tasks: the Stage 7.4 command with
+- [x] 9.8 Run B0 on the Stage 7 tasks: the Stage 7.4 command with
       `--brief src/System/B0_BRIEF.md`. This is B0's frontier per task.
       Jeb runs; the session prepares and analyses.
-- [ ] 9.9 D44: the briefs' provenance, the schemas, the roles, B0's
+      Run 2026-09-14, twice for T10: T9 and T11 at the floor 9 of 9; T10
+      at the floor 8 of 9 and 8 of 9 again, both failures the same
+      import-order monkeypatch. Not confirmed at the bar; D46's early exit
+      is not met and Stages 10 to 12 run (D47).
+- [x] 9.9 D44: the briefs' provenance, the schemas, the roles, B0's
       frontier per task beside the raw frontier from D41.
-- [ ] 9.10 Update this stage's status line and commit it.
+      Done 2026-09-14 as D47.
+- [x] 9.10 Update this stage's status line and commit it.
 
 Exit criteria: briefs for at least the three tier-1 families; eleven
 schemas; validator passing on examples and rejecting a broken one;
