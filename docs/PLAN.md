@@ -1187,7 +1187,7 @@ model calls at cheap cells, per `SYSTEM.md` section 8).
 
 ## Stage 11. Fleet versus baseline
 
-Status: **in progress (11.1 done 2026-09-14; Gate E pending)**
+Status: **done (2026-09-15, verdict prompt, D59; see the 11.6 commit)**
 Model: opus, high. Most of this stage is waiting on runs, so the session's
 own token cost is small; opus is here for the pre-registration and the
 verdict, which are judgement.
@@ -1212,19 +1212,28 @@ Tasks:
       verdict: prompt, on cost (USD 2.3 per run measured in Stage 10
       against a ceiling of USD 1.227 per solved task), with a T10 pass
       rate of 4 of 9.
-- [ ] 11.2 Gate E: present the pre-registration with the cost estimate to
+- [x] 11.2 Gate E: present the pre-registration with the cost estimate to
       Jeb and wait for approval before any run.
-- [ ] 11.3 Run quick mode nine times per task with `--record`. Jeb runs; the
+      Passed 2026-09-14: Jeb ran the pilot on the presented terms.
+- [x] 11.3 Run quick mode nine times per task with `--record`. Jeb runs; the
       session prepares the commands with real paths and analyses.
-- [ ] 11.4 Compare at the reporting bar: pass rate with Wilson intervals for
+      Done 2026-09-15. Jeb ran the pilot and the first batch (void, D56:
+      two plumbing defects); the session ran the second under D57. T10
+      only, per the pre-registered sequential rule; T9 and T11 skipped.
+- [x] 11.4 Compare at the reporting bar: pass rate with Wilson intervals for
       fleet and B0 per task, cost per solved task, and the ratio. Score
       every prediction as held or falsified.
-- [ ] 11.5 D46, the verdict, in one of two forms. "System": the fleet beats
+      Done 2026-09-15 in D59: fleet 6 of 9 at USD 4.40 per solved task
+      against B0 at 8 of 9 twice and USD 0.41; four predictions held, one
+      falsified, one held on the number and wrong on the mechanism.
+- [x] 11.5 D46, the verdict, in one of two forms. "System": the fleet beats
       B0 within the multiplier, and Stage 12 wires the Controller in.
       "Prompt": it does not, and Stage 12 wires B0's brief in. Either is a
       result. Include the technique that produced each winning candidate,
       per task, logged as `SYSTEM.md`'s training signal from day one.
-- [ ] 11.6 Update this stage's status line and commit it.
+      Done 2026-09-15 as D59: prompt. Every completed fleet run chose the
+      right answer; it cost 10.8 times B0 per solved task.
+- [x] 11.6 Update this stage's status line and commit it.
 
 Exit criteria: pre-registration committed before the run; nine runs per task
 recorded; D46 with an unambiguous verdict and every prediction scored.

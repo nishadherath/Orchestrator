@@ -3110,3 +3110,101 @@ two or three turns.
 
 Reversal: none; the floor and the cap are configuration, and
 scenario 11 locks the form of the termination.
+
+## 2026-09-15 D59. Stage 11 verdict: prompt. The fleet's answer was right in every run that finished and it did not pay for itself
+
+Decision: criterion 2 (D38) fails on T10 on both clauses, and the
+verdict is **prompt**. Stage 12 wires the B0 brief into routing, not the
+Controller. This is the plan's own numbering slot "D46" (Stage 11.5);
+the ledger had moved on by then, as D46's note anticipated.
+
+### The comparison at the reporting bar
+
+| Arm | T10 passes | 95% Wilson | Clears 0.7 | Cost per run | Cost per solved task |
+| --- | --- | --- | --- | --- | --- |
+| B0, floor with the brief (Stage 9.8, two batches) | 8 of 9 and 8 of 9 (22 of 24) | [56.5%, 98.0%] each | no | USD 0.3749 | USD 0.4090 |
+| Fleet, quick mode plus one floor instantiation (D58) | 6 of 9 | [35.4%, 87.9%] | no | USD 2.9352 | USD 4.4028 |
+
+Clause 1, beat B0 at the bar: not met. Neither arm clears it; the
+fleet's record is below B0's. Clause 2, cost per solved task within
+three times B0's: not met. The ceiling was USD 1.227; the fleet is USD
+4.40, 3.6 times the ceiling and 10.8 times B0. Had the fleet passed nine
+of nine its cost per solved task would have been USD 2.94, 2.4 times
+the ceiling, so the cost clause fails at every pass rate this
+configuration can produce. T9 and T11 were not run, under the
+pre-registered rule that they run only if a system verdict was still
+arithmetically possible after T10; USD 41 not spent.
+
+### Predictions scored (`test/results/2026-09-14-fleet-v-b0-preregistration.md`)
+
+| Prediction | Predicted | Measured | Score |
+| --- | --- | --- | --- |
+| P1 cost per run | USD 2.3, range 2.0 to 2.7 | USD 2.94 (Controller 2.69, instantiation 0.36) | falsified, above the range; D58 says why |
+| P2 cost clause fails at any pass rate | yes | yes: 2.4x the ceiling even at nine of nine | held |
+| P3 T10 pass count | 4 of 9, range 2 to 7 | 6 of 9 | held on the number, falsified on the mechanism: not one completed run returned B0; all three failures were budget, a shape P3 did not name |
+| P4 verdict | prompt | prompt | held |
+| P5 winning technique | subtract | subtract, six of six (and five of five in the void batch, D56) | held |
+| P6 T9 and T11 | 7 to 9 of 9 | not run | not scored |
+
+Failure shapes, predicted against observed per nine runs: forwarder
+confabulation 0 to 1, observed 0; Scribe rejections 1 to 3 per run,
+observed 3 to 6; Controller failure 0 to 1, observed 3, all budget;
+budget exhaustion 0, observed 3; role edits 0, observed 0; dangling
+references 1 to 2, observed 2; instantiating worker declining 0 to 1,
+observed 0. The one shape the pre-registration got wrong is the one that
+decided the pass count.
+
+### What the fleet did, stated so the verdict is not read as more than it is
+
+Across both batches, eleven Controller runs on T10 completed, and all
+eleven selected the candidate that edits the frozen file on the
+falsified justification, by subtract, and the instantiating floor
+worker applied it and passed the grader eleven times out of eleven. B0
+at the floor did the same twenty-two times out of twenty-four, and its
+two failures were the import-order monkeypatch its own critique step
+accepted (D47). The fleet's Critic in a separate context did not accept
+one in eleven. Eleven is too few to separate zero from two in
+twenty-four, so this is consistent with `SYSTEM.md` section 2's claim
+and not evidence for it. What the measurement does say is where the
+fleet fails: not on the reasoning, which P3 predicted would send some
+runs back to B0 and which never did, but on the budget, because a
+quick-mode run on this shape costs USD 2.7 in Controller calls, seven
+times B0's whole run, and one run in three needed more than the USD 3
+allowed.
+
+The prediction that mattered most, P3's mechanism, was wrong in the
+fleet's favour: the stop rule's "no unverified introduced premise"
+clause, which returned B0 in two of three toy runs, never fired in nine
+benchmark runs. The pre-registration's own sentence for this case
+applies: the fleet did what `SYSTEM.md` claims and did not pay for
+itself at this configuration.
+
+### The training signal (`SYSTEM.md` section 8, "log it from day one")
+
+T10, problem type as the Framer named it ("constrained bug fix; the
+constraint's stated reason is falsified" and near variants): winner
+subtract, eleven of eleven completed runs; re-represent and abduce
+candidates were generated in most runs and lost to subtract at Select or
+were returned by the Critic; B0 never won. One problem type, one task,
+one technique: a single row, not a distribution.
+
+### What would change the verdict
+
+The cost, not the pass rate. A Controller run would have to cost under
+USD 0.83 for the cost clause to be reachable at nine of nine; it costs
+USD 2.7, of which the Framer at `worker-opus-high` is USD 0.8 to 1.3
+(two to three calls) and Generate USD 0.4 to 1.2. Halving the Framer's
+calls and running two generators instead of three would land near USD
+1.5, still above the ceiling. The configuration is `ROLES.md`'s prior,
+measured here for the first time; retuning it on this result and
+re-measuring would be a new pre-registration, not an amendment to this
+one, and the plan does not schedule it. Stage 12 proceeds on "prompt".
+
+Cost of the stage: USD 26.42 for the batch that counts, USD 15.4 for
+the void batch (D56, including the partial runs' Controller calls),
+USD 0.27 for E26, USD 2.27 for the pilot: about USD 44 against the
+plan's USD 15 to 55.
+
+Reversal: a pre-registered re-run at a configuration whose projected
+cost per run is under USD 1.2, clearing nine of nine on T10 at that
+cost. None is scheduled.
