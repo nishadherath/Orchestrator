@@ -120,6 +120,7 @@ class RunDirs:
         self.budget = root / "budget.jsonl"
         self.digests = root / "digests.md"
         self.records = root / "records"
+        self.rejections = root / "rejections.jsonl"
 
     def create(self) -> None:
         self.root.mkdir(parents=True, exist_ok=False)
@@ -209,7 +210,20 @@ class Scribe:
             (self.dirs.records / f"{record['id']}.json").write_text(
                 json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
             accepted.append(record)
+        if rejected:
+            self._log_rejections(rejected, writer_role)
         return accepted, rejected
+
+    def _log_rejections(self, rejected: list["ScribeRejection"], writer_role: str) -> None:
+        """A rejection is not a crash, but it should never be silent: without
+        this, the only trace of what a role actually returned is the count in
+        _one_of's RuntimeError, and a live run's first FrameRecord rejection
+        (2026-09-14) had to be re-run blind to find out why. Appended
+        regardless of whether the caller retries or gives up."""
+        with self.dirs.rejections.open("a", encoding="utf-8") as f:
+            for rej in rejected:
+                f.write(json.dumps({"writer_role": writer_role, "record": rej.record, "reasons": rej.reasons},
+                                    ensure_ascii=False) + "\n")
 
     def _check_ownership(self, record: dict, writer_role: str, expected_types: set[str]) -> list[str]:
         rtype = record.get("type")
@@ -264,6 +278,7 @@ class Scribe:
 class RoleReply:
     records: list[dict]
     budget_entry: dict | None   # None for the fake runner's zero-cost calls
+    unparsed: list[str] = dataclasses.field(default_factory=list)  # lines that failed to parse as JSON
 
 
 class RoleRunner(Protocol):
@@ -294,12 +309,12 @@ class LiveRoleRunner:
         res = claudep.call_claude(prompt, cwd=self.project, model=model, effort=effort,
                                    permission_args=claudep.FORWARDER_PERMISSION_ARGS,
                                    max_budget_usd=cap, timeout=timeout)
-        records = _parse_jsonl_reply(res.result)
+        records, unparsed = _parse_jsonl_reply(res.result)
         usage = res.extras.get("usage", {}) or {}
         entry = {"type": "BudgetEntry", "phase": phase, "role": role, "cell": f"worker-{model}-{effort}",
                   "cost_usd": res.cost_usd or 0.0, "tokens_in": usage.get("input_tokens", 0),
                   "tokens_out": usage.get("output_tokens", 0), "wall_clock_s": round(res.elapsed_s, 1)}
-        return RoleReply(records=records, budget_entry=entry)
+        return RoleReply(records=records, budget_entry=entry, unparsed=unparsed)
 
     def classify(self, phase: str, prompt: str, schema: dict, default: dict) -> tuple[dict, dict | None]:
         if self.remaining_budget() <= 0:
@@ -349,19 +364,48 @@ class FakeRoleRunner:
         return self.classify_script.get(phase, default), None
 
 
-def _parse_jsonl_reply(text: str) -> list[dict]:
-    """Parse a reply as one JSON object per line, tolerating a code fence
-    the prompt's OUTPUT_RULE forbade but a role sometimes sends anyway
-    (observed in role_probe.py's Stage 9.7 runs)."""
-    records = []
-    for line in text.strip().splitlines():
-        line = line.strip()
-        if not line or line.startswith("```"):
+def _parse_jsonl_reply(text: str) -> tuple[list[dict], list[str]]:
+    """Parse a reply as a sequence of JSON objects, using
+    `JSONDecoder.raw_decode()` to find each object's end rather than
+    splitting on newlines and calling `json.loads()` per line.
+
+    A naive per-line split silently dropped every record in a live run
+    (2026-09-14): OUTPUT_RULE asks for one JSON object per line, the
+    Framer complied for its short PremiseRecords but pretty-printed its
+    much longer FrameRecord across several lines, and every one of those
+    lines failed `json.loads()` on its own and was skipped without a
+    trace, taking the run's only FrameRecord with it. `raw_decode` consumes
+    a complete object regardless of embedded newlines, so this shape parses
+    correctly instead of silently vanishing. Also tolerates a code fence
+    OUTPUT_RULE forbade but a role sometimes sends anyway.
+
+    Returns `(records, unparsed_fragments)`: the second list is what did
+    not parse, one entry per line skipped, so a caller can log it instead
+    of it disappearing the way it did before this fix."""
+    decoder = json.JSONDecoder()
+    records: list[dict] = []
+    unparsed: list[str] = []
+    i, n = 0, len(text)
+    while i < n:
+        while i < n and text[i] in " \t\r\n":
+            i += 1
+        if i >= n:
+            break
+        if text[i] == "`":
+            nl = text.find("\n", i)
+            i = n if nl == -1 else nl + 1
             continue
         try:
-            records.append(json.loads(line))
+            obj, end = decoder.raw_decode(text, i)
+            records.append(obj)
+            i = end
         except json.JSONDecodeError:
-            continue
+            nl = text.find("\n", i)
+            fragment = text[i:nl if nl != -1 else n].strip()
+            if fragment:
+                unparsed.append(fragment)
+            i = n if nl == -1 else nl + 1
+    return records, unparsed
     return records
 
 
@@ -573,6 +617,13 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         if reply.budget_entry is not None:
             spent["usd"] += reply.budget_entry["cost_usd"]
             scribe.write([reply.budget_entry], writer_role="controller", expected_types={"BudgetEntry"})
+        if reply.unparsed:
+            phase = reply.budget_entry["phase"] if reply.budget_entry else "unknown"
+            role = reply.budget_entry["role"] if reply.budget_entry else "unknown"
+            with dirs.rejections.open("a", encoding="utf-8") as f:
+                for fragment in reply.unparsed:
+                    f.write(json.dumps({"phase": phase, "role": role, "unparsed_fragment": fragment[:2000]},
+                                        ensure_ascii=False) + "\n")
         return reply.records
 
     def call(phase: str, role: str, prompt: str) -> list[dict]:
@@ -779,8 +830,8 @@ def _premise_cap_note(frame: dict) -> str:
 def _one_of(records: list[dict], record_type: str | None, label: str, allow_type_check: bool = True) -> dict:
     matches = [r for r in records if not allow_type_check or r["type"] == record_type]
     if len(matches) != 1:
-        raise RuntimeError(f"{label}: expected exactly one record, got {len(matches)} "
-                           f"(after Scribe validation and retry)")
+        raise RuntimeError(f"{label}: expected exactly one record, got {len(matches)} (after Scribe "
+                           "validation and retry); see this run's rejections.jsonl for what was rejected and why")
     return matches[0]
 
 
@@ -915,6 +966,33 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
             problems.append(msg)
         elif verbose:
             print(f"ok: {msg}")
+
+    # --- Scenario 0: _parse_jsonl_reply survives a pretty-printed record ---
+    # Direct regression test for the live bug (2026-09-14): a naive
+    # line-splitting parser silently dropped a FrameRecord the Framer
+    # pretty-printed across several lines, while single-line PremiseRecords
+    # on either side of it parsed fine. No temp directory needed.
+    mixed_reply = (
+        '{"type": "PremiseRecord", "id": "prem-001", "text": "short, one line"}\n'
+        "```\n"  # a code fence OUTPUT_RULE forbids but is tolerated
+        "{\n"
+        '  "type": "FrameRecord",\n'
+        '  "id": "frame-001",\n'
+        '  "goal_ladder": [\n'
+        '    "line one",\n'
+        '    "line two"\n'
+        "  ]\n"
+        "}\n"
+        "not json at all, a stray line\n"
+        '{"type": "CandidateRecord", "id": "cand-001", "technique": "b0"}\n'
+    )
+    records, unparsed = _parse_jsonl_reply(mixed_reply)
+    check([r["type"] for r in records] == ["PremiseRecord", "FrameRecord", "CandidateRecord"],
+          f"scenario 0: a pretty-printed record parses alongside single-line ones, got types {[r.get('type') for r in records]}")
+    check(records[1].get("goal_ladder") == ["line one", "line two"],
+          f"scenario 0: the pretty-printed record's own multi-line array survives intact, got {records[1].get('goal_ladder')}")
+    check(unparsed == ["not json at all, a stray line"],
+          f"scenario 0: the one genuinely non-JSON line is reported, not silently dropped, got {unparsed}")
 
     with tempfile.TemporaryDirectory(prefix="system-controller-selftest-") as tmp:
         tmp_path = Path(tmp)
@@ -1083,7 +1161,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
         if ok:
-            print("selftest: PASS, 7 scenarios")
+            print("selftest: PASS, 8 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:

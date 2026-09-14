@@ -2551,3 +2551,75 @@ before Stage 11 can mean anything.
 
 Reversal: none needed; the fixes are structural and the selftest addition
 locks them in.
+
+## 2026-09-14 D50. Second live crash: a naive line-by-line JSON parser silently dropped a pretty-printed record, with no trace left to diagnose it from
+
+Decision: the second live run crashed at the same kind of place as the
+first (D49), `RuntimeError: Frame: expected exactly one record, got 0`, but
+for a different reason, and this entry records both the bug and a real gap
+this session found in its own diagnostics while chasing it: the run left
+no evidence of what the Framer actually returned.
+
+**What was on the ledger.** Twelve `PremiseRecord`s, correctly formed and
+committed, and nothing else: no `FrameRecord`, no `CandidateRecord`, no
+`dig-002`. `write_with_retry`'s one retry attempt did not recover a
+`FrameRecord` either.
+
+**Why this could not be diagnosed from the run's own output.** Nothing in
+`tools/system_controller.py` recorded a rejected record's content or the
+reason it was rejected; a rejection just vanished into the count `_one_of`
+raised on. Fixed first, before the actual parsing bug: `Scribe.write()` now
+appends every rejection, with its full content and reasons, to a new
+`rejections.jsonl` in the run directory, and `_one_of`'s error message
+points to it. This alone would not have found the bug below, because the
+missing records were never rejected by the Scribe at all; they never
+reached it.
+
+**The diagnosed cause.** `_parse_jsonl_reply` (until this fix) split the
+reply on newlines and called `json.loads()` on each line, silently
+skipping any line that failed to parse. `OUTPUT_RULE` asks for one JSON
+object per line; the twelve `PremiseRecord`s that did arrive are short and
+plausibly stayed on one line each, but a `FrameRecord` carries `goal_ladder`
+and `acceptance_criteria` arrays and several long text fields, and a model
+asked for a large object not infrequently pretty-prints it. If it did here,
+every line of that object independently fails `json.loads()` and the whole
+record disappears without a trace, which matches what was on the ledger
+exactly: everything short survived, the one long, structurally complex
+record did not.
+
+This is stated as the diagnosed cause, not a confirmed one: the raw reply
+text was not preserved by the crashed run (a second gap the fix below also
+closes), so this is inference from what the parser's known failure mode
+predicts and what the ledger actually shows, not a read of the actual
+bytes that failed.
+
+**The fix.** `_parse_jsonl_reply` now uses `json.JSONDecoder.raw_decode()`
+to find each JSON object's end, which consumes a pretty-printed object
+correctly regardless of embedded newlines, rather than requiring one
+object per physical line. It also now returns what did not parse, and
+`system_controller.py` logs those fragments into the same
+`rejections.jsonl`, so a line that is genuinely not JSON (as opposed to a
+JSON object spanning several lines) is visible instead of silently gone.
+Two new `--selftest` scenarios lock this in: scenario 0 feeds the parser a
+short one-line record, a pretty-printed multi-line record with its own
+embedded array, a code fence, and one genuinely non-JSON line, and asserts
+all three real records parse and the one bad line is reported, not
+dropped; scenario 7 (added for D49) already covers the dissolution logic
+the first crash was in. `check.py`'s SYSTEM check description and the
+selftest's own count are updated to eight scenarios.
+
+**What this means for the two live runs so far.** Both crashes were in
+this module's own harness, not in the Framer's output: the first run's
+`FrameRecord` was well-formed against its own schema and was only
+mishandled downstream (D49); this run's apparent `FrameRecord` may equally
+have been well-formed and simply never survived parsing to be checked at
+all. Neither run is evidence about role quality one way or the other; both
+are now evidence that quick mode's plumbing needed exactly the kind of
+first real exercise Stage 10's exit criteria asked for before Stage 11 can
+mean anything.
+
+Reversal: if the next attempt still fails to produce a `FrameRecord` after
+this fix, `rejections.jsonl` will now hold either the actual rejected
+record and the Scribe's reason, or the unparsed fragment verbatim, and
+whichever it is settles this entry's diagnosis rather than requiring
+another guess.
