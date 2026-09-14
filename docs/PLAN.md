@@ -1276,9 +1276,15 @@ Tasks:
       shipping `.claude/B0_BRIEF.md`, `preflight.py` checking for it, and
       the README's layout. `generate_workers.py --check`: 15 definitions,
       0 drifted. Harness green, 20 checks.
-- [ ] 12.4 After-measurement: a reporting-grade run against the new table,
+- [x] 12.4 After-measurement: a reporting-grade run against the new table,
       compared fixture by fixture; any regression at the bar reopens the
       change.
+      Done 2026-09-15, `2026-09-15-routing-opus-9b5f64b-summary.md`: 162 of
+      162, every fixture nine of nine, against D45's 18 of 18 on F14 and
+      F16 and one admissible verdict on the other sixteen. No regression.
+      Cost per verdict USD 0.23 against 0.13 before, a platform-side shift
+      the same day's control against the old bundle reproduces (E27), not
+      the change.
 - [x] 12.5 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
       install per the dogfooding protocol.
       Done 2026-09-15, bundle `2026-09-15-9b5f64b`, before 12.4 as in Stage
