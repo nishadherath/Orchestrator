@@ -12,6 +12,9 @@ Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
   commands/
     workers.md                                      (the /workers status command)
   ORCHESTRATOR_VERSION                              (date and source commit)
+  B0_BRIEF.md                                       (the brief ORCHESTRATOR.md section 4
+                                                     prepends on its measured escalation
+                                                     trigger; read on demand, not loaded)
 ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md)
 README.md                                           (this file)
 preflight.py                                        (checks the settings below)
