@@ -16,7 +16,7 @@
     },
     "ledger_version": {
       "type": "integer",
-      "minimum": 1,
+      "minimum": 0,
       "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
     },
     "references": {
@@ -35,7 +35,7 @@
     },
     "context": {
       "type": "string",
-      "minLength": 1,
+      "minLength": 0,
       "maxLength": 2000,
       "description": "Context the requester supplied. Empty string if none."
     },
