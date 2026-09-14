@@ -58,6 +58,7 @@ RESULTS_DIR = REPO_ROOT / "test" / "results"
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
 import route as route_lib  # noqa: E402 (path must be set first); the two-stage classifier's resolver (D39)
+import claudep  # noqa: E402 (path must be set first); the claude -p plumbing shared with benchmark.py (task 10.1)
 
 BLOCKING_ENV = ("CLAUDE_CODE_EFFORT_LEVEL", "CLAUDE_CODE_SUBAGENT_MODEL_FORCE", "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS")
 
@@ -160,19 +161,8 @@ def load_fixtures(only: set[str] | None) -> list[dict]:
 
 def run_orchestrator(project: Path, model: str | None, prompt: str, dry_run: bool,
                       effort: str | None = None) -> tuple[str, float | None, str]:
-    cmd = ["claude", "-p", prompt, "--output-format", "json"]
-    if model:
-        cmd += ["--model", model]
-    if effort:
-        cmd += ["--effort", effort]
-    shown = " ".join(cmd[:2]) + " <prompt> " + " ".join(cmd[3:])
-    if dry_run:
-        return "", None, shown
-    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=project, timeout=300)
-    if proc.returncode != 0:
-        raise RuntimeError(f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}")
-    data = json.loads(proc.stdout)
-    return str(data.get("result", "")), data.get("total_cost_usd"), shown
+    res = claudep.call_claude(prompt, cwd=project, model=model, effort=effort, dry_run=dry_run)
+    return res.result, res.cost_usd, res.cmd_shown
 
 
 def score_assess_only(fixture: dict, verdict: str) -> dict:
@@ -290,18 +280,11 @@ def score(fixture: dict, verdict: str) -> dict:
             "direction": direction, "parsed": bool(m), "raw": verdict.strip()[:200]}
 
 
-def bundle_tag(bundle: str) -> str:
-    """Short filesystem-safe identifier for a bundle, used in result filenames.
-
-    Result files are keyed by date, model and bundle. Without the bundle, two
-    runs of the same model on the same day silently overwrite each other, which
-    is exactly what happened on 2026-09-06 when the attractor experiment
-    clobbered the run it was meant to be compared against.
-    """
-    m = re.search(r"[0-9a-f]{7,40}", bundle)
-    if m:
-        return m.group(0)[:7]
-    return re.sub(r"[^A-Za-z0-9]+", "-", bundle).strip("-")[:20] or "unknown"
+# bundle_tag, unique_path and wilson_interval below were identical,
+# hand-duplicated copies of benchmark.py's own helpers; both now import them
+# from claudep.py (docs/PLAN.md task 10.1) so system_controller.py does not
+# need a third copy.
+bundle_tag = claudep.bundle_tag
 
 
 def only_tag(only: str | None) -> str:
@@ -319,25 +302,8 @@ def only_tag(only: str | None) -> str:
     return "-only-" + "+".join(sorted(set(only.split(","))))
 
 
-def unique_path(path: Path) -> Path:
-    """Return `path` unchanged if nothing is there yet, otherwise the first
-    `-2`, `-3`, ... variant that is free.
-
-    Last-resort guard, not a substitute for bundle_tag and only_tag above:
-    two runs can still share every one of date, model, bundle and --only (an
-    identical rerun later the same day). A script whose entire purpose is
-    recording evidence should never silently destroy evidence it already
-    recorded (D34).
-    """
-    if not path.exists():
-        return path
-    n = 2
-    while True:
-        candidate = path.with_name(f"{path.stem}-{n}{path.suffix}")
-        if not candidate.exists():
-            return candidate
-        n += 1
-
+unique_path = claudep.unique_path
+wilson_interval = claudep.wilson_interval
 
 REPORTING_THRESHOLD = 9  # runs; below this a result is steering, not reporting (D37, docs/DECISIONS.md)
 WILSON_BAR = 0.7  # the reporting bar's lower-bound requirement, matching benchmark.py
@@ -346,22 +312,6 @@ WILSON_BAR = 0.7  # the reporting bar's lower-bound requirement, matching benchm
 def run_grade(runs: int) -> str:
     """steering below REPORTING_THRESHOLD runs, reporting at or above it (D37)."""
     return "reporting" if runs >= REPORTING_THRESHOLD else "steering"
-
-
-def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
-    """95 percent Wilson score interval for a binomial proportion, z=1.96 by default.
-
-    Preferred here over a normal approximation because it stays inside [0, 1]
-    and is not degenerate at n=0 or at successes in {0, n}, all of which occur
-    with the small run counts this script is used at.
-    """
-    if n == 0:
-        return (0.0, 1.0)
-    p_hat = successes / n
-    denom = 1 + z * z / n
-    centre = (p_hat + z * z / (2 * n)) / denom
-    margin = (z / denom) * ((p_hat * (1 - p_hat) / n + z * z / (4 * n * n)) ** 0.5)
-    return (max(0.0, centre - margin), min(1.0, centre + margin))
 
 
 def render(rows: list[dict], meta: dict) -> str:

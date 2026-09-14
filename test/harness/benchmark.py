@@ -57,16 +57,21 @@ import json
 import math
 import ntpath
 import os
-import re
 import shutil
 import subprocess
 import sys
-import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCH_FIXTURES = REPO_ROOT / "test" / "fixtures" / "benchmark"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
+
+# tools/ is put on sys.path so claudep resolves when this file runs as a
+# script (docs/PLAN.md task 10.1: the claude -p plumbing shared with
+# score_routing.py, factored out so system_controller.py has one place to
+# get it from rather than a third copy).
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+import claudep  # noqa: E402 (path must be set first)
 
 BLOCKING_ENV = ("CLAUDE_CODE_EFFORT_LEVEL", "CLAUDE_CODE_SUBAGENT_MODEL_FORCE", "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS")
 
@@ -94,28 +99,13 @@ REPORT_FILE = "BENCHMARK_REPORT.txt"
 # via --record). A dot-prefix keeps it out of any task's own file tree.
 CHECKPOINT_FILENAME = ".benchmark-checkpoint.jsonl"
 
-# claude -p starts in Manual permission mode by default (docs/en/permission-modes),
-# which blocks Edit and Bash with nobody present to approve them - confirmed the
-# hard way on the first real pilot run, where a spawned worker correctly reported
-# it had no write permission rather than silently doing nothing. acceptEdits
-# auto-approves file edits in the working directory; the explicit allowedTools
-# entry is for the one Bash command a task.md asks a worker to self-check with.
-# Whether this propagates from the forwarder session to a worker it spawns via
-# the Task tool is not confirmed by documentation alone (docs/FINDINGS.md); the
-# first run against this flag is the check.
-#
-# Both spellings of the interpreter are allowed. Until 2026-09-13 only
-# `python3 *` was, and two of T9's nine confirmation runs were voided by it
-# (D41): the worker typed `python -m unittest`, which is outside a `python3 *`
-# allowlist, was told the command "requires approval" with nobody present to
-# approve it, and correctly refused to fabricate the measurement it could not
-# take. Nothing in a task tells a worker which spelling to use, and on Windows
-# `python` is the common one. --dangerously-skip-permissions is
-# the documented pattern for "run fully unattended inside a container", but its
-# own warning restricts it to an isolated container or VM without internet
-# access, not a bare machine, so it is opt-in here, never the default.
-FORWARDER_PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *),Bash(python *)"]
-BYPASS_PERMISSION_ARGS = ["--dangerously-skip-permissions"]
+# Whether Manual mode's block propagates from the forwarder session to a
+# worker it spawns via the Task tool is not confirmed by documentation alone
+# (docs/FINDINGS.md); the first run against this flag was the check. The
+# flag values themselves, and D41's Windows-interpreter fix, now live in
+# claudep.py (task 10.1) so system_controller.py does not need a third copy.
+FORWARDER_PERMISSION_ARGS = claudep.FORWARDER_PERMISSION_ARGS
+BYPASS_PERMISSION_ARGS = claudep.BYPASS_PERMISSION_ARGS
 
 BENCHMARK_INSTRUCTION = (
     "\n\nThis is a benchmark run, not a real request. Spawn exactly one worker "
@@ -175,13 +165,7 @@ def fixture_fingerprint(task: dict) -> str:
     return h.hexdigest()
 
 
-def bundle_tag(bundle: str) -> str:
-    """Identical to score_routing.py's helper. Duplicated rather than shared,
-    because both scripts are meant to stand alone (see their docstrings)."""
-    m = re.search(r"[0-9a-f]{7,40}", bundle)
-    if m:
-        return m.group(0)[:7]
-    return re.sub(r"[^A-Za-z0-9]+", "-", bundle).strip("-")[:20] or "unknown"
+bundle_tag = claudep.bundle_tag
 
 
 def tasks_tag(tasks: str | None) -> str:
@@ -199,35 +183,14 @@ def tasks_tag(tasks: str | None) -> str:
     return "-tasks-" + "+".join(sorted(set(tasks.split(","))))
 
 
-def unique_path(path: Path) -> Path:
-    """Return `path` unchanged if nothing is there yet, otherwise the first
-    `-2`, `-3`, ... variant that is free.
-
-    Last-resort guard, not a substitute for bundle_tag and tasks_tag above:
-    two runs can still share every one of date, bundle and --tasks (an
-    identical rerun later the same day). A script whose entire purpose is
-    recording evidence should never silently destroy evidence it already
-    recorded (D34, D36)."""
-    if not path.exists():
-        return path
-    n = 2
-    while True:
-        candidate = path.with_name(f"{path.stem}-{n}{path.suffix}")
-        if not candidate.exists():
-            return candidate
-        n += 1
-
-
-def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
-    """95 percent Wilson score interval; see score_routing.py for the same
-    function with the same rationale. Duplicated, not imported, by design."""
-    if n == 0:
-        return (0.0, 1.0)
-    p_hat = successes / n
-    denom = 1 + z * z / n
-    centre = (p_hat + z * z / (2 * n)) / denom
-    margin = (z / denom) * ((p_hat * (1 - p_hat) / n + z * z / (4 * n * n)) ** 0.5)
-    return (max(0.0, centre - margin), min(1.0, centre + margin))
+# unique_path's last-resort collision guard, wilson_interval's Wilson score
+# interval, and rmtree_if_exists are identical to score_routing.py's own
+# copies (unique_path, wilson_interval) or trivial (rmtree_if_exists); all
+# three now live in claudep.py so system_controller.py does not need a
+# fourth (task 10.1).
+unique_path = claudep.unique_path
+wilson_interval = claudep.wilson_interval
+rmtree_if_exists = claudep.rmtree_if_exists
 
 
 def steer_threshold(n: int, fraction: float) -> int:
@@ -235,11 +198,6 @@ def steer_threshold(n: int, fraction: float) -> int:
     fraction=2/3 gives 2, matching docs/BENCHMARK-DESIGN.md's stated '2 of 3'
     exactly. Other n scale the same ratio, rounded up."""
     return math.ceil(n * fraction)
-
-
-def rmtree_if_exists(path: Path) -> None:
-    if path.exists():
-        shutil.rmtree(path)
 
 
 def seed_task(project: Path, task: dict) -> Path:
@@ -283,15 +241,9 @@ def run_cell(project: Path, cell: str, task_text: str, workdir_rel: str,
     given cell on the task, scoped to workdir_rel. Returns (report text, cost
     in USD or None, wall-clock seconds, raw JSON extras worth recording)."""
     prompt = BENCHMARK_INSTRUCTION.format(cell=cell, workdir=workdir_rel, task=task_text)
-    cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", forwarder_model, *permission_args]
-    start = time.monotonic()
-    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=project, timeout=timeout)
-    elapsed = time.monotonic() - start
-    if proc.returncode != 0:
-        raise RuntimeError(f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}")
-    data = json.loads(proc.stdout)
-    extras = {k: data.get(k) for k in ("usage", "duration_ms", "num_turns") if k in data}
-    return str(data.get("result", "")), data.get("total_cost_usd"), elapsed, extras
+    res = claudep.call_claude(prompt, cwd=project, model=forwarder_model,
+                               permission_args=permission_args, timeout=timeout)
+    return res.result, res.cost_usd, res.elapsed_s, res.extras
 
 
 def _wsl_mount_path(path: Path) -> str | None:
@@ -404,79 +356,19 @@ CHECKPOINT_IDENTITY_FIELDS = ("tasks", "r_search", "r_confirm", "steer_fraction"
                               "permission_mode", "bundle", "brief")
 
 
-class Checkpoint:
-    """Every completed run, appended to disk the moment it finishes, so an
-    interrupted invocation (network drop, machine sleep, Ctrl-C) can resume
-    mid-task, mid-cell, or mid-run on the next invocation instead of
-    discarding already-paid-for work back to the start. search() and
-    confirm() consult prior_runs() before making a call they might not need
-    to repeat, and call record() the moment each new one returns.
-
-    The file is JSON Lines: one {"kind": "meta", ...} header written once,
-    then one {"kind": "run", ...} line per completed run. A line that fails
-    to parse (a partial write from a hard kill mid-append) is skipped with a
-    warning rather than aborting the whole resume; everything before it is
-    still trusted."""
-
-    def __init__(self, path: Path):
-        self.path = path
-        self._runs: dict[tuple[str, str, str], list[dict]] = {}
-
-    def prior_runs(self, task_id: str, phase: str, cell: str) -> list[dict]:
-        return self._runs.get((task_id, phase, cell), [])
-
-    def total_runs(self) -> int:
-        return sum(len(v) for v in self._runs.values())
-
-    def record(self, task_id: str, phase: str, cell: str, result: dict) -> None:
-        self._runs.setdefault((task_id, phase, cell), []).append(result)
-        self._append({"kind": "run", "task": task_id, "phase": phase, "cell": cell, "result": result})
-
-    def write_meta(self, meta: dict) -> None:
-        self._append({"kind": "meta", "meta": meta})
-
-    def _append(self, row: dict) -> None:
-        with self.path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(row, default=str) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
-
-    @classmethod
-    def load(cls, path: Path) -> tuple["Checkpoint", dict | None]:
-        """Read an existing checkpoint, if any. Returns a Checkpoint
-        populated with whatever prior runs it holds, and its stored meta
-        dict (None if the file does not exist or has no meta line yet, e.g.
-        a fresh file about to be written to for the first time)."""
-        cp = cls(path)
-        meta = None
-        if not path.exists():
-            return cp, meta
-        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                row = json.loads(line)
-            except json.JSONDecodeError:
-                print(f"warning: {path} line {lineno} did not parse (a partial write from an "
-                      "interrupted run?); ignoring it, resuming from everything before it",
-                      file=sys.stderr)
-                continue
-            if row.get("kind") == "meta":
-                meta = row["meta"]
-            elif row.get("kind") == "run":
-                cp._runs.setdefault((row["task"], row["phase"], row["cell"]), []).append(row["result"])
-        return cp, meta
+# Checkpoint (append-only resumable run log, keyed by task/phase/cell here)
+# now lives in claudep.py so system_controller.py's own resumable state does
+# not need a third hand-copied version (task 10.1). Behaviour, including the
+# JSONL shape already on disk in every consumer project, is unchanged: this
+# repository's benchmark.py is still the only writer of that shape.
+Checkpoint = claudep.Checkpoint
 
 
 def describe_checkpoint_mismatch(old: dict, new: dict) -> list[str]:
     """Human-readable reasons an existing checkpoint's meta does not match
     this invocation, or its fixtures have changed underneath it. Empty means
     safe to resume."""
-    diffs = []
-    for key in CHECKPOINT_IDENTITY_FIELDS:
-        if old.get(key) != new.get(key):
-            diffs.append(f"{key}: checkpoint has {old.get(key)!r}, this invocation has {new.get(key)!r}")
+    diffs = claudep.describe_identity_mismatch(old, new, CHECKPOINT_IDENTITY_FIELDS)
     old_hashes, new_hashes = old.get("fixture_hashes", {}), new.get("fixture_hashes", {})
     changed = sorted(t for t in set(old_hashes) & set(new_hashes) if old_hashes[t] != new_hashes[t])
     if changed:
