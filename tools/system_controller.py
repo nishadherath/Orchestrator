@@ -107,6 +107,22 @@ MAX_VERIFY_PASSES = 2      # quick mode: one pass, plus one more if Frame's
                            # update surfaces a newly-checkable premise
 MAX_RECORD_RETRIES = 1     # bounded re-ask on a Scribe rejection (E24: roles
                            # slip on shape and length caps, not on content)
+ROLE_CALL_FLOOR_USD = 0.50 # below this much budget left, no role is called:
+                           # the cheapest role call (Select) measured USD 0.10
+                           # to 0.23 and the dearest (Framer, Critic) up to
+                           # 0.9, so a call could not finish and would only
+                           # spend the remainder on a partial reply (D58)
+ROLE_CALL_CAP_USD = 2.0    # --max-budget-usd on every role call: a backstop
+                           # against one runaway call, never the remaining
+                           # budget, since the flag's own accounting runs
+                           # over 2x a call's reported cost (E26) and
+                           # aborted three runs' last calls live (D58)
+
+
+class BudgetExhausted(RuntimeError):
+    """The run's budget cannot cover another role call. run_quick turns this
+    into the gap report SYSTEM.md's termination rule names ("budget
+    spent"), instead of the crash it was in the first fleet batch."""
 
 
 # --------------------------------------------------------------------------
@@ -331,10 +347,17 @@ class LiveRoleRunner:
 
     def __call__(self, phase: str, role: str, prompt: str, *, timeout: float) -> RoleReply:
         model, effort = QUICK_CELLS[role]
-        cap = max(0.01, min(2.0, self.remaining_budget()))
-        res = claudep.call_claude(prompt, cwd=self.project, model=model, effort=effort,
-                                   permission_args=claudep.FORWARDER_PERMISSION_ARGS,
-                                   max_budget_usd=cap, timeout=timeout)
+        remaining = self.remaining_budget()
+        if remaining < ROLE_CALL_FLOOR_USD:
+            raise BudgetExhausted(f"USD {remaining:.4f} left, under the USD {ROLE_CALL_FLOOR_USD:.2f} a role call needs")
+        try:
+            res = claudep.call_claude(prompt, cwd=self.project, model=model, effort=effort,
+                                       permission_args=claudep.FORWARDER_PERMISSION_ARGS,
+                                       max_budget_usd=ROLE_CALL_CAP_USD, timeout=timeout)
+        except RuntimeError as exc:
+            if "error_max_budget_usd" in str(exc):
+                raise BudgetExhausted(f"the platform cap of USD {ROLE_CALL_CAP_USD:.2f} aborted one {role} call") from exc
+            raise
         records, unparsed = _parse_jsonl_reply(res.result)
         usage = res.extras.get("usage", {}) or {}
         entry = {"type": "BudgetEntry", "phase": phase, "role": role, "cell": f"worker-{model}-{effort}",
@@ -746,181 +769,193 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
                 accepted += more_accepted
         return accepted
 
-    # ---- 1. Intake (code) ----
-    problem_record = {"type": "ProblemRecord", "statement": problem_text, "context": "",
-                       "constraints": [], "budget_usd": budget_usd, "mode": "quick", "acceptance_criteria": [],
-                       "ledger_version": 0, "references": []}
-    accepted, rej = scribe.write([problem_record], writer_role="controller", expected_types={"ProblemRecord"})
-    assert accepted and not rej, f"ProblemRecord rejected: {rej}"
-    problem = accepted[0]
-    write_digest(scribe, dirs, "intake", "Problem recorded verbatim; nothing judged yet.", [problem])
+    def phases() -> RunResult:
+        # ---- 1. Intake (code) ----
+        problem_record = {"type": "ProblemRecord", "statement": problem_text, "context": "",
+                           "constraints": [], "budget_usd": budget_usd, "mode": "quick", "acceptance_criteria": [],
+                           "ledger_version": 0, "references": []}
+        accepted, rej = scribe.write([problem_record], writer_role="controller", expected_types={"ProblemRecord"})
+        assert accepted and not rej, f"ProblemRecord rejected: {rej}"
+        problem = accepted[0]
+        write_digest(scribe, dirs, "intake", "Problem recorded verbatim; nothing judged yet.", [problem])
 
-    if (r := check_budget("intake")):
-        return r
+        if (r := check_budget("intake")):
+            return r
 
-    # ---- 2. Frame ----
-    frame_records = call("frame", "framer", build_frame_prompt(problem, [], []))
-    accepted = write_with_retry("frame", "framer", frame_records, {"PremiseRecord", "FrameRecord", "CandidateRecord"},
-                                 lambda rej: _retry_prompt(build_frame_prompt(problem, [], []), rej))
-    frame = _one_of(accepted, "FrameRecord", "Frame")
-    b0 = _one_of([r for r in accepted if r["type"] == "CandidateRecord" and r.get("technique") == "b0"],
-                 None, "Frame's B0 candidate", allow_type_check=False)
-    write_digest(scribe, dirs, "frame", f"Ledger v1: {len(scribe.premises(1))} premises, problem type "
-                 f"{frame.get('problem_type')!r}, dissolution {frame.get('dissolution_verdict')!r}."
-                 f"{_premise_cap_note(frame)}", accepted)
+        # ---- 2. Frame ----
+        frame_records = call("frame", "framer", build_frame_prompt(problem, [], []))
+        accepted = write_with_retry("frame", "framer", frame_records, {"PremiseRecord", "FrameRecord", "CandidateRecord"},
+                                     lambda rej: _retry_prompt(build_frame_prompt(problem, [], []), rej))
+        frame = _one_of(accepted, "FrameRecord", "Frame")
+        b0 = _one_of([r for r in accepted if r["type"] == "CandidateRecord" and r.get("technique") == "b0"],
+                     None, "Frame's B0 candidate", allow_type_check=False)
+        write_digest(scribe, dirs, "frame", f"Ledger v1: {len(scribe.premises(1))} premises, problem type "
+                     f"{frame.get('problem_type')!r}, dissolution {frame.get('dissolution_verdict')!r}."
+                     f"{_premise_cap_note(frame)}", accepted)
 
-    if frame["dissolution_verdict"] == "dissolved":
-        gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
-        return finish("dissolved", gap)
-    if (r := check_budget("frame")):
-        return r
-
-    # ---- 3. Verify loop ----
-    for _ in range(MAX_VERIFY_PASSES):
-        unverified = [p for p in scribe.premises() if p["class"] == "unverified"]
-        if not unverified:
-            break
-        measurements: list[dict] = []
-        for premise in unverified:
-            recs = call("verify", "verifier", build_verify_prompt(problem, premise, project))
-            measurements += write_with_retry(
-                "verify", "verifier", recs, {"MeasurementRecord"},
-                lambda rej, premise=premise: _retry_prompt(build_verify_prompt(problem, premise, project), rej))
-        if not measurements:
-            break
-        prior_ledger = [problem, frame, *scribe.premises(), b0]
-        recs = call("frame", "framer", build_frame_prompt(problem, measurements, prior_ledger))
-        accepted = write_with_retry("frame", "framer", recs, {"PremiseRecord", "FrameRecord"},
-                                     lambda rej: _retry_prompt(build_frame_prompt(problem, measurements, prior_ledger), rej))
-        new_frame = _one_of(accepted, "FrameRecord", "Frame re-entry")
-        frame = new_frame
-        write_digest(scribe, dirs, "verify", f"{len(measurements)} measurement(s); ledger v{frame['ledger_version']}, "
-                     f"stable={frame['stable']}.{_premise_cap_note(frame)}", accepted + measurements)
         if frame["dissolution_verdict"] == "dissolved":
             gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
             return finish("dissolved", gap)
-        if (r := check_budget("verify")):
-            return r
-        if frame["stable"]:
-            break
-
-    # ---- Controller call 1: is the ledger stable enough to freeze? (10.5) ----
-    stable = classify("controller-stability", build_stability_prompt(scribe.premises(), frame), STABILITY_SCHEMA,
-                       default={"stable": frame["stable"], "reasoning": "fallback to FrameRecord.stable"})
-    write_digest(scribe, dirs, "controller-stability", f"Controller classifies stable={stable['stable']}: "
-                 f"{stable['reasoning'][:200]}", [])
-    if (r := check_budget("controller-stability")):
-        return r
-
-    # ---- Controller call 2: which technique families? (10.5) ----
-    families = classify("controller-families", build_families_prompt(problem, frame), FAMILIES_SCHEMA,
-                         default={"families": list(TECHNIQUE_FAMILIES), "reasoning": "fallback: run all three"})
-    chosen_families = families.get("families") or list(TECHNIQUE_FAMILIES)
-    write_digest(scribe, dirs, "controller-families", f"Controller selects {chosen_families}: "
-                 f"{families['reasoning'][:200]}", [])
-    if (r := check_budget("controller-families")):
-        return r
-
-    # ---- 4-6. Generate / Critique / Select, one tier, bounded reframe ----
-    reframes = 0
-    while True:
-        ledger_slice = [problem, frame, *scribe.premises(), b0]
-
-        # Only the subprocess call itself runs inside the pool's worker
-        # threads: raw_call touches no shared state. Writing each family's
-        # candidates to the Scribe happens back here, sequentially, once
-        # pool.map has returned every reply, so only this thread ever
-        # assigns an id or appends to the ledger (see raw_call's docstring).
-        def gen_one(family: str) -> RoleReply:
-            return raw_call("generate", "generator", build_generate_prompt(family, ledger_slice, []))
-
-        with ThreadPoolExecutor(max_workers=max(1, len(chosen_families))) as pool:
-            replies = list(pool.map(gen_one, chosen_families))
-        generated: list[dict] = []
-        for family, reply in zip(chosen_families, replies):
-            recs = commit_reply(reply)
-            generated += write_with_retry(
-                "generate", "generator", recs, {"CandidateRecord"},
-                lambda rej, family=family: _retry_prompt(build_generate_prompt(family, ledger_slice, []), rej))
-        candidates = [b0] + generated
-        write_digest(scribe, dirs, "generate", f"{len(candidates) - 1} candidate(s) from {chosen_families}, "
-                     "plus B0.", candidates[1:])
-        if (r := check_budget("generate")):
+        if (r := check_budget("frame")):
             return r
 
-        crit_records = call("critique", "critic", build_critique_prompt(ledger_slice, candidates))
-        critiques = write_with_retry(
-            "critique", "critic", crit_records, {"CritiqueRecord"},
-            lambda rej: _retry_prompt(build_critique_prompt(ledger_slice, candidates), rej))
-        write_digest(scribe, dirs, "critique", f"{len(critiques)} critique(s) for {len(candidates)} candidate(s).",
-                     critiques)
-        if (r := check_budget("critique")):
-            return r
-
-        falsified = [c for c in critiques if c.get("falsified_premise_claims")]
-        if falsified:
-            reframes += 1
-            if reframes > MAX_REFRAMES:
-                candidates, critiques = [b0], []
+        # ---- 3. Verify loop ----
+        for _ in range(MAX_VERIFY_PASSES):
+            unverified = [p for p in scribe.premises() if p["class"] == "unverified"]
+            if not unverified:
                 break
-            # SYSTEM.md section 3's control loop calls FRAME.update() on a
-            # falsified premise, not a code-only patch: phase gating (the
-            # generators that already ran cited the version now being
-            # superseded) only holds together if the correction goes
-            # through a genuine re-freeze, which is what mints the new
-            # ledger_version that scribe.premises() and the next
-            # Generate's stale-version check both key off. A cheaper,
-            # code-only premise flip was tried first and rejected in this
-            # module's own development: it leaves a corrected premise
-            # sitting above the still-frozen version, invisible to
-            # scribe.premises() until a FrameRecord actually advances the
-            # freeze, and candidates would go on citing a version whose
-            # premise set the Critic has already shown is wrong.
+            measurements: list[dict] = []
+            for premise in unverified:
+                recs = call("verify", "verifier", build_verify_prompt(problem, premise, project))
+                measurements += write_with_retry(
+                    "verify", "verifier", recs, {"MeasurementRecord"},
+                    lambda rej, premise=premise: _retry_prompt(build_verify_prompt(problem, premise, project), rej))
+            if not measurements:
+                break
             prior_ledger = [problem, frame, *scribe.premises(), b0]
-            recs = call("frame", "framer", build_frame_prompt(problem, [], prior_ledger, falsified))
+            recs = call("frame", "framer", build_frame_prompt(problem, measurements, prior_ledger))
             accepted = write_with_retry("frame", "framer", recs, {"PremiseRecord", "FrameRecord"},
-                                         lambda rej: _retry_prompt(build_frame_prompt(problem, [], prior_ledger, falsified), rej))
-            frame = _one_of(accepted, "FrameRecord", "Frame re-entry (reframe)")
-            write_digest(scribe, dirs, "reframe", f"Reframe {reframes}/{MAX_REFRAMES}: ledger v{frame['ledger_version']} "
-                         f"after {len(falsified)} falsified-premise critique(s).{_premise_cap_note(frame)}", accepted)
+                                         lambda rej: _retry_prompt(build_frame_prompt(problem, measurements, prior_ledger), rej))
+            new_frame = _one_of(accepted, "FrameRecord", "Frame re-entry")
+            frame = new_frame
+            write_digest(scribe, dirs, "verify", f"{len(measurements)} measurement(s); ledger v{frame['ledger_version']}, "
+                         f"stable={frame['stable']}.{_premise_cap_note(frame)}", accepted + measurements)
             if frame["dissolution_verdict"] == "dissolved":
                 gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
                 return finish("dissolved", gap)
-            if (r := check_budget("reframe")):
+            if (r := check_budget("verify")):
                 return r
-            continue
-        break
+            if frame["stable"]:
+                break
 
-    accept_map = {c["candidate_id"]: c for c in critiques}
-    passing = [c for c in candidates if c["id"] == b0["id"] or accept_map.get(c["id"], {}).get("verdict") == "pass"]
-    # STEPS.md / task 10.4's quick-mode stop rule: the first candidate
-    # surviving critique with no unverified load-bearing premise it
-    # introduces, else B0.
-    winner = next((c for c in passing if c["id"] != b0["id"]
-                   and not any(p.get("class") == "unverified" for p in c.get("premises_introduced", []))), None)
-    winner = winner or b0
+        # ---- Controller call 1: is the ledger stable enough to freeze? (10.5) ----
+        stable = classify("controller-stability", build_stability_prompt(scribe.premises(), frame), STABILITY_SCHEMA,
+                           default={"stable": frame["stable"], "reasoning": "fallback to FrameRecord.stable"})
+        write_digest(scribe, dirs, "controller-stability", f"Controller classifies stable={stable['stable']}: "
+                     f"{stable['reasoning'][:200]}", [])
+        if (r := check_budget("controller-stability")):
+            return r
 
-    sel_records = call("select", "selector", build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]))
-    selections = write_with_retry(
-        "select", "selector", sel_records, {"SelectionRecord"},
-        lambda rej: _retry_prompt(build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]), rej))
-    write_digest(scribe, dirs, "select", f"Winner (code, per the quick-mode stop rule): {winner['id']} "
-                 f"({winner.get('technique')}).", selections)
-    if (r := check_budget("select")):
-        return r
+        # ---- Controller call 2: which technique families? (10.5) ----
+        families = classify("controller-families", build_families_prompt(problem, frame), FAMILIES_SCHEMA,
+                             default={"families": list(TECHNIQUE_FAMILIES), "reasoning": "fallback: run all three"})
+        chosen_families = families.get("families") or list(TECHNIQUE_FAMILIES)
+        write_digest(scribe, dirs, "controller-families", f"Controller selects {chosen_families}: "
+                     f"{families['reasoning'][:200]}", [])
+        if (r := check_budget("controller-families")):
+            return r
 
-    # ---- 8. Close (code writes the SolutionRecord; no Instantiate in quick mode) ----
-    unverified_lb = [p["id"] for p in scribe.premises() if p["class"] == "unverified" and p.get("load_bearing")]
-    sol = {"type": "SolutionRecord", "candidate_id": winner["id"], "answer": winner.get("mechanism", ""),
-           "technique": winner.get("technique", "b0"), "unverified_load_bearing": unverified_lb,
-           "audit_trail": [problem["id"], frame["id"], winner["id"]], "problem_type": frame["problem_type"],
-           "ledger_version": frame["ledger_version"], "references": [winner["id"]]}
-    accepted, rej = scribe.write([sol], writer_role="librarian", expected_types={"SolutionRecord"})
-    assert accepted and not rej, f"SolutionRecord rejected: {rej}"
-    solution = accepted[0]
-    write_digest(scribe, dirs, "close", f"Closed with {winner['id']}; {len(unverified_lb)} unverified "
-                 "load-bearing premise(s) remain.", [solution])
-    return finish("solution", solution)
+        # ---- 4-6. Generate / Critique / Select, one tier, bounded reframe ----
+        reframes = 0
+        while True:
+            ledger_slice = [problem, frame, *scribe.premises(), b0]
+
+            # Only the subprocess call itself runs inside the pool's worker
+            # threads: raw_call touches no shared state. Writing each family's
+            # candidates to the Scribe happens back here, sequentially, once
+            # pool.map has returned every reply, so only this thread ever
+            # assigns an id or appends to the ledger (see raw_call's docstring).
+            def gen_one(family: str) -> RoleReply:
+                return raw_call("generate", "generator", build_generate_prompt(family, ledger_slice, []))
+
+            with ThreadPoolExecutor(max_workers=max(1, len(chosen_families))) as pool:
+                replies = list(pool.map(gen_one, chosen_families))
+            generated: list[dict] = []
+            for family, reply in zip(chosen_families, replies):
+                recs = commit_reply(reply)
+                generated += write_with_retry(
+                    "generate", "generator", recs, {"CandidateRecord"},
+                    lambda rej, family=family: _retry_prompt(build_generate_prompt(family, ledger_slice, []), rej))
+            candidates = [b0] + generated
+            write_digest(scribe, dirs, "generate", f"{len(candidates) - 1} candidate(s) from {chosen_families}, "
+                         "plus B0.", candidates[1:])
+            if (r := check_budget("generate")):
+                return r
+
+            crit_records = call("critique", "critic", build_critique_prompt(ledger_slice, candidates))
+            critiques = write_with_retry(
+                "critique", "critic", crit_records, {"CritiqueRecord"},
+                lambda rej: _retry_prompt(build_critique_prompt(ledger_slice, candidates), rej))
+            write_digest(scribe, dirs, "critique", f"{len(critiques)} critique(s) for {len(candidates)} candidate(s).",
+                         critiques)
+            if (r := check_budget("critique")):
+                return r
+
+            falsified = [c for c in critiques if c.get("falsified_premise_claims")]
+            if falsified:
+                reframes += 1
+                if reframes > MAX_REFRAMES:
+                    candidates, critiques = [b0], []
+                    break
+                # SYSTEM.md section 3's control loop calls FRAME.update() on a
+                # falsified premise, not a code-only patch: phase gating (the
+                # generators that already ran cited the version now being
+                # superseded) only holds together if the correction goes
+                # through a genuine re-freeze, which is what mints the new
+                # ledger_version that scribe.premises() and the next
+                # Generate's stale-version check both key off. A cheaper,
+                # code-only premise flip was tried first and rejected in this
+                # module's own development: it leaves a corrected premise
+                # sitting above the still-frozen version, invisible to
+                # scribe.premises() until a FrameRecord actually advances the
+                # freeze, and candidates would go on citing a version whose
+                # premise set the Critic has already shown is wrong.
+                prior_ledger = [problem, frame, *scribe.premises(), b0]
+                recs = call("frame", "framer", build_frame_prompt(problem, [], prior_ledger, falsified))
+                accepted = write_with_retry("frame", "framer", recs, {"PremiseRecord", "FrameRecord"},
+                                             lambda rej: _retry_prompt(build_frame_prompt(problem, [], prior_ledger, falsified), rej))
+                frame = _one_of(accepted, "FrameRecord", "Frame re-entry (reframe)")
+                write_digest(scribe, dirs, "reframe", f"Reframe {reframes}/{MAX_REFRAMES}: ledger v{frame['ledger_version']} "
+                             f"after {len(falsified)} falsified-premise critique(s).{_premise_cap_note(frame)}", accepted)
+                if frame["dissolution_verdict"] == "dissolved":
+                    gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
+                    return finish("dissolved", gap)
+                if (r := check_budget("reframe")):
+                    return r
+                continue
+            break
+
+        accept_map = {c["candidate_id"]: c for c in critiques}
+        passing = [c for c in candidates if c["id"] == b0["id"] or accept_map.get(c["id"], {}).get("verdict") == "pass"]
+        # STEPS.md / task 10.4's quick-mode stop rule: the first candidate
+        # surviving critique with no unverified load-bearing premise it
+        # introduces, else B0.
+        winner = next((c for c in passing if c["id"] != b0["id"]
+                       and not any(p.get("class") == "unverified" for p in c.get("premises_introduced", []))), None)
+        winner = winner or b0
+
+        sel_records = call("select", "selector", build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]))
+        selections = write_with_retry(
+            "select", "selector", sel_records, {"SelectionRecord"},
+            lambda rej: _retry_prompt(build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]), rej))
+        write_digest(scribe, dirs, "select", f"Winner (code, per the quick-mode stop rule): {winner['id']} "
+                     f"({winner.get('technique')}).", selections)
+        if (r := check_budget("select")):
+            return r
+
+        # ---- 8. Close (code writes the SolutionRecord; no Instantiate in quick mode) ----
+        unverified_lb = [p["id"] for p in scribe.premises() if p["class"] == "unverified" and p.get("load_bearing")]
+        sol = {"type": "SolutionRecord", "candidate_id": winner["id"], "answer": winner.get("mechanism", ""),
+               "technique": winner.get("technique", "b0"), "unverified_load_bearing": unverified_lb,
+               "audit_trail": [problem["id"], frame["id"], winner["id"]], "problem_type": frame["problem_type"],
+               "ledger_version": frame["ledger_version"], "references": [winner["id"]]}
+        accepted, rej = scribe.write([sol], writer_role="librarian", expected_types={"SolutionRecord"})
+        assert accepted and not rej, f"SolutionRecord rejected: {rej}"
+        solution = accepted[0]
+        write_digest(scribe, dirs, "close", f"Closed with {winner['id']}; {len(unverified_lb)} unverified "
+                     "load-bearing premise(s) remain.", [solution])
+        return finish("solution", solution)
+
+    try:
+        return phases()
+    except BudgetExhausted as exc:
+        # SYSTEM.md's termination rule "budget spent": close with a gap
+        # report rather than a traceback. The first fleet batch lost three
+        # runs to the traceback form (D58).
+        gap = _gap_report(scribe, "budget_spent")
+        write_digest(scribe, dirs, "close", f"Budget exhausted after USD {spent['usd']:.4f} of {budget_usd:.4f}: "
+                     f"{exc}. Stopping with a gap report.", [gap])
+        return finish("gap", gap)
 
 
 def _premise_cap_note(frame: dict) -> str:
@@ -1318,6 +1353,26 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
         check(any(r["type"] == "SelectionRecord" for r in ledger9),
               "scenario 9: a corrected SelectionRecord should reach the ledger after one retry, got none")
 
+        # --- Scenario 10: a role runner out of budget closes with a gap ---
+        # Direct regression test for the second fleet batch (D58): three
+        # runs died with a traceback when the platform aborted their last
+        # role call on budget. BudgetExhausted from the runner must end the
+        # run as a GapReport with termination budget_spent, REPORT.md and
+        # all, not propagate.
+        class BrokeRunner(FakeRoleRunner):
+            def __call__(self, phase, role, prompt, *, timeout):
+                if phase == "critique":
+                    raise BudgetExhausted("USD 0.2000 left, under the USD 0.50 a role call needs")
+                return super().__call__(phase, role, prompt, timeout=timeout)
+        runner10 = BrokeRunner(_happy_path_script())
+        result10 = run_quick("Duplicate accounts from whitespace; legacy_ids.py is frozen.", tmp_path,
+                              budget_usd=5.0, timeout=30, runner_factory=lambda _r: runner10, run_id="s10")
+        check(result10.outcome == "gap" and result10.record.get("termination") == "budget_spent",
+              f"scenario 10: BudgetExhausted closes as a budget_spent gap, got {result10.outcome!r} "
+              f"{result10.record.get('termination')!r}")
+        check((result10.run_dir / "REPORT.md").exists() and "budget_spent" in (result10.run_dir / "REPORT.md").read_text(encoding="utf-8"),
+              "scenario 10: the gap run still writes REPORT.md naming the termination")
+
     return (not problems, problems)
 
 
@@ -1340,7 +1395,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
         if ok:
-            print("selftest: PASS, 10 scenarios")
+            print("selftest: PASS, 11 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:

@@ -3041,3 +3041,72 @@ minutes, so a batch runs in the background and the session picks the
 result up when it finishes.
 
 Reversal: Jeb restores the earlier wording; nothing else depends on it.
+
+## 2026-09-15 D58. Second fleet batch on T10: six of nine, every completed run passed, three died on budget in the traceback form
+
+Decision: the second nine-run T10 batch (`test/results/2026-09-15-fleet-282981f-tasks-T10.md`,
+checkpoint copied to `test/results/2026-09-15-fleet-T10-batch2-checkpoint.jsonl`)
+is Stage 11's measurement of T10, taken under the pre-registered
+configuration (Controller budget USD 3.0, instantiation at
+`worker-sonnet-low`, instruction sha256 `e92307fa1870e5af`) after the D56
+fixes and E26. Six of nine passed, Wilson [35.4%, 87.9%], which does not
+clear the bar. The three failures are all one shape: the Controller
+spent its USD 3.0 before Close (two in Critique with USD 0.01 and 0.25
+left, one in Select with USD 0.23 left) and died with a traceback rather
+than the gap report the design specifies. The verdict entry (D59) scores
+the pre-registration; this entry records the batch and fixes the form of
+that failure.
+
+**What the nine cost.** Controller USD 24.24 across nine runs (mean
+2.69; range 1.98 to 2.99), instantiation USD 2.18 across six (mean 0.36,
+two or three turns each), USD 26.42 in all: USD 2.94 per run and USD
+4.40 per solved task. The three runs that died had already spent USD
+8.50 between them, which the harness's per-run `total_cost` does not
+carry (it is `None` on a Controller error), so the results file's "mean
+cost USD 2.99" and "cost per solved USD 2.99" are the completed runs
+only; the figures above, from `budget.jsonl`, are the ones D59 uses.
+
+**Why the Controller costs USD 2.7 here and USD 1.9 on the toy.** Same
+problem shape, three differences: the statement is read from
+`PROBLEM.md` in the tree rather than given inline, so Frame reads more;
+Generate produced four or five candidates per run rather than two or
+three; and D56's stdin transport now lets a Critique retry complete
+where the first batch's crashed, so retries are paid for. Rejections ran
+three to six per run against the pre-registered one to three.
+
+**The defect.** `LiveRoleRunner.__call__` passed `min(2.0, remaining)`
+as each call's `--max-budget-usd`. Near the end of a run that is a few
+cents, and E26 measured the flag's own accounting at over twice a call's
+reported cost, so the platform aborted the call partway (21 to 28
+seconds, one turn, the remainder spent on nothing) and `call_claude`
+raised. `check_budget` only fires on `remaining <= 0` after a call
+returns, so the Python side never saw it coming. Fixed three ways.
+`ROLE_CALL_FLOOR_USD = 0.50`: with less than that left no role is called
+at all (the cheapest call, Select, measured USD 0.10 to 0.23; the
+dearest, Framer and Critic, up to 0.9), so a run stops before it can
+spend its remainder on a partial reply. `ROLE_CALL_CAP_USD = 2.0`: the
+platform flag is now a flat backstop against one runaway call, never the
+remaining budget. And `BudgetExhausted`, raised by the runner in either
+case, is caught around the phases and closed as `SYSTEM.md`'s "budget
+spent" termination: a `GapReport`, a close digest, `REPORT.md`. Selftest
+scenario 11 drives it with a runner that runs out at Critique. Under the
+fixed code the same three runs would have been gap reports, which is the
+same fail under the pre-registered rule, so the measurement is not
+retaken.
+
+**One run the accounting may have cost.** Run 3 died in Select with USD
+0.23 left; Select cost USD 0.10 to 0.23 in this batch and Close is
+free, so under a truthful cap that run had a real chance of closing
+within budget. It is recorded as a fail because the pre-registered
+budget was the platform's to enforce as well as the Controller's, and
+because one run does not change the verdict. The reverse case (a run
+that finished only because the cap was generous) has no instance.
+
+**Not a defect.** `validate_records.py` finds one dangling reference in
+each of runs 4 and 9, D52's known limitation, two in nine as
+pre-registered. No role edited the working copy. No instantiating worker
+declined the answer. No forwarder confabulation: every instantiation ran
+two or three turns.
+
+Reversal: none; the floor and the cap are configuration, and
+scenario 11 locks the form of the termination.
