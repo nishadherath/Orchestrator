@@ -121,6 +121,7 @@ class RunDirs:
         self.digests = root / "digests.md"
         self.records = root / "records"
         self.rejections = root / "rejections.jsonl"
+        self.report = root / "REPORT.md"
 
     def create(self) -> None:
         self.root.mkdir(parents=True, exist_ok=False)
@@ -594,6 +595,49 @@ def write_digest(scribe: Scribe, dirs: RunDirs, phase: str, text: str, records_w
     return accepted[0]
 
 
+def write_report(dirs: RunDirs, scribe: Scribe, outcome: str, record: dict, cost_usd: float, calls: int) -> None:
+    """`REPORT.md`: SYSTEM.md section 8's quick-mode output ("best plus ranked
+    alternatives plus explicit unverified-premise list"), rendered from the
+    ledger by code. This is the artefact a caller hands on (docs/PLAN.md
+    Stage 12's worker brief returns it; Stage 11's fleet harness gives it to
+    the instantiating cell, D55). Nothing here is judged; every line is a
+    record's field, so the report can be checked against the ledger."""
+    frame = scribe.latest("FrameRecord")
+    premises = sorted(scribe.premises(), key=lambda p: p["id"])
+    lines = [f"# Controller report, {dirs.root.name}", "",
+             f"Outcome: {outcome}. Mode: quick. Calls: {calls}. Cost: USD {cost_usd:.4f}. "
+             f"Ledger frozen at v{scribe.frozen_version}.", ""]
+    if outcome == "solution":
+        lines += ["## Answer", "", record["answer"], "",
+                  f"Technique: {record['technique']}. Candidate: {record['candidate_id']}. "
+                  f"Problem type: {record['problem_type']}.", ""]
+    else:
+        lines += ["## No solution", "", f"Termination: {record.get('termination', outcome)}.",
+                  f"Next cheapest test: {record.get('next_cheapest_test', 'none')}", ""]
+    if frame:
+        lines += ["## Acceptance criteria", ""] + [f"- {c}" for c in frame["acceptance_criteria"]] + [""]
+    lines += ["## Premise ledger", "", "Every premise at the frozen version, with the class verification left it in.", ""]
+    lines += [f"- {p['id']} [{p['class']}, confidence {p['confidence']}]: {p['text']}" for p in premises] + [""]
+    unverified_lb = [p for p in premises if p["class"] == "unverified" and p.get("load_bearing")]
+    lines += ["## Unverified load-bearing premises", ""]
+    lines += ([f"- {p['id']}: {p['text']} (cheapest verification: {p['cheapest_verification']})" for p in unverified_lb]
+              or ["- none"]) + [""]
+    selection = scribe.latest("SelectionRecord")
+    candidates = {c["id"]: c for c in scribe.all_of("CandidateRecord")}
+    lines += ["## Ranked alternatives", ""]
+    if selection and selection["shortlist"]:
+        for entry in sorted(selection["shortlist"], key=lambda e: e["rank"]):
+            cand = candidates.get(entry["candidate_id"], {})
+            lines.append(f"- {entry['rank']}. {entry['candidate_id']} ({cand.get('technique', '?')}, score "
+                         f"{entry['score']}): {entry['basis']}")
+    else:
+        lines.append("- none shortlisted above the baseline")
+    if selection:
+        lines += [f"- excluded: {e['candidate_id']} ({e['reason']})" for e in selection["excluded"]]
+    lines += ["", "## Audit trail", "", " -> ".join(record.get("audit_trail", [])) or "(none)", ""]
+    dirs.report.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+
+
 # --------------------------------------------------------------------------
 # The state machine (task 10.4): Intake, Frame, the Verify loop, the two
 # Controller calls (task 10.5), Generate (parallel), Critique (blind),
@@ -628,11 +672,15 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
     def remaining() -> float:
         return max(0.0, budget_usd - spent["usd"])
 
+    def finish(outcome: str, record: dict) -> RunResult:
+        write_report(dirs, scribe, outcome, record, spent["usd"], calls["n"])
+        return RunResult(outcome, record, dirs.root, spent["usd"], calls["n"])
+
     def check_budget(phase: str) -> RunResult | None:
         if remaining() <= 0:
             gap = _gap_report(scribe, "budget_spent")
             write_digest(scribe, dirs, phase, f"Budget exhausted (USD {spent['usd']:.4f} of {budget_usd:.4f}); stopping.", [])
-            return RunResult("gap", gap, dirs.root, spent["usd"], calls["n"])
+            return finish("gap", gap)
         return None
 
     runner = runner_factory(remaining)
@@ -710,7 +758,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
 
     if frame["dissolution_verdict"] == "dissolved":
         gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
-        return RunResult("dissolved", gap, dirs.root, spent["usd"], calls["n"])
+        return finish("dissolved", gap)
     if (r := check_budget("frame")):
         return r
 
@@ -737,7 +785,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
                      f"stable={frame['stable']}.{_premise_cap_note(frame)}", accepted + measurements)
         if frame["dissolution_verdict"] == "dissolved":
             gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
-            return RunResult("dissolved", gap, dirs.root, spent["usd"], calls["n"])
+            return finish("dissolved", gap)
         if (r := check_budget("verify")):
             return r
         if frame["stable"]:
@@ -824,7 +872,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
                          f"after {len(falsified)} falsified-premise critique(s).{_premise_cap_note(frame)}", accepted)
             if frame["dissolution_verdict"] == "dissolved":
                 gap = _gap_report(scribe, "dissolved", next_test=frame.get("dissolution_reason", ""))
-                return RunResult("dissolved", gap, dirs.root, spent["usd"], calls["n"])
+                return finish("dissolved", gap)
             if (r := check_budget("reframe")):
                 return r
             continue
@@ -859,7 +907,7 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
     solution = accepted[0]
     write_digest(scribe, dirs, "close", f"Closed with {winner['id']}; {len(unverified_lb)} unverified "
                  "load-bearing premise(s) remain.", [solution])
-    return RunResult("solution", solution, dirs.root, spent["usd"], calls["n"])
+    return finish("solution", solution)
 
 
 def _premise_cap_note(frame: dict) -> str:
@@ -1064,6 +1112,10 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
               f"scenario 1: expected the subtract candidate to win over B0, got {result.record.get('technique')!r}")
         check((result.run_dir / "ledger.jsonl").exists(), "scenario 1: ledger.jsonl was created")
         check((result.run_dir / "digests.md").exists(), "scenario 1: digests.md was created")
+        report1 = (result.run_dir / "REPORT.md").read_text(encoding="utf-8") if (result.run_dir / "REPORT.md").exists() else ""
+        check("strip inside normalise() itself" in report1 and "## Unverified load-bearing premises" in report1
+              and "## Ranked alternatives" in report1 and "cand-002" in report1,
+              f"scenario 1: REPORT.md carries the answer, the unverified list and the shortlist, got:\n{report1[:600]}")
         ledger_lines = result.run_dir.joinpath("ledger.jsonl").read_text(encoding="utf-8").splitlines()
         check(len(ledger_lines) > 0, "scenario 1: ledger.jsonl is non-empty")
         ids = [json.loads(l)["id"] for l in ledger_lines]
