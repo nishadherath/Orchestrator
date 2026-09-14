@@ -3359,3 +3359,71 @@ before it is cited again.
 
 Reversal: none; this entry records a result, not a decision that could
 be revisited on new evidence short of redoing the plan.
+
+## 2026-09-15 D63. Post-close-out: the Controller becomes the default on section 4's falsified-constraint trigger, on Jeb's explicit instruction
+
+Decision: after Stage 13 marked this plan complete, Jeb asked directly
+for the Controller to be "wired up by default in ORCHESTRATOR.md". That
+request, taken literally, contradicts D59: the Controller lost to the
+floor on cost by 10.8x with a worse pass rate, measured across the only
+task shape this project built evidence for, and Stage 12 wired the
+cheap alternative in for exactly that reason. Rather than either comply
+silently (spending the project's own evidence against itself) or refuse
+outright, the choice of scope was put back to Jeb directly
+(`AskUserQuestion`), with the D59 numbers stated plainly. He chose the
+narrowest of the four offered: keep `worker-sonnet-low` as the floor for
+everything, and make the Controller the default target specifically on
+`ROUTING.md` section 4's falsified-constraint trigger, replacing the
+B0_BRIEF-then-opus-high sequence D60/D61 put there, since that trigger
+is the one place this project has head-to-head evidence for the
+Controller at all.
+
+**What changed.** Section 4's trigger is now: run the Controller
+(`tools/system_controller.py --mode quick --record`) via the Bash tool
+directly from the orchestrator session, not by spawning a worker; on a
+`solution` outcome, apply it through one `worker-sonnet-low` instantiation
+call, mirroring Stage 11's own measured arm exactly; on `gap`,
+`dissolved`, or a script error, fall through to `worker-opus-high`, the
+previously confirmed cell, unchanged. `B0_BRIEF.md` stays in the bundle
+as a documented manual alternative but is no longer invoked automatically.
+
+**What shipping it required.** The Controller never shipped (D59:
+verdict prompt). Making it invokable from a consumer project meant
+adding it to `dist/` for the first time: `tools/{system_controller,
+claudep,system_prompts,validate_records}.py` and
+`src/System/{ROLES.md,TECHNIQUES.md,schemas/}`, standard library only,
+copied verbatim into the same `REPO_ROOT`-relative layout the scripts
+already assume. Verified live: `cd dist && python3
+tools/system_controller.py --selftest` passes at 11 scenarios from the
+bundle's own copy, not only from this repository's. `preflight.py`
+gained a Controller-installed check (PASS complete, WARN absent with a
+clean fallback, FAIL partial since that fails mid-trigger rather than at
+install time); `src/README.md`'s install steps copy the new files for
+both new and existing projects, with an explicit warning for existing
+projects that `tools/` and `src/` are far likelier to already be
+occupied than `.claude/agents/` is, since a `tools/` or `src/` directory
+of unrelated application code is the common case, not the exception.
+Confirmed against `orchestrator-scratch`, which already has its own
+`tools/build_dist.py`, `cells.py` and `generate_workers.py` from earlier
+dogfooding: no collision, the four shipped filenames are byte-identical
+between `dist/tools/` and the installed copy.
+
+**The cost, stated where a consumer will read it, not only here.**
+`ROUTING.md` section 4 itself now says the trigger costs roughly USD 2.5
+to 3.5 per fire (Controller plus one instantiation call), against the
+roughly USD 0.5 to 1.0 it cost before, and that Stage 11's own measured
+record on this shape (6 of 9) does not clear the reporting bar on its
+own, so a `solution` outcome is a strong candidate to verify against
+acceptance criteria, not a confirmed answer. This is not a claim that
+the trigger now performs better than it did; D59's evidence stands
+exactly as measured. It is a deliberate choice, made by the person the
+plan's own protocol reserved this kind of choice for, to pay more for a
+different mechanism's shape of answer (an audited premise ledger and
+report) on the one shape that has ever been tested head to head, and to
+accept that the pass rate on the only evidence available is 6 of 9, not
+9 of 9.
+
+Reversal: revert `src/ROUTING.md` section 4 to D61's text and drop
+`tools/`/`src/System/` from `build_dist.py`'s `planned_files()` to
+return to the pre-D63 bundle; the Controller's own code is unaffected
+either way, since D63 only changes who invokes it and when.
