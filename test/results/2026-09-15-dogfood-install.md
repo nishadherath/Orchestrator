@@ -77,7 +77,7 @@ works from the bundle's own layout, not only from this repository's.
 `orchestrator-scratch` already has its own `tools/build_dist.py`,
 `tools/cells.py` and `tools/generate_workers.py` (left over from earlier
 dogfooding, since this scratch project mirrors parts of this repository
-for benchmarking) — a live instance of exactly the collision risk
+for benchmarking), a live instance of exactly the collision risk
 `src/README.md`'s existing-project install path now warns about. No
 actual collision: the four shipped filenames (`system_controller.py`,
 `claudep.py`, `system_prompts.py`, `validate_records.py`) don't overlap
