@@ -99,6 +99,8 @@ tools/
   build_dist.py         assembles dist/ from src/; refuses if the harness fails
   validate_records.py   validates a JSONL ledger against src/System/schemas/
   role_probe.py         one measured call per fleet role at its quick-mode cell
+  claudep.py            shared claude -p plumbing: invocation, permission
+                        flags, the resumable Checkpoint class
 test/
   harness/              check.py (static assertions), score_routing.py
                         (fixture calibration), empirical-checklist.md (the

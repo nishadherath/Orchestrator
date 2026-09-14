@@ -1093,7 +1093,7 @@ USD 30 to 150, plus a few dollars of per-role probes.
 
 ## Stage 10. The Controller in code, quick mode
 
-Status: **not started**
+Status: **in progress (10.1 done 2026-09-14)**
 Model: sonnet, high. Load `python.sonnet.md`. The design decisions were made
 in Stages 4 and 9 and `SYSTEM.md` section 3 is the specification; this is
 implementation from a good brief, which is what `SYSTEM.md` says mid-size
@@ -1108,12 +1108,20 @@ loop.
 
 Tasks:
 
-- [ ] 10.1 Factor the `claude -p` invocation, permission arguments,
+- [x] 10.1 Factor the `claude -p` invocation, permission arguments,
       checkpoint and reset code that `benchmark.py` and `score_routing.py`
       share into `tools/claudep.py`, and make both harnesses import it.
       Behaviour unchanged; harness green; own commit. This is the one
       refactor in the plan and it exists so the Controller does not copy a
       third version.
+      Done 2026-09-14, 30bc993. score_routing.py had no checkpoint or
+      reset code of its own to share (it never seeds or resets a working
+      copy; only benchmark.py's task-fixture model needs that git-based
+      dance, and it stays there). What both files did share, byte for
+      byte, was bundle_tag, unique_path, wilson_interval and the claude
+      -p subprocess call; those moved, plus benchmark.py's Checkpoint
+      class, which system_controller.py's own resumable state can reuse
+      without a third copy.
 - [ ] 10.2 `tools/system_controller.py`, command line: `--problem <file>
       --project <consumer> --mode quick --record`, plus `--dry-run` printing
       the phase plan and `--selftest` (task 10.6). Every run gets a
