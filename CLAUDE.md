@@ -14,50 +14,9 @@ You are a meticulous and thorough critic of your own work and always produce ext
 The consumer install guide is `src/README.md`. Read it for how the workers are
 used and which settings defeat them, not as instructions for this session.
 
-## Active plan: read this before anything else
+## The staged plan
 
-`docs/PLAN.md` is a staged action plan adopted on 2026-09-10 for the branch
-`the-system`. Every session in this repository carries it out under these
-rules until the plan's own status line says it is complete. `docs/REVIEW.md`
-is the evidence the plan cites; read it when a stage refers to it.
-
-1. Confirm the checkout is on branch `the-system`. Creating that branch is
-   Stage 0's first task; once Stage 0 is done, a session on any other branch
-   stops and asks before doing anything else.
-2. Read `docs/PLAN.md` in full. Find the first stage whose status is not
-   `done`. That is the only stage this session works on.
-3. State the stage's number, title, and required model class and effort
-   level, and ask Jeb to confirm the session is running on that class and
-   effort, switching with `/model` if it is not. Jeb's confirmation is what
-   sets the class for this session; load the persona files the stage names
-   only after it. Never self-assess the class, and never set
-   `CLAUDE_CODE_EFFORT_LEVEL` to change effort: invariant 3 says it overrides
-   every worker's frontmatter, so it would flatten the cells this repository
-   exists to keep distinct.
-4. Present the stage's tasks, exit criteria and cost estimate, and wait for
-   Jeb's explicit approval in the conversation. Do not start a task on an
-   assumed approval, and do not carry approval from one stage to the next.
-5. Work the tasks in order. Each task is its own commit on `the-system`,
-   with `python3 test/harness/check.py` green before the commit. Tick the
-   task's checkbox and update the stage's status line in `docs/PLAN.md` in
-   the same commit as the work it records, never in a batch afterwards.
-6. Any run that spends on `claude -p` (a routing batch, a benchmark, a
-   Controller run, a probe) is started by the session itself (D57,
-   2026-09-15; until then Jeb started every run). Before starting one,
-   the session tells Jeb in the conversation what is about to run and the
-   projected cost in USD, and starts it without waiting for a reply. It
-   asks Jeb first, and waits, only when the projected cost of the run it
-   is about to start exceeds USD 100. After the run it reports the
-   measured cost beside the projection. A gate (E, F) still fixes the
-   spend it approves; this rule changes who presses the key, not what
-   was approved.
-7. When the stage's exit criteria are met, mark it `done` with the date and
-   the commit, stop, and report. The next stage may need a different model,
-   so it begins with step 3 in a fresh confirmation.
-
-A stage that cannot be completed as written is not skipped or reworded in
-place: record what blocked it as a decision entry in `docs/DECISIONS.md`,
-mark the stage `blocked` with a pointer to that entry, and stop.
+`docs/PLAN.md`, the staged action plan for branch `the-system`, is complete (D62); read it for how the work was done, not as instructions for a new session.
 
 ## What this repository is
 
@@ -225,15 +184,28 @@ These are unresolved, not decided. Do not close one without evidence in
   `agent-{agentId}.jsonl` also has a sibling `agent-{agentId}.meta.json`, undocumented before this check.
 - Do the fifteen `model-specific-*` persona sections earn their existence? A
   plausible finding is that effort-specific guidance is noise and only
-  model-specific guidance matters, collapsing fifteen sections to three.
+  model-specific guidance matters, collapsing fifteen sections to three. Not
+  tested by this plan; still open at close-out (Stage 13).
 - Does telling a worker its own effort level change its behaviour usefully, or
   does it induce performative deliberation at high effort and premature closure
-  at low?
+  at low? Not tested by this plan; still open at close-out.
 - What is the actual escalation rate from each starting cell? Three escalations
   from one cell means the rubric is wrong for that task class, but the threshold
-  is a guess.
-- Is the three-axis rubric better than a simpler two-axis one? Blast radius and
-  intelligence sensitivity may be measuring the same thing.
+  is a guess. Narrowed but not answered: the table now has one starting cell
+  (the floor) and one escalation trigger (section 4), so the question is now
+  "how often does the trigger fire in real use", and the first opportunity to
+  fire it live, Stage 12's dogfood install, had not yet done so as of
+  2026-09-15 (`test/results/2026-09-15-dogfood-install.md`). Still open.
+- ~~Is the three-axis rubric better than a simpler two-axis one? Blast radius
+  and intelligence sensitivity may be measuring the same thing.~~ Made moot,
+  not answered, 2026-09-14 (D44, D45): the shipped table routes every task to
+  the floor regardless of the assessment, so no axis, alone or combined,
+  currently selects a destination. The two-axis variant `score_routing.py
+  --classifier two-stage --axes 2` measured only steering-grade (three runs,
+  sonnet, `test/results/2026-09-11-routing-sonnet-d65b476-two-stage-2axis-
+  summary.md`) before the two-stage design itself was rejected on cost (D40).
+  Whether a two-axis assessment would serve better if the table ever grows a
+  row again is unasked.
 - ~~Does the orchestrator's own model matter?~~ Answered 2026-09-06, three runs per model
   on bundle `2026-09-05-4cf35f7` (`test/results/2026-09-06-routing-{sonnet,opus}-summary.md`):
   yes, and opus is the better orchestrator. Opus scored 45/51 (88.2 percent, 95 percent Wilson
@@ -258,6 +230,9 @@ These are unresolved, not decided. Do not close one without evidence in
   false constraint) and T11 (T7's lineage at larger scale) both confirmed at the
   floor. The open question this leaves is whether that disposition generalises
   beyond the one shape tested, and what a routing row that buys it should say.
+  Not tested further by this plan: Stage 9 through 12 measured T10's exact
+  shape repeatedly (D47, D56, D58, D59, eleven fleet and B0-brief runs
+  combined) but no second falsified-constraint task was built. Still open.
 - ~~Is the cost of a routing verdict on the ledger, alongside the cost of the
   work it routes?~~ Resolved 2026-09-11 (`docs/COST.md`): it was not, until
   this stage. Mean opus verdict cost per fixture (USD 0.1645, pooled across
@@ -277,8 +252,19 @@ These are unresolved, not decided. Do not close one without evidence in
   directions, and it is why the shipped table (D45) has no rows above the
   floor. T10's evidence lives in ROUTING.md section 4 as an escalation
   trigger the floor worker raises after reading the code. The remaining
-  question is whether the three axes, which now route nothing, earn their
-  verdict cost as a diagnostic record; Stage 13 decides.
+  question, whether the three axes, which now route nothing, earn their
+  verdict cost as a diagnostic record, Stage 13 answers: yes, trivially.
+  E27 (`docs/FINDINGS.md`, 2026-09-15) shows a verdict's cost is dominated
+  by reading `ORCHESTRATOR.md` itself (about 17.8k tokens of cache
+  creation against 200 to 290 output tokens for the whole reply); the
+  three-axis line is a few dozen of those output tokens and its removal
+  would not move the verdict's cost measurably. The question worth asking
+  is not whether the axes are cheap enough to keep, which they are, but
+  whether `ORCHESTRATOR.md` itself is, and section 2's own text already
+  answers why the assessment stays regardless: it is the record a wrong
+  routing is diagnosed from, and dropping it is a change with its own
+  before-and-after measurement (D44), not a decision to make on cost
+  alone.
 
 ## Dogfooding
 

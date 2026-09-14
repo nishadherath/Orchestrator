@@ -1301,15 +1301,22 @@ Cost: about USD 27 per reporting-grade opus run, one or two runs.
 
 ## Stage 13. Close-out
 
-Status: **not started**
+Status: **in progress (13.1 done 2026-09-15)**
 Model: sonnet, medium.
 
 Tasks:
 
-- [ ] 13.1 `CLAUDE.md`: strike through every open question this plan
+- [x] 13.1 `CLAUDE.md`: strike through every open question this plan
       answered, with the decision or FINDINGS row that answered it, in the
       style the file already uses. Replace the "Active plan" section with a
       one-line pointer to this file marked complete.
+      Done 2026-09-15. Two open questions closed (the two-axis rubric,
+      made moot by D44/D45; the diagnostic-value question Stage 13 itself
+      was asked to decide, answered yes on E27's cost breakdown); two
+      questions left open with an explicit "not tested" note added
+      instead of silently dropped. "Active plan" replaced with a pointer;
+      the seven-step working protocol it held is retired with the plan
+      it governed.
 - [ ] 13.2 `docs/COST.md`: recompute against the final bundle, including
       the cost per verdict of the shipped classifier and the Controller's
       per-run cost if it shipped.
