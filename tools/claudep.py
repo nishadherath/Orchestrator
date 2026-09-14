@@ -66,21 +66,33 @@ class ClaudeCallResult:
 
 def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str | None = None,
                  permission_args: list[str] = (), extra_args: list[str] = (),
+                 json_schema: dict | None = None, max_budget_usd: float | None = None,
                  timeout: float = 300, dry_run: bool = False) -> ClaudeCallResult:
     """Invoke `claude -p <prompt> --output-format json`, with `--model`,
-    `--effort` and any permission or extra flags appended in that order.
+    `--effort`, `--json-schema`, `--max-budget-usd`, then any permission or
+    extra flags, appended in that order.
 
     Raises RuntimeError on a non-zero exit, carrying the last 400 characters
     of stderr, matching what both prior call sites did. `extras` holds
     `usage`, `duration_ms` and `num_turns` from the response when present;
     callers that need only `result` and `cost_usd` (score_routing.py's
     original shape) can ignore it.
+
+    `json_schema` and `max_budget_usd` are E25 (docs/FINDINGS.md, 2026-09-14):
+    real `claude -p` flags, confirmed to exist via `--help` but not yet
+    exercised live. `json_schema` is passed as a literal JSON string, per the
+    help text's own example (not a file path). `system_controller.py` is the
+    first caller of either; its docstring says what is still unverified.
     """
     cmd = ["claude", "-p", prompt, "--output-format", "json"]
     if model:
         cmd += ["--model", model]
     if effort:
         cmd += ["--effort", effort]
+    if json_schema is not None:
+        cmd += ["--json-schema", json.dumps(json_schema, separators=(",", ":"))]
+    if max_budget_usd is not None:
+        cmd += ["--max-budget-usd", str(max_budget_usd)]
     cmd += list(permission_args)
     cmd += list(extra_args)
     cmd_shown = " ".join(cmd[:2]) + " <prompt> " + " ".join(cmd[3:])
