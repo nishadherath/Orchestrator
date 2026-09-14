@@ -1344,7 +1344,9 @@ Tasks:
       risk-appetite-policy sentence in `src/ROUTING.md`, and a rebuilt,
       reinstalled `dist/` at `484eb60` (found and fixed a build_dist.py
       dirty-check bug along the way).
-- [ ] 13.6 Final `check.py` run recorded with `--record`.
+- [x] 13.6 Final `check.py` run recorded with `--record`.
+      Done 2026-09-15, `test/results/2026-09-15-harness.md`: 0 failing of
+      20 checks at `73088e4`.
 
 Exit criteria: harness green; plan marked complete; D48 present.
 
