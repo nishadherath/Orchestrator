@@ -1301,7 +1301,7 @@ Cost: about USD 27 per reporting-grade opus run, one or two runs.
 
 ## Stage 13. Close-out
 
-Status: **in progress (13.1 to 13.3 done 2026-09-15)**
+Status: **in progress (13.1 to 13.5 done 2026-09-15)**
 Model: sonnet, medium.
 
 Tasks:
@@ -1336,9 +1336,14 @@ Tasks:
       E26/E27, not left unverified.
 - [ ] 13.4 This file: set the plan's status to complete with the date; every
       stage `done` or `blocked` with its pointer.
-- [ ] 13.5 D48: what the branch delivered against the six acceptance
+- [x] 13.5 D48: what the branch delivered against the six acceptance
       criteria, one line each, and the merge question for Jeb. The merge
       into `main` is Jeb's action, not the session's.
+      Done 2026-09-15 as D62 (the ledger had moved past D48 by then).
+      Also added, as criterion 7 needed it: the frontier row's
+      risk-appetite-policy sentence in `src/ROUTING.md`, and a rebuilt,
+      reinstalled `dist/` at `484eb60` (found and fixed a build_dist.py
+      dirty-check bug along the way).
 - [ ] 13.6 Final `check.py` run recorded with `--record`.
 
 Exit criteria: harness green; plan marked complete; D48 present.

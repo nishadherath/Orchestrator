@@ -3282,3 +3282,80 @@ figure and notes it moved.
 Reversal: none pending. A future session finding section 4's two-step
 trigger fails on a task the single-step form would have caught reopens
 this as a decision entry, not a silent revert.
+
+## 2026-09-15 D62. What the branch delivered: the six acceptance criteria fixed at Gate A were seven; here is one line on each, and the merge question
+
+Decision: this closes `docs/PLAN.md`, Stage 13.5. Gate A (D38, 2026-09-11)
+fixed seven criteria, not six; task 13.5's own wording ("the six
+acceptance criteria") is a leftover from the proposal Gate A amended, and
+is left uncorrected in the plan text rather than quietly reworded, per
+this repository's own rule that a stage that finds its instructions wrong
+records it rather than fixing it in place. All seven, one line each:
+
+1. **A benchmark task set where the floor fails and a higher cell
+   clears it.** Met. T10, one of eleven, 0 of 12 at the floor,
+   `worker-opus-high` 9 of 9 (D42).
+2. **The fleet beats B0 at the reporting bar, at no more than three times
+   B0's cost per solved task.** Not met. Verdict prompt (D59): the fleet
+   scored 6 of 9 against B0's 8 of 9 twice, at 10.8 times B0's cost per
+   solved task; the framework track's deliverable is the B0 brief,
+   wired into `ROUTING.md` section 4 (D60, D61), per the criterion's own
+   fallback clause.
+3. **Every row above the floor is measured or labelled a policy row.**
+   Met. One row remains above the floor (`worker-opus-max`/`fable-max`,
+   escalation only) and it is labelled a risk-appetite policy, unmeasured,
+   in `src/ROUTING.md` itself (this stage, prompted by criterion 7).
+4. **Harness green at every commit; no invariant weakened.** Met.
+   `check.py` passed before every commit this plan made; the one charter
+   amendment beyond D48's original exception (D57, who starts a
+   `claude -p` run) is a decision entry, not a quiet edit.
+5. **No table change confirmed below nine runs.** Met. Every confirmed
+   change cites a nine-run or larger batch (D44, D45, D59, D61).
+6. **Router cost on the ledger beside the work it routes; the shipped
+   mechanism chosen on agreement and cost together, B0 included as a
+   baseline.** Met. `docs/COST.md` carries the ratio, current and stale
+   values both stated (E27); the two-stage classifier was rejected on
+   this exact basis, cost without matching accuracy (D40), and the
+   fleet was rejected the same way (D59): a mechanism has to earn its
+   marginal cost against doing nothing extra, not merely against being
+   less wrong than guessing.
+7. **The table's remaining case stated as a measured saving or an
+   accepted policy.** Met, this stage: `src/ROUTING.md` names the
+   frontier row a policy, not a saving.
+
+Four of seven met as designed; two (2, and 3's dependency on 1) are met
+by the fallback clause `SYSTEM.md` itself names for exactly this
+outcome, "you have a prompt, not a system"; one (7) needed this stage's
+own sentence rather than being met earlier. None is met by lowering the
+bar after seeing a result: every criterion's wording is Gate A's,
+unedited.
+
+**What the branch is, in one paragraph.** Thirteen stages, six weeks of
+elapsed work compressed into single sessions, from a flat repository
+with an unbuilt routing table to a shipped bundle
+(`2026-09-15-484eb60`) whose routing table has one row: everything goes
+to `worker-sonnet-low`, with two escalation triggers, one measured (a
+worker that finds a stated constraint's reason false, tries the floor
+with a single-worker brief before the confirmed stronger cell) and one
+unmeasured and labelled as such (a last-resort frontier cell after
+every cheaper one has documented failure). A parallel track built and
+measured a genuine multi-role system against that floor and found it
+correct more often than not, and still not worth its cost. Both results
+are on the record with the numbers that produced them, which is what
+`SYSTEM.md` asked this branch to determine and the only thing Gate A's
+criteria required it to do.
+
+**The merge question, for Jeb.** `the-system` is ready to merge into
+`main` on its own terms: harness green, `dist/` stamped clean at
+`484eb60`, every stage done, no criterion silently dropped. Merging is
+Jeb's action, not the session's, per `CLAUDE.md`'s standing rule that
+this session never pushes or merges without being asked. Two things
+worth knowing before that decision: the Controller
+(`tools/system_controller.py`) merges in but ships inert, since nothing
+in `ORCHESTRATOR.md` invokes it; and E27's routing-verdict cost
+(USD 0.23, up from USD 0.13 to 0.16) is a platform-side shift as of
+2026-09-15, not a property of what merges, and is worth a spot re-check
+before it is cited again.
+
+Reversal: none; this entry records a result, not a decision that could
+be revisited on new evidence short of redoing the plan.
