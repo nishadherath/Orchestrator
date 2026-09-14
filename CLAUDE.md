@@ -30,8 +30,11 @@ The artefacts are configuration and prose, not application code. There is no
 build step and, with one exception, no runtime beyond Claude Code itself:
 `tools/system_controller.py` (`docs/PLAN.md` Stage 10, D48) is a Python
 program that owns a budget and a termination decision across a sequence of
-`claude -p` calls, run directly rather than through the orchestrator persona.
-Everything else is specification, verification, and calibration.
+`claude -p` calls. It ships in `dist/` and is invoked by the orchestrator
+persona itself, with the Bash tool, on `src/ROUTING.md` section 4's one
+scoped trigger (D63); it is not a general destination in the routing table
+and nothing else in this repository spawns it. Everything else is
+specification, verification, and calibration.
 
 ## Critical: this file does not route
 
@@ -84,11 +87,12 @@ docs/
   DECISIONS.md          decision ledger, append-only
   FINDINGS.md           verified behaviour of Claude Code itself
   FRONTIERS.md          what the benchmark has measured for each routing row
-  PLAN.md               the staged action plan in force; see "Active plan"
+  PLAN.md               the staged action plan, complete; see "The staged plan"
   REVIEW.md             the 2026-09-10 review the plan is built on
 dist/                   assembled installable bundle; .claude/ plus
                         ORCHESTRATOR.md and README.md, stamped with the
-                        source commit
+                        source commit; also tools/ and src/System/, the
+                        Controller and its dependency chain (D63)
 ```
 
 ## Invariants

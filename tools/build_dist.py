@@ -9,6 +9,19 @@ harness first and refuses to build on a failure, which is the charter's
 Deliberately does not: install anything, touch src/, or offer a way past
 the harness. If the harness is wrong, fix the harness.
 
+Ships `tools/system_controller.py` and its dependency chain (`claudep.py`,
+`system_prompts.py`, `validate_records.py`, `src/System/ROLES.md`,
+`TECHNIQUES.md`, `schemas/*.schema.json`) since D63 wired the Controller
+into `ROUTING.md` section 4's falsified-constraint trigger as its default
+target (D59 measured it losing to the floor on cost across an unscoped
+comparison; D63 scopes it to the one shape with head-to-head evidence,
+where a consumer project needs the actual script to invoke, not only the
+routing instruction that names it). These are plain files, standard
+library only, no build step of their own; they are copied verbatim into
+the same `tools/` and `src/System/` layout their own `REPO_ROOT`-relative
+path resolution expects, so a consumer project that installs this bundle
+gets a working copy at `<project>/tools/system_controller.py`.
+
 The one non-obvious thing: the version stamp names the source commit the
 bundle was built from, which is one commit before the commit that adds
 dist/. That is the correct provenance; the bundle cannot know its own
@@ -118,6 +131,12 @@ def planned_files(version: str, dist_dir: Path = DIST, rubric_only: bool = False
     out[dist_dir / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
     out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
     out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
+    for name in ("system_controller.py", "claudep.py", "system_prompts.py", "validate_records.py"):
+        out[dist_dir / "tools" / name] = (REPO_ROOT / "tools" / name).read_text(encoding="utf-8")
+    for name in ("ROLES.md", "TECHNIQUES.md"):
+        out[dist_dir / "src" / "System" / name] = (SRC / "System" / name).read_text(encoding="utf-8")
+    for schema in sorted((SRC / "System" / "schemas").glob("*.schema.json")):
+        out[dist_dir / "src" / "System" / "schemas" / schema.name] = schema.read_text(encoding="utf-8")
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
     if rubric_only:
         routing = rubric_only_routing(routing)

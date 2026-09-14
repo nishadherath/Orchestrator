@@ -172,28 +172,40 @@ justified it, and the assigned name.
 - **Measured trigger, a falsified constraint.** If a worker reports that it
   cannot meet an acceptance criterion without acting against a constraint the
   task states, and that it has checked the constraint's stated reason against
-  the repository and found the reason false, do not re-spawn one cell up. Two
-  steps, in order:
-  1. Re-spawn `worker-sonnet-low` with the contents of `.claude/B0_BRIEF.md`
-     placed before the task in the handover, then the constraint, its stated
-     reason, and the evidence the first worker found. The brief runs the
-     eight-step sequence in one worker and tells it that a constraint whose
-     stated reason is checked false is policy it may act against; it also
-     tells the worker to keep `ledger.jsonl` and write `REPORT.md` in its
-     working directory, which is the audit trail and will appear in the tree.
-     On the benchmark task built to this shape (T10), the floor with the
-     brief passed 22 of 24 attempts at USD 0.36 per run, against 0 of 12
-     raw; its two failures were the same hack, an import-time monkeypatch
-     that met the letter of the constraint (D47, D59). Two batches of 8 of 9
-     do not clear the reporting bar, so this step is the cheaper first move,
-     not a confirmed cell.
-  2. If that attempt returns without meeting the criterion, re-spawn
-     `worker-opus-high` with the same handover, stating that the constraint
-     is void. `worker-opus-high` cleared T10 nine of nine from a cold start
+  the repository and found the reason false, do not re-spawn one cell up.
+  This is the one shape with head-to-head evidence for the Controller
+  (`tools/system_controller.py`, `docs/PLAN.md` Stage 10; D59 measured it
+  losing to the floor in general, D63 scopes it here where it does not
+  lose). Two steps, in order:
+  1. Run the Controller yourself, with the Bash tool, not by spawning a
+     worker: write the task, the constraint, its stated reason, and the
+     evidence the first worker found to a file, then
+     `python3 tools/system_controller.py --problem <that file> --project
+     <this project's root> --mode quick --record`. This costs roughly
+     USD 2 to 3 and takes several minutes; state that estimate before
+     running it, per this project's own rule for who starts a paid run.
+     Read the run's `REPORT.md` when it finishes. If the outcome is
+     `solution`, re-spawn `worker-sonnet-low` with `REPORT.md`'s answer,
+     the constraint's falsified reason, and the original task, instructed
+     to apply the answer rather than redo the analysis (the same
+     instantiation step Stage 11 measured this arm through). Cost of this
+     step, Controller plus instantiation: about USD 2.5 to 3.5 total, on
+     the fixture built to this shape (D58, D59); Stage 11's own measured
+     record on that fixture is 6 of 9 correct, which does not clear the
+     reporting bar (nine of nine) on its own, so treat a Controller
+     `solution` as a strong candidate to verify against the acceptance
+     criteria, not as confirmed correct on arrival.
+  2. If the Controller's outcome is `gap` or `dissolved`, or the script
+     errors, re-spawn `worker-opus-high` with the original handover,
+     stating that the constraint is void. `worker-opus-high` cleared the
+     benchmark task built to this shape nine of nine from a cold start
      (D42, D44) at USD 0.86 to 1.11 per run; it is the confirmed cell and
-     the reason step 1 can be tried first.
-  On T10's numbers the two steps together cost about USD 0.5 per solved
-  task against USD 1.0 for step 2 alone. Record which step solved it.
+     the reason step 1 can be tried first is that it costs about the same
+     and, when it works, keeps a full audit trail (`ledger.jsonl`,
+     `REPORT.md`) that a plain worker report does not.
+  Record which step solved it, and the Controller's `runs/<id>/` directory
+  alongside the escalation record: it is the evidence for what step 1
+  actually did, not only that it ran.
 - If a worker at `low` or `medium` reports that the task was underspecified
   rather than too hard, fix the prompt and re-run at the same cell.
 - Record every escalation. Three escalations from the same starting cell means

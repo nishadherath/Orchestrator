@@ -117,12 +117,41 @@ def check_bundle(cwd: Path) -> dict:
     count = len(list(agents_dir.glob("WORKER_*.md")))
     version_file = cwd / ".claude" / "ORCHESTRATOR_VERSION"
     version = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no ORCHESTRATOR_VERSION file)"
-    # ORCHESTRATOR.md section 4's measured escalation trigger reads this file
-    # when it fires; without it, step 1 of that trigger has nothing to hand over.
+    # B0_BRIEF.md is a manual, optional alternative since D63 (no longer read
+    # by section 4's automatic trigger), so its absence is noted, not a FAIL.
     brief = cwd / ".claude" / "B0_BRIEF.md"
-    brief_note = "" if brief.is_file() else f"; {brief} missing, section 4's escalation trigger cannot prepend it"
-    return {"check": "bundle installed", "status": "PASS" if count == 15 and brief.is_file() else "FAIL",
+    brief_note = "" if brief.is_file() else f"; {brief} missing (optional; a manual single-worker alternative)"
+    return {"check": "bundle installed", "status": "PASS" if count == 15 else "FAIL",
             "detail": f"{count} of 15 worker definitions found in {agents_dir}; bundle version {version}{brief_note}"}
+
+
+def check_controller(cwd: Path) -> dict:
+    """ORCHESTRATOR.md section 4's falsified-constraint trigger invokes
+    tools/system_controller.py directly (D63); this checks whether it and
+    its full dependency chain are present, partially present (which would
+    fail mid-trigger, not at install time, so it is caught here instead),
+    or absent (in which case the trigger falls through to worker-opus-high
+    directly, per its own documented fallback)."""
+    required = [cwd / "tools" / "system_controller.py", cwd / "tools" / "claudep.py",
+                cwd / "tools" / "system_prompts.py", cwd / "tools" / "validate_records.py",
+                cwd / "src" / "System" / "ROLES.md", cwd / "src" / "System" / "TECHNIQUES.md"]
+    schemas_dir = cwd / "src" / "System" / "schemas"
+    present = [p for p in required if p.is_file()]
+    schema_count = len(list(schemas_dir.glob("*.schema.json"))) if schemas_dir.is_dir() else 0
+    if len(present) == len(required) and schema_count >= 12:
+        return {"check": "Controller installed", "status": "PASS",
+                "detail": f"all {len(required)} files and {schema_count} schemas found; "
+                          "section 4's trigger can invoke tools/system_controller.py"}
+    if not present and schema_count == 0:
+        return {"check": "Controller installed", "status": "WARN",
+                "detail": "not installed; section 4's falsified-constraint trigger will fall through to "
+                          "worker-opus-high directly, its documented fallback (README.md)"}
+    missing = [str(p.relative_to(cwd)) for p in required if not p.is_file()]
+    if schema_count < 12:
+        missing.append(f"src/System/schemas/ ({schema_count} of 12 schemas)")
+    return {"check": "Controller installed", "status": "FAIL",
+            "detail": f"partially installed, missing: {missing}; a mid-trigger crash, not a clean fallback, "
+                      "is what an incomplete install like this produces"}
 
 
 def main(argv: list[str]) -> int:
@@ -131,7 +160,7 @@ def main(argv: list[str]) -> int:
     args = ap.parse_args(argv)
 
     cwd = Path.cwd()
-    checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd)]
+    checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd), check_controller(cwd)]
     checks.append({"check": "organisation effort limits", "status": "WARN",
                     "detail": "not checkable from a shell; ask your admin whether any model has a capped effort "
                               "level, which runs silently under json output or in background agents (README.md)"})
