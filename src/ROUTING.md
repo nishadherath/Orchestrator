@@ -99,6 +99,19 @@ selects a stronger cell on that shape arrives from the floor worker after
 it has read the code, not from an assessment made before any code is
 read.
 
+**The table's one remaining case, stated per the plan's close-out
+criterion (`docs/PLAN.md`, acceptance criterion 7).** The frontier row
+(`worker-opus-max` or `worker-fable-max`, reached only when every cheaper
+cell has already documented a failure at `xhigh` on the same task) is an
+accepted risk-appetite policy, not a measured cost saving. No benchmark
+task built for this plan ever needed `max` effort; every task that failed
+below the confirmed cell failed at a sonnet effort level and passed at
+`worker-opus-high`, not beyond it (D42). The row exists as a last resort
+for a shape none of the eleven tasks tested, on the reasoning that trying
+the most capable available cell once, after every cheaper one has
+documented failure, costs less than giving up. That reasoning is
+unmeasured and stated as a policy, not a claim.
+
 Section 1's assessment is still made and recorded in the routing line. It
 no longer changes the cell. It is kept because the routing line is the
 record a wrong routing is diagnosed from, because the escalation triggers
