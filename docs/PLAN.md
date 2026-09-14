@@ -1279,8 +1279,10 @@ Tasks:
 - [ ] 12.4 After-measurement: a reporting-grade run against the new table,
       compared fixture by fixture; any regression at the bar reopens the
       change.
-- [ ] 12.5 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
+- [x] 12.5 Rebuild `dist/`, install into `orchestrator-scratch`, and log the
       install per the dogfooding protocol.
+      Done 2026-09-15, bundle `2026-09-15-9b5f64b`, before 12.4 as in Stage
+      8; `test/results/2026-09-15-dogfood-install.md`.
 - [ ] 12.6 Gate F: present the before-and-after to Jeb. D47 records the
       outcome either way.
 - [ ] 12.7 Update this stage's status line and commit it.
