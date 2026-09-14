@@ -1093,7 +1093,7 @@ USD 30 to 150, plus a few dollars of per-role probes.
 
 ## Stage 10. The Controller in code, quick mode
 
-Status: **in progress (10.1 to 10.6 done 2026-09-14)**
+Status: **in progress (10.1 to 10.8 done 2026-09-14; live toy run pending)**
 Model: sonnet, high. Load `python.sonnet.md`. The design decisions were made
 in Stages 4 and 9 and `SYSTEM.md` section 3 is the specification; this is
 implementation from a good brief, which is what `SYSTEM.md` says mid-size
