@@ -3012,3 +3012,32 @@ finding, not a rate.
 
 Reversal: none; both fixes are structural and the third is a correctness
 fix with no reading that favours it being wrong.
+
+## 2026-09-15 D57. Charter amendment: the session starts `claude -p` runs itself, and asks first only above USD 100
+
+Decision: `CLAUDE.md` "Active plan" rule 6 is amended. The session starts
+every run that spends on `claude -p`, after telling Jeb what is about to
+run and the projected cost in USD, without waiting for a reply. It asks
+first, and waits, only when the projected cost of the run it is about to
+start exceeds USD 100. It reports the measured cost beside the projection
+afterwards. Gates E and F still fix the spend they approve.
+
+Why: Jeb asked, on 2026-09-15, why the session kept handing him commands
+to run rather than running them, and set this rule in his own words:
+"all I need is for you to notify me of what you are doing and the cost
+projection, when you run `claude -p` tasks. You don't need to wait for my
+decision. Only ask me first, if the cost projection is over $100." The
+original rule existed so that spend was always a human's act; the
+replacement keeps the human informed of every act and in control of the
+large ones, at the cost of one round trip per run it no longer needs.
+Criterion 4 (D38) makes a charter change a decision entry; this is it.
+
+Two consequences recorded here so they are not rediscovered. First,
+whether `claude -p` runs correctly nested inside a Claude Code session
+had never been exercised, since every earlier run was Jeb's from his own
+shell; the E26 stdin probe is the first run under this rule and doubles
+as that check. Second, the Bash tool caps a foreground command at ten
+minutes, so a batch runs in the background and the session picks the
+result up when it finishes.
+
+Reversal: Jeb restores the earlier wording; nothing else depends on it.

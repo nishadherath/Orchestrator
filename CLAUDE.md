@@ -42,8 +42,15 @@ is the evidence the plan cites; read it when a stage refers to it.
    task's checkbox and update the stage's status line in `docs/PLAN.md` in
    the same commit as the work it records, never in a batch afterwards.
 6. Any run that spends on `claude -p` (a routing batch, a benchmark, a
-   Controller run) is started by Jeb, not by the session. The session
-   prepares the command with the real local paths filled in and waits.
+   Controller run, a probe) is started by the session itself (D57,
+   2026-09-15; until then Jeb started every run). Before starting one,
+   the session tells Jeb in the conversation what is about to run and the
+   projected cost in USD, and starts it without waiting for a reply. It
+   asks Jeb first, and waits, only when the projected cost of the run it
+   is about to start exceeds USD 100. After the run it reports the
+   measured cost beside the projection. A gate (E, F) still fixes the
+   spend it approves; this rule changes who presses the key, not what
+   was approved.
 7. When the stage's exit criteria are met, mark it `done` with the date and
    the commit, stop, and report. The next stage may need a different model,
    so it begins with step 3 in a fresh confirmation.
