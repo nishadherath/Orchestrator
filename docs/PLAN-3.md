@@ -3,7 +3,7 @@
 Adopted 2026-09-15 on branch `the-system`, after `docs/PLAN-2.md` closed.
 Authored by Claude (Fable 5.1) at Jeb's direction; the analysis was
 described and approved in conversation before this file existed. Status
-of the plan as a whole: **complete pending Stage E (2026-09-15, see D70)**.
+of the plan as a whole: **complete (2026-09-15, see D71)**.
 
 Jeb's brief, in his words: integrate context compaction, as needed, to
 maximise efficiency, into what has been built; analyse the problem deeply
@@ -408,19 +408,51 @@ D70 above.
 
 ## Stage E. One live probe (optional)
 
-Status: **not started**
+Status: **done (2026-09-15, see the E.3 commit)**
 Model: sonnet, low.
 
-- [ ] E.1 E29: whether any agent tool path reaches `/compact`. Free.
-- [ ] E.2 E30: a worker on a task that fills its window; observe
+- [x] E.1 E29: whether any agent tool path reaches `/compact`. Free.
+      Done 2026-09-15. `ToolSearch` on "compact" and on "autocompact
+      context window compress" from this session: nothing. Confirms
+      D68's and the design doc's assumption.
+- [x] E.2 E30: a worker on a task that fills its window; observe
       `compact_boundary`, the token samples, and whether the summary kept
       the handover's constraint. Projected USD 2 to 5.
-- [ ] E.3 Record both in `docs/FINDINGS.md`; update P29.
+      Done 2026-09-15, USD 2.21 across four runs (D71 has the full
+      account): run 1 hit an unrelated `[bio]` safety-classifier false
+      positive on Greek-letter filler content (USD 0.61, regenerated
+      with plain nouns after); run 2 (window 100,000) found the platform
+      aborts a task outright on repeated compaction ("Autocompact is
+      thrashing"), and confirmed `compact_boundary`'s real shape and a
+      genuine defect: `agent-*.meta.json` has no `name` field, so the
+      transcript fallback's name-matching could never work, fixed to
+      match on cell (`fill_context()` gained a `cell` parameter) and
+      verified against the real transcript; run 3 (window 150,000) was a
+      clean positive control with no compaction; run 4 (window 130,000)
+      got the answer asked for: one compaction fired mid-task and the
+      task still completed correctly, the constraint honoured. The
+      tasks status line never fired at all in any of the four headless
+      runs, so the `tokenSamples` shape and the drop-detection question
+      remain unanswered pending an interactive session.
+- [x] E.3 Record both in `docs/FINDINGS.md`; update P29.
+      Done 2026-09-15. `docs/FINDINGS.md` gains a new "Plan 3 Stage E"
+      table (seven rows); `docs/PREMISES.md`'s P29 row and its item in
+      the confidence-ledger prose both updated: the entry is confirmed
+      real and countable, reliability across more than one task shape
+      stays open. `test/harness/empirical-checklist.md`'s E29 and E30
+      rows marked done with their findings; E31 and E32 need an
+      interactive session and remain open.
 
-Exit criteria: both findings recorded with the version checked.
+Exit criteria: both findings recorded with the version checked. Met
+2026-09-15: v2.1.268 named throughout D71 and the FINDINGS.md table;
+harness 28/28 after the `_find_transcript_compactions()` fix.
 
 ## Projection
 
 Live API spend: USD 0 for Stages A to D; USD 2 to 5 for Stage E. Session
 cost, estimated since no telemetry exists for it: USD 30 to 60 equivalent
 across four to five sessions. Time: four to seven hours of session time.
+
+**Actual, at close-out (2026-09-15):** live API spend USD 2.21 (Stage E,
+four runs), against the USD 2 to 5 projection. Every other stage USD 0,
+as projected.

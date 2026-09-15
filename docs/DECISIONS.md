@@ -3989,3 +3989,98 @@ here (the overflow posterior, the settings fragment's values, the
 handoff-as-compaction rule) gets its own entry, per D64's rule that nothing
 here is reversed silently. D69's own reversal clause governs the one
 open question that could change a shipped default.
+
+## 2026-09-15 D71. E30's live probe found the transcript fallback's name-matching cannot work; fixed to match on cell, verified against the real transcript
+
+Decision: fix `_find_transcript_compactions()` (`tools/route.py`, Stage
+C.2) to match a subagent's transcript by `agentType` (the cell) instead
+of the assigned `name`, on evidence from four live runs (total USD 2.21,
+against the projected USD 2 to 5), and record what four runs found
+rather than the one E30 specified, since the first three each answered a
+different question before the fourth answered the one asked.
+
+**Run 1 (USD 0.61): a false positive, not a compaction finding.** The
+probe's word list included Greek letters (`alpha`, `beta`, `gamma`, ...)
+for filler content. The worker was refused outright: `API Error: Sonnet
+5 can't help with this... Details: [bio]`, a content-safety classifier
+mistaking Greek-letter filler for biology-adjacent content. Regenerated
+with plain nouns (table, chair, garden, ...) for every run after.
+
+**Run 2 (USD 0.63, `CLAUDE_CODE_AUTO_COMPACT_WINDOW=100000`): the finding
+that matters most.** The worker compacted three times, then the platform
+itself aborted the task: `Autocompact is thrashing: the context refilled
+to the limit within 3 turns of the previous compact, 3 times in a row...
+Try reading in smaller chunks, or use /clear to start fresh (error type
+invalid_request)`. This is a previously undocumented safety mechanism,
+found because a benchmark-shaped task (read one large file per turn)
+against a window set too tight relative to a single turn's own footprint
+thrashes rather than degrading silently. It also confirms compaction's
+signature is real: `grep -c` on the worker's transcript found exactly 3
+lines matching `"subtype":"compact_boundary"`, each carrying a
+`compactMetadata` object with `trigger`, `preTokens` and the preserved
+message range, none of it previously observed. `reference.txt`, the
+constraint object, was untouched, but the run never reached a decision
+point that could have violated it, so this run does not answer whether a
+compaction's summary preserves a handover's constraint.
+
+**The defect, found while reading run 2's transcript for the
+`compact_boundary` count.** `docs/COMPACTION-DESIGN.md` section 5 said
+the transcript fallback matches `agent-*.meta.json` on the worker's
+assigned `name`. The real file's fields are `agentType`, `description`,
+`toolUseId`, `spawnDepth`, `requestShape`, `requestNonInteractive`: no
+`name` field exists. `grep -c "e30-probe-worker"` on the transcript
+itself also found zero matches; the assigned name appears only in the
+parent forwarder's own prompt text, never in the subagent's transcript
+or metadata. `_find_transcript_compactions()` as shipped in Stage C.2
+could therefore never find a match and always fell through to `source:
+"none"`, silently, for every consumer who ever hits the transcript
+path. Fixed to match on `agentType` against the ledger entry's own
+`first_cell` (`fill_context()` gained a `cell` parameter, threaded
+through both `--record` call sites), verified directly against run 2's
+real transcript after the fix: `_find_transcript_compactions` correctly
+returns 3. Matching on cell rather than name is weaker (it cannot
+distinguish two same-cell workers spawned close together); this is the
+honest cost of the fix, not hidden by it, and the docstring says so.
+
+**Run 3 (USD 0.49, window 150,000): a clean positive control.** No
+compaction fired; the task completed correctly (1750 lines read,
+`reference.txt` untouched). Confirms the task design itself is sound
+independent of compaction.
+
+**Run 4 (USD 0.48, window 130,000): the answer E30 asked for.** Exactly
+one compaction fired (`preTokens: 103157`), and the task still completed
+correctly: 1750 read, `summary.txt` written with the right count,
+`reference.txt` never touched. In this one observed case, whatever the
+platform's compaction preserved was enough for the worker to finish the
+task and honour the constraint. One instance is not a reliability
+measurement; it is the first positive data point against P29's
+reclassified form (D68: a horizon signal), and against the compact
+instructions' own untested assumption (`docs/COMPACTION-DESIGN.md`
+section 8) that a compaction summary attends to constraints at all.
+
+**A second, incidental confirmation.** Run 4's `agent-*.meta.json` shows
+`"description":"e30-probe-worker-3"`, the assigned name, this time. Run
+1's showed `"description":"Read chunks, write summary.txt"`, the task
+description, not the name. `description` is filled from whatever the
+spawning model chose to write for that field on that call; it is not a
+reliable second correlation path and this entry does not build one on
+it.
+
+**What headless probing could not answer.** `.claude/context-usage.json`
+was never created across any of the four runs: `statusLine` and
+`subagentStatusLine` do not fire during a headless `claude -p` call, so
+`fill_context()`'s `statusline` precedence level is unreachable for
+every headless consumer this repository has (the Controller, the
+benchmark harness, this plan's own probes) and reachable only from an
+interactive terminal session. This is not a defect to fix; it is a limit
+of the mechanism worth stating plainly, since Stage C's own design
+treated `statusline` as the first-tried source without saying how often
+it would actually be tried. E31 (`autoCompactWindow` at project scope)
+and E32 (D69's `context_window_size` question) both need an interactive
+session and remain unanswered.
+
+Reversal: none. `_find_transcript_compactions()`'s corrected behaviour
+(match on cell) stands until a future platform change adds a recoverable
+name to subagent metadata, which would be the case for reopening this
+entry and adding name-matching back as a stronger first precedence
+inside the transcript fallback.

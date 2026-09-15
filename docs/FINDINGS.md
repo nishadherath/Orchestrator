@@ -156,6 +156,20 @@ platform claim below still describes the same installed version
 (2.1.268) checked the same way it always was. This note exists so a
 future reader does not read the gap as an omission.
 
+## Empirically verified, 2026-09-15 (v2.1.268), Plan 3 Stage E
+
+Four live `claude -p` runs against `orchestrator-scratch`, `worker-sonnet-low`, D71 has the full account and the fix it drove; this table is the reusable platform facts.
+
+| Claim | Evidence | Settles |
+| :--- | :--- | :--- |
+| No agent tool path reaches `/compact` | `ToolSearch` for "compact" and for "autocompact context window compress" from this session returned nothing resembling one | E29; same shape of result as E19 for `/tasks` |
+| A worker's `agent-{agentId}.meta.json` has no `name` field | Fields observed across four runs: `agentType`, `description`, `toolUseId`, `spawnDepth`, `requestShape`, `requestNonInteractive`. The name given at spawn time (`e30-probe-worker`, `-2`, `-3`) never appeared in any `.meta.json` nor in the subagent's own `.jsonl` transcript, only in the parent session's prompt text | E30 (run 2); falsifies `docs/COMPACTION-DESIGN.md` section 5's name-matching design, fixed by D71 to match on `agentType` |
+| `compact_boundary`'s real shape | `{"type":"system","subtype":"compact_boundary","content":"Conversation compacted","compactMetadata":{"trigger":"auto","preTokens":<int>,"durationMs":<int>,"preservedSegment":{...},"preservedMessages":{...}}}`, one line per compaction, `grep -c '"subtype":"compact_boundary"'` counts them exactly (3 in run 2, 1 in run 4) | E30 (runs 2 and 4); the first live observation of P29's signal, confirming it exists and is countable, independent of D68's reclassification of what it means |
+| Auto-compact can abort a task outright | `Autocompact is thrashing: the context refilled to the limit within 3 turns of the previous compact, 3 times in a row. A file being read or a tool output is likely too large for the context window. Try reading in smaller chunks, or use /clear to start fresh. (error type invalid_request)`, run 2, `CLAUDE_CODE_AUTO_COMPACT_WINDOW=100000` | E30; a previously undocumented safety mechanism. A window set too tight relative to a single turn's own footprint does not merely compact more often, it can hard-abort the task |
+| `statusLine` and `subagentStatusLine` do not fire in a headless `claude -p` run | `.claude/context-usage.json` was never created across any of the four runs, despite `settings.fragment.json`'s hooks being installed and three real compactions occurring | E30; `fill_context()`'s `statusline` precedence level is unreachable for a headless consumer (the Controller, the benchmark harness, this plan's own probes) and reachable only from an interactive terminal session |
+| At `CLAUDE_CODE_AUTO_COMPACT_WINDOW=130000`, one compaction fired mid-task and the task still completed correctly, the constraint (`reference.txt` untouched) honoured throughout | Run 4: 1750 lines read (matches 5 x 350), `summary.txt` written with the correct count, `reference.txt` byte-identical after | E30; one positive data point that a compaction's summary can preserve enough of a handover to finish it correctly. Not a reliability measurement: one run, one task shape |
+| A random word list of Greek letters (`alpha`, `beta`, `gamma`, ...) used as filler content triggers a `[bio]` safety classifier refusal | Run 1: `API Error: Sonnet 5 can't help with this. Start a new session to continue. Details: [bio]`, before the worker did any work | E30 (incidental); unrelated to compaction, but a real cost (USD 0.61) from an unexamined choice of filler content. Plain nouns in every later run did not trigger it |
+
 ## Unverified, 2026-09-05
 
 Not found in the documentation. Each is stated as unverified in the sentence
