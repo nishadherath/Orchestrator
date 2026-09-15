@@ -180,20 +180,38 @@ fixes; harness green with the four new checks counted; zero live calls.
 
 ## Stage 3. Handoffs
 
-Status: **not started**
+Status: **done (2026-09-15, see the 3.4 commit)**
 Model: sonnet, high.
 
 Tasks:
 
-- [ ] 3.1 `tools/handoff.py`: `new` writes a handoff to the template with
+- [x] 3.1 `tools/handoff.py`: `new` writes a handoff to the template with
       computed cost and time projections (from `cost_table.json`, or the
       project's ledger means once it has enough entries); `check` refuses
       a handoff with a missing or empty section; both ship in `dist/`.
-- [ ] 3.2 `check.py` gains HANDOFF: every file under `handoffs/` passes
+      Done 2026-09-15. new/check/--selftest built; computed lines are a
+      single deterministic "Computed: ..." line per projection so check
+      can verify by exact match rather than parsing prose. Shipping in
+      dist/ deferred to Stage 4 on purpose: handoff.py imports route.py,
+      and Stage 4 already owns build_dist.py's rewiring for the whole
+      routing-2 system (section 8), so shipping the pair split across two
+      stages would ship a broken half first and redo the work.
+- [x] 3.2 `check.py` gains HANDOFF: every file under `handoffs/` passes
       `handoff.py check`.
-- [ ] 3.3 Regenerate Stage 1's hand-written handoff through the tool and
+      Done 2026-09-15. Also added ROUTE-SELFTEST and HANDOFF-SELFTEST
+      (gating route.py's and handoff.py's own --selftest suites): Stage
+      2.5's task text named "route.py --selftest" as something check.py
+      gains, and it had not been wired in; fixed here rather than left
+      silent. Harness now 27 checks.
+- [x] 3.3 Regenerate Stage 1's hand-written handoff through the tool and
       diff; the tool must reproduce its projections.
-- [ ] 3.4 Update this stage's status line and commit it.
+      Done 2026-09-15. The tool's canonical "Computed:" line did not
+      exist when Stage 1 hand-wrote that file, so the file's Cost/Time
+      projection sections gained that exact line (the hand-written
+      narrative estimate kept alongside it, not replaced); front matter
+      gained --from-model/--from-effort to match. `handoff.py check`
+      passes on it; a full regeneration's Computed lines diff identical.
+- [x] 3.4 Update this stage's status line and commit it.
 
 Exit criteria: `handoff.py --selftest` and HANDOFF green; the Stage 1
 handoff validates unchanged.

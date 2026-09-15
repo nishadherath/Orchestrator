@@ -695,6 +695,58 @@ def check_backtest(r: Report) -> None:
           detail if proc.returncode == 0 else (detail + " | " + "; ".join(fails[:5])))
 
 
+def check_route_selftest(r: Report) -> None:
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 7 scripted
+    ledger-aware scenarios, no claude -p calls (docs/PLAN.md Stage 2.5's
+    own task text names this as something check.py gains; found missing
+    when building Stage 3 and added here rather than left silent)."""
+    script = REPO_ROOT / "tools" / "route.py"
+    if not script.exists():
+        r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("ROUTE-SELFTEST", "route.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_handoff_selftest(r: Report) -> None:
+    """HANDOFF-SELFTEST: tools/handoff.py's --selftest passes: 4 scripted
+    scenarios (a clean file, every corrupted section named, a missing
+    front-matter comment, a spawn handoff's cell/controller cost), no
+    claude -p calls (docs/PLAN-2.md Stage 3)."""
+    script = REPO_ROOT / "tools" / "handoff.py"
+    if not script.exists():
+        r.add("HANDOFF-SELFTEST", "handoff.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("HANDOFF-SELFTEST", "handoff.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_handoffs(r: Report) -> None:
+    """HANDOFF: every file under handoffs/ passes `tools/handoff.py check`
+    (docs/PLAN-2.md Stage 3.2): all ten headings present, in order, none
+    empty or an unfilled placeholder, and the Cost/Time projection
+    sections carry the exact line handoff.py would compute from the
+    file's own recorded front-matter arguments."""
+    script = REPO_ROOT / "tools" / "handoff.py"
+    handoffs_dir = REPO_ROOT / "handoffs"
+    if not script.exists():
+        r.add("HANDOFF", "every handoffs/ file passes handoff.py check", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    files = sorted(handoffs_dir.glob("*.md")) if handoffs_dir.is_dir() else []
+    if not files:
+        r.add("HANDOFF", "every handoffs/ file passes handoff.py check", True, "no handoff files yet")
+        return
+    problems: list[str] = []
+    for f in files:
+        proc = subprocess.run([sys.executable, str(script), "check", str(f)], capture_output=True, text=True, timeout=30)
+        if proc.returncode != 0:
+            problems.append(f"{f.relative_to(REPO_ROOT)}: {(proc.stdout + proc.stderr).strip()[-400:]}")
+    r.add("HANDOFF", "every handoffs/ file passes handoff.py check", not problems,
+          f"{len(files)} file(s) checked" if not problems else "; ".join(problems[:5]))
+
+
 def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
     if not FIXTURES.exists():
         r.add("FIX", "routing fixtures are well-formed", False, f"{FIXTURES.relative_to(REPO_ROOT)} missing")
@@ -774,8 +826,11 @@ def main(argv: list[str]) -> int:
     check_system_controller(report)
     check_route_priors(report)
     check_cost_table(report)
+    check_route_selftest(report)
     check_replay(report)
     check_backtest(report)
+    check_handoff_selftest(report)
+    check_handoffs(report)
 
     when = dt.datetime.now()
     try:
