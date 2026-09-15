@@ -631,13 +631,15 @@ def check_schemas(r: Report) -> None:
 
 
 def check_system_controller(r: Report) -> None:
-    """SYSTEM: tools/system_controller.py's --selftest passes: eleven scripted
+    """SYSTEM: tools/system_controller.py's --selftest passes: twelve scripted
     scenarios (a pretty-printed-record parse plus nested-schema surfacing,
     happy path, dissolution, budget exhaustion, stale-version rejection,
     single-writer rejection, reframe cap, reframed-continues, self-chosen-id
     remap, non-Frame retry recovery, a runner out of budget closing as a
-    gap), no claude -p calls (docs/PLAN.md Stage 10.6; scenarios 0, 7, 8, 9
-    and 10 added after live runs in Stages 10.9 and 11.3 found real bugs)."""
+    gap, a role's output that never converges closing as a gap), no
+    claude -p calls (docs/PLAN.md Stage 10.6; scenarios 0, 7, 8, 9 and 10
+    added after live runs in Stages 10.9 and 11.3 found real bugs;
+    scenario 11 added by docs/PLAN-6.md Stage B.6, audit A15)."""
     script = REPO_ROOT / "tools" / "system_controller.py"
     if not script.exists():
         r.add("SYSTEM", "system_controller.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")

@@ -277,7 +277,10 @@ Then state in one line the assessment, the resolved cell and reason
      worker: write the task (and, for the falsified-constraint trigger,
      the constraint, its stated reason, and the evidence the worker
      found) to a file, then `python3 tools/system_controller.py --problem
-     <that file> --project <this project's root> --mode quick --record`.
+     <that file> --project <this project's root> --mode quick`. Add
+     `--record` only if you want a `RECORD.md` written into the run's
+     own `runs/<id>/` directory alongside `REPORT.md`; it is not needed
+     to read the answer.
      This costs roughly USD 2 to 3 and takes several minutes; state that
      estimate before running it, per this project's own rule for who
      starts a paid run. Read the run's `REPORT.md` when it finishes. If
