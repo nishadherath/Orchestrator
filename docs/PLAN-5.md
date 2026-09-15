@@ -267,13 +267,20 @@ Jeb's. Live spend USD 2 to 4.
 
 Tasks:
 
-- [ ] D.1 `test/harness/interactive_checklist.py` gains `--task T15`, a
+- [x] D.1 `test/harness/interactive_checklist.py` gains `--task T15`, a
       new fixture built for duration: twelve chunk files, read all, write
       a count, no compaction sought (window left unset), no generator in
       `repo/`; the printed steps tell Jeb to open the tasks panel while
       the worker runs, and to start from a fresh session, not a resumed
       one. `--check` prints `tasks` verbatim as before and adds
       `session.json`'s `event` against the expected `startup`.
+      Done. `--prepare`/`--check` parametrized by `--task`; T15 built
+      (twelve files, generator beside `grade.sh` per 14.1, FIXTURE-CLEAN
+      passing); `ensure_autocompact_window` removes the key entirely for
+      T15 rather than merely leaving it, so a prior `--task T12 --prepare`
+      does not leave a stale value behind. `--selftest` extended to 6
+      scenarios, covering both tasks. Run for real against
+      `orchestrator-scratch`: T15 seeded, `autoCompactWindow` removed.
 - [ ] D.2 Jeb's session, the steps D.1 prints.
 - [ ] D.3 `docs/FINDINGS.md`: `tokenSamples`' shape if observed, or the
       fact that a multi-minute worker with the panel open still did not
