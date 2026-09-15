@@ -262,7 +262,7 @@ produced one entry, confirmed schema-valid by `validate_records.py`.
 
 ## Stage C. Ledger and resolver
 
-Status: **not started**
+Status: **done (2026-09-15, see the C.5 commit)**
 Model: sonnet, high.
 
 Tasks:
@@ -347,10 +347,13 @@ Tasks:
       scenarios landed with C.3, per the task list's own note that they
       belong to this piece of work; recorded as
       `test/results/2026-09-15-backtest-ledger-2.md`.
-- [ ] C.5 Update this stage's status line and commit it.
+- [x] C.5 Update this stage's status line and commit it.
 
 Exit criteria: harness green; backtest and replay pass; no fixture's
-expected cell changed.
+expected cell changed. All three met 2026-09-15: harness
+28/28; `test/harness/backtest_ledger.py` and `replay_routing.py` both
+exit 0; TABLE-DATA (which fails on any fixture whose expected cell
+moved) passes unchanged.
 
 ## Stage D. Handoff as compaction, propagation
 
