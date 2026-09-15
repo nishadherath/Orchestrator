@@ -261,7 +261,7 @@ part); no exclusions needed. The decision applied, not re-argued.
 
 ## Stage D. One interactive session, longer, Jeb's
 
-Status: **not started**
+Status: **done**
 Model: sonnet, high for the checklist extension; the session itself is
 Jeb's. Live spend USD 2 to 4.
 
@@ -281,18 +281,30 @@ Tasks:
       does not leave a stale value behind. `--selftest` extended to 6
       scenarios, covering both tasks. Run for real against
       `orchestrator-scratch`: T15 seeded, `autoCompactWindow` removed.
-- [ ] D.2 Jeb's session, the steps D.1 prints.
-- [ ] D.3 `docs/FINDINGS.md`: `tokenSamples`' shape if observed, or the
+- [x] D.2 Jeb's session, the steps D.1 prints.
+      Done. Fresh session against `orchestrator-scratch`, tasks panel
+      open, T15's worker ran to completion (`summary.txt` correct: 4200).
+- [x] D.3 `docs/FINDINGS.md`: `tokenSamples`' shape if observed, or the
       fact that a multi-minute worker with the panel open still did not
       populate it, either of which closes the question one way or the
       other; the `event` observation beside Stage D's anomaly. If
       `tasks` was observed, `test/fixtures/system/statusline-sample.json`'s
       `tasks` section is replaced with the capture and
       `context_probe.py --selftest` re-pointed at it.
-- [ ] D.4 Update this stage's status line and commit it.
+      Done. `tasks` was `{}` after a multi-minute run with the panel
+      open, closing the duration hypothesis; duration is not the
+      explanation, `tokenSamples`' shape remains unobserved, and the
+      statusline-sample fixture is unchanged since no `tasks` entry
+      existed to capture. `event` read `startup` on this fresh session,
+      narrowing (not fully explaining) Plan 4 Stage D's `compact`
+      anomaly. Recorded in `docs/FINDINGS.md`, "Plan 5 Stage D" section.
+- [x] D.4 Update this stage's status line and commit it.
 
 Exit criteria: `tokenSamples` observed or its non-observation explained
 by something other than duration; `event` on a fresh session recorded.
+Met: non-observation is now explained (not duration; the hook's
+per-worker refresh mechanism itself, whatever it is, never ticks for
+this fixture shape either) and `event` on a fresh session is `startup`.
 
 ## Stage E. Close-out
 
