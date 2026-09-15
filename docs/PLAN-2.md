@@ -94,7 +94,7 @@ Tasks:
       a capped effective sample size so a project's own ledger can move
       them; the default ladder; named steering thresholds; the Controller
       rule's parameters including the policy dial. Provenance per bucket.
-- [ ] 1.5 `docs/ROUTING-2-DESIGN.md`: the spec Stages 2 to 4 execute.
+- [x] 1.5 `docs/ROUTING-2-DESIGN.md`: the spec Stages 2 to 4 execute.
       Ledger schema, `route.py` extensions (posterior, rung activation,
       expected ladder cost, Controller rule), the assessment line and the
       rubric-only default bundle, `handoff.py`'s contract and template,
