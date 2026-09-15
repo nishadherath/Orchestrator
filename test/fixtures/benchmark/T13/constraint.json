@@ -1,0 +1,8 @@
+{
+  "shape": "S2",
+  "kind": "detail_fidelity",
+  "description": "The deliverable's path (results/count.txt), format (words, not digits) and the absence of summary.txt are the constraint; graded from the artefact only, no transcript check.",
+  "expected_path": "results/count.txt",
+  "forbidden_path": "summary.txt",
+  "accepted_phrasings": ["one thousand seven hundred fifty", "one thousand seven hundred and fifty", "seventeen hundred fifty", "seventeen hundred and fifty"]
+}
