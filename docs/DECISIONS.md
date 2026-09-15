@@ -3719,3 +3719,153 @@ Reversal: none. This entry closes the plan; a future change to any
 mechanism it named (the ladder, the priors, the Controller rule, the
 handoff contract) gets its own decision entry, per D64's own rule that
 nothing here is reversed silently.
+
+## 2026-09-15 D68. Context compaction: P29 reopened on existing data, and the design `docs/PLAN-3.md` executes
+
+Decision: adopt `docs/PLAN-3.md`. Compaction is integrated as a
+measurement and a recovery mechanism, not as something the orchestrator
+performs; the platform's own threshold, hook, and status line are set
+and read rather than reimplemented; and the one worker-side signal the
+charter already named (`compact_boundary`, P29) is redefined from a
+capability signal to a horizon one. Jeb asked for the analysis before
+the plan and approved the plan in conversation.
+
+**P29 reopened, on data already on disk.** P29 says a `compact_boundary`
+entry is a reliable signal the cell was undersized. It has stood
+"unverified, load-bearing" since the premise ledger was written, with
+E20 (a benchmark task at a deliberately undersized cell) as its probe.
+The 303 benchmark runs that recorded `claude -p` usage
+(`test/results/*benchmark*.md`, 2026-09-07 to 2026-09-14) settle what
+E20 would have found: a median of 111,793 cumulative cache-read tokens
+per floor run and a maximum of 172,669 in any run at any cell, summed
+across every turn of the run. Divided by the roughly 43K-token CLI
+prefix each turn re-reads (E26), the median run is about 2.6
+turn-equivalents. Peak context in any single turn was therefore a small
+fraction of a 200K window, and no run at any cell could have compacted.
+E20 as designed (T7 or T11 at the floor) would return zero
+`compact_boundary` entries at every cell, which does not test P29; it
+shows the premise was untestable at benchmark scale. P29 is neither
+verified nor falsified; it is reclassified below and its probe redesigned
+(E30, `test/harness/empirical-checklist.md`).
+
+**The same data bounds what compaction could save on a worker.** Cost
+shares at the floor, median across 246 runs, using the documented
+multipliers (cache write 1.25, cache read 0.1, output 5 times input): 34
+percent write, 40 percent read, 22 percent output. The read share is
+almost entirely the CLI prefix, which compaction does not remove: the
+system-prompt layer is reused and project context reloaded from disk
+after a compaction (`code.claude.com/docs/en/prompt-caching`, "Compacting
+the conversation"). The conversation layer a summary would replace is a
+few thousand tokens on a run of that length. On every run on record, a
+summarisation call would have cost more than it saved. Compaction is not
+a worker-cost lever at this scale.
+
+**Where compaction does occur.** The orchestrator's own long-lived
+session: the session that wrote `docs/PLAN-3.md` compacted, unprompted,
+earlier the same day, with `CLAUDE.md` re-read afterwards (the
+`InstructionsLoaded` hook's `compact` matcher is the documented form of
+that reload). Long consumer tasks are the other candidate and are
+unmeasured; the ledger fields below are how that evidence will accrue at
+no cost.
+
+**Four design decisions.**
+
+1. *Compaction in a worker is a horizon measurement, not a capability
+   signal.* Every cell has the same window for a given model, and the
+   same 1M window on Sonnet 5 and the Fable models. A worker that
+   compacted needed a smaller task or a leaner handover, not a stronger
+   model. A compacted failure fed into the floor's Beta posterior (D64)
+   would lower the floor's pass probability and climb the ladder for a
+   task class that needs decomposition, paying opus prices for a remedy
+   that does not apply. So: an attempt whose ledger entry records one or
+   more compactions is excluded from the capability posterior, counted
+   in a separate per-bucket overflow posterior, and the resolver's
+   action on a high overflow rate is a decomposition advisory, never a
+   rung. This is also the answer to `CLAUDE.md`'s open horizon question
+   in its final form: horizon was never assessable before the task (D44)
+   and is measurable after it, for free, from the status line's
+   per-subagent token samples.
+
+2. *State that must survive compaction lives on disk.* The routing
+   ledger already holds outcomes. The gap is the interval between a
+   spawn and its `--record`: if compaction lands there, the roster of
+   running workers and their assessment lines exist only in whatever the
+   summariser kept. `route.py --spawn` writes a pending entry at spawn
+   time and `--record` completes it (two-phase), so the ledger is the
+   roster.
+
+3. *The handoff is the structured compaction; auto-compaction is the
+   unstructured fallback.* `tools/handoff.py`'s ten headings are what a
+   compaction summary should contain. The orchestrator writes one at a
+   task boundary before the platform's threshold is reached, and the
+   `# Compact instructions` section (documented, `docs/en/costs`) gives
+   the fallback summariser the same headings when it fires anyway. The
+   orchestrator learns its own context usage from the `--explain` line
+   it already reads on every task, sourced from a file the status line
+   script writes, at zero marginal tokens. Recovery after a fallback
+   compaction is mechanical: a `SessionStart` hook with matcher
+   `compact` runs `route.py --recover`, which prints the pending ledger
+   entries and the newest handoff. Code, not memory.
+
+4. *Settings first.* The auto-compact window, the cache TTL, the hook
+   and the status line are documented knobs with no per-turn cost. The
+   platform's default threshold is the model's full window (about 967K
+   on a 1M model), an order of magnitude above the economic break-even
+   for an orchestrator whose context is routing lines and worker
+   summaries. `preflight.py` checks the settings; `dist/` ships a
+   fragment.
+
+**The economics, for the record.** With multipliers relative to the
+input price of r = 0.1 (cache read), w = 1.25 or 2.0 (cache write, five
+minute or one hour TTL) and o = 5 (output), compacting a context C to a
+summary S with S_out summary tokens costs r·C + o·S_out + w·S while the
+cache is warm (the summarisation call reads the prefix from cache,
+documented) and 1.0·C + o·S_out + w·S when cold, and saves r·(C − S) per
+later turn while warm or w·(C − S) when each turn finds the cache cold.
+For C = 150K, S = 10K, S_out = 2K: payback in 2.7 turns warm, 1.0 turn
+cold. The price of the model cancels; the TTL does not. A session on an
+API key gets a five-minute TTL on its main conversation
+(`docs/en/prompt-caching`, "Which TTL each request gets") and
+`cost_table.json` already records a Controller run at 500 seconds and an
+opus-high run at 239, so an orchestrator waiting on either turns into a
+cold cache. That is a settings finding (`promptCacheTtl: 1h`, v2.1.242 or
+later) before it is a compaction finding, and Stage B's preflight check
+says so when it sees a five-minute TTL with the Controller installed.
+
+**Platform claims this plan rests on**, each read on 2026-09-15 against
+the page named; these are documentation, not observed behaviour, and
+Stage B records the first observation of each in `docs/FINDINGS.md`:
+
+| Claim | Page |
+| :--- | :--- |
+| Auto-compact window settable from 100K to 1M tokens via `/autocompact`, `--autocompact`, `CLAUDE_CODE_AUTO_COMPACT_WINDOW`, or `autoCompactWindow` in user settings; default is the model's context limit; the environment variable takes precedence | `docs/en/model-config`, "Set the auto-compact window" |
+| `SessionStart` hook, matcher `compact`, stdout added to context; the guide's own example is "re-inject context after compaction" | `docs/en/hooks-guide` |
+| `PreCompact` and `PostCompact` events exist with matchers `manual` and `auto`; their stdout is not added to context | `docs/en/hooks` |
+| `# Compact instructions` in `CLAUDE.md` and `/compact <focus>` shape the summary | `docs/en/costs`, "Manage context proactively" |
+| Status line script receives `context_window.used_percentage`, `total_input_tokens`, `context_window_size`, `current_usage`, and `prompt_cache.expected_rebuilds`; runs after each assistant message and after `/compact`; `refreshInterval` re-runs it while the main session idles waiting on subagents | `docs/en/statusline` |
+| `subagentStatusLine` receives per-task `model`, `effort`, `contextWindowSize`, `tokenCount`, `tokenSamples` (v2.1.205 or later) | `docs/en/statusline`, the subagent rows section |
+| Subagents auto-compact with the same logic as the main conversation; a subagent's window is sized by its own model; main-conversation compaction leaves subagent transcripts untouched | `docs/en/sub-agents` |
+| Compaction invalidates the conversation layer only; the summarisation call reads the warm prefix from cache; the turn after rebuilds only the summary | `docs/en/prompt-caching`, "Compacting the conversation" |
+| Main conversation TTL: one hour on a subscription within plan usage, five minutes otherwise; everything else (subagents, compaction) five minutes; `promptCacheTtl` and `subagentPromptCacheTtl` (v2.1.242 or later); a subagent's `experimental.cacheTtl` (v2.1.248 or later) | `docs/en/prompt-caching`, "Cache lifetime" |
+| The summary keeps requests and intent, key technical concepts, files examined or modified with important snippets, errors and their fixes, pending tasks, and current work; re-reads the most recently modified files; re-injects invoked skills at up to 5,000 tokens each; does not re-inject the skill index | `docs/en/context-window` |
+
+One claim is deliberately not made: that an agent can run `/compact`.
+Built-in commands are not skills (the Skill tool's own description) and
+E19 found `/tasks` unreachable from any agent session; E29 checks
+`/compact` the same way before Stage B relies on the absence.
+
+**What later stages may not change without a new entry.** The
+classification of compaction as horizon (point 1); the exclusion of
+compacted attempts from the capability posterior; that the overflow
+action is an advisory and not a rung; that recovery is code
+(`--recover`) and not a compaction instruction asking the model to
+remember; that the auto-compact window is set below the economic
+break-even rather than left at the model's limit; that no stage before E
+makes a live call.
+
+Reversal: this entry is reopened if E30 shows a compaction summary
+reliably preserves a handover's constraints (which would weaken, not
+remove, the case for the handoff-first rule), or if a consumer ledger
+shows overflow and capability failures are correlated in a way point 1
+does not predict, which would be the case for letting overflow inform
+the ladder after all.

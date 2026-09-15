@@ -106,10 +106,14 @@ stage is implementation from what this stage writes down.
 
 Tasks:
 
-- [ ] A.1 This file, committed.
-- [ ] A.2 D68: P29 reopened on the existing-data finding; the four design
+- [x] A.1 This file, committed (`2bae02a`).
+- [x] A.2 D68: P29 reopened on the existing-data finding; the four design
       decisions above with their evidence; the documentation pages each
       platform claim rests on; what each later stage may not change.
+      Done 2026-09-15. Also records the economics as arithmetic (payback
+      2.7 turns warm, 1.0 cold, model price cancelling) and the TTL
+      finding that precedes it: an API-key orchestrator waiting on a
+      Controller run turns into a cold cache.
 - [ ] A.3 `src/cost_table.json` gains a `context` section: the price
       multipliers and TTL buckets the docs state, the payback formula, the
       303-run cost shares and cache-read distribution with provenance and
