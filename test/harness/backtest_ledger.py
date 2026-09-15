@@ -194,6 +194,17 @@ def main(argv: list[str]) -> int:
         checks.append((f"{bucket}: Controller decision is not proactive", not decision["proactive"],
                         f"reason={decision['reason']!r}"))
 
+    # docs/PLAN-3.md Stage C.4: none of the reconstructed entries carry a
+    # `context` field (they predate ledger_version 1), so every bucket's
+    # overflow posterior must sit exactly at its shipped prior mean; any
+    # movement here would mean the reconstruction is accidentally treating
+    # an absent field as a confirmed "not compacted", which _known_
+    # compaction_count() is specifically written not to do (D68).
+    overflow_prior_mean = priors["buckets"]["mechanical/short/contained"]["overflow"]["mean"]
+    for bucket, post in post_by_bucket.items():
+        checks.append((f"{bucket}: overflow posterior stays at its prior", post["overflow_mean"] == overflow_prior_mean,
+                        f"got {post['overflow_mean']}, prior is {overflow_prior_mean} (n={post['overflow_n']})"))
+
     ok_all = all(ok for _, ok, _ in checks)
 
     import subprocess

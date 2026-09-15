@@ -334,10 +334,19 @@ Tasks:
       no advisory); 11 of 11 pass. Manually verified against a
       constructed ledger: the overflow line prints with the exact
       wording section 6 specifies.
-- [ ] C.4 Backtest: on the recorded data, which has no compactions, every
+- [x] C.4 Backtest: on the recorded data, which has no compactions, every
       existing check reproduces exactly and the overflow posterior stays
       at its prior in every bucket. Replay unchanged. `route.py
       --selftest` gains the compacted-failure and advisory scenarios.
+      Done 2026-09-15. Every existing backtest check reproduces exactly
+      (unchanged from D66's post-exclusion state); a new check per bucket
+      confirms `overflow_mean` equals the shipped prior's mean exactly
+      (0.05, `n=0` in all seven contained buckets checked), since no
+      reconstructed entry carries a `context` field at all. `replay_routing.py`
+      unchanged: 125 of 125 on the gating batch. `--selftest`'s j/k
+      scenarios landed with C.3, per the task list's own note that they
+      belong to this piece of work; recorded as
+      `test/results/2026-09-15-backtest-ledger-2.md`.
 - [ ] C.5 Update this stage's status line and commit it.
 
 Exit criteria: harness green; backtest and replay pass; no fixture's

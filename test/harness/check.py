@@ -713,7 +713,10 @@ def check_backtest(r: Report) -> None:
     section 5's pass condition: every bucket stays at the floor, worker-
     opus-high activates for open/medium/contained, no intermediate sonnet
     rung activates anywhere, the Controller decision is not proactive on
-    any contained bucket; D66 excludes one run D16 already invalidated)."""
+    any contained bucket; D66 excludes one run D16 already invalidated;
+    docs/PLAN-3.md Stage C.4 adds that every bucket's overflow posterior
+    sits exactly at its shipped prior, since no reconstructed entry
+    carries a context field)."""
     script = REPO_ROOT / "test" / "harness" / "backtest_ledger.py"
     if not script.exists():
         r.add("BACKTEST", "backtest_ledger.py passes its own pass conditions", False, f"{script.relative_to(REPO_ROOT)} missing")
