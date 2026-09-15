@@ -274,10 +274,19 @@ class AssessmentLineError(RoutingError):
 
 def parse_assessment_line(line: str) -> dict:
     """Parse either recorded assessment-line format into the five fields
-    `plan()` needs. The prose format carries no self_directed or
-    prior_failure field; both default to the common case (false, none),
-    the same default `resolve()` already uses for a caller with only the
-    three assessment axes."""
+    `plan()` needs. The prose format carries no self_directed field, which
+    defaults to the common case (false), the same default `resolve()`
+    already uses for a caller with only the three assessment axes.
+
+    The prose format also carries no prior_failure field: the frontier row
+    was reached in that format by the model directly naming
+    `worker-opus-max` or `worker-fable-max`, not by any axis (found while
+    building the replay harness, docs/PLAN-2.md Stage 2.3, D65: F14's
+    recorded prose lines all read "open, long, contained", never
+    consequential, and never carry a failure signal on the triple at all).
+    A prose line naming one of those two workers is therefore treated as
+    prior_failure="failed_at_xhigh"; naming any other worker is "none",
+    since nothing else in the prose format can express it."""
     m = _TWO_STAGE_LINE_RE.search(line)
     if m:
         return {"sensitivity": m["sensitivity"].lower(), "horizon": m["horizon"].lower(),
@@ -285,8 +294,10 @@ def parse_assessment_line(line: str) -> dict:
                 "prior_failure": m["prior_failure"].lower()}
     m = _PROSE_LINE_RE.search(line)
     if m:
+        worker = m["worker"].lower()
+        prior_failure = "failed_at_xhigh" if worker in ("worker-opus-max", "worker-fable-max") else "none"
         return {"sensitivity": m["sensitivity"].lower(), "horizon": m["horizon"].lower(),
-                "blast": m["blast"].lower(), "self_directed": False, "prior_failure": "none"}
+                "blast": m["blast"].lower(), "self_directed": False, "prior_failure": prior_failure}
     raise AssessmentLineError(line)
 
 

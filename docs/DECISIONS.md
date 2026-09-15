@@ -3535,3 +3535,58 @@ in the harness and never in the priors.
 Reversal: any stage finding the replay below D40's measured 92.2 percent
 cell agreement, or the backtest activating a rung the benchmark refuted,
 stops and records why; the shipped bundle stays at D63's until then.
+
+## 2026-09-15 D65. Replay found two gaps in Stage 1's own design and closed both before gating on it
+
+Decision: while building `test/harness/replay_routing.py` (Stage 2.3),
+the naive comparison the design doc specified (`docs/ROUTING-2-DESIGN.md`
+section 4, "compares first against expected_cell") produced 82.2 percent
+agreement on the gating batch, below D40's 92.2 percent floor. Both gaps
+are in how the replay scored the resolver, not in the resolver itself,
+and both are fixed rather than the gate being loosened.
+
+**Gap one: the policy dial's deliberate divergence was scored as
+disagreement.** `test/fixtures/routing.jsonl`'s `expected_cell` was fixed
+against the pre-Plan-2, floor-only table (D45): every fixture but F14
+expects `worker-sonnet-low`. D64's policy dial deliberately routes an
+open, consequential assessment to the Controller instead, which is
+exactly what it is for. Comparing that row against `expected_cell`
+without accounting for the policy counts correct, designed behaviour as
+a classifier error. On the gating batch (153 verdicts, 152 scored) every
+one of 27 disagreements was a policy-fired row; with them excluded,
+agreement is 125 of 125, not 92.2 percent but 100. Fixed:
+`replay_routing.py` tags a row `policy_fired` and excludes it from the
+agreement gate, reporting the policy fire rate as its own column instead
+of folding it into a metric it does not belong in. This does not touch
+`expected_cell` itself, which stays correct for what it measures (the
+floor-only table) and is not revised to describe a mechanism it predates.
+
+**Gap two: the prose format cannot express `prior_failure`, and F14's
+recorded lines prove it.** F14's raw verdict, in every prose-format batch
+checked, reads `assessment: open, long, contained; worker: worker-opus-max;
+action: spawn`: the axis triple says `contained`, never `consequential`,
+and there is no fourth field for prior failure at all. The prose router
+reached the frontier row by the model naming `worker-opus-max` directly,
+reading "prior failed attempts" from the task text itself, not by any
+axis value D39's five-field schema was built to carry. `parse_assessment_line`
+defaulted a prose line's `prior_failure` to `"none"` (the documented
+common-case default for a fully absent field), which is correct for
+every other fixture but wrong for F14 specifically, since the one
+observable proxy for the signal in that format is the worker name.
+Fixed: a prose line naming `worker-opus-max` or `worker-fable-max`
+is now parsed as `prior_failure: failed_at_xhigh`; naming any other
+worker stays `none`. `docs/ROUTING-2-DESIGN.md` section 1 named this gap
+in different words ("prior_failure... is not an assessment of the task
+at all") without spelling out that the prose format loses it entirely
+for the one fixture that needs it; this is the concrete instance.
+
+With both fixed, every batch on record, prose and two-stage, opus and
+sonnet, agrees 100 percent (excluding policy fires), and the
+expected-cost arithmetic fires in zero rows anywhere in the historical
+record, matching D64's own prediction exactly ("on current evidence
+fires nowhere"). The gating batch clears D40's floor by 7.8 points.
+
+Reversal: none pending. A future prose-format addition that names a
+frontier-adjacent worker some other way (not `worker-opus-max` or
+`worker-fable-max` literally) would need the same treatment, recorded
+the same way.

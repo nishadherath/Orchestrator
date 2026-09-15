@@ -142,10 +142,17 @@ Tasks:
       ledger round-trip past a malformed line, the frontier rung under
       prior_failure). Old --sensitivity/--horizon/--blast CLI usage
       verified byte-identical (worker-sonnet-low for both example calls).
-- [ ] 2.3 `test/harness/replay_routing.py`: re-resolve every recorded
+- [x] 2.3 `test/harness/replay_routing.py`: re-resolve every recorded
       assessment in `test/results/` through the new resolver with an empty
       ledger; report agreement against `expected_cell` and the proactive
       Controller fire rate. Pass condition in the design doc.
+      Done 2026-09-15 as D65: found and fixed two scoring gaps, not
+      resolver gaps, before gating. Every batch on record agrees 100
+      percent excluding the policy dial's deliberate divergence; the
+      expected-cost arithmetic fires in zero recorded rows, matching
+      D64's prediction. Gate result: PASS, 125/125 on the gating batch
+      against D40's 92.2 percent floor. Recorded:
+      `test/results/2026-09-15-replay-routing.md`.
 - [ ] 2.4 `test/harness/backtest_ledger.py`: feed recorded benchmark
       outcomes into the ledger in recorded order; assert the learned
       activations reproduce D42 and D45 and nothing the benchmark refuted.
