@@ -1,0 +1,72 @@
+{
+  "_comment": "Measured unit costs and wall clocks for projections (docs/PLAN-2.md Stage 1.3). Every row carries its provenance: the result files it was computed from, the sample size, the date, and the cost regime (E27: opus verdict costs roughly doubled platform-side between 2026-09-14 and 2026-09-15; rows measured before that carry regime 'pre-E27'). tools/handoff.py and tools/route.py read this file; a project's own routing ledger overrides a row once it has enough entries (routing_priors.json: ledger_overrides_after). Wall clocks are for benchmark-sized tasks (a small repository, one change) and are a starting point, not a property of a consumer's tasks. No number here is typed in by hand: the aggregation script is quoted in each row's 'method'.",
+  "currency": "USD",
+  "measured_on": "2026-09-15",
+  "cells": {
+    "worker-sonnet-low": {
+      "cost_per_run_usd": 0.1681, "cost_min_usd": 0.1044, "cost_max_usd": 0.4205,
+      "wall_clock_s": 52, "wall_min_s": 26, "wall_max_s": 186,
+      "n": 208, "regime": "pre-E27",
+      "provenance": "every per-run row at worker-sonnet-low across test/results/*benchmark*.md (T1 to T11, raw handover, no brief), 2026-09-06 to 2026-09-13; min and max are per-task means (T5 low, T10 high)",
+      "method": "regex over the per-run detail tables '| <cell> | <run> | yes|no | USD <cost> | <wall> |', pooled, mean"
+    },
+    "worker-sonnet-low+b0-brief": {
+      "cost_per_run_usd": 0.3656, "cost_min_usd": 0.3515, "cost_max_usd": 0.3749,
+      "wall_clock_s": 180, "wall_min_s": 178, "wall_max_s": 184,
+      "n": 48, "regime": "pre-E27",
+      "provenance": "test/results/2026-09-14-benchmark-282981f-tasks-T10+T11+T9-brief-b0-brief.md and ...-tasks-T10-brief-b0-brief.md (Stage 9.8, D47); the same cell with .claude/B0_BRIEF.md prepended, which about doubles cost and triples wall clock",
+      "method": "as above"
+    },
+    "worker-sonnet-medium": {
+      "cost_per_run_usd": 0.3613, "wall_clock_s": 131, "n": 6, "regime": "pre-E27",
+      "provenance": "T4 and T10 search-phase runs only (the staircase climbs only after the floor fails, so this is conditional on floor failure and on hard tasks)",
+      "method": "as above; too few runs to carry a range"
+    },
+    "worker-sonnet-high": {
+      "cost_per_run_usd": 0.2850, "wall_clock_s": 96, "n": 15, "regime": "pre-E27",
+      "provenance": "T4 and T10 search-phase runs only, conditional on floor failure",
+      "method": "as above"
+    },
+    "worker-sonnet-xhigh": {
+      "cost_per_run_usd": 0.4022, "wall_clock_s": 180, "n": 24, "regime": "pre-E27",
+      "provenance": "T4 and T10 confirmation runs, conditional on floor failure; T10 alone: 0.5616, 280 s, n=12",
+      "method": "as above"
+    },
+    "worker-opus-high": {
+      "cost_per_run_usd": 0.9217, "cost_min_usd": 0.86, "cost_max_usd": 1.11,
+      "wall_clock_s": 239,
+      "n": 12, "regime": "pre-E27",
+      "provenance": "T10 confirmation, test/results/2026-09-11-benchmark-af94deb-tasks-T10+T11+T9.md (D42), the only task any cell above the floor was ever confirmed on; range from D47's restatement",
+      "method": "as above"
+    },
+    "worker-opus-max": {
+      "cost_per_run_usd": null, "wall_clock_s": null, "n": 0, "regime": null,
+      "provenance": "never run on any benchmark task (docs/FRONTIERS.md: the frontier row is an unmeasured escalation mechanism); a projection that reaches this cell must say it is unmeasured",
+      "method": "none"
+    },
+    "worker-fable-max": {
+      "cost_per_run_usd": null, "wall_clock_s": null, "n": 0, "regime": null,
+      "provenance": "never run on any benchmark task; one fable-xhigh run of 103k tokens exists (docs/FRONTIERS.md) and is not a cost measurement",
+      "method": "none"
+    }
+  },
+  "controller": {
+    "quick_mode_run_usd": 2.623, "cost_min_usd": 1.983, "cost_max_usd": 2.923,
+    "wall_clock_s": 500, "wall_min_s": 367, "wall_max_s": 555,
+    "calls_per_run": 12.7, "n": 6, "regime": "E27",
+    "instantiation_usd": 0.3628, "instantiation_wall_s": 80,
+    "provenance": "test/results/2026-09-15-fleet-T10-batch2-checkpoint.jsonl, the six completed runs of the batch D58 recorded (Controller cost from budget.jsonl; instantiation is the worker-sonnet-low call that applies REPORT.md, D55); the three runs that died on budget spent about 2.8 each and are not in the mean",
+    "method": "python over the checkpoint's result records: mean of controller.cost, controller.wall_clock, instantiate.cost, instantiate.wall_clock"
+  },
+  "verdict": {
+    "opus_prose_router_usd": 0.23, "opus_prose_router_wall_s": 10, "regime": "E27",
+    "opus_prose_router_pre_e27_usd": 0.13,
+    "provenance": "E27 (docs/FINDINGS.md): four single verdicts 2026-09-15 at 0.223 to 0.248, and the nine-run after-measurement at USD 4.06 per 18-fixture run; pre-E27 figure from D45 (USD 0.129 per verdict, 2026-09-14); wall clock from the E27 diagnostic calls (7 to 12 s)",
+    "two_stage_opus_usd": 0.1030, "two_stage_sonnet_low_usd": 0.0130, "two_stage_regime": "pre-E27",
+    "two_stage_provenance": "D40, test/results/2026-09-11-routing-*-d65b476-two-stage-3axis-summary*.md; the assessment-only schema-forced call with the table out of context"
+  },
+  "session": {
+    "fixed_load_tokens_estimate": 44741,
+    "provenance": "docs/COST.md, the fixed load of a stage session, 2026-09-15; chars/4, not a provider count"
+  }
+}

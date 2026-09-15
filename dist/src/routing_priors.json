@@ -1,0 +1,570 @@
+{
+  "_comment": "Per-bucket priors for tools/route.py (docs/PLAN-2.md Stage 1.4, D64). A bucket is sensitivity/horizon/blast. 'floor' is a Beta prior on worker-sonnet-low passing; each rung entry is a Beta prior on that cell passing given every cheaper active rung failed (the benchmark staircase only climbed after failure, so its measured rates at higher cells are exactly that conditional). Means are Laplace ((passes+1)/(n+2)); effective sample sizes are capped (measured 10, bracketed 4, policy 3) so a consumer project's own ledger moves a bucket after a handful of its own outcomes. 'kind' says whether a number was measured, bracketed between measured neighbours, inherited across blast radius as policy, or a weakly held default. Every threshold named steering_* steers routing and may never be cited as evidence; the reporting bar is nine runs with a Wilson lower bound above 0.7 and lives in the harness, not here.",
+  "version": 1,
+  "generated_on": "2026-09-15",
+  "generated_by": "docs/PLAN-2.md Stage 1.4; the aggregation and Laplace/n_eff arithmetic are in the commit that added this file",
+  "cells": [
+    "worker-sonnet-low",
+    "worker-sonnet-medium",
+    "worker-sonnet-high",
+    "worker-sonnet-xhigh",
+    "worker-sonnet-max",
+    "worker-opus-low",
+    "worker-opus-medium",
+    "worker-opus-high",
+    "worker-opus-xhigh",
+    "worker-opus-max",
+    "worker-fable-low",
+    "worker-fable-medium",
+    "worker-fable-high",
+    "worker-fable-xhigh",
+    "worker-fable-max"
+  ],
+  "default_ladder": [
+    "worker-sonnet-low",
+    "worker-opus-high",
+    "controller",
+    "worker-opus-max"
+  ],
+  "ladder_notes": "Cheapest first. The intermediate sonnet rungs are omitted on evidence (T10: sonnet-medium 1 of 3, sonnet-high 0 of 3, sonnet-xhigh 0 of 12 given floor failure, against opus-high 12 of 12; D42). 'controller' is tools/system_controller.py quick mode plus one floor instantiation (D55); it sits after the confirmed cell and before the unmeasured frontier, so the lowest capable configurations are tried first, per Jeb's brief. The falsified-constraint trigger (D63) is separate and jumps from the floor straight to the controller. A project's ledger can activate an omitted cell for a bucket (rung_activation below).",
+  "steering": {
+    "steering_first_rung_min_pass": 0.6,
+    "steering_first_rung_note": "the first cell tried is the cheapest active rung whose posterior pass probability is at least this; if none clears it, the cheapest rung is still tried first (the floor is always the default), and the Controller rule below decides whether to pre-empt",
+    "steering_rung_activation_min_pass": 0.5,
+    "steering_rung_activation_min_n": 3,
+    "rung_activation": "a cell not in default_ladder becomes an active rung for a bucket in a project once that project's ledger holds at least steering_rung_activation_min_n outcomes at that cell in that bucket and the posterior conditional pass probability is at least steering_rung_activation_min_pass; it is inserted in cost order (cost_table.json)",
+    "ledger_overrides_after": 5,
+    "ledger_overrides_note": "cost and wall-clock projections use the project's own ledger means for a cell once it has this many entries, else src/cost_table.json"
+  },
+  "controller_rule": {
+    "reactive": "after the last active cell rung fails on the same task, or on ROUTING.md section 4's falsified-constraint signal (D63), route to the controller before the frontier",
+    "proactive_expected_cost": "fire before the first call when E_ladder + P_fail_all * failure_cost > controller_cost, where E_ladder is the sequential expected cost down the active rungs (cost of rung k times the probability of reaching it), P_fail_all is the posterior probability every rung fails, and controller_cost is cost_table.json controller.quick_mode_run_usd + instantiation_usd. On the priors in this file this fires in no bucket; it is the path a project's own ledger opens when a bucket keeps escalating",
+    "failure_cost": {
+      "contained": "E_ladder (the work is redone)",
+      "consequential_usd": 10.0,
+      "consequential_note": "policy, not a measurement: what a wrong answer on a committed, published or depended-on change costs its owner, set at roughly ten times a floor run. Raise it to make the Controller fire sooner on consequential work; lower it to make it fire later. Recorded as a risk-appetite dial in ROUTING.md itself (criterion 3, D38)"
+    },
+    "proactive_policy": {
+      "enabled": true,
+      "when": {
+        "sensitivity": [
+          "open"
+        ],
+        "blast": [
+          "consequential"
+        ]
+      },
+      "label": "risk-appetite policy, unmeasured: on open, consequential tasks the Controller runs first for its audit trail (premise ledger, REPORT.md), at cost_table.json's controller cost, regardless of the expected-cost arithmetic. Jeb's choice, 2026-09-15 (D64). Set enabled to false to make the arithmetic the only proactive path"
+    }
+  },
+  "self_directed": "kept in the assessment line for the record; not an input to resolution (D64: D40 measured it firing at 38 percent for sonnet against a 6 percent base rate, and the only row it disambiguated is gone)",
+  "prior_failure": "kept: failed_at_xhigh still selects the frontier rung, as the escalation mechanism it always was",
+  "buckets": {
+    "mechanical/short/contained": {
+      "sensitivity": "mechanical",
+      "horizon": "short",
+      "blast": "contained",
+      "floor": {
+        "alpha": 9.5,
+        "beta": 0.5,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T1 confirmed 9 of 9 twice (04d2acc original and replication); fixtures F01, F02, F15"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "mechanical/medium/contained": {
+      "sensitivity": "mechanical",
+      "horizon": "medium",
+      "blast": "contained",
+      "floor": {
+        "alpha": 3.895,
+        "beta": 0.105,
+        "mean": 0.974,
+        "n_measured": 36,
+        "passes_measured": 36,
+        "n_eff": 4,
+        "kind": "bracketed",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: no task at this triple; T1 (short) and T2 (long) both 9 of 9 twice, D19 bracket; fixture F03; n_eff capped at 4"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "mechanical/long/contained": {
+      "sensitivity": "mechanical",
+      "horizon": "long",
+      "blast": "contained",
+      "floor": {
+        "alpha": 9.5,
+        "beta": 0.5,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T2 confirmed 9 of 9 twice"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "structured/short/contained": {
+      "sensitivity": "structured",
+      "horizon": "short",
+      "blast": "contained",
+      "floor": {
+        "alpha": 9.5,
+        "beta": 0.5,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T3 confirmed 9 of 9 twice; fixture F04"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "structured/medium/contained": {
+      "sensitivity": "structured",
+      "horizon": "medium",
+      "blast": "contained",
+      "floor": {
+        "alpha": 3.895,
+        "beta": 0.105,
+        "mean": 0.974,
+        "n_measured": 36,
+        "passes_measured": 36,
+        "n_eff": 4,
+        "kind": "bracketed",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: no task at this triple; T3 and T4 bracket; fixture F05; n_eff capped at 4"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "structured/long/contained": {
+      "sensitivity": "structured",
+      "horizon": "long",
+      "blast": "contained",
+      "floor": {
+        "alpha": 9.5,
+        "beta": 0.5,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T4 confirmed 9 of 9 twice after the D16/D17 grader fix; fixture F07"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "open/short/contained": {
+      "sensitivity": "open",
+      "horizon": "short",
+      "blast": "contained",
+      "floor": {
+        "alpha": 9.655,
+        "beta": 0.345,
+        "mean": 0.966,
+        "n_measured": 27,
+        "passes_measured": 27,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T5 9 of 9 twice, T8 9 of 9 after D30's regrade; fixture F09"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "open/medium/contained": {
+      "sensitivity": "open",
+      "horizon": "medium",
+      "blast": "contained",
+      "floor": {
+        "alpha": 7.143,
+        "beta": 2.857,
+        "mean": 0.714,
+        "n_measured": 12,
+        "passes_measured": 9,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T9 9 of 9 at the floor (a false measurement), T10 0 of 3 at the floor (a false constraint, D42); the triple cannot separate them, D42 calls T10 a disposition frontier; fixture F10"
+      },
+      "rungs_given_failure_below": {
+        "worker-sonnet-xhigh": {
+          "alpha": 0.714,
+          "beta": 9.286,
+          "mean": 0.071,
+          "n_measured": 12,
+          "passes_measured": 0,
+          "n_eff": 10,
+          "kind": "measured",
+          "provenance": "T10: sonnet-xhigh 0 of 12 given floor failure (D42); the intermediate sonnet rungs are not in the default ladder for this reason"
+        },
+        "worker-opus-high": {
+          "alpha": 9.286,
+          "beta": 0.714,
+          "mean": 0.929,
+          "n_measured": 12,
+          "passes_measured": 12,
+          "n_eff": 10,
+          "kind": "measured",
+          "provenance": "T10: opus-high 12 of 12 given floor failure (D42, the only confirmed cell above the floor)"
+        }
+      }
+    },
+    "open/long/contained": {
+      "sensitivity": "open",
+      "horizon": "long",
+      "blast": "contained",
+      "floor": {
+        "alpha": 9.737,
+        "beta": 0.263,
+        "mean": 0.974,
+        "n_measured": 36,
+        "passes_measured": 36,
+        "n_eff": 10,
+        "kind": "measured",
+        "provenance": "docs/FRONTIERS.md and the benchmark confirmations it cites: T6 9 of 9 twice, T7 9 of 9 (after D20), T11 9 of 9; fixture F13"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "mechanical/short/consequential": {
+      "sensitivity": "mechanical",
+      "horizon": "short",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.85,
+        "beta": 0.15,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits mechanical/short/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "mechanical/medium/consequential": {
+      "sensitivity": "mechanical",
+      "horizon": "medium",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.921,
+        "beta": 0.079,
+        "mean": 0.974,
+        "n_measured": 36,
+        "passes_measured": 36,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits mechanical/medium/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "mechanical/long/consequential": {
+      "sensitivity": "mechanical",
+      "horizon": "long",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.85,
+        "beta": 0.15,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits mechanical/long/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "structured/short/consequential": {
+      "sensitivity": "structured",
+      "horizon": "short",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.85,
+        "beta": 0.15,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits structured/short/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "structured/medium/consequential": {
+      "sensitivity": "structured",
+      "horizon": "medium",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.921,
+        "beta": 0.079,
+        "mean": 0.974,
+        "n_measured": 36,
+        "passes_measured": 36,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits structured/medium/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "structured/long/consequential": {
+      "sensitivity": "structured",
+      "horizon": "long",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.85,
+        "beta": 0.15,
+        "mean": 0.95,
+        "n_measured": 18,
+        "passes_measured": 18,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits structured/long/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "open/short/consequential": {
+      "sensitivity": "open",
+      "horizon": "short",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.897,
+        "beta": 0.103,
+        "mean": 0.966,
+        "n_measured": 27,
+        "passes_measured": 27,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits open/short/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    },
+    "open/medium/consequential": {
+      "sensitivity": "open",
+      "horizon": "medium",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.143,
+        "beta": 0.857,
+        "mean": 0.714,
+        "n_measured": 12,
+        "passes_measured": 9,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits open/medium/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-sonnet-xhigh": {
+          "alpha": 0.714,
+          "beta": 9.286,
+          "mean": 0.071,
+          "n_measured": 12,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-inherited",
+          "provenance": "T10: sonnet-xhigh 0 of 12 given floor failure (D42); the intermediate sonnet rungs are not in the default ladder for this reason"
+        },
+        "worker-opus-high": {
+          "alpha": 9.286,
+          "beta": 0.714,
+          "mean": 0.929,
+          "n_measured": 12,
+          "passes_measured": 12,
+          "n_eff": 3,
+          "kind": "policy-inherited",
+          "provenance": "T10: opus-high 12 of 12 given floor failure (D42, the only confirmed cell above the floor)"
+        }
+      }
+    },
+    "open/long/consequential": {
+      "sensitivity": "open",
+      "horizon": "long",
+      "blast": "consequential",
+      "floor": {
+        "alpha": 2.921,
+        "beta": 0.079,
+        "mean": 0.974,
+        "n_measured": 36,
+        "passes_measured": 36,
+        "n_eff": 3,
+        "kind": "policy-inherited",
+        "provenance": "blast radius is unmeasurable by exit code (docs/BENCHMARK-DESIGN.md); inherits open/long/contained's floor mean at n_eff 3 so a project's first three outcomes dominate it; a policy, not a measurement"
+      },
+      "rungs_given_failure_below": {
+        "worker-opus-high": {
+          "alpha": 2.7,
+          "beta": 0.3,
+          "mean": 0.9,
+          "n_measured": 0,
+          "passes_measured": 0,
+          "n_eff": 3,
+          "kind": "policy-default",
+          "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
+        }
+      }
+    }
+  }
+}

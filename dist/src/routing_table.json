@@ -1,0 +1,51 @@
+{
+  "_comment": "Single source of truth for the routing decision, per D39 (docs/DECISIONS.md). Read by tools/route.py, tools/generate_workers.py and test/harness/check.py. Reduced to the floor plus the escalation rule by D44 (Stage 8) after D43's four-rule table failed its after-measurement; the benchmark evidence is in docs/FRONTIERS.md and the before-and-after in test/results/2026-09-14-table-collapse-before-after.md. src/ROUTING.md section 2's prose is hand-authored and transcribed from this file; nothing yet checks the two stay in sync mechanically.",
+  "axes": {
+    "sensitivity": [
+      "mechanical",
+      "structured",
+      "open"
+    ],
+    "horizon": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "blast": [
+      "contained",
+      "consequential"
+    ],
+    "self_directed": [
+      false,
+      true
+    ],
+    "prior_failure": [
+      "none",
+      "failed_at_xhigh"
+    ]
+  },
+  "rules": [
+    {
+      "id": "frontier",
+      "text": "Frontier problem where every cheaper cell has already failed",
+      "conditions": {
+        "prior_failure": [
+          "failed_at_xhigh"
+        ]
+      },
+      "worker": "worker-opus-max",
+      "also_acceptable": [
+        "worker-fable-max"
+      ],
+      "escalation_only": true
+    },
+    {
+      "id": "floor",
+      "text": "Every assessed task",
+      "conditions": {},
+      "worker": "worker-sonnet-low"
+    }
+  ],
+  "documented_overlaps": [],
+  "documented_gaps": []
+}

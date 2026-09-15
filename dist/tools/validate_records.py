@@ -9,7 +9,7 @@ every record validates and every reference resolves, 1 otherwise, with one
 line per problem on stderr.
 
 This is not a JSON Schema implementation. It implements exactly the subset
-the twelve schemas use (type, const, enum, properties, required,
+the schemas use (type, const, enum, properties, required,
 additionalProperties, items, minItems, minLength, maxLength, pattern,
 minimum, maximum) and raises on any other validating keyword, so a schema
 edit that reaches for something this file does not check fails loudly
