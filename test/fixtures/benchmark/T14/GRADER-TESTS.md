@@ -30,3 +30,14 @@ why S3 (unlike S2) needs the transcript check.
 
 All six matched on the first run of `grade.sh`; no defect found, nothing
 corrected.
+
+## Re-verified after `make_chunks.py` moved out of `repo/`
+
+2026-09-15, `docs/PLAN-5.md` Stage B.1 (`docs/COMPACTION-DESIGN.md`
+section 14.1): the generator moved to sit beside `grade.sh` instead of
+inside `repo/`, and its docstring was rewritten to drop every citation
+of this repository's own plans and decisions. `grade.sh` was never
+changed and never referenced the generator's path, so this re-run is a
+check, not an assumption: a correct case, a wrong case and an
+adversarial case were re-exercised directly against the moved layout
+and matched their original expected output exactly. No defect found.
