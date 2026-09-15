@@ -81,7 +81,7 @@ stage is implementation from what this stage writes down.
 Tasks:
 
 - [x] 1.1 This file, committed.
-- [ ] 1.2 D64: the reopening, the judge/resolver separation, the triple's
+- [x] 1.2 D64: the reopening, the judge/resolver separation, the triple's
       blindness to T10's shape, the proactive rule as arithmetic plus a
       labelled policy dial, and what each later stage may not change.
 - [x] 1.3 `src/cost_table.json`: per-cell cost and wall clock, the verdict

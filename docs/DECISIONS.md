@@ -3427,3 +3427,111 @@ Reversal: revert `src/ROUTING.md` section 4 to D61's text and drop
 `tools/`/`src/System/` from `build_dist.py`'s `planned_files()` to
 return to the pre-D63 bundle; the Controller's own code is unaffected
 either way, since D63 only changes who invokes it and when.
+
+## 2026-09-15 D64. Plan 2: complexity routing returns with the judge separated from the resolver; the Controller gets a ladder position and a labelled policy dial; handoffs become configuration
+
+Decision: `docs/PLAN-2.md` is adopted at Jeb's direction, after
+`docs/PLAN.md` closed, to deliver three things he asked for in his own
+words: routing by task complexity to the right model and effort;
+the Controller both after the cheapest capable configurations fail and,
+on a per-project self-learning judgement, before routing when a task is
+complex enough; and a concise handoff with cost and time projections
+whenever the model or effort changes or an agent is launched, as standing
+configuration for this repository, for new projects built from it, and
+for the redistributable. Built from existing infrastructure and recorded
+data; no new test series. This entry records the design decisions the
+later stages execute and may not revisit without a further entry.
+
+**1. Judge and resolver are separate, and that is what makes complexity
+routing admissible again.** D44 measured the prose orchestrator bending
+its assessment toward whichever destination the table offered, and D45
+collapsed the table to the floor on that evidence. The mechanism of that
+failure is that the same model that knows the destinations judges in
+prose. Plan 2 removes the destinations from the judge's context (the
+rubric-only bundle D39 designed and `build_dist.py --rubric-only` already
+builds, measured at 92.2 percent cell agreement at opus in D40) and
+resolves the cell in deterministic code, `tools/route.py`, from the
+assessment and a per-project ledger. D40 rejected that design on
+accuracy ("close but short": 86.8 percent lower bound against the prose
+router's 91.4) and on cost (USD 0.103 against a USD 0.0532 ceiling). Both
+grounds have moved: the prose router now costs USD 0.23 per verdict
+(E27), and the prose router cannot route on complexity at all without
+reintroducing D44's attractor, so the comparison is no longer prose
+versus two-stage at equal capability. D40's `self_directed` defect is
+resolved by dropping the field from resolution (it fired at 38 percent
+for sonnet against a 6 percent base rate, and the only row it
+disambiguated is gone); it stays in the assessment line for the record.
+
+**2. The self-learning judgement is a ledger, not a model's opinion.**
+`.claude/routing-ledger.jsonl`, one entry per routed task in the consumer
+project: bucket, first cell, escalations, outcome, cost, wall clock,
+whether the Controller ran and which technique won. `route.py` keeps a
+Beta posterior per bucket on the floor passing and per rung on that cell
+passing given failure below, seeded from `src/routing_priors.json`. The
+priors are the benchmark's confirmed results (FRONTIERS.md) with capped
+effective sample sizes (10 measured, 4 bracketed, 3 policy), so a
+project's own outcomes dominate after a handful of entries. The benchmark
+staircase only ever climbed after a failure, so its measured rates at
+higher cells are exactly the conditional the ladder needs. Rows above the
+floor exist as rungs and activate per project when that project's ledger
+crosses a named steering threshold; every new project starts at the floor
+with our priors and earns its rungs from its own evidence. This is the
+minimum form of the cross-run memory `SYSTEM.md` section 7 specified for
+the Librarian and nothing built.
+
+**3. The triple cannot see T10, and the design says so.** D42 called
+T10's failure a disposition frontier; T9 shares its triple and passes at
+the floor nine of nine. Pooled, `open/medium/contained` has a floor
+prior of 0.71, not zero. No rule on the assessment can single out the
+shape the floor measurably fails; the reactive falsified-constraint
+trigger (D63) is what catches it, and it stays. The proactive Controller
+rule is therefore two things, kept apart: expected-cost arithmetic
+(`E_ladder + P_fail_all x failure_cost > controller_cost`), which on the
+priors fires in no bucket (worst case USD 0.64 expected against USD 2.99
+for the Controller) and is the path a project's ledger opens when a
+bucket keeps escalating; and a risk-appetite dial, on by default for
+open, consequential tasks, that runs the Controller first for its audit
+trail. The dial is labelled a policy in `routing_priors.json` and, when
+Stage 4 rewrites it, in `ROUTING.md` itself, per criterion 3's rule for
+rows that rest on blast radius. This corrects what the plan's own pitch
+said ("defaulted so that T10's shape fires"): that default is on blast
+radius, which T10 as fixtured does not have, and it would be dishonest
+to describe it as a T10 detector.
+
+**4. The ladder.** Floor, `worker-opus-high`, the Controller, then the
+frontier cell. The intermediate sonnet rungs are omitted on T10's
+evidence (sonnet-medium 1 of 3, sonnet-high 0 of 3, sonnet-xhigh 0 of 12
+given floor failure, against opus-high 12 of 12) and can be activated per
+project by the ledger. The Controller sits after the confirmed cell and
+before the unmeasured frontier so that, in Jeb's words, the lowest
+capable configurations are tried first; D63's trigger jumps to it
+directly from the floor on its specific signal.
+
+**5. Handoffs are generated, and their numbers are computed.**
+`tools/handoff.py` writes the seven sections Jeb named plus the model and
+effort to set, a cost projection and a time projection, from
+`src/cost_table.json` (every row with provenance and its E27 cost
+regime) or from the project's ledger once it has enough entries, and
+refuses a handoff with a section missing. The rule lives in `CLAUDE.md`
+for this repository, in `LIFECYCLE.md` and so in every consumer's
+`ORCHESTRATOR.md`, and in a `CLAUDE.template.md` shipped for new
+projects. This plan's own stage transitions are its first uses; Stage
+1's handoff is hand-written to the contract Stage 3 automates, and Stage
+3 must reproduce it.
+
+**6. Validation without spend.** Replay: every assessment line recorded
+in `test/results/` (162-verdict batches, several of them) re-resolved
+through the new resolver with an empty ledger, scored against the
+fixtures' expected cells. Backtest: the several hundred recorded
+benchmark outcomes fed into the ledger in recorded order, asserting the
+learned rung activations reproduce D42 and D45 and nothing the benchmark
+refuted. Both are harness checks. The plan projects USD 0 of live spend.
+
+**What later stages may not change without a new entry:** the
+judge/resolver separation; the ledger as the only learning mechanism;
+the dial's label as policy; the ladder order; the reporting bar staying
+in the harness and never in the priors.
+
+Reversal: any stage finding the replay below D40's measured 92.2 percent
+cell agreement, or the backtest activating a rung the benchmark refuted,
+stops and records why; the shipped bundle stays at D63's until then.
