@@ -114,16 +114,36 @@ def status_line_text(record: dict) -> str:
     return f"[{model}] {ctx} · {warm}"
 
 
+# A drop this large between two consecutive readings is compaction's own
+# signature (docs/COMPACTION-DESIGN.md section 3): it replaces the
+# conversation with a much shorter summary, so nothing else plausibly
+# halves a task's token count between two refresh ticks. Detection lives
+# here, not in route.py, because this is the one place that ever sees two
+# successive raw readings for the same task; route.py --record only ever
+# reads this file's latest snapshot (docs/PLAN-3.md Stage C).
+_COMPACTION_DROP_RATIO = 0.5
+
+
 def merge_task_record(existing: dict | None, task: dict) -> dict:
     """One task's entry in the `tasks` key (section 2). `peak_tokens` is
     the largest numeric value ever observed for this task name, across
     `tokenCount` and every leaf of `tokenSamples`, kept across refreshes
     even once the task stops appearing in the visible rows (a completed
-    task's last known peak is exactly what `route.py --record` wants)."""
+    task's last known peak is exactly what `route.py --record` wants).
+    `compactions` counts every refresh where `tokenCount` fell to less
+    than half its immediately preceding raw reading, kept and never
+    decreased the same way."""
     candidates = [v for v in (_as_number(task.get("tokenCount")), *_numeric_leaves(task.get("tokenSamples")))
                   if v is not None]
     if existing and existing.get("peak_tokens") is not None:
         candidates.append(existing["peak_tokens"])
+
+    compactions = (existing or {}).get("compactions") or 0
+    prev_count = _as_number((existing or {}).get("tokenCount"))
+    new_count = _as_number(task.get("tokenCount"))
+    if prev_count is not None and new_count is not None and new_count < prev_count * _COMPACTION_DROP_RATIO:
+        compactions += 1
+
     return {
         "sampled_at": _now_iso(),
         "id": task.get("id"),
@@ -135,6 +155,7 @@ def merge_task_record(existing: dict | None, task: dict) -> dict:
         "tokenCount": task.get("tokenCount"),
         "tokenSamples": task.get("tokenSamples"),
         "peak_tokens": _as_int_if_whole(max(candidates)) if candidates else None,
+        "compactions": compactions,
     }
 
 
@@ -219,6 +240,24 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check(data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
               f"(c) a lower later sample should not lower peak_tokens, got "
               f"{data['tasks']['refactor-parser']['peak_tokens']}")
+        check(data["tasks"]["refactor-parser"]["compactions"] == 1,
+              f"(c) 9000 following 42000 is a drop past the 50 percent ratio and should count as one "
+              f"compaction, got {data['tasks']['refactor-parser']['compactions']}")
+        check(data["tasks"]["audit-schemas"]["compactions"] == 0,
+              f"(c) a task with no drop should show zero compactions, got "
+              f"{data['tasks']['audit-schemas']['compactions']}")
+
+        # (c2) a moderate decrease (not past the 50 percent ratio) should
+        # not be counted as a compaction: ordinary token usage falls too,
+        # for reasons that have nothing to do with the platform compacting.
+        moderate = json.loads(json.dumps(sample["tasks"]))
+        moderate["tasks"][0]["tokenCount"] = 7000  # from 9000: a decrease, but not past the ratio
+        moderate["tasks"][0]["tokenSamples"] = [7000]
+        run_tasks(moderate, usage_path)
+        data = _load_usage_file(usage_path)
+        check(data["tasks"]["refactor-parser"]["compactions"] == 1,
+              f"(c2) a moderate decrease should not add a second compaction, got "
+              f"{data['tasks']['refactor-parser']['compactions']}")
 
         # (d) crossing the handoff threshold changes the rendered line's
         # warmth reporting is out of scope here (route.py --explain owns

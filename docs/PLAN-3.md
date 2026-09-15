@@ -282,9 +282,27 @@ Tasks:
       (context.compactions: -1, rejected on the minimum constraint).
       BROKEN_LINES gains line 20. `validate_records.py` run directly on
       both files as well as through the harness.
-- [ ] C.2 `route.py --record` fills `context` from the probe's file (the
+- [x] C.2 `route.py --record` fills `context` from the probe's file (the
       last sample for that worker name) or from a transcript
       `compact_boundary` count as the fallback, and says which.
+      Done 2026-09-15. `--spawn`, `--record --pending` and plain
+      `--record` all now write `ledger_version` 1 with a `context` field
+      (Stage B's sequencing note: Stage C is what upgrades both spawn and
+      record together). `fill_context()` tries the probe's `tasks` key,
+      then `_find_transcript_compactions()` (a best-effort search under a
+      guessed `~/.claude/projects/<slug>` directory, matching E7's own
+      "observed, not documented" caveat for that path), then `source:
+      "none"`; never raises, and both `--record` forms print which source
+      they used. `context_probe.py` gains `compactions` tracking in
+      `merge_task_record()`: a drop past 50 percent of the immediately
+      preceding raw `tokenCount` counts as one, since that component is
+      the only one that ever sees two successive raw readings (route.py
+      only reads the latest snapshot). Verified end to end in scratch
+      directories: a simulated statusline sample fills `context` fully; a
+      name the probe never saw falls through to `source: "none"`; the
+      produced entries validate. Three new `--selftest` assertions for
+      `fill_context` (no name, a match, no match); `context_probe.py`
+      gains two more (a qualifying drop counted, a moderate one not).
 - [ ] C.3 `posterior()` excludes compacted attempts from the capability
       posterior; a per-bucket overflow posterior with a weak shipped prior;
       `plan()` emits a decomposition advisory when the overflow rate

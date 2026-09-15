@@ -582,6 +582,83 @@ def default_context_usage_path(project: Path) -> Path:
     return project / CONTEXT_USAGE_FILENAME
 
 
+_NO_CONTEXT_OBSERVED = {"peak_tokens": None, "window": None, "compactions": None, "source": "none"}
+
+
+def _claude_projects_slug(project: Path) -> str:
+    """Best-effort guess at the directory name Claude Code derives under
+    `~/.claude/projects/` from a project's absolute path: colons and path
+    separators replaced with hyphens, matching this session's own
+    observed project directory name. `src/LIFECYCLE.md`'s transcript path
+    is itself observed, not documented (E7); this guess inherits the same
+    caveat and is never the only source `fill_context` tries."""
+    return re.sub(r"[:\\/]", "-", str(project.resolve()))
+
+
+def _find_transcript_compactions(project: Path, worker_name: str) -> int | None:
+    """The `transcript` fallback (docs/COMPACTION-DESIGN.md section 5):
+    search every session directory under the guessed projects slug for an
+    `agent-*.meta.json` whose `name` matches, and count `compact_boundary`
+    entries in its sibling `.jsonl`. Returns `None`, never raises, if the
+    projects directory, a matching meta file, or the sibling transcript
+    cannot be found: this is a best-effort fallback, not a guaranteed one,
+    and `fill_context` treats `None` as license to fall through to `source:
+    "none"` rather than a reason to error out of `--record` entirely."""
+    projects_dir = Path.home() / ".claude" / "projects" / _claude_projects_slug(project)
+    if not projects_dir.is_dir():
+        return None
+    matches = []
+    for meta_path in projects_dir.glob("*/subagents/agent-*.meta.json"):
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if meta.get("name") == worker_name:
+            matches.append(meta_path)
+    if not matches:
+        return None
+    newest = max(matches, key=lambda p: p.stat().st_mtime)
+    transcript = newest.with_name(newest.name[: -len(".meta.json")] + ".jsonl")
+    if not transcript.is_file():
+        return None
+    try:
+        text = transcript.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    return text.count("compact_boundary")
+
+
+def fill_context(project: Path, worker_name: str | None) -> dict:
+    """The `context` field for a `--record` entry (docs/COMPACTION-DESIGN.md
+    section 5): `tools/context_probe.py`'s per-task record for this worker
+    name, else a transcript's `compact_boundary` count, else nothing
+    observed. Never raises; a missing file, an unmatched name, or a data
+    source that cannot be located each fall through to the next
+    precedence level rather than failing the whole `--record` call, since
+    a worker's outcome is worth recording even when its context usage is
+    not observable. `worker_name=None` (no `--worker-name` given to a
+    plain `--record`) skips straight to `source: "none"`."""
+    if worker_name is None:
+        return dict(_NO_CONTEXT_OBSERVED)
+
+    usage_path = default_context_usage_path(project)
+    if usage_path.exists():
+        try:
+            data = json.loads(usage_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            data = {}
+        task = (data.get("tasks") or {}).get(worker_name)
+        if task and task.get("peak_tokens") is not None:
+            return {"peak_tokens": task.get("peak_tokens"), "window": task.get("contextWindowSize"),
+                    "compactions": task.get("compactions"), "source": "statusline"}
+
+    compactions = _find_transcript_compactions(project, worker_name)
+    if compactions is not None:
+        return {"peak_tokens": None, "window": None, "compactions": compactions, "source": "transcript"}
+
+    return dict(_NO_CONTEXT_OBSERVED)
+
+
 def context_explain_line(project: Path, priors: dict) -> str:
     """The `--explain` context line (docs/COMPACTION-DESIGN.md section 4):
     reads `tools/context_probe.py`'s output and compares its
@@ -838,6 +915,23 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check("stale" in line_stale and "WRITE A HANDOFF" in line_stale,
               f"(i) a stale sample should print 'stale' but still make the threshold comparison, got {line_stale!r}")
 
+        # fill_context (docs/COMPACTION-DESIGN.md section 5): no name given,
+        # a name present in the probe's tasks key, and a name present
+        # nowhere all resolve to the documented source and never raise.
+        none_ctx = fill_context(project, None)
+        check(none_ctx["source"] == "none" and none_ctx["peak_tokens"] is None,
+              f"fill_context(None) should report source 'none' with nothing observed, got {none_ctx}")
+
+        usage_path.write_text(json.dumps({"tasks": {"probe-worker": {"peak_tokens": 91000, "contextWindowSize": 200000,
+                                                                       "compactions": 2}}}), encoding="utf-8")
+        statusline_ctx = fill_context(project, "probe-worker")
+        check(statusline_ctx == {"peak_tokens": 91000, "window": 200000, "compactions": 2, "source": "statusline"},
+              f"fill_context should read a matching name from the probe's tasks key, got {statusline_ctx}")
+
+        missing_ctx = fill_context(project, "no-such-worker")
+        check(missing_ctx["source"] == "none",
+              f"fill_context should fall through to 'none' for a name the probe never saw, got {missing_ctx}")
+
     return (not problems, problems)
 
 
@@ -867,7 +961,10 @@ def main(argv: list[str]) -> int:
                      help="write a pending ledger entry at spawn time (docs/COMPACTION-DESIGN.md section 4); "
                           "needs --task-slug, --first-cell, --worker-name and an assessment")
     ap.add_argument("--worker-name", help="--spawn: the name the Agent call gave this worker, "
-                                           "so --recover can name it after a compaction")
+                                           "so --recover can name it after a compaction. --record (no --pending): "
+                                           "optional, looked up in tools/context_probe.py's data to fill context; "
+                                           "omit to record context as unobserved. --record --pending always uses "
+                                           "the name recorded at --spawn time instead")
     ap.add_argument("--pending", metavar="LED-ID",
                      help="--record: complete this --spawn entry in place instead of appending a new one")
     ap.add_argument("--recover", action="store_true",
@@ -923,12 +1020,12 @@ def main(argv: list[str]) -> int:
         notes = _PENDING_NOTE_PREFIX + args.worker_name
         if args.notes:
             notes += f"; {args.notes}"
-        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 0, "references": [],
+        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
                  "first_cell": args.first_cell, "escalations": [], "final_outcome": "unknown",
                  "cost_usd": 0, "wall_clock_s": 0, "controller_run_dir": None, "winning_technique": None,
-                 "notes": notes[:300]}
+                 "notes": notes[:300], "context": dict(_NO_CONTEXT_OBSERVED)}
         append_ledger_entry(ledger_path, entry)
         print(entry["id"])
         return 0
@@ -937,15 +1034,21 @@ def main(argv: list[str]) -> int:
         if not all((args.outcome is not None, args.cost_usd is not None, args.wall_clock_s is not None)):
             ap.error("--record --pending needs --outcome, --cost-usd and --wall-clock-s")
         ledger_path = args.ledger or default_ledger_path(args.project)
+        pending_entry = next((e for e in load_ledger(ledger_path) if e.get("id") == args.pending), None)
+        if pending_entry is None:
+            print(str(LedgerEntryNotFound(args.pending)), file=sys.stderr)
+            return 1
         escalations = []
         for item in args.escalation:
             cell, _, outcome = item.partition(":")
             if outcome not in ("pass", "fail", "unknown"):
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
+        context = fill_context(args.project, pending_worker_name(pending_entry))
         updates = {"escalations": escalations, "final_outcome": args.outcome,
                    "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
-                   "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique}
+                   "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
+                   "ledger_version": 1, "context": context}
         if args.notes:
             updates["notes"] = args.notes[:300]
         try:
@@ -954,6 +1057,7 @@ def main(argv: list[str]) -> int:
             print(str(exc), file=sys.stderr)
             return 1
         print(completed["id"])
+        print(f"context: {context['source']}")
         return 0
 
     if args.record:
@@ -971,15 +1075,17 @@ def main(argv: list[str]) -> int:
             if outcome not in ("pass", "fail", "unknown"):
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
-        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 0, "references": [],
+        context = fill_context(args.project, args.worker_name)
+        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
                  "first_cell": args.first_cell, "escalations": escalations, "final_outcome": args.outcome,
                  "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
                  "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
-                 "notes": args.notes[:300]}
+                 "notes": args.notes[:300], "context": context}
         append_ledger_entry(ledger_path, entry)
         print(entry["id"])
+        print(f"context: {context['source']}")
         return 0
 
     sensitivity, horizon, blast, self_directed, prior_failure = resolve_assessment()
