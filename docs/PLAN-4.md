@@ -31,13 +31,21 @@ than the runs were designed to:
   observed ratios after compaction were 0.57 and 0.87, because the fixed
   prefix never shrinks. Every real compaction observed would have been
   missed.
-- The trigger is the window minus a fixed reserve of about 34,000 tokens,
-  bracketed by two runs and matched by the documentation's 967,000-of-1M
-  figure; the floor after a compaction is about 59,000 regardless of
-  window; so headroom is window minus about 93,000, and a task refilling
-  that within three turns is aborted outright by the platform. The shipped
-  200,000 is safe below about 36,000 tokens per turn and not above it; the
-  platform's own 100,000 minimum thrashes on ordinary file reads.
+- The trigger is the window minus a reserve of about 34,000 tokens on
+  plain-text content (bracketed by four compactions across two windows and
+  matched by the documentation's 967,000-of-1M figure), and the reserve is
+  content-conditional: the platform evaluates it on its own estimate, and
+  run 1's Greek-letter content triggered ten thousand tokens later on the
+  same window. The floor after a structured compaction is about 59,000
+  regardless of window, so headroom is window minus about 93,000, and a
+  task refilling that within three turns is aborted outright by the
+  platform. The shipped 200,000 is safe below about 36,000 tokens per turn
+  and not above it; the platform's own 100,000 minimum thrashes on ordinary
+  file reads.
+- A refused summariser produces a stub summary that keeps nothing (run 1:
+  1,124 and 1,482 characters, no headings, no constraint) and the platform
+  carries on. Plan 3 never named this failure mode; the pre-registration
+  scores it.
 
 ## The design decisions this plan rests on
 
@@ -126,8 +134,12 @@ Tasks:
       Done 2026-09-15. Section 13, nine subsections; earlier sections
       left in place as the record of the pre-evidence design, with 13
       governing where they disagree.
-- [ ] A.5 `handoffs/2026-09-15-plan4-stageB.md`, written with
+- [x] A.5 `handoffs/2026-09-15-plan4-stageB.md`, written with
       `tools/handoff.py new --pending-workers` and passing `check`.
+      Done 2026-09-15. The first handoff written with `--pending-workers`
+      (Plan 3 Stage D); the ledger had no pending entry, so the listing
+      reads "(none)". Also corrects this file's own opening bullet, which
+      still called the reserve fixed after A.2 found it content-conditional.
 - [ ] A.6 Update this stage's status line and commit it.
 
 Exit criteria: D72 present and citing the generated evidence file; the
