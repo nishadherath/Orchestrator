@@ -729,11 +729,13 @@ def check_backtest(r: Report) -> None:
 
 
 def check_route_selftest(r: Report) -> None:
-    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 11 scripted
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 12 scripted
     ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text;
     the spawn/record/recover round trip and the --explain context line
     from docs/PLAN-3.md Stage B; the overflow advisory firing and not
-    firing from Stage C), no claude -p calls."""
+    firing from Stage C; transcript-first fill_context and the
+    session-pointer round trip from docs/PLAN-4.md Stage C, section 13.1
+    and 13.4), no claude -p calls."""
     script = REPO_ROOT / "tools" / "route.py"
     if not script.exists():
         r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
@@ -761,8 +763,10 @@ def check_handoff_selftest(r: Report) -> None:
 def check_probe_selftest(r: Report) -> None:
     """PROBE-SELFTEST: tools/context_probe.py's --selftest passes: both
     status line modes round-trip against the documentation-derived sample
-    in test/fixtures/system/statusline-sample.json, no claude -p calls
-    (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md section 11)."""
+    in test/fixtures/system/statusline-sample.json, plus the
+    effective-window used_percentage recomputation against a configured
+    autoCompactWindow, no claude -p calls (docs/PLAN-3.md Stage B,
+    docs/COMPACTION-DESIGN.md section 11 and 13.2, docs/PLAN-4.md Stage C)."""
     script = REPO_ROOT / "tools" / "context_probe.py"
     if not script.exists():
         r.add("PROBE-SELFTEST", "context_probe.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")

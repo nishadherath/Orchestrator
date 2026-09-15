@@ -106,6 +106,12 @@
       ],
       "provenance": "code.claude.com/docs/en/model-config, Set the auto-compact window, read 2026-09-15"
     },
+    "model_windows": {
+      "claude-sonnet-5": 1000000,
+      "claude-opus-5": 1000000,
+      "claude-fable-5-1": 1000000,
+      "provenance": "the same figures auto_compact.default already documents (native 1,000,000-token windows on Sonnet 5, Fable and Opus 4.7 and later), keyed here by the exact model ids this repository's transcripts and system prompt use for its three routed families (docs/COMPACTION-DESIGN.md section 13.1, D72). An id not listed here resolves to null in tools/route.py, never a guess: this table is only ever extended after a session verifies a new id against a live transcript, the same discipline docs/FINDINGS.md holds unverified platform behaviour to."
+    },
     "compaction_cost": {
       "symbols": "C context tokens before, S summary tokens after, S_out summary output tokens, r cache_read, w cache_write, o output_over_input, all relative to the input price",
       "compact_warm": "r*C + o*S_out + w*S",

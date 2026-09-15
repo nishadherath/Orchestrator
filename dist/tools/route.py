@@ -39,6 +39,12 @@ Usage:
     python3 tools/route.py --record --pending led-042 --project . \\
         --outcome pass --cost-usd 0.17 --wall-clock-s 52
     python3 tools/route.py --recover --project .
+
+    The session pointer, written from a SessionStart hook's own stdin
+    (docs/COMPACTION-DESIGN.md section 13.4), so fill_context can scope a
+    transcript search to the current session rather than every session
+    under the project:
+    python3 tools/route.py --session-pointer --project . < hook-input.json
 """
 from __future__ import annotations
 
@@ -628,10 +634,15 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
 
 
 CONTEXT_USAGE_FILENAME = ".claude/context-usage.json"
+SESSION_POINTER_FILENAME = ".claude/session.json"
 
 
 def default_context_usage_path(project: Path) -> Path:
     return project / CONTEXT_USAGE_FILENAME
+
+
+def default_session_pointer_path(project: Path) -> Path:
+    return project / SESSION_POINTER_FILENAME
 
 
 _NO_CONTEXT_OBSERVED = {"peak_tokens": None, "window": None, "compactions": None, "source": "none"}
@@ -647,34 +658,92 @@ def _claude_projects_slug(project: Path) -> str:
     return re.sub(r"[:\\/]", "-", str(project.resolve()))
 
 
-def _find_transcript_compactions(project: Path, cell: str | None) -> int | None:
-    """The `transcript` fallback (docs/COMPACTION-DESIGN.md section 5, as
-    corrected by E30, docs/PLAN-3.md Stage E): search every session
-    directory under the guessed projects slug for the most recently
-    modified `agent-*.meta.json` whose `agentType` matches this cell, and
-    count `compact_boundary` entries in its sibling `.jsonl`.
+def _read_session_pointer(project: Path) -> dict | None:
+    """Reads `.claude/session.json` (docs/COMPACTION-DESIGN.md section
+    13.4), the file `--session-pointer` writes from a `SessionStart`
+    hook's own input: `{"session_id", "transcript_path", "cwd", "event",
+    "written_at"}`. Returns `None`, never raises, if the file does not
+    exist or does not parse as a JSON object: this is the common case
+    until a session actually runs the hook (the hook is new in this
+    stage; every project this repository has run against so far has no
+    such file), and every caller of this function must tolerate that
+    gracefully rather than treat its absence as an error."""
+    path = default_session_pointer_path(project)
+    if not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    return data if isinstance(data, dict) else None
 
-    The design as first written matched on the worker's assigned `name`;
-    E30's live probe found `agent-*.meta.json` carries no `name` field at
-    all (its actual keys are `agentType`, `description`, `toolUseId`,
-    `spawnDepth`, `requestShape`, `requestNonInteractive`), and the
-    assigned name does not appear in the subagent's own transcript
-    either, only in the parent session's prompt text. Matching on `cell`
-    (`agentType`) instead is weaker, since it cannot distinguish two
-    same-cell workers spawned close together, and this precision loss is
-    the honest cost of the fix, not hidden by it. Returns `None`, never
-    raises, if the projects directory, a matching meta file, or the
-    sibling transcript cannot be found, or if `cell` itself is `None`:
-    this is a best-effort fallback, not a guaranteed one, and
-    `fill_context` treats `None` as license to fall through to `source:
-    "none"` rather than a reason to error out of `--record` entirely."""
+
+def _write_session_pointer(payload: dict, project: Path) -> None:
+    """`--session-pointer`'s write side (docs/COMPACTION-DESIGN.md section
+    13.4): takes a `SessionStart` hook's own JSON input (already parsed)
+    and writes `.claude/session.json` under `project` as `{"session_id",
+    "transcript_path", "cwd", "event", "written_at"}`. `event` is the
+    hook input's `source` field (`docs/en/hooks`' common input fields;
+    for `SessionStart` this carries the matcher value, `startup`,
+    `resume`, `compact` or `clear`, matching the matcher names
+    `src/settings.fragment.json` wires this same hook under). Atomic
+    write, temp file then rename, the same shape
+    `tools/context_probe.py`'s `_atomic_write_json` already uses, so a
+    reader never sees a half-written file. Never raises on a payload
+    missing expected keys: `.get` on an absent field just writes `None`,
+    which `_read_session_pointer`'s callers already treat as license to
+    fall back rather than a reason to error."""
+    pointer = {
+        "session_id": payload.get("session_id"),
+        "transcript_path": payload.get("transcript_path"),
+        "cwd": payload.get("cwd"),
+        "event": payload.get("source"),
+        "written_at": dt.datetime.now().isoformat(),
+    }
+    path = default_session_pointer_path(project)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(pointer, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    tmp.replace(path)
+
+
+def _resolve_transcript(project: Path, cell: str | None) -> Path | None:
+    """Locates this cell's most recent subagent transcript
+    (docs/COMPACTION-DESIGN.md section 13.1, D72). When
+    `.claude/session.json` names a session whose `transcript_path`
+    resolves to a real `subagents/` directory next to it, the search is
+    scoped to that directory alone, so a decoy transcript from a
+    different, unrelated session already sitting under the same projects
+    slug is never picked by accident. Only when no pointer exists, or the
+    one that does exist does not resolve to a real directory, does this
+    fall back to searching every session under the guessed projects slug
+    by cell and recency, exactly as D71 shipped (the design this section
+    supersedes; see the retired `_find_transcript_compactions`'s own
+    docstring, kept in git history, for why matching is on `cell`
+    (`agentType`) rather than the worker's assigned name).
+
+    Returns the sibling `.jsonl` of the newest matching
+    `agent-*.meta.json`, or `None` if nothing matches; never raises."""
     if not cell:
         return None
-    projects_dir = Path.home() / ".claude" / "projects" / _claude_projects_slug(project)
-    if not projects_dir.is_dir():
-        return None
+
+    scoped_dir: Path | None = None
+    pointer = _read_session_pointer(project)
+    if pointer and pointer.get("transcript_path"):
+        candidate = Path(pointer["transcript_path"]).parent / "subagents"
+        if candidate.is_dir():
+            scoped_dir = candidate
+
+    if scoped_dir is not None:
+        meta_paths = list(scoped_dir.glob("agent-*.meta.json"))
+    else:
+        projects_dir = Path.home() / ".claude" / "projects" / _claude_projects_slug(project)
+        if not projects_dir.is_dir():
+            return None
+        meta_paths = list(projects_dir.glob("*/subagents/agent-*.meta.json"))
+
     matches = []
-    for meta_path in projects_dir.glob("*/subagents/agent-*.meta.json"):
+    for meta_path in meta_paths:
         try:
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
@@ -685,28 +754,102 @@ def _find_transcript_compactions(project: Path, cell: str | None) -> int | None:
         return None
     newest = max(matches, key=lambda p: p.stat().st_mtime)
     transcript = newest.with_name(newest.name[: -len(".meta.json")] + ".jsonl")
-    if not transcript.is_file():
+    return transcript if transcript.is_file() else None
+
+
+def _transcript_context_stats(project: Path, cell: str | None) -> dict | None:
+    """The `transcript` source (docs/COMPACTION-DESIGN.md section 13.1,
+    D72), now the first precedence level `fill_context` tries rather than
+    the last: a worker's own `agent-*.jsonl` carries a strictly richer
+    context history than the status line (every assistant message's
+    `usage` and `model`), and it works headless, where the status line
+    never fires at all.
+
+    Returns `{"compactions": int, "peak_tokens": int | None, "window":
+    int | None}`, or `None` only if the transcript itself cannot be
+    located (`_resolve_transcript`); a located transcript always returns
+    a dict, even one with `compactions: 0` and both other fields `None`,
+    since a transcript that exists but is silent about tokens is still
+    evidence the cell ran, distinct from no transcript at all.
+
+    `compactions` is the count of lines containing
+    `"subtype":"compact_boundary"` (unchanged from the retired
+    `_find_transcript_compactions`). `peak_tokens` is the largest value
+    among every `compactMetadata.preTokens` found in a `compact_boundary`
+    system event and every assistant message's `input_tokens +
+    cache_read_input_tokens + cache_creation_input_tokens` (a missing
+    field counts as 0 for that sum). `window` is the model's native
+    context window, looked up by the first assistant message's
+    `message.model` in `src/cost_table.json`'s `context.model_windows`
+    table (`load_cost_table`); `None` if no assistant message is found or
+    its model id is not in that table, never a guess. A line that fails
+    to parse as JSON is skipped, the same tolerance the meta-file reads
+    already use."""
+    transcript = _resolve_transcript(project, cell)
+    if transcript is None:
         return None
     try:
         text = transcript.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return None
-    return text.count('"subtype":"compact_boundary"')
+
+    compactions = text.count('"subtype":"compact_boundary"')
+    model_windows = load_cost_table().get("context", {}).get("model_windows", {})
+    peak_tokens: int | None = None
+    first_model: str | None = None
+
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(event, dict):
+            continue
+        event_type = event.get("type")
+        if event_type == "system" and event.get("subtype") == "compact_boundary":
+            pre_tokens = (event.get("compactMetadata") or {}).get("preTokens")
+            if isinstance(pre_tokens, (int, float)):
+                peak_tokens = int(pre_tokens) if peak_tokens is None else max(peak_tokens, int(pre_tokens))
+        elif event_type == "assistant":
+            message = event.get("message") or {}
+            usage = message.get("usage") or {}
+            total = (usage.get("input_tokens") or 0) + (usage.get("cache_read_input_tokens") or 0) \
+                + (usage.get("cache_creation_input_tokens") or 0)
+            if total:
+                peak_tokens = int(total) if peak_tokens is None else max(peak_tokens, int(total))
+            if first_model is None and message.get("model"):
+                first_model = message["model"]
+
+    window = model_windows.get(first_model) if first_model is not None else None
+    return {"compactions": compactions, "peak_tokens": peak_tokens, "window": window}
 
 
 def fill_context(project: Path, worker_name: str | None, cell: str | None = None) -> dict:
-    """The `context` field for a `--record` entry (docs/COMPACTION-DESIGN.md
-    section 5): `tools/context_probe.py`'s per-task record for this worker
-    name, else a transcript's `compact_boundary` count for this cell
-    (`_find_transcript_compactions`, corrected by E30), else nothing
-    observed. Never raises; a missing file, an unmatched name or cell, or
-    a data source that cannot be located each fall through to the next
-    precedence level rather than failing the whole `--record` call, since
-    a worker's outcome is worth recording even when its context usage is
-    not observable. `worker_name=None` (no `--worker-name` given to a
-    plain `--record`) skips straight to `source: "none"`."""
+    """The `context` field for a `--record` entry. Precedence reversed
+    from the design's first cut (docs/COMPACTION-DESIGN.md section 13.1,
+    D72, superseding section 5): the worker's own transcript first
+    (`_transcript_context_stats`), `tools/context_probe.py`'s status-line
+    record second, nothing observed last. The reversal is because D72's
+    live transcripts showed the status line is not just a secondary
+    source but the wrong one to prefer: it never populates headless, and
+    the transcript carries `peak_tokens` and `window` the status line
+    cannot give at all. Never raises; a missing file, an unmatched name
+    or cell, or a data source that cannot be located each fall through to
+    the next precedence level rather than failing the whole `--record`
+    call, since a worker's outcome is worth recording even when its
+    context usage is not observable. `worker_name=None` (no
+    `--worker-name` given to a plain `--record`) skips straight to
+    `source: "none"`, unchanged from before this revision."""
     if worker_name is None:
         return dict(_NO_CONTEXT_OBSERVED)
+
+    stats = _transcript_context_stats(project, cell)
+    if stats is not None:
+        return {"peak_tokens": stats["peak_tokens"], "window": stats["window"],
+                "compactions": stats["compactions"], "source": "transcript"}
 
     usage_path = default_context_usage_path(project)
     if usage_path.exists():
@@ -718,10 +861,6 @@ def fill_context(project: Path, worker_name: str | None, cell: str | None = None
         if task and task.get("peak_tokens") is not None:
             return {"peak_tokens": task.get("peak_tokens"), "window": task.get("contextWindowSize"),
                     "compactions": task.get("compactions"), "source": "statusline"}
-
-    compactions = _find_transcript_compactions(project, cell)
-    if compactions is not None:
-        return {"peak_tokens": None, "window": None, "compactions": compactions, "source": "transcript"}
 
     return dict(_NO_CONTEXT_OBSERVED)
 
@@ -819,8 +958,10 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     a temp directory (docs/ROUTING-2-DESIGN.md section 3, scenarios a-g;
     docs/COMPACTION-DESIGN.md adds scenario h, the spawn/record/recover
     round trip (section 4), i, the --explain context line (section 4),
-    j, the overflow advisory firing (section 6), and k, it not firing on
-    uncompacted failures (section 6))."""
+    j, the overflow advisory firing (section 6), k, it not firing on
+    uncompacted failures (section 6), and l, transcript-first
+    `fill_context` and the session-pointer round trip (section 13.1,
+    13.4, D72))."""
     import tempfile
 
     problems: list[str] = []
@@ -1048,6 +1189,78 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     check(not p_k["overflow"]["advisory"] and p_k["overflow"]["mean"] < priors["steering"]["overflow_advisory_min_mean"],
           f"(k) three uncompacted attempts should not cross the overflow advisory threshold, got {p_k['overflow']}")
 
+    # (l) fill_context's transcript-first precedence (docs/COMPACTION-DESIGN.md
+    # section 13.1, D72) and the session-pointer round trip (section 13.4).
+    # A synthetic subagent transcript with one assistant message (a known
+    # usage sum and model id) and one compact_boundary (a known preTokens)
+    # should resolve peak_tokens to the larger of the two, window from the
+    # model id via cost_table.json's new context.model_windows table, and
+    # compactions from the boundary count. A decoy transcript for the same
+    # cell, in a different session with larger numbers throughout and a
+    # newer mtime, proves the scoping: without a pointer, the every-session
+    # fallback prefers the decoy on recency; with a pointer naming the
+    # correct session, fill_context must find only that session's own
+    # transcript, never falling through to the decoy.
+    import os
+    import time
+    from unittest import mock
+
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        fake_home = Path(tmp) / "home"
+        project = Path(tmp) / "project"
+        project.mkdir(parents=True)
+        projects_dir = fake_home / ".claude" / "projects" / _claude_projects_slug(project)
+
+        def make_transcript(session_id: str, model: str, input_tokens: int, pre_tokens: int) -> Path:
+            subagents_dir = projects_dir / session_id / "subagents"
+            subagents_dir.mkdir(parents=True)
+            meta_path = subagents_dir / f"agent-{session_id}.meta.json"
+            meta_path.write_text(json.dumps({"agentType": "worker-sonnet-low"}), encoding="utf-8")
+            transcript_path = subagents_dir / f"agent-{session_id}.jsonl"
+            # separators=(",", ":") matches the platform's own compact
+            # JSONL encoding (no space after the colon), which is what
+            # `compactions`'s literal substring count assumes, the same
+            # as every real transcript this repository has read.
+            lines = [
+                json.dumps({"type": "assistant", "message": {
+                    "model": model,
+                    "usage": {"input_tokens": input_tokens, "cache_read_input_tokens": 0,
+                              "cache_creation_input_tokens": 0}}}, separators=(",", ":")),
+                json.dumps({"type": "system", "subtype": "compact_boundary",
+                            "compactMetadata": {"preTokens": pre_tokens}}, separators=(",", ":")),
+            ]
+            transcript_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            return meta_path
+
+        with mock.patch.object(Path, "home", return_value=fake_home):
+            correct_meta = make_transcript("session-correct", "claude-sonnet-5", 50000, 80000)
+            decoy_meta = make_transcript("session-decoy", "claude-sonnet-5", 999000, 999000)
+            now = time.time()
+            for meta_path, mtime in ((correct_meta, now - 100), (decoy_meta, now)):
+                transcript_path = meta_path.with_name(meta_path.name[: -len(".meta.json")] + ".jsonl")
+                os.utime(meta_path, (mtime, mtime))
+                os.utime(transcript_path, (mtime, mtime))
+
+            no_pointer_ctx = fill_context(project, "some-worker", "worker-sonnet-low")
+            check(no_pointer_ctx["source"] == "transcript" and no_pointer_ctx["peak_tokens"] == 999000,
+                  f"(l) with no session pointer, fill_context should fall back to the newest transcript "
+                  f"across every session (the decoy), got {no_pointer_ctx}")
+
+            correct_session_dir = projects_dir / "session-correct"
+            hook_input = {"session_id": "session-correct",
+                          "transcript_path": str(correct_session_dir / "session-correct.jsonl"),
+                          "cwd": str(project), "source": "compact"}
+            _write_session_pointer(hook_input, project)
+            pointer = _read_session_pointer(project)
+            check(pointer is not None and pointer.get("session_id") == "session-correct"
+                  and pointer.get("event") == "compact" and pointer.get("cwd") == str(project),
+                  f"(l) _read_session_pointer should read back what --session-pointer wrote, got {pointer}")
+
+            scoped_ctx = fill_context(project, "some-worker", "worker-sonnet-low")
+            check(scoped_ctx == {"peak_tokens": 80000, "window": 1000000, "compactions": 1, "source": "transcript"},
+                  f"(l) with a session pointer in place, fill_context should resolve only the pointed-to "
+                  f"session's transcript, not the newer decoy in a different session, got {scoped_ctx}")
+
     return (not problems, problems)
 
 
@@ -1086,6 +1299,10 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--recover", action="store_true",
                      help="print the SessionStart(compact) hook's report: pending workers and the newest "
                           "handoff, zero model calls (docs/COMPACTION-DESIGN.md section 4)")
+    ap.add_argument("--session-pointer", action="store_true",
+                     help="SessionStart hook mode (docs/COMPACTION-DESIGN.md section 13.4): read the hook's "
+                          "own JSON input from stdin and write .claude/session.json under --project; "
+                          "never raises on malformed stdin, prints one line to stderr and exits 1 instead")
     ap.add_argument("--task-slug", help="--record/--spawn: short name for the routed task")
     ap.add_argument("--first-cell", help="--record/--spawn: the cell, or 'controller', tried first")
     ap.add_argument("--outcome", choices=("pass", "fail", "unknown"), help="--record: final_outcome")
@@ -1104,12 +1321,24 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 11 scenarios")
+            print("selftest: PASS, 12 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
             print(f"  - {p}")
         return 1
+
+    if args.session_pointer:
+        try:
+            payload = json.loads(sys.stdin.read() or "{}")
+        except json.JSONDecodeError as exc:
+            print(f"route.py --session-pointer: stdin did not parse as JSON: {exc}", file=sys.stderr)
+            return 1
+        if not isinstance(payload, dict):
+            print("route.py --session-pointer: stdin did not parse as a JSON object", file=sys.stderr)
+            return 1
+        _write_session_pointer(payload, args.project)
+        return 0
 
     if args.recover:
         print(recover_report(args.project))

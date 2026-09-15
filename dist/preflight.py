@@ -232,6 +232,34 @@ def _load_settings(cwd: Path) -> list[tuple[Path, dict]]:
     return out
 
 
+def _resolved_autocompact_window(cwd: Path) -> tuple[int | None, str]:
+    """The auto-compact window's resolution logic, in the documented
+    precedence: `CLAUDE_CODE_AUTO_COMPACT_WINDOW` first, else the first
+    `autoCompactWindow` key found across `_load_settings`'s scopes (user,
+    project, local, in that order). Factored out of `check_autocompact_window`
+    so `check_autocompact_headroom` (section 13.5) shares the same scan
+    instead of carrying a second copy of it in this same file; unlike
+    `tools/context_probe.py`'s own duplicate of this logic (cited there,
+    since that file cannot import this one), this is the same-file case,
+    where sharing costs nothing.
+
+    Returns `(value, source)`. `source` is always a string, never `None`:
+    the settings file's path, the environment variable's name, a short
+    note when the environment variable did not parse as an integer, or
+    the empty string when nothing is configured anywhere, so a caller can
+    tell "explicitly invalid" from "simply unset" without a second check."""
+    env = os.environ.get("CLAUDE_CODE_AUTO_COMPACT_WINDOW")
+    if env is not None:
+        try:
+            return int(env), "CLAUDE_CODE_AUTO_COMPACT_WINDOW"
+        except ValueError:
+            return None, f"CLAUDE_CODE_AUTO_COMPACT_WINDOW={env!r} (not a plain token count)"
+    for path, data in _load_settings(cwd):
+        if "autoCompactWindow" in data:
+            return data["autoCompactWindow"], str(path)
+    return None, ""
+
+
 def check_autocompact_window(cwd: Path) -> dict:
     """docs/COMPACTION-DESIGN.md section 9: the auto-compact window should
     be set below the model's native limit, so route.py --explain's
@@ -239,19 +267,9 @@ def check_autocompact_window(cwd: Path) -> dict:
     chance to fire before the platform's own compaction does (D68's
     economics: a handoff is a few hundred tokens, a fallback compaction
     at the model's full 1M-token limit is not)."""
-    env = os.environ.get("CLAUDE_CODE_AUTO_COMPACT_WINDOW")
-    if env is not None:
-        try:
-            value, source = int(env), "CLAUDE_CODE_AUTO_COMPACT_WINDOW"
-        except ValueError:
-            return {"check": "auto-compact window", "status": "WARN",
-                    "detail": f"CLAUDE_CODE_AUTO_COMPACT_WINDOW={env!r} is not a plain token count"}
-    else:
-        value, source = None, None
-        for path, data in _load_settings(cwd):
-            if "autoCompactWindow" in data:
-                value, source = data["autoCompactWindow"], str(path)
-                break
+    value, source = _resolved_autocompact_window(cwd)
+    if value is None and source:
+        return {"check": "auto-compact window", "status": "WARN", "detail": source}
     if value is None:
         return {"check": "auto-compact window", "status": "WARN",
                 "detail": "unset; Claude Code compacts at the model's own limit (about 967,000 tokens on a "
@@ -262,6 +280,61 @@ def check_autocompact_window(cwd: Path) -> dict:
                 "detail": f"{source} sets autoCompactWindow to {value!r}, outside the documented 100,000 to "
                           "1,000,000 range (code.claude.com/docs/en/model-config)"}
     return {"check": "auto-compact window", "status": "PASS", "detail": f"{value:,} tokens, set in {source}"}
+
+
+# The model's own default native ceiling, quoted verbatim from
+# check_autocompact_window's own WARN text above ("about 967,000 tokens on
+# a native 1M model"), used as check_autocompact_headroom's assumed window
+# only when nothing is configured at all: an assumption stated as one in
+# that check's own detail string, never silently treated as measured.
+_ASSUMED_DEFAULT_WINDOW = 967_000
+
+# The floor after a structured compaction (about 59,000 tokens) plus the
+# platform's own reserve before it triggers the next one: docs/DECISIONS.md
+# D72 point 4, bracketed from four observed compactions across two windows
+# on plain-text content, version 2.1.268. Both this and the multiplier of
+# three below are a bracket, not an exact constant, which is why
+# check_autocompact_headroom below never returns FAIL.
+_THRASH_FLOOR_RESERVE = 93_000
+
+
+def check_autocompact_headroom(cwd: Path, per_turn_tokens: int) -> dict:
+    """docs/COMPACTION-DESIGN.md section 13.5: a new check alongside
+    `check_autocompact_window`, warning when the resolved auto-compact
+    window leaves too little headroom above the platform's own
+    post-compaction floor for a task to survive three ordinary turns
+    before the platform aborts it outright as thrashing.
+
+    `WARN` when `window - 93,000 < 3 * per_turn_tokens`; `PASS` otherwise.
+    Never `FAIL`: 93,000 and the multiplier of three are both brackets
+    from a small number of observed compactions (docs/DECISIONS.md D72
+    point 4, plain-text content, version 2.1.268), not exact thresholds,
+    so a value just outside them is an advisory, not a certainty. When no
+    window is configured at all, this assumes the model's own default
+    native ceiling (about 967,000 tokens) rather than leaving the check
+    unable to run, and says in its detail string that this is an
+    assumption, not an observation, per this repository's own rule
+    against silent capability claims."""
+    value, source = _resolved_autocompact_window(cwd)
+    if value is None:
+        window = _ASSUMED_DEFAULT_WINDOW
+        configured_note = (f"no explicit window configured ({source}); " if source
+                            else "no explicit window configured; ")
+        window_note = f"{configured_note}assuming the model's own default native ceiling of about {window:,} tokens"
+    else:
+        window = value
+        window_note = f"resolved window {window:,} tokens, from {source}"
+
+    headroom = window - _THRASH_FLOOR_RESERVE
+    threshold = 3 * per_turn_tokens
+    detail = (f"{window_note}. window - {_THRASH_FLOOR_RESERVE:,} = {headroom:,}; "
+              f"3 * per-turn footprint ({per_turn_tokens:,}) = {threshold:,}. "
+              "Bracket per docs/DECISIONS.md D72 point 4, plain-text content, version 2.1.268.")
+    if headroom < threshold:
+        return {"check": "auto-compact headroom", "status": "WARN",
+                "detail": f"{detail} Below the bracket: a task refilling this headroom within three turns "
+                          "may be aborted outright by the platform as thrashing. Read in smaller chunks."}
+    return {"check": "auto-compact headroom", "status": "PASS", "detail": detail}
 
 
 def check_cache_ttl(cwd: Path, controller_installed: bool) -> dict:
@@ -328,13 +401,17 @@ def check_context_probe(cwd: Path) -> dict:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--per-turn-tokens", type=int, default=8000,
+                     help="assumed per-turn read size for the auto-compact headroom check "
+                          "(docs/COMPACTION-DESIGN.md section 13.5); default 8,000, E30's read size")
     args = ap.parse_args(argv)
 
     cwd = Path.cwd()
     controller = check_controller(cwd)
     checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd), controller,
                             check_routing_data(cwd), check_route_selftest(cwd), check_bash_permission(cwd),
-                            check_autocompact_window(cwd), check_cache_ttl(cwd, controller["status"] == "PASS"),
+                            check_autocompact_window(cwd), check_autocompact_headroom(cwd, args.per_turn_tokens),
+                            check_cache_ttl(cwd, controller["status"] == "PASS"),
                             check_compaction_hook(cwd), check_context_probe(cwd)]
     checks.append({"check": "organisation effort limits", "status": "WARN",
                     "detail": "not checkable from a shell; ask your admin whether any model has a capped effort "

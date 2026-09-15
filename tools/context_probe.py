@@ -16,7 +16,18 @@ cannot clobber one another's half of the file.
 Deliberately does not: read or write the routing ledger (`route.py` does
 that), or assume `tokenSamples`' shape (undocumented beyond its name,
 D69); it is recorded verbatim and its peak is taken by walking every
-numeric value found in it, whatever shape it turns out to have.
+numeric value found in it, whatever shape it turns out to have. Also,
+since docs/COMPACTION-DESIGN.md section 13.2 (D72), does not detect
+compactions from a drop in a task's token count: that heuristic was
+falsified by live transcripts (E30) and is not applied here any more;
+compaction detection now lives only in the transcript
+(`tools/route.py`'s `_transcript_context_stats`).
+
+`main`'s `used_percentage` is recomputed against the effective
+auto-compact window, `min(context_window_size, resolved)`, rather than
+taken verbatim from the platform (section 13.2); the platform's own
+figure is kept alongside it as `platform_used_percentage` so the two can
+be compared.
 
 `--main`'s stdout is the rendered status line text, since that is what
 `statusLine` displays verbatim. `--tasks` prints nothing: `subagentStatusLine`
@@ -34,6 +45,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -88,18 +100,93 @@ def _numeric_leaves(obj: object) -> list[float]:
     return out
 
 
-def main_record(payload: dict) -> dict:
-    """The `main` key's shape (section 2), read from one status line
-    invocation's JSON. Every field is `None` when the platform has not
-    populated it yet (before the first API response, or again right
-    after `/compact` until the next one, `docs/en/statusline`)."""
+def _resolve_autocompact_window(project: Path) -> tuple[int | None, str | None]:
+    """Resolves the configured auto-compact window in the documented
+    precedence (docs/COMPACTION-DESIGN.md section 13.2): the
+    `CLAUDE_CODE_AUTO_COMPACT_WINDOW` environment variable first, else the
+    first `autoCompactWindow` key found across `.claude/settings.local.json`,
+    `.claude/settings.json` (both under `project`) and
+    `~/.claude/settings.json`, in that order. Returns `(None, None)` when
+    nothing is configured anywhere, so `main_record` falls back to the
+    platform's own `context_window_size`.
+
+    This duplicates a small piece of logic `src/preflight.py`'s
+    `check_autocompact_window` (and, after this stage, its shared
+    `_resolved_autocompact_window` helper) already implements for the same
+    purpose. `context_probe.py` cannot import `preflight.py`: this file
+    ships standalone in `dist/` (its own module docstring's "Deliberately
+    does not" convention), the same reason `src/preflight.py` itself gives
+    for not importing `tools/cells.py`. This is therefore intentional,
+    cited duplication, not an oversight."""
+    env = os.environ.get("CLAUDE_CODE_AUTO_COMPACT_WINDOW")
+    if env is not None:
+        try:
+            return int(env), "CLAUDE_CODE_AUTO_COMPACT_WINDOW"
+        except ValueError:
+            return None, None
+    for path in (project / ".claude" / "settings.local.json", project / ".claude" / "settings.json",
+                 Path.home() / ".claude" / "settings.json"):
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if isinstance(data, dict) and "autoCompactWindow" in data:
+            return data["autoCompactWindow"], str(path)
+    return None, None
+
+
+def main_record(payload: dict, project: Path) -> dict:
+    """The `main` key's shape (section 2, revised by section 13.2, D72).
+    Every platform-reported field is `None` when the platform has not
+    populated it yet (before the first API response, or again right after
+    `/compact` until the next one, `docs/en/statusline`).
+
+    `used_percentage` is recomputed against `effective_window =
+    min(context_window_size, resolved)`, where `resolved` is whatever
+    `_resolve_autocompact_window` finds, so a configured
+    `autoCompactWindow` smaller than the model's native window is
+    reflected here even where the platform's own figure (kept verbatim as
+    `platform_used_percentage`) does not yet account for it (D69's own
+    reversal clause; this is a no-op wherever the platform already does).
+    `effective_window_source` names which of `CLAUDE_CODE_AUTO_COMPACT_WINDOW`,
+    a settings file path, or `context_window_size` produced the effective
+    window, or `None` when neither the resolved window nor
+    `context_window_size` is known."""
     cw = payload.get("context_window") or {}
+    context_window_size = cw.get("context_window_size")
+    total_input_tokens = cw.get("total_input_tokens")
+    resolved, resolved_source = _resolve_autocompact_window(project)
+
+    if resolved is not None and context_window_size is not None:
+        effective_window = min(context_window_size, resolved)
+        effective_window_source = resolved_source if effective_window == resolved else "context_window_size"
+    elif resolved is not None:
+        effective_window, effective_window_source = resolved, resolved_source
+    elif context_window_size is not None:
+        effective_window, effective_window_source = context_window_size, "context_window_size"
+    else:
+        effective_window, effective_window_source = None, None
+
+    # Rounded to a whole percentage point, matching the platform's own
+    # `used_percentage` convention (an int like 8 or 73, not 7.75):
+    # status_line_text's `:.0f` formatting works on either, but a reader
+    # comparing this field against the platform's verbatim
+    # `platform_used_percentage` should not see a spurious difference
+    # that is only a rounding convention, not a real disagreement.
+    used_percentage = (round(total_input_tokens / effective_window * 100)
+                        if total_input_tokens is not None and effective_window else None)
+
     return {
         "sampled_at": _now_iso(),
         "model": (payload.get("model") or {}).get("display_name"),
-        "used_percentage": cw.get("used_percentage"),
-        "total_input_tokens": cw.get("total_input_tokens"),
-        "context_window_size": cw.get("context_window_size"),
+        "used_percentage": used_percentage,
+        "platform_used_percentage": cw.get("used_percentage"),
+        "total_input_tokens": total_input_tokens,
+        "context_window_size": context_window_size,
+        "effective_window": effective_window,
+        "effective_window_source": effective_window_source,
         "current_usage": cw.get("current_usage"),
         "prompt_cache": payload.get("prompt_cache"),
     }
@@ -114,35 +201,26 @@ def status_line_text(record: dict) -> str:
     return f"[{model}] {ctx} · {warm}"
 
 
-# A drop this large between two consecutive readings is compaction's own
-# signature (docs/COMPACTION-DESIGN.md section 3): it replaces the
-# conversation with a much shorter summary, so nothing else plausibly
-# halves a task's token count between two refresh ticks. Detection lives
-# here, not in route.py, because this is the one place that ever sees two
-# successive raw readings for the same task; route.py --record only ever
-# reads this file's latest snapshot (docs/PLAN-3.md Stage C).
-_COMPACTION_DROP_RATIO = 0.5
-
-
 def merge_task_record(existing: dict | None, task: dict) -> dict:
     """One task's entry in the `tasks` key (section 2). `peak_tokens` is
     the largest numeric value ever observed for this task name, across
     `tokenCount` and every leaf of `tokenSamples`, kept across refreshes
     even once the task stops appearing in the visible rows (a completed
     task's last known peak is exactly what `route.py --record` wants).
-    `compactions` counts every refresh where `tokenCount` fell to less
-    than half its immediately preceding raw reading, kept and never
-    decreased the same way."""
+
+    Deliberately does not count compactions any more (docs/COMPACTION-DESIGN.md
+    section 13.2, D72): the drop-past-half heuristic this function used to
+    apply was falsified by E30's live transcripts (observed ratios of 0.57
+    and 0.87 after a real compaction, both above the 0.5 threshold, because
+    the fixed prefix never shrinks), so every real compaction it was meant
+    to catch would have been missed. Compaction detection now lives only
+    in the transcript, `tools/route.py`'s `_transcript_context_stats`,
+    which counts the platform's own `compact_boundary` events directly
+    rather than inferring one from a token-count drop."""
     candidates = [v for v in (_as_number(task.get("tokenCount")), *_numeric_leaves(task.get("tokenSamples")))
                   if v is not None]
     if existing and existing.get("peak_tokens") is not None:
         candidates.append(existing["peak_tokens"])
-
-    compactions = (existing or {}).get("compactions") or 0
-    prev_count = _as_number((existing or {}).get("tokenCount"))
-    new_count = _as_number(task.get("tokenCount"))
-    if prev_count is not None and new_count is not None and new_count < prev_count * _COMPACTION_DROP_RATIO:
-        compactions += 1
 
     return {
         "sampled_at": _now_iso(),
@@ -155,7 +233,6 @@ def merge_task_record(existing: dict | None, task: dict) -> dict:
         "tokenCount": task.get("tokenCount"),
         "tokenSamples": task.get("tokenSamples"),
         "peak_tokens": _as_int_if_whole(max(candidates)) if candidates else None,
-        "compactions": compactions,
     }
 
 
@@ -167,9 +244,9 @@ def _as_number(v: object) -> float | None:
     return float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
-def run_main(payload: dict, usage_path: Path) -> str:
+def run_main(payload: dict, usage_path: Path, project: Path) -> str:
     data = _load_usage_file(usage_path)
-    record = main_record(payload)
+    record = main_record(payload, project)
     data["main"] = record
     data["written_at"] = _now_iso()
     data["session_id"] = payload.get("session_id")
@@ -196,7 +273,15 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     (test/fixtures/system/statusline-sample.json, section 2), no network
     and no real status line invocation: the sample is what a live one
     would send, so the round trip is genuine even though the input is
-    not a live capture (E30 replaces it with one when Stage E runs)."""
+    not a live capture (E30 replaces it with one when Stage E runs).
+
+    Scenarios (a) through (e) predate docs/COMPACTION-DESIGN.md section
+    13.2 (D72); (c) and its sibling (c2), which asserted the drop-past-half
+    compaction heuristic, are removed rather than renumbered, since that
+    heuristic itself is gone (see `merge_task_record`'s docstring).
+    Scenario (f) is new in this stage: the effective-window recomputation
+    of `used_percentage` against a configured `autoCompactWindow` smaller
+    than the model's native window."""
     import tempfile
 
     problems: list[str] = []
@@ -211,12 +296,27 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     sample = json.loads((repo_root / "test" / "fixtures" / "system" / "statusline-sample.json").read_text(encoding="utf-8"))
 
     with tempfile.TemporaryDirectory(prefix="context-probe-selftest-") as tmp:
-        usage_path = Path(tmp) / USAGE_FILENAME
+        project = Path(tmp)
+        usage_path = project / USAGE_FILENAME
 
-        line = run_main(sample["main"], usage_path)
+        # (a) with no settings file in this project, _resolve_autocompact_window
+        # finds nothing, so effective_window falls back to context_window_size
+        # and used_percentage reproduces exactly what the platform's own
+        # figure already was: today's behaviour, preserved. platform_used_percentage
+        # carries the platform's verbatim figure alongside it, and
+        # effective_window_source names context_window_size since nothing
+        # configured overrides it.
+        line = run_main(sample["main"], usage_path, project)
         check("Opus" in line and "8%" in line, f"(a) --main should render the model and used_percentage, got {line!r}")
         data = _load_usage_file(usage_path)
-        check(data.get("main", {}).get("used_percentage") == 8, "(a) main.used_percentage should round-trip")
+        main_record_out = data.get("main", {})
+        check(main_record_out.get("used_percentage") == 8, "(a) main.used_percentage should round-trip")
+        check(main_record_out.get("platform_used_percentage") == 8,
+              f"(a) platform_used_percentage should carry the platform's own figure verbatim, "
+              f"got {main_record_out.get('platform_used_percentage')!r}")
+        check(main_record_out.get("effective_window_source") == "context_window_size",
+              f"(a) with no configured window, effective_window_source should name context_window_size, "
+              f"got {main_record_out.get('effective_window_source')!r}")
         check("tasks" not in data, "(a) a --main-only file should carry no tasks key yet")
 
         run_tasks(sample["tasks"], usage_path)
@@ -231,7 +331,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
 
         # (c) a second, lower sample for the same task must not lower its
         # recorded peak: peak_tokens tracks the maximum ever seen, not the
-        # most recent reading.
+        # most recent reading. (Compaction counting on this same drop, the
+        # original scenario (c) and (c2), is removed: see the docstring above.)
         lower = json.loads(json.dumps(sample["tasks"]))
         lower["tasks"][0]["tokenCount"] = 9000
         lower["tasks"][0]["tokenSamples"] = [9000]
@@ -240,30 +341,12 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check(data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
               f"(c) a lower later sample should not lower peak_tokens, got "
               f"{data['tasks']['refactor-parser']['peak_tokens']}")
-        check(data["tasks"]["refactor-parser"]["compactions"] == 1,
-              f"(c) 9000 following 42000 is a drop past the 50 percent ratio and should count as one "
-              f"compaction, got {data['tasks']['refactor-parser']['compactions']}")
-        check(data["tasks"]["audit-schemas"]["compactions"] == 0,
-              f"(c) a task with no drop should show zero compactions, got "
-              f"{data['tasks']['audit-schemas']['compactions']}")
-
-        # (c2) a moderate decrease (not past the 50 percent ratio) should
-        # not be counted as a compaction: ordinary token usage falls too,
-        # for reasons that have nothing to do with the platform compacting.
-        moderate = json.loads(json.dumps(sample["tasks"]))
-        moderate["tasks"][0]["tokenCount"] = 7000  # from 9000: a decrease, but not past the ratio
-        moderate["tasks"][0]["tokenSamples"] = [7000]
-        run_tasks(moderate, usage_path)
-        data = _load_usage_file(usage_path)
-        check(data["tasks"]["refactor-parser"]["compactions"] == 1,
-              f"(c2) a moderate decrease should not add a second compaction, got "
-              f"{data['tasks']['refactor-parser']['compactions']}")
 
         # (d) crossing the handoff threshold changes the rendered line's
         # warmth reporting is out of scope here (route.py --explain owns
         # the threshold); this only checks the over-threshold sample still
         # round-trips its own fields correctly.
-        run_main(sample["main_over_threshold"], usage_path)
+        run_main(sample["main_over_threshold"], usage_path, project)
         data = _load_usage_file(usage_path)
         check(data["main"]["used_percentage"] == 73, "(d) a second --main call should overwrite the main key, not merge it")
 
@@ -271,8 +354,39 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     # far) should not crash and should record every field as absent.
     with tempfile.TemporaryDirectory(prefix="context-probe-selftest-") as tmp:
         empty_line = run_main({"model": {"display_name": "Sonnet"}, "context_window": {}},
-                               Path(tmp) / USAGE_FILENAME)
+                               Path(tmp) / USAGE_FILENAME, Path(tmp))
     check("ctx ?" in empty_line, f"(e) an unpopulated context_window should render 'ctx ?', got {empty_line!r}")
+
+    # (f) docs/COMPACTION-DESIGN.md section 13.8: a project whose
+    # .claude/settings.json sets autoCompactWindow to 200,000, fed a
+    # context_window_size of 1,000,000 and a total_input_tokens of
+    # 100,000, should compute used_percentage against the smaller,
+    # resolved 200,000 (a clean 50 percent) rather than the platform's own
+    # 1,000,000-relative figure (kept verbatim as platform_used_percentage,
+    # whatever the sample states, unrelated to this recomputation).
+    with tempfile.TemporaryDirectory(prefix="context-probe-selftest-") as tmp:
+        project = Path(tmp)
+        settings_path = project / ".claude" / "settings.json"
+        settings_path.parent.mkdir(parents=True, exist_ok=True)
+        settings_path.write_text(json.dumps({"autoCompactWindow": 200000}), encoding="utf-8")
+        usage_path = project / USAGE_FILENAME
+        payload = {"model": {"display_name": "Sonnet"},
+                   "context_window": {"total_input_tokens": 100000, "context_window_size": 1000000,
+                                       "used_percentage": 10}}
+        run_main(payload, usage_path, project)
+        data = _load_usage_file(usage_path)
+        record = data.get("main", {})
+        check(record.get("used_percentage") == 50,
+              f"(f) used_percentage should be computed against the resolved 200,000 window, not the "
+              f"platform's 1,000,000, got {record.get('used_percentage')!r}")
+        check(record.get("platform_used_percentage") == 10,
+              f"(f) platform_used_percentage should carry the sample's own raw figure verbatim, "
+              f"got {record.get('platform_used_percentage')!r}")
+        check(record.get("effective_window") == 200000,
+              f"(f) effective_window should be the smaller, resolved window, got {record.get('effective_window')!r}")
+        check(record.get("effective_window_source") == str(settings_path),
+              f"(f) effective_window_source should name the settings file that set autoCompactWindow, "
+              f"got {record.get('effective_window_source')!r}")
 
     return (not problems, problems)
 
@@ -290,7 +404,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 5 scenarios")
+            print("selftest: PASS, 6 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -308,7 +422,7 @@ def main(argv: list[str]) -> int:
 
     usage_path = default_usage_path(args.project)
     if args.main:
-        print(run_main(payload, usage_path))
+        print(run_main(payload, usage_path, args.project))
     else:
         run_tasks(payload, usage_path)
     return 0

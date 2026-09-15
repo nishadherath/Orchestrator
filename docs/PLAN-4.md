@@ -230,40 +230,96 @@ pre-registered decisions applied, not re-argued.
 
 ## Stage C. The dominant-strategy fixes
 
-Status: **not started**
+Status: **done (2026-09-15)**
 Model: sonnet, high. Zero live spend. May run in the same session as
 Stage B, while B.4's runs are in the background; nothing here depends on
 their result.
 
 Tasks:
 
-- [ ] C.1 `route.py`: `fill_context` transcript-first (`peak_tokens` from
+- [x] C.1 `route.py`: `fill_context` transcript-first (`peak_tokens` from
       the largest of `preTokens` and per-turn input totals, `window` from
       the model id, `compactions` from the boundary count), status line
       second, `source: "none"` last. `--record` prints which applied.
-- [ ] C.2 `context_probe.py`: `used_percentage` recomputed against
+      Done 2026-09-15. `_find_transcript_compactions` replaced by
+      `_transcript_context_stats` (compactions, peak_tokens, window) and
+      `_resolve_transcript` (the session-pointer-scoped-else-every-session
+      search); `src/cost_table.json` gained `context.model_windows`
+      keying the three routed model ids to their documented 1,000,000-token
+      windows. `--record`'s existing `print(f"context: {context['source']}")`
+      already surfaced the source field; no change needed there.
+- [x] C.2 `context_probe.py`: `used_percentage` recomputed against
       `min(context_window_size, resolved autoCompactWindow)`, resolution
       in the documented precedence (environment, then settings scopes);
       drop detection removed; `compactions` in the tasks key dropped in
       favour of the transcript. The JSON contract's `main.used_percentage`
       documented as already effective-window relative, under D69's own
       reversal clause.
-- [ ] C.3 `settings.fragment.json`: a `SessionStart` hook (matchers
+      Done 2026-09-15. `_resolve_autocompact_window` added (a cited
+      duplicate of `preflight.py`'s equivalent scan, since this file
+      ships standalone in `dist/`); `main_record` gained `project`,
+      `platform_used_percentage`, `effective_window` and
+      `effective_window_source`; `merge_task_record`'s drop-detection
+      block and its `compactions` key removed entirely. Selftest rewritten:
+      scenario (a) confirms today's behaviour is preserved when nothing is
+      configured, (c)/(c2)'s compaction assertions removed, new scenario
+      (f) proves the 200,000-against-1,000,000 recomputation from section
+      13.8. 6 scenarios (was 5).
+- [x] C.3 `settings.fragment.json`: a `SessionStart` hook (matchers
       `startup`, `resume`, `compact`) running `route.py --session-pointer`,
       which writes `session_id` and `transcript_path` from the hook's own
-      input to `.claude/session.json`; `route.py --explain` reads the
+      input to `.claude/session.json`.
+      Done 2026-09-15. `route.py --session-pointer` reads the hook's stdin
+      JSON and writes `.claude/session.json` (`session_id`,
+      `transcript_path`, `cwd`, `event` from the hook's own `source`
+      field, `written_at`), atomic temp-file-then-rename; never raises on
+      malformed stdin, prints one line to stderr and exits 1 instead.
+      `settings.fragment.json`'s `compact` matcher now carries two hooks
+      (`--recover`, then `--session-pointer`); `startup` and `resume` each
+      carry `--session-pointer` alone. **Discrepancy from this file's own
+      text**: the sentence above ("`route.py --explain` reads the
       orchestrator's own transcript through that pointer when the status
-      line file is absent, so a headless orchestrator gets the threshold.
-- [ ] C.4 `preflight.py`: a thrash-floor check, `WARN` when the resolved
+      line file is absent, so a headless orchestrator gets the threshold")
+      describes docs/COMPACTION-DESIGN.md section 13.3, which this stage's
+      detailed task brief did not include in its C.3 instructions and
+      which was not implemented here. `fill_context` and
+      `_resolve_transcript` (C.1) do use the pointer; `context_explain_line`
+      does not yet. Left open for a follow-up stage rather than
+      implemented speculatively against an underspecified brief.
+- [x] C.4 `preflight.py`: a thrash-floor check, `WARN` when the resolved
       window minus 93,000 is below three times a footprint the consumer
       states (`--per-turn-tokens`, default 8,000, the E30 read size).
-- [ ] C.5 Selftests for each; ROUTE-SELFTEST, PROBE-SELFTEST, BACKTEST,
+      Done 2026-09-15. `_resolved_autocompact_window` factored out of
+      `check_autocompact_window` and shared with the new
+      `check_autocompact_headroom`, which assumes the documented
+      ~967,000-token default only when nothing is configured and never
+      returns FAIL. Manually verified against section 13.8's two cases:
+      PASS at a resolved 200,000 (headroom 107,000 against a 24,000
+      threshold), WARN at 100,000 (headroom 7,000).
+- [x] C.5 Selftests for each; ROUTE-SELFTEST, PROBE-SELFTEST, BACKTEST,
       REPLAY green; `dist/` rebuilt and installed into
       `orchestrator-scratch`, preflight clean.
-- [ ] C.6 Update this stage's status line and commit it.
+      Done 2026-09-15. `route.py --selftest` gained scenario l (transcript-first
+      `fill_context` plus the session-pointer scoping round trip, proven
+      against a decoy transcript in a different, newer session): 12
+      scenarios (was 11). `check.py`'s ROUTE-SELFTEST and PROBE-SELFTEST
+      docstrings updated to match; neither hardcoded a scenario count as
+      an assertion. Full harness: 29 of 29 checks pass (INV7 skipped, as
+      always, needing a live session), including COST-TABLE against the
+      new `context.model_windows` block and COMPACT-BENCH-SELFTEST
+      unaffected. `dist/` rebuilt and reinstalled into `orchestrator-scratch`
+      per `src/README.md`'s existing-project steps; `preflight.py` run
+      there shows 0 failing of 17 checks, the new "auto-compact headroom"
+      row PASSing (no window configured there, so it falls back to the
+      assumed default, headroom 874,000 against a 24,000 threshold), and
+      the two WARNs (auto-compact window unset; organisation effort
+      limits) both pre-existing and unrelated to this stage.
+- [x] C.6 Update this stage's status line and commit it.
 
 Exit criteria: harness green; the four fixes each carry a selftest that
-would fail on the pre-fix behaviour; `dist/` reinstalled.
+would fail on the pre-fix behaviour; `dist/` reinstalled. All met
+2026-09-15, with the one noted discrepancy (section 13.3's `--explain`
+change, not part of C.3's detailed brief) left open rather than guessed at.
 
 ## Stage D. One interactive session, Jeb's
 
