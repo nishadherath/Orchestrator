@@ -3,7 +3,7 @@
 Adopted 2026-09-15 on branch `the-system`, after `docs/PLAN.md` closed.
 Authored by Claude (Fable 5.1) at Jeb's direction; the shape was described
 and approved in conversation before this file existed. Status of the plan
-as a whole: **in progress (since 2026-09-15)**.
+as a whole: **complete (2026-09-15, see D67)**.
 
 Jeb's brief, in his words: route agents and sub-agents to the appropriate
 model and effort level based on task complexity; bring the Controller in
@@ -286,7 +286,7 @@ moved.
 
 ## Stage 5. Propagation and close-out
 
-Status: **in progress (since 2026-09-15)**
+Status: **done (2026-09-15, see the 5.5 commit)**
 Model: sonnet, medium.
 
 Tasks:
@@ -328,8 +328,15 @@ Tasks:
       bundle and was not re-measured live, per rule 3. `docs/FINDINGS.md`:
       a note that Plan 2 added no rows here by design (zero live calls),
       so the gap is not an omission.
+- [x] 5.4 D67 (D65 and D66 were already taken by the replay and backtest
+      findings in Stage 2): what this plan delivered against Jeb's
+      brief, one line per item, plus what is not delivered stated
+      plainly; this file marked complete.
+- [x] 5.5 Final `check.py --record`.
 
-Exit criteria: harness green; plan marked complete; D65 present.
+Exit criteria: harness green; plan marked complete; D67 present. All
+three met 2026-09-15: harness 27/27 (`test/results/2026-09-15-harness.md`);
+this file's status line below; D67 above.
 
 ## Projection
 

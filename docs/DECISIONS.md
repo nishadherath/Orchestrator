@@ -3653,3 +3653,69 @@ Reversal: none pending for the exclusion, since D16 already made this
 call. If a future project's live ledger shows the same small-sample
 volatility with no known data defect behind it, that is the case for
 reopening `steering_rung_activation_min_n` itself, as a new decision.
+
+## 2026-09-15 D67. `docs/PLAN-2.md` complete: what it delivered against Jeb's brief, one line per item
+
+Decision: close `docs/PLAN-2.md` and record its delivery against the
+brief that opened it (quoted in the plan itself), rather than only
+against its own stage checkboxes, since the checkboxes can be complete
+without the brief being satisfied.
+
+1. **"Route agents and sub-agents to the appropriate model and effort
+   level based on task complexity."** Delivered as a judge/resolver
+   split (D64): the orchestrator's one-line rubric assessment, with the
+   destination table out of context, resolved deterministically by
+   `tools/route.py` against `src/routing_priors.json` and the project's
+   own ledger. Every task still starts at the floor; the ladder exists
+   for the ledger to climb as evidence accumulates (Stage 2).
+2. **"Bring the Controller in when the lowest capable configurations
+   fail."** The reactive trigger, unchanged from D63: a measured
+   falsified-constraint disposition, still the only capability-based
+   escalation with evidence behind it (`src/ROUTING.md` section 4).
+3. **"And also before routing when the task is complex enough, on an
+   ongoing, per-project, self-learning judgement."** Delivered as
+   `route.py`'s proactive Controller rule: expected-cost arithmetic
+   (fires nowhere on current priors, by construction for contained
+   buckets, D64's own finding) plus an explicit, labelled risk-appetite
+   policy dial on open, consequential tasks. The self-learning part is
+   the Beta-Bernoulli ledger itself: `backtest_ledger.py` (D66) confirms
+   it reproduces this repository's own measured frontiers when fed
+   historical outcomes in order, and would move independently in a
+   consumer project as its own ledger grows (Stage 2).
+4. **"Produce a concise handoff for a fresh session whenever the model
+   or reasoning level must change or a new agent is launched."**
+   `tools/handoff.py`'s ten-heading template, `check.py`'s `HANDOFF` and
+   `HANDOFF-SELFTEST` gates, and the standing rule in both `CLAUDE.md`
+   and `src/LIFECYCLE.md` (Stages 3 and 5). This plan's own five stage
+   transitions are the first uses, one file per boundary.
+5. **"With a direct API-cost projection and a time projection."** Every
+   handoff's Cost and Time projection sections lead with a single
+   `Computed:` line, checked by exact-match recomputation from the
+   file's own recorded arguments rather than trusted as prose (Stage 3).
+6. **"Make that behaviour part of the project configuration, of any new
+   project built from it, and of the redistributable."** `CLAUDE.md`
+   (this project), `src/CLAUDE.template.md` (a new project), and
+   `dist/` (the redistributable: `route.py`, `handoff.py`, the priors,
+   the cost table, and `ORCHESTRATOR.md` itself all carry the mechanism
+   forward) all state the same two rules (Stages 4 and 5).
+7. **"Build it by improving the existing infrastructure and using
+   existing test data and insights, not by running new tests."** Zero
+   `claude -p` calls across the whole plan (rule 3); `replay_routing.py`
+   and `backtest_ledger.py` both validate against `test/results/` files
+   already on disk, and every prior in `routing_priors.json` and cost in
+   `cost_table.json` cites a pre-existing result file, never a fresh
+   measurement (Stages 1 and 2).
+
+What is not delivered, stated plainly rather than left to be discovered:
+the resolver has not been measured against a consumer's own task mix,
+only against this repository's fixtures (D64's own limit); the three-axis
+rubric is still blind to T10's shape, covered only by the unchanged
+reactive trigger; and the routing-2 bundle's actual per-verdict cost
+under the stripped `ORCHESTRATOR.md` has not been measured live
+(`docs/COST.md`, Stage 5.3), only argued to be somewhat lower than the
+pre-Plan-2 figure.
+
+Reversal: none. This entry closes the plan; a future change to any
+mechanism it named (the ladder, the priors, the Controller rule, the
+handoff contract) gets its own decision entry, per D64's own rule that
+nothing here is reversed silently.
