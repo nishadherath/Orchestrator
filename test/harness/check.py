@@ -42,6 +42,7 @@ AGENTS_DIR = SRC / "agents"
 FIXTURES = REPO_ROOT / "test" / "fixtures" / "routing.jsonl"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
 PERSONA_MANIFEST = REPO_ROOT / "test" / "harness" / "persona.sha256"
+SETTINGS_FRAGMENT = SRC / "settings.fragment.json"
 
 # tools/ is put on sys.path so `cells` resolves when this file runs as a script.
 sys.path.insert(0, str(REPO_ROOT / "tools"))
@@ -204,6 +205,59 @@ def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
     r.add("INV2", "Invariant 2: orchestrator never passes model on spawn",
           "Never pass a `model` parameter" in routing and all("never pass a model parameter" in d.get("description", "") for d in defs.values()),
           "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py")
+
+
+ROUTE_PY_FLAG_RE = re.compile(r"--[a-z][a-z-]*")
+
+
+def check_route_modes(r: Report) -> None:
+    """ROUTE-MODES: every `route.py` flag named in a command
+    `src/settings.fragment.json` wires up (a `statusLine`,
+    `subagentStatusLine`, or hook command) is named somewhere in
+    `src/ROUTING.md` or `src/LIFECYCLE.md`.
+
+    Guards against the class of defect audit finding B1
+    (`docs/AUDIT-2026-09-16.md`) found: `docs/COMPACTION-DESIGN.md`
+    documented a `route.py --spawn` step it asserted `ROUTING.md`
+    already had, and `ROUTING.md` never actually had it, so the
+    `SessionStart(compact)` hook's pending-worker list was always
+    empty in every consumer install. A mode the fragment wires up
+    silently, with no shipped prose ever mentioning it, is exactly
+    this failure and this check makes it fail loudly instead."""
+    if not SETTINGS_FRAGMENT.exists():
+        r.add("ROUTE-MODES", "every route.py flag the fragment wires up is named in the shipped prose",
+              False, f"{SETTINGS_FRAGMENT.relative_to(REPO_ROOT)} missing")
+        return
+    try:
+        fragment = json.loads(SETTINGS_FRAGMENT.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        r.add("ROUTE-MODES", "every route.py flag the fragment wires up is named in the shipped prose",
+              False, f"{SETTINGS_FRAGMENT.relative_to(REPO_ROOT)}: invalid JSON: {exc}")
+        return
+
+    commands: list[str] = []
+    for key in ("statusLine", "subagentStatusLine"):
+        cmd = (fragment.get(key) or {}).get("command")
+        if cmd:
+            commands.append(cmd)
+    for entry in (fragment.get("hooks", {}) or {}).get("SessionStart", []) or []:
+        for hook in entry.get("hooks", []) or []:
+            cmd = hook.get("command")
+            if cmd:
+                commands.append(cmd)
+
+    flags: set[str] = set()
+    for cmd in commands:
+        if "route.py" not in cmd:
+            continue
+        flags.update(ROUTE_PY_FLAG_RE.findall(cmd))
+
+    prose = ((SRC / "ROUTING.md").read_text(encoding="utf-8")
+             + (SRC / "LIFECYCLE.md").read_text(encoding="utf-8"))
+    missing = sorted(f for f in flags if f not in prose)
+    r.add("ROUTE-MODES", "every route.py flag the fragment wires up is named in the shipped prose",
+          not missing, f"{len(flags)} flag(s) checked, all named" if not missing
+          else f"named in the fragment's commands but nowhere in ROUTING.md or LIFECYCLE.md: {missing}")
 
 
 def _fixture_rows() -> list[dict]:
@@ -924,6 +978,7 @@ def main(argv: list[str]) -> int:
     defs = check_definitions(report)
     check_generator(report)
     check_routing(report, defs)
+    check_route_modes(report)
     check_route_total(report)
     check_row_backed(report)
     check_table_data(report)

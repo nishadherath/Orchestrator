@@ -131,11 +131,26 @@ whenever a handoff was not written in time: a `SessionStart` hook with
 matcher `compact` runs `route.py --recover`, which prints the routing
 rule, every worker spawned but not yet recorded, and the newest handoff,
 so the fresh context (yours, after the platform's own summary) has
-something concrete to act on rather than only what the summary kept. A
-handoff written with `tools/handoff.py new --pending-workers` includes
-the same pending-worker listing under "Unresolved questions" directly,
-for the ordinary case of handing off deliberately rather than recovering
-from a compaction that already happened.
+something concrete to act on rather than only what the summary kept.
+The "every worker spawned but not yet recorded" list is fed by
+`ROUTING.md` section 3's `route.py --spawn` step: it writes one pending
+ledger entry per worker, the moment it is spawned, and section 2's
+completion command (`route.py --record --pending <id>`) is what clears
+it. Skip `--spawn` and this list is always empty, whether or not a
+compaction actually happened. A handoff written with
+`tools/handoff.py new --pending-workers` includes the same
+pending-worker listing under "Unresolved questions" directly, for the
+ordinary case of handing off deliberately rather than recovering from a
+compaction that already happened.
+
+A `SessionStart` hook with matchers `startup`, `resume` and `compact` also
+runs `route.py --session-pointer`, reading the hook's own JSON input from
+stdin and writing `.claude/session.json` (session id, transcript path).
+This is how `route.py --explain`'s context line and `--record`'s context
+lookup find your own or a worker's transcript directly when the status
+line has not populated, which is the common headless case
+(`docs/FINDINGS.md`, Plan 4 Stage D). It needs nothing from you; it fires
+automatically once `src/settings.fragment.json` is merged.
 
 A `# Compact instructions` section once shipped here, asking the
 platform to keep the same shape a handoff file does when compacting.

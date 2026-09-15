@@ -152,12 +152,12 @@ silently substituted judgement, indistinguishable from a real resolution
 in the transcript, is exactly the failure this file exists to prevent
 (`docs/CLASSIFIER-DESIGN.md`, D39).
 
-**After the task finishes**, record the outcome so this project's own
-ledger can learn from it:
+**After the task finishes**, complete the pending entry `--spawn` (section
+3) wrote, so this project's own ledger can learn from it:
 
 ```
 python3 tools/route.py --project <this project's root> --record \
-  --task-slug <short name> --first-cell <the cell you spawned, or controller> \
+  --pending <the id --spawn printed> \
   --outcome pass|fail|unknown --cost-usd <total across every cell tried> \
   --wall-clock-s <total> [--escalation <cell>:<pass|fail> ...]
 ```
@@ -241,8 +241,24 @@ handover prompt must therefore be self-contained and must state:
   Verbose output is the reason it was delegated, so ask for the summary, not the
   transcript.
 
-After spawning, state in one line the assessment, the resolved cell and
-reason (section 2), and the assigned name.
+After spawning, run this with the Bash tool:
+
+```
+python3 tools/route.py --spawn --project <this project's root> \
+  --from-line "<the assessment line>" --task-slug <short name> \
+  --first-cell <the cell you just spawned, or controller> \
+  --worker-name <the name you gave it>
+```
+
+This writes a pending ledger entry with `final_outcome: unknown`, which the
+`SessionStart(compact)` hook (`LIFECYCLE.md`, "Handoffs") lists if this
+session compacts before the task finishes, so a fresh context after a
+compaction can see the work in flight rather than only what a summary
+kept. It prints the entry's id (`led-NNN`); keep it, section 2's
+completion command needs it.
+
+Then state in one line the assessment, the resolved cell and reason
+(section 2), and the assigned name.
 
 ## 4. Escalation and de-escalation
 
