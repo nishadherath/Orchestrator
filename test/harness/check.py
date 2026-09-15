@@ -325,7 +325,7 @@ def check_route_total(r: Report) -> None:
 # its two conditions are reworded away, score_routing.py keeps scoring an action
 # the rubric no longer defines, which is the state D7 was raised to end.
 CLARIFY_REQUIRED = (
-    "### 1.1 Ask or route",
+    "### 1.2 Ask or route",
     "**No discoverable objective.**",
     "**Irreversible and materially ambiguous.**",
 )
