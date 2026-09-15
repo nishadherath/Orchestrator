@@ -303,11 +303,37 @@ Tasks:
       produced entries validate. Three new `--selftest` assertions for
       `fill_context` (no name, a match, no match); `context_probe.py`
       gains two more (a qualifying drop counted, a moderate one not).
-- [ ] C.3 `posterior()` excludes compacted attempts from the capability
+- [x] C.3 `posterior()` excludes compacted attempts from the capability
       posterior; a per-bucket overflow posterior with a weak shipped prior;
       `plan()` emits a decomposition advisory when the overflow rate
       clears the named threshold. `generate_priors.py` and
       `routing_priors.json` gain the overflow priors and thresholds.
+      Done 2026-09-15. `_is_compacted()` excludes only confirmed
+      compactions (`context.compactions >= 1`) from the floor and rung
+      counts; an entry with no observed status (`ledger_version` 0, or
+      `source: "none"`) is treated exactly as it always was, absence
+      being evidence of nothing either way. The overflow posterior draws
+      from every entry in the bucket with a *known* status
+      (`_known_compaction_count()`), regardless of `first_cell`, since a
+      compaction is a property of the task, not of which cell handled it.
+      Every bucket gets the same shipped prior (0.5, 9.5); a real
+      arithmetic check while writing the selftest found that three
+      compacted attempts give a mean of 0.269, under the 0.3 threshold
+      section 6's own prose uses as its example: four are needed to
+      cross it, and the selftest and this note use the number the
+      arithmetic actually requires. `--explain` prints the advisory line
+      when it fires; `first` never changes because of it.
+      `generate_priors.py` gains the overflow prior (every bucket, same
+      values, since D68 found no bucket has ever recorded a compaction to
+      seed from) and the two `overflow_advisory_min_*` steering keys;
+      ROUTE-PRIORS checks the prior's kind/provenance and that both
+      steering keys are present. `--selftest` scenarios j (four compacted
+      attempts: floor posterior exactly unchanged, overflow crosses 0.3,
+      `first` unaffected) and k (three uncompacted floor failures: floor
+      posterior falls as in scenario b, overflow stays near its prior,
+      no advisory); 11 of 11 pass. Manually verified against a
+      constructed ledger: the overflow line prints with the exact
+      wording section 6 specifies.
 - [ ] C.4 Backtest: on the recorded data, which has no compactions, every
       existing check reproduces exactly and the overflow posterior stays
       at its prior in every bucket. Replay unchanged. `route.py

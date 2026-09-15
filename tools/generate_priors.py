@@ -76,6 +76,18 @@ def build_priors() -> dict:
                 "alpha": 2.7, "beta": 0.3, "mean": 0.9, "n_measured": 0, "passes_measured": 0, "n_eff": 3, "kind": "policy-default",
                 "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"}
 
+    # Every bucket starts with the same overflow prior (docs/PLAN-3.md
+    # Stage C, docs/COMPACTION-DESIGN.md section 6, D68): no compaction
+    # has ever been recorded (D68's own finding, from the 303 benchmark
+    # runs on record), so there is nothing bucket-specific to seed from,
+    # unlike the floor and rung priors above. A consumer project's own
+    # ledger moves it from here per bucket.
+    for b in buckets.values():
+        b["overflow"] = {"alpha": 0.5, "beta": 9.5, "mean": 0.05, "n_measured": 0, "passes_measured": 0, "n_eff": 10,
+                          "kind": "policy-default",
+                          "provenance": "no compaction has been recorded (D68); a weak prior that three overflows "
+                                        "in a row can move"}
+
     return {
         "_comment": "Per-bucket priors for tools/route.py (docs/PLAN-2.md Stage 1.4, D64). A bucket is sensitivity/horizon/blast. 'floor' is a Beta prior on worker-sonnet-low passing; each rung entry is a Beta prior on that cell passing given every cheaper active rung failed (the benchmark staircase only climbed after failure, so its measured rates at higher cells are exactly that conditional). Means are Laplace ((passes+1)/(n+2)); effective sample sizes are capped (measured 10, bracketed 4, policy 3) so a consumer project's own ledger moves a bucket after a handful of its own outcomes. 'kind' says whether a number was measured, bracketed between measured neighbours, inherited across blast radius as policy, or a weakly held default. Every threshold named steering_* steers routing and may never be cited as evidence; the reporting bar is nine runs with a Wilson lower bound above 0.7 and lives in the harness, not here.",
         "version": 1,
@@ -99,7 +111,10 @@ def build_priors() -> dict:
             "context_stale_s": 600,
             "context_stale_note": "a .claude/context-usage.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
             "autocompact_window_tokens": 200000,
-            "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently"
+            "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently",
+            "overflow_advisory_min_mean": 0.3,
+            "overflow_advisory_min_n": 3,
+            "overflow_advisory_note": "a bucket's overflow posterior mean at or above overflow_advisory_min_mean, with at least overflow_advisory_min_n ledger observations behind it, produces a decomposition advisory (split the task or trim the handover) alongside the resolved cell; it never changes 'first' itself, since a compaction is a horizon signal, not a capability one (D68, docs/COMPACTION-DESIGN.md section 6)"
         },
         "controller_rule": {
             "reactive": "after the last active cell rung fails on the same task, or on ROUTING.md section 4's falsified-constraint signal (D63), route to the controller before the frontier",

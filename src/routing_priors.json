@@ -40,7 +40,10 @@
     "context_stale_s": 600,
     "context_stale_note": "a .claude/context-usage.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
     "autocompact_window_tokens": 200000,
-    "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently"
+    "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently",
+    "overflow_advisory_min_mean": 0.3,
+    "overflow_advisory_min_n": 3,
+    "overflow_advisory_note": "a bucket's overflow posterior mean at or above overflow_advisory_min_mean, with at least overflow_advisory_min_n ledger observations behind it, produces a decomposition advisory (split the task or trim the handover) alongside the resolved cell; it never changes 'first' itself, since a compaction is a horizon signal, not a capability one (D68, docs/COMPACTION-DESIGN.md section 6)"
   },
   "controller_rule": {
     "reactive": "after the last active cell rung fails on the same task, or on ROUTING.md section 4's falsified-constraint signal (D63), route to the controller before the frontier",
@@ -91,6 +94,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "mechanical/medium/contained": {
@@ -118,6 +131,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "mechanical/long/contained": {
@@ -145,6 +168,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "structured/short/contained": {
@@ -172,6 +205,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "structured/medium/contained": {
@@ -199,6 +242,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "structured/long/contained": {
@@ -226,6 +279,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "open/short/contained": {
@@ -253,6 +316,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "open/medium/contained": {
@@ -290,6 +363,16 @@
           "kind": "measured",
           "provenance": "T10: opus-high 12 of 12 given floor failure (D42, the only confirmed cell above the floor)"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "open/long/contained": {
@@ -317,6 +400,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "mechanical/short/consequential": {
@@ -344,6 +437,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "mechanical/medium/consequential": {
@@ -371,6 +474,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "mechanical/long/consequential": {
@@ -398,6 +511,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "structured/short/consequential": {
@@ -425,6 +548,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "structured/medium/consequential": {
@@ -452,6 +585,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "structured/long/consequential": {
@@ -479,6 +622,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "open/short/consequential": {
@@ -506,6 +659,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "open/medium/consequential": {
@@ -543,6 +706,16 @@
           "kind": "policy-inherited",
           "provenance": "T10: opus-high 12 of 12 given floor failure (D42, the only confirmed cell above the floor)"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     },
     "open/long/consequential": {
@@ -570,6 +743,16 @@
           "kind": "policy-default",
           "provenance": "no floor failure ever measured in this bucket, so no conditional data; assumes the one confirmed cell above the floor passes 0.9 of what the floor fails, weakly held"
         }
+      },
+      "overflow": {
+        "alpha": 0.5,
+        "beta": 9.5,
+        "mean": 0.05,
+        "n_measured": 0,
+        "passes_measured": 0,
+        "n_eff": 10,
+        "kind": "policy-default",
+        "provenance": "no compaction has been recorded (D68); a weak prior that three overflows in a row can move"
       }
     }
   }

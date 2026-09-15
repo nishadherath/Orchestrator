@@ -620,7 +620,8 @@ def check_route_priors(r: Report) -> None:
         return
     problems: list[str] = []
     for bucket, data in priors.get("buckets", {}).items():
-        entries = [("floor", data.get("floor", {}))] + [(f"rung {c}", v) for c, v in data.get("rungs_given_failure_below", {}).items()]
+        entries = ([("floor", data.get("floor", {})), ("overflow", data.get("overflow", {}))]
+                   + [(f"rung {c}", v) for c, v in data.get("rungs_given_failure_below", {}).items()])
         for label, entry in entries:
             if not entry.get("provenance"):
                 problems.append(f"{bucket} {label}: missing provenance")
@@ -637,6 +638,8 @@ def check_route_priors(r: Report) -> None:
     elif handoff_pct / 100 * 200_000 >= autocompact_tokens:
         problems.append(f"steering: handoff_context_percent ({handoff_pct}% of 200,000) does not fire "
                          f"before autocompact_window_tokens ({autocompact_tokens})")
+    if steering.get("overflow_advisory_min_mean") is None or steering.get("overflow_advisory_min_n") is None:
+        problems.append("steering: missing overflow_advisory_min_mean or overflow_advisory_min_n")
     r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", not problems,
           f"{len(priors.get('buckets', {}))} buckets, generator matches" if not problems else "; ".join(problems[:8]))
 
@@ -723,10 +726,11 @@ def check_backtest(r: Report) -> None:
 
 
 def check_route_selftest(r: Report) -> None:
-    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 9 scripted
-    ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text,
-    plus the spawn/record/recover round trip and the --explain context
-    line from docs/PLAN-3.md Stage B), no claude -p calls."""
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 11 scripted
+    ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text;
+    the spawn/record/recover round trip and the --explain context line
+    from docs/PLAN-3.md Stage B; the overflow advisory firing and not
+    firing from Stage C), no claude -p calls."""
     script = REPO_ROOT / "tools" / "route.py"
     if not script.exists():
         r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
