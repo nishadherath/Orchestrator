@@ -162,10 +162,23 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 
    A session only reads `ORCHESTRATOR.md` if something points it there; the
    pointer line is what makes that automatic. If the project already has a
-   `CLAUDE.md` for other purposes, add the line (and, if you want the
-   handoff rule and the compact instructions too, those sections of the
-   template) to it rather than replacing the file (see "Install into an
-   existing project" below).
+   `CLAUDE.md` for other purposes, add the line to it rather than replacing
+   the file (see "Install into an existing project" below).
+
+   **Add the "Handoffs" and "# Compact instructions" sections too, not
+   only the pointer line, and do it by copying their actual text rather
+   than pointing at where they live.** The platform's own compaction
+   mechanism reads instructions from `CLAUDE.md` itself, which is loaded
+   once at session start and held outside the conversation; `ORCHESTRATOR.md`
+   is not loaded that way; a session sees it only if it uses the Read tool
+   on the pointer line, which puts its content inside the conversation, the
+   exact thing a compaction replaces. A project that adds only the bare
+   pointer line gets automatic routing but the compaction fallback never
+   sees the compact instructions at all, since they never entered
+   `CLAUDE.md` in the first place. Copying the two sections' text directly
+   into `CLAUDE.md` (`dist/CLAUDE.template.md` has both, ready to copy) is
+   what makes the fallback visible to the platform; pointing at `ORCHESTRATOR.md`
+   for them is not equivalent to appending them.
 
 4. Run the preflight check from the project root:
 
@@ -249,8 +262,14 @@ A project that already has a `CLAUDE.md`, and possibly its own
    existing `CLAUDE.md` rather than replacing the file. Where you add it
    matters less than that it is present; a natural place is near the top,
    beside any other file the project's `CLAUDE.md` already tells a session to
-   read first. Add `dist/CLAUDE.template.md`'s "Handoffs" and "# Compact
-   instructions" sections too if the project has neither already.
+   read first. Copy `dist/CLAUDE.template.md`'s "Handoffs" and "# Compact
+   instructions" sections' actual text into `CLAUDE.md` too, if the project
+   has neither already: the platform's compaction reads instructions from
+   `CLAUDE.md` itself, loaded once and held outside the conversation, not
+   from `ORCHESTRATOR.md`, which a session only sees by reading it into the
+   conversation the pointer line points at, the exact content a compaction
+   replaces. Pointing at where the sections live is not the same as putting
+   them where the platform looks.
 
    If `CLAUDE.md` already contains routing or delegation instructions from
    something else, decide whether they conflict before adding this bundle's:
