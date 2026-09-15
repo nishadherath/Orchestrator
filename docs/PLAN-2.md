@@ -114,7 +114,7 @@ model and effort to switch to; harness green.
 
 ## Stage 2. The resolver and the ledger
 
-Status: **in progress (2.1 done 2026-09-15)**
+Status: **in progress (2.1 to 2.4 done 2026-09-15)**
 Model: sonnet, high. Implementation from a written spec.
 
 Tasks:
@@ -153,9 +153,17 @@ Tasks:
       D64's prediction. Gate result: PASS, 125/125 on the gating batch
       against D40's 92.2 percent floor. Recorded:
       `test/results/2026-09-15-replay-routing.md`.
-- [ ] 2.4 `test/harness/backtest_ledger.py`: feed recorded benchmark
+- [x] 2.4 `test/harness/backtest_ledger.py`: feed recorded benchmark
       outcomes into the ledger in recorded order; assert the learned
       activations reproduce D42 and D45 and nothing the benchmark refuted.
+      Done 2026-09-15 as D66: the first run found a real spurious
+      activation, traced to a run D16 (2026-09-07) already disregarded
+      for an unrelated grader defect, fed in unfiltered. Excluded on
+      D16's own citation, not a new judgement call. All 22 checks pass
+      after: every bucket stays at the floor, worker-opus-high's
+      posterior for open/medium/contained is 0.941 (D42), no
+      intermediate sonnet rung activates anywhere. Recorded:
+      `test/results/2026-09-15-backtest-ledger.md`.
 - [ ] 2.5 `route.py --selftest`; `check.py` gains ROUTE-PRIORS (priors
       consistent with FRONTIERS.md), COST-TABLE (every row has provenance),
       REPLAY and BACKTEST (both harnesses pass on the committed data).
