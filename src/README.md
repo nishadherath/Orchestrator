@@ -23,20 +23,55 @@ Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
                                                      currently invoked automatically, kept
                                                      for manual use as a cheap alternative)
 tools/
+  route.py                                          (resolves an assessment to a worker
+                                                     cell or the Controller, reading the
+                                                     files below plus this project's own
+                                                     ledger; ORCHESTRATOR.md section 2 runs
+                                                     it on every task)
+  handoff.py                                        (writes and checks the handoff files
+                                                     LIFECYCLE.md's "Handoffs" section asks
+                                                     for on a model or effort change)
   system_controller.py                              (the Controller: a quick-mode multi-
                                                      role state machine ORCHESTRATOR.md
                                                      section 4 invokes with the Bash tool
                                                      on one scoped escalation trigger)
   claudep.py, system_prompts.py,
   validate_records.py                               (the Controller's own dependencies)
-src/System/
-  ROLES.md, TECHNIQUES.md, schemas/                 (what the Controller reads at
-                                                     runtime; do not remove these if you
-                                                     keep tools/system_controller.py)
-ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md)
+src/
+  routing_priors.json                               (per-bucket Bayesian priors on each
+                                                     cell passing, seeded from this
+                                                     repository's benchmark; route.py
+                                                     updates its read of them from this
+                                                     project's own ledger, never the source
+                                                     file itself)
+  cost_table.json                                   (measured per-cell and Controller cost,
+                                                     for route.py's arithmetic and
+                                                     handoff.py's projections)
+  routing_table.json                                (the floor plus the frontier
+                                                     escalation rule; the two destinations
+                                                     that exist above the ledger-driven
+                                                     ladder)
+  System/
+    ROLES.md, TECHNIQUES.md, schemas/               (what the Controller reads at
+                                                     runtime; schemas/ also holds
+                                                     RoutingLedgerEntry, the shape of one
+                                                     line in .claude/routing-ledger.jsonl.
+                                                     Do not remove these if you keep
+                                                     tools/system_controller.py or
+                                                     tools/route.py)
+ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md, rationale
+                                                     spans stripped: see "How routing
+                                                     works" below)
+CLAUDE.template.md                                  (a starting CLAUDE.md for a new
+                                                     project: the pointer line plus the
+                                                     handoff rule)
 README.md                                           (this file)
 preflight.py                                        (checks the settings below)
 ```
+
+This project's own `.claude/routing-ledger.jsonl` is not part of the bundle. `route.py`
+creates it on first use (`--record`) and it grows as the project runs; do not copy one
+from another project, since it is what makes the routing self-learning per project.
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on
@@ -55,32 +90,40 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    Bash:
    ```bash
    CONSUMER=/path/to/your/project
-   mkdir -p "$CONSUMER/.claude" "$CONSUMER/tools" "$CONSUMER/src/System"
+   mkdir -p "$CONSUMER/.claude" "$CONSUMER/tools" "$CONSUMER/src/System" "$CONSUMER/handoffs"
    cp -r dist/.claude/. "$CONSUMER/.claude/"
    cp dist/ORCHESTRATOR.md dist/README.md dist/preflight.py "$CONSUMER/"
    cp dist/tools/*.py "$CONSUMER/tools/"
+   cp dist/src/*.json "$CONSUMER/src/"
    cp -r dist/src/System/. "$CONSUMER/src/System/"
    ```
 
    PowerShell:
    ```powershell
    $Consumer = "C:\path\to\your\project"
-   New-Item -ItemType Directory -Force "$Consumer\.claude","$Consumer\tools","$Consumer\src\System" | Out-Null
+   New-Item -ItemType Directory -Force "$Consumer\.claude","$Consumer\tools","$Consumer\src\System","$Consumer\handoffs" | Out-Null
    Copy-Item -Recurse -Force "dist\.claude\*" "$Consumer\.claude\"
    Copy-Item -Force "dist\ORCHESTRATOR.md","dist\README.md","dist\preflight.py" "$Consumer\"
    Copy-Item -Force "dist\tools\*.py" "$Consumer\tools\"
+   Copy-Item -Force "dist\src\*.json" "$Consumer\src\"
    Copy-Item -Recurse -Force "dist\src\System\*" "$Consumer\src\System\"
    ```
 
    The `tools/` and `src/System/` copies are what let `ORCHESTRATOR.md`
    section 4 actually run the Controller when its trigger fires; skip them
    only if you have deliberately decided not to use that trigger (see
-   "Known limits" below).
+   "Known limits" below). The `src/*.json` copy and the `handoffs/`
+   directory are not optional the same way: `ORCHESTRATOR.md` section 2
+   resolves every task through `tools/route.py`, which fails outright
+   without `routing_priors.json`, `cost_table.json`, and
+   `routing_table.json` in place (`preflight.py` checks for them).
 
-2. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. Either paste
-   `ORCHESTRATOR.md`'s content directly into `CLAUDE.md`, or, to keep the two
-   files separate and updatable independently, create `CLAUDE.md` with a
-   single line:
+2. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. If the
+   project has none yet, copy `dist/CLAUDE.template.md` to `CLAUDE.md`: it
+   has the pointer line plus the standing handoff rule (write a file under
+   `handoffs/` with `tools/handoff.py` whenever this session's own model or
+   effort must change). Otherwise add just the pointer line to the
+   existing file:
 
    ```
    Read ORCHESTRATOR.md before delegating any task.
@@ -88,8 +131,9 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 
    A session only reads `ORCHESTRATOR.md` if something points it there; the
    pointer line is what makes that automatic. If the project already has a
-   `CLAUDE.md` for other purposes, add the line to it rather than replacing
-   the file (see "Install into an existing project" below).
+   `CLAUDE.md` for other purposes, add the line (and, if you want the
+   handoff rule too, that section of the template) to it rather than
+   replacing the file (see "Install into an existing project" below).
 
 3. Run the preflight check from the project root:
 
@@ -156,9 +200,11 @@ A project that already has a `CLAUDE.md`, and possibly its own
    directly, the same fallback it already uses if the Controller errors.
    `B0_BRIEF.md` still works as a cheaper manual alternative either way.
 
-3. Copy `dist/tools/*.py` into `$CONSUMER/tools/` and `dist/src/System/`
-   into `$CONSUMER/src/System/` (or your chosen alternative location from
-   the check above), the same commands as step 1 of a new install.
+3. Copy `dist/tools/*.py` into `$CONSUMER/tools/`, `dist/src/*.json` into
+   `$CONSUMER/src/`, and `dist/src/System/` into `$CONSUMER/src/System/`
+   (or your chosen alternative location from the check above), the same
+   commands as step 1 of a new install. Create `$CONSUMER/handoffs/` if it
+   does not already exist.
 
 4. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
    existing `CLAUDE.md` rather than replacing the file. Where you add it
@@ -225,6 +271,7 @@ one matters and is what the script's messages point back to.
 | `CLAUDE_CODE_SUBAGENT_MODEL` | unset | A default for workers without a model. Harmless here since every worker sets one, but leave it clear to avoid confusion. |
 | `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` | unset | With agent teams on, a named subagent launches as a teammate instead, and teammates follow the lead's effort level rather than their own definition. Naming is required for addressability, so this variable silently defeats the effort routing. |
 | `availableModels` | must permit sonnet, opus, and fable | A blocked model is substituted, not failed. Interactive sessions warn; check the warning rather than assuming. |
+| `Bash(python3 *)` in `.claude/settings.json` | permitted | `ORCHESTRATOR.md` section 2 shells out to `tools/route.py` on every task. Without this permission, Claude Code prompts for approval on every single routing call, which defeats the point of automatic routing. |
 | Organisation effort limits | check with your admin | Enterprise roles can cap effort per model. A capped level runs at the cap, silently under `json` output or in background agents. |
 
 ## Upgrading to a newer bundle version
@@ -253,23 +300,35 @@ explains why, keyed by the commit named in the version string.
   `SendMessage` is confirmed present and working even for a plain, unnamed
   worker (`docs/FINDINGS.md`). A message a worker sends to `main` is queued for
   the orchestrator's next turn, not delivered mid-turn.
-- Routing is a judgement made by a model reading a rubric, not a deterministic
-  classifier. Expect to tune the table against your own task mix rather than
-  trusting it out of the box.
-- The routing table shipped with this bundle has one destination
-  (`worker-sonnet-low`) plus two escalation triggers, one measured on a
-  falsified-constraint shape and one an unmeasured safety-net policy for a
-  frontier problem where every cheaper cell has already failed
-  (`src/ROUTING.md` sections 2 and 4). It was tuned against this
-  repository's own benchmark tasks, not yours; treat it as a starting point
-  and watch for a task class it routes wrongly on your own work.
-- The falsified-constraint trigger costs roughly USD 2.5 to 3.5 per fire,
-  since it runs the Controller (a multi-role state machine, several
-  `claude -p` calls) rather than a single worker. It fires rarely, only on
-  that one specific shape, but the orchestrator session pays for the
-  `claude -p` calls it makes directly with the Bash tool the same way any
-  other spend is billed; there is no separate approval gate on it beyond
-  what `ORCHESTRATOR.md` itself states. If you would rather this trigger
-  never spends without a human confirming first, edit `src/ROUTING.md`
-  section 4 to ask before running the Controller, or remove that step and
-  fall straight through to `worker-opus-high`.
+- Routing is split into two parts, deliberately. The orchestrator's own
+  judgement is limited to a one-line assessment on a fixed rubric
+  (sensitivity, horizon, blast radius), made with `ORCHESTRATOR.md`'s
+  rationale spans stripped so the model judging never sees which cell names
+  exist or how they have performed; a model that can see the destinations
+  has been measured bending its assessment toward whichever one it prefers.
+  `tools/route.py` then resolves that assessment to a cell deterministically,
+  reading `routing_table.json`'s two rules (the floor, and the frontier
+  escalation) plus this project's own `.claude/routing-ledger.jsonl`, which
+  is what makes it self-learning per project rather than fixed at install
+  time.
+- `routing_priors.json` seeds every bucket from this repository's own
+  benchmark, not yours. Until your project's ledger accumulates enough
+  outcomes of its own to move a bucket (`routing_priors.json`'s own
+  `steering` thresholds), routing behaves exactly as it does here: every
+  task starts at the floor (`worker-sonnet-low`), moving up the ladder only
+  on a recorded failure. Watch for a task class that fails there
+  repeatedly; that is the ledger doing its job, not a bug.
+- Two triggers can put a task on the Controller instead of a worker cell,
+  both in `src/ROUTING.md` section 4: a reactive one, a falsified-constraint
+  disposition measured on one specific task shape, and a proactive one,
+  either expected-cost arithmetic (fires nowhere on the shipped priors) or
+  an explicit risk-appetite policy on open, consequential tasks
+  (`routing_priors.json`'s `controller_rule.proactive_policy`). Either
+  costs roughly USD 2.5 to 3.5 per fire, since the Controller is a
+  multi-role state machine running several `claude -p` calls rather than
+  one worker, and the orchestrator session pays for those calls directly
+  with the Bash tool; there is no separate approval gate on it beyond what
+  `ORCHESTRATOR.md` itself states. If you would rather neither trigger ever
+  spends without a human confirming first, edit `src/ROUTING.md` section 4
+  to ask before running the Controller, or remove that step and fall
+  straight through to `worker-opus-high`.

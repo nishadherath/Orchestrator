@@ -164,6 +164,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     lifecycle = (SRC / "LIFECYCLE.md").read_text(encoding="utf-8")
     out[dist_dir / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version) + routing.rstrip("\n") + "\n\n" + lifecycle
     out[dist_dir / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
+    out[dist_dir / "CLAUDE.template.md"] = (SRC / "CLAUDE.template.md").read_text(encoding="utf-8")
     out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
     assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"
     return out

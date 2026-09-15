@@ -286,20 +286,48 @@ moved.
 
 ## Stage 5. Propagation and close-out
 
-Status: **not started**
+Status: **in progress (since 2026-09-15)**
 Model: sonnet, medium.
 
 Tasks:
 
-- [ ] 5.1 `CLAUDE.md`: the handoff rule and the routing rule as standing
+- [x] 5.1 `CLAUDE.md`: the handoff rule and the routing rule as standing
       project configuration.
-- [ ] 5.2 `src/LIFECYCLE.md`: a "Handoffs" section, hence in every
+      Done 2026-09-15. New "Handoffs and routing, as standing practice"
+      section: the handoff rule (write a file under `handoffs/` with
+      `tools/handoff.py` on a model/effort change, before stopping) and
+      the routing rule (a task this repository delegates to a subagent is
+      resolved through `tools/route.py`, the same mechanism a consumer's
+      `ORCHESTRATOR.md` uses), both stated as outliving `docs/PLAN-2.md`
+      itself rather than tied to its status.
+- [x] 5.2 `src/LIFECYCLE.md`: a "Handoffs" section, hence in every
       consumer's `ORCHESTRATOR.md`; `dist/CLAUDE.template.md` for a new
       project; `src/README.md` updated for both.
-- [ ] 5.3 `docs/COST.md` recomputed; `docs/FINDINGS.md` consolidated.
-- [ ] 5.4 D65: what this plan delivered, one line per brief item; this
-      file marked complete.
-- [ ] 5.5 Final `check.py --record`.
+      Done 2026-09-15. `src/LIFECYCLE.md` gained "Handoffs": when a
+      handoff is required (own session's model/effort changing, or
+      launching a differently-configured top-level agent, not an ordinary
+      Task-tool spawn), the tool to use, and that the fresh session's
+      first action is to read the named file. `src/CLAUDE.template.md`
+      (new): the pointer line plus a short "Handoffs" section for a
+      project with no `CLAUDE.md` yet; wired into `build_dist.py`'s
+      `planned_files()` as `dist/CLAUDE.template.md`. `src/README.md`:
+      layout section gains `route.py`, `handoff.py`, the three `src/
+      *.json` files and `CLAUDE.template.md`; both install walkthroughs
+      copy the JSON files and create `handoffs/`; the settings table
+      gains a `Bash(python3 *)` row; "Known limits" rewritten from the
+      stale single-destination description to the ledger-driven ladder
+      and both Controller triggers (reactive and proactive).
+- [x] 5.3 `docs/COST.md` recomputed; `docs/FINDINGS.md` consolidated.
+      Done 2026-09-15. `docs/COST.md`: `dist/ORCHESTRATOR.md` measured at
+      16,559 characters (rationale-stripped, shipped) against 22,109
+      `--with-rationale`; a new row for `route.py --explain`'s output
+      (408 to 718 characters, the only marginal per-turn cost the whole
+      resolution mechanism adds, since `route.py`, `handoff.py` and the
+      priors/cost-table/ledger are invoked with Bash and never read into
+      context); a note that the USD 0.23 verdict figure predates this
+      bundle and was not re-measured live, per rule 3. `docs/FINDINGS.md`:
+      a note that Plan 2 added no rows here by design (zero live calls),
+      so the gap is not an omission.
 
 Exit criteria: harness green; plan marked complete; D65 present.
 

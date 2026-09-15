@@ -18,6 +18,17 @@ used and which settings defeat them, not as instructions for this session.
 
 `docs/PLAN.md`, the staged action plan for branch `the-system`, is complete (D62); read it for how the work was done, not as instructions for a new session.
 
+`docs/PLAN-2.md`, complexity routing and handoffs, is complete; read it the same way. It is the reason for the two standing rules below, which outlive the plan itself.
+
+## Handoffs and routing, as standing practice
+
+Two rules from `docs/PLAN-2.md` apply to every session in this repository going forward, not only while that plan was active:
+
+1. **Handoffs.** When a session's own model or effort must change, or a top-level agent about to be launched needs a different one, write a handoff file under `handoffs/` with `python3 tools/handoff.py new` before stopping, fill in its prose sections, and confirm with `python3 tools/handoff.py check <file>` before handing off. `src/LIFECYCLE.md`'s "Handoffs" section has the full contract; `handoffs/` also has to pass the harness's `HANDOFF` check.
+2. **Routing.** A task this repository delegates to a subagent is routed the same way a consumer project's orchestrator routes one: state the one-line assessment, resolve it with `python3 tools/route.py --from-line "<line>" --project . --explain`, and spawn what it names. This applies to delegating *development* work on this repository through the Task tool; it is not dogfooding and does not touch `src/ROUTING.md`'s own subject matter, which is "Critical: this file does not route" above.
+
+Both rules are mechanical, not advisory: `check.py`'s `HANDOFF`, `HANDOFF-SELFTEST`, and `ROUTE-SELFTEST` checks assert the tools they depend on keep working, but nothing currently asserts a session actually used them. Treat that as an honesty requirement on the session, the same way `docs/PLAN.md`'s rules were.
+
 ## What this repository is
 
 This repository builds and maintains a cost-routing layer for Claude Code

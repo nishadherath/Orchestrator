@@ -1,30 +1,33 @@
 # Recurring token cost
 
-Bundle version `2026-09-15-9b5f64b` (`dist/.claude/ORCHESTRATOR_VERSION`).
-Recomputed 2026-09-15 per `docs/PLAN.md` Stage 13.2, the plan's final
-recomputation; the prior figures here were measured against
-`2026-09-07-af94deb`. Measured by counting UTF-8 bytes in `dist/` and
-dividing by four, the same approximation `test/harness/empirical-
-checklist.md` uses for its E12 cost estimate. This is an estimate, not a
-token count: the real count comes from the provider's usage report
-(persona section 7.3), not a client-side guess, and belongs here once a
-live run reports it.
+Bundle version `2026-09-15-2203a02` (`dist/.claude/ORCHESTRATOR_VERSION`).
+Recomputed 2026-09-15 per `docs/PLAN-2.md` Stage 5.3, against the
+routing-2 bundle (Stage 4); the prior figures below this point were
+measured against `2026-09-15-9b5f64b`, before Plan 2. Measured by
+counting UTF-8 bytes in `dist/` and dividing by four, the same
+approximation `test/harness/empirical-checklist.md` uses for its E12 cost
+estimate. This is an estimate, not a token count: the real count comes
+from the provider's usage report (persona section 7.3), not a
+client-side guess, and belongs here once a live run reports it.
 
 | Artefact | Paid on | Chars | Tokens (chars / 4) |
 | :--- | :--- | :--- | :--- |
-| `dist/ORCHESTRATOR.md` | every orchestrator turn, once appended to the consumer's `CLAUDE.md` | 14,732 | ~3,683 |
+| `dist/ORCHESTRATOR.md`, rationale stripped (shipped) | every orchestrator turn, once appended to the consumer's `CLAUDE.md` | 16,559 | ~4,140 |
+| `dist/ORCHESTRATOR.md`, `--with-rationale` (harness only, never shipped) | not paid by a live orchestrator turn; measured here for comparison | 22,109 | ~5,527 |
 | 15 worker descriptions (`dist/.claude/agents/*.md` frontmatter) | every orchestrator turn, in the Agent tool's subagent_type listing | 2,641 | ~660 |
 | One worker definition (`dist/.claude/agents/WORKER_*.md`, persona inlined) | once per worker start, to that worker only | 1,909 to 1,971 (mean 1,957) | ~477 to ~493 (mean ~489) |
 | `dist/.claude/commands/workers.md` | once per `/workers` invocation | 1,983 | ~496 |
 | `dist/.claude/B0_BRIEF.md` | read on demand, only when `ROUTING.md` section 4's falsified-constraint trigger fires, and only by the orchestrator deciding the handover, not by every turn (D60, Stage 12) | 5,836 | ~1,459 |
+| `tools/route.py --from-line ... --explain` output | every orchestrator turn, read as command output, not as a file | 408 to 718 across two representative buckets | ~102 to ~180 |
 
 Command that produced these counts, from the repository root:
 
 ```
-wc -c dist/ORCHESTRATOR.md dist/.claude/B0_BRIEF.md
+wc -c dist/ORCHESTRATOR.md dist-with-rationale/ORCHESTRATOR.md dist/.claude/B0_BRIEF.md
 grep -h '^description:' dist/.claude/agents/*.md | wc -c
 wc -c dist/.claude/agents/*.md | grep -v total | sort -n
 wc -c dist/.claude/commands/workers.md
+python3 tools/route.py --from-line "assessment: mechanical, short, contained; self_directed: false; prior_failure: none" --project . --explain | wc -c
 ```
 
 What this buys: `ORCHESTRATOR.md` is the whole routing rubric and lifecycle
@@ -38,6 +41,21 @@ than persistent, so its cost is per call rather than per turn;
 per-turn cost at all, since section 4's trigger fires rarely (D60 measured
 it on one task shape; the first live fire in the installed bundle had not
 happened as of the Stage 12 dogfood log) and the file is read only then.
+
+**What Plan 2 changed here.** `tools/route.py`, `tools/handoff.py`
+(40,461 and 19,739 characters), `src/routing_priors.json`,
+`src/cost_table.json`, and `src/routing_table.json` (30,699 characters
+combined) all ship in `dist/`, but none of them are a recurring
+per-turn cost: `ROUTING.md` section 2 invokes `route.py` with the Bash
+tool and reads only its stdout, never the script or the data files
+themselves. That stdout, the `--explain` line above, is the entire
+marginal cost of resolution; a request never reads the destination
+table or the ledger. `ORCHESTRATOR.md` itself grew by 1,827 characters
+(14,732 to 16,559, both rationale-stripped) despite stripping every
+evidentiary aside, because section 2's prose describing how to call and
+read `route.py` is longer than the static table it replaced; that
+prose is procedural, not evidentiary, so it was not a candidate for
+stripping in the first place (D64's own distinction).
 
 `ORCHESTRATOR.md` grew from 12,185 to 14,732 characters across the plan
 (21 percent), almost entirely in Stage 12: section 4's falsified-constraint
@@ -99,6 +117,19 @@ cannot correct from here. This is recorded as the honest current number,
 not smoothed toward the earlier one; whoever next measures this ratio
 should re-check E27's shift is still in effect before comparing against
 either figure.
+
+**Not re-measured for the routing-2 bundle.** The USD 0.23 verdict figure
+above was measured against the pre-Plan-2 bundle, which read a full
+`ORCHESTRATOR.md` with the destination table in context. The
+rationale-stripped bundle this stage ships is 25 percent smaller than
+the equivalent `--with-rationale` build (16,559 against 22,109
+characters) and, per E27's own finding that a verdict's cost is
+dominated by reading `ORCHESTRATOR.md` itself rather than by output
+tokens, a smaller context should cost somewhat less per verdict. This
+plan projects zero live spend (`docs/PLAN-2.md` rule 3), so that
+expectation is not measured here; whoever next runs a live routing batch
+against this bundle should record the new figure rather than assume the
+old one still holds.
 
 ## The Controller: measured, not shipped
 

@@ -144,6 +144,18 @@ Claims stated in this repository's own files that a live test disproved, as dist
 | :--- | :--- | :--- |
 | `LIFECYCLE.md`'s "Reporting state": "report from `/tasks` plus your own tracking, never from memory alone", and `src/commands/workers.md`'s step 1, "Run `/tasks` and read every row" | Neither instruction is literally followable by the agent reading it. `/tasks` has no corresponding callable tool in a live session, confirmed by `ToolSearch` returning nothing for it; it is a human-facing terminal panel only. An orchestrator or the `/workers` skill itself cannot execute this step no matter how it is worded | Recorded here, no `src/` edit yet: `docs/PLAN.md` Stage 2's exit criteria excludes changes to `src/`. Both files need rewording to describe what an agent can actually do (`ListAgents`, transcript inspection under `subagents/`, and the worker's own completion or resume notifications), with `/tasks` and a human's own glance kept only as the ground-truth cross-check `CLAUDE.md`'s "Verification is the hard problem" section already frames it as. Flagged for the next stage that touches `LIFECYCLE.md` or `src/commands/workers.md` |
 
+## Plan 2 added no rows here, by design
+
+`docs/PLAN-2.md` (complexity routing, Controller gating, handoffs) ran to
+completion without a single `claude -p` call: its own rule 3 projected
+zero live spend, and both new harnesses (`replay_routing.py`,
+`backtest_ledger.py`) validate `tools/route.py` against results already
+recorded in `test/results/`, never against a fresh run. There is
+therefore nothing to consolidate into this file from that plan; every
+platform claim below still describes the same installed version
+(2.1.268) checked the same way it always was. This note exists so a
+future reader does not read the gap as an omission.
+
 ## Unverified, 2026-09-05
 
 Not found in the documentation. Each is stated as unverified in the sentence
