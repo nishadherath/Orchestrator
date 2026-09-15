@@ -246,6 +246,43 @@ def run_cell(project: Path, cell: str, task_text: str, workdir_rel: str,
     return res.result, res.cost_usd, res.elapsed_s, res.extras
 
 
+_BASH_PATH: str | None = None
+
+
+def resolve_bash() -> str:
+    r"""Absolute path to a real, non-WSL bash on Windows; "bash" elsewhere.
+
+    A bare "bash" on Windows resolves through CreateProcess's default
+    search order, which checks C:\Windows\System32 before it ever
+    consults PATH. If WSL is installed, System32 holds a legacy WSL
+    launcher stub named bash.exe that wins that search regardless of
+    where Git Bash sits in PATH, silently routing every grader through
+    a WSL2 VM instead of the Git Bash the rest of this toolchain
+    assumes. That stub also does not forward environment variables from
+    the launching Windows process (WSL interop needs WSLENV for that,
+    not configured here), which broke env-var-based grader
+    communication outright: confirmed live during Plan 4 Stage B.3
+    (docs/DECISIONS.md D74). Resolved once and cached, since the answer
+    cannot change mid-process.
+
+    Falling back to the bare name when neither known Git Bash location
+    exists keeps this working on a machine without Git for Windows
+    installed at all, or on a non-Windows host; `_wsl_mount_path`'s
+    retry below is what still protects that fallback path.
+    """
+    global _BASH_PATH
+    if _BASH_PATH is not None:
+        return _BASH_PATH
+    if sys.platform == "win32":
+        for candidate in (r"C:\Program Files\Git\bin\bash.exe",
+                          r"C:\Program Files\Git\usr\bin\bash.exe"):
+            if os.path.isfile(candidate):
+                _BASH_PATH = candidate
+                return _BASH_PATH
+    _BASH_PATH = "bash"
+    return _BASH_PATH
+
+
 def _wsl_mount_path(path: Path) -> str | None:
     r"""A Windows drive path rendered the way WSL's own filesystem view
     needs it: "/mnt/<lowercase-drive>/..." instead of "C:\...". None if
@@ -288,7 +325,7 @@ def grade(dest: Path, task: dict, report_text: str | None, timeout: float) -> tu
         (dest / REPORT_FILE).write_text(report_text, encoding="utf-8")
 
     def run_grader(script_path: str) -> subprocess.CompletedProcess:
-        return subprocess.run(["bash", script_path], cwd=dest,
+        return subprocess.run([resolve_bash(), script_path], cwd=dest,
                                capture_output=True, text=True, timeout=timeout)
 
     def script_not_found(proc: subprocess.CompletedProcess, script_path: str) -> bool:
@@ -586,7 +623,7 @@ def main(argv: list[str]) -> int:
     if not args.dry_run and shutil.which("claude") is None:
         print("refusing to run: `claude` not on PATH", file=sys.stderr)
         return 2
-    if not args.dry_run and shutil.which("bash") is None:
+    if not args.dry_run and resolve_bash() == "bash" and shutil.which("bash") is None:
         print("refusing to run: `bash` not on PATH (grade.sh needs it)", file=sys.stderr)
         return 2
     project = args.project.expanduser().resolve()

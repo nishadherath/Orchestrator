@@ -200,10 +200,23 @@ Tasks:
       COMPACT-BENCH-SELFTEST; 29 checks. `seed_task`/`reset_task`/
       `fixture_fingerprint` verified directly against all three fixtures
       in `orchestrator-scratch`, no live spend.
-- [ ] B.3 Dry pass: one run per shape in arm A. The compaction must land
+- [x] B.3 Dry pass: one run per shape in arm A. The compaction must land
       before the constrained action (the boundary's index precedes the
       first constrained tool call in the transcript); adjust the window
-      per shape if not, and record the calibration.
+      per shape if not, and record the calibration. All three landed
+      before the constrained action (D73); `calibration:
+      boundary_before_constrained` for T12/T13, `T14` likewise. Fixture
+      defect (a trailing-newline phantom line) found and fixed, D73.
+      A second, deeper defect found after that: `bash` on this machine
+      resolves to a WSL launcher stub that drops every environment
+      variable `compaction_bench.py` sets for `grade.sh`, invalidating
+      two of the three shapes' dry-pass verdicts (T12's silently
+      defaulted "kept" was actually a violation once graded for real,
+      T13 errored outright); root-caused to Windows' executable-search
+      order, fixed by resolving a real Git Bash explicitly
+      (`benchmark.resolve_bash()`), and the existing transcripts
+      re-graded at no further live cost rather than re-run, D74. 29/29
+      harness checks pass with the fix in place.
 - [ ] B.4 The 45 runs, in the background, `--record`; the result file per
       arm with Wilson intervals per shape.
 - [ ] B.5 Confirmation to nine runs in every cell the pre-registered rule

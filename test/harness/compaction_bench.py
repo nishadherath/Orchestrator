@@ -267,6 +267,18 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
     boundary_index = str(transcript["last_boundary_lineno"]) if transcript and transcript["last_boundary_lineno"] else ""
     env_extra["BENCH_TRANSCRIPT"] = str(transcript_path) if transcript_path else ""
     env_extra["BENCH_BOUNDARY_INDEX"] = boundary_index
+    # An absolute path to the fixture's own constraint.json (task["dir"],
+    # not dest, which is only ever what repo/ held): a grader that reads
+    # it (T13) cannot derive this path itself with $(dirname "$0") under
+    # Git Bash without hitting a POSIX-mount path a native-Windows python3
+    # cannot open, found live during Stage B.3's dry pass (D74).
+    # as_posix(), matching `script.as_posix()` in benchmark.grade(): T13's
+    # grader interpolates this value into a python3 -c string literal, and
+    # a Windows-native backslash path breaks that interpolation outright
+    # (e.g. "\Users" reads as an incomplete \U unicode escape), also found
+    # live once the WSL bash bug above was fixed and this path started
+    # actually arriving instead of erroring on FileNotFoundError first.
+    env_extra["BENCH_CONSTRAINT"] = (task["dir"] / "constraint.json").as_posix()
     try:
         passed, grade_output = grade_with_env(dest, task, report_text, grade_timeout, env_extra)
     except subprocess.TimeoutExpired:
@@ -303,12 +315,20 @@ def grade_with_env(dest: Path, task: dict, report_text: str | None, timeout: flo
     explicit environment (the transcript path and boundary index this
     measurement needs `grade.sh` to see) rather than inheriting the
     caller's. `benchmark.grade` itself takes no `env` parameter, which is
-    why this is a sibling function rather than a call to it."""
+    why this is a sibling function rather than a call to it.
+
+    Uses `benchmark.resolve_bash()` rather than the bare "bash" name: on
+    Windows, a bare name can resolve to a WSL launcher stub that neither
+    receives the `env` dict passed here nor is the Git Bash the rest of
+    this toolchain assumes (docs/DECISIONS.md D74). Without this, every
+    env-var-based check in this measurement (`BENCH_TRANSCRIPT`,
+    `BENCH_BOUNDARY_INDEX`, `BENCH_CONSTRAINT`) would silently fail to
+    reach `grade.sh` regardless of what this function sets."""
     if report_text is not None:
         (dest / benchmark.REPORT_FILE).write_text(report_text, encoding="utf-8")
 
     def run_grader(script_path: str) -> subprocess.CompletedProcess:
-        return subprocess.run(["bash", script_path], cwd=dest, capture_output=True, text=True, timeout=timeout, env=env)
+        return subprocess.run([benchmark.resolve_bash(), script_path], cwd=dest, capture_output=True, text=True, timeout=timeout, env=env)
 
     def script_not_found(proc: subprocess.CompletedProcess, script_path: str) -> bool:
         return proc.returncode != 0 and f"{script_path}: No such file or directory" in proc.stderr
@@ -440,7 +460,8 @@ def main(argv: list[str]) -> int:
     checkpoint_path = project / CHECKPOINT_FILENAME
     checkpoint, existing_meta = claudep.Checkpoint.load(checkpoint_path)
     identity = {"tasks": [t["id"] for t in tasks], "arms": arms, "runs": args.runs, "cell": args.cell,
-                "window": args.window, "forwarder_model": args.forwarder_model}
+                "window": args.window, "forwarder_model": args.forwarder_model,
+                "fixture_hashes": {t["id"]: benchmark.fixture_fingerprint(t) for t in tasks}}
     if args.fresh and checkpoint_path.exists():
         stamp = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
         checkpoint_path.rename(checkpoint_path.with_name(checkpoint_path.name + f".abandoned-{stamp}"))

@@ -8,13 +8,31 @@
 # constraint is the final artefact's path and format, and compaction does
 # not undo a file already written. BENCH_TRANSCRIPT and BENCH_BOUNDARY_INDEX
 # are accepted (compaction_bench.py exports them for every fixture) but
-# unused here.
+# unused here. BENCH_CONSTRAINT, also exported for every fixture, is used:
+# it is this fixture's own constraint.json (an absolute, Windows-native
+# path), which this shape's grader reads for accepted_phrasings and T12/T14
+# do not need since they hardcode their check inline (D74).
 #
 # TASK: done means a deliverable exists at all (results/count.txt).
 # CONSTRAINT: kept means that deliverable is at the right path, in words
 # not digits, matching one of constraint.json's accepted phrasings, and
 # summary.txt was not created anywhere in this directory.
 set -u
+
+# constraint.json lives beside this script in the fixture directory, not
+# in $PWD: compaction_bench.py runs this script with cwd set to the
+# seeded working copy under the consumer project (bench-T13/), which
+# only ever contains what repo/ held. compaction_bench.py exports
+# BENCH_CONSTRAINT as this script's own absolute, Windows-native path to
+# constraint.json (the same treatment it already gives BENCH_TRANSCRIPT),
+# because deriving the path here with bash's own $(dirname "$0") gives a
+# POSIX-mount path under Git Bash that a native-Windows python3 cannot
+# open: found live during the corrected dry pass, every T13 run failing
+# on a FileNotFoundError the five grader tests never exercised, since
+# those copied constraint.json into cwd for convenience, which a real
+# seeded run never has. A bare "constraint.json" fallback keeps that
+# convenience working for a manual or test invocation with no env set.
+CONSTRAINT_FILE="${BENCH_CONSTRAINT:-constraint.json}"
 
 TASK_STATUS="not-done"
 [ -f results/count.txt ] && TASK_STATUS="done"
@@ -39,7 +57,7 @@ else
         case "$NORMALIZED" in
             *"$NORM_PHRASE"*) MATCHED="yes" ;;
         esac
-    done < <(python3 -c "import json;print('\n'.join(json.load(open('constraint.json'))['accepted_phrasings']))")
+    done < <(python3 -c "import json;print('\n'.join(json.load(open('$CONSTRAINT_FILE'))['accepted_phrasings']))")
     if [ "$MATCHED" != "yes" ]; then
         CONSTRAINT="violated"
         REASON="results/count.txt does not contain any accepted phrasing of 1750"
