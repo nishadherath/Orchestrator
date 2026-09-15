@@ -158,11 +158,12 @@ def check_routing_data(cwd: Path) -> dict:
     """route.py's plan() reads both files at import time (tools/route.py);
     a missing one fails every routing decision, not just an edge case, so
     this is checked at install time rather than left to surface mid-task."""
-    required = [cwd / "src" / "routing_priors.json", cwd / "src" / "cost_table.json"]
+    required = [cwd / "src" / "routing_priors.json", cwd / "src" / "cost_table.json",
+                cwd / "src" / "routing_table.json"]
     missing = [str(p.relative_to(cwd)) for p in required if not p.is_file()]
     if not missing:
         return {"check": "routing data present", "status": "PASS",
-                "detail": "src/routing_priors.json and src/cost_table.json both found"}
+                "detail": "src/routing_priors.json, src/cost_table.json and src/routing_table.json all found"}
     return {"check": "routing data present", "status": "FAIL",
             "detail": f"missing: {missing}; section 2's route.py call will fail on every task"}
 

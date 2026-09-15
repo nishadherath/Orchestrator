@@ -218,7 +218,7 @@ handoff validates unchanged.
 
 ## Stage 4. The orchestrator side
 
-Status: **in progress (since 2026-09-15)**
+Status: **done (2026-09-15, see the 4.4 commit)**
 Model: sonnet, high.
 
 Tasks:
@@ -250,13 +250,39 @@ Tasks:
       `check_bash_permission` (WARN if no `Bash(python3 *)` allow rule).
       `check_controller`'s schema count raised from 12 to 13 for
       RoutingLedgerEntry. `.gitignore` gained `/dist-with-rationale/`.
-- [ ] 4.3 Regenerate worker definitions; ROW-BACKED and TABLE-DATA adapted
+- [x] 4.3 Regenerate worker definitions; ROW-BACKED and TABLE-DATA adapted
       to a table whose rows carry activation conditions.
-- [ ] 4.4 Update this stage's status line and commit it.
+      Done 2026-09-15. `generate_workers.py` reports 15 definitions, 0
+      drifted: `WORKER_PERSONA.md`, `routing_table.json` and the
+      sensitivity/horizon/blast axes are untouched by Plan 2, so nothing
+      to regenerate. ROW-BACKED and TABLE-DATA needed no code change, per
+      the design doc's own prediction (section 8): both read
+      `src/routing_table.json` through `route.py`'s unchanged
+      `resolve()`/`matching_rules()`, which still holds only the floor
+      and frontier rules (D44/D45); rows above the floor are priors'
+      ladder rungs, not table rows, so those two checks were never in
+      scope for adaptation.
+
+      Installing the rebuilt `dist/` into `orchestrator-scratch` for the
+      exit criteria found one real gap this stage's earlier commit
+      missed: `build_dist.py` never shipped `src/routing_table.json`,
+      which `route.py`'s `resolve()`/`load_table()` still needs (the
+      frontier shortcut in `plan()` calls `resolve()` directly). The
+      repo's own `ROUTE-SELFTEST` check never caught this because it
+      runs from the repo root, where that file already exists outside
+      `dist/`. Fixed by adding it to `planned_files()`'s shipped `src/`
+      files and to `preflight.py`'s `check_routing_data`. Reinstalled and
+      confirmed `python3 preflight.py` clean in `orchestrator-scratch`
+      (0 failing, 2 WARN needing manual follow-up, as expected).
+- [x] 4.4 Update this stage's status line and commit it.
 
 Exit criteria: harness green; `dist/` rebuilt and installed into
 `orchestrator-scratch` with preflight clean; no fixture's expected cell
-changed without a decision entry.
+changed without a decision entry. All three met 2026-09-15: harness
+27/27; `orchestrator-scratch` reinstalled from a clean (non-dirty)
+`dist/` build with `preflight.py` reporting 0 failing; TABLE-DATA and
+BACKTEST (Stage 2.4) both already confirm no fixture's expected cell
+moved.
 
 ## Stage 5. Propagation and close-out
 

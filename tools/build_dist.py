@@ -156,7 +156,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
         out[dist_dir / "src" / "System" / name] = (SRC / "System" / name).read_text(encoding="utf-8")
     for schema in sorted((SRC / "System" / "schemas").glob("*.schema.json")):
         out[dist_dir / "src" / "System" / "schemas" / schema.name] = schema.read_text(encoding="utf-8")
-    for name in ("routing_priors.json", "cost_table.json"):
+    for name in ("routing_priors.json", "cost_table.json", "routing_table.json"):
         out[dist_dir / "src" / name] = (SRC / name).read_text(encoding="utf-8")
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
     if not with_rationale:
