@@ -103,13 +103,13 @@ The rules `docs/PLAN-4.md` ran under, carried forward unchanged:
 
 ## Stage A. Plan, pre-register, specify
 
-Status: **in progress**
+Status: **done (2026-09-15)**
 Model: fable, high. Judgement over the evidence. Zero live spend.
 
 Tasks:
 
 - [x] A.1 This file, committed.
-- [ ] A.2 `test/results/2026-09-15-decomposition-preregistration.md`: the
+- [x] A.2 `test/results/2026-09-15-decomposition-preregistration.md`: the
       one shape (T12), the two arms (A, a single worker at window 130,000,
       as Stage B; D, the same task split into two fixed sub-handovers,
       chunks 01 to 03 then 04 to 05, each restating the constraint, the
@@ -127,7 +127,7 @@ Tasks:
       detector's acceptance test (Thread 3) and the interactive session's
       two observations (Thread 4), so nothing in Stages B to D is decided
       after seeing its own data.
-- [ ] A.3 `docs/COMPACTION-DESIGN.md` gains section 14: the fixture
+- [x] A.3 `docs/COMPACTION-DESIGN.md` gains section 14: the fixture
       hardening contract (no generator inside `repo/`; no citation of
       this repository's own documents in anything the worker can read;
       the scratch project's `CLAUDE.md` neutral during measurement), the
@@ -136,9 +136,11 @@ Tasks:
       detector's contract (structural: the summary text and the first
       assistant turn after each boundary; lexical: the widened phrase
       family; acceptance as A.2 fixes it), and Thread 4's long fixture.
-- [ ] A.4 `handoffs/2026-09-15-plan5-stageB.md`, written with
+- [x] A.4 `handoffs/2026-09-15-plan5-stageB.md`, written with
       `tools/handoff.py new --pending-workers`, passing `check`.
-- [ ] A.5 Update this stage's status line and commit it.
+- [x] A.5 Update this stage's status line and commit it.
+      Done 2026-09-15: A.1 `9c4c47d`, A.2 `069a1de`, A.3 `974c24b`, A.4
+      and this line in one commit. Harness 30 of 30 throughout.
 
 Exit criteria: pre-registration committed before any Stage B code
 exists; design section present; handoff names sonnet, high; harness green.
