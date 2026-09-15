@@ -78,7 +78,7 @@ last section names the load-bearing unverified ones, which is the list
 | P26 | A user-stopped worker cannot be resumed; a `TaskStop`-stopped one can (invariant 7) | law, verified | E3 and E4 (2.1.245); E4 re-verified 2026-09-11 on 2.1.263 | high | Done twice | live |
 | P27 | The `/tasks` row is the ground-truth signal for what actually ran | falsified for any agent reader | `CLAUDE.md` "Verification is the hard problem" signal 1; `LIFECYCLE.md`; `src/commands/workers.md` | high | Done, free: E19, 2026-09-11 | falsified for agents |
 | P28 | The worker transcript records model and effort and is readable by the orchestrator | law | E7 (2.1.245), re-verified 2026-09-11: the `.jsonl` carries both, the `.meta.json` sidecar carries neither | high | Done | live, and now the only agent-readable verification signal |
-| P29 | A `compact_boundary` entry is a reliable signal the cell was undersized | unverified | `CLAUDE.md` "Verification is the hard problem", signal 2 | none; never checked | One benchmark task at a deliberately undersized cell, then grep the transcript | open, load-bearing |
+| P29 | A `compact_boundary` entry is a reliable signal the cell was undersized | reclassified 2026-09-15 (D68): a horizon signal, not a capability one, since every cell has the same window; and untestable at benchmark scale | `CLAUDE.md` "Verification is the hard problem", signal 2; `docs/COMPACTION-DESIGN.md` section 6 | none live; D68 shows from 303 recorded runs that no benchmark transcript could carry the entry at any cell | E30 (a task built to fill a window), Stage E of `docs/PLAN-3.md`; E20 superseded | open as reclassified; the ledger's `context` field is how it accrues evidence without a probe |
 | P30 | A spawned worker's cost rolls up into the parent's `total_cost_usd` | law, verified | E14, 2026-09-07 | high | Done | live |
 
 ## Group E. The benchmark method
@@ -380,7 +380,10 @@ this project, ranked by what their falsity would cost:
    ones cleared at the cheapest model.
 5. **P29**, that `compact_boundary` reliably signals an undersized cell.
    Nobody has checked it, and Stage 5's two-axis variant proposes replacing
-   an entire assessment axis with it.
+   an entire assessment axis with it. Reclassified 2026-09-15 (D68): the
+   entry measures horizon after the fact, not capability, and no benchmark
+   run could have produced one; `docs/PLAN-3.md` builds the instrument that
+   records it in a consumer project and E30 is the redesigned probe.
 6. **P15**, that handover quality is fixed so the cell is the only lever.
    Never stated aloud before this ledger, never tested, and at rung 3 it
    competes directly with routing for the same budget.

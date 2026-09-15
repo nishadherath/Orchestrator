@@ -138,9 +138,13 @@ Tasks:
       and the `--record --pending <id>` completion of a `--spawn` entry.
       Names the one unverified inference (a compaction seen as a large drop
       in a task's token samples) and routes it to E30.
-- [ ] A.5 `test/harness/empirical-checklist.md` gains E29 (no agent tool
+- [x] A.5 `test/harness/empirical-checklist.md` gains E29 (no agent tool
       path to `/compact`) and E30 (E20 redesigned: a worker on a task that
       fills its window); `docs/PREMISES.md`'s P29 row points at D68.
+      Done 2026-09-15. Also E31 (whether `autoCompactWindow` takes effect
+      at project scope or only user scope, free, for Stage B's fragment)
+      and a superseded note on E20 itself. P29's row and its entry in the
+      ranked list both point at D68 and E30.
 - [ ] A.6 `handoffs/2026-09-15-plan3-stageB.md`, written with
       `tools/handoff.py new` and passing `check`.
 - [ ] A.7 Update this stage's status line and commit it.
