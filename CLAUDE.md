@@ -60,6 +60,10 @@ Dogfooding is allowed only under the protocol in "Dogfooding" below.
 ## Layout
 
 ```
+README.md               the ten-minute orientation: what the system achieves,
+                        how it works, how to use it, with every claim traced
+                        to a decision, finding or result (written 2026-09-16
+                        after docs/AUDIT-2026-09-16.md)
 src/
   ROUTING.md            assessment rubric and spawn protocol
   LIFECYCLE.md          state model, messaging, resume semantics
