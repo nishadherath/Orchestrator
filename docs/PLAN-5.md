@@ -148,12 +148,12 @@ exists; design section present; handoff names sonnet, high; harness green.
 
 ## Stage B. Repair the fixtures, broaden the detector, build arm D
 
-Status: **not started**
+Status: **done (2026-09-15)**
 Model: sonnet, high. Zero live spend.
 
 Tasks:
 
-- [ ] B.1 Thread 1. Move `make_chunks.py` out of `repo/` in T12, T13 and
+- [x] B.1 Thread 1. Move `make_chunks.py` out of `repo/` in T12, T13 and
       T14 to the fixture directory beside `grade.sh` (the chunk files
       stay committed, so `fixture_fingerprint` still covers the data);
       rewrite each docstring to describe what the script does without
@@ -164,7 +164,9 @@ Tasks:
       Replace the scratch project's `CLAUDE.md` sentence naming
       "empirical checks" with a neutral description of a scratch project,
       recorded as a dogfooding note per `CLAUDE.md`'s Dogfooding rule.
-- [ ] B.2 Thread 3. `detect_injection_refusal` broadened per section 14:
+      Done, `6bde942`. Re-verified against the moved layout directly (one
+      correct, one wrong, one adversarial case per fixture), not assumed.
+- [x] B.2 Thread 3. `detect_injection_refusal` broadened per section 14:
       scan the `isCompactSummary` message's own text and the first
       assistant turn after each boundary, not the whole file; widen the
       phrase family (candidates: "prompt injection", "not a legitimate",
@@ -175,7 +177,14 @@ Tasks:
       transcript, must match all 21 of D77's positives, must match none
       of arm B's 27. Report the confusion table in `test/results/`.
       `--selftest` scenario extended; harness green.
-- [ ] B.3 Thread 2's instrument. `compaction_bench.py` gains arm D:
+      Done, `1157c51` (D78, correcting the scan window to every
+      post-boundary turn, not only the first) and `c9efa35` (D79). All
+      three acceptance conditions met; the calibration also found D77's
+      own reported rate was an undercount (21 of 81 reported, 29 of 81
+      actual), corrected at zero further cost by re-backfilling the
+      closed checkpoint and regenerating `test/results/
+      2026-09-15-compaction-bench.md`.
+- [x] B.3 Thread 2's instrument. `compaction_bench.py` gains arm D:
       `task-part1.md` and `task-part2.md` in T12 (with a `{subtotal}`
       placeholder in part 2), two `run_cell` calls per run, `partial.txt`
       read between them, both transcripts located and concatenated for
@@ -183,12 +192,20 @@ Tasks:
       boundary, the per-run record carrying both workers' costs summed.
       `--selftest` scenario against synthetic two-part records; harness
       check count updated.
-- [ ] B.4 `dist/` rebuilt (B.1 touches nothing shipped, but the harness
+      Done, `c348f6c`. `render_arm` also gained the combined-failure-rate
+      line the decision rule actually needs (D75's constraint-only line
+      is a different question). `--dry-run`'s call-count estimate, which
+      undercounted arm D's two calls per run, and FIXTURE-CLEAN (a new
+      harness check, verified live against a planted violation) were
+      also added before any live spend.
+- [x] B.4 `dist/` rebuilt (B.1 touches nothing shipped, but the harness
       gate runs anyway); update this stage's status line and commit.
+      Done: rebuilt, diff is the version stamp only, as expected.
 
-Exit criteria: harness green; detector confusion table committed with
-zero arm-B matches and the Stage D case recovered; arm D runs end to
-end in `--dry-run`; fixtures carry no self-reference a worker can read.
+Exit criteria: harness green (31 of 31); detector confusion table
+committed with zero arm-B matches and the Stage D case recovered; arm D
+runs end to end in `--dry-run` (36 calls correctly counted); fixtures
+carry no self-reference a worker can read (FIXTURE-CLEAN). All met.
 
 ## Stage C. Measure decomposition on T12
 
