@@ -163,7 +163,7 @@ design doc's section 11 lists every pass condition; the handoff at
 
 ## Stage B. Settings, hooks, recovery
 
-Status: **not started**
+Status: **done (2026-09-15, see the B.6 commit)**
 Model: sonnet, high. Implementation from a written spec.
 
 Tasks:
@@ -249,11 +249,16 @@ Tasks:
       unmerged settings, PASS on all four in a scratch project with the
       fragment merged (`autoCompactWindow` via the environment variable,
       the rest via `.claude/settings.json`).
-- [ ] B.6 Update this stage's status line and commit it.
+- [x] B.6 Update this stage's status line and commit it.
 
 Exit criteria: harness green; `dist/` rebuilt and installed into
 `orchestrator-scratch` with preflight clean; a `--spawn` followed by
-`--record` produces one schema-valid entry.
+`--record` produces one schema-valid entry. All three met
+2026-09-15: harness 28/28; `orchestrator-scratch` reinstalled from a
+clean (non-dirty) `dist/` build at `623b90d` with the fragment merged,
+`preflight.py` reporting 0 failing (15 of 16 PASS, 1 expected WARN); a
+`--spawn`/`--record --pending` round trip in that installed copy
+produced one entry, confirmed schema-valid by `validate_records.py`.
 
 ## Stage C. Ledger and resolver
 
