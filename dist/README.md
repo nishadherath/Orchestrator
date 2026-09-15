@@ -397,9 +397,22 @@ explains why, keyed by the commit named in the version string.
   worker going on to investigate a task's own provenance (reading a
   fixture's generator script, for instance) and refusing the whole task
   as illegitimate on what it finds there (`docs/FINDINGS.md`, "Plan 4
-  Stage D"). There is no mitigation shipped for this; it is recorded as
-  observed platform behaviour, not something this bundle currently works
-  around.
+  Stage D"). The mitigation this bundle does ship is pre-emptive, not a
+  fix for a compaction already in progress: `src/ROUTING.md` section 2's
+  overflow advisory tells the orchestrator to split a task into
+  sub-handovers before the trigger fires, which measured at 0 of 12
+  combined failures against 11 of 12 for the same task left to compact
+  mid-run (`docs/DECISIONS.md` D80). It buys nothing once a worker is
+  already mid-task and the trigger has already fired; there is no
+  in-flight remedy for that case.
+- `.claude/context-usage.json`'s `tasks` entry, meant to carry a running
+  worker's own token usage, has never been observed populated in an
+  interactive session, including a twelve-file fixture built specifically
+  to give it several minutes with the tasks panel open
+  (`docs/FINDINGS.md`, "Plan 5 Stage D"). Duration is ruled out as the
+  explanation; the mechanism that should populate it is otherwise
+  unverified. Do not build anything against this bundle that assumes a
+  live per-worker token count is available from that file.
 - Two triggers can put a task on the Controller instead of a worker cell,
   both in `src/ROUTING.md` section 4: a reactive one, a falsified-constraint
   disposition measured on one specific task shape, and a proactive one,
