@@ -237,8 +237,18 @@ Tasks:
       and updates the layout listing and the CLAUDE.md step for the
       compact instructions section. `build_dist.py` ships
       `context_probe.py` and `settings.fragment.json`.
-- [ ] B.5 `preflight.py`: the auto-compact window, the TTL against the
+- [x] B.5 `preflight.py`: the auto-compact window, the TTL against the
       Controller's wall clock, the hook, the status line command.
+      Done 2026-09-15. Four checks: `check_autocompact_window` (env, then
+      settings, 100,000 to 1,000,000, WARN unset); `check_cache_ttl`
+      (WARN on 5m or unset only when the Controller is installed, since
+      that is the one bundled thing whose wall clock reliably outlasts
+      the default TTL); `check_compaction_hook` and `check_context_probe`
+      (WARN if either half of `settings.fragment.json` is missing).
+      Verified end to end: WARN on all four against this repository's own
+      unmerged settings, PASS on all four in a scratch project with the
+      fragment merged (`autoCompactWindow` via the environment variable,
+      the rest via `.claude/settings.json`).
 - [ ] B.6 Update this stage's status line and commit it.
 
 Exit criteria: harness green; `dist/` rebuilt and installed into
