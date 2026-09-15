@@ -184,9 +184,23 @@ Tasks:
       scratch directory: spawn, recover-with-pending, record --pending,
       recover-after-complete, and the produced entry validates against
       `RoutingLedgerEntry.schema.json`.
-- [ ] B.2 `tools/context_probe.py`: the status line script; writes
+- [x] B.2 `tools/context_probe.py`: the status line script; writes
       `.claude/context-usage.json` from the status line's JSON. Selftest
       on a recorded sample input.
+      Done 2026-09-15. Also fixes a real gap section 2 had: `--tasks` is
+      `subagentStatusLine`, whose stdout is `{"id", "content"}` override
+      lines, not free text; printing a plain row per task would have
+      either broken parsing or replaced every row's default rendering.
+      Fixed to print nothing, observing every row without changing how
+      any of them display; section 2 corrected to match. `peak_tokens` is
+      the max of every numeric leaf found in `tokenCount` and
+      `tokenSamples`, kept across refreshes, robust to `tokenSamples`'
+      undocumented shape (D69). The fixture is documentation-derived
+      (the statusline page's own full-schema example for `main`;
+      synthesised from its field list for `tasks`, since no literal
+      example exists there), marked as such in its own `_comment`, for
+      E30 to replace with a live capture. `--selftest`: 5 scenarios.
+      New harness check PROBE-SELFTEST. Harness now 28 checks.
 - [ ] B.3 `route.py --explain` prints the context line from that file, or
       says the file is absent and why that is expected in a headless run.
 - [ ] B.4 `dist/settings.fragment.json` and the `# Compact instructions`

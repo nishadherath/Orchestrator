@@ -1,0 +1,57 @@
+{
+  "_comment": "Two documentation-derived sample inputs for tools/context_probe.py --selftest (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md section 2). 'main' is code.claude.com/docs/en/statusline's own full JSON schema example, trimmed to the fields context_probe.py reads. 'tasks' has no literal example on that page; it is synthesised from the page's field list ('id, name, type, status, description, label, startTime, model, effort, contextWindowSize, tokenCount, tokenSamples, cwd') since tokenSamples' own shape is undocumented beyond its name (P29, D68, D69) -- its value here (a plain list of token counts) is a guess, not a confirmed format, and E30 replaces this whole file with a live capture the first time one is taken.",
+  "main": {
+    "cwd": "/current/working/directory",
+    "session_id": "abc123-selftest",
+    "transcript_path": "/path/to/transcript.jsonl",
+    "model": {"id": "claude-opus-5", "display_name": "Opus"},
+    "context_window": {
+      "total_input_tokens": 15500,
+      "total_output_tokens": 1200,
+      "context_window_size": 200000,
+      "used_percentage": 8,
+      "remaining_percentage": 92,
+      "current_usage": {
+        "input_tokens": 8500,
+        "output_tokens": 1200,
+        "cache_creation_input_tokens": 5000,
+        "cache_read_input_tokens": 2000
+      }
+    },
+    "prompt_cache": {
+      "warm": true,
+      "ttl": "1h",
+      "requests": 14,
+      "misses": 2,
+      "expected_rebuilds": 1,
+      "hit_ratio": 0.91
+    }
+  },
+  "main_over_threshold": {
+    "cwd": "/current/working/directory",
+    "session_id": "abc123-selftest",
+    "model": {"id": "claude-sonnet-5", "display_name": "Sonnet"},
+    "context_window": {
+      "total_input_tokens": 146000,
+      "context_window_size": 200000,
+      "used_percentage": 73,
+      "remaining_percentage": 27,
+      "current_usage": {"input_tokens": 2000, "output_tokens": 400,
+                         "cache_creation_input_tokens": 4000, "cache_read_input_tokens": 140000}
+    }
+  },
+  "tasks": {
+    "columns": 80,
+    "session_id": "abc123-selftest",
+    "tasks": [
+      {"id": "task-1", "name": "refactor-parser", "type": "worker-sonnet-low", "status": "running",
+       "description": "Refactor the parser module", "label": "refactor-parser", "startTime": 1738425000,
+       "model": "claude-sonnet-5", "effort": "low", "contextWindowSize": 200000,
+       "tokenCount": 42000, "tokenSamples": [12000, 28000, 42000], "cwd": "/current/working/directory"},
+      {"id": "task-2", "name": "audit-schemas", "type": "worker-opus-high", "status": "running",
+       "description": "Audit schema coverage", "label": "audit-schemas", "startTime": 1738425100,
+       "model": "claude-opus-5", "effort": "high", "contextWindowSize": 200000,
+       "tokenCount": 5000, "tokenSamples": [5000], "cwd": "/current/working/directory"}
+    ]
+  }
+}

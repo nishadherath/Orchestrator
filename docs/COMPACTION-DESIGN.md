@@ -28,11 +28,17 @@ One script, two modes, ships in `dist/tools/`.
 
 `--main` is the `statusLine` command. It reads the status line's JSON
 from stdin, writes the `main` key of `.claude/context-usage.json`, and
-prints a one-line status for the terminal (`[model] ctx 64% · cache warm`).
+prints a one-line status for the terminal (`[model] ctx 64% · cache warm`),
+since `statusLine`'s stdout is the rendered row verbatim.
 `--tasks` is the `subagentStatusLine` command. It reads the tasks JSON
-from stdin, writes the `tasks` key, and prints one row per task. Each
-mode rewrites only its own key, read-modify-write, written to a temporary
-file and renamed, so the two never clobber each other.
+from stdin, writes the `tasks` key, and prints nothing: `subagentStatusLine`'s
+stdout is not free text but `{"id": ..., "content": ...}` override lines,
+one per row the caller wants to *replace*, and omitting a task's `id`
+keeps its default rendering (`docs/en/statusline`, "Subagent status
+lines"). Emitting no lines observes every row without changing how any
+of them display, which is this probe's whole purpose. Each mode rewrites
+only its own key, read-modify-write, written to a temporary file and
+renamed, so the two never clobber each other.
 
 The file:
 

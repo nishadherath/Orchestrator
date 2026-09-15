@@ -750,6 +750,20 @@ def check_handoff_selftest(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+def check_probe_selftest(r: Report) -> None:
+    """PROBE-SELFTEST: tools/context_probe.py's --selftest passes: both
+    status line modes round-trip against the documentation-derived sample
+    in test/fixtures/system/statusline-sample.json, no claude -p calls
+    (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md section 11)."""
+    script = REPO_ROOT / "tools" / "context_probe.py"
+    if not script.exists():
+        r.add("PROBE-SELFTEST", "context_probe.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("PROBE-SELFTEST", "context_probe.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
 def check_handoffs(r: Report) -> None:
     """HANDOFF: every file under handoffs/ passes `tools/handoff.py check`
     (docs/PLAN-2.md Stage 3.2): all ten headings present, in order, none
@@ -857,6 +871,7 @@ def main(argv: list[str]) -> int:
     check_replay(report)
     check_backtest(report)
     check_handoff_selftest(report)
+    check_probe_selftest(report)
     check_handoffs(report)
 
     when = dt.datetime.now()
