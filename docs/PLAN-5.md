@@ -209,32 +209,55 @@ carry no self-reference a worker can read (FIXTURE-CLEAN). All met.
 
 ## Stage C. Measure decomposition on T12
 
-Status: **not started**
+Status: **done (2026-09-16)**
 Model: sonnet, high. Live spend about USD 20 to 28: arm A twelve runs at
 about USD 0.55 (Stage B's T12 mean), about USD 7; arm D twelve runs at
 two calls each, about USD 0.45 per call on a shorter task, about USD 11;
 re-runs under the exclusion cap up to about USD 6. Under the USD 100
 line; the session states the projection and starts the runs.
+Actual: USD 12.56 (arm A USD 6.68, arm D USD 5.87), under projection;
+zero exclusions or re-runs needed.
 
 Tasks:
 
-- [ ] C.1 `compaction_bench.py --tasks T12 --arms A,D --runs 12 --fresh
+- [x] C.1 `compaction_bench.py --tasks T12 --arms A,D --runs 12 --fresh
       --record`, in the background; result file committed.
-- [ ] C.2 The broadened detector applied prospectively to every Stage C
+      Done. `test/results/2026-09-15-decomposition-bench.md` (the
+      generated header, which points at Plan 4's pre-registration since
+      the script serves both measurements, corrected by hand).
+- [x] C.2 The broadened detector applied prospectively to every Stage C
       transcript and its rate reported beside `stub-summary`, as D77's
       version was; any refusal it misses that a manual read of arm A's
       summaries finds is recorded, not folded in after the fact.
-- [ ] C.3 The pre-registered rule applied at twelve; a decision entry
+      Done. Detector: 6 of 12 for arm A. Manual read of all twelve found
+      five more the phrase list missed on brittle wording ("abandon the
+      actual task" against the list's "abandon the task", "injected
+      prompt"/"injected attempt" against "injected instruction"): the
+      true rate is 11 of 12, reported separately in D80, not folded into
+      the stored field. The one exception (run 8, a clean structured
+      summary) is the same run that produced arm A's only success.
+- [x] C.3 The pre-registered rule applied at twelve; a decision entry
       with the table; P29's row in `docs/PREMISES.md` moved to closed,
       pressured or still open exactly as the rule says, and the overflow
       advisory's wording in `src/ROUTING.md` section 6 and
       `docs/COMPACTION-DESIGN.md` section 6 revised only if the rule
       supports or refutes it.
-- [ ] C.4 Update this stage's status line and commit it.
+      Done, D80: decomposition supported (arm A 11 of 12 combined
+      failures [0.646, 0.985], arm D 0 of 12 [0.000, 0.243],
+      non-overlapping). P29 moved to `live`. `src/ROUTING.md` section 6
+      does not exist (5 sections total; this bullet's own reference was
+      wrong); the instruction landed in section 2 instead, the natural
+      place beside `--explain`'s other output, and closed a real gap:
+      the design document already claimed section 2 said this, but grep
+      found zero mentions of "compact" or "overflow" anywhere in
+      `src/ROUTING.md` before this stage. `docs/COMPACTION-DESIGN.md`
+      section 6 gained a confirming note.
+- [x] C.4 Update this stage's status line and commit it.
 
 Exit criteria: result file committed; every arm-A run confirmed
-compacted and every arm-D run confirmed not, or excluded per the rule;
-the decision applied, not re-argued.
+compacted (all twelve, `compactions` 1 or 2) and every arm-D run
+confirmed not (all twelve `uncalibrated: False`, no boundary in either
+part); no exclusions needed. The decision applied, not re-argued.
 
 ## Stage D. One interactive session, longer, Jeb's
 

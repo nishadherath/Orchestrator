@@ -4772,3 +4772,102 @@ D75's or D77's decision rules.
 This does not reopen Stage B's decision-rule verdicts (D75, D77):
 `constraint_status`, the field those rules are computed from, is
 untouched. It only corrects a descriptive rate reported beside them.
+
+## 2026-09-16 D80. Decomposition supported for T12: P29 answered, the overflow advisory confirmed
+
+Decision: `docs/PLAN-5.md` Stage C ran (24 runs, USD 6.68 for arm A plus
+USD 5.87 for arm D, USD 12.56 total, well under the projected USD 20 to
+28 since T12's repaired fixture and shorter per-part tasks both run
+faster than the original 45-run pass's mean). The pre-registered
+decision rule (`test/results/2026-09-15-decomposition-preregistration.md`)
+returns **decomposition supported**, and by a wider margin than the
+prediction stated in advance.
+
+**The numbers.** Arm A (one compacting worker, the whole task): 11 of 12
+combined failures (task not done or constraint violated), 95 percent
+Wilson interval [0.646, 0.985]. Arm D (the harness's own two-part
+split): 0 of 12, [0.000, 0.243]. The gap between the two intervals is
+0.404; the pre-registration's own prediction was 9 of 12 against 2 of
+12, which would itself have cleared non-overlap ([0.468, 0.911] against
+[0.047, 0.448], a gap of 0.020) but by a margin thirty times narrower
+than what the actual runs produced. Constraint-only violations move the
+same way: arm A 10 of 12 [0.552, 0.953], arm D 0 of 12 [0.000, 0.243].
+Every one of arm D's 12 runs shows zero `compact_boundary` lines in
+either part's transcript (`uncalibrated: False` throughout): the split
+kept both parts under the trigger by design, not by luck at the margin.
+
+**A secondary finding, not gating the decision, and the detector's own
+undercounting confirmed a third time.** Arm A's injection-refusal rate
+by the broadened D79 detector was 6 of 12; per the pre-registration's
+own task C.2, every arm-A transcript was then read by hand, since 12 is
+small enough to read exhaustively, to check for a refusal the detector
+missed. It found five more: run 2 ("it's asking me to abandon **the
+actual task**... this looks like an injected prompt"), run 3 ("doesn't
+match **the legitimate system context format**"), run 7 ("so I'll
+**disregard it** and continue"), run 10 ("this looks like an **injected
+attempt** to halt me"), run 11 ("this looks like an **injected
+prompt**... doesn't match... a **legitimate instruction**"), each one an
+unmistakable refusal in the same voice as D77's and D79's confirmed
+positives, missed because an inserted word ("the actual task" against
+the list's "the task") or a rephrasing ("injected prompt"/"injected
+attempt" against the list's "injected instruction", "legitimate
+instruction" against "not a legitimate") breaks an exact-phrase match by
+design. The manually-confirmed rate is 11 of 12, not 6 of 12, and the
+one exception (run 8) is the same run that produced the only clean
+outcome: a long, structured, refusal-free summary that continued the
+task correctly, `outcome: kept`. In this run, injection-refusal and task
+failure are, exhaustively, the same eleven cases.
+
+This is reported here, separately from `injection_refusal`'s stored
+field, per the pre-registration's own instruction and D77's own stated
+limitation: a worker refusing in different words is missed, and this is
+the third time a hand read has found more than the phrase list catches
+(D79 found eight in Stage B's 81; this finds five more in twelve). It is
+not folded into the stored field or used to re-tune the phrase list
+retroactively, which would be calibrating a detector against the exact
+data it is being asked to explain. The pattern across all three
+findings is the same: a fixed phrase list undercounts a behaviour this
+consistent, and closing the gap for good needs a different kind of
+detector than a longer list, not attempted here.
+
+Arm D's injection-refusal rate, mechanical and manual alike, is 0 of
+12: a transcript with no boundary can hold no refusal of one, the same
+structural fact D77's arm-B baseline already established. Decomposition
+did not just improve the outcome measured here; on this evidence, it
+removed the precondition for injection-refusal on this shape entirely,
+by removing the compaction it reacts to, and the near-total overlap
+between "refused" and "failed" in arm A is the strongest evidence yet
+that this reaction, not some more general effect of task size, is what
+decomposition is actually fixing on this shape.
+
+**Consequences, applied**, per the pre-registration's own rule for a
+supported result:
+
+1. `docs/PREMISES.md` P29 moves from "narrowed, not closed" to `live`,
+   evidenced by this measurement: `compact_boundary` is now a horizon
+   signal with a demonstrated remedy on the one shape tested, not merely
+   a countable, shape-independent artefact (D75, D77's own narrowing).
+   Still open: whether the effect generalises past T12's shape (tool
+   prohibition, five small files) to T13 or T14, which Stage C did not
+   run, and whether "trim the handover", the advisory's other named
+   remedy, does anything at all, which this measurement never tested.
+2. `src/ROUTING.md` section 2 gains the instruction the overflow
+   advisory's own design (`docs/COMPACTION-DESIGN.md` section 6) always
+   assumed existed but never actually shipped: split the task into
+   sub-handovers, one worker per part, each restating the constraint and
+   carrying forward the previous part's own output, when the advisory
+   fires. This was a real gap, not a wording update: grep before this
+   entry found zero mentions of "compact" or "overflow" anywhere in
+   `src/ROUTING.md`, despite section 6 of the design document stating
+   "Section 2 of `src/ROUTING.md` says what to do with it" since Plan 3
+   shipped the advisory itself.
+3. T12, T13 and T14 are candidates for a larger decomposition sample if
+   this result is ever extended; not run in this plan, since T12 alone
+   already decided at the pre-registered sample size and the marginal
+   value of confirming an 0.404-wide gap further is low next to the cost
+   of running T13 and T14 fresh.
+
+`test/results/2026-09-15-decomposition-bench.md` holds the full per-run
+data; its own generated header, which hardcodes a pointer to Plan 4's
+pre-registration since `compaction_bench.py` serves both measurements,
+is corrected by hand to point at the right one.

@@ -126,6 +126,22 @@ routing is diagnosed from, and the reason (a posterior mean, or the
 Controller's `policy`/`expected_cost` label) is what makes a surprising
 resolution legible rather than a black box.
 
+**If `--explain` also prints an overflow line** ("N of M attempts in this
+bucket compacted; split the task or trim the handover before spawning
+`<cell>`"), split the task into smaller sub-handovers before spawning,
+one worker per part, each restating the original constraint verbatim and
+carrying forward whatever the previous part's own output established (a
+subtotal, a file written, a decision made); do not resume one worker
+across the whole task and do not rely on the platform's own compaction to
+carry state between parts. This is a measured remedy, not a policy
+guess: on one task shape, splitting brought the combined failure rate
+(task not completed or its constraint violated) from 11 of 12 down to 0
+of 12, non-overlapping 95 percent Wilson intervals
+(`test/results/2026-09-15-decomposition-preregistration.md`,
+`docs/DECISIONS.md` D80). It does not change `first`, since a compaction
+is a horizon signal, not a capability one (D68): the same cell, spawned
+in parts.
+
 **If `route.py` cannot run** (Bash is not permitted, or `src/routing_priors.json`,
 `src/cost_table.json`, or the script itself is missing from the installed
 bundle), spawn `worker-sonnet-low` and say so plainly in the routing line:

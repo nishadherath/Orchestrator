@@ -195,6 +195,18 @@ re-assess each part as its own task. `generate_priors.py` emits the
 overflow prior for every bucket; ROUTE-PRIORS checks its `kind` and
 provenance like any other.
 
+**"Split" is now measured, not assumed** (`docs/PLAN-5.md` Stage C,
+`docs/DECISIONS.md` D80): on T12, a single worker taking the whole task
+under a window that compacts mid-task failed 11 of 12 (task not done or
+its constraint violated); the same task split into two sub-handovers by
+the harness, each restating the constraint and carrying the previous
+part's output forward, failed 0 of 12, non-overlapping 95 percent
+Wilson intervals. Section 2 of `src/ROUTING.md` was found, at the same
+time, to never have actually said this: the design text above assumed
+it did since Plan 3 shipped the advisory, and D80 closed that gap.
+"Trim the handover" remains the advisory's other named remedy and is
+untested by this measurement.
+
 `route.py --selftest` gains scenario j (a bucket with three compacted
 floor failures: floor posterior mean unchanged from the empty-ledger
 value, overflow mean crosses 0.3, advisory true, `first` still the floor)
