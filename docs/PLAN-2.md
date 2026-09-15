@@ -114,14 +114,17 @@ model and effort to switch to; harness green.
 
 ## Stage 2. The resolver and the ledger
 
-Status: **not started**
+Status: **in progress (2.1 done 2026-09-15)**
 Model: sonnet, high. Implementation from a written spec.
 
 Tasks:
 
-- [ ] 2.1 `src/System/schemas/RoutingLedgerEntry.schema.json` plus valid
+- [x] 2.1 `src/System/schemas/RoutingLedgerEntry.schema.json` plus valid
       and broken fixture lines under `test/fixtures/system/`, so
       `validate_records.py` and the SCHEMA check cover the ledger.
+      Done 2026-09-15. 13 schemas; BROKEN_LINES gains line 19 (a bucket
+      outside the enum); expected_types in check.py and CLAUDE.md's
+      layout note updated from twelve to the new count.
 - [ ] 2.2 `tools/route.py`: load priors and a ledger; per-bucket posterior;
       rung activation; expected ladder cost; the Controller rule;
       `--from-line` parsing of the orchestrator's assessment line;

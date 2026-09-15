@@ -63,7 +63,8 @@ src/
   System/STEPS.md       the eight steps, reconstructed (Stage 9.1, D47)
   System/TECHNIQUES.md  the three tier-1 technique briefs, reconstructed
   System/ROLES.md       the six role briefs: input slice, output schema, cell prior
-  System/schemas/       twelve record schemas, one per blackboard record type
+  System/schemas/       record schemas, one per blackboard record type plus
+                        RoutingLedgerEntry (docs/PLAN-2.md Stage 2)
   System/B0_BRIEF.md    the single-worker baseline: all eight steps in one handover
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and

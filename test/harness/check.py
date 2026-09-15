@@ -517,7 +517,7 @@ SYSTEM_FIXTURES = REPO_ROOT / "test" / "fixtures" / "system"
 # asserts the validator reports exactly these and no others, so a validator
 # that goes blind to one defect class, or starts rejecting sound records,
 # fails here rather than in a Stage 10 run.
-BROKEN_LINES = {1, 2, 3, 5, 6, 10, 13, 16, 17, 18}
+BROKEN_LINES = {1, 2, 3, 5, 6, 10, 13, 16, 17, 18, 19}
 
 
 def load_validator():
@@ -546,7 +546,7 @@ def check_schemas(r: Report) -> None:
     problems: list[str] = []
     expected_types = {"ProblemRecord", "PremiseRecord", "FrameRecord", "MeasurementRecord", "CandidateRecord",
                       "CritiqueRecord", "SelectionRecord", "EvaluationRecord", "SolutionRecord", "GapReport",
-                      "PhaseDigest", "BudgetEntry"}
+                      "PhaseDigest", "BudgetEntry", "RoutingLedgerEntry"}
     missing = expected_types - set(schemas)
     if missing:
         problems.append(f"no schema for {sorted(missing)}")

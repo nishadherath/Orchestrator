@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/RoutingLedgerEntry.schema.json",
+  "title": "RoutingLedgerEntry",
+  "description": "One routed task in a consumer project, appended by tools/route.py --record to .claude/routing-ledger.jsonl (docs/PLAN-2.md Stage 2, docs/ROUTING-2-DESIGN.md section 2, D64). This is the self-learning signal: route.py's posterior over a bucket is built only from these entries, seeded by src/routing_priors.json. final_outcome is the orchestrator's own judgement against the task's stated acceptance criteria, not a deterministic grader; a live project has no benchmark grader, and the ledger inherits that limit (docs/PLAN.md Gate A's caveat about B0's free failure detector applies here too). Single writer: the orchestrator, via route.py. Append-only.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "RoutingLedgerEntry"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^led-[0-9]{3,}$",
+      "description": "Record id: led-, then at least three digits. Assigned by route.py --record in append order."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Always 0. Present so this record carries the same common fields as every System record type, though the routing ledger has no frozen-version concept of its own."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Always empty. Present for the same reason as ledger_version."
+    },
+    "ts": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})?$",
+      "description": "ISO 8601, when the entry was written."
+    },
+    "task_slug": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "The orchestrator's short name for the routed task."
+    },
+    "bucket": {
+      "type": "string",
+      "pattern": "^(mechanical|structured|open)/(short|medium|long)/(contained|consequential)$",
+      "description": "sensitivity/horizon/blast, from the orchestrator's assessment line (docs/ROUTING-2-DESIGN.md section 1)."
+    },
+    "self_directed": {
+      "type": "boolean",
+      "description": "Recorded for the record; not an input to resolution (D64: D40 measured it firing at 38 percent for sonnet against a 6 percent base rate)."
+    },
+    "first_cell": {
+      "type": "string",
+      "pattern": "^(controller|worker-[a-z]+-[a-z]+)$",
+      "description": "The cell, or 'controller', tried first."
+    },
+    "escalations": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cell": {
+            "type": "string",
+            "pattern": "^(controller|worker-[a-z]+-[a-z]+)$"
+          },
+          "outcome": {
+            "enum": [
+              "pass",
+              "fail",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "cell",
+          "outcome"
+        ]
+      },
+      "description": "Each later rung tried, in order, after first_cell failed. Empty if first_cell was not escalated past."
+    },
+    "final_outcome": {
+      "enum": [
+        "pass",
+        "fail",
+        "unknown"
+      ],
+      "description": "The orchestrator's own judgement against the task's acceptance criteria, for whichever cell or rung actually finished the task. 'unknown' when the orchestrator could not judge (task abandoned, criteria never stated)."
+    },
+    "cost_usd": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total reported cost for the task, summed across first_cell and every escalation."
+    },
+    "wall_clock_s": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total wall clock for the task, summed the same way."
+    },
+    "controller_run_dir": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "The Controller's runs/<id> directory name, if the Controller ran anywhere in this task's routing; otherwise null."
+    },
+    "winning_technique": {
+      "enum": [
+        "b0",
+        "subtract",
+        "re-represent",
+        "abduce",
+        "other",
+        null
+      ],
+      "description": "From the Controller's SolutionRecord.technique when it ran and produced one; null otherwise. The training signal SYSTEM.md section 8 asks logged from day one."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Free text. May be empty."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "ts",
+    "task_slug",
+    "bucket",
+    "self_directed",
+    "first_cell",
+    "escalations",
+    "final_outcome",
+    "cost_usd",
+    "wall_clock_s",
+    "controller_run_dir",
+    "winning_technique",
+    "notes"
+  ]
+}
