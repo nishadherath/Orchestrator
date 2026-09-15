@@ -125,12 +125,23 @@ Tasks:
       Done 2026-09-15. 13 schemas; BROKEN_LINES gains line 19 (a bucket
       outside the enum); expected_types in check.py and CLAUDE.md's
       layout note updated from twelve to the new count.
-- [ ] 2.2 `tools/route.py`: load priors and a ledger; per-bucket posterior;
+- [x] 2.2 `tools/route.py`: load priors and a ledger; per-bucket posterior;
       rung activation; expected ladder cost; the Controller rule;
       `--from-line` parsing of the orchestrator's assessment line;
       `--record` appending an outcome; `--explain` printing the arithmetic.
       Existing `resolve()` behaviour unchanged for callers that pass no
       ledger.
+      Done 2026-09-15. load_priors, load_cost_table, load_ledger,
+      posterior, expected_ladder_cost, controller_decision, plan;
+      parse_assessment_line for both recorded line formats;
+      --from-line/--project/--ledger/--explain/--record/--json/--selftest
+      on the CLI. --selftest: 7 scenarios (empty-ledger parity, floor-
+      failure lowering the posterior, rung activation and cost-order
+      insertion, the policy dial with its off switch, the expected-cost
+      rule firing on a consequential bucket outside the policy's scope,
+      ledger round-trip past a malformed line, the frontier rung under
+      prior_failure). Old --sensitivity/--horizon/--blast CLI usage
+      verified byte-identical (worker-sonnet-low for both example calls).
 - [ ] 2.3 `test/harness/replay_routing.py`: re-resolve every recorded
       assessment in `test/results/` through the new resolver with an empty
       ledger; report agreement against `expected_cell` and the proactive
