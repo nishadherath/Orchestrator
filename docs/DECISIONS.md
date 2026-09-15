@@ -3590,3 +3590,66 @@ Reversal: none pending. A future prose-format addition that names a
 frontier-adjacent worker some other way (not `worker-opus-max` or
 `worker-fable-max` literally) would need the same treatment, recorded
 the same way.
+
+## 2026-09-15 D66. Backtest found a known-defective run's data spuriously activating a rung the benchmark already refuted; excluded on D16's own citation, not a new judgement call
+
+Decision: the first backtest run (`test/harness/backtest_ledger.py`,
+Stage 2.4) failed one of its own pass conditions: `structured/long/
+contained` activated `worker-sonnet-xhigh` (three ledger observations,
+enough to clear `steering_rung_activation_min_n`, with a majority pass),
+which `docs/FRONTIERS.md`'s reviewed conclusion for that exact bucket
+says has no frontier above the floor ("no frontier above the floor; this
+is a direct measurement, not a bracket... merge downward"). Per D64's own
+reversal clause, this stops rather than being loosened past.
+
+**Root cause.** `test/results/2026-09-07-benchmark-04d2acc-original.md`'s
+T4 rows were fed into the reconstruction unfiltered. D16 (2026-09-07)
+already disregarded this exact run: a fixture docstring mention of
+"KVStore" tripped `grade.sh`'s strict grep on every one of 25 failing
+runs across every sonnet cell up to xhigh, a false positive, not a
+capability failure, and the entry says so explicitly ("does not measure
+task difficulty and must be disregarded; T4 needs a fresh run against
+the corrected fixture"). That fresh run is
+`test/results/2026-09-07-benchmark-04d2acc-replication.md`, T4's floor at
+12 of 12. The backtest's reconstruction, which chains each floor failure
+to the next cell's next unused row (module docstring,
+`backtest_ledger.py`), turned three of the original run's floor failures
+into three `worker-sonnet-xhigh` escalation observations, and that
+cell's own overall rate in the invalidated run (5 of 12, itself noise
+from a grader defect that had nothing to do with model capability) was
+enough, at three samples, to clear the activation bar.
+
+**The fix.** `backtest_ledger.py` gains `INVALIDATED_FILES`, naming
+`2026-09-07-benchmark-04d2acc-original.md` and citing D16 in the
+surrounding comment, excluded from the file list the reconstruction
+reads. This is not a new exclusion invented to make the check pass: D16
+already disregarded this exact file eight days before this plan existed,
+for a reason that has nothing to do with routing or ledgers, and the
+backtest now uses the project's own prior decision rather than re-deriving
+it. The replication run, the corrected measurement D16 itself asked for,
+is not excluded and supplies T4's valid floor data (12 of 12 pass).
+
+With the exclusion, all twenty-two checks pass: every bucket's `first`
+stays the floor; `worker-opus-high` posterior mean for `open/medium/
+contained` is 0.941 (D42's frontier); no intermediate sonnet rung
+activates anywhere; the Controller decision is not proactive on any
+contained bucket. Recorded:
+`test/results/2026-09-15-backtest-ledger.md`.
+
+**What this confirms about the activation mechanism, worth stating
+plainly.** `steering_rung_activation_min_n = 3` is genuinely this
+sensitive to a small, noisy sample; a real consumer project's ledger will
+hit the same failure mode if three early outcomes at a cell happen to be
+unrepresentative (a flaky task, a grader bug of its own, a run
+interrupted partway). This is not fixed here: `routing_priors.json`'s own
+provenance already frames the low threshold as deliberate ("a project's
+own ledger moves a bucket after a handful of its own outcomes"),
+trading responsiveness for exactly this risk, and D64 named the
+alternative (raising the threshold) a design change requiring its own
+entry, not a default to fix reactively on one instance found in
+historical data already known to be defective for an unrelated reason.
+
+Reversal: none pending for the exclusion, since D16 already made this
+call. If a future project's live ledger shows the same small-sample
+volatility with no known data defect behind it, that is the case for
+reopening `steering_rung_activation_min_n` itself, as a new decision.
