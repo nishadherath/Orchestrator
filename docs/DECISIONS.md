@@ -4871,3 +4871,59 @@ supported result:
 data; its own generated header, which hardcodes a pointer to Plan 4's
 pre-registration since `compaction_bench.py` serves both measurements,
 is corrected by hand to point at the right one.
+
+## 2026-09-16 D81. Plan 6 adopted: the audit's 63 findings fixed in ranked order, and three answers that qualify earlier entries
+
+Decision: `docs/PLAN-6.md` is adopted at Jeb's direction, after
+`docs/AUDIT-2026-09-16.md` (commit `2b1902f`) recorded 63 findings, no
+blockers, across the code, the documents and the repository's own
+layout without repairing any of them. Scope, Jeb's choice from two
+offered: all 63, in the audit's rank order, consumer bundle first, over
+four stages at zero live spend. Three findings were put to Jeb as
+questions with a recommendation each, because a fix either way would
+have reversed or narrowed an entry already on this ledger; he took the
+recommendation on all three.
+
+**1. A4, against D64.** `tools/route.py`'s `posterior()` counted a
+floor failure only when the entry carried an escalation, so
+`--record --outcome fail` with no `--escalation`, which
+`ORCHESTRATOR.md` section 2 invites, moved nothing; the audit confirmed
+this by recording three such failures in a scratch project and reading
+"0 pass, 0 fail" back. D64 point 2 said the ledger learns from
+"observed outcomes". Answer: a recorded floor failure counts, escalated
+or not. The alternative reading (only a failure someone climbed past is
+evidence of capability) was offered and declined; a bad handover is
+still an outcome the project paid for, and the orchestrator's own
+`fail` judgement is already the only signal the ledger ever has (D64,
+`docs/ROUTING-2-DESIGN.md` section 2).
+
+**2. B1, against D68.** Plan 3's two-phase ledger write (`--spawn` at
+spawn time, `--record --pending` after) is what the `SessionStart(compact)`
+hook's pending-worker list reads, and `docs/COMPACTION-DESIGN.md`
+section 4 stated that `ROUTING.md` section 2 ran `--spawn` after the
+Agent call. It never did; the audit's grep found neither flag anywhere
+in the shipped prose, so the recovery mechanism has been inert in every
+consumer install since Plan 3 shipped. Same shape as the gap D80 closed
+for the overflow advisory. Answer: ship `--spawn` in section 3 and
+change section 2's record command, completing D68's design, rather than
+cut the pending list. A harness check that every `route.py` flag the
+fragment's hooks depend on is named in the shipped prose is added so a
+third instance of this gap fails loudly.
+
+**3. A22, against D40 and D64.** `score_routing.py`'s default mode still
+asks for the pre-D64 prose line and its two-stage mode refuses any
+bundle whose stamp lacks `-rubric-only`, though `dist/` has been
+rubric-only since D64; the only `dist-rubric-only/` on disk is five
+days and four plans stale. Answer: two-stage becomes the default, the
+suffix check goes, `build_dist.py --rubric-only` and
+`route.resolve_two_axis` go with it (D40 rejected the two-axis design
+and nothing else calls it), and prose mode stays behind a flag so the
+recorded batches replay. D40's verdict is unchanged; only the
+instrument's default moves to match what ships.
+
+**What later stages may not change without a new entry:** these three
+answers; the rank order (a consumer-facing fix is never deferred behind
+a repository-side one); zero live spend.
+
+Reversal: Jeb reverses any of the three by name; Stage B's tasks B.4,
+B.5 and Stage D's D.1 are the code that would be reverted.
