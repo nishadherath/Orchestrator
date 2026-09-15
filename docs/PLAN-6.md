@@ -93,11 +93,14 @@ Tasks:
       works" step 1 replaced by `preflight.py`'s bundle row;
       `LIFECYCLE.md`'s opening states that the Agent tool and the Task
       tool are one tool.
-- [ ] B.3 A26, D2: `preflight.py` FAILs when `python3` is not on PATH,
-      naming the fix; `settings.fragment.json` gains
+- [ ] B.3 A26, D2, A31 (A31 added here; omitted from Stage A's task
+      list against the audit, found by a finding-ID diff before this
+      task started): `preflight.py` FAILs when `python3` is not on
+      PATH, naming the fix; `settings.fragment.json` gains
       `permissions.allow: ["Bash(python3 *)"]` and the README's merge
       step says so; `ROUTING.md` section 2's fallback names all three
-      JSON files.
+      JSON files; `preflight.py`'s docstring says "seven things", not
+      "six".
 - [ ] B.4 B1: `ROUTING.md` section 3 gains the `--spawn` step after the
       Agent call; section 2's record command becomes `--record --pending
       <id>`; `LIFECYCLE.md`'s Handoffs paragraph says the pending list

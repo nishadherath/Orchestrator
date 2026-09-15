@@ -131,11 +131,15 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 2. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`
    (create the file if it does not exist). It sets `promptCacheTtl: "1h"`, the
    `statusLine` and `subagentStatusLine` commands that give `route.py --explain`
-   its context reading, and a `SessionStart` hook (matcher `compact`) that runs
-   `route.py --recover` after a platform compaction. If your project already
-   has any of these keys, merge them by hand rather than overwriting: chain an
-   existing `statusLine`/`subagentStatusLine` command to `context_probe.py`
-   (run one, then the other), and add the `SessionStart` entry alongside any
+   its context reading, a `permissions.allow` entry for `Bash(python3 *)` so
+   `route.py` runs on every task without a per-call approval prompt (the
+   settings table below), and a `SessionStart` hook (matcher `compact`) that
+   runs `route.py --recover` after a platform compaction. If your project
+   already has any of these keys, merge them by hand rather than overwriting:
+   chain an existing `statusLine`/`subagentStatusLine` command to
+   `context_probe.py` (run one, then the other), append the
+   `Bash(python3 *)` entry to an existing `permissions.allow` array rather
+   than replacing it, and add the `SessionStart` entry alongside any
    existing hooks for that event rather than replacing the array.
 
    The fragment's `_user_settings.autoCompactWindow` is documentation, not a
@@ -260,8 +264,9 @@ A project that already has a `CLAUDE.md`, and possibly its own
 
 4. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`,
    same as step 2 of a new install: an existing project is exactly where a
-   `statusLine`, `subagentStatusLine`, or `SessionStart` hook is likely to
-   already be configured, so merge key by key rather than overwriting.
+   `statusLine`, `subagentStatusLine`, `permissions.allow`, or `SessionStart`
+   hook is likely to already be configured, so merge key by key rather than
+   overwriting.
    `autoCompactWindow` is not a key this fragment carries directly; set it
    in this same file for project scope (confirmed to work, `docs/FINDINGS.md`
    "Plan 4 Stage D"), in `~/.claude/settings.json` for a user-wide default,

@@ -143,8 +143,9 @@ is a horizon signal, not a capability one (D68): the same cell, spawned
 in parts.
 
 **If `route.py` cannot run** (Bash is not permitted, or `src/routing_priors.json`,
-`src/cost_table.json`, or the script itself is missing from the installed
-bundle), spawn `worker-sonnet-low` and say so plainly in the routing line:
+`src/cost_table.json`, `src/routing_table.json`, or the script itself is
+missing from the installed bundle), spawn `worker-sonnet-low` and say so
+plainly in the routing line:
 name what failed and that the resolver did not run. Never fall back to
 choosing a cell yourself from memory of what the table used to say. A
 silently substituted judgement, indistinguishable from a real resolution
