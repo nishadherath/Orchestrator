@@ -4544,3 +4544,30 @@ observed mean of about USD 0.50 each, about USD 18. Combined with the
 inside the plan's own projected USD 26 to 40 (`docs/PLAN-4.md`, at the
 top of the range) and under the USD 100 line, so the session states
 this and starts the confirmation runs itself (D57's standing rule).
+
+## 2026-09-15 D76. The checkpoint could not actually resume from steering to confirmation: `runs` was part of its identity
+
+Decision: attempting to start B.5's confirmation (the same nine cells,
+`--runs 9` instead of `--runs 5`) against the 45-run pass's own
+checkpoint would have refused outright, discarding the already-paid-for
+steering data unless run with `--fresh`. `compaction_bench.py`'s
+identity fingerprint (`main()`, D74's own commit) included `"runs":
+args.runs`, so a later invocation asking for more runs on the same
+measurement never matched the stored identity. Found before any
+confirmation call was made, not after a wasted one: `checkpoint_identity`
+now excludes `runs` entirely, the existing checkpoint's stored meta line
+migrated in place to match (all 45 run records untouched), and
+`--selftest` gains scenario (e) proving two identities built with
+different tasks and equal everything else compare equal regardless of
+run count, 5 scenarios.
+
+This is a second harness defect in one day found only by trying to
+execute the workflow the pre-registration itself specifies (steer at
+five, confirm to nine): `benchmark.py`'s own two-tier design
+(`CHECKPOINT_IDENTITY_FIELDS` including both `r_search` and `r_confirm`)
+is not a precedent that transfers directly, because both of its counts
+are fixed together from a single invocation's first call and never grow
+between separate invocations the way this script's workflow needs. The
+two designs solve visibly similar problems by genuinely different
+means; assuming one's shape without checking cost nothing here only
+because it was caught before the confirmation call was made, not after.

@@ -413,9 +413,10 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     (test/fixtures/system/transcript-sample.jsonl, docs/COMPACTION-DESIGN.md
     section 13.6) and checks extract_transcript's numbers against it,
     first_tool_use_lineno against a known constraint, stub detection
-    against two known cases, and render_arm's violation count against the
-    constraint status rather than the combined outcome (D75). No
-    claude -p calls."""
+    against two known cases, render_arm's violation count against the
+    constraint status rather than the combined outcome (D75), and
+    checkpoint_identity's exclusion of run count (D76). No claude -p
+    calls."""
     problems: list[str] = []
 
     def check(cond: bool, msg: str) -> None:
@@ -465,7 +466,42 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     check("Task not completed: 1 of 3" in report,
           f"(d) the task-incomplete-but-kept run should be reported separately, not folded into Violations, got:\n{report}")
 
+    # (e) checkpoint_identity excludes "runs" (docs/DECISIONS.md D76): the
+    # pre-registration's own two-tier design steers at five runs per
+    # cell, then confirms only the named cells to nine, which needs the
+    # SAME checkpoint to resume at a larger --runs than it was first
+    # written with. A checkpoint's stored identity must therefore compare
+    # equal across a change in run count alone, or every confirmation
+    # pass would refuse with a mismatch and force a wasteful --fresh.
+    real_tasks = [benchmark.load_task(tid) for tid in ("T12", "T13")]
+    identity_five = checkpoint_identity(real_tasks, ["A", "B"], "worker-sonnet-low", 130000, "sonnet")
+    identity_nine = checkpoint_identity(real_tasks, ["A", "B"], "worker-sonnet-low", 130000, "sonnet")
+    check("runs" not in identity_five, f"(e) checkpoint_identity should never include a 'runs' key, got {identity_five}")
+    check(identity_five == identity_nine,
+          "(e) identity must compare equal regardless of how many runs were requested, since that is exactly "
+          "what a steering-to-confirmation resume needs to grow between invocations")
+
     return (not problems, problems)
+
+
+def checkpoint_identity(tasks: list[dict], arms: list[str], cell: str, window: int | None,
+                         forwarder_model: str) -> dict:
+    """The checkpoint's identity fingerprint (docs/DECISIONS.md D76).
+    Deliberately excludes `--runs`: the pre-registration's own two-tier
+    design steers at five runs per cell, then confirms only the cells the
+    decision rules name to nine, which means the SAME checkpoint must
+    resume at a larger `--runs` than it was first written with. Every
+    field here (tasks, arms, cell, window, forwarder model, fixture
+    hashes) genuinely identifies what is being measured; `--runs` is how
+    much of it has been collected so far, which is exactly the thing
+    resuming is for. `benchmark.py`'s own `CHECKPOINT_IDENTITY_FIELDS`
+    includes both `r_search` and `r_confirm` together, but that is a
+    different shape: both counts are fixed from a single invocation's
+    first call, never grown between separate invocations the way this
+    script's steer-then-confirm workflow needs."""
+    return {"tasks": [t["id"] for t in tasks], "arms": arms, "cell": cell, "window": window,
+            "forwarder_model": forwarder_model,
+            "fixture_hashes": {t["id"]: benchmark.fixture_fingerprint(t) for t in tasks}}
 
 
 def main(argv: list[str]) -> int:
@@ -475,7 +511,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 4 scenarios")
+            print("selftest: PASS, 5 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -500,9 +536,7 @@ def main(argv: list[str]) -> int:
 
     checkpoint_path = project / CHECKPOINT_FILENAME
     checkpoint, existing_meta = claudep.Checkpoint.load(checkpoint_path)
-    identity = {"tasks": [t["id"] for t in tasks], "arms": arms, "runs": args.runs, "cell": args.cell,
-                "window": args.window, "forwarder_model": args.forwarder_model,
-                "fixture_hashes": {t["id"]: benchmark.fixture_fingerprint(t) for t in tasks}}
+    identity = checkpoint_identity(tasks, arms, args.cell, args.window, args.forwarder_model)
     if args.fresh and checkpoint_path.exists():
         stamp = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
         checkpoint_path.rename(checkpoint_path.with_name(checkpoint_path.name + f".abandoned-{stamp}"))
