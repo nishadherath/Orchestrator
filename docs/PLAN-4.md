@@ -118,11 +118,14 @@ Tasks:
       `stub-summary`, added from A.2's run 1 finding before any run),
       four decision rules, predictions per shape and arm as counts out
       of five, USD 27 to 40.
-- [ ] A.4 `docs/COMPACTION-DESIGN.md` gains a "Revisions from Plan 4"
+- [x] A.4 `docs/COMPACTION-DESIGN.md` gains a "Revisions from Plan 4"
       section: the spec Stages B to E execute (the harness script's
       contract, the fixture and grader contracts, the transcript-first
       precedence, the `min()`, the session pointer, the preflight rule,
       every pass condition).
+      Done 2026-09-15. Section 13, nine subsections; earlier sections
+      left in place as the record of the pre-evidence design, with 13
+      governing where they disagree.
 - [ ] A.5 `handoffs/2026-09-15-plan4-stageB.md`, written with
       `tools/handoff.py new --pending-workers` and passing `check`.
 - [ ] A.6 Update this stage's status line and commit it.

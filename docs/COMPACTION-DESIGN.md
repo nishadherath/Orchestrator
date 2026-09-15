@@ -329,3 +329,164 @@ only place one is produced deliberately. It does not change what
 `first` resolves to: the overflow advisory sits beside the cell, never
 replaces it. It does not touch the Controller. It does not claim the
 compaction summary follows the compact instructions; E30 checks.
+
+## 13. Revisions from Plan 4 (D72)
+
+Written 2026-09-15, `docs/PLAN-4.md` Stage A.4, after E30's transcripts
+were read (`test/results/2026-09-15-e30-transcripts.md`). Where this
+section contradicts an earlier one, this section governs; the earlier
+text is left in place as the record of what was designed before the
+evidence existed. Stages B to E of Plan 4 implement this section.
+
+### 13.1 Precedence for `context` (supersedes section 5)
+
+1. `transcript`: the worker's own `agent-*.jsonl`. `compactions` is the
+   count of lines containing `"subtype":"compact_boundary"`. `peak_tokens`
+   is the largest of every `compactMetadata.preTokens` and every assistant
+   message's `input_tokens + cache_read_input_tokens +
+   cache_creation_input_tokens`. `window` is the model's native window
+   from `message.model`, looked up in a new `context.model_windows` table
+   in `src/cost_table.json` (provenance `docs/en/model-config`; `null` for
+   an id not in the table, never a guess). Located by cell (D71) within
+   the current session's `subagents/` directory when `.claude/session.json`
+   (13.4) names it, else across every session under the projects slug by
+   cell and recency as D71 shipped.
+2. `statusline`: as section 5, unchanged, now second.
+3. `none`.
+
+`--record` prints which applied. Section 3's `compactions` semantics
+("a drop past half between samples") is withdrawn: only the transcript
+count is a compaction count.
+
+### 13.2 `context_probe.py`
+
+`main.used_percentage` is recomputed as `total_input_tokens /
+effective_window * 100`, where `effective_window = min(context_window_size,
+resolved)` and `resolved` is `CLAUDE_CODE_AUTO_COMPACT_WINDOW` if set,
+else the first `autoCompactWindow` found in `.claude/settings.local.json`,
+`.claude/settings.json`, `~/.claude/settings.json` in that order (the
+documented precedence, highest first, with the two scopes the probe
+cannot observe, managed settings and a launch flag, noted as such), else
+`context_window_size`. The platform's own figure is kept verbatim beside
+it as `platform_used_percentage`, and `effective_window` and
+`effective_window_source` are written, so a reader can see both. This
+changes section 2's contract under D69's own reversal clause and is a
+no-op wherever the platform already accounts for the setting. Drop
+detection and the `compactions` key in `tasks` entries are removed
+(D72 point 2); `peak_tokens` stays.
+
+### 13.3 `route.py --explain`'s context line
+
+Source order: `.claude/context-usage.json` if present and fresh, as
+section 4; else the orchestrator's own transcript through `.claude/session.json`
+(13.4), taking the last assistant message's input total against the
+effective window resolved as in 13.2, printed as `context: 64% of
+200,000 effective (transcript, 12 s ago)`; else `unknown`. The threshold
+and the stale rule are unchanged. A headless orchestrator therefore gets
+the line for the first time.
+
+### 13.4 The session pointer
+
+`route.py --session-pointer` reads a hook's JSON input from stdin and
+writes `.claude/session.json`: `{"session_id", "transcript_path",
+"cwd", "event", "written_at"}`. `settings.fragment.json` gains it under
+`SessionStart` for matchers `startup`, `resume` and `compact` (alongside
+`--recover` on `compact`; two hooks under one matcher). Both fields are
+documented hook input (`docs/en/hooks`, common input fields). Whether the
+hook fires under `claude -p` is observed for free from Stage B's runs:
+the file's mtime after each run.
+
+### 13.5 `preflight.py`: the thrash floor
+
+A new check, `auto-compact headroom`: with the window resolved as in
+13.2 and a per-turn footprint from `--per-turn-tokens` (default 8,000,
+E30's read size), `WARN` when `window - 93,000 < 3 * footprint`, quoting
+the inequality, its provenance (D72 point 4, plain-text content, version
+2.1.268), and the platform's own remedy (read in smaller chunks). `PASS`
+otherwise. Never `FAIL`: the constants are bracketed, not exact.
+
+### 13.6 `test/harness/compaction_bench.py`
+
+The instrument for `test/results/2026-09-15-compaction-preregistration.md`.
+Reuses `benchmark.py`'s `load_task`, `seed_task`, `reset_task`,
+`run_cell`, `grade`, `fixture_fingerprint`, and `claudep.Checkpoint`;
+adds nothing to `benchmark.py` itself.
+
+CLI: `--project`, `--tasks` (default T12,T13,T14), `--arms` (default
+A,B,C), `--runs` (default 5), `--cell` (default `worker-sonnet-low`),
+`--window` (default 130000, applied to arms A and C), `--forwarder-model`,
+`--timeout`, `--grade-timeout`, `--dry-run`, `--record`, `--fresh`,
+`--selftest`. Arm table inside the script: A sets
+`CLAUDE_CODE_AUTO_COMPACT_WINDOW` in the environment of the forwarder
+call and leaves `CLAUDE.md` as found; B leaves the variable unset; C
+sets it and, before its runs, appends `src/CLAUDE.template.md`'s
+`# Compact instructions` section to the project's `CLAUDE.md`, restoring
+the original bytes after (asserted identical).
+
+Per run: `reset_task`; note the clock; `run_cell`; locate the transcript
+(newest `agent-*.meta.json` under the projects slug with `agentType ==
+cell` and mtime after the noted clock, exact when one worker runs at a
+time); extract as `extract_e30.py` does (boundary count, each
+`preTokens`, peak, first total after each boundary, API error text,
+summary lengths and heading counts); find the index of the first
+boundary and of the first constrained `tool_use` (the grader names the
+constrained tool set through a `constraint.json` in the fixture);
+export `BENCH_TRANSCRIPT` and `BENCH_BOUNDARY_INDEX`; `grade`; parse the
+grader's `CONSTRAINT:` and `TASK:` lines. Checkpoint label
+`(task, arm, cell)`; identity fields add `arms`, `runs`, `window`.
+Outcome classes per run: `kept`, `violated`, `aborted` (thrash), plus the
+flags `stub-summary` and `uncalibrated` (no boundary, or boundary after
+the constrained call), applied as the pre-registration's rules say.
+
+Output: one result file per arm,
+`test/results/<date>-compaction-<bundle>-arm<X>.md`, with the per-run
+table and per-shape counts, and a summary file with Wilson intervals per
+shape and arm from `claudep.wilson_interval`, the reserve bracket from
+every compaction, and every abort against the 13.5 inequality.
+
+`--selftest`: parses a committed sample transcript
+(`test/fixtures/system/transcript-sample.jsonl`, a redacted copy of E30
+run 4's shape with the content replaced by placeholders) and asserts
+the boundary count, `preTokens`, peak, post total and boundary index it
+returns. Harness check `COMPACT-BENCH-SELFTEST`.
+
+### 13.7 Fixtures T12, T13, T14
+
+Per `test/fixtures/benchmark/README.md`'s contract, plus: `task.md`'s
+first sentence is the constraint; `repo/` holds `make_chunks.py` (seeded,
+plain-noun filler, 350 lines per file) and the chunk files it produced,
+committed so `fixture_fingerprint` covers the data the worker reads;
+`constraint.json` names the tool set the constraint restricts (S1: allowed
+`Read`, `Write`; S3: forbidden path `chunk-03.txt`; S2: none, artefact
+only); `grade.sh` prints `CONSTRAINT: kept|violated`, `TASK: done|not-done`
+and, when `BENCH_TRANSCRIPT` is set, `CONSTRAINT-ANY: kept|violated` over
+the whole transcript beside the after-boundary verdict, exiting 0 only
+when the constraint is kept after the boundary and the task is done.
+Each grader is tested before its first live run against two correct
+phrasings, two plausible wrong answers and one adversarial answer, and
+the fixture's own `GRADER-TESTS.md` records the five.
+
+### 13.8 Pass conditions (Plan 4)
+
+- ROUTE-SELFTEST gains scenario l: `fill_context` on a synthetic
+  transcript directory returns `source: "transcript"` with the count,
+  peak and window the file implies; and the session-pointer round trip.
+- PROBE-SELFTEST gains the effective-window case: `context_window_size`
+  1,000,000 with a resolved window of 200,000 yields `used_percentage`
+  against 200,000 and `platform_used_percentage` against 1,000,000.
+- COMPACT-BENCH-SELFTEST as 13.6.
+- BACKTEST and REPLAY unchanged.
+- `preflight.py` in `orchestrator-scratch`: the headroom check `PASS` at
+  200,000 with the default footprint, `WARN` at 100,000.
+- Stage B's three result files committed with every arm-A and arm-C run
+  either confirmed compacted or marked `uncalibrated`; the pre-registered
+  decisions applied verbatim in D73.
+
+### 13.9 What this design no longer claims
+
+That the status line is the first or best source for a worker's context.
+That a compaction is detectable from a drop in a task's token count. That
+the trigger reserve is a constant: it is about 34,000 tokens on plain-text
+content at version 2.1.268, and content-conditional. That a compaction
+summary is always structured: a refused summariser produces a stub that
+keeps nothing (E30 run 1), and the measurement counts those.
