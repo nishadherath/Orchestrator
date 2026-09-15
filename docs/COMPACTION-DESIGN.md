@@ -247,6 +247,13 @@ D68 sits far below a 1M window and the minimum the platform accepts is
 every worker run on record finished inside five minutes (`cost_table.json`
 cells, wall clock) and a one-hour write costs 1.6 times more.
 
+**Superseded by E31** (`docs/FINDINGS.md`, Plan 4 Stage D): project
+scope is confirmed to take effect, not only user scope, so the fragment
+now ships `autoCompactWindow` as a real top-level key rather than under
+`_user_settings` (`docs/PLAN-6.md` Stage B.7, audit A27/B18). This
+section's own text and example above are left as the record of the
+design before that evidence existed.
+
 ## 8. Compact instructions
 
 The documented mechanism is a `# Compact instructions` section in the

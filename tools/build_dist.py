@@ -95,6 +95,18 @@ def strip_rationale(routing_text: str) -> str:
     so an edit to ROUTING.md that adds an unmatched marker fails loudly
     here instead of quietly shipping a bundle with a stray HTML comment
     or, worse, a rationale block that was never actually removed.
+
+    Trailing whitespace is trimmed per line before the blank-line
+    collapse, not after: a span nested inside an indented bullet's own
+    continuation lines leaves the marker's own indentation behind on
+    what is otherwise a blank line (the indentation sits in the text
+    kept before the start marker, not in the span removed), and `\n{3,}`
+    only ever matches consecutive newline characters, never a line that
+    holds nothing but spaces between two of them. Trimming first turns
+    that line genuinely blank so the collapse catches it, instead of
+    leaving a whitespace-only line visible in the shipped file (audit
+    B14, docs/AUDIT-2026-09-16.md; found in dist/ORCHESTRATOR.md section
+    4's own numbered list).
     """
     import re
     out: list[str] = []
@@ -108,7 +120,8 @@ def strip_rationale(routing_text: str) -> str:
         assert end != -1, f"src/ROUTING.md: {RATIONALE_START!r} with no following {RATIONALE_END!r}"
         out.append(routing_text[i:start])
         i = end + len(RATIONALE_END)
-    result = re.sub(r"\n{3,}", "\n\n", "".join(out))
+    result = re.sub(r"[ \t]+$", "", "".join(out), flags=re.MULTILINE)
+    result = re.sub(r"\n{3,}", "\n\n", result)
     assert RATIONALE_START not in result and RATIONALE_END not in result, \
         "src/ROUTING.md: a rationale marker survived stripping"
     return result
