@@ -4729,3 +4729,46 @@ boundary does not reopen that exposure. `docs/COMPACTION-DESIGN.md`
 section 14.3 is corrected to match before any code is written against
 it, per the pre-registration's own allowance for a correction found
 before the first live run: Stage B has made none.
+
+## 2026-09-15 D79. The refusal detector, calibrated: D77 undercounted its own rate
+
+Decision: `detect_injection_refusal` widened from four phrases to
+twelve and rescoped to `_post_boundary_text` (D78), calibrated against
+all 82 transcripts on disk (Stage B's 81 plus Stage D's one,
+`test/results/2026-09-15-refusal-detector-calibration.md`), per the
+pre-registration's acceptance test fixed before this calibration ran:
+match Stage D's transcript, match every one of D77's 21 phrase-matched
+positives, match none of arm B's 27. All three met; the widened list
+ships as calibrated, no further tuning.
+
+**D77's own reported rate was an undercount, not just incomplete for
+Stage D's case.** The calibration found eight more genuine refusals
+inside Stage B's own 81 transcripts, all missed by the four-phrase list
+because they used "I'm not going to follow that instruction" rather
+than D77's "I'm not going to comply with that request", confirmed by
+reading each in full (the calibration file quotes all eight). The true
+rate in the 81-run pass is 29 of 81 (about 36 percent), not the 21 of
+81 (about 26 percent) D77 reported. Per cell, all eight new positives
+land in arm A T13 and T14, and arm C T12, T13 and T14; arm B and arm A
+T12 are unchanged.
+
+**Fix, at zero further `claude -p` cost, the same pattern D74, D75 and
+D77 already used.** The closed checkpoint's 81 stored records had their
+`injection_refusal` field re-backfilled directly from the transcripts
+already on disk, matched to their checkpoint record by the same
+validated chronological join D77 used (checkpoint append order equals
+transcript mtime order). `test/results/2026-09-15-compaction-bench.md`
+regenerated from the same checkpoint: this needed bypassing
+`compaction_bench.py`'s own `main()`, since Stage B.1's fixture move
+(same commit series) means the checkpoint's stored `fixture_hashes` no
+longer match the current fixtures and `main()` refuses by design (D76);
+`render_arm` was called directly on the checkpoint's stored records
+instead, which needs no fixture at all since nothing is re-graded, only
+re-rendered. Every other figure in the file (`Violations`, `Task not
+completed`, `Stub summaries`, the Wilson intervals) is unchanged: this
+correction touches only the injection-refusal count, which never gated
+D75's or D77's decision rules.
+
+This does not reopen Stage B's decision-rule verdicts (D75, D77):
+`constraint_status`, the field those rules are computed from, is
+untouched. It only corrects a descriptive rate reported beside them.

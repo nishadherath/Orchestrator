@@ -650,4 +650,5 @@ absence, against the closing conditions the pre-registration fixes.
   and D30 to catch.
 - Stage C's result file committed with every arm-A run confirmed
   compacted and every arm-D run confirmed not, or excluded per the rule;
-  the pre-registered decision applied in D79.
+  the pre-registered decision applied in D80 (D79 is the detector
+  calibration, Stage B.2).
