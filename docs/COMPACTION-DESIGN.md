@@ -588,11 +588,15 @@ second part only) with no `claude -p` call.
 
 Structural first, lexical second. The detector reads the transcript as
 events, not as one string: for each `compact_boundary`, the text of the
-`isCompactSummary` message that follows it and the text of the first
-assistant message after that. Plan 4 Stage D showed the refusal can sit
-inside the summary itself; D73's two sat in the turn after; both are in
-scope, nothing else in the file is, which is what keeps system-prompt
-boilerplate (D77's "fabricated") out.
+`isCompactSummary` message that follows it, and the text of every
+assistant message from there up to the next `compact_boundary` or the
+end of the transcript, not only the first. D73's two instances sat in
+the turn immediately after; Plan 4 Stage D's sat three assistant turns
+later, after an intervening `Glob` and `Read` (`docs/DECISIONS.md` D78,
+corrected here before this section was implemented). Both are in scope;
+nothing before the boundary is, which is what keeps system-prompt
+boilerplate (D77's "fabricated", loaded once before any boundary) out
+regardless of how wide the post-boundary window runs.
 
 Within that scope, a match is any phrase from a widened family, each
 entry a multi-word phrase, never a bare word: the four D77 phrases,
@@ -606,8 +610,10 @@ any arm-B transcript is removed, and the final list is what ships.
 The confusion table (`test/results/2026-09-15-refusal-detector-calibration.md`):
 for the 82 transcripts, D77's label, the broadened label, and for every
 disagreement a hand read's verdict with the quoted text. The `--selftest`
-scenario (f) is extended with a synthetic transcript whose refusal is
-inside the summary text and one whose only "refusal" phrase sits in a
+scenario (f) is extended with three synthetic transcripts: a refusal
+inside the summary text itself; a refusal several assistant turns after
+the boundary, with an unrelated tool call in between, matching Stage
+D's actual shape; and a transcript whose only "refusal" phrase sits in a
 system-prompt attachment before any boundary, which must not match.
 
 ### 14.4 The longer session (Thread 4)

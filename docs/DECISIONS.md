@@ -4695,3 +4695,37 @@ argued from the dry-pass evidence.
 Stage B is complete: `test/results/2026-09-15-compaction-bench.md`
 holds the confirmed nine-run data for every cell with injection-refusal
 reported; the decisions above are applied as written, not re-argued.
+
+## 2026-09-15 D78. `docs/PLAN-5.md` adopted; the refusal detector's scan window corrected before it was built
+
+Decision: adopt `docs/PLAN-5.md`'s four threads (fixture hardening,
+decomposition, the broadened refusal detector, the longer interactive
+session), building on D73 through D77 and `docs/FINDINGS.md`'s "Plan 4
+Stage D" account rather than any new finding of its own.
+`docs/COMPACTION-DESIGN.md` section 14 cited this entry as "(D78)"
+before it existed, written in the same stage as the plan by the fable
+session that authored both; this entry closes that gap rather than
+leaving a dangling citation, and records a correction found immediately
+after, while building the detector section 14.3 specifies.
+
+**The correction.** Section 14.3, as first written, scoped the
+broadened detector to "the summary text and the first assistant message
+after that." Re-reading Stage D's own transcript
+(`agent-aa88b8dba96f6d856.jsonl`) line by line to build the scan found
+this scope would have missed the case it exists to catch. After the
+`compact_boundary` at line 34 and the summary at line 35, the first
+assistant turn (lines 53 to 54) is an empty `thinking` block followed by
+a `Glob` call; refusal language does not appear until line 64, three
+assistant turns later, after a `Read` of `make_chunks.py` in between.
+"The first turn after" is not where this transcript's refusal lives.
+
+**The fix.** Scope widened to the summary text plus every assistant
+message from the boundary to the next `compact_boundary` or the end of
+the transcript, not only the first. This still excludes the
+system-prompt boilerplate that produced D77's "fabricated" false
+positive, since that text is loaded once, before any boundary, never
+inside the window a boundary opens; widening the window after a
+boundary does not reopen that exposure. `docs/COMPACTION-DESIGN.md`
+section 14.3 is corrected to match before any code is written against
+it, per the pre-registration's own allowance for a correction found
+before the first live run: Stage B has made none.
