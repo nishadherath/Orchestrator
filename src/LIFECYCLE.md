@@ -109,3 +109,14 @@ it passes.
 The fresh session's first action is to read the handoff file named to it,
 not to re-derive context from the conversation history: it exists
 precisely so the new session does not need that history.
+
+# Compact instructions
+
+When compacting, keep these, in this order, each as its own heading:
+goal; decisions already made; files and links that matter; verified
+facts (with the command or number); work completed (with commit hashes);
+unresolved questions; exact next action; every worker spawned whose
+outcome is not yet recorded, with its assessment line and cell. Drop
+tool output, intermediate reasoning, and anything a fresh session would
+not need. This is the shape of `handoffs/` files; a compaction summary is
+a handoff the platform wrote.

@@ -31,6 +31,11 @@ tools/
   handoff.py                                        (writes and checks the handoff files
                                                      LIFECYCLE.md's "Handoffs" section asks
                                                      for on a model or effort change)
+  context_probe.py                                  (the statusLine and subagentStatusLine
+                                                     commands settings.fragment.json wires
+                                                     in; writes .claude/context-usage.json,
+                                                     which route.py --explain's context
+                                                     line reads)
   system_controller.py                              (the Controller: a quick-mode multi-
                                                      role state machine ORCHESTRATOR.md
                                                      section 4 invokes with the Bash tool
@@ -64,7 +69,12 @@ ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md, 
                                                      works" below)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
-                                                     handoff rule)
+                                                     handoff rule and the compact
+                                                     instructions section)
+settings.fragment.json                              (merge into .claude/settings.json:
+                                                     the status line commands, the
+                                                     one-hour cache TTL, and the
+                                                     SessionStart(compact) recovery hook)
 README.md                                           (this file)
 preflight.py                                        (checks the settings below)
 ```
@@ -118,12 +128,33 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    without `routing_priors.json`, `cost_table.json`, and
    `routing_table.json` in place (`preflight.py` checks for them).
 
-2. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. If the
+2. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`
+   (create the file if it does not exist). It sets `promptCacheTtl: "1h"`, the
+   `statusLine` and `subagentStatusLine` commands that give `route.py --explain`
+   its context reading, and a `SessionStart` hook (matcher `compact`) that runs
+   `route.py --recover` after a platform compaction. If your project already
+   has any of these keys, merge them by hand rather than overwriting: chain an
+   existing `statusLine`/`subagentStatusLine` command to `context_probe.py`
+   (run one, then the other), and add the `SessionStart` entry alongside any
+   existing hooks for that event rather than replacing the array.
+
+   The fragment's `_user_settings.autoCompactWindow` is documentation, not a
+   real key in this file: `autoCompactWindow` is a user-scope setting
+   (`docs/en/model-config`), so set it in `~/.claude/settings.json` or export
+   `CLAUDE_CODE_AUTO_COMPACT_WINDOW=200000` instead. `preflight.py` (step 4
+   below) checks whichever you chose. Skip this step only if you have
+   deliberately decided not to use the compaction mechanism at all (see
+   "Known limits" below); `route.py --explain`'s context line then always
+   reads "unknown" and never recommends a handoff, which is a silent
+   degradation, not a failure.
+
+3. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. If the
    project has none yet, copy `dist/CLAUDE.template.md` to `CLAUDE.md`: it
-   has the pointer line plus the standing handoff rule (write a file under
+   has the pointer line, the standing handoff rule (write a file under
    `handoffs/` with `tools/handoff.py` whenever this session's own model or
-   effort must change). Otherwise add just the pointer line to the
-   existing file:
+   effort must change), and the `# Compact instructions` section the
+   platform reads when it compacts on its own. Otherwise add just the
+   pointer line to the existing file:
 
    ```
    Read ORCHESTRATOR.md before delegating any task.
@@ -132,10 +163,11 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    A session only reads `ORCHESTRATOR.md` if something points it there; the
    pointer line is what makes that automatic. If the project already has a
    `CLAUDE.md` for other purposes, add the line (and, if you want the
-   handoff rule too, that section of the template) to it rather than
-   replacing the file (see "Install into an existing project" below).
+   handoff rule and the compact instructions too, those sections of the
+   template) to it rather than replacing the file (see "Install into an
+   existing project" below).
 
-3. Run the preflight check from the project root:
+4. Run the preflight check from the project root:
 
    ```bash
    python3 preflight.py
@@ -145,14 +177,14 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    effort limits, which needs an administrator to confirm. Fix anything it
    reports `FAIL` before proceeding; a `WARN` is informational.
 
-4. **Restart Claude Code.** A worker definition added to `.claude/agents/`
+5. **Restart Claude Code.** A worker definition added to `.claude/agents/`
    before your session started is not picked up by that session no matter how
    long you wait (confirmed empirically, `docs/FINDINGS.md`). Since this is a
    brand-new `.claude/agents/` directory, every session open at install time
    needs a restart to see it. Start a fresh session in the project after
    restarting.
 
-5. Verify the install (see "Verifying it works" below) before delegating real
+6. Verify the install (see "Verifying it works" below) before delegating real
    work through it.
 
 ## Install into an existing project
@@ -206,11 +238,19 @@ A project that already has a `CLAUDE.md`, and possibly its own
    commands as step 1 of a new install. Create `$CONSUMER/handoffs/` if it
    does not already exist.
 
-4. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
+4. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`,
+   same as step 2 of a new install: an existing project is exactly where a
+   `statusLine`, `subagentStatusLine`, or `SessionStart` hook is likely to
+   already be configured, so merge key by key rather than overwriting, and
+   set `autoCompactWindow` at user scope (or the environment variable) since
+   it is not a key this fragment carries directly.
+
+5. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
    existing `CLAUDE.md` rather than replacing the file. Where you add it
    matters less than that it is present; a natural place is near the top,
    beside any other file the project's `CLAUDE.md` already tells a session to
-   read first.
+   read first. Add `dist/CLAUDE.template.md`'s "Handoffs" and "# Compact
+   instructions" sections too if the project has neither already.
 
    If `CLAUDE.md` already contains routing or delegation instructions from
    something else, decide whether they conflict before adding this bundle's:
@@ -219,9 +259,9 @@ A project that already has a `CLAUDE.md`, and possibly its own
    not route" section explains why a second, competing set of rules is worse
    than none).
 
-5. Run `python3 preflight.py` from the project root, same as a new install.
+6. Run `python3 preflight.py` from the project root, same as a new install.
 
-6. Restart Claude Code **only if `.claude/agents/` did not already exist**
+7. Restart Claude Code **only if `.claude/agents/` did not already exist**
    before this session started. If the directory already existed (which it
    will, for most existing projects that already delegate to any subagent),
    the fifteen new definitions are picked up without a restart, typically
@@ -229,7 +269,7 @@ A project that already has a `CLAUDE.md`, and possibly its own
    your current session, restart anyway; it costs a few seconds and removes
    the question.
 
-7. Verify the install before delegating real work through it.
+8. Verify the install before delegating real work through it.
 
 ## Verifying it works
 

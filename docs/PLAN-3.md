@@ -219,9 +219,24 @@ Tasks:
       under A.3, which printed literally instead of one percent sign
       (only visible when that check fails; found while re-reading the
       code this task extends).
-- [ ] B.4 `dist/settings.fragment.json` and the `# Compact instructions`
+- [x] B.4 `dist/settings.fragment.json` and the `# Compact instructions`
       section in `src/ROUTING.md` (procedural, ships) and
       `src/CLAUDE.template.md`; `src/README.md` explains the fragment.
+      Done 2026-09-15. Corrected against `docs/COMPACTION-DESIGN.md`
+      section 8 while implementing: the compact instructions ship in
+      `src/LIFECYCLE.md`'s "Handoffs" section (the appended install) and
+      `src/CLAUDE.template.md` (the pointer install), not `src/ROUTING.md`
+      as this line first said; the design doc is the authority Stage B
+      works from and this file's own shorthand was imprecise.
+      `src/settings.fragment.json` ships `promptCacheTtl`, both status
+      line commands, and the `SessionStart(compact)` hook;
+      `_user_settings.autoCompactWindow` is documentation only, since
+      that key is user-scope. `src/README.md` gains a new numbered step
+      in both install walkthroughs (merge the fragment, chaining rather
+      than overwriting an existing statusLine/subagentStatusLine/hook)
+      and updates the layout listing and the CLAUDE.md step for the
+      compact instructions section. `build_dist.py` ships
+      `context_probe.py` and `settings.fragment.json`.
 - [ ] B.5 `preflight.py`: the auto-compact window, the TTL against the
       Controller's wall clock, the hook, the status line command.
 - [ ] B.6 Update this stage's status line and commit it.

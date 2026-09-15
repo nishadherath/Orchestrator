@@ -150,7 +150,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
     out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
     for name in ("system_controller.py", "claudep.py", "system_prompts.py", "validate_records.py",
-                 "route.py", "handoff.py"):
+                 "route.py", "handoff.py", "context_probe.py"):
         out[dist_dir / "tools" / name] = (REPO_ROOT / "tools" / name).read_text(encoding="utf-8")
     for name in ("ROLES.md", "TECHNIQUES.md"):
         out[dist_dir / "src" / "System" / name] = (SRC / "System" / name).read_text(encoding="utf-8")
@@ -158,6 +158,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
         out[dist_dir / "src" / "System" / "schemas" / schema.name] = schema.read_text(encoding="utf-8")
     for name in ("routing_priors.json", "cost_table.json", "routing_table.json"):
         out[dist_dir / "src" / name] = (SRC / name).read_text(encoding="utf-8")
+    out[dist_dir / "settings.fragment.json"] = (SRC / "settings.fragment.json").read_text(encoding="utf-8")
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
     if not with_rationale:
         routing = strip_rationale(routing)
