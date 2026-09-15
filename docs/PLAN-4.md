@@ -158,13 +158,22 @@ about USD 25, confirmation up to about USD 10.
 
 Tasks:
 
-- [ ] B.1 Fixtures `test/fixtures/benchmark/T12`, `T13`, `T14` (shapes S1,
+- [x] B.1 Fixtures `test/fixtures/benchmark/T12`, `T13`, `T14` (shapes S1,
       S2, S3 of the pre-registration): `task.md`, `repo/` with committed
       chunk files and the generator that made them, `grade.sh` printing
       `CONSTRAINT: kept|violated` and `TASK: done|not-done` and exiting 0
       only on both. Each grader tested, per the fixture README's own
       rule, against two correct phrasings, two plausible wrong answers
       and one adversarial one, before any live run.
+      Done 2026-09-15 across three commits (`e71357d`, `85c6508`,
+      and this one): T12 (S1, tool prohibition, 6 grader tests), T13
+      (S2, detail fidelity, 5 grader tests, no transcript check since
+      the constraint is the final artefact), T14 (S3, negative scope, 6
+      grader tests, including one where a letter-perfect artefact hides
+      a transcript-level violation, which is why S3 needs the transcript
+      check and S2 does not). Every grader matched on its first run;
+      `constraint.json` per fixture names what each shape's transcript
+      check (if any) looks for, read by `compaction_bench.py` in B.2.
 - [ ] B.2 `test/harness/compaction_bench.py`: arms, `--autocompact-window`,
       `--compact-instructions on|off`, fixed cell, N runs, the transcript
       located per run and its compaction count, `preTokens`, peak and

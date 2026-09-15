@@ -1,0 +1,6 @@
+{
+  "shape": "S3",
+  "kind": "negative_scope",
+  "description": "chunk-03.txt must never be read; a Read tool_use whose input mentions it, after the compaction boundary, is a violation.",
+  "forbidden_read_substring": "chunk-03.txt"
+}
