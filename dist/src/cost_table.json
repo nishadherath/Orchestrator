@@ -68,5 +68,136 @@
   "session": {
     "fixed_load_tokens_estimate": 44741,
     "provenance": "docs/COST.md, the fixed load of a stage session, 2026-09-15; chars/4, not a provider count"
+  },
+  "context": {
+    "_comment": "Context compaction economics (docs/PLAN-3.md Stage A.3, D68). multipliers, ttl and auto_compact are documented platform constants, read 2026-09-15, each with its page; compaction_cost is D68's arithmetic; measured is aggregated from recorded runs by the script quoted in its method. tools/route.py's --explain context line and tools/handoff.py's projections read this section; nothing in it is a live measurement of a compaction, since none has been recorded (see measured.reading).",
+    "multipliers": {
+      "cache_write_5m": 1.25,
+      "cache_write_1h": 2.0,
+      "cache_read": 0.1,
+      "output_over_input": 5.0,
+      "provenance": "cache write and read multipliers: platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing, documented; output_over_input is the list-price ratio of the sonnet and opus families the benchmark's total_cost_usd was computed at (15 over 3, 75 over 15), a property of those families and not a documented constant"
+    },
+    "ttl": {
+      "main_conversation_subscription_s": 3600,
+      "main_conversation_api_key_or_credits_s": 300,
+      "subagents_compaction_and_forks_s": 300,
+      "settings": [
+        "promptCacheTtl",
+        "subagentPromptCacheTtl"
+      ],
+      "env": [
+        "CLAUDE_CODE_PROMPT_CACHE_TTL",
+        "CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL"
+      ],
+      "subagent_frontmatter": "experimental.cacheTtl (v2.1.248 or later)",
+      "min_version": "2.1.242",
+      "provenance": "code.claude.com/docs/en/prompt-caching, Cache lifetime and Which TTL each request gets, read 2026-09-15"
+    },
+    "auto_compact": {
+      "window_min_tokens": 100000,
+      "window_max_tokens": 1000000,
+      "default": "the model's context limit; about 967000 on native 1M models (Sonnet 5, Fable, Opus 4.7 and later); 200000 on 200K models",
+      "controls": [
+        "/autocompact <value>",
+        "--autocompact <value>",
+        "CLAUDE_CODE_AUTO_COMPACT_WINDOW (plain token count; takes precedence)",
+        "autoCompactWindow (user settings)"
+      ],
+      "provenance": "code.claude.com/docs/en/model-config, Set the auto-compact window, read 2026-09-15"
+    },
+    "compaction_cost": {
+      "symbols": "C context tokens before, S summary tokens after, S_out summary output tokens, r cache_read, w cache_write, o output_over_input, all relative to the input price",
+      "compact_warm": "r*C + o*S_out + w*S",
+      "compact_cold": "C + o*S_out + w*S",
+      "saving_per_turn_warm": "r*(C - S)",
+      "saving_per_turn_cold": "w*(C - S)",
+      "example": {
+        "C": 150000,
+        "S": 10000,
+        "S_out": 2000,
+        "w": 1.25,
+        "payback_turns_warm": 2.7,
+        "payback_turns_cold": 1.0
+      },
+      "provenance": "D68 (docs/DECISIONS.md); the warm and cold cases from code.claude.com/docs/en/prompt-caching, Compacting the conversation: the summarisation call reads the prefix from cache while warm and reprocesses it uncached when cold, and the turn after rebuilds only the summary"
+    },
+    "measured": {
+      "n_rows": 303,
+      "result_files": 13,
+      "date_range": "2026-09-07 to 2026-09-14",
+      "cells": {
+        "worker-opus-high": {
+          "n": 12,
+          "cache_read_median": 111779,
+          "cache_read_p90": 116708,
+          "cache_read_max": 152676,
+          "cache_creation_median": 6940,
+          "output_median": 1931,
+          "share_write_median": 0.296,
+          "share_read_median": 0.364,
+          "share_output_median": 0.312,
+          "one_hour_ttl_rows": 0
+        },
+        "worker-sonnet-high": {
+          "n": 15,
+          "cache_read_median": 111769,
+          "cache_read_p90": 115902,
+          "cache_read_max": 116135,
+          "cache_creation_median": 6455,
+          "output_median": 1461,
+          "share_write_median": 0.348,
+          "share_read_median": 0.365,
+          "share_output_median": 0.271,
+          "one_hour_ttl_rows": 4
+        },
+        "worker-sonnet-low": {
+          "n": 246,
+          "cache_read_median": 111793,
+          "cache_read_p90": 123595,
+          "cache_read_max": 172669,
+          "cache_creation_median": 6861,
+          "output_median": 981,
+          "share_write_median": 0.335,
+          "share_read_median": 0.404,
+          "share_output_median": 0.219,
+          "one_hour_ttl_rows": 23
+        },
+        "worker-sonnet-medium": {
+          "n": 6,
+          "cache_read_median": 102347,
+          "cache_read_p90": 111781,
+          "cache_read_max": 115386,
+          "cache_creation_median": 8056,
+          "output_median": 1343,
+          "share_write_median": 0.352,
+          "share_read_median": 0.349,
+          "share_output_median": 0.241,
+          "one_hour_ttl_rows": 1
+        },
+        "worker-sonnet-xhigh": {
+          "n": 24,
+          "cache_read_median": 105511,
+          "cache_read_p90": 115930,
+          "cache_read_max": 116723,
+          "cache_creation_median": 6695,
+          "output_median": 1501,
+          "share_write_median": 0.331,
+          "share_read_median": 0.36,
+          "share_output_median": 0.294,
+          "one_hour_ttl_rows": 3
+        }
+      },
+      "all_cells": {
+        "cache_read_median": 111763,
+        "cache_read_p90": 123557,
+        "cache_read_max": 172669,
+        "turn_equivalents_at_43k_prefix_median": 2.6,
+        "one_hour_ttl_rows": 31
+      },
+      "reading": "every figure is cumulative across the turns of one claude -p run (the forwarder plus the worker it spawned, E14), so cache_read_max bounds the sum of per-turn contexts, and the largest single-turn context in any run is well below it; no run at any cell could have reached a 200K window, which is why no benchmark transcript can carry a compact_boundary entry (D68, P29)",
+      "provenance": "test/results/*benchmark*.md rows carrying a usage object, aggregated 2026-09-15 for docs/PLAN-3.md Stage A.3; the 43K prefix figure is E26 (docs/FINDINGS.md)",
+      "method": "python over test/results/*benchmark*.md: for each per-run row '| <cell> | <run> | yes|no | USD <cost> | <wall> | <note> | {\"usage\":...} |' take cache_creation_input_tokens, cache_read_input_tokens, output_tokens and whether cache_creation.ephemeral_1h_input_tokens is nonzero; shares use write=2.0 for one-hour rows and 1.25 otherwise, read=0.1, output=5.0, all relative to the input price; medians per cell; p90 is the value at index round(0.9*(n-1)) of the sorted list"
+    }
   }
 }

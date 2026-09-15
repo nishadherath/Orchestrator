@@ -29,6 +29,16 @@ Usage:
     python3 tools/route.py --sensitivity open --horizon long --blast consequential --self-directed
     python3 tools/route.py --sensitivity mechanical --horizon long --blast contained
         (a documented gap: exits 1, explains why, per docs/DECISIONS.md D27)
+
+    Ledger-aware routing and outcome recording (docs/PLAN-2.md Stage 2,
+    docs/ROUTING-2-DESIGN.md) and pending-worker tracking across a
+    compaction (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md):
+    python3 tools/route.py --from-line "<assessment line>" --project . --explain
+    python3 tools/route.py --spawn --from-line "<line>" --project . \\
+        --task-slug refactor-parser --first-cell worker-sonnet-low --worker-name refactor-parser
+    python3 tools/route.py --record --pending led-042 --project . \\
+        --outcome pass --cost-usd 0.17 --wall-clock-s 52
+    python3 tools/route.py --recover --project .
 """
 from __future__ import annotations
 
@@ -340,6 +350,53 @@ def append_ledger_entry(path: Path, entry: dict) -> None:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
 
+class LedgerEntryNotFound(RoutingError):
+    def __init__(self, entry_id: str) -> None:
+        super().__init__(f"no ledger entry with id {entry_id!r}")
+
+
+class LedgerEntryNotPending(RoutingError):
+    def __init__(self, entry_id: str, outcome: str) -> None:
+        super().__init__(f"ledger entry {entry_id!r} is not pending (final_outcome already {outcome!r})")
+
+
+def complete_ledger_entry(path: Path, entry_id: str, updates: dict) -> dict:
+    """Complete a `--spawn`-created pending entry in place
+    (docs/COMPACTION-DESIGN.md section 4), rather than appending a second
+    record for the same task. Rewrites the whole file from every entry
+    that parses, in order, with `entry_id`'s fields merged with `updates`;
+    a line `load_ledger` could not parse is therefore dropped by this
+    write path the same way `load_ledger` already drops it on read, which
+    is `--record`'s existing tolerance for a partial write, not a new
+    exception to it. Raises `LedgerEntryNotFound` or
+    `LedgerEntryNotPending` rather than silently appending a stray
+    record, since a pending entry that cannot be found or is already
+    complete is a caller bug, not routine."""
+    entries = load_ledger(path)
+    for i, entry in enumerate(entries):
+        if entry.get("id") == entry_id:
+            if entry.get("final_outcome") != "unknown":
+                raise LedgerEntryNotPending(entry_id, entry.get("final_outcome"))
+            completed = {**entry, **updates}
+            entries[i] = completed
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("w", encoding="utf-8") as f:
+                for e in entries:
+                    f.write(json.dumps(e, ensure_ascii=False) + "\n")
+            return completed
+    raise LedgerEntryNotFound(entry_id)
+
+
+_PENDING_NOTE_PREFIX = "pending: "
+
+
+def pending_worker_name(entry: dict) -> str:
+    notes = entry.get("notes") or ""
+    if notes.startswith(_PENDING_NOTE_PREFIX):
+        return notes[len(_PENDING_NOTE_PREFIX):].strip()
+    return notes.strip() or "(unnamed)"
+
+
 def next_ledger_id(ledger: list[dict]) -> str:
     n = 0
     for entry in ledger:
@@ -518,9 +575,95 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                                               "wall_clock_s_expected": round(wall_expected, 1)}}
 
 
+CONTEXT_USAGE_FILENAME = ".claude/context-usage.json"
+
+
+def default_context_usage_path(project: Path) -> Path:
+    return project / CONTEXT_USAGE_FILENAME
+
+
+def context_explain_line(project: Path, priors: dict) -> str:
+    """The `--explain` context line (docs/COMPACTION-DESIGN.md section 4):
+    reads `tools/context_probe.py`'s output and compares its
+    `used_percentage` against `steering.handoff_context_percent`,
+    against the two documented status-line fields verbatim (D69: whether
+    those fields already account for a configured `autoCompactWindow`
+    smaller than the model's native window is unverified, E32; this does
+    not attempt to correct for it, and says so in the docstring rather
+    than guessing).
+
+    Absent, stale, or not-yet-populated data all print `unknown` or
+    `stale` rather than a wrong number: a headless session with no
+    status line, a session before its first API response, and a session
+    that has been idle past `steering.context_stale_s` are three
+    different reasons the number cannot be trusted, and the caller
+    should not have to guess which."""
+    steering = priors["steering"]
+    threshold = steering["handoff_context_percent"]
+    stale_s = steering["context_stale_s"]
+    path = default_context_usage_path(project)
+    if not path.exists():
+        return "context: unknown (no .claude/context-usage.json; expected in a headless session)"
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return "context: unknown (.claude/context-usage.json did not parse)"
+    main = data.get("main") or {}
+    used, window = main.get("used_percentage"), main.get("context_window_size")
+    if used is None or window is None:
+        return "context: unknown (no usage recorded yet in this session)"
+    age_str = "age unknown"
+    sampled_at = main.get("sampled_at")
+    if sampled_at:
+        try:
+            age_s = (dt.datetime.now() - dt.datetime.fromisoformat(sampled_at)).total_seconds()
+            age_str = "stale" if age_s > stale_s else f"{age_s:.0f} s ago"
+        except ValueError:
+            pass
+    verdict = "WRITE A HANDOFF BEFORE THIS TASK" if used >= threshold else "not yet"
+    return f"context: {used:.0f}% of {window:,} (statusline, {age_str}); handoff above {threshold:.0f}%: {verdict}"
+
+
+def recover_report(project: Path) -> str:
+    """The `SessionStart(compact)` hook's whole output
+    (docs/COMPACTION-DESIGN.md section 4): the routing rule in one line,
+    every pending ledger entry (spawned, outcome not yet recorded), the
+    newest handoff, and the re-read reminder. Zero model calls; every
+    line comes from the ledger and the `handoffs/` directory, so this
+    runs the same way whether or not compaction actually touched
+    anything the ledger depends on."""
+    lines = [
+        "Context was compacted. Routing rule: assess in one line, resolve with",
+        'python3 tools/route.py --from-line "<line>" --project . --explain, spawn',
+        "what it names (ORCHESTRATOR.md section 2).",
+        "Pending workers (spawned, outcome not recorded):",
+    ]
+    ledger = load_ledger(default_ledger_path(project))
+    pending = [e for e in ledger if e.get("final_outcome") == "unknown"]
+    if not pending:
+        lines.append("  (none)")
+    else:
+        for e in pending:
+            ts = e.get("ts", "")
+            try:
+                spawned = dt.datetime.fromisoformat(ts).strftime("%H:%M:%S")
+            except ValueError:
+                spawned = ts
+            lines.append(f"  {e.get('id')}  {e.get('first_cell')}  {e.get('bucket')}  "
+                         f"spawned {spawned}  name: {pending_worker_name(e)}")
+    handoffs_dir = project / "handoffs"
+    handoff_files = sorted(handoffs_dir.glob("*.md")) if handoffs_dir.is_dir() else []
+    newest = max(handoff_files, key=lambda p: p.stat().st_mtime) if handoff_files else None
+    lines.append(f"Newest handoff: handoffs/{newest.name}" if newest else "Newest handoff: none")
+    lines.append("If ORCHESTRATOR.md is not part of CLAUDE.md, read it now before the next task.")
+    return "\n".join(lines)
+
+
 def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     """Scripted checks for the ledger-aware additions, no file I/O outside
-    a temp directory (docs/ROUTING-2-DESIGN.md section 3, scenarios a-g)."""
+    a temp directory (docs/ROUTING-2-DESIGN.md section 3, scenarios a-g;
+    docs/COMPACTION-DESIGN.md section 4 adds scenario h, the spawn/record/
+    recover round trip, and scenario i, the --explain context line)."""
     import tempfile
 
     problems: list[str] = []
@@ -623,6 +766,78 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
                priors=priors, ledger=ledger_e, costs=costs)
     check(p_g["first"] == "worker-opus-max", f"(g) failed_at_xhigh should return the frontier rung, got {p_g['first']!r}")
 
+    # (h) --spawn writes a pending entry excluded from posterior() (its
+    # final_outcome is "unknown"), --record --pending completes it in
+    # place without appending a second record, and recover_report() lists
+    # it while pending and stops listing it once complete.
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        project = Path(tmp)
+        ledger_path = default_ledger_path(project)
+        spawned = {"type": "RoutingLedgerEntry", "id": "led-001", "ledger_version": 0, "references": [],
+                   "ts": dt.datetime.now().isoformat(), "task_slug": "selftest-h", "bucket": "mechanical/short/contained",
+                   "self_directed": False, "first_cell": "worker-sonnet-low", "escalations": [],
+                   "final_outcome": "unknown", "cost_usd": 0, "wall_clock_s": 0,
+                   "controller_run_dir": None, "winning_technique": None, "notes": "pending: selftest-worker"}
+        append_ledger_entry(ledger_path, spawned)
+        pending_ledger = load_ledger(ledger_path)
+        post_h = posterior(priors, pending_ledger, "mechanical/short/contained")
+        check(post_h["floor_ledger_passes"] == 0 and post_h["floor_ledger_fails"] == 0,
+              f"(h) a pending entry (final_outcome unknown) must not count toward the posterior, "
+              f"got passes={post_h['floor_ledger_passes']} fails={post_h['floor_ledger_fails']}")
+        report_pending = recover_report(project)
+        check("led-001" in report_pending and "selftest-worker" in report_pending and "(none)" not in report_pending,
+              f"(h) recover_report should list the pending entry by id and worker name, got:\n{report_pending}")
+        completed = complete_ledger_entry(ledger_path, "led-001",
+                                           {"final_outcome": "pass", "cost_usd": 0.12, "wall_clock_s": 30.0,
+                                            "notes": "done"})
+        check(completed["final_outcome"] == "pass" and completed["id"] == "led-001",
+              f"(h) complete_ledger_entry should return the merged entry, got {completed}")
+        after = load_ledger(ledger_path)
+        check(len(after) == 1, f"(h) completing in place should not append a second record, got {len(after)} entries")
+        report_done = recover_report(project)
+        check("(none)" in report_done and "led-001" not in report_done,
+              f"(h) recover_report should list no pending entries once completed, got:\n{report_done}")
+        try:
+            complete_ledger_entry(ledger_path, "led-001", {"final_outcome": "pass"})
+            check(False, "(h) completing an already-complete entry should raise LedgerEntryNotPending")
+        except LedgerEntryNotPending:
+            pass
+        try:
+            complete_ledger_entry(ledger_path, "led-999", {"final_outcome": "pass"})
+            check(False, "(h) completing an unknown id should raise LedgerEntryNotFound")
+        except LedgerEntryNotFound:
+            pass
+
+    # (i) context_explain_line: absent file, under threshold, over
+    # threshold, and a stale sample all print the right thing rather than
+    # a wrong number (docs/COMPACTION-DESIGN.md section 4).
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        project = Path(tmp)
+        line_absent = context_explain_line(project, priors)
+        check(line_absent.startswith("context: unknown") and "no .claude/context-usage.json" in line_absent,
+              f"(i) an absent context-usage.json should print 'unknown', got {line_absent!r}")
+
+        usage_path = default_context_usage_path(project)
+        usage_path.parent.mkdir(parents=True, exist_ok=True)
+        threshold = priors["steering"]["handoff_context_percent"]
+        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold - 5, "context_window_size": 200000,
+                                                     "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
+        line_under = context_explain_line(project, priors)
+        check("not yet" in line_under, f"(i) below the threshold should print 'not yet', got {line_under!r}")
+
+        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
+                                                     "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
+        line_over = context_explain_line(project, priors)
+        check("WRITE A HANDOFF" in line_over, f"(i) at or above the threshold should recommend a handoff, got {line_over!r}")
+
+        stale_s = priors["steering"]["context_stale_s"]
+        old_ts = (dt.datetime.now() - dt.timedelta(seconds=stale_s + 60)).isoformat()
+        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
+                                                     "sampled_at": old_ts}}), encoding="utf-8")
+        line_stale = context_explain_line(project, priors)
+        check("stale" in line_stale and "WRITE A HANDOFF" in line_stale,
+              f"(i) a stale sample should print 'stale' but still make the threshold comparison, got {line_stale!r}")
+
     return (not problems, problems)
 
 
@@ -646,9 +861,20 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--explain", action="store_true",
                      help="use the priors and ledger (docs/PLAN-2.md Stage 2) and print the "
                          "posterior, the expected-cost arithmetic and the decision, one line each")
-    ap.add_argument("--record", action="store_true", help="append an outcome to the ledger instead of resolving")
-    ap.add_argument("--task-slug", help="--record: short name for the routed task")
-    ap.add_argument("--first-cell", help="--record: the cell, or 'controller', tried first")
+    ap.add_argument("--record", action="store_true", help="append an outcome to the ledger instead of resolving, "
+                                                            "or complete a --pending entry in place")
+    ap.add_argument("--spawn", action="store_true",
+                     help="write a pending ledger entry at spawn time (docs/COMPACTION-DESIGN.md section 4); "
+                          "needs --task-slug, --first-cell, --worker-name and an assessment")
+    ap.add_argument("--worker-name", help="--spawn: the name the Agent call gave this worker, "
+                                           "so --recover can name it after a compaction")
+    ap.add_argument("--pending", metavar="LED-ID",
+                     help="--record: complete this --spawn entry in place instead of appending a new one")
+    ap.add_argument("--recover", action="store_true",
+                     help="print the SessionStart(compact) hook's report: pending workers and the newest "
+                          "handoff, zero model calls (docs/COMPACTION-DESIGN.md section 4)")
+    ap.add_argument("--task-slug", help="--record/--spawn: short name for the routed task")
+    ap.add_argument("--first-cell", help="--record/--spawn: the cell, or 'controller', tried first")
     ap.add_argument("--outcome", choices=("pass", "fail", "unknown"), help="--record: final_outcome")
     ap.add_argument("--cost-usd", type=float, help="--record: total cost across every rung tried")
     ap.add_argument("--wall-clock-s", type=float, help="--record: total wall clock across every rung tried")
@@ -657,7 +883,7 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--controller-run-dir", help="--record: the Controller's runs/<id>, if it ran")
     ap.add_argument("--winning-technique", choices=("b0", "subtract", "re-represent", "abduce", "other"),
                      help="--record: from the Controller's SolutionRecord, if it ran and produced one")
-    ap.add_argument("--notes", default="", help="--record: free text, max 300 characters")
+    ap.add_argument("--notes", default="", help="--record/--spawn: free text, max 300 characters")
     ap.add_argument("--json", action="store_true", help="print the full matched rule or plan, not just the cell name")
     ap.add_argument("--selftest", action="store_true", help="run the scripted ledger scenarios; no file I/O outside a temp directory")
     args = ap.parse_args(argv)
@@ -665,12 +891,16 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 7 scenarios")
+            print("selftest: PASS, 9 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
             print(f"  - {p}")
         return 1
+
+    if args.recover:
+        print(recover_report(args.project))
+        return 0
 
     def resolve_assessment() -> tuple[str, str | None, str, bool, str]:
         if args.from_line:
@@ -681,6 +911,50 @@ def main(argv: list[str]) -> int:
         return args.sensitivity, args.horizon, args.blast, args.self_directed, args.prior_failure
 
     ledger_aware = args.record or args.explain or args.ledger is not None or args.from_line is not None
+
+    if args.spawn:
+        if not all((args.task_slug, args.first_cell, args.worker_name)):
+            ap.error("--spawn needs --task-slug, --first-cell and --worker-name")
+        sensitivity, horizon, blast, self_directed, _ = resolve_assessment()
+        if horizon is None:
+            ap.error("--spawn needs --horizon (or a --from-line that carries one)")
+        ledger_path = args.ledger or default_ledger_path(args.project)
+        ledger = load_ledger(ledger_path)
+        notes = _PENDING_NOTE_PREFIX + args.worker_name
+        if args.notes:
+            notes += f"; {args.notes}"
+        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 0, "references": [],
+                 "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
+                 "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
+                 "first_cell": args.first_cell, "escalations": [], "final_outcome": "unknown",
+                 "cost_usd": 0, "wall_clock_s": 0, "controller_run_dir": None, "winning_technique": None,
+                 "notes": notes[:300]}
+        append_ledger_entry(ledger_path, entry)
+        print(entry["id"])
+        return 0
+
+    if args.record and args.pending:
+        if not all((args.outcome is not None, args.cost_usd is not None, args.wall_clock_s is not None)):
+            ap.error("--record --pending needs --outcome, --cost-usd and --wall-clock-s")
+        ledger_path = args.ledger or default_ledger_path(args.project)
+        escalations = []
+        for item in args.escalation:
+            cell, _, outcome = item.partition(":")
+            if outcome not in ("pass", "fail", "unknown"):
+                ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
+            escalations.append({"cell": cell, "outcome": outcome})
+        updates = {"escalations": escalations, "final_outcome": args.outcome,
+                   "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
+                   "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique}
+        if args.notes:
+            updates["notes"] = args.notes[:300]
+        try:
+            completed = complete_ledger_entry(ledger_path, args.pending, updates)
+        except (LedgerEntryNotFound, LedgerEntryNotPending) as exc:
+            print(str(exc), file=sys.stderr)
+            return 1
+        print(completed["id"])
+        return 0
 
     if args.record:
         if not all((args.task_slug, args.first_cell, args.outcome is not None,
@@ -740,6 +1014,7 @@ def main(argv: list[str]) -> int:
                     print(f"  {c['label']}")
             print(f"projection: USD {result['projection']['cost_usd_expected']}, "
                   f"{result['projection']['wall_clock_s_expected']} s")
+            print(context_explain_line(args.project, load_priors()))
         if args.json:
             print(json.dumps(result, indent=2, default=str))
         else:

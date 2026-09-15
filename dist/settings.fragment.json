@@ -1,0 +1,31 @@
+{
+  "_comment": "Merge these keys into the consumer project's .claude/settings.json (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md section 7). Do not overwrite an existing statusLine, subagentStatusLine or SessionStart hook wholesale; merge key by key, and if a statusLine or subagentStatusLine already exists, chain to it (run the existing command, then this one, or the reverse) rather than replacing it. '_user_settings' below is documentation, not a key Claude Code reads from this file: autoCompactWindow is a user-settings key (code.claude.com/docs/en/model-config), so it belongs in ~/.claude/settings.json or the CLAUDE_CODE_AUTO_COMPACT_WINDOW environment variable, never here. preflight.py checks the real setting wherever it lands.",
+  "promptCacheTtl": "1h",
+  "statusLine": {
+    "type": "command",
+    "command": "python3 tools/context_probe.py --main",
+    "refreshInterval": 30
+  },
+  "subagentStatusLine": {
+    "type": "command",
+    "command": "python3 tools/context_probe.py --tasks"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 tools/route.py --recover --project ."
+          }
+        ]
+      }
+    ]
+  },
+  "_user_settings": {
+    "autoCompactWindow": 200000,
+    "_where": "~/.claude/settings.json (user scope), or the CLAUDE_CODE_AUTO_COMPACT_WINDOW environment variable",
+    "_why_200000": "the orchestrator's own context is routing lines and worker summaries (docs/COST.md), far short of a full window; 200,000 is the value routing_priors.json's steering.autocompact_window_tokens assumes and ROUTE-PRIORS checks handoff_context_percent against. E31 (test/harness/empirical-checklist.md) checks whether project-scope autoCompactWindow also takes effect; until answered, treat user scope as the one the documentation names."
+  }
+}
