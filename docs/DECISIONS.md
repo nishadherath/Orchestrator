@@ -3926,3 +3926,66 @@ already reflecting that adjustment (not a new field, to avoid a second
 schema-shaped decision for a one-line fix), and this entry's reversal
 clause is what authorises changing section 2's contract without a
 further vote.
+
+## 2026-09-15 D70. `docs/PLAN-3.md` complete pending Stage E: what it delivered against Jeb's brief, one line per item
+
+Decision: close Stages A through D of `docs/PLAN-3.md` and record their
+delivery against the brief that opened it (quoted in the plan itself),
+the same discipline D67 applied to `docs/PLAN-2.md`. The plan is
+complete pending Stage E, the one optional live probe; nothing in
+Stages A to D depends on it.
+
+1. **"Integrate context compaction, as needed, to maximise efficiency,
+   into what has been built."** Delivered as three pieces threaded
+   through the existing system rather than a new one beside it: the
+   ledger's `context` field and the overflow posterior (Stage C, into
+   the resolver D64 already built), the settings fragment and recovery
+   hook (Stage B, into the install `src/README.md` already documents),
+   and the handoff mechanism extended to cover the platform's own
+   compaction as a fallback case (Stage D, into `tools/handoff.py` and
+   `src/LIFECYCLE.md`'s existing "Handoffs" section from `docs/PLAN-2.md`).
+2. **"As needed."** Taken literally, not rhetorically: D68 found
+   compaction is not currently a cost lever at benchmark scale (no run on
+   record ever neared a window) and is not something to induce, only to
+   recognise when a consumer's own tasks produce it. The mechanism built
+   is therefore observational and preventative (the overflow posterior,
+   the `--explain` threshold, the settings that delay the platform's own
+   trigger), not a feature that compacts anything itself; section 12 of
+   `docs/COMPACTION-DESIGN.md` says so directly, and nothing in Stages A
+   to D contradicts it.
+3. **"To maximise efficiency."** Delivered as the finding, not only the
+   mechanism: D68's arithmetic identifies the actual efficiency lever
+   (the cache TTL against the Controller's wall clock) as distinct from
+   compaction itself, and `preflight.py` and `settings.fragment.json`
+   act on that finding directly. Where compaction is not the efficiency
+   question, this plan says so rather than building a mechanism to
+   answer a question that was not being asked.
+4. **"Analyse the problem deeply before planning."** D68 records the
+   three findings (no run has approached a window; the CLI's own prefix
+   dominates a short run's cost regardless of compaction; the platform
+   exposes more configurable surface than the charter assumed) and the
+   four design decisions built on them, written and approved before
+   `docs/COMPACTION-DESIGN.md` or any code existed.
+5. **"Do not implement until the plan is approved."** Stage A shipped
+   only the plan, D68, the cost-table economics, the design spec, the
+   checklist entries and the handoff to Stage B; no code changed before
+   Jeb's explicit "Go!" started Stage B.
+
+**What is not delivered, stated plainly.** No compaction has ever been
+observed on this repository's own data (D68); every mechanism in Stages
+A to D is built against documented platform behaviour and existing
+usage data, not a measurement of a real compaction, and Stage E's E30 is
+the first place one will be produced deliberately. D69 is open: whether
+`context_window_size` reflects a configured `autoCompactWindow` smaller
+than the model's native window is unverified, and if it does not, the
+handoff threshold fires later than intended on exactly the models this
+plan targets. E31 (does `autoCompactWindow` take effect at project
+scope) and E32 (D69's own question) are both unanswered. Whether a
+compaction summary preserves a handover's constraints, which the compact
+instructions assume it will attend to, is unchecked until E30.
+
+Reversal: none for Stages A to D. A future change to any mechanism named
+here (the overflow posterior, the settings fragment's values, the
+handoff-as-compaction rule) gets its own entry, per D64's rule that nothing
+here is reversed silently. D69's own reversal clause governs the one
+open question that could change a shipped default.

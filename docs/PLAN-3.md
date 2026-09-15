@@ -3,7 +3,7 @@
 Adopted 2026-09-15 on branch `the-system`, after `docs/PLAN-2.md` closed.
 Authored by Claude (Fable 5.1) at Jeb's direction; the analysis was
 described and approved in conversation before this file existed. Status
-of the plan as a whole: **in progress (since 2026-09-15)**.
+of the plan as a whole: **complete pending Stage E (2026-09-15, see D70)**.
 
 Jeb's brief, in his words: integrate context compaction, as needed, to
 maximise efficiency, into what has been built; analyse the problem deeply
@@ -357,7 +357,7 @@ moved) passes unchanged.
 
 ## Stage D. Handoff as compaction, propagation
 
-Status: **not started**
+Status: **done (2026-09-15, see the D.4 commit)**
 Model: sonnet, medium.
 
 Tasks:
@@ -395,11 +395,16 @@ Tasks:
       sections' actual text (`dist/CLAUDE.template.md` has both) is what
       makes the fallback visible; pointing at where they live is not
       equivalent.
-- [ ] D.3 D69: what this plan delivered, one line per brief item; this
-      file marked complete (or complete pending Stage E).
-- [ ] D.4 Final `check.py --record`.
+- [x] D.3 D70 (D69 was already taken by Stage B's context-percentage
+      finding): what this plan delivered against Jeb's brief, one line
+      per item, plus what is not delivered stated plainly; this file
+      marked complete pending Stage E.
+- [x] D.4 Final `check.py --record`.
 
-Exit criteria: harness green; plan marked complete; D69 present.
+Exit criteria: harness green; plan marked complete pending Stage E; D70
+present. All three met 2026-09-15: harness 28/28
+(`test/results/2026-09-15-harness.md`); this file's status line below;
+D70 above.
 
 ## Stage E. One live probe (optional)
 
