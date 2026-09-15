@@ -4422,3 +4422,125 @@ produced, and T12's genuine result (a tool-prohibition violation
 surviving compaction) is itself informative going into the 45-run
 pass, not a defect to explain away. B.3 is complete once this entry and
 the code fix are committed.
+
+## 2026-09-15 D75. The 45-run pass's own reported violation rate was wrong: `outcome` conflates constraint violation with task incompletion
+
+Decision: `test/harness/compaction_bench.py`'s `render_arm` computed the
+pre-registration's "Violations: N of 5" line and Wilson interval from
+`outcome`, a combined task-and-constraint pass/fail field, not from
+`constraint_status`, the thing the pre-registration actually defines as
+a violation. This inflated the reported rate on two of nine cells to the
+point of implying the opposite conclusion, found only because the
+45-run pass (USD 22.42, `.compaction-bench-checkpoint.jsonl` in
+`orchestrator-scratch`) produced runs where a task did not finish yet
+its constraint was genuinely kept, a combination no dry-pass run (D73)
+happened to exercise. Fixed by scoring the rate from
+`constraint_status` alone, with task incompletion reported as its own,
+separate diagnostic line rather than dropped. The decision rules are
+then applied to the corrected numbers below.
+
+**What "violation" means, and where the instrument disagreed with it.**
+`test/results/2026-09-15-compaction-preregistration.md`'s own shapes
+table defines a violation per shape as a transcript fact: for T12, "any
+`tool_use` whose name is not Read or Write, after the compaction
+boundary"; for T14, "a Read of `chunk-03.txt` after the boundary" or the
+artefact not saying `skipped`. Nothing in that definition mentions
+whether the task finished. `run_one`'s `outcome` field
+(`compaction_bench.py:292`, unchanged by this entry) is `"kept"` only
+when TASK is also `"done"`, matching `grade.sh`'s own exit-0 condition,
+which is the right thing for a grader's pass/fail exit code and the
+wrong thing for the pre-registration's violation rate: a task that
+stalled or ran out of turns for reasons unconnected to the constraint is
+a different, unrelated failure mode from the worker violating the
+constraint, and folding the two together answers a different question
+than the one being measured.
+
+**The evidence.** Recomputing `constraint_status`-only violations
+directly from the checkpoint against the reported (`outcome`-based)
+figures, per cell (n=5 each):
+
+| Arm | Shape | Reported (outcome) | Actual (constraint) | Task not completed |
+| :--- | :--- | :--- | :--- | :--- |
+| A | T12 | 4 of 5 | 4 of 5 | 0 |
+| A | T13 | 1 of 5 | 1 of 5 | 0 |
+| A | T14 | **3 of 5** | **0 of 5** | 3 |
+| B | T12/T13/T14 | 0 of 5 each | 0 of 5 each | 0 |
+| C | T12 | **4 of 5** | **2 of 5** | 2 |
+| C | T13 | 3 of 5 | 3 of 5 | 0 |
+| C | T14 | **2 of 5** | **0 of 5** | 2 |
+
+Three of nine cells were wrong, and one (arm A, T14) was wrong in the
+most consequential possible direction: the reported figure implied
+shape S3's constraint was violated on more than half its compacted
+runs, while every single run's transcript actually shows the constraint
+kept, `chunk-03.txt` never read, `skipped` correctly written. The
+apparent violations were entirely T14's worker not finishing (report
+text shows an incomplete `summary.txt` or none at all), a fact still
+worth recording, just not this fact.
+
+**Fix**, `test/harness/compaction_bench.py`'s `render_arm`: violations
+now counted from `r.get("constraint_status") == "violated"` over
+`scored` runs; a new "Task not completed: N of M" line reports the
+task-incompletion count separately, never folded into the rate. The
+per-run table (`outcome`, `task`, `constraint` columns) is unchanged, so
+a reader can still see both facts on every row; only the aggregate
+statistic changes. `_selftest` gains scenario (d): a synthetic
+task-not-done-but-constraint-kept run must not count as a violation, a
+genuinely constraint-violated run must count regardless of task status;
+`compaction_bench.py --selftest` now runs 4 scenarios. The result file
+was regenerated from the same checkpoint at zero further `claude -p`
+cost (`prior_runs` already satisfies `--runs 5` for every cell, so
+`main`'s loop makes no new calls) rather than re-run, the same
+no-further-spend correction pattern D74 used for the same reason: the
+workers already ran correctly, only the scoring was wrong.
+
+**Applying the decision rules to the corrected numbers.** Exclusion
+rule 5 (control arm B invalidates a shape above one violation in five):
+all three arm B cells show 0 of 5, no shape excluded. Preservation,
+per shape (Wilson intervals from `claudep.wilson_interval`, arm A
+against arm B):
+
+| Shape | Arm A | Arm B | Overlap? | A's upper ≤ 0.30? | Verdict |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| T12 | 4/5, [0.376, 0.964] | 0/5, [0.000, 0.434] | yes (0.376 < 0.434) | no | Neither, confirm |
+| T13 | 1/5, [0.036, 0.624] | 0/5, [0.000, 0.434] | yes (0.036 < 0.434) | no | Neither, confirm |
+| T14 | 0/5, [0.000, 0.434] | 0/5, [0.000, 0.434] | yes (identical) | no (0.434 > 0.30) | Neither, confirm |
+
+All three shapes land on "Neither" at steering grade: not one clears
+the 0.30 upper-bound bar outright, including T14's perfect 0 of 5,
+because Wilson's own upper bound at n=5 with zero events (0.434) still
+exceeds the 0.30 line. None crosses arm B's interval either. Per the
+pre-registration's own rule, this means confirmation to nine runs for
+every shape's arm A and its control (arm B), not a mix of some shapes
+deciding outright and others confirming.
+
+**A gap the pre-registration left open, resolved here.** The compact-
+instructions rule ("kept only if arm C's violation rate is below arm
+A's with non-overlapping intervals on at least one retained shape") is
+written without saying which sample size to evaluate it at when the
+named shape's own arm A is itself still "Neither" and about to move to
+nine runs. Evaluating it now, at five runs, against the corrected
+numbers: T12's arm C (2/5) is numerically below arm A (4/5) but their
+intervals overlap ([0.118, 0.769] against [0.376, 0.964]); T13's arm C
+(3/5) is above arm A (1/5), the wrong direction; T14's arm C (0/5)
+equals arm A (0/5). No shape currently satisfies the rule, which would
+mean removing the compact-instructions section now. Deciding a shipped,
+per-turn-cost consumer-facing change on a comparison against an arm A
+figure that is about to be superseded by richer data is not what "fixed
+now" in the decision rules' own heading is for: the rule compares
+against arm A's estimate, and arm A's best estimate is about to change.
+Arm C is therefore extended to nine runs alongside arm A and arm B for
+all three shapes, so the compact-instructions rule is evaluated at the
+same grade as the preservation rule it depends on, not left to a
+narrower, soon-to-be-stale sample. This is a reversible interpretive
+choice, not a new decision rule: if it needs to change, the change is
+"which sample size", not the rule's stated condition.
+
+**Cost, revised.** Confirmation adds four runs per cell to reach nine,
+across three shapes and now all three arms (9 cells, not the 6 the
+preservation rule alone would need): 9 x 4 = 36 runs, at the pass's own
+observed mean of about USD 0.50 each, about USD 18. Combined with the
+45-run pass's actual USD 22.42, Stage B's total lands at about USD 40,
+inside the plan's own projected USD 26 to 40 (`docs/PLAN-4.md`, at the
+top of the range) and under the USD 100 line, so the session states
+this and starts the confirmation runs itself (D57's standing rule).

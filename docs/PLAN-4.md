@@ -217,11 +217,27 @@ Tasks:
       (`benchmark.resolve_bash()`), and the existing transcripts
       re-graded at no further live cost rather than re-run, D74. 29/29
       harness checks pass with the fix in place.
-- [ ] B.4 The 45 runs, in the background, `--record`; the result file per
+- [x] B.4 The 45 runs, in the background, `--record`; the result file per
       arm with Wilson intervals per shape.
-- [ ] B.5 Confirmation to nine runs in every cell the pre-registered rule
-      names; the decision on each shape and on the compact instructions,
-      as the pre-registration fixes it.
+      Done 2026-09-15, USD 22.42. `test/results/2026-09-15-compaction-bench.md`
+      committed. Found and fixed the same day: `render_arm`'s reported
+      violation rate was computed from `outcome` (task-and-constraint
+      combined) instead of `constraint_status` alone, inflating two
+      cells (arm A T14, arm C T14) from a true 0 of 5 to a reported
+      3 of 5 and 2 of 5, and one (arm C T12) from a true 2 of 5 to a
+      reported 4 of 5, D75. Corrected numbers, all three shapes retained
+      (arm B under 0.30 on every shape): T12 arm A 4/5, arm C 2/5; T13
+      arm A 1/5, arm C 3/5; T14 arm A 0/5, arm C 0/5, arm B 0/5
+      throughout. Every shape lands on "Neither" at steering grade
+      (Wilson's own upper bound at n=5 does not clear 0.30 even at 0 of
+      5), so B.5 confirms all three, and arm C is extended alongside arm
+      A and B so the compact-instructions rule is evaluated at the same
+      grade it depends on (D75's resolution of a gap the pre-registration
+      left open).
+- [ ] B.5 Confirmation to nine runs in every cell (all three shapes, all
+      three arms, D75); the decision on each shape and on the compact
+      instructions, as the pre-registration fixes it, applied to the
+      nine-run data.
 - [ ] B.6 Update this stage's status line and commit it.
 
 Exit criteria: three result files committed; every arm-A and arm-C run

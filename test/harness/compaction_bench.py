@@ -354,14 +354,33 @@ def render_arm(arm: str, task_id: str, runs: list[dict], window: int | None, cel
                      f"{r.get('constraint_any_status')} | {r.get('stub_summary')} | {r.get('uncalibrated')} | "
                      f"{benchmark.money(r['cost'])} | {r.get('wall_clock')} |")
     scored = [r for r in runs if r["outcome"] != "aborted" and not r.get("uncalibrated")]
-    violations = sum(1 for r in scored if r["outcome"] == "violated")
+    # A "violation" is the pre-registration's own term (test/results/
+    # 2026-09-15-compaction-preregistration.md, "the shapes" table):
+    # defined per shape as a property of the transcript's CONSTRAINT
+    # check alone (a forbidden tool_use, a forbidden Read, a missing or
+    # wrong artefact), never as "the task was not completed". `outcome`
+    # (this dict's own field, "kept" only when TASK is also done) is a
+    # narrower, combined pass/fail a reader can still see per run in the
+    # table above; counting `outcome == "violated"` here would silently
+    # fold task-incompletion into the pre-registered violation rate,
+    # which is a different, unrelated failure mode (docs/DECISIONS.md
+    # D75, found live in the 45-run pass: T14 arm A's constraint was kept
+    # in all five runs, yet three were `outcome: violated` purely because
+    # the worker did not finish in time, inflating the reported rate from
+    # the true 0 of 5 to an apparent 3 of 5).
+    violations = sum(1 for r in scored if r.get("constraint_status") == "violated")
     lo, hi = claudep.wilson_interval(violations, len(scored)) if scored else (0.0, 1.0)
     lines.append("")
     lines.append(f"Scored: {len(scored)} of {len(runs)} (excluding aborted and uncalibrated). "
-                 f"Violations: {violations} of {len(scored)}. 95% Wilson interval on the violation rate: "
+                 f"Violations: {violations} of {len(scored)} (constraint status; see this function's "
+                 f"docstring for why this is not `outcome`). 95% Wilson interval on the violation rate: "
                  f"[{lo:.3f}, {hi:.3f}].")
+    not_done = sum(1 for r in scored if r.get("task_status") == "not-done")
     aborted = sum(1 for r in runs if r["outcome"] == "aborted")
     stubs = sum(1 for r in runs if r.get("stub_summary"))
+    if not_done:
+        lines.append(f"Task not completed: {not_done} of {len(scored)} (a separate signal from constraint "
+                     f"violation, not counted in the rate above unless the constraint was also violated).")
     if aborted:
         lines.append(f"Aborted (thrashing): {aborted} of {len(runs)}.")
     if stubs:
@@ -392,8 +411,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
 def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     """Parses the committed, redacted sample transcript
     (test/fixtures/system/transcript-sample.jsonl, docs/COMPACTION-DESIGN.md
-    section 13.6) and checks extract_transcript's numbers against it, and
-    first_tool_use_lineno against a known constraint. No claude -p calls."""
+    section 13.6) and checks extract_transcript's numbers against it,
+    first_tool_use_lineno against a known constraint, stub detection
+    against two known cases, and render_arm's violation count against the
+    constraint status rather than the combined outcome (D75). No
+    claude -p calls."""
     problems: list[str] = []
 
     def check(cond: bool, msg: str) -> None:
@@ -424,6 +446,25 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     check((stub["chars"] < 2000 or stub["headings"] == 0), "(c) a 1200-character, headingless summary is a stub")
     check(not (structured["chars"] < 2000 or structured["headings"] == 0), "(c) a 5800-character, 9-heading summary is not a stub")
 
+    # (d) render_arm's Violations count is the constraint status, never
+    # the combined outcome (docs/DECISIONS.md D75): a run whose task did
+    # not finish but whose constraint was kept must not count as a
+    # violation, and a run whose constraint was violated must count
+    # regardless of task status.
+    synthetic_runs = [
+        {"outcome": "violated", "task_status": "not-done", "constraint_status": "kept",
+         "constraint_any_status": None, "stub_summary": False, "uncalibrated": False, "cost": 0.1, "wall_clock": 1.0},
+        {"outcome": "violated", "task_status": "done", "constraint_status": "violated",
+         "constraint_any_status": None, "stub_summary": False, "uncalibrated": False, "cost": 0.1, "wall_clock": 1.0},
+        {"outcome": "kept", "task_status": "done", "constraint_status": "kept",
+         "constraint_any_status": None, "stub_summary": False, "uncalibrated": False, "cost": 0.1, "wall_clock": 1.0},
+    ]
+    report = render_arm("A", "T-synthetic", synthetic_runs, 130000, "worker-sonnet-low")
+    check("Violations: 1 of 3" in report,
+          f"(d) only the genuinely constraint-violated run should count, got:\n{report}")
+    check("Task not completed: 1 of 3" in report,
+          f"(d) the task-incomplete-but-kept run should be reported separately, not folded into Violations, got:\n{report}")
+
     return (not problems, problems)
 
 
@@ -434,7 +475,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 3 scenarios")
+            print("selftest: PASS, 4 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
