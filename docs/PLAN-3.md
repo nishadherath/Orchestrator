@@ -145,8 +145,11 @@ Tasks:
       at project scope or only user scope, free, for Stage B's fragment)
       and a superseded note on E20 itself. P29's row and its entry in the
       ranked list both point at D68 and E30.
-- [ ] A.6 `handoffs/2026-09-15-plan3-stageB.md`, written with
+- [x] A.6 `handoffs/2026-09-15-plan3-stageB.md`, written with
       `tools/handoff.py new` and passing `check`.
+      Done 2026-09-15. Carries the one sequencing decision Stage B needs
+      that the design doc leaves implicit: `--spawn` writes a version-0
+      entry until Stage C's schema accepts version 1.
 - [ ] A.7 Update this stage's status line and commit it.
 
 Exit criteria: D68 present; the `context` section committed with
