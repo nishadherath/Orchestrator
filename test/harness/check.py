@@ -593,6 +593,108 @@ def check_system_controller(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+ALLOWED_PRIOR_KINDS = {"measured", "bracketed", "policy-inherited", "policy-default"}
+
+
+def check_route_priors(r: Report) -> None:
+    """ROUTE-PRIORS: tools/generate_priors.py's output matches the committed
+    src/routing_priors.json byte for byte (run with --check, which writes
+    nothing), and every bucket's floor and every rung entry carries
+    non-empty provenance and a kind in the allowed set (docs/PLAN-2.md
+    Stage 2.5, D64)."""
+    script = REPO_ROOT / "tools" / "generate_priors.py"
+    priors_path = SRC / "routing_priors.json"
+    if not script.exists() or not priors_path.exists():
+        r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", False,
+              f"{script.relative_to(REPO_ROOT)} or {priors_path.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--check"], capture_output=True, text=True, timeout=30)
+    if proc.returncode != 0:
+        r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", False,
+              (proc.stdout + proc.stderr).strip()[-400:])
+        return
+    try:
+        priors = json.loads(priors_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", False, f"invalid JSON: {exc}")
+        return
+    problems: list[str] = []
+    for bucket, data in priors.get("buckets", {}).items():
+        entries = [("floor", data.get("floor", {}))] + [(f"rung {c}", v) for c, v in data.get("rungs_given_failure_below", {}).items()]
+        for label, entry in entries:
+            if not entry.get("provenance"):
+                problems.append(f"{bucket} {label}: missing provenance")
+            if entry.get("kind") not in ALLOWED_PRIOR_KINDS:
+                problems.append(f"{bucket} {label}: kind {entry.get('kind')!r} not in {sorted(ALLOWED_PRIOR_KINDS)}")
+    r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", not problems,
+          f"{len(priors.get('buckets', {}))} buckets, generator matches" if not problems else "; ".join(problems[:8]))
+
+
+def check_cost_table(r: Report) -> None:
+    """COST-TABLE: every cell and the controller row in src/cost_table.json
+    carry provenance, regime and n, with n: 0 wherever a cost is null
+    (unmeasured); the verdict block carries provenance and a regime for
+    each figure it states (docs/PLAN-2.md Stage 2.5)."""
+    path = SRC / "cost_table.json"
+    if not path.exists():
+        r.add("COST-TABLE", "every cost row carries provenance", False, f"{path.relative_to(REPO_ROOT)} missing")
+        return
+    try:
+        costs = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        r.add("COST-TABLE", "every cost row carries provenance", False, f"invalid JSON: {exc}")
+        return
+    problems: list[str] = []
+    for cell, row in costs.get("cells", {}).items():
+        for field_name in ("provenance", "regime", "n"):
+            if field_name not in row:
+                problems.append(f"cells.{cell}: missing {field_name}")
+        if row.get("cost_per_run_usd") is None and row.get("n") != 0:
+            problems.append(f"cells.{cell}: null cost but n={row.get('n')!r}, expected 0")
+    controller = costs.get("controller", {})
+    for field_name in ("provenance", "regime", "n"):
+        if field_name not in controller:
+            problems.append(f"controller: missing {field_name}")
+    verdict = costs.get("verdict", {})
+    if not verdict.get("provenance") or not verdict.get("regime"):
+        problems.append("verdict: missing provenance or regime")
+    r.add("COST-TABLE", "every cost row carries provenance", not problems,
+          f"{len(costs.get('cells', {}))} cells, controller and verdict rows carry provenance"
+          if not problems else "; ".join(problems[:8]))
+
+
+def check_replay(r: Report) -> None:
+    """REPLAY: test/harness/replay_routing.py exits 0 (docs/ROUTING-2-DESIGN.md
+    section 4's pass condition: pooled agreement on the recorded two-stage
+    opus batch at or above D40's 92.2 percent, excluding policy-fired rows,
+    D65; zero first: controller on any contained fixture)."""
+    script = REPO_ROOT / "test" / "harness" / "replay_routing.py"
+    if not script.exists():
+        r.add("REPLAY", "replay_routing.py passes its own gate", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    detail = next((line for line in proc.stdout.splitlines() if line.startswith("Gate result:")), proc.stdout.strip()[-400:])
+    r.add("REPLAY", "replay_routing.py passes its own gate", proc.returncode == 0,
+          detail if proc.returncode == 0 else (detail + " | " + (proc.stdout + proc.stderr).strip()[-400:]))
+
+
+def check_backtest(r: Report) -> None:
+    """BACKTEST: test/harness/backtest_ledger.py exits 0 (docs/ROUTING-2-DESIGN.md
+    section 5's pass condition: every bucket stays at the floor, worker-
+    opus-high activates for open/medium/contained, no intermediate sonnet
+    rung activates anywhere, the Controller decision is not proactive on
+    any contained bucket; D66 excludes one run D16 already invalidated)."""
+    script = REPO_ROOT / "test" / "harness" / "backtest_ledger.py"
+    if not script.exists():
+        r.add("BACKTEST", "backtest_ledger.py passes its own pass conditions", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    fails = [line for line in proc.stdout.splitlines() if line.startswith("- FAIL")]
+    detail = f"{proc.stdout.count('- PASS')} pass, {len(fails)} fail" if proc.returncode == 0 or fails else proc.stdout.strip()[-400:]
+    r.add("BACKTEST", "backtest_ledger.py passes its own pass conditions", proc.returncode == 0,
+          detail if proc.returncode == 0 else (detail + " | " + "; ".join(fails[:5])))
+
+
 def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
     if not FIXTURES.exists():
         r.add("FIX", "routing fixtures are well-formed", False, f"{FIXTURES.relative_to(REPO_ROOT)} missing")
@@ -670,6 +772,10 @@ def main(argv: list[str]) -> int:
     check_fixtures(report, defs)
     check_schemas(report)
     check_system_controller(report)
+    check_route_priors(report)
+    check_cost_table(report)
+    check_replay(report)
+    check_backtest(report)
 
     when = dt.datetime.now()
     try:

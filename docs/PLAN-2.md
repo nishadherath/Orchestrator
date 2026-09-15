@@ -114,7 +114,7 @@ model and effort to switch to; harness green.
 
 ## Stage 2. The resolver and the ledger
 
-Status: **in progress (2.1 to 2.4 done 2026-09-15)**
+Status: **in progress (2.1 to 2.5 done 2026-09-15)**
 Model: sonnet, high. Implementation from a written spec.
 
 Tasks:
@@ -164,9 +164,15 @@ Tasks:
       posterior for open/medium/contained is 0.941 (D42), no
       intermediate sonnet rung activates anywhere. Recorded:
       `test/results/2026-09-15-backtest-ledger.md`.
-- [ ] 2.5 `route.py --selftest`; `check.py` gains ROUTE-PRIORS (priors
+- [x] 2.5 `route.py --selftest`; `check.py` gains ROUTE-PRIORS (priors
       consistent with FRONTIERS.md), COST-TABLE (every row has provenance),
       REPLAY and BACKTEST (both harnesses pass on the committed data).
+      Done 2026-09-15. generate_priors.py gained a --check mode (writes
+      nothing) so ROUTE-PRIORS can verify the committed file without the
+      side effect of rewriting it. All four checks pass: 18 buckets with
+      provenance and an allowed kind; 8 cost rows with provenance/regime/n;
+      REPLAY and BACKTEST both exit 0 on their own pass conditions.
+      Harness now 24 checks.
 - [ ] 2.6 Update this stage's status line and commit it.
 
 Exit criteria: replay and backtest pass at the conditions the design doc
