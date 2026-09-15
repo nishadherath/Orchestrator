@@ -114,11 +114,19 @@ Tasks:
       2.7 turns warm, 1.0 cold, model price cancelling) and the TTL
       finding that precedes it: an API-key orchestrator waiting on a
       Controller run turns into a cold cache.
-- [ ] A.3 `src/cost_table.json` gains a `context` section: the price
+- [x] A.3 `src/cost_table.json` gains a `context` section: the price
       multipliers and TTL buckets the docs state, the payback formula, the
       303-run cost shares and cache-read distribution with provenance and
       the aggregation script quoted. `check.py`'s COST-TABLE check requires
       provenance on it.
+      Done 2026-09-15. Five subsections (multipliers, ttl, auto_compact,
+      compaction_cost, measured), each with provenance; measured is
+      written by the aggregation script quoted in its method, never by
+      hand: 303 rows, floor shares 0.335 write, 0.404 read, 0.219 output
+      with the write multiplier applied per row (31 rows carried one-hour
+      writes), cache read median 111,763 and maximum 172,669 across all
+      cells. COST-TABLE now requires the section and provenance on each
+      subsection.
 - [ ] A.4 `docs/COMPACTION-DESIGN.md`: the spec Stages B to D execute. The
       ledger's `context` field and `ledger_version` 1; `route.py --spawn`,
       `--recover`, the `--explain` context line and its threshold; the

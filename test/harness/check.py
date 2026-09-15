@@ -658,8 +658,24 @@ def check_cost_table(r: Report) -> None:
     verdict = costs.get("verdict", {})
     if not verdict.get("provenance") or not verdict.get("regime"):
         problems.append("verdict: missing provenance or regime")
+    # The context section (docs/PLAN-3.md Stage A.3) mixes documented
+    # platform constants with figures aggregated from recorded runs; each
+    # subsection names its source so the two are never confused.
+    context = costs.get("context")
+    if context is None:
+        problems.append("context: section missing")
+    else:
+        for name in ("multipliers", "ttl", "auto_compact", "compaction_cost", "measured"):
+            block = context.get(name)
+            if not isinstance(block, dict):
+                problems.append(f"context.{name}: missing")
+            elif not block.get("provenance"):
+                problems.append(f"context.{name}: missing provenance")
+        measured = context.get("measured", {})
+        if isinstance(measured, dict) and measured.get("n_rows", 0) <= 0:
+            problems.append("context.measured: n_rows must be positive")
     r.add("COST-TABLE", "every cost row carries provenance", not problems,
-          f"{len(costs.get('cells', {}))} cells, controller and verdict rows carry provenance"
+          f"{len(costs.get('cells', {}))} cells, controller, verdict and context rows carry provenance"
           if not problems else "; ".join(problems[:8]))
 
 
