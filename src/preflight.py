@@ -138,7 +138,7 @@ def check_controller(cwd: Path) -> dict:
     schemas_dir = cwd / "src" / "System" / "schemas"
     present = [p for p in required if p.is_file()]
     schema_count = len(list(schemas_dir.glob("*.schema.json"))) if schemas_dir.is_dir() else 0
-    if len(present) == len(required) and schema_count >= 12:
+    if len(present) == len(required) and schema_count >= 13:
         return {"check": "Controller installed", "status": "PASS",
                 "detail": f"all {len(required)} files and {schema_count} schemas found; "
                           "section 4's trigger can invoke tools/system_controller.py"}
@@ -147,11 +147,67 @@ def check_controller(cwd: Path) -> dict:
                 "detail": "not installed; section 4's falsified-constraint trigger will fall through to "
                           "worker-opus-high directly, its documented fallback (README.md)"}
     missing = [str(p.relative_to(cwd)) for p in required if not p.is_file()]
-    if schema_count < 12:
-        missing.append(f"src/System/schemas/ ({schema_count} of 12 schemas)")
+    if schema_count < 13:
+        missing.append(f"src/System/schemas/ ({schema_count} of 13 schemas)")
     return {"check": "Controller installed", "status": "FAIL",
             "detail": f"partially installed, missing: {missing}; a mid-trigger crash, not a clean fallback, "
                       "is what an incomplete install like this produces"}
+
+
+def check_routing_data(cwd: Path) -> dict:
+    """route.py's plan() reads both files at import time (tools/route.py);
+    a missing one fails every routing decision, not just an edge case, so
+    this is checked at install time rather than left to surface mid-task."""
+    required = [cwd / "src" / "routing_priors.json", cwd / "src" / "cost_table.json"]
+    missing = [str(p.relative_to(cwd)) for p in required if not p.is_file()]
+    if not missing:
+        return {"check": "routing data present", "status": "PASS",
+                "detail": "src/routing_priors.json and src/cost_table.json both found"}
+    return {"check": "routing data present", "status": "FAIL",
+            "detail": f"missing: {missing}; section 2's route.py call will fail on every task"}
+
+
+def check_route_selftest(cwd: Path) -> dict:
+    """Runs the installed copy's own --selftest (no claude -p calls, no
+    project ledger touched) so a broken or partial install is caught here
+    instead of failing silently mid-task, which is the failure mode
+    section 2 says to never fall back to own judgement from."""
+    route_py = cwd / "tools" / "route.py"
+    if not route_py.is_file():
+        return {"check": "route.py --selftest", "status": "FAIL",
+                "detail": f"{route_py} missing; section 2 cannot resolve any cell"}
+    try:
+        proc = subprocess.run([sys.executable, str(route_py), "--selftest"],
+                               capture_output=True, text=True, timeout=30, cwd=cwd)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {"check": "route.py --selftest", "status": "FAIL", "detail": f"could not run: {exc}"}
+    if proc.returncode == 0:
+        return {"check": "route.py --selftest", "status": "PASS", "detail": proc.stdout.strip().splitlines()[-1] if proc.stdout.strip() else "ok"}
+    return {"check": "route.py --selftest", "status": "FAIL",
+            "detail": (proc.stdout + proc.stderr).strip()[-1500:]}
+
+
+def check_bash_permission(cwd: Path) -> dict:
+    """Section 2 and section 4 both shell out to python3 (route.py,
+    system_controller.py); a settings.json that does not permit it makes
+    the orchestrator unable to route at all, silently, from inside a
+    session where this script cannot run again to explain why."""
+    candidates = [cwd / ".claude" / "settings.json", cwd / ".claude" / "settings.local.json"]
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            return {"check": "Bash(python3 *) permitted", "status": "WARN",
+                    "detail": f"{path}: unparseable ({exc}); could not check"}
+        allow = data.get("permissions", {}).get("allow", [])
+        if any(isinstance(a, str) and a.startswith("Bash(python3") for a in allow):
+            return {"check": "Bash(python3 *) permitted", "status": "PASS",
+                    "detail": f"found in {path}"}
+    return {"check": "Bash(python3 *) permitted", "status": "WARN",
+            "detail": "no Bash(python3 *) allow rule found in .claude/settings.json or settings.local.json; "
+                      "if Bash requires per-call approval, section 2's route.py call will prompt every task"}
 
 
 def main(argv: list[str]) -> int:
@@ -160,7 +216,8 @@ def main(argv: list[str]) -> int:
     args = ap.parse_args(argv)
 
     cwd = Path.cwd()
-    checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd), check_controller(cwd)]
+    checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd), check_controller(cwd),
+                            check_routing_data(cwd), check_route_selftest(cwd), check_bash_permission(cwd)]
     checks.append({"check": "organisation effort limits", "status": "WARN",
                     "detail": "not checkable from a shell; ask your admin whether any model has a capped effort "
                               "level, which runs silently under json output or in background agents (README.md)"})

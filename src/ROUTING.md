@@ -149,6 +149,7 @@ Skipping this is not a shortcut; it is the project staying on the shipped,
 generic priors forever instead of its own measured experience. Every
 escalation (section 4) is one `--escalation` flag, in the order tried.
 
+<!-- rationale:start -->
 **Why this replaced a static table.** Eleven benchmark tasks across every
 sensitivity and horizon confirmed `worker-sonnet-low` at the reporting
 bar, with one exception, T10 (`docs/FRONTIERS.md`). A static row built on
@@ -197,6 +198,7 @@ Constraints:
   reason, a decision entry, and `test/harness/replay_routing.py` and
   `backtest_ledger.py` run clean against it before it ships
   (`docs/ROUTING-2-DESIGN.md`).
+<!-- rationale:end -->
 
 ## 3. Spawn and hand over
 
@@ -248,39 +250,49 @@ reason (section 2), and the assigned name.
      starts a paid run. Read the run's `REPORT.md` when it finishes. If
      the outcome is `solution`, re-spawn `worker-sonnet-low` with
      `REPORT.md`'s answer and the original task, instructed to apply the
-     answer rather than redo the analysis (the same instantiation step
-     Stage 11 measured this arm through). Cost of this step, Controller
-     plus instantiation: about USD 2.5 to 3.5 total, on the one fixture
-     shape this has ever been measured against (D58, D59); that measured
-     record is 6 of 9 correct, which does not clear the reporting bar
-     (nine of nine) on its own, so treat a Controller `solution` as a
-     strong candidate to verify against the acceptance criteria, not as
-     confirmed correct on arrival.
+     answer rather than redo the analysis. Treat a Controller `solution`
+     as a strong candidate to verify against the acceptance criteria, not
+     as confirmed correct on arrival.
+     <!-- rationale:start -->
+     (The instantiation step is the one Stage 11 measured this arm
+     through. Cost of this step, Controller plus instantiation: about USD
+     2.5 to 3.5 total, on the one fixture shape this has ever been
+     measured against, D58, D59; that measured record is 6 of 9 correct,
+     which does not clear the reporting bar, nine of nine, on its own,
+     which is why a `solution` is a candidate to verify, not a confirmed
+     answer.)
+     <!-- rationale:end -->
   2. If the Controller's outcome is `gap` or `dissolved`, or the script
      errors, re-spawn `worker-opus-high` with the original handover.
-     `worker-opus-high` cleared the benchmark task built to the
-     falsified-constraint shape nine of nine from a cold start (D42, D44)
+     <!-- rationale:start -->
+     (`worker-opus-high` cleared the benchmark task built to the
+     falsified-constraint shape nine of nine from a cold start, D42, D44,
      at USD 0.86 to 1.11 per run; it is the confirmed cell, and step 1 is
      tried first because it costs about the same and, when it works,
-     keeps a full audit trail (`ledger.jsonl`, `REPORT.md`) a plain
-     worker report does not.
+     keeps a full audit trail, `ledger.jsonl`, `REPORT.md`, a plain
+     worker report does not.)
+     <!-- rationale:end -->
   Record which step solved it, the Controller's `runs/<id>/` directory,
   and which trigger fired it, in the routing line and in the `--record`
   call's `--escalation controller:pass|fail` entry.
 - **Trigger one, proactive.** `route.py` resolved `first: controller`
   in section 2, before any worker ran. Invoke the mechanism above
   directly on the original task; there is no prior worker attempt to
-  include. This fires on `routing_priors.json`'s labelled policy dial
-  (open, consequential tasks, by default, D64) or, once a project's
-  ledger shows a bucket's ladder is expensive enough, on the
-  expected-cost arithmetic; `--explain`'s printed reason says which.
-- **Trigger two, reactive, a falsified constraint.** Measured (D59, D63):
-  if a worker reports that it cannot meet an acceptance criterion without
-  acting against a constraint the task states, and that it has checked
-  the constraint's stated reason against the repository and found the
-  reason false, do not climb the ladder one rung at a time. Invoke the
-  mechanism above directly, regardless of where on the ladder the worker
-  sat.
+  include. `--explain`'s printed reason says why it fired.
+  <!-- rationale:start -->
+  (This fires on `routing_priors.json`'s labelled policy dial, open,
+  consequential tasks, by default, D64, or, once a project's ledger shows
+  a bucket's ladder is expensive enough, on the expected-cost arithmetic.)
+  <!-- rationale:end -->
+- **Trigger two, reactive, a falsified constraint.** If a worker reports
+  that it cannot meet an acceptance criterion without acting against a
+  constraint the task states, and that it has checked the constraint's
+  stated reason against the repository and found the reason false, do not
+  climb the ladder one rung at a time. Invoke the mechanism above
+  directly, regardless of where on the ladder the worker sat.
+  <!-- rationale:start -->
+  (Measured: D59, D63.)
+  <!-- rationale:end -->
 - If a worker at `low` or `medium` reports that the task was underspecified
   rather than too hard, fix the prompt and re-run at the same cell.
 - Record every escalation, with `--record`'s `--escalation` flag (section

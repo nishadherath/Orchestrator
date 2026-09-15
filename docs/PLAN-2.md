@@ -218,19 +218,38 @@ handoff validates unchanged.
 
 ## Stage 4. The orchestrator side
 
-Status: **not started**
+Status: **in progress (since 2026-09-15)**
 Model: sonnet, high.
 
 Tasks:
 
-- [ ] 4.1 `src/ROUTING.md` section 2 rewritten: the assessment line's
+- [x] 4.1 `src/ROUTING.md` section 2 rewritten: the assessment line's
       exact format; resolve by `route.py` with the project ledger; if the
       script cannot run, route to the floor and say so (never fall back to
       own judgement, the silent failure D39 warned of). Section 4
       rewritten around the ladder and the two Controller triggers.
-- [ ] 4.2 `build_dist.py`: the rubric-only variant becomes the shipped
+      Done 2026-09-15 (commit `ec8b8d1`), refined further under 4.2 below:
+      section 2 and section 4's evidentiary asides (cost figures, decision
+      citations, cell names) wrapped in `<!-- rationale:start/end -->`
+      markers so `build_dist.py` can strip them from what a live
+      orchestrator reads, closing the D44 attractor risk a naive rewrite
+      reopened (a live session's `ORCHESTRATOR.md` stays in context for
+      the whole session, unlike D40's isolated classifier calls).
+- [x] 4.2 `build_dist.py`: the rubric-only variant becomes the shipped
       `ORCHESTRATOR.md`; `route.py`, `handoff.py`, the priors and the cost
       table ship; `preflight.py` checks them and that Bash is permitted.
+      Done 2026-09-15. `rubric_only_routing()`'s old table-string search
+      (broken by 4.1's rewrite) replaced by `strip_rationale()`, operating
+      on the new markers generically; `--rubric-only` kept for
+      `score_routing.py`'s legacy dependency, `--with-rationale` added for
+      the harness, both now producing identical content. `planned_files()`
+      ships `route.py`, `handoff.py`, `routing_priors.json`,
+      `cost_table.json`. `preflight.py` gained three checks:
+      `check_routing_data` (both JSON files present), `check_route_selftest`
+      (the installed copy's `route.py --selftest` passes),
+      `check_bash_permission` (WARN if no `Bash(python3 *)` allow rule).
+      `check_controller`'s schema count raised from 12 to 13 for
+      RoutingLedgerEntry. `.gitignore` gained `/dist-with-rationale/`.
 - [ ] 4.3 Regenerate worker definitions; ROW-BACKED and TABLE-DATA adapted
       to a table whose rows carry activation conditions.
 - [ ] 4.4 Update this stage's status line and commit it.
