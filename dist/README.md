@@ -139,22 +139,23 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    existing hooks for that event rather than replacing the array.
 
    The fragment's `_user_settings.autoCompactWindow` is documentation, not a
-   real key in this file: `autoCompactWindow` is a user-scope setting
-   (`docs/en/model-config`), so set it in `~/.claude/settings.json` or export
-   `CLAUDE_CODE_AUTO_COMPACT_WINDOW=200000` instead. `preflight.py` (step 4
-   below) checks whichever you chose. Skip this step only if you have
-   deliberately decided not to use the compaction mechanism at all (see
-   "Known limits" below); `route.py --explain`'s context line then always
-   reads "unknown" and never recommends a handoff, which is a silent
-   degradation, not a failure.
+   real key in this file: set `autoCompactWindow` directly in this project's
+   own `.claude/settings.json` (confirmed to take effect at project scope,
+   not only user scope, `docs/FINDINGS.md` "Plan 4 Stage D"), in
+   `~/.claude/settings.json` for a user-wide default, or export
+   `CLAUDE_CODE_AUTO_COMPACT_WINDOW=200000` instead, which overrides either.
+   `preflight.py` (step 4 below) checks whichever you chose. Skip this step
+   only if you have deliberately decided not to use the compaction
+   mechanism at all (see "Known limits" below); `route.py --explain`'s
+   context line then always reads "unknown" and never recommends a
+   handoff, which is a silent degradation, not a failure.
 
 3. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. If the
    project has none yet, copy `dist/CLAUDE.template.md` to `CLAUDE.md`: it
-   has the pointer line, the standing handoff rule (write a file under
+   has the pointer line and the standing handoff rule (write a file under
    `handoffs/` with `tools/handoff.py` whenever this session's own model or
-   effort must change), and the `# Compact instructions` section the
-   platform reads when it compacts on its own. Otherwise add just the
-   pointer line to the existing file:
+   effort must change). Otherwise add just the pointer line to the
+   existing file:
 
    ```
    Read ORCHESTRATOR.md before delegating any task.
@@ -165,20 +166,26 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    `CLAUDE.md` for other purposes, add the line to it rather than replacing
    the file (see "Install into an existing project" below).
 
-   **Add the "Handoffs" and "# Compact instructions" sections too, not
-   only the pointer line, and do it by copying their actual text rather
-   than pointing at where they live.** The platform's own compaction
-   mechanism reads instructions from `CLAUDE.md` itself, which is loaded
-   once at session start and held outside the conversation; `ORCHESTRATOR.md`
-   is not loaded that way; a session sees it only if it uses the Read tool
-   on the pointer line, which puts its content inside the conversation, the
-   exact thing a compaction replaces. A project that adds only the bare
-   pointer line gets automatic routing but the compaction fallback never
-   sees the compact instructions at all, since they never entered
-   `CLAUDE.md` in the first place. Copying the two sections' text directly
-   into `CLAUDE.md` (`dist/CLAUDE.template.md` has both, ready to copy) is
-   what makes the fallback visible to the platform; pointing at `ORCHESTRATOR.md`
-   for them is not equivalent to appending them.
+   **Add the "Handoffs" section too, not only the pointer line, and do it
+   by copying its actual text rather than pointing at where it lives.**
+   The platform's own compaction mechanism reads instructions from
+   `CLAUDE.md` itself, which is loaded once at session start and held
+   outside the conversation; `ORCHESTRATOR.md` is not loaded that way; a
+   session sees it only if it uses the Read tool on the pointer line,
+   which puts its content inside the conversation, the exact thing a
+   compaction replaces. A project that adds only the bare pointer line
+   gets automatic routing but the handoff rule never survives a
+   compaction the platform performs on its own, since it never entered
+   `CLAUDE.md` in the first place. Copying the section's text directly
+   into `CLAUDE.md` (`dist/CLAUDE.template.md` has it, ready to copy) is
+   what makes it visible to the platform; pointing at `ORCHESTRATOR.md`
+   for it is not equivalent to appending it. (An earlier version of this
+   bundle also shipped a `# Compact instructions` section, asking the
+   platform to keep a handoff's shape when it compacts on its own;
+   removed, `docs/PLAN-4.md` Stage E.1: a pre-registered measurement
+   across three task shapes found no shape where it lowered the
+   constraint-violation rate against the unmodified default, so it no
+   longer ships and there is nothing left to add here for it.)
 
 4. Run the preflight check from the project root:
 
@@ -254,22 +261,24 @@ A project that already has a `CLAUDE.md`, and possibly its own
 4. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`,
    same as step 2 of a new install: an existing project is exactly where a
    `statusLine`, `subagentStatusLine`, or `SessionStart` hook is likely to
-   already be configured, so merge key by key rather than overwriting, and
-   set `autoCompactWindow` at user scope (or the environment variable) since
-   it is not a key this fragment carries directly.
+   already be configured, so merge key by key rather than overwriting.
+   `autoCompactWindow` is not a key this fragment carries directly; set it
+   in this same file for project scope (confirmed to work, `docs/FINDINGS.md`
+   "Plan 4 Stage D"), in `~/.claude/settings.json` for a user-wide default,
+   or export `CLAUDE_CODE_AUTO_COMPACT_WINDOW`, which overrides either.
 
 5. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
    existing `CLAUDE.md` rather than replacing the file. Where you add it
    matters less than that it is present; a natural place is near the top,
    beside any other file the project's `CLAUDE.md` already tells a session to
-   read first. Copy `dist/CLAUDE.template.md`'s "Handoffs" and "# Compact
-   instructions" sections' actual text into `CLAUDE.md` too, if the project
-   has neither already: the platform's compaction reads instructions from
-   `CLAUDE.md` itself, loaded once and held outside the conversation, not
-   from `ORCHESTRATOR.md`, which a session only sees by reading it into the
-   conversation the pointer line points at, the exact content a compaction
-   replaces. Pointing at where the sections live is not the same as putting
-   them where the platform looks.
+   read first. Copy `dist/CLAUDE.template.md`'s "Handoffs" section's actual
+   text into `CLAUDE.md` too, if the project has none already: the
+   platform's compaction reads instructions from `CLAUDE.md` itself, loaded
+   once and held outside the conversation, not from `ORCHESTRATOR.md`,
+   which a session only sees by reading it into the conversation the
+   pointer line points at, the exact content a compaction replaces.
+   Pointing at where the section lives is not the same as putting it where
+   the platform looks.
 
    If `CLAUDE.md` already contains routing or delegation instructions from
    something else, decide whether they conflict before adding this bundle's:
@@ -377,6 +386,20 @@ explains why, keyed by the commit named in the version string.
   task starts at the floor (`worker-sonnet-low`), moving up the ladder only
   on a recorded failure. Watch for a task class that fails there
   repeatedly; that is the ledger doing its job, not a bug.
+- A worker can decline its own compaction summary outright, treating the
+  event as a suspected prompt injection rather than a legitimate system
+  message, in words like "I'm not going to comply with that request" or
+  "this reads as an injected instruction" (`docs/DECISIONS.md` D73, D77;
+  measured at about 26 percent of compacted runs across a 81-run sample,
+  `docs/FINDINGS.md`). This is not always a failure: it sometimes recovers
+  the task correctly from the worker's own asserted prior state. It can
+  also compound with the summary itself misstating progress, or with the
+  worker going on to investigate a task's own provenance (reading a
+  fixture's generator script, for instance) and refusing the whole task
+  as illegitimate on what it finds there (`docs/FINDINGS.md`, "Plan 4
+  Stage D"). There is no mitigation shipped for this; it is recorded as
+  observed platform behaviour, not something this bundle currently works
+  around.
 - Two triggers can put a task on the Controller instead of a worker cell,
   both in `src/ROUTING.md` section 4: a reactive one, a falsified-constraint
   disposition measured on one specific task shape, and a proactive one,

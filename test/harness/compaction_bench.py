@@ -60,6 +60,16 @@ ARM_APPENDS_INSTRUCTIONS = {"A": False, "B": False, "C": True}
 
 
 def compact_instructions_text() -> str:
+    """Raises `ValueError` since docs/PLAN-4.md Stage E.1 (D77): the
+    section this reads from `src/CLAUDE.template.md` was removed once the
+    45-plus-36-run measurement found no shape where it lowered the
+    constraint-violation rate with non-overlapping intervals. Arm C's own
+    data is closed and committed (`test/results/2026-09-15-compaction-bench.md`);
+    this function, and `with_instructions_appended`'s use of it, are kept
+    for provenance and are not expected to run again against this
+    consumer of the marker. A future re-test of a DIFFERENT instructions
+    text should give this function a text to append directly rather than
+    resurrecting the marker in `CLAUDE.template.md` to feed it."""
     template = (REPO_ROOT / "src" / "CLAUDE.template.md").read_text(encoding="utf-8")
     idx = template.index(COMPACT_INSTRUCTIONS_MARKER)
     return template[idx:].rstrip("\n") + "\n"

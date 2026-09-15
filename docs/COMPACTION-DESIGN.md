@@ -262,6 +262,18 @@ unverified; Stage E's E30 reads the summary it produces and records the
 answer. Stage B ships the text either way; the cost of it being ignored
 is nothing.
 
+**Removed, `docs/PLAN-4.md` Stage E.1 (D77).** The pre-registered
+measurement (arm C against arm A, 45 steering-grade runs and 36
+confirmation runs, three shapes) found no shape where appending this
+section lowered the constraint-violation rate against the unmodified
+default with non-overlapping confidence intervals; on one shape (T13)
+the point estimate was worse, not better. The section is removed from
+`src/LIFECYCLE.md` and `src/CLAUDE.template.md`, recovering its
+per-turn token cost on every consumer session for a behaviour the
+measurement did not confirm. This section's own text is left above as
+the record of what shipped before the evidence existed, per this
+document's own precedent (section 13's heading).
+
 ## 9. `preflight.py`
 
 Four checks, all reading settings files and the environment, none

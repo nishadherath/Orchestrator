@@ -124,13 +124,12 @@ the same pending-worker listing under "Unresolved questions" directly,
 for the ordinary case of handing off deliberately rather than recovering
 from a compaction that already happened.
 
-# Compact instructions
-
-When compacting, keep these, in this order, each as its own heading:
-goal; decisions already made; files and links that matter; verified
-facts (with the command or number); work completed (with commit hashes);
-unresolved questions; exact next action; every worker spawned whose
-outcome is not yet recorded, with its assessment line and cell. Drop
-tool output, intermediate reasoning, and anything a fresh session would
-not need. This is the shape of `handoffs/` files; a compaction summary is
-a handoff the platform wrote.
+A `# Compact instructions` section once shipped here, asking the
+platform to keep the same shape a handoff file does when compacting.
+Removed (`docs/PLAN-4.md` Stage E.1, docs/DECISIONS.md D77): the
+pre-registered measurement found no shape where appending it lowered
+the constraint-violation rate against the unmodified default with
+non-overlapping confidence intervals, on 45 steering-grade runs and 36
+confirmation runs across three task shapes. It cost every consumer
+session's own per-turn tokens for a summary section the underlying
+platform behaviour did not measurably follow.

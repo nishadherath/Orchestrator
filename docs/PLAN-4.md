@@ -3,7 +3,7 @@
 Adopted 2026-09-15 on branch `the-system`, after `docs/PLAN-3.md` closed.
 Authored by Claude (Fable 5.1) at Jeb's direction; the analysis and the
 plan were described and approved in conversation before this file
-existed. Status of the plan as a whole: **in progress (since 2026-09-15)**.
+existed. Status of the plan as a whole: **complete (2026-09-15)**.
 
 Jeb's brief, in his words: resolve what Plan 3 left unanswered (the
 status line never fired headless, `tokenSamples`' shape, E31, E32), and
@@ -443,21 +443,64 @@ narrowed, not closed, open question rather than forced.
 
 ## Stage E. Close-out
 
-Status: **not started**
+Status: **done (2026-09-15)**
 Model: sonnet, medium. Zero live spend.
 
 Tasks:
 
-- [ ] E.1 D73: the measured preservation rates and intervals per shape
+- [x] E.1 D73: the measured preservation rates and intervals per shape
       replacing "one run, one shape"; the compact instructions kept or
       dropped per the pre-registered rule; if a shape lost, `src/ROUTING.md`
       section 3 gains the file-borne constraint mitigation (the platform
       re-reads recently modified files after compaction).
-- [ ] E.2 `docs/COST.md`, `src/README.md`, `docs/COMPACTION-DESIGN.md`
+      Done 2026-09-15. Compact instructions dropped (D77: no shape
+      cleared the non-overlap bar), removed from `src/LIFECYCLE.md` and
+      `src/CLAUDE.template.md`, a superseding note left in place in each
+      per this repository's own precedent rather than deleted silently;
+      `docs/COMPACTION-DESIGN.md` section 8 gains the same note.
+      `compaction_bench.py`'s `compact_instructions_text()` is now
+      documented as expected to raise, kept for provenance, not deleted.
+      No shape was refuted (T12 and T13 are undecided, not refuted, D77),
+      so `src/ROUTING.md`'s file-borne mitigation is NOT built: that
+      branch's own condition was not met, and building it anyway would
+      be exactly the post-hoc reasoning the pre-registration exists to
+      prevent.
+- [x] E.2 `docs/COST.md`, `src/README.md`, `docs/COMPACTION-DESIGN.md`
       updated for what shipped; `docs/PREMISES.md` P29 closed or narrowed.
-- [ ] E.3 Final `check.py --record`; this file marked complete.
+      Done 2026-09-15. `src/README.md`: the `autoCompactWindow`
+      "user-scope only" claim corrected (E31 confirmed project scope
+      works); every "Compact instructions" install step removed; a new
+      "Known limits" bullet on the compaction-summary refusal behaviour
+      (D73, D77, Stage D). `docs/COST.md`: "no compaction has ever been
+      measured" corrected with the actual measured cost range (USD 0.37
+      to 1.30 across 81 runs) and citations. `docs/PREMISES.md` P29:
+      narrowed, not closed (existence and shape-independence confirmed
+      across three task shapes now, not one; whether the signal predicts
+      that decomposition specifically would help remains untested, a
+      different question than the one Stage B answered).
+- [x] E.3 Final `check.py --record`; this file marked complete.
+      Done 2026-09-15. `test/results/2026-09-15-harness.md`, 30 of 30
+      checks pass. This file (`docs/PLAN-4.md`) marked complete below.
 
-Exit criteria: harness green; plan marked complete; D73 present.
+Exit criteria: harness green (30 of 30); plan marked complete; D73
+present. All met.
+
+## Status: complete (2026-09-15)
+
+Every stage (A through E) done. Jeb's brief at the top of this file is
+answered: the caveat (one run of one shape) is replaced by a
+pre-registered, controlled measurement (81 runs, three shapes, three
+arms, `docs/DECISIONS.md` D72 through D77); which option was taken and
+why is recorded stage by stage above; how the results improve the
+system is `docs/COST.md`, `src/README.md` and `docs/COMPACTION-DESIGN.md`
+now reflecting measured behaviour instead of pre-evidence design, three
+genuine harness defects found and fixed in the course of executing the
+plan rather than assumed away (D75, D76, and the WSL/bash resolution
+fix under Stage B.3), and a new, previously undocumented
+compaction-summary failure mode found live in Stage D that neither
+Plan 3 nor this plan's own pre-registration had named in advance. Total
+live spend: USD 42.04 (Stage B) plus Stage D's session, both within or
+at the edge of the projected range below.
 
 ## Projection
 

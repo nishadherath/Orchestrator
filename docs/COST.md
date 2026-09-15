@@ -199,17 +199,28 @@ stage for the pointer in `CLAUDE.md` to send it to.
 Added 2026-09-15 per `docs/PLAN-3.md` Stage D; the underlying finding is
 D68 and the numbers live in `src/cost_table.json`'s `context` section.
 
-**No compaction has ever been measured on record.** The 303 benchmark
-runs that carry usage data (`test/results/*benchmark*.md`) show a median
-of 111,793 cumulative cache-read tokens per run at the floor and a
-maximum of 172,669 across any run at any cell, summed across every turn.
-Divided by the roughly 43,000-token CLI prefix each turn re-reads (E26),
-the median run is about 2.6 turn-equivalents. No run at any cell came
-near a context window, so this section's economics are arithmetic
-against documented platform behaviour, not a measurement, and Stage E's
-E30 is the one place a real compaction is deliberately produced to check
-it (`docs/PREMISES.md` P29, reclassified from a capability signal to a
-horizon one by D68).
+**No compaction had been measured on record when this section was
+written.** The 303 benchmark runs that carry usage data
+(`test/results/*benchmark*.md`) show a median of 111,793 cumulative
+cache-read tokens per run at the floor and a maximum of 172,669 across
+any run at any cell, summed across every turn. Divided by the roughly
+43,000-token CLI prefix each turn re-reads (E26), the median run is
+about 2.6 turn-equivalents. No run at any cell came near a context
+window, so this section's economics were arithmetic against documented
+platform behaviour, not a measurement, at the time it was written.
+
+**Since superseded.** `docs/PLAN-3.md` Stage E (four runs) and
+`docs/PLAN-4.md` Stage B (81 runs across three task shapes, plus one
+interactive session in Stage D) produced real compactions and recorded
+their cost directly: each Stage B run cost about USD 0.37 to 1.30 (the
+compaction itself adds a summarisation call inside that figure, not
+billed separately in what `claude -p --output-format json` reports), at
+a window of 130,000 tokens and a trigger around 102,000 to 103,000
+regardless of task shape. The arithmetic below is retained as the
+reasoning that predicted this order of magnitude before any run existed,
+not as a claim that no measurement exists now; `test/results/
+2026-09-15-compaction-bench.md` and `docs/DECISIONS.md` D72 through D77
+have the measured figures.
 
 **The arithmetic, with the platform's own multipliers.** Relative to the
 input price: cache read at 0.1, cache write at 1.25 (five-minute TTL) or
@@ -251,6 +262,9 @@ overflow advisory fires.
 Actual provider token counts (characters per token vary by tokeniser and
 content), the Claude Code system prompt itself, and anything the
 orchestrator reads while assessing a task, such as the task text or a
-file it opens. Those sit outside this repository's control. Also not
-measured: a real compaction's actual cost and effect on a task's
-outcome, until Stage E's E30 produces one.
+file it opens. Those sit outside this repository's control. A real
+compaction's cost and effect on a task's outcome is measured now
+(`docs/PLAN-3.md` Stage E, `docs/PLAN-4.md` Stage B and D, above); what
+remains unmeasured is whether a `compact_boundary` reliably predicts
+that decomposing the task would have helped (`docs/PREMISES.md` P29,
+narrowed but not closed).
