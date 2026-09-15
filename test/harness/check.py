@@ -744,10 +744,11 @@ def check_route_selftest(r: Report) -> None:
 
 
 def check_handoff_selftest(r: Report) -> None:
-    """HANDOFF-SELFTEST: tools/handoff.py's --selftest passes: 4 scripted
+    """HANDOFF-SELFTEST: tools/handoff.py's --selftest passes: 5 scripted
     scenarios (a clean file, every corrupted section named, a missing
-    front-matter comment, a spawn handoff's cell/controller cost), no
-    claude -p calls (docs/PLAN-2.md Stage 3)."""
+    front-matter comment, a spawn handoff's cell/controller cost, and
+    --pending-workers from docs/PLAN-3.md Stage D), no claude -p calls
+    (docs/PLAN-2.md Stage 3)."""
     script = REPO_ROOT / "tools" / "handoff.py"
     if not script.exists():
         r.add("HANDOFF-SELFTEST", "handoff.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")

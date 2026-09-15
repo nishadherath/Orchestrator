@@ -362,8 +362,21 @@ Model: sonnet, medium.
 
 Tasks:
 
-- [ ] D.1 `handoff.py --pending-workers` from the ledger; the "Handoffs"
+- [x] D.1 `handoff.py --pending-workers` from the ledger; the "Handoffs"
       section of `src/LIFECYCLE.md` gains the compaction paragraph.
+      Done 2026-09-15. The pending-worker listing itself moved into
+      `route.py`'s new `pending_workers_lines()`, shared by `--recover`
+      and `handoff.py --pending-workers` so the two can never drift into
+      different formats for the same fact. `handoff.py`'s `Unresolved
+      questions` section gets the listing appended after the placeholder
+      text (not in place of it), which is enough for `check` to stop
+      flagging it as an unfilled placeholder without requiring the prose
+      itself to be written; `check` still accepts the section with or
+      without the flag. `LIFECYCLE.md`'s closing paragraph ties the
+      `--explain` context line, the `SessionStart(compact)` fallback, and
+      `--pending-workers`'s deliberate-handoff case together.
+      `--selftest`: handoff.py 5 scenarios (new: e), route.py still 11
+      (the refactor changes no behaviour `--recover`'s own tests cover).
 - [ ] D.2 `docs/COST.md` gains the compaction economics; `src/README.md`
       explains the settings and why append beats pointer.
 - [ ] D.3 D69: what this plan delivered, one line per brief item; this

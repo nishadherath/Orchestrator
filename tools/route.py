@@ -753,20 +753,14 @@ def context_explain_line(project: Path, priors: dict) -> str:
     return f"context: {used:.0f}% of {window:,} (statusline, {age_str}); handoff above {threshold:.0f}%: {verdict}"
 
 
-def recover_report(project: Path) -> str:
-    """The `SessionStart(compact)` hook's whole output
-    (docs/COMPACTION-DESIGN.md section 4): the routing rule in one line,
-    every pending ledger entry (spawned, outcome not yet recorded), the
-    newest handoff, and the re-read reminder. Zero model calls; every
-    line comes from the ledger and the `handoffs/` directory, so this
-    runs the same way whether or not compaction actually touched
-    anything the ledger depends on."""
-    lines = [
-        "Context was compacted. Routing rule: assess in one line, resolve with",
-        'python3 tools/route.py --from-line "<line>" --project . --explain, spawn',
-        "what it names (ORCHESTRATOR.md section 2).",
-        "Pending workers (spawned, outcome not recorded):",
-    ]
+def pending_workers_lines(project: Path) -> list[str]:
+    """"Pending workers (spawned, outcome not recorded):" plus one line per
+    entry, or "(none)". Shared by `recover_report` and
+    `tools/handoff.py --pending-workers` (docs/COMPACTION-DESIGN.md
+    sections 4 and 10), so a handoff's "Unresolved questions" section and
+    the hook's own report can never drift into two different formats for
+    the same fact."""
+    lines = ["Pending workers (spawned, outcome not recorded):"]
     ledger = load_ledger(default_ledger_path(project))
     pending = [e for e in ledger if e.get("final_outcome") == "unknown"]
     if not pending:
@@ -780,6 +774,23 @@ def recover_report(project: Path) -> str:
                 spawned = ts
             lines.append(f"  {e.get('id')}  {e.get('first_cell')}  {e.get('bucket')}  "
                          f"spawned {spawned}  name: {pending_worker_name(e)}")
+    return lines
+
+
+def recover_report(project: Path) -> str:
+    """The `SessionStart(compact)` hook's whole output
+    (docs/COMPACTION-DESIGN.md section 4): the routing rule in one line,
+    every pending ledger entry (spawned, outcome not yet recorded), the
+    newest handoff, and the re-read reminder. Zero model calls; every
+    line comes from the ledger and the `handoffs/` directory, so this
+    runs the same way whether or not compaction actually touched
+    anything the ledger depends on."""
+    lines = [
+        "Context was compacted. Routing rule: assess in one line, resolve with",
+        'python3 tools/route.py --from-line "<line>" --project . --explain, spawn',
+        "what it names (ORCHESTRATOR.md section 2).",
+    ]
+    lines.extend(pending_workers_lines(project))
     handoffs_dir = project / "handoffs"
     handoff_files = sorted(handoffs_dir.glob("*.md")) if handoffs_dir.is_dir() else []
     newest = max(handoff_files, key=lambda p: p.stat().st_mtime) if handoff_files else None

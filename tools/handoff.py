@@ -6,6 +6,8 @@ docs/ROUTING-2-DESIGN.md section 7, Jeb's brief).
     python3 tools/handoff.py new --slug S --reason model-change --to-model sonnet --to-effort high
     python3 tools/handoff.py new --slug S --reason spawn --to-model sonnet --to-effort low \\
         --cell worker-sonnet-low --cell worker-sonnet-low --controller-runs 1
+    python3 tools/handoff.py new --slug S --reason model-change --to-model sonnet --to-effort high \\
+        --project . --pending-workers
     python3 tools/handoff.py check handoffs/2026-09-15-plan2-stage2.md
     python3 tools/handoff.py --selftest
 
@@ -77,6 +79,9 @@ def _new_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--project", default=".")
     ap.add_argument("--from-model", default=None)
     ap.add_argument("--from-effort", default=None)
+    ap.add_argument("--pending-workers", action="store_true",
+                     help="append route.py's pending-worker listing to Unresolved questions "
+                          "(docs/PLAN-3.md Stage D, docs/COMPACTION-DESIGN.md section 10)")
     return ap
 
 
@@ -221,6 +226,10 @@ def render(args: argparse.Namespace, argv: list[str]) -> str:
             lines.append(cost_line)
         elif heading == "Time projection":
             lines.append(time_line)
+        elif heading == "Unresolved questions" and args.pending_workers:
+            lines.append(PLACEHOLDERS[heading])
+            lines.append("")
+            lines.extend(route.pending_workers_lines(Path(args.project)))
         else:
             lines.append(PLACEHOLDERS[heading])
         lines.append("")
@@ -359,6 +368,32 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         f2.write_text(text2, encoding="utf-8", newline="\n")
         check(not check_handoff(f2), f"(d) a filled spawn handoff should check clean, got {check_handoff(f2)}")
 
+        # (e) --pending-workers appends route.py's own pending-worker
+        # listing to Unresolved questions, using the project the ledger
+        # actually lives in; the section is then no longer the bare
+        # placeholder, without needing the placeholder itself replaced.
+        route.append_ledger_entry(route.default_ledger_path(tmp_path), {
+            "type": "RoutingLedgerEntry", "id": "led-001", "ledger_version": 1, "references": [],
+            "ts": dt.datetime.now().isoformat(), "task_slug": "pending-test", "bucket": "mechanical/short/contained",
+            "self_directed": False, "first_cell": "worker-sonnet-low", "escalations": [], "final_outcome": "unknown",
+            "cost_usd": 0, "wall_clock_s": 0, "controller_run_dir": None, "winning_technique": None,
+            "notes": "pending: selftest-pending-worker",
+            "context": {"peak_tokens": None, "window": None, "compactions": None, "source": "none"}})
+        argv3 = ["--slug", "pending", "--reason", "model-change", "--to-model", "sonnet", "--to-effort", "medium",
+                 "--project", str(tmp_path), "--pending-workers"]
+        args3 = parse_new_args(argv3)
+        text3 = render(args3, argv3)
+        check("led-001" in text3 and "selftest-pending-worker" in text3,
+              "(e) --pending-workers should list the pending entry by id and worker name")
+        parsed3 = parse_handoff(text3)
+        check(parsed3["sections"]["Unresolved questions"] != PLACEHOLDERS["Unresolved questions"],
+              "(e) the pending-worker listing should make Unresolved questions no longer the bare placeholder")
+        f3 = tmp_path / "pending.md"
+        f3.write_text(text3, encoding="utf-8", newline="\n")
+        found3 = check_handoff(f3)
+        check(not any("Unresolved questions" in p for p in found3),
+              f"(e) Unresolved questions should not be flagged once the pending listing is present, got {found3}")
+
     return (not problems, problems)
 
 
@@ -379,8 +414,9 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 4 scenarios (a: clean file, b: corrupted sections named, "
-                  "c: missing front matter, d: a spawn handoff's cell/controller cost)")
+            print("selftest: PASS, 5 scenarios (a: clean file, b: corrupted sections named, "
+                  "c: missing front matter, d: a spawn handoff's cell/controller cost, "
+                  "e: --pending-workers)")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:

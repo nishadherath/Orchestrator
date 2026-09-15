@@ -110,6 +110,20 @@ The fresh session's first action is to read the handoff file named to it,
 not to re-derive context from the conversation history: it exists
 precisely so the new session does not need that history.
 
+`ROUTING.md` section 2's `--explain` line reports your own context usage
+against a threshold; when it says to write a handoff, do so before the
+next task, the same as a model or effort change. That threshold exists
+to pre-empt the platform's own compaction, which is the fallback for
+whenever a handoff was not written in time: a `SessionStart` hook with
+matcher `compact` runs `route.py --recover`, which prints the routing
+rule, every worker spawned but not yet recorded, and the newest handoff,
+so the fresh context (yours, after the platform's own summary) has
+something concrete to act on rather than only what the summary kept. A
+handoff written with `tools/handoff.py new --pending-workers` includes
+the same pending-worker listing under "Unresolved questions" directly,
+for the ordinary case of handing off deliberately rather than recovering
+from a compaction that already happened.
+
 # Compact instructions
 
 When compacting, keep these, in this order, each as its own heading:
