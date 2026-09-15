@@ -131,7 +131,11 @@ Tasks:
       `--explain`'s real output order; `strip_rationale` trims
       whitespace-only lines; `docs/COMPACTION-DESIGN.md` section 7
       gains a one-line E31 note.
-- [ ] B.8 A7, A12, A5, A6, A8, A9, A11: `route.py` catches
+- [ ] B.8 A7, A12, A5, A6, A8, A9 (A11 closed early in B.5: bumping
+      the selftest scenario count to 14 meant fixing both the count
+      route.py prints and the count check.py's ROUTE-SELFTEST
+      docstring states, in the same edit, or a fresh instance of A11's
+      own drift would have been introduced immediately): `route.py` catches
       `AssessmentLineError` in `main()` (message to stderr, exit 2);
       `context_probe.py` writes `context-main.json` and
       `context-tasks.json` and `route.py` reads both, ending the race;

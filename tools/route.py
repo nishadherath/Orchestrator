@@ -450,14 +450,24 @@ def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
     """Per-bucket posterior (docs/ROUTING-2-DESIGN.md section 3): the
     floor's Beta mean, updated from every ledger entry in this bucket
     whose outcome against the floor is known (a `pass` with no
-    escalations, or a `fail` recorded as there being an escalation at
-    all); each rung's Beta mean conditional on every cheaper rung having
-    failed, updated from every escalation record naming that rung in this
-    bucket; and the active rung list in cost order, `default_ladder`'s
-    cells plus any cell that has met the activation threshold from this
-    bucket's own escalation history. Raises NoRuleMatches (reusing
-    `resolve()`'s own exception, since it is the same kind of gap) for a
-    bucket outside the eighteen `routing_priors.json` seeds.
+    escalations, or a `fail`, an escalated failure or not); each rung's
+    Beta mean conditional on every cheaper rung having failed, updated
+    from every escalation record naming that rung in this bucket; and
+    the active rung list in cost order, `default_ladder`'s cells plus
+    any cell that has met the activation threshold from this bucket's
+    own escalation history. Raises NoRuleMatches (reusing `resolve()`'s
+    own exception, since it is the same kind of gap) for a bucket
+    outside the eighteen `routing_priors.json` seeds.
+
+    A floor failure counts whether or not the orchestrator went on to
+    escalate it (`final_outcome == "fail"`), or escalated it regardless
+    of what the escalated attempt's own outcome ended up being (any
+    non-empty `escalations`, since an escalation happens only after the
+    floor has already failed). Before D81/A4 (`docs/AUDIT-2026-09-16.md`)
+    only the second case counted, so a `--record --outcome fail` with no
+    `--escalation` flag, a legal call `ORCHESTRATOR.md` section 2
+    invites, moved neither `floor_pass` nor `floor_fail` and the ledger
+    silently ignored it.
 
     A confirmed-compacted entry (docs/COMPACTION-DESIGN.md section 6,
     D68) is excluded from the floor and rung counts above, since a
@@ -477,7 +487,7 @@ def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
     floor_pass = sum(1 for e in entries if e.get("first_cell") == "worker-sonnet-low"
                       and not e.get("escalations") and e.get("final_outcome") == "pass")
     floor_fail = sum(1 for e in entries if e.get("first_cell") == "worker-sonnet-low"
-                      and e.get("escalations"))
+                      and (e.get("final_outcome") == "fail" or e.get("escalations")))
     floor_mean = _beta_mean(floor_prior["alpha"], floor_prior["beta"], floor_pass, floor_fail)
 
     rung_counts: dict[str, list[int]] = {}
@@ -1416,6 +1426,22 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
                   f"(m) the transcript fallback should compute the last assistant message's total "
                   f"against the effective (capped) window, got {fallback_line!r}")
 
+    # (n) three floor failures recorded with no escalation at all
+    # (`--record --outcome fail` with no `--escalation` flag, a legal
+    # call `ORCHESTRATOR.md` section 2 invites) lower the floor's
+    # posterior mean exactly as an escalated failure does (D81/A4,
+    # `docs/AUDIT-2026-09-16.md`). Before the fix these moved neither
+    # `floor_pass` nor `floor_fail` and the ledger silently ignored them.
+    bucket = "structured/long/contained"
+    s, h, b = bucket.split("/")
+    ledger_n = [{"bucket": bucket, "first_cell": "worker-sonnet-low",
+                 "escalations": [], "final_outcome": "fail"}] * 3
+    p_before_n = plan(s, h, b, priors=priors, ledger=[], costs=costs)
+    p_after_n = plan(s, h, b, priors=priors, ledger=ledger_n, costs=costs)
+    check(p_after_n["posterior"]["floor_mean"] < p_before_n["posterior"]["floor_mean"],
+          f"(n) three unescalated floor failures should lower the floor's posterior mean, got "
+          f"{p_before_n['posterior']['floor_mean']} -> {p_after_n['posterior']['floor_mean']}")
+
     return (not problems, problems)
 
 
@@ -1476,7 +1502,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 13 scenarios")
+            print("selftest: PASS, 14 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
