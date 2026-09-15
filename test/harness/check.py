@@ -772,6 +772,21 @@ def check_probe_selftest(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+def check_compact_bench_selftest(r: Report) -> None:
+    """COMPACT-BENCH-SELFTEST: test/harness/compaction_bench.py's
+    --selftest passes: extract_transcript and first_tool_use_lineno
+    against the committed, redacted sample transcript, no claude -p calls
+    (docs/PLAN-4.md Stage B.2, docs/COMPACTION-DESIGN.md section 13.6)."""
+    script = REPO_ROOT / "test" / "harness" / "compaction_bench.py"
+    if not script.exists():
+        r.add("COMPACT-BENCH-SELFTEST", "compaction_bench.py --selftest passes", False,
+              f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("COMPACT-BENCH-SELFTEST", "compaction_bench.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
 def check_handoffs(r: Report) -> None:
     """HANDOFF: every file under handoffs/ passes `tools/handoff.py check`
     (docs/PLAN-2.md Stage 3.2): all ten headings present, in order, none
@@ -880,6 +895,7 @@ def main(argv: list[str]) -> int:
     check_backtest(report)
     check_handoff_selftest(report)
     check_probe_selftest(report)
+    check_compact_bench_selftest(report)
     check_handoffs(report)
 
     when = dt.datetime.now()

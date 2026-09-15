@@ -174,13 +174,32 @@ Tasks:
       check and S2 does not). Every grader matched on its first run;
       `constraint.json` per fixture names what each shape's transcript
       check (if any) looks for, read by `compaction_bench.py` in B.2.
-- [ ] B.2 `test/harness/compaction_bench.py`: arms, `--autocompact-window`,
+- [x] B.2 `test/harness/compaction_bench.py`: arms, `--autocompact-window`,
       `--compact-instructions on|off`, fixed cell, N runs, the transcript
       located per run and its compaction count, `preTokens`, peak and
       post-compaction totals recorded, `BENCH_TRANSCRIPT` exported to the
       grader; checkpointed per (task, arm, cell); `--record`. Reuses
       `benchmark.py`'s `seed_task`, `reset_task`, `run_cell`, `grade`,
       `load_task`, `fixture_fingerprint` and `claudep.Checkpoint`.
+      Done 2026-09-15. CLI matches section 13.6 exactly (`--arms`,
+      `--runs`, `--window`, not the two flag names this task line first
+      sketched, which section 13.6 superseded before any code existed).
+      `run_one` wraps `benchmark.run_cell`/`reset_task`/`seed_task`
+      directly; `grade_with_env` is a sibling of `benchmark.grade` (which
+      takes no `env` parameter) carrying `BENCH_TRANSCRIPT` and
+      `BENCH_BOUNDARY_INDEX` to the grader. `with_instructions_appended`
+      verified byte-identical restore of a real `CLAUDE.md`
+      (`orchestrator-scratch`'s own). Found and fixed a real gap while
+      writing it: a run whose transcript cannot be located would have
+      graded `CONSTRAINT` as "kept" by default rather than being excluded,
+      exactly the "absence is not evidence" mistake D72 warns against;
+      added a `no_transcript` outcome, excluded from scoring. `--selftest`
+      (3 scenarios) against a new committed fixture,
+      `test/fixtures/system/transcript-sample.jsonl` (a redacted,
+      restructured copy of E30 run 4's shape). New harness check
+      COMPACT-BENCH-SELFTEST; 29 checks. `seed_task`/`reset_task`/
+      `fixture_fingerprint` verified directly against all three fixtures
+      in `orchestrator-scratch`, no live spend.
 - [ ] B.3 Dry pass: one run per shape in arm A. The compaction must land
       before the constrained action (the boundary's index precedes the
       first constrained tool call in the transcript); adjust the window
