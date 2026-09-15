@@ -502,3 +502,146 @@ the trigger reserve is a constant: it is about 34,000 tokens on plain-text
 content at version 2.1.268, and content-conditional. That a compaction
 summary is always structured: a refused summariser produces a stub that
 keeps nothing (E30 run 1), and the measurement counts those.
+
+## 14. Revisions from Plan 5 (D78)
+
+Written 2026-09-15, `docs/PLAN-5.md` Stage A.3, after Plan 4 closed.
+Where this section contradicts an earlier one, this section governs;
+the earlier text stays as the record. Stages B to D of Plan 5 implement
+this section; `test/results/2026-09-15-decomposition-preregistration.md`
+fixes the rules the measurement runs under.
+
+### 14.1 Fixture hardening (Thread 1)
+
+`test/fixtures/benchmark/README.md` already records three fixture-prose
+leaks (D16, D17, D30). Plan 4 Stage D found a fourth kind
+(`docs/FINDINGS.md`): a worker, made suspicious by its own compaction
+summary, read `make_chunks.py` from its working directory and found
+this repository's plans, decision entries and the data's purpose named
+there, then refused the task as synthetic. The contract, applied to
+T12, T13, T14 and every fixture built after them:
+
+1. Nothing that generates a fixture lives inside `repo/`. `make_chunks.py`
+   moves to the fixture directory beside `grade.sh`; the chunk files it
+   produced stay committed in `repo/`, so `fixture_fingerprint` (which
+   hashes `task.md`, `grade.sh` and every file under `repo/`) still
+   covers the data the worker reads. Moving the generator changes the
+   fingerprint; Stage B's closed checkpoint no longer matches, which
+   `compaction_bench.py` refuses by design and `--fresh` starts over.
+2. Nothing the worker can read cites this repository: no plan, decision
+   or finding identifiers, no "harness", "benchmark", "measurement",
+   "empirical" or "fixture" in `task.md`, in `repo/`, or in the
+   generator's own docstring even after it moves (a fixture directory is
+   still on disk beside the working copy's parent). The docstring
+   describes what the script writes and nothing about why.
+3. The scratch consumer project's own `CLAUDE.md` is neutral during a
+   measurement: it describes a scratch project and points at
+   `ORCHESTRATOR.md`, nothing more. `orchestrator-scratch/CLAUDE.md`'s
+   sentence about "empirical checks" is replaced, and the replacement
+   recorded in `test/results/` as a dogfooding note.
+4. `GRADER-TESTS.md` is re-run against the moved layout before the next
+   live call, its table updated, since the graders' own paths did not
+   change but the rule requires the check, not the assumption.
+
+### 14.2 `compaction_bench.py` arm D (Thread 2)
+
+Arm table gains `D`: sets `CLAUDE_CODE_AUTO_COMPACT_WINDOW` like A,
+appends nothing, and runs two forwarder calls per run instead of one.
+
+Per fixture that supports it (T12 in this plan), two extra files:
+`task-part1.md` and `task-part2.md`. Part 1 restates the constraint
+verbatim, names its files (chunk-01 to chunk-03), and ends by writing
+the subtotal, as a plain integer on one line, to `partial.txt`. Part 2
+restates the constraint verbatim, carries a `{subtotal}` placeholder the
+harness fills from `partial.txt`, names its files (chunk-04 and
+chunk-05), and writes `summary.txt` with the total. The task's original
+`task.md` is untouched and still what arm A runs.
+
+Per run in arm D: `reset_task`; note the clock; `run_cell` with part 1;
+locate its transcript (newest matching `agent-*.meta.json` after the
+clock, as today); read `partial.txt` from the working copy (an integer,
+or absent, or malformed, each recorded); note the clock again; `run_cell`
+with part 2, `{subtotal}` replaced by the integer, or by the sentence
+"the previous worker recorded no subtotal" when absent or malformed
+(pre-registration rule 5); locate the second transcript. Concatenate
+both transcripts into one temporary file for `BENCH_TRANSCRIPT`, with
+`BENCH_BOUNDARY_INDEX` empty: the graders scan `tool_use` blocks by
+line and treat no boundary as "whole transcript", which is the right
+scope here. `uncalibrated` when either transcript carries a
+`compact_boundary` (rule 2). The record carries `cost` as the sum and
+`cost_parts` as the pair, `wall_clock` likewise, `partial_txt` as read,
+`subtotal_handed_over` as sent, and both transcripts' extractions.
+
+`render_arm` is unchanged in shape; the pre-registration's outcome is
+`outcome == "kept"` (task done and constraint kept), which `run_one`
+already computes, so no new scoring path is added: the D75 correction
+(constraint-only rate) stays as the line `render_arm` prints, and the
+combined rate this measurement decides on is a second line, printed for
+every arm so A and D are compared on the same figure.
+
+`--selftest` gains a scenario feeding synthetic two-part records through
+the arm-D bookkeeping (concatenation, `partial.txt` handling for the
+integer, absent and malformed cases, `uncalibrated` on a boundary in the
+second part only) with no `claude -p` call.
+
+### 14.3 `detect_injection_refusal`, broadened (Thread 3)
+
+Structural first, lexical second. The detector reads the transcript as
+events, not as one string: for each `compact_boundary`, the text of the
+`isCompactSummary` message that follows it and the text of the first
+assistant message after that. Plan 4 Stage D showed the refusal can sit
+inside the summary itself; D73's two sat in the turn after; both are in
+scope, nothing else in the file is, which is what keeps system-prompt
+boilerplate (D77's "fabricated") out.
+
+Within that scope, a match is any phrase from a widened family, each
+entry a multi-word phrase, never a bare word: the four D77 phrases,
+plus "prompt injection", "not a legitimate", "abandon the task",
+"fake conversation summary", "fabricated conversation summary",
+"produce a conversation summary instead", "declining to", "refuse to
+comply". The list is fixed in Stage B.2 against the calibration set the
+pre-registration names and its acceptance test; a phrase that matches
+any arm-B transcript is removed, and the final list is what ships.
+
+The confusion table (`test/results/2026-09-15-refusal-detector-calibration.md`):
+for the 82 transcripts, D77's label, the broadened label, and for every
+disagreement a hand read's verdict with the quoted text. The `--selftest`
+scenario (f) is extended with a synthetic transcript whose refusal is
+inside the summary text and one whose only "refusal" phrase sits in a
+system-prompt attachment before any boundary, which must not match.
+
+### 14.4 The longer session (Thread 4)
+
+A new fixture, T15: twelve chunk files of 350 lines in `repo/`, generator
+in the fixture directory per 14.1, `task.md` asking for all twelve to be
+read one per call and a total written; no constraint beyond that, since
+the point is duration, not preservation. Window left unset. Expected
+wall clock three to five minutes at `worker-sonnet-low` (Stage D's
+five-file worker took 38 seconds before compaction; Stage B's arm-B
+runs, no compaction, 37 to 77 seconds for five).
+
+`interactive_checklist.py --prepare --task T15`: as Plan 4 Stage D.1, but
+seeds T15, does not set `autoCompactWindow` (removing any project-scope
+value so the window is the model's own), and prints two extra steps:
+start a fresh session (not a resumed one, so `event` is a clean
+observation), and open the tasks panel once the worker is spawned and
+leave it open. `--check` adds `session.json`'s `event` against the
+expected `startup`, and prints the `tasks` entry verbatim, or its
+absence, against the closing conditions the pre-registration fixes.
+
+### 14.5 Pass conditions (Plan 5)
+
+- COMPACT-BENCH-SELFTEST gains the arm-D scenario and the two detector
+  scenarios; INTERACTIVE-CHECKLIST-SELFTEST gains `--task T15`.
+- The detector calibration table committed with zero arm-B matches and
+  Stage D's transcript matched.
+- No file under `test/fixtures/benchmark/T1[2-5]/repo/` or `task.md`
+  contains any of: `PLAN-`, `D7`, `E30`, `harness`, `benchmark`,
+  `measurement`, `empirical`, `fixture`. A new harness check,
+  FIXTURE-CLEAN, asserts this for every fixture directory and runs on
+  every `check.py` invocation from Stage B onward, so the fourth leak
+  kind cannot recur silently the way the first three needed D16, D17
+  and D30 to catch.
+- Stage C's result file committed with every arm-A run confirmed
+  compacted and every arm-D run confirmed not, or excluded per the rule;
+  the pre-registered decision applied in D79.
