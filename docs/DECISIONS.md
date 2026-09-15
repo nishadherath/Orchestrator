@@ -3927,6 +3927,27 @@ schema-shaped decision for a one-line fix), and this entry's reversal
 clause is what authorises changing section 2's contract without a
 further vote.
 
+**Closed 2026-09-15 (Plan 4 Stage D, `docs/FINDINGS.md`).** E32 answered
+the pessimistic branch: one interactive session with `autoCompactWindow`
+at 130,000 on a native 1M-token model showed `context_window_size:
+1000000` and a raw `used_percentage` corresponding to 7 percent, against
+a true 54 percent of the configured window, a 7.7x understatement at
+the exact moment it mattered. The `min()` fix this entry's reversal
+clause authorised was already shipped (Plan 4 Stage C, ahead of this
+answer, as one of the dominant-strategy fixes D72 argued need not wait
+for it) and is now live-confirmed necessary, not a no-op.
+
+One divergence from this entry's own proposed shape, worth recording
+rather than silently accepting: this entry proposed reusing
+`main.used_percentage` and `main.context_window_size` in place ("not a
+new field, to avoid a second schema-shaped decision"). Stage C instead
+added `platform_used_percentage`, `effective_window` and
+`effective_window_source` alongside the recomputed originals, keeping
+the platform's raw figure visible rather than silently replacing it.
+This is the better shape, demonstrated by its own use: the 7-versus-54
+comparison above is only citable because both figures are still in the
+record side by side. The extra fields are the cost of that, paid once.
+
 ## 2026-09-15 D70. `docs/PLAN-3.md` complete pending Stage E: what it delivered against Jeb's brief, one line per item
 
 Decision: close Stages A through D of `docs/PLAN-3.md` and record their

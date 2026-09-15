@@ -372,7 +372,7 @@ left open.
 
 ## Stage D. One interactive session, Jeb's
 
-Status: **not started**
+Status: **done (2026-09-15)**
 Model: sonnet, high for the checklist script; the session itself is
 Jeb's, on whatever the desktop app is set to. Live spend USD 0.5 to 2.
 
@@ -398,18 +398,48 @@ Tasks:
       `orchestrator-scratch`: `autoCompactWindow` set to 130000, T12
       seeded, `.claude/session.json` removed (`.claude/context-usage.json`
       was already absent). Zero live spend.
-- [ ] D.2 Jeb's session, about five commands the checklist prints: open a
+- [x] D.2 Jeb's session, about five commands the checklist prints: open a
       session in `orchestrator-scratch`, run `/autocompact` and read the
       value back (E31), spawn one worker on T12 at window 130,000, wait,
       exit. The session's own compaction, if any, exercises the
       `SessionStart(compact)` hook live.
-- [ ] D.3 Record every row in `docs/FINDINGS.md`; replace
+      Done 2026-09-15. `/autocompact` reported "unchanged: 130k tokens
+      (from settings)" (E31 closed: project scope works). The worker
+      read all five chunk files correctly, then compacted; the resulting
+      stub summary misstated its own progress (claimed chunk-05 unread,
+      when the transcript shows it had just been read) while also
+      framing the compaction itself as a refusal, in the summary text,
+      not a later turn. The worker then audited the fixture's own
+      `make_chunks.py`, found its docstring names the data's real
+      purpose, and refused the whole task as "synthetic scenario text,"
+      never writing `summary.txt`. `.claude/session.json`'s hook fired
+      under `event: "compact"` despite the orchestrator's own transcript
+      (read directly, 56 lines) showing zero `compact_boundary` lines,
+      unexplained. `docs/FINDINGS.md` has the full account.
+- [x] D.3 Record every row in `docs/FINDINGS.md`; replace
       `test/fixtures/system/statusline-sample.json` with the live capture;
       close E31, E32 and D69 with what was observed.
-- [ ] D.4 Update this stage's status line and commit it.
+      Done 2026-09-15, with one deliberate deviation: the fixture was
+      NOT replaced. `subagentStatusLine` never populated a `tasks` entry
+      in this session (the worker finished in about 38 seconds, before
+      any subagent refresh tick), so there was no live `tasks` capture to
+      replace the synthesised one with; replacing it anyway would have
+      regressed `context_probe.py`'s own selftest coverage on a guess
+      dressed up as a live capture, exactly what this file's own
+      "no silent capability claims" rule exists to prevent.
+      `tokenSamples`' shape (P29, D69) is narrowed, not closed: it does
+      not fire headless (E30) and did not appear here either, for a
+      different reason. E31, E32 and D69 all closed as observation in
+      `docs/FINDINGS.md` and D69's own entry.
+- [x] D.4 Update this stage's status line and commit it.
 
-Exit criteria: E31 and E32 answered as observation; the fixture is a live
-capture; Stage C's fixes seen working in a session.
+Exit criteria: revised, matching Stage B's own precedent for a criterion
+that assumed more than the evidence supported. E31 and E32 answered as
+observation: met. Stage C's fixes seen working in a session: met, and
+decisively (the 7-versus-54-percent figure is exactly the gap the fix
+closes). The fixture is a live capture: not met, and not attempted once
+D.2 showed there was no live `tasks` data to capture; recorded as a
+narrowed, not closed, open question rather than forced.
 
 ## Stage E. Close-out
 
