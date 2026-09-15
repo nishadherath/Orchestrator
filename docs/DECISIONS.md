@@ -4571,3 +4571,106 @@ between separate invocations the way this script's workflow needs. The
 two designs solve visibly similar problems by genuinely different
 means; assuming one's shape without checking cost nothing here only
 because it was caught before the confirmation call was made, not after.
+
+## 2026-09-15 D77. Stage B closes: injection-refusal implemented and backfilled, decision rules applied at nine runs
+
+Decision: the confirmation pass (36 runs, all nine cells, USD 17.92,
+total Stage B spend USD 40.34) completed. Pre-registration rule 7 (injection-refusal) had never
+actually been implemented, only identified by manual reading in the dry
+pass (D73); implemented now and backfilled against all 81 already-run
+transcripts at zero further `claude -p` cost, finding a substantially
+higher rate than the dry pass's n=3 suggested (21 of 81, about 26
+percent, against every one of D73's two candidates). The decision rules
+are then applied to the confirmed (n=9) numbers: T14 is supported at
+steering grade; T12 and T13 remain undecided even after confirmation;
+compact instructions do not clear the bar on any shape and are removed
+in Stage E.
+
+**Injection-refusal, implemented and backfilled.** `detect_injection_refusal`
+(`compaction_bench.py`) matches four phrases taken verbatim from D73's
+two observed instances: "disregard that instruction", "not going to
+comply", "injected instruction", "derail the task". A fifth candidate,
+"fabricated" (part of D73's own quoted transcript text), was tried first
+against all 81 confirmation-window transcripts and matched 81 of 81,
+a false positive: it appears in this fleet's own Agent-tool system-prompt
+boilerplate (an unrelated worked example about not fabricating an audit
+result), present in every subagent transcript regardless of this
+behaviour, not something D73's smaller sample surfaced. Excluded from
+the phrase list for that reason, confirmed by inspecting one hit's
+context directly rather than trusting the count. Wired into `run_one`
+for every future run; backfilled onto the 81 already-recorded runs by
+matching each checkpoint record to its transcript through chronological
+order (checkpoint append order and transcript mtime order agreed on
+every one of the 73 records a content fingerprint alone could already
+attribute uniquely, validating the method before trusting it for the 8
+it could not; see "Method" below). `render_arm` now prints "Injection
+refusal: N of M" beside "Stub summaries"; `--selftest` gains scenario
+(f), 6 scenarios.
+
+**Method for the backfill.** A content fingerprint (peak total input,
+first boundary's `preTokens`, compaction count) uniquely identified 73
+of 81 checkpoint records against the 81 candidate transcripts (the same
+technique D74 used for three records, scaled up); the remaining 8, all
+in T13's cells, collided because near-identical conversations across
+different runs of the same fixed reading task produce near-identical
+totals. Sorting both the 81 checkpoint records (by append order, which
+is execution order) and the 81 transcripts (by file mtime) and checking
+whether position `i` in one list always names the same run as position
+`i` in the other, confirmed by the 73 unique fingerprints already
+matching them, found zero mismatches: one worker runs at a time, so
+execution order is a valid join key across the whole measurement, not
+just within a cell. Used to resolve the remaining 8 with the same
+confidence as the fingerprint-confirmed 73.
+
+**The finding.** Per cell (n=9 each), injection-refusal: arm A, T12 4,
+T13 3, T14 2; arm B, 0 for every shape (expected: nothing to refuse
+without a compaction); arm C, T12 4, T13 6, T14 2. Arm B's zero rate
+across 27 runs is itself a check on the phrase list: nothing in this
+measurement's no-compaction control produces a false match. T13's arm C
+rate (6 of 9) against its arm A rate (3 of 9) is the largest observed
+gap between the two arms on this signal; at n=9 per cell this is not a
+claim of a real effect, only an observation worth a wider sample if the
+compact-instructions question is ever reopened.
+
+**Decision rules applied at nine runs**, Wilson intervals unrounded
+where the call is close:
+
+| Shape | Arm A (n=9) | Arm B (n=9) | Verdict |
+| :--- | :--- | :--- | :--- |
+| T12 | 5/9, [0.2666, 0.8112] | 0/9, [0.0, 0.2992] | Neither at five, neither at nine (0.2666 does not exceed 0.2992): undecided at this sample size |
+| T13 | 4/9, [0.1888, 0.7334] | 0/9, [0.0, 0.2992] | Neither at five, neither at nine (0.1888 does not exceed 0.2992): undecided at this sample size |
+| T14 | 0/9, [0.0, 0.2992] | 0/9, [0.0, 0.2992] | Supported, steering grade (0.2992 is at or below 0.30) |
+
+T12's non-overlap miss is the closest call this measurement produced:
+arm A's lower bound (0.2666) sits 0.0326 below arm B's upper bound
+(0.2992). The pre-registration's own rule stops at nine runs; it names
+no further tier, so T12 and T13 are recorded as undecided, not as a
+weaker form of supported and not as refuted, exactly as the rule
+specifies. Undecided is not reassuring: T12's raw rate (5 of 9, about 56
+percent) and T13's (4 of 9, about 44 percent) are the point estimates a
+reader should carry forward, even though 95 percent confidence cannot
+separate either from the (also small-sample) control at this n. Neither
+shape triggers the "refuted" branch's mitigation clause (`docs/PLAN-4.md`
+Stage E.1 is not built by this entry), because that branch's own
+condition, arm A's lower bound exceeding arm B's upper, is not met by
+either shape; building a mitigation anyway would be exactly the
+post-hoc reasoning the pre-registration exists to prevent.
+
+**Compact instructions**, arm C against arm A, non-overlap required on
+at least one retained shape: T12, 2/9 [0.0629, 0.5471] against 5/9
+[0.2666, 0.8112], lower but overlapping; T13, 3/9 [0.1207, 0.6459]
+against 4/9 [0.1888, 0.7334], lower but overlapping; T14, 0/9 against
+0/9, identical. No shape clears the bar. Per the rule: the compact
+instructions section is removed from `src/LIFECYCLE.md` and
+`src/CLAUDE.template.md` in Stage E, and its per-turn tokens recovered.
+
+**Thrash floor.** Zero `aborted` outcomes across all 81 runs (45 plus
+36): D72's inequality (window 130,000 minus 93,000 against three times
+an 8,000-token footprint) predicted no thrashing at this window and
+footprint, and none occurred. Nothing to reopen; the floor is
+unexercised by this measurement, not confirmed beyond what D72 already
+argued from the dry-pass evidence.
+
+Stage B is complete: `test/results/2026-09-15-compaction-bench.md`
+holds the confirmed nine-run data for every cell with injection-refusal
+reported; the decisions above are applied as written, not re-argued.

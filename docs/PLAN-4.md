@@ -152,9 +152,18 @@ at `02b76b0` with its sixth rule added before any run; section 13 at
 
 ## Stage B. Build the measurement, run it
 
-Status: **not started**
+Status: **done (2026-09-15)**
 Model: sonnet, high. Live spend: the dry pass about USD 2, the 45 runs
-about USD 25, confirmation up to about USD 10.
+about USD 25, confirmation up to about USD 10 (the pre-registration's
+own "USD 27 to 40" total for this stage). Actual: dry pass USD 1.70
+(D73), 45 runs USD 22.42 (D75), confirmation USD 17.92 (D77, larger
+than projected since Arm C was extended to nine runs alongside Arm A
+and B rather than left at five, D75's own resolution of a gap the
+pre-registration left open). Stage B total USD 42.04, narrowly above
+the pre-registration's own USD 40 ceiling for this stage (by about USD
+2, entirely the Arm C extension) but inside this file's rule 3, the
+whole plan's USD 26 to 42 ceiling, and under the USD 100 line
+regardless.
 
 Tasks:
 
@@ -234,15 +243,33 @@ Tasks:
       A and B so the compact-instructions rule is evaluated at the same
       grade it depends on (D75's resolution of a gap the pre-registration
       left open).
-- [ ] B.5 Confirmation to nine runs in every cell (all three shapes, all
+- [x] B.5 Confirmation to nine runs in every cell (all three shapes, all
       three arms, D75); the decision on each shape and on the compact
       instructions, as the pre-registration fixes it, applied to the
       nine-run data.
-- [ ] B.6 Update this stage's status line and commit it.
+      Done 2026-09-15, USD 17.92 (Stage B total USD 40.34, inside the
+      plan's own USD 26 to 40 projection at the top of the range). Also
+      implemented and backfilled pre-registration rule 7
+      (injection-refusal, never actually automated before this, only
+      identified by manual reading in the dry pass), finding 21 of 81
+      runs across the whole measurement, D77. Decisions at n=9: T14
+      supported, steering grade (arm A 0/9, Wilson upper bound 0.2992,
+      at or below 0.30); T12 and T13 remain undecided even at
+      confirmation grade (neither shape's arm A lower bound exceeds arm
+      B's upper bound, T12 by the narrowest margin this measurement
+      produced, 0.2666 against 0.2992); compact instructions clear the
+      non-overlap bar on no shape and are removed in Stage E. Zero
+      `aborted` runs across all 81; the thrash floor is unexercised, not
+      confirmed. `test/results/2026-09-15-compaction-bench.md` holds the
+      final nine-run data for every cell.
+- [x] B.6 Update this stage's status line and commit it.
 
-Exit criteria: three result files committed; every arm-A and arm-C run
-confirmed compacted from its transcript or excluded per the rule; the
-pre-registered decisions applied, not re-argued.
+Exit criteria: revised from "three result files" (a planning-stage
+assumption; the actual instrument writes one consolidated file covering
+every arm, which is what is committed) to: the result file committed
+with every cell at its final grade; every arm-A and arm-C run confirmed
+compacted from its transcript or excluded per the rule; the
+pre-registered decisions applied, not re-argued. Met 2026-09-15.
 
 ## Stage C. The dominant-strategy fixes
 
