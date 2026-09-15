@@ -88,7 +88,7 @@ Tasks:
       cost, the Controller's per-run and instantiation costs, each row
       with its provenance (result file, n, date) and the cost regime it
       was measured under (E27). Derived from recorded results only.
-- [ ] 1.4 `src/routing_priors.json`: per-bucket Beta priors on the floor
+- [x] 1.4 `src/routing_priors.json`: per-bucket Beta priors on the floor
       passing and on each ladder rung passing given failure below,
       derived from confirmed benchmark results (`docs/FRONTIERS.md`) with
       a capped effective sample size so a project's own ledger can move
