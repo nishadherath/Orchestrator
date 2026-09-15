@@ -97,7 +97,7 @@ The rules `docs/PLAN-3.md` ran under, carried forward with one change:
 
 ## Stage A. Mine what exists, pre-register, specify
 
-Status: **in progress (since 2026-09-15)**
+Status: **done (2026-09-15, see the A.6 commit)**
 Model: fable, high. Judgement over the evidence.
 
 Tasks:
@@ -140,12 +140,15 @@ Tasks:
       (Plan 3 Stage D); the ledger had no pending entry, so the listing
       reads "(none)". Also corrects this file's own opening bullet, which
       still called the reserve fixed after A.2 found it content-conditional.
-- [ ] A.6 Update this stage's status line and commit it.
+- [x] A.6 Update this stage's status line and commit it.
 
 Exit criteria: D72 present and citing the generated evidence file; the
 pre-registration fixes every rule before any run; the design revisions
 name every file Stages B to E touch and every pass condition; the handoff
-names sonnet, high; harness green.
+names sonnet, high; harness green. All met 2026-09-15: D72 at `6271187`
+cites `test/results/2026-09-15-e30-transcripts.md`; the pre-registration
+at `02b76b0` with its sixth rule added before any run; section 13 at
+`6572147`; the handoff names sonnet, high; harness 28 of 28.
 
 ## Stage B. Build the measurement, run it
 
