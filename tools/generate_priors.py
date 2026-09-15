@@ -1,7 +1,23 @@
+#!/usr/bin/env python3
+"""Generate src/routing_priors.json from the benchmark confirmations on record.
+
+Responsible for: the arithmetic behind every prior in that file (docs/PLAN-2.md
+Stage 1.4, D64): a Laplace mean (passes + 1) / (n + 2) over the confirmed
+counts docs/FRONTIERS.md cites, an effective sample size capped at 10 for a
+measured bucket, 4 for one bracketed between measured neighbours, and 3 for
+a policy value inherited across blast radius, so a consumer project's own
+ledger can move a bucket after a handful of its own outcomes.
+
+Deliberately does not: read the result files itself. The counts are typed
+here from FRONTIERS.md's confirmations, which are the reviewed record; the
+provenance string on every entry names them. Re-run after changing a count
+and commit the regenerated file; check.py's ROUTE-PRIORS check (Stage 2.5)
+asserts the committed file matches this script's output.
+"""
 import json
 from pathlib import Path
 
-REPO = Path(r"C:\Users\Bob\Desktop\Code\Claude\Orchestrator")
+REPO = Path(__file__).resolve().parent.parent
 CAP = 10
 
 
