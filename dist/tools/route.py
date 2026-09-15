@@ -414,6 +414,31 @@ def _beta_mean(alpha: float, beta: float, passes: int, fails: int) -> float:
     return a / (a + b)
 
 
+def _is_compacted(entry: dict) -> bool:
+    """True only when this entry confirms at least one compaction
+    (docs/COMPACTION-DESIGN.md section 6, D68). An entry with no
+    `context` at all (every `ledger_version` 0 entry, from before Stage
+    C) or `context.compactions: null` (observed, but no signal found) is
+    NOT compacted by this test: unknown is not evidence of no
+    compaction, so it is excluded from `_is_compacted` but still counted
+    normally in the capability posterior below, exactly as it was before
+    this field existed."""
+    return ((entry.get("context") or {}).get("compactions") or 0) >= 1
+
+
+def _known_compaction_count(entry: dict) -> int | None:
+    """The compaction count for the overflow posterior, or `None` when
+    this entry's compaction status was never observed (`context.source
+    == "none"`, or absent entirely on a `ledger_version` 0 entry): those
+    entries contribute to neither the overflow successes nor its
+    failures, the same "absence is not evidence" rule `_is_compacted`
+    applies on the capability side."""
+    context = entry.get("context")
+    if not context or context.get("source") == "none":
+        return None
+    return context.get("compactions")
+
+
 def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
     """Per-bucket posterior (docs/ROUTING-2-DESIGN.md section 3): the
     floor's Beta mean, updated from every ledger entry in this bucket
@@ -425,14 +450,23 @@ def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
     cells plus any cell that has met the activation threshold from this
     bucket's own escalation history. Raises NoRuleMatches (reusing
     `resolve()`'s own exception, since it is the same kind of gap) for a
-    bucket outside the eighteen `routing_priors.json` seeds."""
+    bucket outside the eighteen `routing_priors.json` seeds.
+
+    A confirmed-compacted entry (docs/COMPACTION-DESIGN.md section 6,
+    D68) is excluded from the floor and rung counts above, since a
+    compaction is evidence the task overflowed its cell's window, not
+    evidence the cell lacked the capability to do the work; it instead
+    feeds the bucket's overflow posterior, over every entry (any
+    `first_cell`, any rung) whose compaction status is known at all."""
     bdata = priors["buckets"].get(bucket)
     if bdata is None:
         s, h, b = bucket.split("/") if bucket.count("/") == 2 else (bucket, bucket, bucket)
         raise NoRuleMatches(s, h, b, f"{bucket!r} is not one of the seeded buckets")
 
+    all_entries = [e for e in ledger if e.get("bucket") == bucket]
+    entries = [e for e in all_entries if not _is_compacted(e)]
+
     floor_prior = bdata["floor"]
-    entries = [e for e in ledger if e.get("bucket") == bucket]
     floor_pass = sum(1 for e in entries if e.get("first_cell") == "worker-sonnet-low"
                       and not e.get("escalations") and e.get("final_outcome") == "pass")
     floor_fail = sum(1 for e in entries if e.get("first_cell") == "worker-sonnet-low"
@@ -468,8 +502,16 @@ def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
                  and m["mean"] >= steering["steering_rung_activation_min_pass"]]
     active_rungs = sorted(set(base_ladder) | set(activated), key=COST_ORDER.index)
 
+    known_counts = [c for c in (_known_compaction_count(e) for e in all_entries) if c is not None]
+    overflow_pass = sum(1 for c in known_counts if c >= 1)
+    overflow_fail = sum(1 for c in known_counts if c == 0)
+    overflow_prior = bdata["overflow"]
+    overflow_mean = _beta_mean(overflow_prior["alpha"], overflow_prior["beta"], overflow_pass, overflow_fail)
+
     return {"bucket": bucket, "floor_mean": floor_mean, "floor_ledger_passes": floor_pass,
-            "floor_ledger_fails": floor_fail, "rungs": rungs, "active_rungs": active_rungs}
+            "floor_ledger_fails": floor_fail, "rungs": rungs, "active_rungs": active_rungs,
+            "overflow_mean": overflow_mean, "overflow_n": overflow_pass + overflow_fail,
+            "overflow_compacted": overflow_pass}
 
 
 def _rung_pass_mean(post: dict, cell: str) -> float:
@@ -549,6 +591,7 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     if prior_failure == "failed_at_xhigh":
         frontier = resolve(sensitivity, horizon, blast, self_directed, prior_failure, table=None)["worker"]
         return {"first": frontier, "bucket": None, "ladder": [], "controller": None, "posterior": None,
+                "overflow": None,
                 "projection": {"cost_usd_expected": None, "wall_clock_s_expected": None,
                                "note": "frontier rung from prior_failure; unmeasured (src/cost_table.json)"}}
 
@@ -570,9 +613,18 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     else:
         cost_expected, wall_expected = decision["e_ladder_usd"], decision["e_ladder_wall_s"]
 
+    steering = priors["steering"]
+    advisory = (post["overflow_mean"] >= steering["overflow_advisory_min_mean"]
+                and post["overflow_n"] >= steering["overflow_advisory_min_n"])
+    overflow = {"mean": round(post["overflow_mean"], 4), "n": post["overflow_n"], "advisory": advisory,
+                "text": (f"{post['overflow_compacted']} of {post['overflow_n']} attempts in this bucket "
+                         f"compacted; split the task or trim the handover before spawning {first}"
+                         if advisory else None)}
+
     return {"first": first, "bucket": bucket, "ladder": post["active_rungs"], "controller": decision,
-            "posterior": post, "projection": {"cost_usd_expected": round(cost_expected, 4),
-                                              "wall_clock_s_expected": round(wall_expected, 1)}}
+            "posterior": post, "overflow": overflow,
+            "projection": {"cost_usd_expected": round(cost_expected, 4),
+                            "wall_clock_s_expected": round(wall_expected, 1)}}
 
 
 CONTEXT_USAGE_FILENAME = ".claude/context-usage.json"
@@ -580,6 +632,83 @@ CONTEXT_USAGE_FILENAME = ".claude/context-usage.json"
 
 def default_context_usage_path(project: Path) -> Path:
     return project / CONTEXT_USAGE_FILENAME
+
+
+_NO_CONTEXT_OBSERVED = {"peak_tokens": None, "window": None, "compactions": None, "source": "none"}
+
+
+def _claude_projects_slug(project: Path) -> str:
+    """Best-effort guess at the directory name Claude Code derives under
+    `~/.claude/projects/` from a project's absolute path: colons and path
+    separators replaced with hyphens, matching this session's own
+    observed project directory name. `src/LIFECYCLE.md`'s transcript path
+    is itself observed, not documented (E7); this guess inherits the same
+    caveat and is never the only source `fill_context` tries."""
+    return re.sub(r"[:\\/]", "-", str(project.resolve()))
+
+
+def _find_transcript_compactions(project: Path, worker_name: str) -> int | None:
+    """The `transcript` fallback (docs/COMPACTION-DESIGN.md section 5):
+    search every session directory under the guessed projects slug for an
+    `agent-*.meta.json` whose `name` matches, and count `compact_boundary`
+    entries in its sibling `.jsonl`. Returns `None`, never raises, if the
+    projects directory, a matching meta file, or the sibling transcript
+    cannot be found: this is a best-effort fallback, not a guaranteed one,
+    and `fill_context` treats `None` as license to fall through to `source:
+    "none"` rather than a reason to error out of `--record` entirely."""
+    projects_dir = Path.home() / ".claude" / "projects" / _claude_projects_slug(project)
+    if not projects_dir.is_dir():
+        return None
+    matches = []
+    for meta_path in projects_dir.glob("*/subagents/agent-*.meta.json"):
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if meta.get("name") == worker_name:
+            matches.append(meta_path)
+    if not matches:
+        return None
+    newest = max(matches, key=lambda p: p.stat().st_mtime)
+    transcript = newest.with_name(newest.name[: -len(".meta.json")] + ".jsonl")
+    if not transcript.is_file():
+        return None
+    try:
+        text = transcript.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    return text.count("compact_boundary")
+
+
+def fill_context(project: Path, worker_name: str | None) -> dict:
+    """The `context` field for a `--record` entry (docs/COMPACTION-DESIGN.md
+    section 5): `tools/context_probe.py`'s per-task record for this worker
+    name, else a transcript's `compact_boundary` count, else nothing
+    observed. Never raises; a missing file, an unmatched name, or a data
+    source that cannot be located each fall through to the next
+    precedence level rather than failing the whole `--record` call, since
+    a worker's outcome is worth recording even when its context usage is
+    not observable. `worker_name=None` (no `--worker-name` given to a
+    plain `--record`) skips straight to `source: "none"`."""
+    if worker_name is None:
+        return dict(_NO_CONTEXT_OBSERVED)
+
+    usage_path = default_context_usage_path(project)
+    if usage_path.exists():
+        try:
+            data = json.loads(usage_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            data = {}
+        task = (data.get("tasks") or {}).get(worker_name)
+        if task and task.get("peak_tokens") is not None:
+            return {"peak_tokens": task.get("peak_tokens"), "window": task.get("contextWindowSize"),
+                    "compactions": task.get("compactions"), "source": "statusline"}
+
+    compactions = _find_transcript_compactions(project, worker_name)
+    if compactions is not None:
+        return {"peak_tokens": None, "window": None, "compactions": compactions, "source": "transcript"}
+
+    return dict(_NO_CONTEXT_OBSERVED)
 
 
 def context_explain_line(project: Path, priors: dict) -> str:
@@ -662,8 +791,10 @@ def recover_report(project: Path) -> str:
 def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     """Scripted checks for the ledger-aware additions, no file I/O outside
     a temp directory (docs/ROUTING-2-DESIGN.md section 3, scenarios a-g;
-    docs/COMPACTION-DESIGN.md section 4 adds scenario h, the spawn/record/
-    recover round trip, and scenario i, the --explain context line)."""
+    docs/COMPACTION-DESIGN.md adds scenario h, the spawn/record/recover
+    round trip (section 4), i, the --explain context line (section 4),
+    j, the overflow advisory firing (section 6), and k, it not firing on
+    uncompacted failures (section 6))."""
     import tempfile
 
     problems: list[str] = []
@@ -838,6 +969,59 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check("stale" in line_stale and "WRITE A HANDOFF" in line_stale,
               f"(i) a stale sample should print 'stale' but still make the threshold comparison, got {line_stale!r}")
 
+        # fill_context (docs/COMPACTION-DESIGN.md section 5): no name given,
+        # a name present in the probe's tasks key, and a name present
+        # nowhere all resolve to the documented source and never raise.
+        none_ctx = fill_context(project, None)
+        check(none_ctx["source"] == "none" and none_ctx["peak_tokens"] is None,
+              f"fill_context(None) should report source 'none' with nothing observed, got {none_ctx}")
+
+        usage_path.write_text(json.dumps({"tasks": {"probe-worker": {"peak_tokens": 91000, "contextWindowSize": 200000,
+                                                                       "compactions": 2}}}), encoding="utf-8")
+        statusline_ctx = fill_context(project, "probe-worker")
+        check(statusline_ctx == {"peak_tokens": 91000, "window": 200000, "compactions": 2, "source": "statusline"},
+              f"fill_context should read a matching name from the probe's tasks key, got {statusline_ctx}")
+
+        missing_ctx = fill_context(project, "no-such-worker")
+        check(missing_ctx["source"] == "none",
+              f"fill_context should fall through to 'none' for a name the probe never saw, got {missing_ctx}")
+
+    # (j) four compacted floor attempts, no other history: the capability
+    # posterior (floor_mean) is untouched (D68: a compaction is a horizon
+    # signal, not evidence the cell lacks capability), while the overflow
+    # posterior crosses the advisory threshold on the shipped prior (0.5,
+    # 9.5). Three compacted attempts alone give a mean of about 0.269,
+    # under the 0.3 threshold; four are used here, matching the arithmetic
+    # rather than section 6's illustrative round number.
+    bucket = "structured/short/contained"
+    s, h, b = bucket.split("/")
+    p_empty_j = plan(s, h, b, priors=priors, ledger=[], costs=costs)
+    ledger_j = [{"bucket": bucket, "first_cell": "worker-sonnet-low", "escalations": [], "final_outcome": "unknown",
+                 "context": {"peak_tokens": 190000, "window": 200000, "compactions": 1, "source": "statusline"}}] * 4
+    p_j = plan(s, h, b, priors=priors, ledger=ledger_j, costs=costs)
+    check(p_j["posterior"]["floor_mean"] == p_empty_j["posterior"]["floor_mean"],
+          f"(j) compacted attempts should not move the floor's capability posterior, got "
+          f"{p_empty_j['posterior']['floor_mean']} -> {p_j['posterior']['floor_mean']}")
+    check(p_j["overflow"]["advisory"] and p_j["overflow"]["mean"] >= priors["steering"]["overflow_advisory_min_mean"],
+          f"(j) four compacted attempts should cross the overflow advisory threshold, got {p_j['overflow']}")
+    check(p_j["first"] == "worker-sonnet-low", f"(j) the overflow advisory should not change 'first', got {p_j['first']!r}")
+
+    # (k) three uncompacted floor failures lower the floor's capability
+    # posterior exactly as scenario (b) does, while the overflow
+    # posterior stays near its prior and the advisory does not fire.
+    bucket = "structured/medium/contained"
+    s, h, b = bucket.split("/")
+    p_empty_k = plan(s, h, b, priors=priors, ledger=[], costs=costs)
+    ledger_k = [{"bucket": bucket, "first_cell": "worker-sonnet-low",
+                 "escalations": [{"cell": "worker-opus-high", "outcome": "pass"}], "final_outcome": "pass",
+                 "context": {"peak_tokens": 40000, "window": 200000, "compactions": 0, "source": "statusline"}}] * 3
+    p_k = plan(s, h, b, priors=priors, ledger=ledger_k, costs=costs)
+    check(p_k["posterior"]["floor_mean"] < p_empty_k["posterior"]["floor_mean"],
+          f"(k) three uncompacted floor failures should lower the floor's posterior mean, got "
+          f"{p_empty_k['posterior']['floor_mean']} -> {p_k['posterior']['floor_mean']}")
+    check(not p_k["overflow"]["advisory"] and p_k["overflow"]["mean"] < priors["steering"]["overflow_advisory_min_mean"],
+          f"(k) three uncompacted attempts should not cross the overflow advisory threshold, got {p_k['overflow']}")
+
     return (not problems, problems)
 
 
@@ -867,7 +1051,10 @@ def main(argv: list[str]) -> int:
                      help="write a pending ledger entry at spawn time (docs/COMPACTION-DESIGN.md section 4); "
                           "needs --task-slug, --first-cell, --worker-name and an assessment")
     ap.add_argument("--worker-name", help="--spawn: the name the Agent call gave this worker, "
-                                           "so --recover can name it after a compaction")
+                                           "so --recover can name it after a compaction. --record (no --pending): "
+                                           "optional, looked up in tools/context_probe.py's data to fill context; "
+                                           "omit to record context as unobserved. --record --pending always uses "
+                                           "the name recorded at --spawn time instead")
     ap.add_argument("--pending", metavar="LED-ID",
                      help="--record: complete this --spawn entry in place instead of appending a new one")
     ap.add_argument("--recover", action="store_true",
@@ -891,7 +1078,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 9 scenarios")
+            print("selftest: PASS, 11 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -923,12 +1110,12 @@ def main(argv: list[str]) -> int:
         notes = _PENDING_NOTE_PREFIX + args.worker_name
         if args.notes:
             notes += f"; {args.notes}"
-        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 0, "references": [],
+        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
                  "first_cell": args.first_cell, "escalations": [], "final_outcome": "unknown",
                  "cost_usd": 0, "wall_clock_s": 0, "controller_run_dir": None, "winning_technique": None,
-                 "notes": notes[:300]}
+                 "notes": notes[:300], "context": dict(_NO_CONTEXT_OBSERVED)}
         append_ledger_entry(ledger_path, entry)
         print(entry["id"])
         return 0
@@ -937,15 +1124,21 @@ def main(argv: list[str]) -> int:
         if not all((args.outcome is not None, args.cost_usd is not None, args.wall_clock_s is not None)):
             ap.error("--record --pending needs --outcome, --cost-usd and --wall-clock-s")
         ledger_path = args.ledger or default_ledger_path(args.project)
+        pending_entry = next((e for e in load_ledger(ledger_path) if e.get("id") == args.pending), None)
+        if pending_entry is None:
+            print(str(LedgerEntryNotFound(args.pending)), file=sys.stderr)
+            return 1
         escalations = []
         for item in args.escalation:
             cell, _, outcome = item.partition(":")
             if outcome not in ("pass", "fail", "unknown"):
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
+        context = fill_context(args.project, pending_worker_name(pending_entry))
         updates = {"escalations": escalations, "final_outcome": args.outcome,
                    "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
-                   "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique}
+                   "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
+                   "ledger_version": 1, "context": context}
         if args.notes:
             updates["notes"] = args.notes[:300]
         try:
@@ -954,6 +1147,7 @@ def main(argv: list[str]) -> int:
             print(str(exc), file=sys.stderr)
             return 1
         print(completed["id"])
+        print(f"context: {context['source']}")
         return 0
 
     if args.record:
@@ -971,15 +1165,17 @@ def main(argv: list[str]) -> int:
             if outcome not in ("pass", "fail", "unknown"):
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
-        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 0, "references": [],
+        context = fill_context(args.project, args.worker_name)
+        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
                  "first_cell": args.first_cell, "escalations": escalations, "final_outcome": args.outcome,
                  "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
                  "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
-                 "notes": args.notes[:300]}
+                 "notes": args.notes[:300], "context": context}
         append_ledger_entry(ledger_path, entry)
         print(entry["id"])
+        print(f"context: {context['source']}")
         return 0
 
     sensitivity, horizon, blast, self_directed, prior_failure = resolve_assessment()
@@ -1014,6 +1210,8 @@ def main(argv: list[str]) -> int:
                     print(f"  {c['label']}")
             print(f"projection: USD {result['projection']['cost_usd_expected']}, "
                   f"{result['projection']['wall_clock_s_expected']} s")
+            if result["overflow"] and result["overflow"]["advisory"]:
+                print(f"overflow: {result['overflow']['text']}")
             print(context_explain_line(args.project, load_priors()))
         if args.json:
             print(json.dumps(result, indent=2, default=str))

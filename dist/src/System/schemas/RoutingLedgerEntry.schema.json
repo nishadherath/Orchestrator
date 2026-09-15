@@ -15,9 +15,8 @@
       "description": "Record id: led-, then at least three digits. Assigned by route.py --record in append order."
     },
     "ledger_version": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Always 0. Present so this record carries the same common fields as every System record type, though the routing ledger has no frozen-version concept of its own."
+      "enum": [0, 1],
+      "description": "0: no context field, every entry written before docs/PLAN-3.md Stage C. 1: carries context (docs/COMPACTION-DESIGN.md section 3). Present so this record carries the same common fields as every System record type, though the routing ledger has no frozen-version concept of its own. tools/validate_records.py implements a fixed subset of JSON Schema with no conditional keywords (its own module docstring), so this schema cannot enforce 'version 1 requires context' directly; tools/route.py enforces it at the point of writing instead, always setting context when it writes ledger_version 1."
     },
     "references": {
       "type": "array",
@@ -120,6 +119,33 @@
       "type": "string",
       "maxLength": 300,
       "description": "Free text. May be empty."
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "peak_tokens": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "The largest context size observed for this task, from tools/context_probe.py's tasks key or a transcript's usage fields. Null when source is 'none'."
+        },
+        "window": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "The cell's model's context window in tokens (contextWindowSize), for reading peak_tokens as a fraction. Null when source is 'none'."
+        },
+        "compactions": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Count of compactions observed for this task: compact_boundary entries in the transcript, or large drops in peak_tokens between statusline samples. Null (not 0) means unobserved, per source."
+        },
+        "source": {
+          "enum": ["statusline", "transcript", "none"],
+          "description": "Which of docs/COMPACTION-DESIGN.md section 5's precedence supplied the other three fields."
+        }
+      },
+      "required": ["peak_tokens", "window", "compactions", "source"],
+      "description": "Present on every ledger_version 1 entry (docs/PLAN-3.md Stage C); absent on ledger_version 0. An entry with context.compactions >= 1 is excluded from route.py's capability posterior and counted toward the bucket's overflow posterior instead (D68: a compaction is a horizon signal, not a capability one)."
     }
   },
   "required": [
