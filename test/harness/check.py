@@ -626,6 +626,17 @@ def check_route_priors(r: Report) -> None:
                 problems.append(f"{bucket} {label}: missing provenance")
             if entry.get("kind") not in ALLOWED_PRIOR_KINDS:
                 problems.append(f"{bucket} {label}: kind {entry.get('kind')!r} not in {sorted(ALLOWED_PRIOR_KINDS)}")
+    # docs/COMPACTION-DESIGN.md section 4: the handoff threshold must
+    # recommend a handoff before the platform's own auto-compact window is
+    # reached on the 200K reference model, or the two settings contradict
+    # each other (a handoff urged after the platform already compacted).
+    steering = priors.get("steering", {})
+    handoff_pct, autocompact_tokens = steering.get("handoff_context_percent"), steering.get("autocompact_window_tokens")
+    if handoff_pct is None or autocompact_tokens is None:
+        problems.append("steering: missing handoff_context_percent or autocompact_window_tokens")
+    elif handoff_pct / 100 * 200_000 >= autocompact_tokens:
+        problems.append(f"steering: handoff_context_percent ({handoff_pct}%% of 200,000) does not fire "
+                         f"before autocompact_window_tokens ({autocompact_tokens})")
     r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", not problems,
           f"{len(priors.get('buckets', {}))} buckets, generator matches" if not problems else "; ".join(problems[:8]))
 
@@ -712,10 +723,10 @@ def check_backtest(r: Report) -> None:
 
 
 def check_route_selftest(r: Report) -> None:
-    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 7 scripted
-    ledger-aware scenarios, no claude -p calls (docs/PLAN.md Stage 2.5's
-    own task text names this as something check.py gains; found missing
-    when building Stage 3 and added here rather than left silent)."""
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 8 scripted
+    ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text,
+    plus the spawn/record/recover round trip from docs/PLAN-3.md Stage B),
+    no claude -p calls."""
     script = REPO_ROOT / "tools" / "route.py"
     if not script.exists():
         r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")

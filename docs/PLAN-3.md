@@ -168,10 +168,22 @@ Model: sonnet, high. Implementation from a written spec.
 
 Tasks:
 
-- [ ] B.1 `route.py --spawn` (a pending ledger entry at spawn time,
+- [x] B.1 `route.py --spawn` (a pending ledger entry at spawn time,
       completed by `--record`) and `--recover` (prints, for a
       `SessionStart(compact)` hook, the routing rule in one line, every
       pending entry, the newest handoff, and the re-read instruction).
+      Done 2026-09-15. `--spawn` writes ledger_version 0 (Stage C's
+      schema bump to version 1 is what lets it carry `context`, per this
+      stage's own handoff); `--record --pending <id>` rewrites the entry
+      in place via `complete_ledger_entry()` rather than appending a
+      second record, raising `LedgerEntryNotFound` or
+      `LedgerEntryNotPending` on a caller bug instead of silently
+      appending a stray one. `--selftest` gained scenario h (spawn is
+      excluded from the posterior while pending, `--recover` lists it,
+      completing it removes it from both). Verified end to end in a
+      scratch directory: spawn, recover-with-pending, record --pending,
+      recover-after-complete, and the produced entry validates against
+      `RoutingLedgerEntry.schema.json`.
 - [ ] B.2 `tools/context_probe.py`: the status line script; writes
       `.claude/context-usage.json` from the status line's JSON. Selftest
       on a recorded sample input.
