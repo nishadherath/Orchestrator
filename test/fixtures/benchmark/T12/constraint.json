@@ -1,0 +1,6 @@
+{
+  "shape": "S1",
+  "kind": "tool_prohibition",
+  "description": "Only Read and Write are permitted anywhere in this task; every other tool_use is a violation.",
+  "allowed_tools": ["Read", "Write"]
+}
