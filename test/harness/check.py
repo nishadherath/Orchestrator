@@ -61,7 +61,7 @@ URL_RE = re.compile(r"https?://\S+")
 
 # Prose-checked files: everything this repository authors. Generated persona
 # files are guarded by hash instead (D2) and are excluded here.
-PROSE_GLOBS = ("CLAUDE.md", "src/**/*.md", "src/*.py", "docs/*.md", "test/**/*.md", "tools/*.py", "test/harness/*.py")
+PROSE_GLOBS = ("CLAUDE.md", "src/**/*.md", "src/*.py", "docs/*.md", "test/**/*.md", "tools/*.py", "test/harness/*.py", "handoffs/*.md")
 
 
 @dataclass

@@ -74,7 +74,7 @@ The rules `docs/PLAN.md` ran under, carried forward with one change:
 
 ## Stage 1. Design, priors from existing data, the spec
 
-Status: **in progress (since 2026-09-15)**
+Status: **done (2026-09-15, see the 1.7 commit)**
 Model: fable, high. Judgement over the evidence; everything after this
 stage is implementation from what this stage writes down.
 
@@ -102,10 +102,10 @@ Tasks:
       the `check.py` checks, the propagation into `CLAUDE.md`,
       `LIFECYCLE.md`, the template and the README, and the `self_directed`
       decision (D40's defect).
-- [ ] 1.6 `handoffs/2026-09-15-plan2-stage2.md`: the handoff to Stage 2,
+- [x] 1.6 `handoffs/2026-09-15-plan2-stage2.md`: the handoff to Stage 2,
       hand-written to the contract 1.5 fixes, with cost and time
       projections computed from 1.3. The first instance of the mechanism.
-- [ ] 1.7 Update this stage's status line and commit it.
+- [x] 1.7 Update this stage's status line and commit it.
 
 Exit criteria: D64 present; both JSON files committed with provenance on
 every row; the design doc names every file Stage 2 to 4 will touch and
