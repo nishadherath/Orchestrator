@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/CandidateRecord.schema.json",
+  "title": "CandidateRecord",
+  "description": "One candidate solution, against a frozen ledger version. Single writer: a Generator (Generate), or the Framer for the single B0 candidate. Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "CandidateRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "technique": {
+      "enum": [
+        "b0",
+        "subtract",
+        "re-represent",
+        "abduce",
+        "other"
+      ],
+      "description": "The brief used. b0 is the Framer's deductive baseline, no technique applied."
+    },
+    "premise_operation": {
+      "enum": [
+        "none",
+        "remove",
+        "re-represent",
+        "add",
+        "replace_goal"
+      ]
+    },
+    "mechanism": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1200,
+      "description": "How the candidate works, in relational form where possible."
+    },
+    "claimed_gain_vs_b0": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "What this does that B0 does not, stated so the Selector can score it."
+    },
+    "premises_introduced": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "The new premise."
+          },
+          "class": {
+            "enum": [
+              "law",
+              "maths",
+              "policy",
+              "habit",
+              "unverified",
+              "verified"
+            ]
+          }
+        },
+        "required": [
+          "text",
+          "class"
+        ]
+      },
+      "description": "Premises this candidate needs that the ledger does not have. Each becomes a PremiseRecord if the candidate is shortlisted."
+    },
+    "falsification_test": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "The cheapest test that would show this candidate does not work."
+    },
+    "cost_estimate_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "refines": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Id of the failed CandidateRecord this one is a v2 of, if any. Refinement is a new record, never an edit."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "technique",
+    "premise_operation",
+    "mechanism",
+    "claimed_gain_vs_b0",
+    "premises_introduced",
+    "falsification_test",
+    "cost_estimate_usd",
+    "refines"
+  ]
+}

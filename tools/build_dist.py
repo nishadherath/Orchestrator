@@ -9,15 +9,45 @@ harness first and refuses to build on a failure, which is the charter's
 Deliberately does not: install anything, touch src/, or offer a way past
 the harness. If the harness is wrong, fix the harness.
 
+Ships `tools/system_controller.py` and its dependency chain (`claudep.py`,
+`system_prompts.py`, `validate_records.py`, `src/System/ROLES.md`,
+`TECHNIQUES.md`, `schemas/*.schema.json`) since D63 wired the Controller
+into `ROUTING.md` section 4's falsified-constraint trigger as its default
+target (D59 measured it losing to the floor on cost across an unscoped
+comparison; D63 scopes it to the one shape with head-to-head evidence,
+where a consumer project needs the actual script to invoke, not only the
+routing instruction that names it). These are plain files, standard
+library only, no build step of their own; they are copied verbatim into
+the same `tools/` and `src/System/` layout their own `REPO_ROOT`-relative
+path resolution expects, so a consumer project that installs this bundle
+gets a working copy at `<project>/tools/system_controller.py`.
+
 The one non-obvious thing: the version stamp names the source commit the
 bundle was built from, which is one commit before the commit that adds
 dist/. That is the correct provenance; the bundle cannot know its own
 commit. A dirty working tree is stamped "-dirty" and should not be
 dogfooded.
 
+Every `dist/ORCHESTRATOR.md` build strips every `<!-- rationale:start -->
+... <!-- rationale:end -->` span from `src/ROUTING.md` (docs/PLAN-2.md
+Stage 4, D64): the evidence, cost figures and decision citations behind
+each routing mechanism, which are for a human reading the source, never
+for a live orchestrator session whose own assessment must not be made in
+a context that reveals what destinations exist or why one might be
+attractive (the mechanism D44 found and D64 built the ledger-based
+resolver specifically to avoid reintroducing). `--with-rationale` builds
+a second bundle, `dist-with-rationale/`, never `dist/` itself, keeping
+every span, for the harness (`test/harness/score_routing.py`'s two-stage
+classifier measurement, D39, predates this and reused the same mechanism
+under its old name, `--rubric-only`; both flags do the same thing today).
+`dist-with-rationale/` is gitignored: a measurement artefact, not a
+shipping deliverable, rebuilt on demand.
+
 Usage:
-    python3 tools/build_dist.py              build
-    python3 tools/build_dist.py --dry-run    list what would be written
+    python3 tools/build_dist.py                     build dist/ (rationale stripped)
+    python3 tools/build_dist.py --dry-run           list what would be written
+    python3 tools/build_dist.py --with-rationale    build dist-with-rationale/ instead,
+                                                     every span kept, for the harness
 """
 from __future__ import annotations
 
@@ -43,32 +73,128 @@ delegating any task." Do not edit here; edit the source and rebuild.
 
 """
 
+RATIONALE_START = "<!-- rationale:start -->"
+RATIONALE_END = "<!-- rationale:end -->"
+
+
+def strip_rationale(routing_text: str) -> str:
+    """Remove every `<!-- rationale:start --> ... <!-- rationale:end -->`
+    span from ROUTING.md's text (docs/PLAN-2.md Stage 4, D64): the
+    evidence, cost figures and decision citations behind a mechanism, kept
+    in the source for a human reader but never shipped to a live
+    orchestrator session. What remains is procedure alone, sufficient to
+    follow without knowing why it works, which is the point: an
+    assessment made in a context that also names destinations and their
+    track record is the exact mechanism D44 found bending the axis read
+    toward whichever cell was visible.
+
+    Collapses the blank-line runs a removed span leaves behind to a
+    single blank line, so the stripped document reads as one continuous
+    piece rather than showing where something was cut. Asserts every
+    start marker has a following end marker and none survive the pass,
+    so an edit to ROUTING.md that adds an unmatched marker fails loudly
+    here instead of quietly shipping a bundle with a stray HTML comment
+    or, worse, a rationale block that was never actually removed.
+    """
+    import re
+    out: list[str] = []
+    i = 0
+    while True:
+        start = routing_text.find(RATIONALE_START, i)
+        if start == -1:
+            out.append(routing_text[i:])
+            break
+        end = routing_text.find(RATIONALE_END, start)
+        assert end != -1, f"src/ROUTING.md: {RATIONALE_START!r} with no following {RATIONALE_END!r}"
+        out.append(routing_text[i:start])
+        i = end + len(RATIONALE_END)
+    result = re.sub(r"\n{3,}", "\n\n", "".join(out))
+    assert RATIONALE_START not in result and RATIONALE_END not in result, \
+        "src/ROUTING.md: a rationale marker survived stripping"
+    return result
+
 
 def version_stamp() -> str:
     rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
-    dirty = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
+    # dist/ and dist-rubric-only/ are this script's own output, always
+    # uncommitted relative to the source commit it just built from (the
+    # docstring's "one commit before the commit that adds dist/"), so
+    # including them here made every honest, source-clean build stamp
+    # itself "-dirty" (found 2026-09-15, Stage 13 close-out, when a
+    # ROUTING.md-only change produced a dirty stamp with git status
+    # showing nothing but dist/ itself modified). The dirty check exists
+    # to catch uncommitted *source* drift, which this excludes them from.
+    dirty = subprocess.run(["git", "status", "--porcelain", "--", ".", ":(exclude)dist",
+                            ":(exclude)dist-rubric-only", ":(exclude)dist-with-rationale"],
+                            capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
     return f"{dt.date.today().isoformat()}-{rev}{'-dirty' if dirty else ''}"
 
 
-def planned_files(version: str) -> dict[Path, str]:
-    """Map each dist path to its content. Pure; nothing is written here."""
+def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = False) -> dict[Path, str]:
+    """Map each dist path to its content. Pure; nothing is written here.
+
+    `with_rationale` keeps every `<!-- rationale:start/end -->` span in
+    `ORCHESTRATOR.md` (docs/PLAN-2.md Stage 4, D64); the default strips
+    them (`strip_rationale`), which is the shipping behaviour since a
+    consumer's own orchestrator session should not read the evidence
+    behind a mechanism before making the assessment that mechanism acts
+    on. `dist_dir` lets `--rubric-only` and `--with-rationale` each write
+    to their own named bundle rather than the default `dist/`, so the
+    ordinary build (no flag) is unaffected by either and every bundle can
+    exist side by side for comparison.
+    """
     out: dict[Path, str] = {}
     for agent in sorted((SRC / "agents").glob("WORKER_*.md")):
-        out[DIST / ".claude" / "agents" / agent.name] = agent.read_text(encoding="utf-8")
-    out[DIST / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
-    out[DIST / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
+        out[dist_dir / ".claude" / "agents" / agent.name] = agent.read_text(encoding="utf-8")
+    out[dist_dir / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
+    out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
+    out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
+    for name in ("system_controller.py", "claudep.py", "system_prompts.py", "validate_records.py",
+                 "route.py", "handoff.py", "context_probe.py"):
+        out[dist_dir / "tools" / name] = (REPO_ROOT / "tools" / name).read_text(encoding="utf-8")
+    for name in ("ROLES.md", "TECHNIQUES.md"):
+        out[dist_dir / "src" / "System" / name] = (SRC / "System" / name).read_text(encoding="utf-8")
+    for schema in sorted((SRC / "System" / "schemas").glob("*.schema.json")):
+        out[dist_dir / "src" / "System" / "schemas" / schema.name] = schema.read_text(encoding="utf-8")
+    for name in ("routing_priors.json", "cost_table.json", "routing_table.json"):
+        out[dist_dir / "src" / name] = (SRC / name).read_text(encoding="utf-8")
+    out[dist_dir / "settings.fragment.json"] = (SRC / "settings.fragment.json").read_text(encoding="utf-8")
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
+    if not with_rationale:
+        routing = strip_rationale(routing)
     lifecycle = (SRC / "LIFECYCLE.md").read_text(encoding="utf-8")
-    out[DIST / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version) + routing.rstrip("\n") + "\n\n" + lifecycle
-    out[DIST / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
-    out[DIST / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
+    out[dist_dir / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version) + routing.rstrip("\n") + "\n\n" + lifecycle
+    out[dist_dir / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
+    out[dist_dir / "CLAUDE.template.md"] = (SRC / "CLAUDE.template.md").read_text(encoding="utf-8")
+    out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
     assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"
     return out
+
+
+def worker_half(brief_path: Path) -> str:
+    """The part of a brief a worker is handed: everything after the first
+    line that is exactly "---", which ends the provenance block kept for
+    this repository. The same cut `benchmark.py --brief` makes, so the
+    shipped `.claude/B0_BRIEF.md` is byte for byte what Stage 9.8 measured
+    (D60)."""
+    lines = brief_path.read_text(encoding="utf-8").strip().split("\n")
+    assert "---" in lines, f"{brief_path} has no provenance rule to cut at"
+    return "\n".join(lines[lines.index("---") + 1:]).strip() + "\n"
 
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="list what would be written; write nothing")
+    group = ap.add_mutually_exclusive_group()
+    group.add_argument("--rubric-only", action="store_true",
+                        help="build into dist-rubric-only/ instead of dist/, for the two-stage "
+                             "classifier measurement (D39); content is identical to the ordinary "
+                             "dist/ build today, since stripping the rationale is now the default")
+    group.add_argument("--with-rationale", action="store_true",
+                        help="build into dist-with-rationale/ instead of dist/, keeping every "
+                             "<!-- rationale:start/end --> span ORCHESTRATOR.md carries: the "
+                             "evidence and cost figures behind each mechanism, for a harness or a "
+                             "human wanting the full picture, never for a live orchestrator session")
     args = ap.parse_args(argv)
 
     harness = subprocess.run([sys.executable, str(HARNESS)], capture_output=True, text=True, cwd=REPO_ROOT)
@@ -76,24 +202,26 @@ def main(argv: list[str]) -> int:
         print("refusing to build: harness failed\n" + harness.stdout[-1500:], file=sys.stderr)
         return 1
 
-    version = version_stamp()
-    files = planned_files(version)
+    suffix = "-rubric-only" if args.rubric_only else "-with-rationale" if args.with_rationale else ""
+    dist_dir = DIST.with_name(f"dist{suffix}") if suffix else DIST
+    version = version_stamp() + suffix
+    files = planned_files(version, dist_dir, args.with_rationale)
     if args.dry_run:
         for path in sorted(files):
             print(f"would write {path.relative_to(REPO_ROOT)} ({len(files[path])} chars)")
         print(f"version {version}")
         return 0
 
-    staging = DIST.with_name("dist.tmp")
+    staging = dist_dir.with_name(dist_dir.name + ".tmp")
     if staging.exists():
         shutil.rmtree(staging)
     for path, content in files.items():
-        target = staging / path.relative_to(DIST)
+        target = staging / path.relative_to(dist_dir)
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8", newline="\n")
-    if DIST.exists():
-        shutil.rmtree(DIST)
-    staging.rename(DIST)
+    if dist_dir.exists():
+        shutil.rmtree(dist_dir)
+    staging.rename(dist_dir)
     for path in sorted(files):
         print(f"wrote {path.relative_to(REPO_ROOT)}")
     print(f"version {version}")

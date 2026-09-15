@@ -1,0 +1,345 @@
+# Action plan 2: complexity routing, Controller gating, handoffs
+
+Adopted 2026-09-15 on branch `the-system`, after `docs/PLAN.md` closed.
+Authored by Claude (Fable 5.1) at Jeb's direction; the shape was described
+and approved in conversation before this file existed. Status of the plan
+as a whole: **complete (2026-09-15, see D67)**.
+
+Jeb's brief, in his words: route agents and sub-agents to the appropriate
+model and effort level based on task complexity; bring the Controller in
+when the lowest capable configurations fail, and also before routing when
+the task is complex enough, on an ongoing, per-project, self-learning
+judgement; produce a concise handoff for a fresh session whenever the model
+or reasoning level must change or a new agent is launched, with a direct
+API-cost projection and a time projection; make that behaviour part of the
+project configuration, of any new project built from it, and of the
+redistributable; build it by improving the existing infrastructure and
+using existing test data and insights, not by running new tests.
+
+## The design decision this plan rests on
+
+Two measured findings stand in the way of complexity routing as it was
+last tried, and the design goes through them rather than around them.
+
+D44 found that the orchestrator's free-text assessment bends toward
+whatever destination is in its context, which is why the table collapsed
+to the floor. That is a property of letting the model that knows the
+destinations judge in prose. D40 measured the alternative, a schema-forced
+assessment made with the table removed from context and the cell resolved
+by code, at 92.2 percent cell agreement and USD 0.103 per verdict, and
+rejected it against the prose router's 95.7 percent at USD 0.1645. Since
+then the prose router's verdict cost has doubled platform-side (E27, USD
+0.23), and the prose router cannot do complexity routing at all without
+reintroducing D44's attractor.
+
+So: **separate the judge from the resolver.** The model assesses on a
+rubric with no destination table in context (the rubric-only bundle
+`build_dist.py --rubric-only` already produces). Deterministic code
+(`tools/route.py`, which already exists) resolves the cell from that
+assessment and a per-project outcome ledger. The attractor cannot act on a
+judge that never sees the destinations. The ledger is the self-learning:
+Bayesian updating of per-bucket pass probabilities from observed outcomes,
+seeded from this repository's measured results, never from a model's
+opinion of its own judgement.
+
+One honest limit, stated up front rather than discovered later: the
+three-axis triple is blind to the one task shape the floor measurably
+fails (T10: D42 called it a disposition frontier, and T9 shares its
+triple and passes at the floor). So no proactive rule on the triple can
+single out that shape. It stays covered by the reactive
+falsified-constraint trigger (D63). The proactive Controller rule is
+therefore a combination of expected-cost arithmetic, which on current
+evidence fires nowhere, and an explicit risk-appetite dial on blast
+radius, which is labelled a policy where a consumer reads it.
+
+## Rules
+
+The rules `docs/PLAN.md` ran under, carried forward with one change:
+
+1. One stage per session where the model class changes. Each stage names
+   its model class and effort; the session states them and Jeb confirms
+   before work starts.
+2. Each task is its own commit on `the-system` with `python3
+   test/harness/check.py` green first. Checkboxes and status lines in this
+   file change in the same commit as the work.
+3. A `claude -p` run is started by the session, after stating what will
+   run and the projected cost; Jeb is asked first only above USD 100
+   (D57). This plan projects **zero** live-run spend: every validation is
+   against recorded data.
+4. Every reopened decision (D40, D44, D45, D61, D63) gets its own entry in
+   `docs/DECISIONS.md`. Nothing is reversed silently.
+5. New: a stage boundary that changes the model or effort produces a
+   handoff file under `handoffs/`, written to the contract Stage 1 fixes
+   and Stage 3 automates. This plan's own transitions are the first uses.
+
+## Stage 1. Design, priors from existing data, the spec
+
+Status: **done (2026-09-15, see the 1.7 commit)**
+Model: fable, high. Judgement over the evidence; everything after this
+stage is implementation from what this stage writes down.
+
+Tasks:
+
+- [x] 1.1 This file, committed.
+- [x] 1.2 D64: the reopening, the judge/resolver separation, the triple's
+      blindness to T10's shape, the proactive rule as arithmetic plus a
+      labelled policy dial, and what each later stage may not change.
+- [x] 1.3 `src/cost_table.json`: per-cell cost and wall clock, the verdict
+      cost, the Controller's per-run and instantiation costs, each row
+      with its provenance (result file, n, date) and the cost regime it
+      was measured under (E27). Derived from recorded results only.
+- [x] 1.4 `src/routing_priors.json`: per-bucket Beta priors on the floor
+      passing and on each ladder rung passing given failure below,
+      derived from confirmed benchmark results (`docs/FRONTIERS.md`) with
+      a capped effective sample size so a project's own ledger can move
+      them; the default ladder; named steering thresholds; the Controller
+      rule's parameters including the policy dial. Provenance per bucket.
+- [x] 1.5 `docs/ROUTING-2-DESIGN.md`: the spec Stages 2 to 4 execute.
+      Ledger schema, `route.py` extensions (posterior, rung activation,
+      expected ladder cost, Controller rule), the assessment line and the
+      rubric-only default bundle, `handoff.py`'s contract and template,
+      the replay and backtest harness contracts and their pass conditions,
+      the `check.py` checks, the propagation into `CLAUDE.md`,
+      `LIFECYCLE.md`, the template and the README, and the `self_directed`
+      decision (D40's defect).
+- [x] 1.6 `handoffs/2026-09-15-plan2-stage2.md`: the handoff to Stage 2,
+      hand-written to the contract 1.5 fixes, with cost and time
+      projections computed from 1.3. The first instance of the mechanism.
+- [x] 1.7 Update this stage's status line and commit it.
+
+Exit criteria: D64 present; both JSON files committed with provenance on
+every row; the design doc names every file Stage 2 to 4 will touch and
+the pass condition of every check; the handoff file exists and names the
+model and effort to switch to; harness green.
+
+## Stage 2. The resolver and the ledger
+
+Status: **done (2026-09-15, see the 2.6 commit)**
+Model: sonnet, high. Implementation from a written spec.
+
+Tasks:
+
+- [x] 2.1 `src/System/schemas/RoutingLedgerEntry.schema.json` plus valid
+      and broken fixture lines under `test/fixtures/system/`, so
+      `validate_records.py` and the SCHEMA check cover the ledger.
+      Done 2026-09-15. 13 schemas; BROKEN_LINES gains line 19 (a bucket
+      outside the enum); expected_types in check.py and CLAUDE.md's
+      layout note updated from twelve to the new count.
+- [x] 2.2 `tools/route.py`: load priors and a ledger; per-bucket posterior;
+      rung activation; expected ladder cost; the Controller rule;
+      `--from-line` parsing of the orchestrator's assessment line;
+      `--record` appending an outcome; `--explain` printing the arithmetic.
+      Existing `resolve()` behaviour unchanged for callers that pass no
+      ledger.
+      Done 2026-09-15. load_priors, load_cost_table, load_ledger,
+      posterior, expected_ladder_cost, controller_decision, plan;
+      parse_assessment_line for both recorded line formats;
+      --from-line/--project/--ledger/--explain/--record/--json/--selftest
+      on the CLI. --selftest: 7 scenarios (empty-ledger parity, floor-
+      failure lowering the posterior, rung activation and cost-order
+      insertion, the policy dial with its off switch, the expected-cost
+      rule firing on a consequential bucket outside the policy's scope,
+      ledger round-trip past a malformed line, the frontier rung under
+      prior_failure). Old --sensitivity/--horizon/--blast CLI usage
+      verified byte-identical (worker-sonnet-low for both example calls).
+- [x] 2.3 `test/harness/replay_routing.py`: re-resolve every recorded
+      assessment in `test/results/` through the new resolver with an empty
+      ledger; report agreement against `expected_cell` and the proactive
+      Controller fire rate. Pass condition in the design doc.
+      Done 2026-09-15 as D65: found and fixed two scoring gaps, not
+      resolver gaps, before gating. Every batch on record agrees 100
+      percent excluding the policy dial's deliberate divergence; the
+      expected-cost arithmetic fires in zero recorded rows, matching
+      D64's prediction. Gate result: PASS, 125/125 on the gating batch
+      against D40's 92.2 percent floor. Recorded:
+      `test/results/2026-09-15-replay-routing.md`.
+- [x] 2.4 `test/harness/backtest_ledger.py`: feed recorded benchmark
+      outcomes into the ledger in recorded order; assert the learned
+      activations reproduce D42 and D45 and nothing the benchmark refuted.
+      Done 2026-09-15 as D66: the first run found a real spurious
+      activation, traced to a run D16 (2026-09-07) already disregarded
+      for an unrelated grader defect, fed in unfiltered. Excluded on
+      D16's own citation, not a new judgement call. All 22 checks pass
+      after: every bucket stays at the floor, worker-opus-high's
+      posterior for open/medium/contained is 0.941 (D42), no
+      intermediate sonnet rung activates anywhere. Recorded:
+      `test/results/2026-09-15-backtest-ledger.md`.
+- [x] 2.5 `route.py --selftest`; `check.py` gains ROUTE-PRIORS (priors
+      consistent with FRONTIERS.md), COST-TABLE (every row has provenance),
+      REPLAY and BACKTEST (both harnesses pass on the committed data).
+      Done 2026-09-15. generate_priors.py gained a --check mode (writes
+      nothing) so ROUTE-PRIORS can verify the committed file without the
+      side effect of rewriting it. All four checks pass: 18 buckets with
+      provenance and an allowed kind; 8 cost rows with provenance/regime/n;
+      REPLAY and BACKTEST both exit 0 on their own pass conditions.
+      Harness now 24 checks.
+- [x] 2.6 Update this stage's status line and commit it.
+
+Exit criteria: replay and backtest pass at the conditions the design doc
+fixes; harness green with the four new checks counted; zero live calls.
+
+## Stage 3. Handoffs
+
+Status: **done (2026-09-15, see the 3.4 commit)**
+Model: sonnet, high.
+
+Tasks:
+
+- [x] 3.1 `tools/handoff.py`: `new` writes a handoff to the template with
+      computed cost and time projections (from `cost_table.json`, or the
+      project's ledger means once it has enough entries); `check` refuses
+      a handoff with a missing or empty section; both ship in `dist/`.
+      Done 2026-09-15. new/check/--selftest built; computed lines are a
+      single deterministic "Computed: ..." line per projection so check
+      can verify by exact match rather than parsing prose. Shipping in
+      dist/ deferred to Stage 4 on purpose: handoff.py imports route.py,
+      and Stage 4 already owns build_dist.py's rewiring for the whole
+      routing-2 system (section 8), so shipping the pair split across two
+      stages would ship a broken half first and redo the work.
+- [x] 3.2 `check.py` gains HANDOFF: every file under `handoffs/` passes
+      `handoff.py check`.
+      Done 2026-09-15. Also added ROUTE-SELFTEST and HANDOFF-SELFTEST
+      (gating route.py's and handoff.py's own --selftest suites): Stage
+      2.5's task text named "route.py --selftest" as something check.py
+      gains, and it had not been wired in; fixed here rather than left
+      silent. Harness now 27 checks.
+- [x] 3.3 Regenerate Stage 1's hand-written handoff through the tool and
+      diff; the tool must reproduce its projections.
+      Done 2026-09-15. The tool's canonical "Computed:" line did not
+      exist when Stage 1 hand-wrote that file, so the file's Cost/Time
+      projection sections gained that exact line (the hand-written
+      narrative estimate kept alongside it, not replaced); front matter
+      gained --from-model/--from-effort to match. `handoff.py check`
+      passes on it; a full regeneration's Computed lines diff identical.
+- [x] 3.4 Update this stage's status line and commit it.
+
+Exit criteria: `handoff.py --selftest` and HANDOFF green; the Stage 1
+handoff validates unchanged.
+
+## Stage 4. The orchestrator side
+
+Status: **done (2026-09-15, see the 4.4 commit)**
+Model: sonnet, high.
+
+Tasks:
+
+- [x] 4.1 `src/ROUTING.md` section 2 rewritten: the assessment line's
+      exact format; resolve by `route.py` with the project ledger; if the
+      script cannot run, route to the floor and say so (never fall back to
+      own judgement, the silent failure D39 warned of). Section 4
+      rewritten around the ladder and the two Controller triggers.
+      Done 2026-09-15 (commit `ec8b8d1`), refined further under 4.2 below:
+      section 2 and section 4's evidentiary asides (cost figures, decision
+      citations, cell names) wrapped in `<!-- rationale:start/end -->`
+      markers so `build_dist.py` can strip them from what a live
+      orchestrator reads, closing the D44 attractor risk a naive rewrite
+      reopened (a live session's `ORCHESTRATOR.md` stays in context for
+      the whole session, unlike D40's isolated classifier calls).
+- [x] 4.2 `build_dist.py`: the rubric-only variant becomes the shipped
+      `ORCHESTRATOR.md`; `route.py`, `handoff.py`, the priors and the cost
+      table ship; `preflight.py` checks them and that Bash is permitted.
+      Done 2026-09-15. `rubric_only_routing()`'s old table-string search
+      (broken by 4.1's rewrite) replaced by `strip_rationale()`, operating
+      on the new markers generically; `--rubric-only` kept for
+      `score_routing.py`'s legacy dependency, `--with-rationale` added for
+      the harness, both now producing identical content. `planned_files()`
+      ships `route.py`, `handoff.py`, `routing_priors.json`,
+      `cost_table.json`. `preflight.py` gained three checks:
+      `check_routing_data` (both JSON files present), `check_route_selftest`
+      (the installed copy's `route.py --selftest` passes),
+      `check_bash_permission` (WARN if no `Bash(python3 *)` allow rule).
+      `check_controller`'s schema count raised from 12 to 13 for
+      RoutingLedgerEntry. `.gitignore` gained `/dist-with-rationale/`.
+- [x] 4.3 Regenerate worker definitions; ROW-BACKED and TABLE-DATA adapted
+      to a table whose rows carry activation conditions.
+      Done 2026-09-15. `generate_workers.py` reports 15 definitions, 0
+      drifted: `WORKER_PERSONA.md`, `routing_table.json` and the
+      sensitivity/horizon/blast axes are untouched by Plan 2, so nothing
+      to regenerate. ROW-BACKED and TABLE-DATA needed no code change, per
+      the design doc's own prediction (section 8): both read
+      `src/routing_table.json` through `route.py`'s unchanged
+      `resolve()`/`matching_rules()`, which still holds only the floor
+      and frontier rules (D44/D45); rows above the floor are priors'
+      ladder rungs, not table rows, so those two checks were never in
+      scope for adaptation.
+
+      Installing the rebuilt `dist/` into `orchestrator-scratch` for the
+      exit criteria found one real gap this stage's earlier commit
+      missed: `build_dist.py` never shipped `src/routing_table.json`,
+      which `route.py`'s `resolve()`/`load_table()` still needs (the
+      frontier shortcut in `plan()` calls `resolve()` directly). The
+      repo's own `ROUTE-SELFTEST` check never caught this because it
+      runs from the repo root, where that file already exists outside
+      `dist/`. Fixed by adding it to `planned_files()`'s shipped `src/`
+      files and to `preflight.py`'s `check_routing_data`. Reinstalled and
+      confirmed `python3 preflight.py` clean in `orchestrator-scratch`
+      (0 failing, 2 WARN needing manual follow-up, as expected).
+- [x] 4.4 Update this stage's status line and commit it.
+
+Exit criteria: harness green; `dist/` rebuilt and installed into
+`orchestrator-scratch` with preflight clean; no fixture's expected cell
+changed without a decision entry. All three met 2026-09-15: harness
+27/27; `orchestrator-scratch` reinstalled from a clean (non-dirty)
+`dist/` build with `preflight.py` reporting 0 failing; TABLE-DATA and
+BACKTEST (Stage 2.4) both already confirm no fixture's expected cell
+moved.
+
+## Stage 5. Propagation and close-out
+
+Status: **done (2026-09-15, see the 5.5 commit)**
+Model: sonnet, medium.
+
+Tasks:
+
+- [x] 5.1 `CLAUDE.md`: the handoff rule and the routing rule as standing
+      project configuration.
+      Done 2026-09-15. New "Handoffs and routing, as standing practice"
+      section: the handoff rule (write a file under `handoffs/` with
+      `tools/handoff.py` on a model/effort change, before stopping) and
+      the routing rule (a task this repository delegates to a subagent is
+      resolved through `tools/route.py`, the same mechanism a consumer's
+      `ORCHESTRATOR.md` uses), both stated as outliving `docs/PLAN-2.md`
+      itself rather than tied to its status.
+- [x] 5.2 `src/LIFECYCLE.md`: a "Handoffs" section, hence in every
+      consumer's `ORCHESTRATOR.md`; `dist/CLAUDE.template.md` for a new
+      project; `src/README.md` updated for both.
+      Done 2026-09-15. `src/LIFECYCLE.md` gained "Handoffs": when a
+      handoff is required (own session's model/effort changing, or
+      launching a differently-configured top-level agent, not an ordinary
+      Task-tool spawn), the tool to use, and that the fresh session's
+      first action is to read the named file. `src/CLAUDE.template.md`
+      (new): the pointer line plus a short "Handoffs" section for a
+      project with no `CLAUDE.md` yet; wired into `build_dist.py`'s
+      `planned_files()` as `dist/CLAUDE.template.md`. `src/README.md`:
+      layout section gains `route.py`, `handoff.py`, the three `src/
+      *.json` files and `CLAUDE.template.md`; both install walkthroughs
+      copy the JSON files and create `handoffs/`; the settings table
+      gains a `Bash(python3 *)` row; "Known limits" rewritten from the
+      stale single-destination description to the ledger-driven ladder
+      and both Controller triggers (reactive and proactive).
+- [x] 5.3 `docs/COST.md` recomputed; `docs/FINDINGS.md` consolidated.
+      Done 2026-09-15. `docs/COST.md`: `dist/ORCHESTRATOR.md` measured at
+      16,559 characters (rationale-stripped, shipped) against 22,109
+      `--with-rationale`; a new row for `route.py --explain`'s output
+      (408 to 718 characters, the only marginal per-turn cost the whole
+      resolution mechanism adds, since `route.py`, `handoff.py` and the
+      priors/cost-table/ledger are invoked with Bash and never read into
+      context); a note that the USD 0.23 verdict figure predates this
+      bundle and was not re-measured live, per rule 3. `docs/FINDINGS.md`:
+      a note that Plan 2 added no rows here by design (zero live calls),
+      so the gap is not an omission.
+- [x] 5.4 D67 (D65 and D66 were already taken by the replay and backtest
+      findings in Stage 2): what this plan delivered against Jeb's
+      brief, one line per item, plus what is not delivered stated
+      plainly; this file marked complete.
+- [x] 5.5 Final `check.py --record`.
+
+Exit criteria: harness green; plan marked complete; D67 present. All
+three met 2026-09-15: harness 27/27 (`test/results/2026-09-15-harness.md`);
+this file's status line below; D67 above.
+
+## Projection
+
+Live API spend: USD 0 (rule 3). Session cost, estimated since no telemetry
+exists for it: USD 40 to 90 equivalent across four to six sessions. Time:
+six to ten hours of session time across the five stages.

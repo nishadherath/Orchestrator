@@ -14,43 +14,20 @@ You are a meticulous and thorough critic of your own work and always produce ext
 The consumer install guide is `src/README.md`. Read it for how the workers are
 used and which settings defeat them, not as instructions for this session.
 
-## Active plan: read this before anything else
+## The staged plan
 
-`docs/PLAN.md` is a staged action plan adopted on 2026-09-10 for the branch
-`the-system`. Every session in this repository carries it out under these
-rules until the plan's own status line says it is complete. `docs/REVIEW.md`
-is the evidence the plan cites; read it when a stage refers to it.
+`docs/PLAN.md`, the staged action plan for branch `the-system`, is complete (D62); read it for how the work was done, not as instructions for a new session.
 
-1. Confirm the checkout is on branch `the-system`. Creating that branch is
-   Stage 0's first task; once Stage 0 is done, a session on any other branch
-   stops and asks before doing anything else.
-2. Read `docs/PLAN.md` in full. Find the first stage whose status is not
-   `done`. That is the only stage this session works on.
-3. State the stage's number, title, and required model class and effort
-   level, and ask Jeb to confirm the session is running on that class and
-   effort, switching with `/model` if it is not. Jeb's confirmation is what
-   sets the class for this session; load the persona files the stage names
-   only after it. Never self-assess the class, and never set
-   `CLAUDE_CODE_EFFORT_LEVEL` to change effort: invariant 3 says it overrides
-   every worker's frontmatter, so it would flatten the cells this repository
-   exists to keep distinct.
-4. Present the stage's tasks, exit criteria and cost estimate, and wait for
-   Jeb's explicit approval in the conversation. Do not start a task on an
-   assumed approval, and do not carry approval from one stage to the next.
-5. Work the tasks in order. Each task is its own commit on `the-system`,
-   with `python3 test/harness/check.py` green before the commit. Tick the
-   task's checkbox and update the stage's status line in `docs/PLAN.md` in
-   the same commit as the work it records, never in a batch afterwards.
-6. Any run that spends on `claude -p` (a routing batch, a benchmark, a
-   Controller run) is started by Jeb, not by the session. The session
-   prepares the command with the real local paths filled in and waits.
-7. When the stage's exit criteria are met, mark it `done` with the date and
-   the commit, stop, and report. The next stage may need a different model,
-   so it begins with step 3 in a fresh confirmation.
+`docs/PLAN-2.md`, complexity routing and handoffs, is complete; read it the same way. It is the reason for the two standing rules below, which outlive the plan itself.
 
-A stage that cannot be completed as written is not skipped or reworded in
-place: record what blocked it as a decision entry in `docs/DECISIONS.md`,
-mark the stage `blocked` with a pointer to that entry, and stop.
+## Handoffs and routing, as standing practice
+
+Two rules from `docs/PLAN-2.md` apply to every session in this repository going forward, not only while that plan was active:
+
+1. **Handoffs.** When a session's own model or effort must change, or a top-level agent about to be launched needs a different one, write a handoff file under `handoffs/` with `python3 tools/handoff.py new` before stopping, fill in its prose sections, and confirm with `python3 tools/handoff.py check <file>` before handing off. `src/LIFECYCLE.md`'s "Handoffs" section has the full contract; `handoffs/` also has to pass the harness's `HANDOFF` check.
+2. **Routing.** A task this repository delegates to a subagent is routed the same way a consumer project's orchestrator routes one: state the one-line assessment, resolve it with `python3 tools/route.py --from-line "<line>" --project . --explain`, and spawn what it names. This applies to delegating *development* work on this repository through the Task tool; it is not dogfooding and does not touch `src/ROUTING.md`'s own subject matter, which is "Critical: this file does not route" above.
+
+Both rules are mechanical, not advisory: `check.py`'s `HANDOFF`, `HANDOFF-SELFTEST`, and `ROUTE-SELFTEST` checks assert the tools they depend on keep working, but nothing currently asserts a session actually used them. Treat that as an honesty requirement on the session, the same way `docs/PLAN.md`'s rules were.
 
 ## What this repository is
 
@@ -61,7 +38,13 @@ routes it to the cheapest worker cell that clears the bar, hands over, and
 manages the worker's lifecycle.
 
 The artefacts are configuration and prose, not application code. There is no
-build step and no runtime beyond Claude Code itself. The work here is
+build step and, with one exception, no runtime beyond Claude Code itself:
+`tools/system_controller.py` (`docs/PLAN.md` Stage 10, D48) is a Python
+program that owns a budget and a termination decision across a sequence of
+`claude -p` calls. It ships in `dist/` and is invoked by the orchestrator
+persona itself, with the Bash tool, on `src/ROUTING.md` section 4's one
+scoped trigger (D63); it is not a general destination in the routing table
+and nothing else in this repository spawns it. Everything else is
 specification, verification, and calibration.
 
 ## Critical: this file does not route
@@ -88,24 +71,40 @@ src/
   commands/workers.md   the /workers fleet status command
   System/SYSTEM.md      the problem-solving framework the-system branch
                         integrates; see docs/PLAN.md
+  System/STEPS.md       the eight steps, reconstructed (Stage 9.1, D47)
+  System/TECHNIQUES.md  the three tier-1 technique briefs, reconstructed
+  System/ROLES.md       the six role briefs: input slice, output schema, cell prior
+  System/schemas/       record schemas, one per blackboard record type plus
+                        RoutingLedgerEntry (docs/PLAN-2.md Stage 2)
+  System/B0_BRIEF.md    the single-worker baseline: all eight steps in one handover
 tools/
   generate_workers.py   regenerates src/agents/ from WORKER_PERSONA.md and
                         the ROUTING.md table
   build_dist.py         assembles dist/ from src/; refuses if the harness fails
+  validate_records.py   validates a JSONL ledger against src/System/schemas/
+  role_probe.py         one measured call per fleet role at its quick-mode cell
+  claudep.py            shared claude -p plumbing: invocation, permission
+                        flags, the resumable Checkpoint class
+  system_prompts.py     ROLES.md/TECHNIQUES.md/schema prompt-assembly helpers
+  system_controller.py  the Controller: quick-mode state machine, the Scribe,
+                        --selftest (no claude -p calls) and --record (real runs)
 test/
   harness/              check.py (static assertions), score_routing.py
                         (fixture calibration), empirical-checklist.md (the
                         checks that need a live session), persona.sha256
   fixtures/             calibration tasks with known-correct cells
+                        plus system/, the example ledgers the SCHEMA check runs
   results/              dated harness output, committed
 docs/
   DECISIONS.md          decision ledger, append-only
   FINDINGS.md           verified behaviour of Claude Code itself
-  PLAN.md               the staged action plan in force; see "Active plan"
+  FRONTIERS.md          what the benchmark has measured for each routing row
+  PLAN.md               the staged action plan, complete; see "The staged plan"
   REVIEW.md             the 2026-09-10 review the plan is built on
 dist/                   assembled installable bundle; .claude/ plus
                         ORCHESTRATOR.md and README.md, stamped with the
-                        source commit
+                        source commit; also tools/ and src/System/, the
+                        Controller and its dependency chain (D63)
 ```
 
 ## Invariants
@@ -201,15 +200,28 @@ These are unresolved, not decided. Do not close one without evidence in
   `agent-{agentId}.jsonl` also has a sibling `agent-{agentId}.meta.json`, undocumented before this check.
 - Do the fifteen `model-specific-*` persona sections earn their existence? A
   plausible finding is that effort-specific guidance is noise and only
-  model-specific guidance matters, collapsing fifteen sections to three.
+  model-specific guidance matters, collapsing fifteen sections to three. Not
+  tested by this plan; still open at close-out (Stage 13).
 - Does telling a worker its own effort level change its behaviour usefully, or
   does it induce performative deliberation at high effort and premature closure
-  at low?
+  at low? Not tested by this plan; still open at close-out.
 - What is the actual escalation rate from each starting cell? Three escalations
   from one cell means the rubric is wrong for that task class, but the threshold
-  is a guess.
-- Is the three-axis rubric better than a simpler two-axis one? Blast radius and
-  intelligence sensitivity may be measuring the same thing.
+  is a guess. Narrowed but not answered: the table now has one starting cell
+  (the floor) and one escalation trigger (section 4), so the question is now
+  "how often does the trigger fire in real use", and the first opportunity to
+  fire it live, Stage 12's dogfood install, had not yet done so as of
+  2026-09-15 (`test/results/2026-09-15-dogfood-install.md`). Still open.
+- ~~Is the three-axis rubric better than a simpler two-axis one? Blast radius
+  and intelligence sensitivity may be measuring the same thing.~~ Made moot,
+  not answered, 2026-09-14 (D44, D45): the shipped table routes every task to
+  the floor regardless of the assessment, so no axis, alone or combined,
+  currently selects a destination. The two-axis variant `score_routing.py
+  --classifier two-stage --axes 2` measured only steering-grade (three runs,
+  sonnet, `test/results/2026-09-11-routing-sonnet-d65b476-two-stage-2axis-
+  summary.md`) before the two-stage design itself was rejected on cost (D40).
+  Whether a two-axis assessment would serve better if the table ever grows a
+  row again is unasked.
 - ~~Does the orchestrator's own model matter?~~ Answered 2026-09-06, three runs per model
   on bundle `2026-09-05-4cf35f7` (`test/results/2026-09-06-routing-{sonnet,opus}-summary.md`):
   yes, and opus is the better orchestrator. Opus scored 45/51 (88.2 percent, 95 percent Wilson
@@ -224,6 +236,75 @@ These are unresolved, not decided. Do not close one without evidence in
   is the confirmed answer. Whether opus's accuracy is worth 5 times the cost per correct verdict
   depends on what one wrong routing decision costs, which is the cost and quality benchmark's
   question, not this one's.
+- ~~Does any benchmark task exist that `worker-sonnet-low` measurably fails?~~
+  Answered 2026-09-13 (D42, `docs/PLAN.md` Stage 7): yes, one of eleven. T10
+  fails at every sonnet cell (xhigh 0 of 12) and confirms at `worker-opus-high`,
+  9 of 9. But what it fails on is not capability: all 20 failing sonnet runs
+  verified that the task's frozen-file constraint had a false justification,
+  wrote that down, and obeyed the constraint anyway; opus treated the falsified
+  justification as dissolving the instruction. T9 (a false measurement, not a
+  false constraint) and T11 (T7's lineage at larger scale) both confirmed at the
+  floor. The open question this leaves is whether that disposition generalises
+  beyond the one shape tested, and what a routing row that buys it should say.
+  Not tested further by this plan: Stage 9 through 12 measured T10's exact
+  shape repeatedly (D47, D56, D58, D59, eleven fleet and B0-brief runs
+  combined) but no second falsified-constraint task was built. Still open.
+- ~~Is the cost of a routing verdict on the ledger, alongside the cost of the
+  work it routes?~~ Resolved 2026-09-11 (`docs/COST.md`): it was not, until
+  this stage. Mean opus verdict cost per fixture (USD 0.1645, pooled across
+  108 verdicts against bundle `2026-09-07-af94deb`) against mean
+  `worker-sonnet-low` cost per benchmark run (USD 0.1641, pooled across 96
+  runs, T1 through T8) is a ratio of 1.003: at the cheapest cell, which is
+  where every measured task has landed, the router costs essentially the
+  same as the work it routes.
+- ~~Is horizon assessable before any tool call is made, or is the table's own
+  history evidence that it is the least reliable of the three axes?~~
+  Answered 2026-09-14 (D44, `test/results/2026-09-14-table-collapse-before-after.md`):
+  not independently of the destination. When the table was reduced to one
+  row above the floor, opus's horizon read on unchanged fixtures under an
+  unchanged rubric moved toward whichever cell it wanted: F10 from medium
+  nine of nine to short eight of nine, F11 from long-or-medium to medium
+  nine of nine. That is D13's attractor measured at reporting grade in both
+  directions, and it is why the shipped table (D45) has no rows above the
+  floor. T10's evidence lives in ROUTING.md section 4 as an escalation
+  trigger the floor worker raises after reading the code. The remaining
+  question, whether the three axes, which now route nothing, earn their
+  verdict cost as a diagnostic record, Stage 13 answers: yes, trivially.
+  E27 (`docs/FINDINGS.md`, 2026-09-15) shows a verdict's cost is dominated
+  by reading `ORCHESTRATOR.md` itself (about 17.8k tokens of cache
+  creation against 200 to 290 output tokens for the whole reply); the
+  three-axis line is a few dozen of those output tokens and its removal
+  would not move the verdict's cost measurably. The question worth asking
+  is not whether the axes are cheap enough to keep, which they are, but
+  whether `ORCHESTRATOR.md` itself is, and section 2's own text already
+  answers why the assessment stays regardless: it is the record a wrong
+  routing is diagnosed from, and dropping it is a change with its own
+  before-and-after measurement (D44), not a decision to make on cost
+  alone.
+- ~~Does a `compact_boundary` reliably predict that decomposing the task
+  would have helped (`docs/PREMISES.md` P29)?~~ Answered 2026-09-16
+  (D80, `docs/COST.md`, "Decomposition against a single compacting
+  worker"): yes, decisively, on the one task shape tested. Twelve runs
+  per arm, same task, same window: a single worker that compacts
+  mid-task failed 11 of 12 (task not completed or its constraint
+  violated); the same task split into two sub-handovers before the
+  trigger fired, each restating the constraint and carrying the prior
+  part's own output forward, failed 0 of 12, non-overlapping 95 percent
+  Wilson intervals. `src/ROUTING.md` section 2 now instructs splitting
+  on `route.py --explain`'s overflow advisory. Not answered: whether this
+  generalises beyond T12's shape (one long, uniform, chunk-by-chunk read
+  task), since no second shape was built to test it.
+- Does `.claude/context-usage.json`'s `tasks` entry, meant to carry a
+  running worker's own token usage (`tokenSamples`, `docs/PREMISES.md`
+  P29's companion question), ever populate outside a fabricated example?
+  Narrowed twice, not answered: a 38-second worker left it empty (Plan 4
+  Stage D), and a multi-minute worker with the tasks panel open left it
+  empty too (Plan 5 Stage D, `docs/FINDINGS.md`). Duration and panel
+  visibility are both ruled out; the mechanism that should populate it,
+  whatever triggers a per-worker refresh tick, is unverified. Do not
+  encode a claim about `tokenSamples`' actual shape anywhere in `src/`
+  beyond `test/fixtures/system/statusline-sample.json`'s
+  documentation-derived guess until a live capture replaces it.
 
 ## Dogfooding
 

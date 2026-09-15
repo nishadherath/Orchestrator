@@ -41,7 +41,31 @@ acts on it.
 - Consequential: output is committed, published, depended on by other work, or
   hard to verify by reading it.
 
-### 1.1 Ask or route
+### 1.1 State it as one line
+
+Once assessed, state it in exactly this form, before doing anything else
+with it:
+
+```
+assessment: <mechanical|structured|open>, <short|medium|long>, <contained|consequential>; self_directed: <true|false>; prior_failure: <none|failed_at_xhigh>
+```
+
+`self_directed`: does the task demand sustained investigation that
+reshapes its own plan as it goes, rather than merely being long? State it
+for the record; it is not an input to how the cell is chosen (D64: a
+schema-forced classifier measured it firing on 38 percent of sonnet's
+verdicts against a 6 percent base rate, and the one row it used to
+disambiguate is gone from the table below).
+
+`prior_failure`: is there a documented failure at `xhigh` on this exact
+task, from an earlier attempt in this same conversation? `none` unless
+you have just watched that happen.
+
+This line is not decoration. Section 2 resolves the cell from it in
+code, and the routing ledger it keeps is keyed on it; a line in any
+other format cannot be resolved or learned from.
+
+### 1.2 Ask or route
 
 Every assessment ends in one of two actions: spawn a worker, or ask the user.
 Spawn is the default. Ask only for what the repository cannot answer, because a
@@ -78,52 +102,127 @@ moves no work.
 
 ## 2. Select the worker
 
-Route to the cheapest cell that clears the bar. Do not round up "to be safe":
-over-provisioning is the failure mode this system exists to prevent. Route up
-only when a named axis above demands it.
+Resolve the cell in code, from the assessment line (section 1.1), a
+per-project ledger of what actually happened here before, and the
+benchmark priors this repository ships (D64, `docs/PLAN-2.md` Stage 4).
+With the Bash tool:
 
-| Assessment | Worker |
-| :--- | :--- |
-| Mechanical, structured or open, short, contained | `worker-sonnet-low` |
-| Mechanical, short, consequential | `worker-sonnet-medium` |
-| Mechanical, medium horizon | `worker-sonnet-medium` |
-| Structured, medium, contained | `worker-sonnet-medium` |
-| Structured, short or medium, consequential | `worker-sonnet-high` |
-| Structured, long horizon | `worker-sonnet-xhigh` |
-| Open, medium, contained | `worker-opus-high` |
-| Open, any horizon, consequential | `worker-opus-xhigh` |
-| Open, long horizon, contained | `worker-sonnet-low` |
-| Open, long horizon, consequential, sustained autonomous investigation | `worker-fable-xhigh` |
-| Frontier problem where every cheaper cell has already failed | `worker-opus-max` or `worker-fable-max` |
+```
+python3 tools/route.py --from-line "<the assessment line>" --project <this project's root> --explain
+```
 
-This table covers the (sensitivity, horizon, blast) combinations, with
-documented exceptions recorded in `docs/DECISIONS.md`. Adding a row, widening
-one, or removing one changes what this covers; run `test/harness/check.py`
-(its ROUTE-TOTAL check) after any edit here.
+Read the output. `--explain` prints the bucket, the posterior for the
+floor and every active rung, the Controller's expected-cost arithmetic,
+and its decision with a one-word reason (`policy`, `expected_cost`, or
+`none`); the last line is the projection. The cell to act on is the value
+`plan()` returned as `first`, which `--explain`'s own printed lines make
+visible without parsing JSON: either a worker name (`worker-<model>-<effort>`)
+to spawn as section 3 describes, or the literal word `controller`, meaning
+invoke the Controller mechanism in section 4 directly, not a worker to spawn.
 
-Constraints on the table:
+State the assessment line, the resolved cell, and the reason, together, in
+the same routing line section 3 asks for. This is the record a wrong
+routing is diagnosed from, and the reason (a posterior mean, or the
+Controller's `policy`/`expected_cost` label) is what makes a surprising
+resolution legible rather than a black box.
 
+**If `--explain` also prints an overflow line** ("N of M attempts in this
+bucket compacted; split the task or trim the handover before spawning
+`<cell>`"), split the task into smaller sub-handovers before spawning,
+one worker per part, each restating the original constraint verbatim and
+carrying forward whatever the previous part's own output established (a
+subtotal, a file written, a decision made); do not resume one worker
+across the whole task and do not rely on the platform's own compaction to
+carry state between parts. This is a measured remedy, not a policy
+guess: on one task shape, splitting brought the combined failure rate
+(task not completed or its constraint violated) from 11 of 12 down to 0
+of 12, non-overlapping 95 percent Wilson intervals
+(`test/results/2026-09-15-decomposition-preregistration.md`,
+`docs/DECISIONS.md` D80). It does not change `first`, since a compaction
+is a horizon signal, not a capability one (D68): the same cell, spawned
+in parts.
+
+**If `route.py` cannot run** (Bash is not permitted, or `src/routing_priors.json`,
+`src/cost_table.json`, or the script itself is missing from the installed
+bundle), spawn `worker-sonnet-low` and say so plainly in the routing line:
+name what failed and that the resolver did not run. Never fall back to
+choosing a cell yourself from memory of what the table used to say. A
+silently substituted judgement, indistinguishable from a real resolution
+in the transcript, is exactly the failure this file exists to prevent
+(`docs/CLASSIFIER-DESIGN.md`, D39).
+
+**After the task finishes**, record the outcome so this project's own
+ledger can learn from it:
+
+```
+python3 tools/route.py --project <this project's root> --record \
+  --task-slug <short name> --first-cell <the cell you spawned, or controller> \
+  --outcome pass|fail|unknown --cost-usd <total across every cell tried> \
+  --wall-clock-s <total> [--escalation <cell>:<pass|fail> ...]
+```
+
+Skipping this is not a shortcut; it is the project staying on the shipped,
+generic priors forever instead of its own measured experience. Every
+escalation (section 4) is one `--escalation` flag, in the order tried.
+
+<!-- rationale:start -->
+**Why this replaced a static table.** Eleven benchmark tasks across every
+sensitivity and horizon confirmed `worker-sonnet-low` at the reporting
+bar, with one exception, T10 (`docs/FRONTIERS.md`). A static row built on
+that exception did not survive its own after-measurement: the
+prose-assessing orchestrator reached the row it named one time in nine on
+the fixture that backed it, and reached it instead from two fixtures the
+benchmark says belong on the floor, by bending its own horizon read
+toward whichever cell existed to reach (D43, D44,
+`test/results/2026-09-14-table-collapse-before-after.md`). That is a
+property of a model judging in a context where it can see the
+destinations. `tools/route.py`'s resolver never shows the model a
+destination to bend toward: the assessment is made blind to the table
+(the installed bundle carries no destination list at all, D64), and a
+Bayesian posterior, not a second guess, decides the cell.
+
+**The frontier cell** (`worker-opus-max` or `worker-fable-max`, reached
+only when `prior_failure: failed_at_xhigh`, i.e. every cheaper cell has
+already documented failure at `xhigh` on this exact task) is an accepted
+risk-appetite policy, not a measured cost saving (`docs/PLAN.md`
+acceptance criterion 7). No benchmark task built for this plan ever
+needed `max` effort; every task that failed below the confirmed cell
+failed at a sonnet effort level and passed at `worker-opus-high`, not
+beyond it (D42). It exists as a last resort for a shape none of the
+eleven tasks tested, on the reasoning that trying the most capable
+available cell once, after every cheaper one has documented failure,
+costs less than giving up. That reasoning is unmeasured and stated as a
+policy, not a claim.
+
+Constraints:
+
+- Every cell the resolver can return is either `worker-sonnet-low`, the
+  one benchmark-confirmed cell above it (`worker-opus-high`, D42), the
+  Controller, or the frontier row; a project's own ledger can activate an
+  intermediate cell for a specific bucket once it has enough evidence
+  there (`src/routing_priors.json`'s `rung_activation`), which is the one
+  way this list grows without a new decision entry.
 - `max` is not a default and not a reward for an important task. It shows
-  diminishing returns and is prone to overthinking. Reach for it only after a
-  documented failure at `xhigh` on the same task.
-- `worker-sonnet-max` and `worker-fable-low` / `worker-fable-medium` exist for
-  completeness but are rarely the right cell. Sonnet at `max` usually loses to
-  Opus at `high` for the same spend; Fable at low effort wastes the model's
-  reason for existing.
-- If two cells look equally defensible, take the cheaper one and escalate on
-  evidence rather than on suspicion.
-- `worker-opus-xhigh` and `worker-fable-xhigh` both match open, long horizon,
-  consequential work. Prefer `worker-opus-xhigh`; route to `worker-fable-xhigh`
-  only when the task itself demands sustained, self-directed investigation
-  that reshapes its own plan as it goes, not merely because it is long and
-  consequential (fixtures F11 and F12 are both open, long, consequential with
-  no such demand, and the confirmed answer for both is `worker-opus-xhigh`).
+  diminishing returns and is prone to overthinking. Reach for it only after
+  a documented failure at `xhigh` on the same task.
+- `worker-sonnet-max` and `worker-fable-low` / `worker-fable-medium` exist
+  for completeness and are not reachable by this resolver at all today;
+  nothing in the benchmark or the ledger mechanism has ever pointed at them.
+- Changing what the resolver can return (a new cell in `default_ladder`, a
+  changed steering threshold, a changed policy dial) is a change to what
+  this file claims. It needs the same discipline a table row once did: a
+  reason, a decision entry, and `test/harness/replay_routing.py` and
+  `backtest_ledger.py` run clean against it before it ships
+  (`docs/ROUTING-2-DESIGN.md`).
+<!-- rationale:end -->
 
 ## 3. Spawn and hand over
 
 Spawn with the Agent tool:
 
-- Set `subagent_type` to the worker name from the table.
+- Set `subagent_type` to the cell `route.py` resolved (section 2). If it
+  resolved to `controller`, this section does not apply; use section 4's
+  Controller mechanism instead.
 - Set `name` to a short, stable, task-derived identifier, for example
   `auth-refactor` or `perf-triage`. The name is how you address the worker
   later. Names must be unique among live workers.
@@ -141,18 +240,82 @@ handover prompt must therefore be self-contained and must state:
   Verbose output is the reason it was delegated, so ask for the summary, not the
   transcript.
 
-After spawning, state in one line: the worker chosen, the assessment that
-justified it, and the assigned name.
+After spawning, state in one line the assessment, the resolved cell and
+reason (section 2), and the assigned name.
 
 ## 4. Escalation and de-escalation
 
-- If a worker returns a result that fails its own acceptance criteria, do not
-  re-run it at the same cell. Re-spawn one cell up and include what the previous
-  attempt produced and why it fell short.
+- **On failure, use the next active rung.** If a worker returns a result
+  that fails its own acceptance criteria, do not re-run it at the same
+  cell. `--explain`'s output (section 2) already listed the active rungs
+  for this bucket in cost order; re-spawn the next one up from that list,
+  not a guessed "one cell up", since which cell is actually next depends
+  on this project's own ledger and can differ bucket to bucket. Include
+  what the previous attempt produced and why it fell short. If the ladder
+  is exhausted (the failing cell was the last active rung), invoke the
+  Controller mechanism below before the frontier row.
+- **The Controller mechanism.** Shared by two triggers below: run it the
+  same way regardless of which one fired it.
+  1. Run the Controller yourself, with the Bash tool, not by spawning a
+     worker: write the task (and, for the falsified-constraint trigger,
+     the constraint, its stated reason, and the evidence the worker
+     found) to a file, then `python3 tools/system_controller.py --problem
+     <that file> --project <this project's root> --mode quick --record`.
+     This costs roughly USD 2 to 3 and takes several minutes; state that
+     estimate before running it, per this project's own rule for who
+     starts a paid run. Read the run's `REPORT.md` when it finishes. If
+     the outcome is `solution`, re-spawn `worker-sonnet-low` with
+     `REPORT.md`'s answer and the original task, instructed to apply the
+     answer rather than redo the analysis. Treat a Controller `solution`
+     as a strong candidate to verify against the acceptance criteria, not
+     as confirmed correct on arrival.
+     <!-- rationale:start -->
+     (The instantiation step is the one Stage 11 measured this arm
+     through. Cost of this step, Controller plus instantiation: about USD
+     2.5 to 3.5 total, on the one fixture shape this has ever been
+     measured against, D58, D59; that measured record is 6 of 9 correct,
+     which does not clear the reporting bar, nine of nine, on its own,
+     which is why a `solution` is a candidate to verify, not a confirmed
+     answer.)
+     <!-- rationale:end -->
+  2. If the Controller's outcome is `gap` or `dissolved`, or the script
+     errors, re-spawn `worker-opus-high` with the original handover.
+     <!-- rationale:start -->
+     (`worker-opus-high` cleared the benchmark task built to the
+     falsified-constraint shape nine of nine from a cold start, D42, D44,
+     at USD 0.86 to 1.11 per run; it is the confirmed cell, and step 1 is
+     tried first because it costs about the same and, when it works,
+     keeps a full audit trail, `ledger.jsonl`, `REPORT.md`, a plain
+     worker report does not.)
+     <!-- rationale:end -->
+  Record which step solved it, the Controller's `runs/<id>/` directory,
+  and which trigger fired it, in the routing line and in the `--record`
+  call's `--escalation controller:pass|fail` entry.
+- **Trigger one, proactive.** `route.py` resolved `first: controller`
+  in section 2, before any worker ran. Invoke the mechanism above
+  directly on the original task; there is no prior worker attempt to
+  include. `--explain`'s printed reason says why it fired.
+  <!-- rationale:start -->
+  (This fires on `routing_priors.json`'s labelled policy dial, open,
+  consequential tasks, by default, D64, or, once a project's ledger shows
+  a bucket's ladder is expensive enough, on the expected-cost arithmetic.)
+  <!-- rationale:end -->
+- **Trigger two, reactive, a falsified constraint.** If a worker reports
+  that it cannot meet an acceptance criterion without acting against a
+  constraint the task states, and that it has checked the constraint's
+  stated reason against the repository and found the reason false, do not
+  climb the ladder one rung at a time. Invoke the mechanism above
+  directly, regardless of where on the ladder the worker sat.
+  <!-- rationale:start -->
+  (Measured: D59, D63.)
+  <!-- rationale:end -->
 - If a worker at `low` or `medium` reports that the task was underspecified
   rather than too hard, fix the prompt and re-run at the same cell.
-- Record every escalation. Three escalations from the same starting cell means
-  the routing rubric is wrong for that class of task, and you should say so.
+- Record every escalation, with `--record`'s `--escalation` flag (section
+  2) as well as in the routing line. Three escalations from the same
+  starting cell in one bucket means the priors are wrong for that class of
+  task in this project, and `--explain`'s posterior should already be
+  showing it moving; say so regardless.
 
 ## 5. Concurrency and depth
 

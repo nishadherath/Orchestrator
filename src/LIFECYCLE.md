@@ -1,5 +1,13 @@
 # Worker lifecycle and communication
 
+This file governs the orchestrator persona spawning a worker via the Task
+tool, inside one Claude Code session. It does not govern
+`tools/system_controller.py`'s role calls (`docs/PLAN.md` Stage 10): those
+are `claude -p` subprocess invocations, each a fresh process with no
+session left behind to resume. `src/System/ROLES.md`'s "Isolation" section
+says why the two mechanisms need separate treatment rather than one being
+a special case of the other.
+
 ## What you can and cannot do
 
 Claude Code supports **start, message, stop, and resume**. It does not support
@@ -78,3 +86,50 @@ When asked for status, report from `/tasks` plus your own tracking, never from
 memory alone. `/tasks` names the model on each worker's row and adds the effort
 level when the worker's definition sets one, which is the ground truth for
 whether routing took effect.
+
+## Handoffs
+
+A worker session cannot change its own model or effort mid-run, and a
+completed worker's history does not transfer to a fresh one. Two events
+therefore need a handoff file under `handoffs/` before you stop: your own
+session's model or effort must change, or you are about to launch a
+top-level agent that itself needs a different model or effort than yours
+(a subagent Task-tool spawn does not qualify; its own worker definition
+already sets its cell). Write the file with `tools/handoff.py new`
+(`docs/PLAN-2.md` Stage 3) rather than by hand: it fixes the ten-heading
+contract and computes the cost and time projection lines from
+`src/cost_table.json`, or from the project's own
+`.claude/routing-ledger.jsonl` once it has enough entries, rather than
+leaving them to be guessed. Fill in the remaining prose sections yourself
+(the goal, decisions made, verified facts, and so on): the tool only
+guarantees the skeleton is complete, not that it is true. Run
+`tools/handoff.py check <file>` before handing off, and do not stop until
+it passes.
+
+The fresh session's first action is to read the handoff file named to it,
+not to re-derive context from the conversation history: it exists
+precisely so the new session does not need that history.
+
+`ROUTING.md` section 2's `--explain` line reports your own context usage
+against a threshold; when it says to write a handoff, do so before the
+next task, the same as a model or effort change. That threshold exists
+to pre-empt the platform's own compaction, which is the fallback for
+whenever a handoff was not written in time: a `SessionStart` hook with
+matcher `compact` runs `route.py --recover`, which prints the routing
+rule, every worker spawned but not yet recorded, and the newest handoff,
+so the fresh context (yours, after the platform's own summary) has
+something concrete to act on rather than only what the summary kept. A
+handoff written with `tools/handoff.py new --pending-workers` includes
+the same pending-worker listing under "Unresolved questions" directly,
+for the ordinary case of handing off deliberately rather than recovering
+from a compaction that already happened.
+
+A `# Compact instructions` section once shipped here, asking the
+platform to keep the same shape a handoff file does when compacting.
+Removed (`docs/PLAN-4.md` Stage E.1, docs/DECISIONS.md D77): the
+pre-registered measurement found no shape where appending it lowered
+the constraint-violation rate against the unmodified default with
+non-overlapping confidence intervals, on 45 steering-grade runs and 36
+confirmation runs across three task shapes. It cost every consumer
+session's own per-turn tokens for a summary section the underlying
+platform behaviour did not measurably follow.

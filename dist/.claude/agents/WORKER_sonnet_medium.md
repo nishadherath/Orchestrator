@@ -1,6 +1,6 @@
 ---
 name: worker-sonnet-medium
-description: Sonnet at medium effort. Routed for: mechanical, short, consequential; mechanical, medium horizon; structured, medium, contained. Select by subagent_type only; never pass a model parameter.
+description: Sonnet at medium effort. Not in the routing table; use only on a documented escalation (ROUTING.md section 2). Select by subagent_type only; never pass a model parameter.
 model: sonnet
 effort: medium
 ---

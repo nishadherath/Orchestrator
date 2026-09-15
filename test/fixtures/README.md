@@ -5,12 +5,14 @@ harness validates the file; `test/harness/score_routing.py` runs the tasks
 through an orchestrator and scores the cell it picks. Tune the routing table
 against these, never against anecdote.
 
-Review status: all 17 rows are marked `assigned_by: claude, 2026-09-05;
-reviewed and confirmed by Jeb, 2026-09-05`. The expected cells are ground
-truth, not a proposal: a scored run measures routing agreement against a
-human-confirmed label. A fixture added later without that confirmation is a
-proposal until it gets one, and score_routing.py's report notes when any
-loaded fixture still says "pending human review".
+Review status: eighteen fixtures, F01 to F18. Seventeen are marked
+`assigned_by: claude, 2026-09-05; reviewed and confirmed by Jeb, 2026-09-05`.
+F18 was added later, marked `assigned_by: claude, 2026-09-07; reviewed and
+confirmed by Jeb, 2026-09-07`. The expected cells are ground truth, not a
+proposal: a scored run measures routing agreement against a human-confirmed
+label. A fixture added later without that confirmation is a proposal until it
+gets one, and score_routing.py's report notes when any loaded fixture still
+says "pending human review".
 
 ## Schema, one JSON object per line
 
@@ -19,6 +21,8 @@ loaded fixture still says "pending human review".
 | `id` | yes | `F` followed by two digits, unique |
 | `task` | yes | The task text as the orchestrator receives it |
 | `assessment` | unless `expected_action` is set | `{"sensitivity": mechanical or structured or open, "horizon": short or medium or long, "blast": contained or consequential}` |
+| `self_directed` | unless `expected_action` is set | `true` or `false`. Whether the task demands sustained, self-directed investigation that reshapes its own plan (`ROUTING.md` section 2's tie-break). `false` for every fixture except F18, added 2026-09-11 (D39, `docs/DECISIONS.md`) when the table was found to have five inputs, not three |
+| `prior_failure` | unless `expected_action` is set | `"none"` or `"failed_at_xhigh"`. Whether a documented failure at `xhigh` on this same task already exists (the frontier row). `"none"` for every fixture except F14, added alongside `self_directed` |
 | `expected_cell` | unless `expected_action` is set | A worker name from `src/agents/` |
 | `also_acceptable` | no | Further worker names that score as agreement |
 | `expected_action` | no | `clarify` when the correct response is to ask rather than spawn; `expected_cell` is then null |
@@ -29,5 +33,15 @@ loaded fixture still says "pending human review".
 ## Coverage
 
 F01 to F14 cover every row of the routing table at least once. F15 and F16 are
-traps (importance language, underspecification). F17 exposes a gap: no table
-row covers a mechanical task with consequential blast radius.
+traps (importance language, underspecification). F17 formerly exposed a gap
+(no table row covered a mechanical task with consequential blast radius);
+D9 closed that gap by adding the row F17's own rationale had already worked
+around, so F17 now backs that row rather than exposing its absence. F18 backs
+the `worker-fable-xhigh` row, replacing an earlier fixture (F19) that briefly
+backed a different attempt at the mechanical-long-horizon gap: D22 added that
+row and F19 to test it, both were reverted by D27 once F03 and F07 regressed
+on the identical, unchanged bundle across repeated runs, and F19 was removed
+outright because a fixture asserting a cell for a triple the table
+deliberately leaves uncovered would only read as a permanent, uninformative
+failure. `(mechanical, long, contained)` and `(mechanical, long,
+consequential)` remain an open, documented gap in `ROUTING.md`.

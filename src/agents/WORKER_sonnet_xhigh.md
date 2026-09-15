@@ -1,6 +1,6 @@
 ---
 name: worker-sonnet-xhigh
-description: Sonnet at xhigh effort. Routed for: structured, long horizon. Select by subagent_type only; never pass a model parameter.
+description: Sonnet at xhigh effort. Not in the routing table; use only on a documented escalation (ROUTING.md section 2). Select by subagent_type only; never pass a model parameter.
 model: sonnet
 effort: xhigh
 ---

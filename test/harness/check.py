@@ -61,7 +61,7 @@ URL_RE = re.compile(r"https?://\S+")
 
 # Prose-checked files: everything this repository authors. Generated persona
 # files are guarded by hash instead (D2) and are excluded here.
-PROSE_GLOBS = ("CLAUDE.md", "src/**/*.md", "src/*.py", "docs/*.md", "test/**/*.md", "tools/*.py", "test/harness/*.py")
+PROSE_GLOBS = ("CLAUDE.md", "src/**/*.md", "src/*.py", "docs/*.md", "test/**/*.md", "tools/*.py", "test/harness/*.py", "handoffs/*.md")
 
 
 @dataclass
@@ -181,11 +181,21 @@ def load_generator():
     return module
 
 
+def load_route():
+    """Import tools/route.py the same way load_generator() imports its sibling."""
+    spec = importlib.util.spec_from_file_location("route", REPO_ROOT / "tools" / "route.py")
+    assert spec and spec.loader, "cannot load tools/route.py"
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
     routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    named = set(load_generator().routing_assessments(routing))
+    gen = load_generator()
+    named = set(gen.routing_assessments(gen.load_routing_table()))
     unknown = sorted(named - set(defs))
-    r.add("ROUTE", "every worker named in ROUTING.md has a definition", not unknown,
+    r.add("ROUTE", "every worker named in src/routing_table.json has a definition", not unknown,
           f"{len(named)} names resolve" if not unknown else f"unresolved: {unknown}")
     unrouted = sorted(set(defs) - named)
     mislabelled = [n for n in unrouted if "Not in the routing table" not in defs[n].get("description", "")]
@@ -196,87 +206,14 @@ def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
           "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py")
 
 
-# A conflict here is allowed only if ROUTING.md documents the tie-break: the
-# exact workers named, and a substring proving the disambiguating sentence is
-# still present. If either changes, the check fails again rather than going
-# silently stale.
-ROUTE_TOTAL_ALLOWED_CONFLICTS: dict[tuple[str, str, str], tuple[frozenset[str], str]] = {
-    ("open", "long", "consequential"): (
-        frozenset({"worker-opus-xhigh", "worker-fable-xhigh"}),
-        "Prefer `worker-opus-xhigh`; route to `worker-fable-xhigh`",
-    ),
-}
+def _fixture_rows() -> list[dict]:
+    """Every fixture with a confirmed assessment triple, as parsed rows.
 
-# A triple may be left uncovered only if the decision ledger argues for it. The
-# value is a substring that must still be present in docs/DECISIONS.md, so
-# deleting the argument re-fails the check. The justification deliberately lives
-# in the ledger rather than in ROUTING.md: ROUTING.md ships to the orchestrator
-# on every turn, and naming an uncovered combination there would put the very
-# words whose effect is under measurement back into the prompt (D12).
-ROUTE_TOTAL_ALLOWED_GAPS: dict[tuple[str, str, str], str] = {
-    ("mechanical", "long", "contained"): "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07",
-    ("mechanical", "long", "consequential"): "D27. Mechanical long-horizon work is uncovered again after D22's row regressed F03 and F07",
-}
-
-
-def _parse_routing_assessment(text: str) -> tuple[set[str], set[str], set[str], list[str]]:
-    """Split one ROUTING.md table row's Assessment cell into axis value sets.
-
-    An axis absent from the text means "any value of that axis", handled by
-    the caller. A comma-separated chunk matching none of the three axis
-    vocabularies (e.g. "sustained autonomous investigation", or the whole
-    text of the frontier-escalation row) is returned unrecognised rather than
-    dropped, so the caller can tell a real classification row from an
-    escalation-only one instead of miscounting it as a gap or gaining a
-    3-axis match it never made.
+    self_directed and prior_failure default to (False, "none") for a fixture
+    that predates them, matching route.resolve()'s own defaults, though every
+    fixture has carried both explicitly since D39 (docs/DECISIONS.md).
     """
-    parts = [p.strip() for p in text.split(",")]
-    sens: set[str] = set()
-    hor: set[str] = set()
-    bla: set[str] = set()
-    unrecognised: list[str] = []
-    for part in parts:
-        lower = part.lower()
-        if lower.endswith(" horizon"):
-            lower = lower[: -len(" horizon")]
-        lower = lower.replace("any horizon", "short or medium or long")
-        tokens = [t.strip() for t in re.split(r"\s+or\s+", lower)]
-        matched = False
-        for tok in tokens:
-            if tok in SENSITIVITY:
-                sens.add(tok); matched = True
-            elif tok in HORIZON:
-                hor.add(tok); matched = True
-            elif tok in BLAST:
-                bla.add(tok); matched = True
-        if not matched:
-            unrecognised.append(part)
-    return sens, hor, bla, unrecognised
-
-
-def _routing_rows(routing: str) -> list[tuple[str, str]]:
-    """Walk ROUTING.md's routing table, returning (assessment cell, worker cell) per row."""
-    rows: list[tuple[str, str]] = []
-    in_table = False
-    for line in routing.splitlines():
-        if line.startswith("| Assessment"):
-            in_table = True
-            continue
-        if in_table and line.startswith("| :---"):
-            continue
-        if in_table and not line.startswith("|"):
-            break
-        if not in_table:
-            continue
-        m = re.match(r"^\|\s*(?P<assessment>[^|]+?)\s*\|\s*(?P<worker>[^|]+?)\s*\|\s*$", line)
-        assert m, f"ROUTING.md: unparseable table row: {line!r}"
-        rows.append((m.group("assessment"), m.group("worker")))
-    return rows
-
-
-def _fixture_triples() -> dict[tuple[str, str, str], list[tuple[str, str]]]:
-    """Map each fixture's confirmed assessment triple to its (id, expected cell)."""
-    out: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
+    out: list[dict] = []
     if not FIXTURES.exists():
         return out
     for line in FIXTURES.read_text(encoding="utf-8").splitlines():
@@ -289,104 +226,135 @@ def _fixture_triples() -> dict[tuple[str, str, str], list[tuple[str, str]]]:
         a = row.get("assessment")
         if not a or not row.get("expected_cell"):
             continue
-        key = (a.get("sensitivity"), a.get("horizon"), a.get("blast"))
-        out.setdefault(key, []).append((row.get("id", "?"), row["expected_cell"]))
+        out.append({
+            "id": row.get("id", "?"),
+            "sensitivity": a.get("sensitivity"), "horizon": a.get("horizon"), "blast": a.get("blast"),
+            "self_directed": row.get("self_directed", False), "prior_failure": row.get("prior_failure", "none"),
+            "expected_cell": row["expected_cell"], "also_acceptable": row.get("also_acceptable", []),
+        })
     return out
 
 
 def check_row_backed(r: Report) -> None:
-    """Every routing row must be justified by a fixture that lands on it (D13).
+    """Every routing rule must be justified by a fixture that lands on it (D13).
 
     Measured 2026-09-06: a row with no fixture behind it does not merely sit
     unused, it changes how tasks are assessed and can pull correct answers off
     other rows. D9's "Mechanical, long horizon" row had no backing fixture and
     cost two fixtures that were correct before it existed. This check is that
-    lesson made mechanical.
+    lesson made mechanical. Since D39 the table is data (src/routing_table.json)
+    and "backed" is asked of each non-escalation rule directly, rather than by
+    re-deriving triples from ROUTING.md's prose.
     """
-    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    fixtures = _fixture_triples()
-    unbacked_rows: list[str] = []
-    covered: set[tuple[str, str, str]] = set()
-    for assessment, worker_cell in _routing_rows(routing):
-        sens, hor, bla, _ = _parse_routing_assessment(assessment)
-        if not sens and not hor and not bla:
-            continue  # escalation-only row; no assessment triple to back
-        names = re.findall(r"worker-[a-z]+-[a-z]+", worker_cell)
-        backed = False
-        for t in itertools.product(sens, hor or set(HORIZON), bla or set(BLAST)):
-            covered.add(t)
-            if any(cell in names for _, cell in fixtures.get(t, [])):
-                backed = True
+    route_lib = load_route()
+    table = route_lib.load_table()
+    fixtures = _fixture_rows()
+    unbacked_rules: list[str] = []
+    for rule in table["rules"]:
+        if rule.get("escalation_only"):
+            continue  # the frontier row; no assessment triple backs a "prior failure" fact
+        names = {rule["worker"], *rule.get("also_acceptable", [])}
+        backed = any(
+            f["expected_cell"] in names
+            and route_lib.matching_rules(f["sensitivity"], f["horizon"], f["blast"],
+                                          f["self_directed"], f["prior_failure"], table)[:1] == [rule]
+            for f in fixtures
+        )
         if not backed:
-            unbacked_rows.append(assessment)
-    speculative = sorted(t for t in covered if t not in fixtures)
-    detail = (f"{len(covered)} covered triples, {len(covered) - len(speculative)} fixture-backed, "
-              f"{len(speculative)} speculative: {speculative}") if not unbacked_rows else \
-             f"rows with no fixture landing on them: {unbacked_rows}"
-    r.add("ROW-BACKED", "every routing row is justified by a fixture whose confirmed answer lands on it",
-          not unbacked_rows, detail)
+            unbacked_rules.append(rule["id"])
+    covered_ids = [rule["id"] for rule in table["rules"] if not rule.get("escalation_only")]
+    detail = (f"{len(covered_ids)} rules, {len(covered_ids) - len(unbacked_rules)} fixture-backed, "
+              f"{len(unbacked_rules)} unbacked") if not unbacked_rules else \
+             f"rules with no fixture landing on them: {unbacked_rules}"
+    r.add("ROW-BACKED", "every routing rule is justified by a fixture whose confirmed answer lands on it",
+          not unbacked_rules, detail)
 
 
 def check_route_total(r: Report) -> None:
-    routing = (SRC / "ROUTING.md").read_text(encoding="utf-8")
-    parsed_rows = _routing_rows(routing)
-
-    coverage: dict[tuple[str, str, str], list[tuple[str, str]]] = {}
-    for assessment, worker_cell in parsed_rows:
-        sens, hor, bla, unrecognised = _parse_routing_assessment(assessment)
-        if not sens and not hor and not bla:
-            continue  # escalation-only row (the frontier row); not a fresh classification
-        # Bare names, not the backtick-wrapped cell text, so these compare
-        # equal to ROUTE_TOTAL_ALLOWED_CONFLICTS's plain worker-name entries.
-        names = re.findall(r"worker-[a-z]+-[a-z]+", worker_cell)
-        assert names, f"ROUTING.md: no worker name found in cell {worker_cell!r}"
-        hor_expanded = hor or set(HORIZON)
-        bla_expanded = bla or set(BLAST)
-        for s, h, b in itertools.product(sens, hor_expanded, bla_expanded):
-            for name in names:
-                coverage.setdefault((s, h, b), []).append((name, assessment))
-
-    universe = list(itertools.product(SENSITIVITY, HORIZON, BLAST))
+    """Every (sensitivity, horizon, blast) triple resolves to a worker, or a
+    documented gap; and no two rules silently overlap outside the one
+    disambiguation D39 documents (self_directed within open, long,
+    consequential). Reads src/routing_table.json via tools/route.py rather
+    than parsing ROUTING.md's prose.
+    """
+    route_lib = load_route()
+    table = route_lib.load_table()
     decisions = (REPO_ROOT / "docs" / "DECISIONS.md").read_text(encoding="utf-8")
+    universe = list(itertools.product(SENSITIVITY, HORIZON, BLAST))
+
     problems: list[str] = []
     documented_gaps = 0
-    for t in universe:
-        if t in coverage:
-            continue
-        reason = ROUTE_TOTAL_ALLOWED_GAPS.get(t)
-        if reason and reason in decisions:
-            documented_gaps += 1
-            continue
-        if reason:
-            problems.append(f"{t} is an allowed gap but its argument is missing from DECISIONS.md")
-        else:
-            problems.append(f"no row covers {t}")
-    for t in universe:
-        if t not in coverage:
-            continue
-        workers = {w for w, _ in coverage[t]}
-        if len(workers) <= 1:
-            continue
-        allowed = ROUTE_TOTAL_ALLOWED_CONFLICTS.get(t)
-        if allowed and workers == allowed[0] and allowed[1] in routing:
-            continue
-        problems.append(f"{t} matches conflicting workers {sorted(workers)} with no documented tie-break")
+    documented_overlaps = table.get("documented_overlaps", [])
+    for s, h, b in universe:
+        for self_directed in (False, True):
+            matches = [m for m in route_lib.matching_rules(s, h, b, self_directed, "none", table)
+                       if not m.get("escalation_only")]
+            if not matches:
+                if self_directed:
+                    continue  # a gap is a property of the triple; self_directed=False already reported it
+                reason = None
+                for gap in table.get("documented_gaps", []):
+                    gc = gap["conditions"]
+                    if (gc["sensitivity"], gc["horizon"], gc["blast"]) == (s, h, b):
+                        reason = gap["reason"]
+                        break
+                if reason and reason in decisions:
+                    documented_gaps += 1
+                elif reason:
+                    problems.append(f"({s}, {h}, {b}) is a documented gap but its argument is missing from DECISIONS.md")
+                else:
+                    problems.append(f"no rule covers ({s}, {h}, {b})")
+                continue
+            if len(matches) == 1:
+                continue
+            ids = {m["id"] for m in matches}
+            allowed = next((o for o in documented_overlaps
+                            if {o["winner"], o["loser"]} == ids), None)
+            if allowed and matches[0]["id"] == allowed["winner"]:
+                continue
+            problems.append(f"({s}, {h}, {b}, self_directed={self_directed}) matches {sorted(ids)} "
+                             f"with no documented, correctly-ordered overlap")
 
-    r.add("ROUTE-TOTAL", "every (sensitivity, horizon, blast) triple resolves to one worker, or a documented tie-break",
-          not problems,
+    r.add("ROUTE-TOTAL", "every (sensitivity, horizon, blast) triple resolves to one worker, with self_directed "
+          "disambiguating rather than conflicting", not problems,
           f"{len(universe)} triples, {documented_gaps} documented gap(s), "
-          f"{len(ROUTE_TOTAL_ALLOWED_CONFLICTS)} documented tie-break(s)" if not problems
-          else "; ".join(problems))
+          f"{len(documented_overlaps)} documented overlap(s)" if not problems else "; ".join(problems))
 
 
 # The clarify rule's load-bearing sentences (D10). If the section is deleted or
 # its two conditions are reworded away, score_routing.py keeps scoring an action
 # the rubric no longer defines, which is the state D7 was raised to end.
 CLARIFY_REQUIRED = (
-    "### 1.1 Ask or route",
+    "### 1.2 Ask or route",
     "**No discoverable objective.**",
     "**Irreversible and materially ambiguous.**",
 )
+
+
+def check_table_data(r: Report) -> None:
+    """Every fixture's recorded assessment resolves, through tools/route.py,
+    to that fixture's own expected_cell or an also_acceptable value (D39,
+    docs/DECISIONS.md; docs/CLASSIFIER-DESIGN.md). Deterministic and free,
+    replacing a class of drift that previously showed up only in a paid
+    score_routing.py run, or not at all: pre-flighting this exact check
+    against the three-axis table alone is what surfaced that the table has
+    five inputs, not three.
+    """
+    route_lib = load_route()
+    table = route_lib.load_table()
+    fixtures = _fixture_rows()
+    mismatches: list[str] = []
+    for f in fixtures:
+        try:
+            rule = route_lib.resolve(f["sensitivity"], f["horizon"], f["blast"],
+                                      f["self_directed"], f["prior_failure"], table)
+            got = rule["worker"]
+        except route_lib.NoRuleMatches as exc:
+            got = f"[gap: {exc}]"
+        if got != f["expected_cell"] and got not in f["also_acceptable"]:
+            mismatches.append(f"{f['id']}: table gives {got}, fixture expects {f['expected_cell']}")
+    r.add("TABLE-DATA", "every fixture's assessment resolves through route.py to its expected cell",
+          not mismatches, f"{len(fixtures)} fixtures checked" if not mismatches else "; ".join(mismatches))
 
 
 def check_clarify(r: Report) -> None:
@@ -471,18 +439,18 @@ def check_prose(r: Report) -> None:
             problems.append(f"{rel}: no trailing newline")
         text = raw.decode("utf-8")
         for n, line in enumerate(text.splitlines(), 1):
-            if EM_DASH in line:
+            if EM_DASH in line and not _is_relayed_line(line):
                 problems.append(f"{rel}:{n}: em-dash")
             stripped = URL_RE.sub("", CODE_SPAN_RE.sub("", line))
             low = stripped.lower()
             for w in BANNED_WORDS:
-                if re.search(rf"\b{w}\b", low) and not _is_definition_line(rel, line):
+                if re.search(rf"\b{w}\b", low) and not _is_definition_line(rel, line) and not _is_relayed_line(line):
                     problems.append(f"{rel}:{n}: banned word {w!r}")
             for ph in BANNED_PHRASES:
-                if ph in low and not _is_definition_line(rel, line):
+                if ph in low and not _is_definition_line(rel, line) and not _is_relayed_line(line):
                     problems.append(f"{rel}:{n}: banned phrase {ph!r}")
             for pat in US_SPELLINGS:
-                if re.search(pat, stripped, flags=re.IGNORECASE) and not _is_definition_line(rel, line):
+                if re.search(pat, stripped, flags=re.IGNORECASE) and not _is_definition_line(rel, line) and not _is_relayed_line(line):
                     problems.append(f"{rel}:{n}: US spelling matches {pat!r}")
     r.add("PROSE", "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
           not problems, f"{len(prose_files())} files clean" if not problems else "; ".join(problems[:12]))
@@ -493,9 +461,35 @@ def _is_definition_line(rel: Path, line: str) -> bool:
     return rel.name == "check.py" and ("BANNED" in line or "US_SPELLINGS" in line or line.lstrip().startswith("r\""))
 
 
+def _is_relayed_line(line: str) -> bool:
+    """A line carrying a worker's or grader's own words, quoted verbatim by
+    benchmark.py's render(), is not authored prose and is exempt from the
+    style checks below (D36, docs/DECISIONS.md; the exemption a6b7426's
+    commit message flagged as a pending decision and left unresolved).
+    Rewriting a worker's exact words to pass a style check would corrupt
+    the evidentiary record; detected by the literal "grader: " / "worker: "
+    markers render() inserts, not by file name, so authored text sharing a
+    result file with relayed text stays checked.
+
+    A line that is one JSON record (starts with the record-type key and
+    ends with a closing brace) is also relayed: tools/role_probe.py and the
+    Stage 10 Controller reproduce a role's records verbatim in result
+    files, and a record's field text is the model's words, not authored
+    prose. Records in test/fixtures/system/ are authored and would be
+    caught by this exemption too; they are kept to the house style by
+    hand, since the fixture emitter is not a model."""
+    stripped = line.strip()
+    return ("grader: " in line or " || worker: " in line
+            or (stripped.startswith('{"type": "') and stripped.endswith("}")))
+
+
 def check_persona_manifest(r: Report, update: bool) -> None:
+    # Paths are normalised to POSIX form (forward slashes) on both the write
+    # and read sides so the manifest compares equal on Windows and Linux;
+    # str(Path) yields backslashes on Windows, which made every entry here
+    # register as changed on a Windows run even with identical content.
     files = persona_files()
-    current = {str(p.relative_to(REPO_ROOT)): cr_stripped_sha256(p) for p in files}
+    current = {p.relative_to(REPO_ROOT).as_posix(): cr_stripped_sha256(p) for p in files}
     if update:
         with PERSONA_MANIFEST.open("w", encoding="utf-8", newline="\n") as fh:
             for name, digest in sorted(current.items()):
@@ -509,13 +503,360 @@ def check_persona_manifest(r: Report, update: bool) -> None:
     recorded: dict[str, str] = {}
     for line in PERSONA_MANIFEST.read_text(encoding="utf-8").splitlines():
         digest, _, name = line.partition("  ")
-        recorded[name] = digest
+        recorded[name.replace("\\", "/")] = digest
     changed = sorted(n for n in current if recorded.get(n) != current[n])
     missing = sorted(set(recorded) - set(current))
     extra = sorted(set(current) - set(recorded))
     ok = not (changed or missing or extra)
     r.add("PERSONA", "generated persona files unchanged since manifest", ok,
           f"{len(current)} files match" if ok else f"changed={changed} missing={missing} unlisted={extra}; rebuild from source, do not hand-edit (DECISIONS.md D2)")
+
+
+SYSTEM_FIXTURES = REPO_ROOT / "test" / "fixtures" / "system"
+# The line numbers in broken.jsonl that carry a deliberate defect. The check
+# asserts the validator reports exactly these and no others, so a validator
+# that goes blind to one defect class, or starts rejecting sound records,
+# fails here rather than in a Stage 10 run.
+BROKEN_LINES = {1, 2, 3, 5, 6, 10, 13, 16, 17, 18, 19, 20}
+
+
+def load_validator():
+    spec = importlib.util.spec_from_file_location("validate_records", REPO_ROOT / "tools" / "validate_records.py")
+    assert spec and spec.loader, "cannot load tools/validate_records.py"
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def check_schemas(r: Report) -> None:
+    """SCHEMA: every record type has a schema, valid.jsonl validates clean,
+    and broken.jsonl is rejected on exactly the documented lines (Stage 9.3)."""
+    valid = SYSTEM_FIXTURES / "valid.jsonl"
+    broken = SYSTEM_FIXTURES / "broken.jsonl"
+    if not valid.exists() or not broken.exists():
+        r.add("SCHEMA", "record schemas validate the example ledgers", False,
+              f"{SYSTEM_FIXTURES.relative_to(REPO_ROOT)} needs valid.jsonl and broken.jsonl")
+        return
+    try:
+        v = load_validator()
+        schemas = v.load_schemas()
+    except Exception as exc:
+        r.add("SCHEMA", "record schemas validate the example ledgers", False, f"validator failed to load: {exc}")
+        return
+    problems: list[str] = []
+    expected_types = {"ProblemRecord", "PremiseRecord", "FrameRecord", "MeasurementRecord", "CandidateRecord",
+                      "CritiqueRecord", "SelectionRecord", "EvaluationRecord", "SolutionRecord", "GapReport",
+                      "PhaseDigest", "BudgetEntry", "RoutingLedgerEntry"}
+    missing = expected_types - set(schemas)
+    if missing:
+        problems.append(f"no schema for {sorted(missing)}")
+
+    records, parse = v.read_jsonl([valid])
+    found = v.validate_ledger(records, schemas, strict=True) + parse
+    if found:
+        problems.append(f"valid.jsonl: {len(found)} problem(s), first: {found[0]}")
+    types_seen = {rec.get("type") for _, rec in records if isinstance(rec, dict)}
+    if expected_types - types_seen:
+        problems.append(f"valid.jsonl lacks an example of {sorted(expected_types - types_seen)}")
+
+    records, parse = v.read_jsonl([broken])
+    found = v.validate_ledger(records, schemas, strict=True) + parse
+    lines = set()
+    for msg in found:
+        head = msg.split(": ", 1)[0]
+        try:
+            lines.add(int(head.rsplit(":", 1)[1]))
+        except (IndexError, ValueError):
+            problems.append(f"unparseable validator message: {msg}")
+    if lines != BROKEN_LINES:
+        problems.append(f"broken.jsonl rejected on lines {sorted(lines)}, expected {sorted(BROKEN_LINES)}")
+
+    r.add("SCHEMA", "record schemas validate the example ledgers", not problems,
+          f"{len(schemas)} schemas; valid.jsonl clean; broken.jsonl rejected on {len(BROKEN_LINES)} documented lines"
+          if not problems else "; ".join(problems))
+
+
+def check_system_controller(r: Report) -> None:
+    """SYSTEM: tools/system_controller.py's --selftest passes: eleven scripted
+    scenarios (a pretty-printed-record parse plus nested-schema surfacing,
+    happy path, dissolution, budget exhaustion, stale-version rejection,
+    single-writer rejection, reframe cap, reframed-continues, self-chosen-id
+    remap, non-Frame retry recovery, a runner out of budget closing as a
+    gap), no claude -p calls (docs/PLAN.md Stage 10.6; scenarios 0, 7, 8, 9
+    and 10 added after live runs in Stages 10.9 and 11.3 found real bugs)."""
+    script = REPO_ROOT / "tools" / "system_controller.py"
+    if not script.exists():
+        r.add("SYSTEM", "system_controller.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=60)
+    r.add("SYSTEM", "system_controller.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+ALLOWED_PRIOR_KINDS = {"measured", "bracketed", "policy-inherited", "policy-default"}
+
+
+def check_route_priors(r: Report) -> None:
+    """ROUTE-PRIORS: tools/generate_priors.py's output matches the committed
+    src/routing_priors.json byte for byte (run with --check, which writes
+    nothing), and every bucket's floor and every rung entry carries
+    non-empty provenance and a kind in the allowed set (docs/PLAN-2.md
+    Stage 2.5, D64)."""
+    script = REPO_ROOT / "tools" / "generate_priors.py"
+    priors_path = SRC / "routing_priors.json"
+    if not script.exists() or not priors_path.exists():
+        r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", False,
+              f"{script.relative_to(REPO_ROOT)} or {priors_path.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--check"], capture_output=True, text=True, timeout=30)
+    if proc.returncode != 0:
+        r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", False,
+              (proc.stdout + proc.stderr).strip()[-400:])
+        return
+    try:
+        priors = json.loads(priors_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", False, f"invalid JSON: {exc}")
+        return
+    problems: list[str] = []
+    for bucket, data in priors.get("buckets", {}).items():
+        entries = ([("floor", data.get("floor", {})), ("overflow", data.get("overflow", {}))]
+                   + [(f"rung {c}", v) for c, v in data.get("rungs_given_failure_below", {}).items()])
+        for label, entry in entries:
+            if not entry.get("provenance"):
+                problems.append(f"{bucket} {label}: missing provenance")
+            if entry.get("kind") not in ALLOWED_PRIOR_KINDS:
+                problems.append(f"{bucket} {label}: kind {entry.get('kind')!r} not in {sorted(ALLOWED_PRIOR_KINDS)}")
+    # docs/COMPACTION-DESIGN.md section 4: the handoff threshold must
+    # recommend a handoff before the platform's own auto-compact window is
+    # reached on the 200K reference model, or the two settings contradict
+    # each other (a handoff urged after the platform already compacted).
+    steering = priors.get("steering", {})
+    handoff_pct, autocompact_tokens = steering.get("handoff_context_percent"), steering.get("autocompact_window_tokens")
+    if handoff_pct is None or autocompact_tokens is None:
+        problems.append("steering: missing handoff_context_percent or autocompact_window_tokens")
+    elif handoff_pct / 100 * 200_000 >= autocompact_tokens:
+        problems.append(f"steering: handoff_context_percent ({handoff_pct}% of 200,000) does not fire "
+                         f"before autocompact_window_tokens ({autocompact_tokens})")
+    if steering.get("overflow_advisory_min_mean") is None or steering.get("overflow_advisory_min_n") is None:
+        problems.append("steering: missing overflow_advisory_min_mean or overflow_advisory_min_n")
+    r.add("ROUTE-PRIORS", "priors match their generator and carry provenance", not problems,
+          f"{len(priors.get('buckets', {}))} buckets, generator matches" if not problems else "; ".join(problems[:8]))
+
+
+def check_cost_table(r: Report) -> None:
+    """COST-TABLE: every cell and the controller row in src/cost_table.json
+    carry provenance, regime and n, with n: 0 wherever a cost is null
+    (unmeasured); the verdict block carries provenance and a regime for
+    each figure it states (docs/PLAN-2.md Stage 2.5)."""
+    path = SRC / "cost_table.json"
+    if not path.exists():
+        r.add("COST-TABLE", "every cost row carries provenance", False, f"{path.relative_to(REPO_ROOT)} missing")
+        return
+    try:
+        costs = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        r.add("COST-TABLE", "every cost row carries provenance", False, f"invalid JSON: {exc}")
+        return
+    problems: list[str] = []
+    for cell, row in costs.get("cells", {}).items():
+        for field_name in ("provenance", "regime", "n"):
+            if field_name not in row:
+                problems.append(f"cells.{cell}: missing {field_name}")
+        if row.get("cost_per_run_usd") is None and row.get("n") != 0:
+            problems.append(f"cells.{cell}: null cost but n={row.get('n')!r}, expected 0")
+    controller = costs.get("controller", {})
+    for field_name in ("provenance", "regime", "n"):
+        if field_name not in controller:
+            problems.append(f"controller: missing {field_name}")
+    verdict = costs.get("verdict", {})
+    if not verdict.get("provenance") or not verdict.get("regime"):
+        problems.append("verdict: missing provenance or regime")
+    # The context section (docs/PLAN-3.md Stage A.3) mixes documented
+    # platform constants with figures aggregated from recorded runs; each
+    # subsection names its source so the two are never confused.
+    context = costs.get("context")
+    if context is None:
+        problems.append("context: section missing")
+    else:
+        for name in ("multipliers", "ttl", "auto_compact", "compaction_cost", "measured"):
+            block = context.get(name)
+            if not isinstance(block, dict):
+                problems.append(f"context.{name}: missing")
+            elif not block.get("provenance"):
+                problems.append(f"context.{name}: missing provenance")
+        measured = context.get("measured", {})
+        if isinstance(measured, dict) and measured.get("n_rows", 0) <= 0:
+            problems.append("context.measured: n_rows must be positive")
+    r.add("COST-TABLE", "every cost row carries provenance", not problems,
+          f"{len(costs.get('cells', {}))} cells, controller, verdict and context rows carry provenance"
+          if not problems else "; ".join(problems[:8]))
+
+
+def check_replay(r: Report) -> None:
+    """REPLAY: test/harness/replay_routing.py exits 0 (docs/ROUTING-2-DESIGN.md
+    section 4's pass condition: pooled agreement on the recorded two-stage
+    opus batch at or above D40's 92.2 percent, excluding policy-fired rows,
+    D65; zero first: controller on any contained fixture)."""
+    script = REPO_ROOT / "test" / "harness" / "replay_routing.py"
+    if not script.exists():
+        r.add("REPLAY", "replay_routing.py passes its own gate", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    detail = next((line for line in proc.stdout.splitlines() if line.startswith("Gate result:")), proc.stdout.strip()[-400:])
+    r.add("REPLAY", "replay_routing.py passes its own gate", proc.returncode == 0,
+          detail if proc.returncode == 0 else (detail + " | " + (proc.stdout + proc.stderr).strip()[-400:]))
+
+
+def check_backtest(r: Report) -> None:
+    """BACKTEST: test/harness/backtest_ledger.py exits 0 (docs/ROUTING-2-DESIGN.md
+    section 5's pass condition: every bucket stays at the floor, worker-
+    opus-high activates for open/medium/contained, no intermediate sonnet
+    rung activates anywhere, the Controller decision is not proactive on
+    any contained bucket; D66 excludes one run D16 already invalidated;
+    docs/PLAN-3.md Stage C.4 adds that every bucket's overflow posterior
+    sits exactly at its shipped prior, since no reconstructed entry
+    carries a context field)."""
+    script = REPO_ROOT / "test" / "harness" / "backtest_ledger.py"
+    if not script.exists():
+        r.add("BACKTEST", "backtest_ledger.py passes its own pass conditions", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    fails = [line for line in proc.stdout.splitlines() if line.startswith("- FAIL")]
+    detail = f"{proc.stdout.count('- PASS')} pass, {len(fails)} fail" if proc.returncode == 0 or fails else proc.stdout.strip()[-400:]
+    r.add("BACKTEST", "backtest_ledger.py passes its own pass conditions", proc.returncode == 0,
+          detail if proc.returncode == 0 else (detail + " | " + "; ".join(fails[:5])))
+
+
+def check_route_selftest(r: Report) -> None:
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 12 scripted
+    ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text;
+    the spawn/record/recover round trip and the --explain context line
+    from docs/PLAN-3.md Stage B; the overflow advisory firing and not
+    firing from Stage C; transcript-first fill_context and the
+    session-pointer round trip from docs/PLAN-4.md Stage C, section 13.1
+    and 13.4), no claude -p calls."""
+    script = REPO_ROOT / "tools" / "route.py"
+    if not script.exists():
+        r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("ROUTE-SELFTEST", "route.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_handoff_selftest(r: Report) -> None:
+    """HANDOFF-SELFTEST: tools/handoff.py's --selftest passes: 5 scripted
+    scenarios (a clean file, every corrupted section named, a missing
+    front-matter comment, a spawn handoff's cell/controller cost, and
+    --pending-workers from docs/PLAN-3.md Stage D), no claude -p calls
+    (docs/PLAN-2.md Stage 3)."""
+    script = REPO_ROOT / "tools" / "handoff.py"
+    if not script.exists():
+        r.add("HANDOFF-SELFTEST", "handoff.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("HANDOFF-SELFTEST", "handoff.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_probe_selftest(r: Report) -> None:
+    """PROBE-SELFTEST: tools/context_probe.py's --selftest passes: both
+    status line modes round-trip against the documentation-derived sample
+    in test/fixtures/system/statusline-sample.json, plus the
+    effective-window used_percentage recomputation against a configured
+    autoCompactWindow, no claude -p calls (docs/PLAN-3.md Stage B,
+    docs/COMPACTION-DESIGN.md section 11 and 13.2, docs/PLAN-4.md Stage C)."""
+    script = REPO_ROOT / "tools" / "context_probe.py"
+    if not script.exists():
+        r.add("PROBE-SELFTEST", "context_probe.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("PROBE-SELFTEST", "context_probe.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_compact_bench_selftest(r: Report) -> None:
+    """COMPACT-BENCH-SELFTEST: test/harness/compaction_bench.py's
+    --selftest passes: extract_transcript and first_tool_use_lineno
+    against the committed, redacted sample transcript, no claude -p calls
+    (docs/PLAN-4.md Stage B.2, docs/COMPACTION-DESIGN.md section 13.6)."""
+    script = REPO_ROOT / "test" / "harness" / "compaction_bench.py"
+    if not script.exists():
+        r.add("COMPACT-BENCH-SELFTEST", "compaction_bench.py --selftest passes", False,
+              f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("COMPACT-BENCH-SELFTEST", "compaction_bench.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_fixture_clean(r: Report) -> None:
+    """FIXTURE-CLEAN: no file under a compaction-measurement fixture's
+    `repo/` or its `task.md` names this repository (`docs/PLAN-4.md`
+    Stage D found a worker read `make_chunks.py`'s own docstring, which
+    cited this project's plans and decisions, and used that to refuse
+    the whole task as synthetic; `docs/COMPACTION-DESIGN.md` section
+    14.1 is the contract this check enforces). Scoped to T12 through T15
+    (`T1[2-5]`), the shapes this repository has built for this purpose;
+    an older benchmark fixture (T1 through T11) is not required to avoid
+    these words, since none of them is read by a worker mid-compaction
+    the way these are."""
+    banned = re.compile(r"PLAN-|D7\d|E30|harness|benchmark|measurement|empirical|fixture", re.IGNORECASE)
+    offenders = []
+    for fixture_dir in sorted((REPO_ROOT / "test" / "fixtures" / "benchmark").glob("T1[2-5]")):
+        candidates = [fixture_dir / "task.md"] + list((fixture_dir / "repo").glob("**/*")) \
+            if (fixture_dir / "repo").is_dir() else [fixture_dir / "task.md"]
+        for path in candidates:
+            if not path.is_file():
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            m = banned.search(text)
+            if m:
+                offenders.append(f"{path.relative_to(REPO_ROOT)}: {m.group(0)!r}")
+    r.add("FIXTURE-CLEAN", "no T12-T15 repo/ or task.md file self-references this repository",
+          not offenders, f"{len(offenders)} offender(s): {offenders}" if offenders else "clean")
+
+
+def check_interactive_checklist_selftest(r: Report) -> None:
+    """INTERACTIVE-CHECKLIST-SELFTEST: test/harness/interactive_checklist.py's
+    --selftest passes: --prepare and --check against a throwaway git
+    repository, no claude -p calls (docs/PLAN-4.md Stage D.1)."""
+    script = REPO_ROOT / "test" / "harness" / "interactive_checklist.py"
+    if not script.exists():
+        r.add("INTERACTIVE-CHECKLIST-SELFTEST", "interactive_checklist.py --selftest passes", False,
+              f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("INTERACTIVE-CHECKLIST-SELFTEST", "interactive_checklist.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_handoffs(r: Report) -> None:
+    """HANDOFF: every file under handoffs/ passes `tools/handoff.py check`
+    (docs/PLAN-2.md Stage 3.2): all ten headings present, in order, none
+    empty or an unfilled placeholder, and the Cost/Time projection
+    sections carry the exact line handoff.py would compute from the
+    file's own recorded front-matter arguments."""
+    script = REPO_ROOT / "tools" / "handoff.py"
+    handoffs_dir = REPO_ROOT / "handoffs"
+    if not script.exists():
+        r.add("HANDOFF", "every handoffs/ file passes handoff.py check", False, f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    files = sorted(handoffs_dir.glob("*.md")) if handoffs_dir.is_dir() else []
+    if not files:
+        r.add("HANDOFF", "every handoffs/ file passes handoff.py check", True, "no handoff files yet")
+        return
+    problems: list[str] = []
+    for f in files:
+        proc = subprocess.run([sys.executable, str(script), "check", str(f)], capture_output=True, text=True, timeout=30)
+        if proc.returncode != 0:
+            problems.append(f"{f.relative_to(REPO_ROOT)}: {(proc.stdout + proc.stderr).strip()[-400:]}")
+    r.add("HANDOFF", "every handoffs/ file passes handoff.py check", not problems,
+          f"{len(files)} file(s) checked" if not problems else "; ".join(problems[:5]))
 
 
 def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
@@ -548,6 +889,10 @@ def check_fixtures(r: Report, defs: dict[str, dict[str, str]]) -> None:
             a = row.get("assessment") or {}
             if a.get("sensitivity") not in SENSITIVITY or a.get("horizon") not in HORIZON or a.get("blast") not in BLAST:
                 problems.append(f"{fid}: assessment outside vocabulary: {a}")
+            if not isinstance(row.get("self_directed"), bool):
+                problems.append(f"{fid}: self_directed missing or not a bool: {row.get('self_directed')!r}")
+            if row.get("prior_failure") not in ("none", "failed_at_xhigh"):
+                problems.append(f"{fid}: prior_failure outside vocabulary: {row.get('prior_failure')!r}")
             for cell in [row.get("expected_cell")] + list(row.get("also_acceptable", [])):
                 if cell not in defs:
                     problems.append(f"{fid}: unknown cell {cell!r}")
@@ -581,6 +926,7 @@ def main(argv: list[str]) -> int:
     check_routing(report, defs)
     check_route_total(report)
     check_row_backed(report)
+    check_table_data(report)
     check_clarify(report)
     check_environment(report)
     check_available_models(report)
@@ -588,6 +934,19 @@ def main(argv: list[str]) -> int:
     check_prose(report)
     check_persona_manifest(report, args.update_persona_manifest)
     check_fixtures(report, defs)
+    check_schemas(report)
+    check_system_controller(report)
+    check_route_priors(report)
+    check_cost_table(report)
+    check_route_selftest(report)
+    check_replay(report)
+    check_backtest(report)
+    check_handoff_selftest(report)
+    check_probe_selftest(report)
+    check_compact_bench_selftest(report)
+    check_fixture_clean(report)
+    check_interactive_checklist_selftest(report)
+    check_handoffs(report)
 
     when = dt.datetime.now()
     try:

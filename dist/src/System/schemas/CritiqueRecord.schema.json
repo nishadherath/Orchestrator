@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/CritiqueRecord.schema.json",
+  "title": "CritiqueRecord",
+  "description": "One blind critique of one candidate. The Critic sees candidates, not generator reasoning. Single writer: Critic (Critique). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "CritiqueRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$"
+    },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "description": "Ranked, most damaging first. Empty when the verdict is pass."
+    },
+    "derivable": {
+      "type": "boolean",
+      "description": "True if the candidate could have been deduced from the ledger without the technique. Derivable candidates lose to B0 by construction."
+    },
+    "falsified_premise_claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "premise_id": {
+            "type": "string",
+            "pattern": "^[a-z]+-[0-9]{3,}$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Why the premise is false."
+          }
+        },
+        "required": [
+          "premise_id",
+          "reason"
+        ]
+      },
+      "description": "Ledger premises this critique claims are false. Any entry re-enters Frame."
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "return",
+        "reject"
+      ],
+      "description": "pass is the expected outcome; return only for material defects. The return rate is tracked and the Critic recalibrated above roughly 40 per cent."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "candidate_id",
+    "failure_modes",
+    "derivable",
+    "falsified_premise_claims",
+    "verdict"
+  ]
+}

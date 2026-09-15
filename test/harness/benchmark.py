@@ -19,8 +19,10 @@ sandbox a worker's file writes to its assigned directory: the handover
 tells it to stay under `bench-<task>/`, but nothing enforces that, so a
 stray edit elsewhere in the project is a real possibility this script
 cannot detect or undo. It runs whatever task directories exist under
-test/fixtures/benchmark/ (all six, T1 through T6, as of D14's follow-on
-fixture work; the pilot itself restricted this to T1 and T5 via --pilot).
+test/fixtures/benchmark/, discovered from the directory rather than a fixed
+list (T1 through T8 from D30's follow-on fixture work, plus T9, T10 and T11
+from docs/PLAN.md Stage 7; the pilot itself restricted this to T1 and T5 via
+--pilot; --tasks restricts to any named subset).
 
 The one non-obvious thing: whether a spawned worker's cost and tokens roll
 up into the parent `claude -p --output-format json` call's total_cost_usd is
@@ -55,16 +57,21 @@ import json
 import math
 import ntpath
 import os
-import re
 import shutil
 import subprocess
 import sys
-import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCH_FIXTURES = REPO_ROOT / "test" / "fixtures" / "benchmark"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
+
+# tools/ is put on sys.path so claudep resolves when this file runs as a
+# script (docs/PLAN.md task 10.1: the claude -p plumbing shared with
+# score_routing.py, factored out so system_controller.py has one place to
+# get it from rather than a third copy).
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+import claudep  # noqa: E402 (path must be set first)
 
 BLOCKING_ENV = ("CLAUDE_CODE_EFFORT_LEVEL", "CLAUDE_CODE_SUBAGENT_MODEL_FORCE", "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS")
 
@@ -92,20 +99,13 @@ REPORT_FILE = "BENCHMARK_REPORT.txt"
 # via --record). A dot-prefix keeps it out of any task's own file tree.
 CHECKPOINT_FILENAME = ".benchmark-checkpoint.jsonl"
 
-# claude -p starts in Manual permission mode by default (docs/en/permission-modes),
-# which blocks Edit and Bash with nobody present to approve them - confirmed the
-# hard way on the first real pilot run, where a spawned worker correctly reported
-# it had no write permission rather than silently doing nothing. acceptEdits
-# auto-approves file edits in the working directory; the explicit allowedTools
-# entry is for the one Bash command a task.md asks a worker to self-check with.
-# Whether this propagates from the forwarder session to a worker it spawns via
-# the Task tool is not confirmed by documentation alone (docs/FINDINGS.md); the
-# first run against this flag is the check. --dangerously-skip-permissions is
-# the documented pattern for "run fully unattended inside a container", but its
-# own warning restricts it to an isolated container or VM without internet
-# access, not a bare machine, so it is opt-in here, never the default.
-FORWARDER_PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *)"]
-BYPASS_PERMISSION_ARGS = ["--dangerously-skip-permissions"]
+# Whether Manual mode's block propagates from the forwarder session to a
+# worker it spawns via the Task tool is not confirmed by documentation alone
+# (docs/FINDINGS.md); the first run against this flag was the check. The
+# flag values themselves, and D41's Windows-interpreter fix, now live in
+# claudep.py (task 10.1) so system_controller.py does not need a third copy.
+FORWARDER_PERMISSION_ARGS = claudep.FORWARDER_PERMISSION_ARGS
+BYPASS_PERMISSION_ARGS = claudep.BYPASS_PERMISSION_ARGS
 
 BENCHMARK_INSTRUCTION = (
     "\n\nThis is a benchmark run, not a real request. Spawn exactly one worker "
@@ -165,25 +165,32 @@ def fixture_fingerprint(task: dict) -> str:
     return h.hexdigest()
 
 
-def bundle_tag(bundle: str) -> str:
-    """Identical to score_routing.py's helper. Duplicated rather than shared,
-    because both scripts are meant to stand alone (see their docstrings)."""
-    m = re.search(r"[0-9a-f]{7,40}", bundle)
-    if m:
-        return m.group(0)[:7]
-    return re.sub(r"[^A-Za-z0-9]+", "-", bundle).strip("-")[:20] or "unknown"
+bundle_tag = claudep.bundle_tag
 
 
-def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
-    """95 percent Wilson score interval; see score_routing.py for the same
-    function with the same rationale. Duplicated, not imported, by design."""
-    if n == 0:
-        return (0.0, 1.0)
-    p_hat = successes / n
-    denom = 1 + z * z / n
-    centre = (p_hat + z * z / (2 * n)) / denom
-    margin = (z / denom) * ((p_hat * (1 - p_hat) / n + z * z / (4 * n * n)) ** 0.5)
-    return (max(0.0, centre - margin), min(1.0, centre + margin))
+def tasks_tag(tasks: str | None) -> str:
+    """Short filesystem-safe suffix for a --tasks subset, used in result
+    filenames.
+
+    Date and bundle are not enough to key a filename on their own: a
+    `--tasks T7` run against the same bundle as an earlier full-suite run
+    produces the identical name and silently overwrote the six-task
+    original on 2026-09-06 (recovered from git history in D36,
+    docs/DECISIONS.md; the fix mirrors score_routing.py's own only_tag,
+    added for the identical defect there by D34)."""
+    if not tasks:
+        return ""
+    return "-tasks-" + "+".join(sorted(set(tasks.split(","))))
+
+
+# unique_path's last-resort collision guard, wilson_interval's Wilson score
+# interval, and rmtree_if_exists are identical to score_routing.py's own
+# copies (unique_path, wilson_interval) or trivial (rmtree_if_exists); all
+# three now live in claudep.py so system_controller.py does not need a
+# fourth (task 10.1).
+unique_path = claudep.unique_path
+wilson_interval = claudep.wilson_interval
+rmtree_if_exists = claudep.rmtree_if_exists
 
 
 def steer_threshold(n: int, fraction: float) -> int:
@@ -191,11 +198,6 @@ def steer_threshold(n: int, fraction: float) -> int:
     fraction=2/3 gives 2, matching docs/BENCHMARK-DESIGN.md's stated '2 of 3'
     exactly. Other n scale the same ratio, rounded up."""
     return math.ceil(n * fraction)
-
-
-def rmtree_if_exists(path: Path) -> None:
-    if path.exists():
-        shutil.rmtree(path)
 
 
 def seed_task(project: Path, task: dict) -> Path:
@@ -239,15 +241,46 @@ def run_cell(project: Path, cell: str, task_text: str, workdir_rel: str,
     given cell on the task, scoped to workdir_rel. Returns (report text, cost
     in USD or None, wall-clock seconds, raw JSON extras worth recording)."""
     prompt = BENCHMARK_INSTRUCTION.format(cell=cell, workdir=workdir_rel, task=task_text)
-    cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", forwarder_model, *permission_args]
-    start = time.monotonic()
-    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=project, timeout=timeout)
-    elapsed = time.monotonic() - start
-    if proc.returncode != 0:
-        raise RuntimeError(f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}")
-    data = json.loads(proc.stdout)
-    extras = {k: data.get(k) for k in ("usage", "duration_ms", "num_turns") if k in data}
-    return str(data.get("result", "")), data.get("total_cost_usd"), elapsed, extras
+    res = claudep.call_claude(prompt, cwd=project, model=forwarder_model,
+                               permission_args=permission_args, timeout=timeout)
+    return res.result, res.cost_usd, res.elapsed_s, res.extras
+
+
+_BASH_PATH: str | None = None
+
+
+def resolve_bash() -> str:
+    r"""Absolute path to a real, non-WSL bash on Windows; "bash" elsewhere.
+
+    A bare "bash" on Windows resolves through CreateProcess's default
+    search order, which checks C:\Windows\System32 before it ever
+    consults PATH. If WSL is installed, System32 holds a legacy WSL
+    launcher stub named bash.exe that wins that search regardless of
+    where Git Bash sits in PATH, silently routing every grader through
+    a WSL2 VM instead of the Git Bash the rest of this toolchain
+    assumes. That stub also does not forward environment variables from
+    the launching Windows process (WSL interop needs WSLENV for that,
+    not configured here), which broke env-var-based grader
+    communication outright: confirmed live during Plan 4 Stage B.3
+    (docs/DECISIONS.md D74). Resolved once and cached, since the answer
+    cannot change mid-process.
+
+    Falling back to the bare name when neither known Git Bash location
+    exists keeps this working on a machine without Git for Windows
+    installed at all, or on a non-Windows host; `_wsl_mount_path`'s
+    retry below is what still protects that fallback path.
+    """
+    global _BASH_PATH
+    if _BASH_PATH is not None:
+        return _BASH_PATH
+    if sys.platform == "win32":
+        for candidate in (r"C:\Program Files\Git\bin\bash.exe",
+                          r"C:\Program Files\Git\usr\bin\bash.exe"):
+            if os.path.isfile(candidate):
+                _BASH_PATH = candidate
+                return _BASH_PATH
+    _BASH_PATH = "bash"
+    return _BASH_PATH
 
 
 def _wsl_mount_path(path: Path) -> str | None:
@@ -292,7 +325,7 @@ def grade(dest: Path, task: dict, report_text: str | None, timeout: float) -> tu
         (dest / REPORT_FILE).write_text(report_text, encoding="utf-8")
 
     def run_grader(script_path: str) -> subprocess.CompletedProcess:
-        return subprocess.run(["bash", script_path], cwd=dest,
+        return subprocess.run([resolve_bash(), script_path], cwd=dest,
                                capture_output=True, text=True, timeout=timeout)
 
     def script_not_found(proc: subprocess.CompletedProcess, script_path: str) -> bool:
@@ -331,7 +364,7 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
     error = None
     report_text, cost, elapsed, extras = None, None, None, {}
     try:
-        report_text, cost, elapsed, extras = run_cell(project, cell, task["task_text"], workdir_rel,
+        report_text, cost, elapsed, extras = run_cell(project, cell, task.get("handover_text", task["task_text"]), workdir_rel,
                                                         forwarder_model, permission_args, timeout)
     except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
         error = str(exc)
@@ -357,82 +390,22 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
 # --confirm (running the confirmation phase now, on a checkpoint built
 # without it, is a legitimate extension, not a different measurement).
 CHECKPOINT_IDENTITY_FIELDS = ("tasks", "r_search", "r_confirm", "steer_fraction", "forwarder_model",
-                              "permission_mode", "bundle")
+                              "permission_mode", "bundle", "brief")
 
 
-class Checkpoint:
-    """Every completed run, appended to disk the moment it finishes, so an
-    interrupted invocation (network drop, machine sleep, Ctrl-C) can resume
-    mid-task, mid-cell, or mid-run on the next invocation instead of
-    discarding already-paid-for work back to the start. search() and
-    confirm() consult prior_runs() before making a call they might not need
-    to repeat, and call record() the moment each new one returns.
-
-    The file is JSON Lines: one {"kind": "meta", ...} header written once,
-    then one {"kind": "run", ...} line per completed run. A line that fails
-    to parse (a partial write from a hard kill mid-append) is skipped with a
-    warning rather than aborting the whole resume; everything before it is
-    still trusted."""
-
-    def __init__(self, path: Path):
-        self.path = path
-        self._runs: dict[tuple[str, str, str], list[dict]] = {}
-
-    def prior_runs(self, task_id: str, phase: str, cell: str) -> list[dict]:
-        return self._runs.get((task_id, phase, cell), [])
-
-    def total_runs(self) -> int:
-        return sum(len(v) for v in self._runs.values())
-
-    def record(self, task_id: str, phase: str, cell: str, result: dict) -> None:
-        self._runs.setdefault((task_id, phase, cell), []).append(result)
-        self._append({"kind": "run", "task": task_id, "phase": phase, "cell": cell, "result": result})
-
-    def write_meta(self, meta: dict) -> None:
-        self._append({"kind": "meta", "meta": meta})
-
-    def _append(self, row: dict) -> None:
-        with self.path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(row, default=str) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
-
-    @classmethod
-    def load(cls, path: Path) -> tuple["Checkpoint", dict | None]:
-        """Read an existing checkpoint, if any. Returns a Checkpoint
-        populated with whatever prior runs it holds, and its stored meta
-        dict (None if the file does not exist or has no meta line yet, e.g.
-        a fresh file about to be written to for the first time)."""
-        cp = cls(path)
-        meta = None
-        if not path.exists():
-            return cp, meta
-        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                row = json.loads(line)
-            except json.JSONDecodeError:
-                print(f"warning: {path} line {lineno} did not parse (a partial write from an "
-                      "interrupted run?); ignoring it, resuming from everything before it",
-                      file=sys.stderr)
-                continue
-            if row.get("kind") == "meta":
-                meta = row["meta"]
-            elif row.get("kind") == "run":
-                cp._runs.setdefault((row["task"], row["phase"], row["cell"]), []).append(row["result"])
-        return cp, meta
+# Checkpoint (append-only resumable run log, keyed by task/phase/cell here)
+# now lives in claudep.py so system_controller.py's own resumable state does
+# not need a third hand-copied version (task 10.1). Behaviour, including the
+# JSONL shape already on disk in every consumer project, is unchanged: this
+# repository's benchmark.py is still the only writer of that shape.
+Checkpoint = claudep.Checkpoint
 
 
 def describe_checkpoint_mismatch(old: dict, new: dict) -> list[str]:
     """Human-readable reasons an existing checkpoint's meta does not match
     this invocation, or its fixtures have changed underneath it. Empty means
     safe to resume."""
-    diffs = []
-    for key in CHECKPOINT_IDENTITY_FIELDS:
-        if old.get(key) != new.get(key):
-            diffs.append(f"{key}: checkpoint has {old.get(key)!r}, this invocation has {new.get(key)!r}")
+    diffs = claudep.describe_identity_mismatch(old, new, CHECKPOINT_IDENTITY_FIELDS)
     old_hashes, new_hashes = old.get("fixture_hashes", {}), new.get("fixture_hashes", {})
     changed = sorted(t for t in set(old_hashes) & set(new_hashes) if old_hashes[t] != new_hashes[t])
     if changed:
@@ -516,10 +489,13 @@ def money(cost: float | None) -> str:
 def render(meta: dict, task_reports: list[dict]) -> str:
     confirm_line = (f" R_confirm={meta['r_confirm']}, reporting threshold: 95% Wilson lower bound above "
                      "0.7, and the cell below must fail the same bar." if meta.get("confirm") else " No confirmation phase.")
+    brief_line = (f"Brief: {meta['brief']['name']} (sha256 {meta['brief']['sha256']}) prepended to every "
+                  "handover. " if meta.get("brief") else "No brief: raw handover. ")
     lines = [f"# Benchmark run, {meta['mode']}, {meta['when']} at {meta['git']}", "",
              f"Bundle: {meta['bundle']}. Project: `{meta['project']}`. "
              f"Forwarder model: {meta['forwarder_model']}. Permission mode: {meta['permission_mode']}. "
-             f"Ladder: {' -> '.join(LADDER)}.", "",
+             + brief_line
+             + f"Ladder: {' -> '.join(LADDER)}.", "",
              f"R_search={meta['r_search']}, steer threshold={steer_threshold(meta['r_search'], meta['steer_fraction'])} "
              f"of {meta['r_search']} (permissive; ceil({meta['steer_fraction']:.3f} x n); never cited as evidence, "
              f"docs/BENCHMARK-DESIGN.md)." + confirm_line, "",
@@ -614,6 +590,11 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--dry-run", action="store_true", help="print what would run; touch nothing")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--record", action="store_true", help="write test/results/<date>-benchmark-<bundle tag>*.md")
+    ap.add_argument("--brief", type=Path, default=None,
+                    help="prepend this file's text (after its first '---' line, if any) to every handover, above the task, separated by a rule "
+                         "(Stage 9.6: src/System/B0_BRIEF.md runs the eight steps in one worker). The brief's "
+                         "name and content hash join the checkpoint identity, so a run with a brief never "
+                         "resumes into one without, and the results file name carries the brief's stem")
     ap.add_argument("--fresh", action="store_true",
                      help="archive any existing checkpoint in --project and start this run from scratch, "
                           "instead of resuming it")
@@ -642,7 +623,7 @@ def main(argv: list[str]) -> int:
     if not args.dry_run and shutil.which("claude") is None:
         print("refusing to run: `claude` not on PATH", file=sys.stderr)
         return 2
-    if not args.dry_run and shutil.which("bash") is None:
+    if not args.dry_run and resolve_bash() == "bash" and shutil.which("bash") is None:
         print("refusing to run: `bash` not on PATH (grade.sh needs it)", file=sys.stderr)
         return 2
     project = args.project.expanduser().resolve()
@@ -668,9 +649,23 @@ def main(argv: list[str]) -> int:
 
     permission_args = BYPASS_PERMISSION_ARGS if args.unattended_bypass else FORWARDER_PERMISSION_ARGS
 
+    brief_identity = None
+    if args.brief is not None:
+        brief_text = args.brief.read_text(encoding="utf-8").strip()
+        # A brief may open with a provenance block for the repository's benefit,
+        # ended by the first line that is exactly "---"; the worker gets only
+        # what follows it. A brief with no such line is passed whole.
+        brief_lines = brief_text.split("\n")
+        if "---" in brief_lines:
+            brief_text = "\n".join(brief_lines[brief_lines.index("---") + 1:]).strip()
+        brief_identity = {"name": args.brief.name,
+                          "sha256": hashlib.sha256(brief_text.encode("utf-8")).hexdigest()[:16]}
+        for task in tasks:
+            task["handover_text"] = brief_text + "\n\n---\n\n" + task["task_text"]
+
     if args.dry_run:
         for task in tasks:
-            preview = BENCHMARK_INSTRUCTION.format(cell=LADDER[0], workdir=f"bench-{task['id']}", task=task["task_text"])
+            preview = BENCHMARK_INSTRUCTION.format(cell=LADDER[0], workdir=f"bench-{task['id']}", task=task.get("handover_text", task["task_text"]))
             shown = " ".join(["claude", "-p", "<prompt>", "--output-format", "json",
                                "--model", args.forwarder_model, *permission_args])
             print(f"{task['id']}: {shown}")
@@ -684,13 +679,17 @@ def main(argv: list[str]) -> int:
         return 0
 
     git_rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
-    permission_mode = "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools"
+    # The allowlist is part of the label so that a checkpoint written under the
+    # narrower pre-D41 allowlist is refused as a different measurement rather
+    # than resumed into.
+    permission_mode = "bypassPermissions" if args.unattended_bypass else "acceptEdits+allowedTools[" + FORWARDER_PERMISSION_ARGS[-1] + "]"
 
     checkpoint_path = project / CHECKPOINT_FILENAME
     checkpoint, existing_meta = Checkpoint.load(checkpoint_path)
     identity = {"tasks": sorted(t["id"] for t in tasks), "fixture_hashes": {t["id"]: fixture_fingerprint(t) for t in tasks},
                 "r_search": r_search, "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction,
-                "forwarder_model": args.forwarder_model, "permission_mode": permission_mode, "bundle": bundle}
+                "forwarder_model": args.forwarder_model, "permission_mode": permission_mode, "bundle": bundle,
+                "brief": brief_identity}
     if args.fresh:
         if checkpoint_path.exists():
             stamp = dt.datetime.now().strftime("%Y%m%dT%H%M%S")
@@ -751,6 +750,7 @@ def main(argv: list[str]) -> int:
             "project": str(project), "forwarder_model": args.forwarder_model, "r_search": r_search,
             "r_confirm": args.r_confirm, "steer_fraction": args.steer_fraction, "confirm": args.confirm,
             "mode": "pilot" if args.pilot else "full",
+            "brief": brief_identity,
             "permission_mode": permission_mode}
 
     if args.json:
@@ -767,8 +767,10 @@ def main(argv: list[str]) -> int:
     if args.record:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         suffix = "-pilot" if args.pilot else ""
-        out = RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-benchmark-"
-                              f"{bundle_tag(bundle)}{suffix}.md")
+        if brief_identity:
+            suffix += "-brief-" + Path(brief_identity["name"]).stem.lower().replace("_", "-")
+        out = unique_path(RESULTS_DIR / (f"{dt.datetime.now().strftime('%Y-%m-%d')}-benchmark-"
+                              f"{bundle_tag(bundle)}{tasks_tag(args.tasks)}{suffix}.md"))
         out.write_text(render(meta, task_reports), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
     if not args.json:
