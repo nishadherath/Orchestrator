@@ -647,6 +647,17 @@ leave it open. `--check` adds `session.json`'s `event` against the
 expected `startup`, and prints the `tasks` entry verbatim, or its
 absence, against the closing conditions the pre-registration fixes.
 
+**Run, 2026-09-16 (`docs/FINDINGS.md`, "Plan 5 Stage D").** Fresh
+session, tasks panel open for the worker's full run; the worker
+completed T15 correctly (`summary.txt`: 4200, the true total across all
+twelve chunks). `tasks` was still `{}` at session end, so duration and
+panel visibility are both ruled out as the explanation this thread set
+out to test; `tokenSamples`' shape (`docs/PREMISES.md` P29's companion
+question) stays unobserved for a different reason than either. `event`
+read `startup`, distinct from Plan 4 Stage D's unexplained `compact`
+reading on a session whose lineage was not confirmed fresh, narrowing
+that anomaly without fully explaining it.
+
 ### 14.5 Pass conditions (Plan 5)
 
 - COMPACT-BENCH-SELFTEST gains the arm-D scenario and the two detector

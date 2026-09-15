@@ -257,6 +257,41 @@ context line was added: about 123 to 200 tokens, whether or not a
 handoff is recommended, and a little more again on the rarer turn the
 overflow advisory fires.
 
+## Decomposition against a single compacting worker
+
+Added 2026-09-16 per `docs/PLAN-5.md` Stage E; the underlying measurement
+is Stage C (D80) and `test/results/2026-09-15-decomposition-bench.md`.
+
+`docs/PREMISES.md` P29 asked whether a task split into two sub-handovers
+before the compaction trigger fires does better than the same task left
+to compact mid-run. Twelve runs per arm on T12, same task, same
+compaction window: arm A (one worker, compacts mid-task) failed 11 of 12
+(combined task-not-done-or-constraint-violated), 95 percent Wilson
+[0.646, 0.985]; arm D (the harness splits the task into two sub-handovers
+before the trigger, passing the first part's subtotal to the second) failed
+0 of 12, [0.000, 0.243]. The intervals do not overlap. Every arm-D run
+stayed under the compaction trigger entirely, by construction: the split
+point is chosen so neither half's context approaches the window on its
+own.
+
+**Cost of the comparison itself**: arm A's twelve runs cost USD 6.68
+(mean USD 0.557 per run, consistent with the compaction-cost band already
+measured in Context compaction above, since each run pays for one
+mid-task summarisation); arm D's twelve runs cost USD 5.87 (mean USD 0.489
+per run, two worker instantiations per run but neither pays for a
+summarisation call). Decomposition was USD 0.81 cheaper across the twelve
+runs and, separately, eliminated the failure mode the single-worker arm
+suffered on eleven of them. Total Stage C spend: USD 12.56.
+
+**What this buys, and what it costs beyond the benchmark itself**: a
+harness or orchestrator that splits a task ahead of the overflow advisory
+(`src/ROUTING.md` section 2, D80) pays for a second worker instantiation
+(a second worker-definition read, roughly 477 to 493 tokens per the table
+above) in exchange for not paying for a mid-task compaction at all,
+which this section's own arithmetic already showed is not free even when
+it does not corrupt the task. On the T12 shape measured here, splitting
+is both cheaper and reliable where not splitting was neither.
+
 ## What is not measured here
 
 Actual provider token counts (characters per token vary by tokeniser and
@@ -264,7 +299,10 @@ content), the Claude Code system prompt itself, and anything the
 orchestrator reads while assessing a task, such as the task text or a
 file it opens. Those sit outside this repository's control. A real
 compaction's cost and effect on a task's outcome is measured now
-(`docs/PLAN-3.md` Stage E, `docs/PLAN-4.md` Stage B and D, above); what
-remains unmeasured is whether a `compact_boundary` reliably predicts
-that decomposing the task would have helped (`docs/PREMISES.md` P29,
-narrowed but not closed).
+(`docs/PLAN-3.md` Stage E, `docs/PLAN-4.md` Stage B and D, `docs/PLAN-5.md`
+Stage C above); whether a `compact_boundary` reliably predicts that
+decomposing the task would have helped is answered for the one task shape
+tested (`docs/PREMISES.md` P29, D80: yes, decisively, on T12). Whether it
+generalises to other task shapes, and whether the detector that would
+have to catch the overflow advisory in time to split is itself reliable,
+remain open.

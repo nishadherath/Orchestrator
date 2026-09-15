@@ -3,7 +3,7 @@
 Adopted 2026-09-15 on branch `the-system`, after `docs/PLAN-4.md` closed.
 Authored by Claude (Fable 5.1) at Jeb's direction; the analysis and the
 plan were described and approved in conversation before this file
-existed. Status of the plan as a whole: **in progress (since 2026-09-15)**.
+existed. Status of the plan as a whole: **complete (2026-09-16)**.
 
 Jeb's brief, in his words: make a plan to implement the four threads Plan
 4 left open, as per the usual protocol, with cost projection and a model
@@ -308,18 +308,28 @@ this fixture shape either) and `event` on a fresh session is `startup`.
 
 ## Stage E. Close-out
 
-Status: **not started**
+Status: **done**
 Model: sonnet, medium. Zero live spend.
 
 Tasks:
 
-- [ ] E.1 `docs/COST.md`, `src/README.md` and `docs/COMPACTION-DESIGN.md`
+- [x] E.1 `docs/COST.md`, `src/README.md` and `docs/COMPACTION-DESIGN.md`
       updated for what Stage C decided about the overflow advisory;
       `CLAUDE.md`'s open-questions list amended for P29 and
       `tokenSamples`.
-- [ ] E.2 Final `check.py --record`; this file marked complete.
+      Done. `docs/COST.md` gained "Decomposition against a single
+      compacting worker" (D80's figures, USD 6.68 arm A against USD 5.87
+      arm D, USD 12.56 total); `src/README.md`'s compaction-refusal bullet
+      now names the pre-emptive mitigation and its measured effect, plus
+      a new bullet on `tasks` never populating; `docs/COMPACTION-DESIGN.md`
+      section 14.4 gained the run's outcome; `CLAUDE.md`'s open-questions
+      list gained P29 (answered, D80) and the `tokenSamples`/`tasks`
+      question (narrowed twice, still open) as two new entries.
+- [x] E.2 Final `check.py --record`; this file marked complete.
+      Done. 31 of 31 at `c31ceaa`, recorded to
+      `test/results/2026-09-16-harness.md`.
 
-Exit criteria: harness green; plan marked complete.
+Exit criteria: harness green; plan marked complete. Met.
 
 ## Projection
 

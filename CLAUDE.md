@@ -281,6 +281,30 @@ These are unresolved, not decided. Do not close one without evidence in
   routing is diagnosed from, and dropping it is a change with its own
   before-and-after measurement (D44), not a decision to make on cost
   alone.
+- ~~Does a `compact_boundary` reliably predict that decomposing the task
+  would have helped (`docs/PREMISES.md` P29)?~~ Answered 2026-09-16
+  (D80, `docs/COST.md`, "Decomposition against a single compacting
+  worker"): yes, decisively, on the one task shape tested. Twelve runs
+  per arm, same task, same window: a single worker that compacts
+  mid-task failed 11 of 12 (task not completed or its constraint
+  violated); the same task split into two sub-handovers before the
+  trigger fired, each restating the constraint and carrying the prior
+  part's own output forward, failed 0 of 12, non-overlapping 95 percent
+  Wilson intervals. `src/ROUTING.md` section 2 now instructs splitting
+  on `route.py --explain`'s overflow advisory. Not answered: whether this
+  generalises beyond T12's shape (one long, uniform, chunk-by-chunk read
+  task), since no second shape was built to test it.
+- Does `.claude/context-usage.json`'s `tasks` entry, meant to carry a
+  running worker's own token usage (`tokenSamples`, `docs/PREMISES.md`
+  P29's companion question), ever populate outside a fabricated example?
+  Narrowed twice, not answered: a 38-second worker left it empty (Plan 4
+  Stage D), and a multi-minute worker with the tasks panel open left it
+  empty too (Plan 5 Stage D, `docs/FINDINGS.md`). Duration and panel
+  visibility are both ruled out; the mechanism that should populate it,
+  whatever triggers a per-worker refresh tick, is unverified. Do not
+  encode a claim about `tokenSamples`' actual shape anywhere in `src/`
+  beyond `test/fixtures/system/statusline-sample.json`'s
+  documentation-derived guess until a live capture replaces it.
 
 ## Dogfooding
 
