@@ -267,8 +267,21 @@ Model: sonnet, high.
 
 Tasks:
 
-- [ ] C.1 `RoutingLedgerEntry.schema.json` accepts `ledger_version` 1 with
+- [x] C.1 `RoutingLedgerEntry.schema.json` accepts `ledger_version` 1 with
       the `context` field; fixture lines added, one valid and one broken.
+      Done 2026-09-15. `context` is optional at the schema level (an
+      object with peak_tokens/window/compactions/source, all four
+      required within it once the object is present): `validate_records.py`
+      is a hand-written validator that raises on any JSON Schema keyword
+      outside its declared subset (its own module docstring), which does
+      not include if/then/else, so "ledger_version 1 requires context"
+      cannot be enforced in the schema itself. Enforced instead where
+      route.py writes an entry, and the schema's own description says so.
+      valid.jsonl gains led-003 (version 1, source statusline, one
+      compaction, escalated and passed); broken.jsonl gains led-004
+      (context.compactions: -1, rejected on the minimum constraint).
+      BROKEN_LINES gains line 20. `validate_records.py` run directly on
+      both files as well as through the harness.
 - [ ] C.2 `route.py --record` fills `context` from the probe's file (the
       last sample for that worker name) or from a transcript
       `compact_boundary` count as the fallback, and says which.

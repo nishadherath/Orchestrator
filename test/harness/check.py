@@ -517,7 +517,7 @@ SYSTEM_FIXTURES = REPO_ROOT / "test" / "fixtures" / "system"
 # asserts the validator reports exactly these and no others, so a validator
 # that goes blind to one defect class, or starts rejecting sound records,
 # fails here rather than in a Stage 10 run.
-BROKEN_LINES = {1, 2, 3, 5, 6, 10, 13, 16, 17, 18, 19}
+BROKEN_LINES = {1, 2, 3, 5, 6, 10, 13, 16, 17, 18, 19, 20}
 
 
 def load_validator():
