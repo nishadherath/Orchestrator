@@ -276,16 +276,19 @@ Tasks:
       malformed stdin, prints one line to stderr and exits 1 instead.
       `settings.fragment.json`'s `compact` matcher now carries two hooks
       (`--recover`, then `--session-pointer`); `startup` and `resume` each
-      carry `--session-pointer` alone. **Discrepancy from this file's own
-      text**: the sentence above ("`route.py --explain` reads the
-      orchestrator's own transcript through that pointer when the status
-      line file is absent, so a headless orchestrator gets the threshold")
-      describes docs/COMPACTION-DESIGN.md section 13.3, which this stage's
-      detailed task brief did not include in its C.3 instructions and
-      which was not implemented here. `fill_context` and
-      `_resolve_transcript` (C.1) do use the pointer; `context_explain_line`
-      does not yet. Left open for a follow-up stage rather than
-      implemented speculatively against an underspecified brief.
+      carry `--session-pointer` alone. Section 13.3's `--explain` change
+      (the sentence above) was missed by this stage's first pass, caught
+      and closed the same day: `context_explain_line` now falls back to
+      `_orchestrator_transcript_stats` through `.claude/session.json`
+      when `.claude/context-usage.json` is absent entirely, computing the
+      last assistant message's total against the effective window
+      (`_resolve_autocompact_window`, a third cited duplicate of the same
+      small scan, capping the model's native window from
+      `context.model_windows`). The fallback fires only on an absent
+      file, matching this bullet's own "when the status line file is
+      absent" wording exactly, not on a stale or not-yet-populated one,
+      which would be a different, untested change. `--selftest` gained
+      scenario m proving both the fallback and its absence-only scope.
 - [x] C.4 `preflight.py`: a thrash-floor check, `WARN` when the resolved
       window minus 93,000 is below three times a footprint the consumer
       states (`--per-turn-tokens`, default 8,000, the E30 read size).
@@ -301,10 +304,12 @@ Tasks:
       `orchestrator-scratch`, preflight clean.
       Done 2026-09-15. `route.py --selftest` gained scenario l (transcript-first
       `fill_context` plus the session-pointer scoping round trip, proven
-      against a decoy transcript in a different, newer session): 12
-      scenarios (was 11). `check.py`'s ROUTE-SELFTEST and PROBE-SELFTEST
-      docstrings updated to match; neither hardcoded a scenario count as
-      an assertion. Full harness: 29 of 29 checks pass (INV7 skipped, as
+      against a decoy transcript in a different, newer session) and,
+      after closing the 13.3 gap above, scenario m (the `--explain`
+      transcript fallback and its absence-only scope): 13 scenarios (was
+      11). `check.py`'s ROUTE-SELFTEST and PROBE-SELFTEST docstrings
+      updated to match; neither hardcoded a scenario count as an
+      assertion. Full harness: 29 of 29 checks pass (INV7 skipped, as
       always, needing a live session), including COST-TABLE against the
       new `context.model_windows` block and COMPACT-BENCH-SELFTEST
       unaffected. `dist/` rebuilt and reinstalled into `orchestrator-scratch`
@@ -318,8 +323,9 @@ Tasks:
 
 Exit criteria: harness green; the four fixes each carry a selftest that
 would fail on the pre-fix behaviour; `dist/` reinstalled. All met
-2026-09-15, with the one noted discrepancy (section 13.3's `--explain`
-change, not part of C.3's detailed brief) left open rather than guessed at.
+2026-09-15, including section 13.3's `--explain` change, caught as a gap
+against this file's own C.3 text and closed the same day rather than
+left open.
 
 ## Stage D. One interactive session, Jeb's
 

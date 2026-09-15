@@ -51,6 +51,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -865,15 +866,103 @@ def fill_context(project: Path, worker_name: str | None, cell: str | None = None
     return dict(_NO_CONTEXT_OBSERVED)
 
 
+def _resolve_autocompact_window(project: Path) -> tuple[int | None, str | None]:
+    """Resolves the configured auto-compact window in the documented
+    precedence (docs/COMPACTION-DESIGN.md section 13.2): the
+    `CLAUDE_CODE_AUTO_COMPACT_WINDOW` environment variable first, else the
+    first `autoCompactWindow` key found across `.claude/settings.local.json`,
+    `.claude/settings.json` (both under `project`) and
+    `~/.claude/settings.json`, in that order. Returns `(None, None)` when
+    nothing is configured anywhere.
+
+    This duplicates `tools/context_probe.py`'s function of the same name
+    (itself a cited duplicate of `src/preflight.py`'s
+    `_resolved_autocompact_window`). `route.py` does not import its
+    sibling `tools/` modules anywhere else in this file, even though both
+    ship together in `dist/tools/`: every existing helper here
+    (`_claude_projects_slug`, the session-pointer functions) is
+    self-contained so `--selftest` never depends on another module's own
+    behaviour. This is the same reasoning, applied a third time, not an
+    oversight."""
+    env = os.environ.get("CLAUDE_CODE_AUTO_COMPACT_WINDOW")
+    if env is not None:
+        try:
+            return int(env), "CLAUDE_CODE_AUTO_COMPACT_WINDOW"
+        except ValueError:
+            return None, None
+    for path in (project / ".claude" / "settings.local.json", project / ".claude" / "settings.json",
+                 Path.home() / ".claude" / "settings.json"):
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if "autoCompactWindow" in data:
+            return data["autoCompactWindow"], str(path)
+    return None, None
+
+
+def _orchestrator_transcript_stats(transcript_path: Path) -> dict | None:
+    """The orchestrator's OWN transcript (not a subagent's), named by
+    `.claude/session.json`'s `transcript_path` (docs/COMPACTION-DESIGN.md
+    section 13.3, 13.4): the last assistant message's input total
+    (`input_tokens + cache_read_input_tokens + cache_creation_input_tokens`)
+    and its model id. Returns `None` only if the file cannot be read; a
+    file with no assistant message yet returns both fields `None`, since
+    that is still distinct from no transcript at all. A line that fails
+    to parse as JSON is skipped, the same tolerance
+    `_transcript_context_stats` already uses for a subagent's own
+    transcript."""
+    if not transcript_path.is_file():
+        return None
+    try:
+        text = transcript_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    last_total: int | None = None
+    last_model: str | None = None
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(event, dict) or event.get("type") != "assistant":
+            continue
+        message = event.get("message") or {}
+        usage = message.get("usage") or {}
+        total = (usage.get("input_tokens") or 0) + (usage.get("cache_read_input_tokens") or 0) \
+            + (usage.get("cache_creation_input_tokens") or 0)
+        if total:
+            last_total = int(total)
+        if message.get("model"):
+            last_model = message["model"]
+    return {"last_total": last_total, "model": last_model}
+
+
 def context_explain_line(project: Path, priors: dict) -> str:
-    """The `--explain` context line (docs/COMPACTION-DESIGN.md section 4):
-    reads `tools/context_probe.py`'s output and compares its
-    `used_percentage` against `steering.handoff_context_percent`,
-    against the two documented status-line fields verbatim (D69: whether
-    those fields already account for a configured `autoCompactWindow`
-    smaller than the model's native window is unverified, E32; this does
-    not attempt to correct for it, and says so in the docstring rather
-    than guessing).
+    """The `--explain` context line (docs/COMPACTION-DESIGN.md section 4,
+    superseded where it conflicts by section 13.3): reads
+    `tools/context_probe.py`'s output and compares its `used_percentage`
+    against `steering.handoff_context_percent`, against the two
+    documented status-line fields verbatim (D69: whether those fields
+    already account for a configured `autoCompactWindow` smaller than the
+    model's native window is unverified, E32; this does not attempt to
+    correct for it, and says so in the docstring rather than guessing).
+
+    Section 13.3's addition: when `.claude/context-usage.json` is absent
+    entirely (never populated, the common case for a headless
+    orchestrator with no status line wired up), falls back to the
+    orchestrator's own transcript through `.claude/session.json` (13.4)
+    before giving up to `unknown`, so a headless orchestrator gets the
+    threshold for the first time. This fallback fires only on an absent
+    file, not a stale or not-yet-populated one: the plan text this
+    implements (`docs/PLAN-4.md` Stage C.3) names the absent case
+    specifically, and widening it to the other two is a separate,
+    untested change this function does not make speculatively.
 
     Absent, stale, or not-yet-populated data all print `unknown` or
     `stale` rather than a wrong number: a headless session with no
@@ -886,6 +975,27 @@ def context_explain_line(project: Path, priors: dict) -> str:
     stale_s = steering["context_stale_s"]
     path = default_context_usage_path(project)
     if not path.exists():
+        pointer = _read_session_pointer(project)
+        transcript_path = Path(pointer["transcript_path"]) if pointer and pointer.get("transcript_path") else None
+        if transcript_path is not None:
+            stats = _orchestrator_transcript_stats(transcript_path)
+            if stats and stats["last_total"] is not None:
+                model_windows = load_cost_table().get("context", {}).get("model_windows", {})
+                native_window = model_windows.get(stats["model"]) if stats["model"] else None
+                resolved, _source = _resolve_autocompact_window(project)
+                candidates = [w for w in (native_window, resolved) if w is not None]
+                effective_window = min(candidates) if candidates else None
+                if effective_window:
+                    used = stats["last_total"] / effective_window * 100
+                    age_str = "age unknown"
+                    try:
+                        age_s = dt.datetime.now().timestamp() - transcript_path.stat().st_mtime
+                        age_str = "stale" if age_s > stale_s else f"{age_s:.0f} s ago"
+                    except OSError:
+                        pass
+                    verdict = "WRITE A HANDOFF BEFORE THIS TASK" if used >= threshold else "not yet"
+                    return (f"context: {used:.0f}% of {effective_window:,} effective (transcript, {age_str}); "
+                            f"handoff above {threshold:.0f}%: {verdict}")
         return "context: unknown (no .claude/context-usage.json; expected in a headless session)"
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -959,9 +1069,10 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     docs/COMPACTION-DESIGN.md adds scenario h, the spawn/record/recover
     round trip (section 4), i, the --explain context line (section 4),
     j, the overflow advisory firing (section 6), k, it not firing on
-    uncompacted failures (section 6), and l, transcript-first
-    `fill_context` and the session-pointer round trip (section 13.1,
-    13.4, D72))."""
+    uncompacted failures (section 6), l, transcript-first `fill_context`
+    and the session-pointer round trip (section 13.1, 13.4, D72), and m,
+    `context_explain_line`'s own transcript fallback through the same
+    pointer when the status line never populated (section 13.3)."""
     import tempfile
 
     problems: list[str] = []
@@ -1201,7 +1312,6 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     # fallback prefers the decoy on recency; with a pointer naming the
     # correct session, fill_context must find only that session's own
     # transcript, never falling through to the decoy.
-    import os
     import time
     from unittest import mock
 
@@ -1260,6 +1370,51 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
             check(scoped_ctx == {"peak_tokens": 80000, "window": 1000000, "compactions": 1, "source": "transcript"},
                   f"(l) with a session pointer in place, fill_context should resolve only the pointed-to "
                   f"session's transcript, not the newer decoy in a different session, got {scoped_ctx}")
+
+    # (m) context_explain_line's transcript fallback when
+    # .claude/context-usage.json is absent (docs/COMPACTION-DESIGN.md
+    # section 13.3): with no session pointer at all, 'unknown' is
+    # unchanged from (i); with a pointer naming a real transcript, the
+    # last assistant message's input total against the effective window
+    # (the model's native window from cost_table.json, capped by a
+    # configured CLAUDE_CODE_AUTO_COMPACT_WINDOW) should print instead.
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        fake_home = Path(tmp) / "home"
+        project = Path(tmp) / "project"
+        project.mkdir(parents=True)
+        session_dir = fake_home / ".claude" / "projects" / _claude_projects_slug(project) / "session-main"
+        session_dir.mkdir(parents=True)
+        transcript_path = session_dir / "session-main.jsonl"
+        lines = [
+            json.dumps({"type": "assistant", "message": {"model": "claude-sonnet-5",
+                        "usage": {"input_tokens": 60000, "cache_read_input_tokens": 40000,
+                                  "cache_creation_input_tokens": 0}}}, separators=(",", ":")),
+            # the LAST assistant message is what should be used, not the
+            # first or the largest: 120000 + 8000 = 128000.
+            json.dumps({"type": "assistant", "message": {"model": "claude-sonnet-5",
+                        "usage": {"input_tokens": 120000, "cache_read_input_tokens": 8000,
+                                  "cache_creation_input_tokens": 0}}}, separators=(",", ":")),
+        ]
+        transcript_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+        with mock.patch.object(Path, "home", return_value=fake_home):
+            no_pointer_line = context_explain_line(project, priors)
+            check(no_pointer_line.startswith("context: unknown") and "no .claude/context-usage.json" in no_pointer_line,
+                  f"(m) with no session pointer and no context-usage.json, the line should stay "
+                  f"'unknown', got {no_pointer_line!r}")
+
+            _write_session_pointer({"session_id": "session-main", "transcript_path": str(transcript_path),
+                                     "cwd": str(project), "source": "startup"}, project)
+            os.environ["CLAUDE_CODE_AUTO_COMPACT_WINDOW"] = "200000"
+            try:
+                fallback_line = context_explain_line(project, priors)
+            finally:
+                del os.environ["CLAUDE_CODE_AUTO_COMPACT_WINDOW"]
+            # effective window: min(1,000,000 native for claude-sonnet-5,
+            # 200,000 configured) = 200,000; 128,000 / 200,000 = 64%.
+            check("64% of 200,000 effective" in fallback_line and "(transcript" in fallback_line,
+                  f"(m) the transcript fallback should compute the last assistant message's total "
+                  f"against the effective (capped) window, got {fallback_line!r}")
 
     return (not problems, problems)
 
@@ -1321,7 +1476,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 12 scenarios")
+            print("selftest: PASS, 13 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
