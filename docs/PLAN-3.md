@@ -377,8 +377,24 @@ Tasks:
       `--pending-workers`'s deliberate-handoff case together.
       `--selftest`: handoff.py 5 scenarios (new: e), route.py still 11
       (the refactor changes no behaviour `--recover`'s own tests cover).
-- [ ] D.2 `docs/COST.md` gains the compaction economics; `src/README.md`
+- [x] D.2 `docs/COST.md` gains the compaction economics; `src/README.md`
       explains the settings and why append beats pointer.
+      Done 2026-09-15. `docs/COST.md`'s new "Context compaction" section
+      restates D68's arithmetic in prose (payback 2.7 turns warm, 1.0
+      cold, the TTL as the variable that matters, not the model), and
+      re-measures `route.py --explain`'s own marginal cost since it grew
+      from 408-718 to 490-800 characters once Stage B's context line was
+      added (Stage 5's original figure was pre-compaction). `src/README.md`
+      makes the append-versus-pointer distinction explicit in both
+      install walkthroughs, not just a suggestion: the platform's own
+      compaction reads instructions from `CLAUDE.md` itself, loaded once
+      and held outside the conversation; `ORCHESTRATOR.md` is not loaded
+      that way, so a bare pointer line gets routing but never gets the
+      compact instructions or the handoff rule in front of the platform's
+      summariser, since they never entered `CLAUDE.md`. Copying the two
+      sections' actual text (`dist/CLAUDE.template.md` has both) is what
+      makes the fallback visible; pointing at where they live is not
+      equivalent.
 - [ ] D.3 D69: what this plan delivered, one line per brief item; this
       file marked complete (or complete pending Stage E).
 - [ ] D.4 Final `check.py --record`.

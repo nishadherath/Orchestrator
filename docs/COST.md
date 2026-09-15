@@ -18,7 +18,7 @@ client-side guess, and belongs here once a live run reports it.
 | One worker definition (`dist/.claude/agents/WORKER_*.md`, persona inlined) | once per worker start, to that worker only | 1,909 to 1,971 (mean 1,957) | ~477 to ~493 (mean ~489) |
 | `dist/.claude/commands/workers.md` | once per `/workers` invocation | 1,983 | ~496 |
 | `dist/.claude/B0_BRIEF.md` | read on demand, only when `ROUTING.md` section 4's falsified-constraint trigger fires, and only by the orchestrator deciding the handover, not by every turn (D60, Stage 12) | 5,836 | ~1,459 |
-| `tools/route.py --from-line ... --explain` output | every orchestrator turn, read as command output, not as a file | 408 to 718 across two representative buckets | ~102 to ~180 |
+| `tools/route.py --from-line ... --explain` output | every orchestrator turn, read as command output, not as a file | 490 to 800 across two representative buckets, headless (no `context-usage.json`), 2026-09-15 after Stage B's context line; 408 to 718 at Stage 5, before it | ~123 to ~200 |
 
 Command that produced these counts, from the repository root:
 
@@ -194,9 +194,63 @@ across this plan's thirteen stages (once per stage's fresh confirmation,
 repository under this protocol after Stage 13, since there is no next
 stage for the pointer in `CLAUDE.md` to send it to.
 
+## Context compaction
+
+Added 2026-09-15 per `docs/PLAN-3.md` Stage D; the underlying finding is
+D68 and the numbers live in `src/cost_table.json`'s `context` section.
+
+**No compaction has ever been measured on record.** The 303 benchmark
+runs that carry usage data (`test/results/*benchmark*.md`) show a median
+of 111,793 cumulative cache-read tokens per run at the floor and a
+maximum of 172,669 across any run at any cell, summed across every turn.
+Divided by the roughly 43,000-token CLI prefix each turn re-reads (E26),
+the median run is about 2.6 turn-equivalents. No run at any cell came
+near a context window, so this section's economics are arithmetic
+against documented platform behaviour, not a measurement, and Stage E's
+E30 is the one place a real compaction is deliberately produced to check
+it (`docs/PREMISES.md` P29, reclassified from a capability signal to a
+horizon one by D68).
+
+**The arithmetic, with the platform's own multipliers.** Relative to the
+input price: cache read at 0.1, cache write at 1.25 (five-minute TTL) or
+2.0 (one hour), output at 5. Compacting a context of `C` tokens to a
+summary of `S` tokens (with `S_out` summary output tokens) costs
+`r·C + o·S_out + w·S` while the cache is warm, since the summarisation
+call itself reads the prefix from cache (`code.claude.com/docs/en/
+prompt-caching`, "Compacting the conversation"), or the full uncached
+price when the cache has gone cold. It saves `r·(C − S)` per later turn
+warm, or `w·(C − S)` cold. For `C` = 150,000, `S` = 10,000, `S_out` =
+2,000: payback in 2.7 turns warm, 1.0 turn cold. The price of the model
+cancels out of this arithmetic; the cache TTL does not.
+
+**The TTL is the lever that matters, not the model.** A session on an
+API key gets a five-minute TTL on its main conversation by default
+(`docs/en/prompt-caching`, "Which TTL each request gets"), and a
+Controller run is about 500 seconds (the `controller` row above), longer
+than that TTL. An orchestrator waiting on one turns into a guaranteed
+cold cache on its next turn regardless of anything else in this table.
+Stage B's `settings.fragment.json` sets `promptCacheTtl: "1h"` for
+exactly this reason; `preflight.py`'s `prompt cache TTL` check flags a
+five-minute or unset TTL specifically when the Controller is installed,
+since that is the one thing in this bundle whose wall clock reliably
+outlasts the default.
+
+**What this bundle actually spends on compaction, per turn: nothing
+extra.** `tools/route.py`, `tools/handoff.py`, `tools/context_probe.py`
+and the priors, cost table and ledger they read are all invoked with the
+Bash tool and never read into the orchestrator's own context. The only
+marginal cost the whole mechanism adds to a turn is `route.py
+--explain`'s output, which grew from 408 to 718 characters at Stage 5 to
+490 to 800 today (headless, re-measured 2026-09-15) once Stage B's
+context line was added: about 123 to 200 tokens, whether or not a
+handoff is recommended, and a little more again on the rarer turn the
+overflow advisory fires.
+
 ## What is not measured here
 
 Actual provider token counts (characters per token vary by tokeniser and
 content), the Claude Code system prompt itself, and anything the
 orchestrator reads while assessing a task, such as the task text or a
-file it opens. Those sit outside this repository's control.
+file it opens. Those sit outside this repository's control. Also not
+measured: a real compaction's actual cost and effect on a task's
+outcome, until Stage E's E30 produces one.
