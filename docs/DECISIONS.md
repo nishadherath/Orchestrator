@@ -3869,3 +3869,60 @@ remove, the case for the handoff-first rule), or if a consumer ledger
 shows overflow and capability failures are correlated in a way point 1
 does not predict, which would be the case for letting overflow inform
 the ladder after all.
+
+## 2026-09-15 D69. The handoff-context percentage's denominator is ambiguous on a native 1M model, found while implementing Stage B; shipped as designed, flagged rather than silently fixed
+
+Decision: implement `route.py --explain`'s context line exactly as
+`docs/COMPACTION-DESIGN.md` section 4 fixes it, trusting the status
+line's `used_percentage` and `context_window_size` verbatim, while
+recording a real gap in the design found during implementation rather
+than quietly patching around it or leaving it undiscussed.
+
+**The gap.** `docs/en/statusline` documents `context_window_size` as "the
+model's context window, 200000 by default, or 1000000 for models with
+extended context", with no stated dependence on the `autoCompactWindow`
+setting. Stage B's settings fragment (section 7) sets `autoCompactWindow`
+to 200,000 specifically because the orchestrator's own context does not
+need the full window (`docs/COST.md`). If `context_window_size` reports
+the model's native maximum regardless of that setting, then on Sonnet 5
+or a Fable model, both native 1M, `used_percentage` is computed against
+1,000,000, and `handoff_context_percent`'s shipped 70 means the handoff
+line does not recommend writing one until 700,000 tokens, far past the
+200,000-token point at which the platform actually compacts under the
+fragment's own setting. The line would then warn too late to matter on
+the exact configuration Stage B ships, on the exact models this
+orchestrator most plausibly runs on: this session runs on Sonnet 5.
+
+**Why this is not fixed here.** Confirming which is true needs one live
+observation (a session with `autoCompactWindow` set below the model's
+native window, comparing `context_window_size` against the configured
+value), which is a `claude -p` cost this stage does not incur under
+rule 3. Guessing wrong and coding a workaround (`context_probe.py`
+reading `autoCompactWindow` from settings itself and using
+`min(context_window_size, that value)` as its own denominator) would
+silently change the documented JSON contract section 2 fixes, on a guess
+this project's own practice says not to encode as fact.
+
+**What ships instead.** `route.py --explain`'s context line as specified,
+against the two documented fields. ROUTE-PRIORS's check that
+`handoff_context_percent` fires before `autocompact_window_tokens` on a
+200K reference model stands, scoped exactly as the design doc's own
+wording says ("for a 200K model"), which is honest about what it
+guarantees and what it does not: on a 200K model, whether native or
+capped by the setting, the two fields are the same number and the check
+is exact; on a native 1M model with the fragment's setting applied, the
+check says nothing, and this entry is the record of that gap. E32 added
+to `test/harness/empirical-checklist.md`: what `context_window_size`
+reports once `autoCompactWindow` is set below the model's native window,
+free (`claude -p --help`-grade, a status line read costs nothing beyond
+the session already running).
+
+Reversal: reopened the moment E32 answers the question. If
+`context_window_size` already reflects the configured window, this entry
+closes with nothing to change. If it does not, `context_probe.py` gains
+the `min()` computation described above, `main.used_percentage` and
+`main.context_window_size` in the JSON contract are documented as
+already reflecting that adjustment (not a new field, to avoid a second
+schema-shaped decision for a one-line fix), and this entry's reversal
+clause is what authorises changing section 2's contract without a
+further vote.

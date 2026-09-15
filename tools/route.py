@@ -575,6 +575,55 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                                               "wall_clock_s_expected": round(wall_expected, 1)}}
 
 
+CONTEXT_USAGE_FILENAME = ".claude/context-usage.json"
+
+
+def default_context_usage_path(project: Path) -> Path:
+    return project / CONTEXT_USAGE_FILENAME
+
+
+def context_explain_line(project: Path, priors: dict) -> str:
+    """The `--explain` context line (docs/COMPACTION-DESIGN.md section 4):
+    reads `tools/context_probe.py`'s output and compares its
+    `used_percentage` against `steering.handoff_context_percent`,
+    against the two documented status-line fields verbatim (D69: whether
+    those fields already account for a configured `autoCompactWindow`
+    smaller than the model's native window is unverified, E32; this does
+    not attempt to correct for it, and says so in the docstring rather
+    than guessing).
+
+    Absent, stale, or not-yet-populated data all print `unknown` or
+    `stale` rather than a wrong number: a headless session with no
+    status line, a session before its first API response, and a session
+    that has been idle past `steering.context_stale_s` are three
+    different reasons the number cannot be trusted, and the caller
+    should not have to guess which."""
+    steering = priors["steering"]
+    threshold = steering["handoff_context_percent"]
+    stale_s = steering["context_stale_s"]
+    path = default_context_usage_path(project)
+    if not path.exists():
+        return "context: unknown (no .claude/context-usage.json; expected in a headless session)"
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return "context: unknown (.claude/context-usage.json did not parse)"
+    main = data.get("main") or {}
+    used, window = main.get("used_percentage"), main.get("context_window_size")
+    if used is None or window is None:
+        return "context: unknown (no usage recorded yet in this session)"
+    age_str = "age unknown"
+    sampled_at = main.get("sampled_at")
+    if sampled_at:
+        try:
+            age_s = (dt.datetime.now() - dt.datetime.fromisoformat(sampled_at)).total_seconds()
+            age_str = "stale" if age_s > stale_s else f"{age_s:.0f} s ago"
+        except ValueError:
+            pass
+    verdict = "WRITE A HANDOFF BEFORE THIS TASK" if used >= threshold else "not yet"
+    return f"context: {used:.0f}% of {window:,} (statusline, {age_str}); handoff above {threshold:.0f}%: {verdict}"
+
+
 def recover_report(project: Path) -> str:
     """The `SessionStart(compact)` hook's whole output
     (docs/COMPACTION-DESIGN.md section 4): the routing rule in one line,
@@ -613,8 +662,8 @@ def recover_report(project: Path) -> str:
 def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     """Scripted checks for the ledger-aware additions, no file I/O outside
     a temp directory (docs/ROUTING-2-DESIGN.md section 3, scenarios a-g;
-    scenario h, docs/COMPACTION-DESIGN.md section 4, is the spawn/record/
-    recover round trip)."""
+    docs/COMPACTION-DESIGN.md section 4 adds scenario h, the spawn/record/
+    recover round trip, and scenario i, the --explain context line)."""
     import tempfile
 
     problems: list[str] = []
@@ -759,6 +808,36 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         except LedgerEntryNotFound:
             pass
 
+    # (i) context_explain_line: absent file, under threshold, over
+    # threshold, and a stale sample all print the right thing rather than
+    # a wrong number (docs/COMPACTION-DESIGN.md section 4).
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        project = Path(tmp)
+        line_absent = context_explain_line(project, priors)
+        check(line_absent.startswith("context: unknown") and "no .claude/context-usage.json" in line_absent,
+              f"(i) an absent context-usage.json should print 'unknown', got {line_absent!r}")
+
+        usage_path = default_context_usage_path(project)
+        usage_path.parent.mkdir(parents=True, exist_ok=True)
+        threshold = priors["steering"]["handoff_context_percent"]
+        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold - 5, "context_window_size": 200000,
+                                                     "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
+        line_under = context_explain_line(project, priors)
+        check("not yet" in line_under, f"(i) below the threshold should print 'not yet', got {line_under!r}")
+
+        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
+                                                     "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
+        line_over = context_explain_line(project, priors)
+        check("WRITE A HANDOFF" in line_over, f"(i) at or above the threshold should recommend a handoff, got {line_over!r}")
+
+        stale_s = priors["steering"]["context_stale_s"]
+        old_ts = (dt.datetime.now() - dt.timedelta(seconds=stale_s + 60)).isoformat()
+        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
+                                                     "sampled_at": old_ts}}), encoding="utf-8")
+        line_stale = context_explain_line(project, priors)
+        check("stale" in line_stale and "WRITE A HANDOFF" in line_stale,
+              f"(i) a stale sample should print 'stale' but still make the threshold comparison, got {line_stale!r}")
+
     return (not problems, problems)
 
 
@@ -812,7 +891,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 8 scenarios")
+            print("selftest: PASS, 9 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -935,6 +1014,7 @@ def main(argv: list[str]) -> int:
                     print(f"  {c['label']}")
             print(f"projection: USD {result['projection']['cost_usd_expected']}, "
                   f"{result['projection']['wall_clock_s_expected']} s")
+            print(context_explain_line(args.project, load_priors()))
         if args.json:
             print(json.dumps(result, indent=2, default=str))
         else:

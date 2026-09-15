@@ -194,15 +194,31 @@ Tasks:
       Fixed to print nothing, observing every row without changing how
       any of them display; section 2 corrected to match. `peak_tokens` is
       the max of every numeric leaf found in `tokenCount` and
-      `tokenSamples`, kept across refreshes, robust to `tokenSamples`'
-      undocumented shape (D69). The fixture is documentation-derived
+      `tokenSamples`, kept across refreshes, correct regardless of
+      `tokenSamples`' undocumented shape (D69). The fixture is documentation-derived
       (the statusline page's own full-schema example for `main`;
       synthesised from its field list for `tasks`, since no literal
       example exists there), marked as such in its own `_comment`, for
       E30 to replace with a live capture. `--selftest`: 5 scenarios.
       New harness check PROBE-SELFTEST. Harness now 28 checks.
-- [ ] B.3 `route.py --explain` prints the context line from that file, or
+- [x] B.3 `route.py --explain` prints the context line from that file, or
       says the file is absent and why that is expected in a headless run.
+      Done 2026-09-15. Also carries the steering thresholds this task and
+      B.2 both need (`handoff_context_percent` 70, `context_stale_s` 600,
+      `autocompact_window_tokens` 200000 in `routing_priors.json`, added
+      to `generate_priors.py`), the ROUTE-PRIORS check that the first
+      fires before the second on the 200K reference model, and D69: a
+      real gap found while implementing this task, that `used_percentage`
+      may be computed against the model's native window rather than a
+      configured `autoCompactWindow`, which would make the threshold fire
+      too late on Sonnet 5 or a Fable model with the fragment's own
+      200,000 setting applied. Shipped as specified rather than guessed
+      around; E32 checks which is true. `--selftest` gains scenario i
+      (absent, under, over, and stale all print correctly); 9 of 9 pass.
+      Also fixes a `%%` in an f-string in the ROUTE-PRIORS check added
+      under A.3, which printed literally instead of one percent sign
+      (only visible when that check fails; found while re-reading the
+      code this task extends).
 - [ ] B.4 `dist/settings.fragment.json` and the `# Compact instructions`
       section in `src/ROUTING.md` (procedural, ships) and
       `src/CLAUDE.template.md`; `src/README.md` explains the fragment.

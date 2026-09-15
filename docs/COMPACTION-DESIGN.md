@@ -195,11 +195,13 @@ re-assess each part as its own task. `generate_priors.py` emits the
 overflow prior for every bucket; ROUTE-PRIORS checks its `kind` and
 provenance like any other.
 
-`route.py --selftest` gains scenario h (a bucket with three compacted
+`route.py --selftest` gains scenario j (a bucket with three compacted
 floor failures: floor posterior mean unchanged from the empty-ledger
 value, overflow mean crosses 0.3, advisory true, `first` still the floor)
-and scenario i (three uncompacted floor failures: floor posterior falls
-as in scenario b, overflow stays at its prior, advisory false).
+and scenario k (three uncompacted floor failures: floor posterior falls
+as in scenario b, overflow stays at its prior, advisory false). Scenarios
+h and i are Stage B's (the spawn/record/recover round trip and the
+`--explain` context line), so Stage C continues the letters from there.
 
 ## 7. Settings fragment and hook: `dist/settings.fragment.json`
 
