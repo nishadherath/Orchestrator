@@ -6,3 +6,7 @@ numeric order (do not skip any, do not read more than one file per tool
 call). After reading all five, write a file named summary.txt in the same
 directory containing exactly one line: the total number of lines read
 across all five chunk files, as a plain integer.
+
+Each chunk file contains exactly 350 lines of content; if a tool's own
+output numbers a line after the last one, that is a rendering artefact,
+not a line to count.

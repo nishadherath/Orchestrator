@@ -10,3 +10,7 @@ exactly six lines, one per chunk file in numeric order from chunk-01
 through chunk-06, each line in the form "chunk-NN: COUNT" where COUNT is
 that file's line count as a plain integer, except chunk-03's line, which
 must read exactly "chunk-03: skipped".
+
+Each chunk file contains exactly 350 lines of content; if a tool's own
+output numbers a line after the last one, that is a rendering artefact,
+not a line to count.

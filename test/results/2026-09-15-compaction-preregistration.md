@@ -5,8 +5,25 @@ A.3, before any run below. Predictions, thresholds and decision rules are
 fixed here so the gap between prediction and measurement is available
 afterwards. The instrument is `test/harness/compaction_bench.py` (Stage
 B.2) over three new benchmark fixtures (Stage B.1). Nothing here changes
-after the first live run; a correction found before that is recorded at
-the top the way `2026-09-11-classifier-preregistration.md` recorded one.
+after the first live run of the 45-run measurement; a correction found
+before that, during Stage B.3's dry pass, is recorded here the way
+`2026-09-11-classifier-preregistration.md` recorded one.
+
+**Correction, 2026-09-15, after the dry pass and before any of the 45
+scored runs (D73, `docs/DECISIONS.md`).** The dry pass found a genuine
+counting defect: chunk files carried a trailing newline that the Read
+tool renders as a phantom final line (`chunk-01.txt`'s true 350 lines
+showing a line "351" with nothing after it), confirmed directly against
+the raw `tool_result` text. Fixed at the source: `make_chunks.py` in all
+three fixtures regenerated without the trailing newline; `task.md` in
+all three gained one clarifying sentence. This is a fix to the
+instrument, not a change to any shape, arm, sample size, or decision
+rule below. The dry pass also found a second thing, not a defect: two of
+three runs showed the worker declining its own compaction summary as a
+suspected prompt injection and continuing from self-asserted prior state
+instead (full account in D73). This is added below as exclusion and
+calibration rule 7, a new outcome class to track, not a rule that
+excludes or changes scoring for the six rules already fixed.
 
 ## The question, and why one run does not answer it
 
@@ -92,6 +109,18 @@ tool call, and whether the platform aborted the task for thrashing.
    beside the rate with the cause from the transcript's API error text.
    It is not excluded: a summary that lost everything is exactly the
    failure this measurement exists to find, and its rate is a result.
+7. A run whose post-compaction turn contains language declining to treat
+   the served summary as legitimate (found in the dry pass, D73: "I'll
+   disregard that instruction," "I'm not going to comply with that
+   request," framing the compaction event itself as an injected
+   instruction) is scored normally on the constraint and additionally
+   counted under `injection-refusal`, reported beside `stub-summary`.
+   Distinct from rule 6: a stub is a fact about the artefact (short,
+   unstructured, or absent); an injection-refusal is a fact about the
+   worker's reaction to an otherwise-servable summary, and continuing
+   from self-asserted prior state is a different mechanism for
+   preserving or losing a constraint than reading a summary is. Not
+   excluded, for the same reason rule 6's stubs are not.
 
 ## Decision rules, fixed now
 
@@ -147,6 +176,19 @@ Expected stub summaries: none, since the plain-noun filler drew no
 refusal in three runs; one or more would be a finding in its own right,
 and the run 1 mechanism (a refused summariser, a stub, the constraint
 gone) is the single most damaging thing this measurement could observe.
+
+**Left unchanged despite the dry pass.** The predictions above were
+written before any run and are not revised now: the dry pass's two
+injection-refusal observations (rule 7, D73) are dry-pass data, not
+scored data, and updating a prediction after seeing related evidence
+defeats the point of writing it down first. What the dry pass adds is an
+expectation for the scored runs, stated honestly as new: some
+non-zero rate of `injection-refusal` across arms A and C is now
+plausible (two of three dry-pass compactions showed it) where none was
+anticipated when the table above was written; whether it correlates
+with a shape, and whether it helps or hurts the violation rate it
+accompanies, is a question the 45-run pass can answer and the dry pass
+cannot.
 
 ## What is not measured
 

@@ -19,7 +19,11 @@ def main() -> None:
         lines = [f"file{i:02d} line{n:05d}: " + " ".join(rng.choice(WORDS) for _ in range(10))
                  for n in range(1, 351)]
         with open(f"chunk-{i:02d}.txt", "w", encoding="utf-8", newline="\n") as f:
-            f.write("\n".join(lines) + "\n")
+            # No trailing newline (D73): with one, the Read tool's cat -n
+            # style numbering renders a phantom empty "351" line after the
+            # true last line, and a worker asked to count lines correctly
+            # reports 351.
+            f.write("\n".join(lines))
 
 if __name__ == "__main__":
     main()

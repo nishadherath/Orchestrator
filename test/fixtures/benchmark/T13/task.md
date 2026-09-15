@@ -9,3 +9,7 @@ call). After reading all five, create the results directory if it does not
 exist and write results/count.txt containing exactly one line: the total
 number of lines read across all five chunk files, spelled out in words as
 the constraint above states.
+
+Each chunk file contains exactly 350 lines of content; if a tool's own
+output numbers a line after the last one, that is a rendering artefact,
+not a line to count.
