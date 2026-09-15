@@ -114,7 +114,7 @@ model and effort to switch to; harness green.
 
 ## Stage 2. The resolver and the ledger
 
-Status: **in progress (2.1 to 2.5 done 2026-09-15)**
+Status: **done (2026-09-15, see the 2.6 commit)**
 Model: sonnet, high. Implementation from a written spec.
 
 Tasks:
@@ -173,7 +173,7 @@ Tasks:
       provenance and an allowed kind; 8 cost rows with provenance/regime/n;
       REPLAY and BACKTEST both exit 0 on their own pass conditions.
       Harness now 24 checks.
-- [ ] 2.6 Update this stage's status line and commit it.
+- [x] 2.6 Update this stage's status line and commit it.
 
 Exit criteria: replay and backtest pass at the conditions the design doc
 fixes; harness green with the four new checks counted; zero live calls.
