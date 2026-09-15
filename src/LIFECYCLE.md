@@ -1,7 +1,9 @@
 # Worker lifecycle and communication
 
 This file governs the orchestrator persona spawning a worker via the Task
-tool, inside one Claude Code session. It does not govern
+tool (also called the Agent tool; the platform's own name for it has
+changed across versions and both names refer to the same mechanism),
+inside one Claude Code session. It does not govern
 `tools/system_controller.py`'s role calls (`docs/PLAN.md` Stage 10): those
 are `claude -p` subprocess invocations, each a fresh process with no
 session left behind to resume. `src/System/ROLES.md`'s "Isolation" section
@@ -82,10 +84,21 @@ another reason never to pass one.
 
 ## Reporting state
 
-When asked for status, report from `/tasks` plus your own tracking, never from
-memory alone. `/tasks` names the model on each worker's row and adds the effort
-level when the worker's definition sets one, which is the ground truth for
-whether routing took effect.
+Report from three sources an agent can actually use, never from memory
+alone: `ListAgents`, for the workers you can currently address by name in
+this session; the transcript directory under `subagents/` (see
+"Addressing rules" above), for anything a worker's own notification did
+not already tell you and for the model and effort level it actually ran
+on; and each worker's own completion or resume notification as it
+arrives. No agent session, including yours, can invoke or read `/tasks`
+itself: it is a terminal-only interactive panel with no callable
+equivalent, confirmed by `ToolSearch` returning nothing for it
+(`docs/FINDINGS.md`, E19). Where a human is present and watching it,
+`/tasks` remains the ground-truth cross-check: it names the model on
+each worker's row and adds the effort level when the worker's definition
+sets one, confirming whether routing took effect. Ask for that
+confirmation when it matters; do not report having read the panel
+yourself.
 
 ## Handoffs
 

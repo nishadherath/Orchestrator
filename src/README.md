@@ -303,9 +303,14 @@ A project that already has a `CLAUDE.md`, and possibly its own
 
 Three checks, cheapest first:
 
-1. **`/workers`** (this bundle's own status command): lists all fifteen
-   definitions and confirms they loaded. If it reports fewer than fifteen,
-   `.claude/agents/` is missing files or a restart is still needed.
+1. **`python3 preflight.py`**'s "bundle installed" row: counts the
+   worker definitions actually on disk under `.claude/agents/` against
+   the fifteen expected and reports the installed bundle version. If it
+   reports fewer than fifteen, files are missing or a restart is still
+   needed. `/workers` (this bundle's own status command) reports on
+   workers running or finished in the current session, not on which
+   definitions are installed; it is a check on the next step, not this
+   one.
 2. **Spawn one worker and watch `/tasks` while it runs.** The row shows the
    model and, because every definition sets `effort` explicitly, the effort
    level. Ask for something small and unambiguous first (a mechanical task,
