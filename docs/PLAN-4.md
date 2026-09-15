@@ -111,9 +111,13 @@ Tasks:
       scores. The trigger reserve is content-conditional: plain-noun
       compactions bracket [33,622, 35,147), run 1's two do not overlap
       each other. Script committed as `test/harness/extract_e30.py`.
-- [ ] A.3 `test/results/2026-09-15-compaction-preregistration.md`: the
+- [x] A.3 `test/results/2026-09-15-compaction-preregistration.md`: the
       three shapes, the three arms, sample sizes, grading, exclusion and
       calibration rules, decision rules, predictions with numbers, cost.
+      Done 2026-09-15. Six exclusion and calibration rules (the sixth,
+      `stub-summary`, added from A.2's run 1 finding before any run),
+      four decision rules, predictions per shape and arm as counts out
+      of five, USD 27 to 40.
 - [ ] A.4 `docs/COMPACTION-DESIGN.md` gains a "Revisions from Plan 4"
       section: the spec Stages B to E execute (the harness script's
       contract, the fixture and grader contracts, the transcript-first
