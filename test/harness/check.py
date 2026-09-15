@@ -791,6 +791,20 @@ def check_compact_bench_selftest(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+def check_interactive_checklist_selftest(r: Report) -> None:
+    """INTERACTIVE-CHECKLIST-SELFTEST: test/harness/interactive_checklist.py's
+    --selftest passes: --prepare and --check against a throwaway git
+    repository, no claude -p calls (docs/PLAN-4.md Stage D.1)."""
+    script = REPO_ROOT / "test" / "harness" / "interactive_checklist.py"
+    if not script.exists():
+        r.add("INTERACTIVE-CHECKLIST-SELFTEST", "interactive_checklist.py --selftest passes", False,
+              f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("INTERACTIVE-CHECKLIST-SELFTEST", "interactive_checklist.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
 def check_handoffs(r: Report) -> None:
     """HANDOFF: every file under handoffs/ passes `tools/handoff.py check`
     (docs/PLAN-2.md Stage 3.2): all ten headings present, in order, none
@@ -900,6 +914,7 @@ def main(argv: list[str]) -> int:
     check_handoff_selftest(report)
     check_probe_selftest(report)
     check_compact_bench_selftest(report)
+    check_interactive_checklist_selftest(report)
     check_handoffs(report)
 
     when = dt.datetime.now()

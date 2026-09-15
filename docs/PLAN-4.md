@@ -378,7 +378,7 @@ Jeb's, on whatever the desktop app is set to. Live spend USD 0.5 to 2.
 
 Tasks:
 
-- [ ] D.1 `test/harness/interactive_checklist.py`: prepares
+- [x] D.1 `test/harness/interactive_checklist.py`: prepares
       `orchestrator-scratch` (fragment merged, instructions appended,
       `autoCompactWindow` set at project scope only, `.claude/context-usage.json`
       removed) and afterwards reads back everything the session should
@@ -386,6 +386,18 @@ Tasks:
       last written, `main.context_window_size` against the configured
       window (E32), the raw `tasks` entry with `tokenSamples` verbatim,
       and `.claude/session.json`. Prints a FINDINGS-ready table.
+      Done 2026-09-15. `--prepare` also removes `.claude/session.json`
+      (not named explicitly by this bullet, added so `--check` can tell
+      a freshly-written pointer from a stale one) and seeds T12 so D.2
+      has a fixture ready to point at, reusing the same task Stage B
+      measured. `--check` takes `--autocompact-readback` as an argument
+      since no file records what `/autocompact` prints on screen; D.2
+      supplies it from what was observed. `--selftest`, 4 scenarios,
+      against a throwaway git repository; new harness check
+      INTERACTIVE-CHECKLIST-SELFTEST, 30 checks. Run for real against
+      `orchestrator-scratch`: `autoCompactWindow` set to 130000, T12
+      seeded, `.claude/session.json` removed (`.claude/context-usage.json`
+      was already absent). Zero live spend.
 - [ ] D.2 Jeb's session, about five commands the checklist prints: open a
       session in `orchestrator-scratch`, run `/autocompact` and read the
       value back (E31), spawn one worker on T12 at window 130,000, wait,
