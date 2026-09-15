@@ -84,7 +84,7 @@ Tasks:
 - [ ] 1.2 D64: the reopening, the judge/resolver separation, the triple's
       blindness to T10's shape, the proactive rule as arithmetic plus a
       labelled policy dial, and what each later stage may not change.
-- [ ] 1.3 `src/cost_table.json`: per-cell cost and wall clock, the verdict
+- [x] 1.3 `src/cost_table.json`: per-cell cost and wall clock, the verdict
       cost, the Controller's per-run and instantiation costs, each row
       with its provenance (result file, n, date) and the cost regime it
       was measured under (E27). Derived from recorded results only.
