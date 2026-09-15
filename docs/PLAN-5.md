@@ -121,8 +121,9 @@ Tasks:
       re-run under Stage B's cap; a forwarder failure likewise), the
       decision rule (decomposition supported for T12 when arm D's
       failure rate is below arm A's with non-overlapping 95 percent
-      Wilson intervals; refuted when arm D's lower bound is at or above
-      arm A's; undecided otherwise, recorded as such), predictions with
+      Wilson intervals; not supported when arm D's failure rate is at or
+      above arm A's; undecided otherwise, recorded as such; the
+      pre-registration's own wording governs where this summary differs), predictions with
       numbers, and cost. Also pre-registers the broadened refusal
       detector's acceptance test (Thread 3) and the interactive session's
       two observations (Thread 4), so nothing in Stages B to D is decided
