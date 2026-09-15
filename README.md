@@ -222,7 +222,6 @@ instructions.
 | `test/results/` | 175 dated result files; no index yet (audit C5) |
 | `docs/` | Decisions, findings, premises, cost, the design documents, the five plans, this audit |
 | `handoffs/` | Five session handoffs, each passing `handoff.py check` |
-| `USAGE_PROJECT.md` | An older install guide the audit recommends removing (audit C1) |
 | `graft/`, `dist-rubric-only/` | Gitignored local artefacts: a code index for one machine's tooling, and a stale measurement build |
 
 ## What is not known
