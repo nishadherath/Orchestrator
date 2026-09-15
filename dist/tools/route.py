@@ -647,15 +647,29 @@ def _claude_projects_slug(project: Path) -> str:
     return re.sub(r"[:\\/]", "-", str(project.resolve()))
 
 
-def _find_transcript_compactions(project: Path, worker_name: str) -> int | None:
-    """The `transcript` fallback (docs/COMPACTION-DESIGN.md section 5):
-    search every session directory under the guessed projects slug for an
-    `agent-*.meta.json` whose `name` matches, and count `compact_boundary`
-    entries in its sibling `.jsonl`. Returns `None`, never raises, if the
-    projects directory, a matching meta file, or the sibling transcript
-    cannot be found: this is a best-effort fallback, not a guaranteed one,
-    and `fill_context` treats `None` as license to fall through to `source:
+def _find_transcript_compactions(project: Path, cell: str | None) -> int | None:
+    """The `transcript` fallback (docs/COMPACTION-DESIGN.md section 5, as
+    corrected by E30, docs/PLAN-3.md Stage E): search every session
+    directory under the guessed projects slug for the most recently
+    modified `agent-*.meta.json` whose `agentType` matches this cell, and
+    count `compact_boundary` entries in its sibling `.jsonl`.
+
+    The design as first written matched on the worker's assigned `name`;
+    E30's live probe found `agent-*.meta.json` carries no `name` field at
+    all (its actual keys are `agentType`, `description`, `toolUseId`,
+    `spawnDepth`, `requestShape`, `requestNonInteractive`), and the
+    assigned name does not appear in the subagent's own transcript
+    either, only in the parent session's prompt text. Matching on `cell`
+    (`agentType`) instead is weaker, since it cannot distinguish two
+    same-cell workers spawned close together, and this precision loss is
+    the honest cost of the fix, not hidden by it. Returns `None`, never
+    raises, if the projects directory, a matching meta file, or the
+    sibling transcript cannot be found, or if `cell` itself is `None`:
+    this is a best-effort fallback, not a guaranteed one, and
+    `fill_context` treats `None` as license to fall through to `source:
     "none"` rather than a reason to error out of `--record` entirely."""
+    if not cell:
+        return None
     projects_dir = Path.home() / ".claude" / "projects" / _claude_projects_slug(project)
     if not projects_dir.is_dir():
         return None
@@ -665,7 +679,7 @@ def _find_transcript_compactions(project: Path, worker_name: str) -> int | None:
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
             continue
-        if meta.get("name") == worker_name:
+        if meta.get("agentType") == cell:
             matches.append(meta_path)
     if not matches:
         return None
@@ -677,15 +691,16 @@ def _find_transcript_compactions(project: Path, worker_name: str) -> int | None:
         text = transcript.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return None
-    return text.count("compact_boundary")
+    return text.count('"subtype":"compact_boundary"')
 
 
-def fill_context(project: Path, worker_name: str | None) -> dict:
+def fill_context(project: Path, worker_name: str | None, cell: str | None = None) -> dict:
     """The `context` field for a `--record` entry (docs/COMPACTION-DESIGN.md
     section 5): `tools/context_probe.py`'s per-task record for this worker
-    name, else a transcript's `compact_boundary` count, else nothing
-    observed. Never raises; a missing file, an unmatched name, or a data
-    source that cannot be located each fall through to the next
+    name, else a transcript's `compact_boundary` count for this cell
+    (`_find_transcript_compactions`, corrected by E30), else nothing
+    observed. Never raises; a missing file, an unmatched name or cell, or
+    a data source that cannot be located each fall through to the next
     precedence level rather than failing the whole `--record` call, since
     a worker's outcome is worth recording even when its context usage is
     not observable. `worker_name=None` (no `--worker-name` given to a
@@ -704,7 +719,7 @@ def fill_context(project: Path, worker_name: str | None) -> dict:
             return {"peak_tokens": task.get("peak_tokens"), "window": task.get("contextWindowSize"),
                     "compactions": task.get("compactions"), "source": "statusline"}
 
-    compactions = _find_transcript_compactions(project, worker_name)
+    compactions = _find_transcript_compactions(project, cell)
     if compactions is not None:
         return {"peak_tokens": None, "window": None, "compactions": compactions, "source": "transcript"}
 
@@ -1145,7 +1160,7 @@ def main(argv: list[str]) -> int:
             if outcome not in ("pass", "fail", "unknown"):
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
-        context = fill_context(args.project, pending_worker_name(pending_entry))
+        context = fill_context(args.project, pending_worker_name(pending_entry), pending_entry.get("first_cell"))
         updates = {"escalations": escalations, "final_outcome": args.outcome,
                    "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
                    "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
@@ -1176,7 +1191,7 @@ def main(argv: list[str]) -> int:
             if outcome not in ("pass", "fail", "unknown"):
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
-        context = fill_context(args.project, args.worker_name)
+        context = fill_context(args.project, args.worker_name, args.first_cell)
         entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
