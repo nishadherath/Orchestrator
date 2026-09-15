@@ -127,12 +127,17 @@ Tasks:
       writes), cache read median 111,763 and maximum 172,669 across all
       cells. COST-TABLE now requires the section and provenance on each
       subsection.
-- [ ] A.4 `docs/COMPACTION-DESIGN.md`: the spec Stages B to D execute. The
+- [x] A.4 `docs/COMPACTION-DESIGN.md`: the spec Stages B to D execute. The
       ledger's `context` field and `ledger_version` 1; `route.py --spawn`,
       `--recover`, the `--explain` context line and its threshold; the
       status line script and the file it writes; the settings fragment and
       the hook; the compact-instructions text; `preflight.py`'s checks; the
       overflow posterior and advisory; every pass condition.
+      Done 2026-09-15. Twelve sections; adds `tools/context_probe.py` (the
+      status line script, both modes, one file), a PROBE-SELFTEST check,
+      and the `--record --pending <id>` completion of a `--spawn` entry.
+      Names the one unverified inference (a compaction seen as a large drop
+      in a task's token samples) and routes it to E30.
 - [ ] A.5 `test/harness/empirical-checklist.md` gains E29 (no agent tool
       path to `/compact`) and E30 (E20 redesigned: a worker on a task that
       fills its window); `docs/PREMISES.md`'s P29 row points at D68.
