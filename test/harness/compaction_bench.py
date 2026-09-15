@@ -55,8 +55,12 @@ COMPACT_INSTRUCTIONS_MARKER = "# Compact instructions"
 # Arms, per the pre-registration: whether CLAUDE_CODE_AUTO_COMPACT_WINDOW
 # is set in the forwarder call's environment, and whether the compact
 # instructions section is appended to CLAUDE.md for this arm's runs.
-ARM_SETS_WINDOW = {"A": True, "B": False, "C": True}
-ARM_APPENDS_INSTRUCTIONS = {"A": False, "B": False, "C": True}
+# D (docs/PLAN-5.md, test/results/2026-09-15-decomposition-preregistration.md):
+# the same window as A, no instructions appended, but two forwarder calls
+# per run (run_one_decomposed) instead of one; main()'s loop dispatches
+# on this, not on a fourth boolean table here.
+ARM_SETS_WINDOW = {"A": True, "B": False, "C": True, "D": True}
+ARM_APPENDS_INSTRUCTIONS = {"A": False, "B": False, "C": True, "D": False}
 
 
 def compact_instructions_text() -> str:
@@ -411,6 +415,171 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
             "calibration": calibration, "report_text": None if passed else report_text}
 
 
+def load_decomposed_parts(task: dict) -> tuple[str, str] | None:
+    """`task-part1.md` and `task-part2.md` beside `task.md` in the fixture
+    directory, if both exist (docs/COMPACTION-DESIGN.md section 14.2);
+    `None` if either is missing, which `run_one_decomposed`'s caller
+    treats as "this fixture has no arm D" rather than guessing a split."""
+    part1 = task["dir"] / "task-part1.md"
+    part2 = task["dir"] / "task-part2.md"
+    if not (part1.is_file() and part2.is_file()):
+        return None
+    return part1.read_text(encoding="utf-8").strip(), part2.read_text(encoding="utf-8").strip()
+
+
+def _subtotal_handover_text(partial_text: str | None) -> str:
+    """What part 2's `{subtotal}` placeholder is filled with (pre-
+    registration rule 5): the integer itself when `partial.txt` held one
+    and only that, or a sentence naming the failure otherwise, so part 2
+    still runs and the run is scored on what it produces rather than
+    excluded. A state handover that fails is a real decomposition
+    failure mode, not a data-collection gap."""
+    return partial_text if partial_text and partial_text.isdigit() else "the previous worker recorded no subtotal"
+
+
+def run_one_decomposed(project: Path, task: dict, dest: Path, cell: str, forwarder_model: str,
+                        permission_args: list[str], timeout: float, grade_timeout: float,
+                        window: int | None) -> dict:
+    """Arm D (docs/COMPACTION-DESIGN.md section 14.2,
+    test/results/2026-09-15-decomposition-preregistration.md): the same
+    task as arm A, split by the harness into two fixed sub-handovers
+    issued as two separate forwarder calls, never resumed from one
+    another, communicating only through `partial.txt` in the shared
+    working directory. Never raises, mirroring `run_one`'s own contract:
+    a forwarder or transcript-location failure on either part is a data
+    point, not a harness error."""
+    parts = load_decomposed_parts(task)
+    if parts is None:
+        raise ValueError(f"{task['id']} has no task-part1.md/task-part2.md; arm D needs both")
+    part1_text, part2_text = parts
+
+    benchmark.reset_task(project, dest)
+    workdir_rel = dest.relative_to(project).as_posix()
+    old_env = os.environ.get("CLAUDE_CODE_AUTO_COMPACT_WINDOW")
+    if window is not None:
+        os.environ["CLAUDE_CODE_AUTO_COMPACT_WINDOW"] = str(window)
+    elif old_env is not None:
+        del os.environ["CLAUDE_CODE_AUTO_COMPACT_WINDOW"]
+
+    def restore_window() -> None:
+        if window is not None:
+            if old_env is not None:
+                os.environ["CLAUDE_CODE_AUTO_COMPACT_WINDOW"] = old_env
+            else:
+                os.environ.pop("CLAUDE_CODE_AUTO_COMPACT_WINDOW", None)
+
+    started_after_1 = time.time() - 2
+    try:
+        report1, cost1, elapsed1, _ = benchmark.run_cell(
+            project, cell, part1_text, workdir_rel, forwarder_model, permission_args, timeout)
+        error = None
+    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+        report1, cost1, elapsed1, error = None, None, None, str(exc)
+    if error is not None:
+        restore_window()
+        return {"cell": cell, "outcome": "forwarder_error", "error": f"part 1: {error}", "cost": cost1,
+                "wall_clock": elapsed1, "grade_output": "[not graded: part 1 forwarder call failed]",
+                "transcript": None}
+
+    transcript_path_1 = locate_transcript(project, cell, started_after_1)
+
+    partial_path = dest / "partial.txt"
+    partial_text = partial_path.read_text(encoding="utf-8").strip() if partial_path.is_file() else None
+    subtotal_handed_over = _subtotal_handover_text(partial_text)
+
+    started_after_2 = time.time() - 2
+    try:
+        report2, cost2, elapsed2, _ = benchmark.run_cell(
+            project, cell, part2_text.format(subtotal=subtotal_handed_over), workdir_rel,
+            forwarder_model, permission_args, timeout)
+        error = None
+    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+        report2, cost2, elapsed2, error = None, None, None, str(exc)
+    restore_window()
+    if error is not None:
+        return {"cell": cell, "outcome": "forwarder_error", "error": f"part 2: {error}",
+                "cost": (cost1 or 0) + 0 if cost1 is not None else None, "wall_clock": elapsed1,
+                "grade_output": "[not graded: part 2 forwarder call failed]", "transcript": None,
+                "partial_txt": partial_text, "subtotal_handed_over": subtotal_handed_over}
+
+    transcript_path_2 = locate_transcript(project, cell, started_after_2)
+    cost = (cost1 or 0) + (cost2 or 0) if cost1 is not None and cost2 is not None else None
+    wall_clock = (elapsed1 or 0) + (elapsed2 or 0) if elapsed1 is not None and elapsed2 is not None else None
+    report_text = (report2 or "") if report2 is not None else (report1 or "")
+
+    return _finish_decomposed_run(dest, task, transcript_path_1, transcript_path_2, cell, cost, wall_clock,
+                                   (cost1, cost2), (elapsed1, elapsed2), partial_text, subtotal_handed_over,
+                                   report_text, grade_timeout)
+
+
+def _finish_decomposed_run(dest: Path, task: dict, transcript_path_1: Path | None, transcript_path_2: Path | None,
+                            cell: str, cost: float | None, wall_clock: float | None,
+                            cost_parts: tuple, wall_clock_parts: tuple, partial_text: str | None,
+                            subtotal_handed_over: str, report_text: str, grade_timeout: float) -> dict:
+    """The bookkeeping half of `run_one_decomposed`, split out so it can
+    be exercised in `--selftest` against synthetic transcript paths, with
+    no `claude -p` call: concatenates both parts' transcripts for the
+    grader, grades once, and computes `uncalibrated` from a boundary in
+    EITHER part (pre-registration rule 2), the opposite sense from arm
+    A/C's `run_one`, where a MISSING boundary is what makes a run
+    uncalibrated."""
+    transcript_1 = extract_transcript(transcript_path_1) if transcript_path_1 else None
+    transcript_2 = extract_transcript(transcript_path_2) if transcript_path_2 else None
+    if transcript_path_1 is None or transcript_path_2 is None:
+        return {"cell": cell, "outcome": "no_transcript", "cost": cost, "wall_clock": wall_clock,
+                "grade_output": "[not graded: no matching transcript located for one or both parts]",
+                "transcript": None, "uncalibrated": True,
+                "partial_txt": partial_text, "subtotal_handed_over": subtotal_handed_over}
+
+    # Concatenated so the grader's single BENCH_TRANSCRIPT sees both
+    # workers' tool_use calls; BENCH_BOUNDARY_INDEX left empty (section
+    # 14.2), which the graders' own "${BENCH_BOUNDARY_INDEX:-0}" default
+    # treats as "scope is the whole transcript", the right reading when
+    # there is no compaction boundary to be strictly after.
+    concat_path = dest.parent / f"{dest.name}-arm-D-concat-transcript.jsonl"
+    concat_path.write_text(
+        transcript_path_1.read_text(encoding="utf-8", errors="replace").rstrip("\n") + "\n" +
+        transcript_path_2.read_text(encoding="utf-8", errors="replace").rstrip("\n") + "\n",
+        encoding="utf-8")
+
+    env_extra = dict(os.environ)
+    env_extra["BENCH_TRANSCRIPT"] = str(concat_path)
+    env_extra["BENCH_BOUNDARY_INDEX"] = ""
+    env_extra["BENCH_CONSTRAINT"] = (task["dir"] / "constraint.json").as_posix()
+    try:
+        passed, grade_output = grade_with_env(dest, task, report_text, grade_timeout, env_extra)
+    except subprocess.TimeoutExpired:
+        passed, grade_output = False, "[grader timed out]"
+
+    task_line = re.search(r"^TASK:\s*(\S+)", grade_output, flags=re.M)
+    constraint_line = re.search(r"^CONSTRAINT:\s*(\S+)", grade_output, flags=re.M)
+    constraint_any_line = re.search(r"^CONSTRAINT-ANY:\s*(\S+)", grade_output, flags=re.M)
+
+    api_errors = (transcript_1.get("api_errors") or []) + (transcript_2.get("api_errors") or [])
+    thrashed = any("thrashing" in e.lower() or "autocompact is thrashing" in e.lower() for e in api_errors)
+    outcome = "aborted" if thrashed else ("kept" if passed else "violated")
+
+    boundary_in_either = bool(transcript_1["compactions"] or transcript_2["compactions"])
+    uncalibrated = boundary_in_either  # rule 2: a compaction in either part did not test decomposition
+
+    stub_summary = any(s["chars"] < 2000 or s["headings"] == 0
+                        for s in (transcript_1.get("summaries", []) + transcript_2.get("summaries", [])))
+    injection_refusal = bool(boundary_in_either and (
+        (transcript_1["compactions"] and detect_injection_refusal(transcript_path_1)) or
+        (transcript_2["compactions"] and detect_injection_refusal(transcript_path_2))))
+
+    return {"cell": cell, "outcome": outcome, "passed": passed, "cost": cost, "wall_clock": wall_clock,
+            "cost_parts": cost_parts, "wall_clock_parts": wall_clock_parts,
+            "grade_output": grade_output, "task_status": task_line.group(1) if task_line else None,
+            "constraint_status": constraint_line.group(1) if constraint_line else None,
+            "constraint_any_status": constraint_any_line.group(1) if constraint_any_line else None,
+            "transcript": transcript_1, "transcript_part2": transcript_2,
+            "stub_summary": stub_summary, "injection_refusal": injection_refusal,
+            "uncalibrated": uncalibrated, "calibration": None,
+            "partial_txt": partial_text, "subtotal_handed_over": subtotal_handed_over,
+            "report_text": None if passed else report_text}
+
+
 def grade_with_env(dest: Path, task: dict, report_text: str | None, timeout: float, env: dict) -> tuple[bool, str]:
     """Exactly `benchmark.grade`'s WSL-mount retry contract, but passing an
     explicit environment (the transcript path and boundary index this
@@ -476,6 +645,18 @@ def render_arm(arm: str, task_id: str, runs: list[dict], window: int | None, cel
                  f"Violations: {violations} of {len(scored)} (constraint status; see this function's "
                  f"docstring for why this is not `outcome`). 95% Wilson interval on the violation rate: "
                  f"[{lo:.3f}, {hi:.3f}].")
+    # The decomposition measurement's own decision rule
+    # (test/results/2026-09-15-decomposition-preregistration.md) is
+    # computed from the combined outcome, not the constraint alone: a
+    # task that did not finish is a failed outcome whatever happened to
+    # the constraint, which is exactly the distinction the comment above
+    # explains for why Violations must NOT use this figure. Printed as
+    # its own line, for every arm, so two arms are compared on the same
+    # number rather than mixing constraint-only and combined rates.
+    failures = sum(1 for r in scored if r["outcome"] != "kept")
+    flo, fhi = claudep.wilson_interval(failures, len(scored)) if scored else (0.0, 1.0)
+    lines.append(f"Combined failures (task not done or constraint violated): {failures} of {len(scored)}. "
+                 f"95% Wilson interval: [{flo:.3f}, {fhi:.3f}].")
     not_done = sum(1 for r in scored if r.get("task_status") == "not-done")
     aborted = sum(1 for r in runs if r["outcome"] == "aborted")
     stubs = sum(1 for r in runs if r.get("stub_summary"))
@@ -524,8 +705,10 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     detect_injection_refusal (D77, D79) against a clean sample and three
     synthetic cases: a refusal inside the summary text, a refusal several
     assistant turns after the boundary past an intervening tool call, and
-    a matching phrase before the first boundary that must not count. No
-    claude -p calls."""
+    a matching phrase before the first boundary that must not count; and
+    arm D's bookkeeping (section 14.2, Stage B.3): subtotal handover
+    text, part-file presence, transcript concatenation, and a boundary
+    in either part uncalibrating the run. No claude -p calls."""
     problems: list[str] = []
 
     def check(cond: bool, msg: str) -> None:
@@ -666,6 +849,63 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check(not detect_injection_refusal(before_boundary),
               "(f3) a matching phrase before the first boundary must not count")
 
+    # (g) Arm D's bookkeeping (docs/COMPACTION-DESIGN.md section 14.2,
+    # docs/PLAN-5.md Stage B.3): _subtotal_handover_text's three cases,
+    # load_decomposed_parts' presence check, and _finish_decomposed_run's
+    # transcript concatenation and boundary-in-either-part uncalibration,
+    # all without a claude -p call.
+    check(_subtotal_handover_text("1050") == "1050", "(g) a clean integer subtotal is handed over verbatim")
+    check(_subtotal_handover_text(None) == "the previous worker recorded no subtotal",
+          "(g) a missing partial.txt hands over the no-subtotal sentence")
+    check(_subtotal_handover_text("not a number") == "the previous worker recorded no subtotal",
+          "(g) a malformed partial.txt hands over the no-subtotal sentence")
+
+    t12 = benchmark.load_task("T12")
+    check(load_decomposed_parts(t12) is not None, "(g) T12 has task-part1.md and task-part2.md")
+    fake_task_no_parts = {"dir": REPO_ROOT / "test" / "fixtures" / "system"}
+    check(load_decomposed_parts(fake_task_no_parts) is None,
+          "(g) a task directory with neither part file returns None")
+
+    import shutil
+    with tempfile.TemporaryDirectory(prefix="compaction-bench-selftest-") as tmp:
+        dest = Path(tmp) / "work"
+        shutil.copytree(t12["repo"], dest)
+        (dest / "summary.txt").write_text("1750", encoding="utf-8")
+
+        def clean_transcript(path: Path, n_reads: int) -> None:
+            lines = [json.dumps({"type": "assistant", "message": {"content": [
+                {"type": "tool_use", "name": "Read", "input": {}}]}}, separators=(",", ":"))
+                for _ in range(n_reads)]
+            lines.append(json.dumps({"type": "assistant", "message": {"content": [
+                {"type": "tool_use", "name": "Write", "input": {}}]}}, separators=(",", ":")))
+            path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+        t1 = Path(tmp) / "t1.jsonl"
+        t2 = Path(tmp) / "t2.jsonl"
+        clean_transcript(t1, 3)
+        clean_transcript(t2, 2)
+        record = _finish_decomposed_run(dest, t12, t1, t2, "worker-sonnet-low", 0.9, 120.0,
+                                         (0.5, 0.4), (60.0, 60.0), "1050", "1050", "1750", 30)
+        check(record["outcome"] == "kept" and record["uncalibrated"] is False,
+              f"(g) two clean, boundary-free transcripts should grade kept and calibrated, got {record}")
+        concat_path = dest.parent / f"{dest.name}-arm-D-concat-transcript.jsonl"
+        check(concat_path.is_file() and concat_path.read_text(encoding="utf-8").count('"Read"') == 5,
+              "(g) the concatenated transcript should hold both parts' tool_use calls "
+              "(3 Read from part 1, 2 from part 2)")
+
+        # A boundary in the second part only must still uncalibrate the
+        # whole run (rule 2: either part compacting means decomposition
+        # was not actually tested).
+        t2_boundary = Path(tmp) / "t2-boundary.jsonl"
+        t2_boundary.write_text(
+            json.dumps({"type": "system", "subtype": "compact_boundary",
+                        "compactMetadata": {"preTokens": 90000}}, separators=(",", ":")) + "\n" +
+            t2.read_text(encoding="utf-8"), encoding="utf-8")
+        record2 = _finish_decomposed_run(dest, t12, t1, t2_boundary, "worker-sonnet-low", 0.9, 120.0,
+                                          (0.5, 0.4), (60.0, 60.0), "1050", "1050", "1750", 30)
+        check(record2["uncalibrated"] is True,
+              f"(g) a compact_boundary in part 2 alone should uncalibrate the run, got {record2}")
+
     return (not problems, problems)
 
 
@@ -696,7 +936,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 6 scenarios")
+            print("selftest: PASS, 7 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -711,12 +951,16 @@ def main(argv: list[str]) -> int:
     permission_args = claudep.BYPASS_PERMISSION_ARGS if args.unattended_bypass else claudep.FORWARDER_PERMISSION_ARGS
 
     if args.dry_run:
+        total_calls = 0
         for arm in arms:
             window = args.window if ARM_SETS_WINDOW[arm] else None
+            calls_per_run = 2 if arm == "D" else 1
             for task in tasks:
                 print(f"arm {arm}, {task['id']}: window={window}, instructions={ARM_APPENDS_INSTRUCTIONS[arm]}, "
-                      f"{args.runs} runs x cell {args.cell}")
-        print(f"up to {len(arms) * len(tasks) * args.runs} calls at ~USD 0.5 each")
+                      f"{args.runs} runs x cell {args.cell}"
+                      f"{' (2 forwarder calls per run)' if arm == 'D' else ''}")
+                total_calls += args.runs * calls_per_run
+        print(f"up to {total_calls} calls at ~USD 0.5 each")
         return 0
 
     checkpoint_path = project / CHECKPOINT_FILENAME
@@ -745,8 +989,9 @@ def main(argv: list[str]) -> int:
                 dest = benchmark.seed_task(project, task)
                 prior = checkpoint.prior_runs(task["id"], arm, args.cell)
                 runs = list(prior)
+                run_fn = run_one_decomposed if arm == "D" else run_one
                 for _ in range(len(prior), args.runs):
-                    record = run_one(project, task, dest, args.cell, args.forwarder_model,
+                    record = run_fn(project, task, dest, args.cell, args.forwarder_model,
                                      permission_args, args.timeout, args.grade_timeout, window)
                     checkpoint.record(task["id"], arm, args.cell, record)
                     runs.append(record)

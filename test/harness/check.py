@@ -791,6 +791,36 @@ def check_compact_bench_selftest(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+def check_fixture_clean(r: Report) -> None:
+    """FIXTURE-CLEAN: no file under a compaction-measurement fixture's
+    `repo/` or its `task.md` names this repository (`docs/PLAN-4.md`
+    Stage D found a worker read `make_chunks.py`'s own docstring, which
+    cited this project's plans and decisions, and used that to refuse
+    the whole task as synthetic; `docs/COMPACTION-DESIGN.md` section
+    14.1 is the contract this check enforces). Scoped to T12 through T15
+    (`T1[2-5]`), the shapes this repository has built for this purpose;
+    an older benchmark fixture (T1 through T11) is not required to avoid
+    these words, since none of them is read by a worker mid-compaction
+    the way these are."""
+    banned = re.compile(r"PLAN-|D7\d|E30|harness|benchmark|measurement|empirical|fixture", re.IGNORECASE)
+    offenders = []
+    for fixture_dir in sorted((REPO_ROOT / "test" / "fixtures" / "benchmark").glob("T1[2-5]")):
+        candidates = [fixture_dir / "task.md"] + list((fixture_dir / "repo").glob("**/*")) \
+            if (fixture_dir / "repo").is_dir() else [fixture_dir / "task.md"]
+        for path in candidates:
+            if not path.is_file():
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            m = banned.search(text)
+            if m:
+                offenders.append(f"{path.relative_to(REPO_ROOT)}: {m.group(0)!r}")
+    r.add("FIXTURE-CLEAN", "no T12-T15 repo/ or task.md file self-references this repository",
+          not offenders, f"{len(offenders)} offender(s): {offenders}" if offenders else "clean")
+
+
 def check_interactive_checklist_selftest(r: Report) -> None:
     """INTERACTIVE-CHECKLIST-SELFTEST: test/harness/interactive_checklist.py's
     --selftest passes: --prepare and --check against a throwaway git
@@ -914,6 +944,7 @@ def main(argv: list[str]) -> int:
     check_handoff_selftest(report)
     check_probe_selftest(report)
     check_compact_bench_selftest(report)
+    check_fixture_clean(report)
     check_interactive_checklist_selftest(report)
     check_handoffs(report)
 
