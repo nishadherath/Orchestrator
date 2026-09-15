@@ -100,7 +100,7 @@ The rules `docs/PLAN-2.md` ran under, carried forward unchanged:
 
 ## Stage A. Design, evidence, the spec
 
-Status: **in progress (since 2026-09-15)**
+Status: **done (2026-09-15, see the A.7 commit)**
 Model: fable, high. Judgement over the evidence; everything after this
 stage is implementation from what this stage writes down.
 
@@ -150,12 +150,16 @@ Tasks:
       Done 2026-09-15. Carries the one sequencing decision Stage B needs
       that the design doc leaves implicit: `--spawn` writes a version-0
       entry until Stage C's schema accepts version 1.
-- [ ] A.7 Update this stage's status line and commit it.
+- [x] A.7 Update this stage's status line and commit it.
 
 Exit criteria: D68 present; the `context` section committed with
 provenance; the design doc names every file Stages B to D touch and the
 pass condition of every check; the handoff exists and names the model and
-effort to switch to; harness green.
+effort to switch to; harness green. All met 2026-09-15: D68 at `7f13e2d`;
+`context` at `4e57b5f` with COST-TABLE asserting its provenance; the
+design doc's section 11 lists every pass condition; the handoff at
+`handoffs/2026-09-15-plan3-stageB.md` names sonnet, high; harness 27 of
+27.
 
 ## Stage B. Settings, hooks, recovery
 
