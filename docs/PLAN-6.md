@@ -247,7 +247,7 @@ Tasks:
       D.1, `src/README.md` from the cherry-picked out-of-plan fix) and
       nothing between here and D.5 touches another shipped file except
       possibly D.4's `generate_priors.py` fix.
-- [ ] D.3 C5: `test/harness/results_index.py` writes
+- [x] D.3 C5: `test/harness/results_index.py` writes
       `test/results/INDEX.md` (date, kind, bundle, size, citing D
       entries); `check.py --record` runs it; the first index committed.
 - [ ] D.4 C9, A23, A24, A25, A34: `fixture_fingerprint` skips

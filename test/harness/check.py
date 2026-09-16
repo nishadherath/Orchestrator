@@ -1095,6 +1095,13 @@ def main(argv: list[str]) -> int:
         out = RESULTS_DIR / f"{when.strftime('%Y-%m-%d')}-harness.md"
         out.write_text(render_markdown(report, when, git_rev), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
+        # docs/PLAN-6.md D.3, audit C5: --record is the one point every
+        # harness run that writes to test/results/ already passes through,
+        # so it is where the index it needs to stay current gets rebuilt.
+        index_script = REPO_ROOT / "test" / "harness" / "results_index.py"
+        index_proc = subprocess.run([sys.executable, str(index_script)], capture_output=True, text=True, cwd=REPO_ROOT)
+        print(index_proc.stdout.strip() if index_proc.returncode == 0
+              else f"results_index.py failed:\n{(index_proc.stdout + index_proc.stderr).strip()[-500:]}")
     return 1 if report.failed else 0
 
 
