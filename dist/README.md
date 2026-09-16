@@ -39,9 +39,11 @@ tools/
                                                      for on a model or effort change)
   context_probe.py                                  (the statusLine and subagentStatusLine
                                                      commands settings.fragment.json wires
-                                                     in; writes .claude/context-usage.json,
-                                                     which route.py --explain's context
-                                                     line reads)
+                                                     in; --main writes .claude/context-main.json,
+                                                     --tasks writes .claude/context-tasks.json,
+                                                     each command owning its own file so the
+                                                     two cannot race; route.py --explain's
+                                                     context line reads context-main.json)
   system_controller.py                              (the Controller: a quick-mode multi-
                                                      role state machine ORCHESTRATOR.md
                                                      section 4 invokes with the Bash tool
@@ -421,7 +423,7 @@ explains why, keyed by the commit named in the version string.
   mid-run (`docs/DECISIONS.md` D80). It buys nothing once a worker is
   already mid-task and the trigger has already fired; there is no
   in-flight remedy for that case.
-- `.claude/context-usage.json`'s `tasks` entry, meant to carry a running
+- `.claude/context-tasks.json`'s `tasks` entry, meant to carry a running
   worker's own token usage, has never been observed populated in an
   interactive session, including a twelve-file fixture built specifically
   to give it several minutes with the tasks panel open

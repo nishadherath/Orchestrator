@@ -175,16 +175,20 @@ def resolve(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     raise NoRuleMatches(sensitivity, horizon, blast, reason)
 
 
-# Cost order for the two-axis collapse below: cheapest first. Identical to
+# Cost order for posterior()'s rung sort below (D64). Identical to
 # benchmark.py's own LADDER; duplicated rather than shared, because both
 # scripts are meant to stand alone (the same rationale generate_workers.py's
 # bundle_tag() and score_routing.py's wilson_interval() already give for
 # their own duplicated helpers). Does not include worker-opus-max or
 # worker-fable-max (the frontier row, reached only via prior_failure, never
-# by the collapse below) or the cells ROUTING.md's constraints call rarely
-# right (worker-sonnet-max, worker-fable-low, worker-fable-medium), since
-# none of the six (sensitivity, blast) pairs the collapse considers reaches
-# any of those five.
+# a ladder rung) or the cells ROUTING.md's constraints call rarely right
+# (worker-sonnet-max, worker-fable-low, worker-fable-medium), since no
+# bucket's default ladder or steering activation ever names those five.
+#
+# Formerly also served resolve_two_axis(), the two-axis classifier variant
+# (docs/CLASSIFIER-DESIGN.md), deleted here (2026-09-16, docs/PLAN-6.md
+# D.1, audit A9, A21, A22): D40 rejected the two-axis design and nothing
+# but that function and score_routing.py's --axes 2 mode ever called it.
 COST_ORDER = (
     "worker-sonnet-low",
     "worker-sonnet-medium",
@@ -194,65 +198,6 @@ COST_ORDER = (
     "worker-opus-xhigh",
     "worker-fable-xhigh",
 )
-
-
-def resolve_two_axis(sensitivity: Sensitivity, blast: Blast,
-                      self_directed: bool = False, prior_failure: PriorFailure = "none",
-                      table: dict | None = None) -> Rule:
-    """The two-axis classifier variant (docs/CLASSIFIER-DESIGN.md): resolve on
-    sensitivity and blast alone, taking the cheapest cell the three-axis
-    table gives across all three horizons for that pair, per P12
-    (docs/PREMISES.md, the project's own standing policy of taking the
-    cheaper of two defensible cells).
-
-    Computed from the three-axis table each call rather than a second,
-    hand-maintained table, so there is exactly one source of truth and the
-    collapse cannot drift from what resolve() would give per horizon.
-
-    Raises NoRuleMatches only if every horizon is a gap for this
-    (sensitivity, blast) pair; if at least one horizon resolves, the
-    cheapest resolving one wins even if others are gaps (mechanical,
-    contained collapses to worker-sonnet-low this way, since long is a
-    documented gap but short and medium both resolve).
-
-    Known limitation, not specially handled: self_directed genuinely
-    implies a long horizon (ROUTING.md's own wording, "reshapes its own
-    plan as it goes"), but this function tries it against all three
-    horizons regardless, and at open/consequential the cheaper
-    worker-opus-xhigh from a hypothetical short or medium horizon wins over
-    worker-fable-xhigh, silently ignoring the self_directed signal rather
-    than honouring it. `docs/CLASSIFIER-DESIGN.md`'s pre-registration
-    already excludes the two-axis configuration from cell-agreement
-    scoring for the same underlying reason (dropping an axis changes the
-    correct answer), so this is recorded here rather than fixed: fixing it
-    would mean deciding what the two-axis variant does with a field whose
-    only defined meaning already depends on the axis being dropped.
-    """
-    table = table if table is not None else load_table()
-    candidates: list[Rule] = []
-    last_exc: NoRuleMatches | None = None
-    for horizon in table["axes"]["horizon"]:
-        try:
-            candidates.append(resolve(sensitivity, horizon, blast, self_directed, prior_failure, table))
-        except NoRuleMatches as exc:
-            last_exc = exc
-    if not candidates:
-        raise last_exc
-    # The frontier rule matches on prior_failure alone, ignoring sensitivity,
-    # horizon and blast, so if prior_failure="failed_at_xhigh" it matches
-    # identically at all three horizons: candidates here are either all the
-    # frontier rule or none of them, never a mix. Its worker (worker-opus-max)
-    # is deliberately absent from COST_ORDER (it is not a rung on the cost
-    # ladder the collapse ranks), so it is returned directly rather than run
-    # through cost-ranking, which would raise ValueError on the missing
-    # lookup. Found live, 2026-09-11, Stage 6.3 (docs/PLAN.md): a two-stage
-    # classifier call replied prior_failure: failed_at_xhigh for a real
-    # fixture and crashed exactly this path before this fix. Recorded with
-    # Stage 6.4's D40, which covers this same measurement run.
-    escalation = next((c for c in candidates if c.get("escalation_only")), None)
-    if escalation:
-        return escalation
-    return min(candidates, key=lambda rule: COST_ORDER.index(rule["worker"]))
 
 
 # --------------------------------------------------------------------------
@@ -1563,8 +1508,7 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--sensitivity", choices=("mechanical", "structured", "open"))
     ap.add_argument("--horizon", choices=("short", "medium", "long"),
-                     help="omit, with no --ledger/--explain/--from-line, to use the two-axis "
-                          "variant (docs/CLASSIFIER-DESIGN.md); required otherwise")
+                     help="required with plain --sensitivity/--blast/--horizon (or pass --from-line)")
     ap.add_argument("--blast", choices=("contained", "consequential"))
     ap.add_argument("--self-directed", action="store_true",
                      help="the task demands sustained, self-directed investigation "
@@ -1639,7 +1583,7 @@ def main(argv: list[str]) -> int:
         print(recover_report(args.project))
         return 0
 
-    def resolve_assessment() -> tuple[str, str | None, str, bool, str]:
+    def resolve_assessment() -> tuple[str, str, str, bool, str]:
         if args.from_line:
             try:
                 a = parse_assessment_line(args.from_line)
@@ -1653,8 +1597,8 @@ def main(argv: list[str]) -> int:
                 # docs/AUDIT-2026-09-16.md).
                 ap.error(str(exc))
             return a["sensitivity"], a["horizon"], a["blast"], a["self_directed"], a["prior_failure"]
-        if not args.sensitivity or not args.blast:
-            ap.error("--sensitivity and --blast are required (or pass --from-line)")
+        if not args.sensitivity or not args.horizon or not args.blast:
+            ap.error("--sensitivity, --horizon and --blast are required (or pass --from-line)")
         return args.sensitivity, args.horizon, args.blast, args.self_directed, args.prior_failure
 
     ledger_aware = args.record or args.explain or args.ledger is not None or args.from_line is not None
@@ -1741,9 +1685,6 @@ def main(argv: list[str]) -> int:
     sensitivity, horizon, blast, self_directed, prior_failure = resolve_assessment()
 
     if ledger_aware:
-        if horizon is None:
-            ap.error("the ledger-aware path needs a horizon (or a --from-line that carries one); "
-                      "the two-axis variant is only available with plain --sensitivity/--blast")
         ledger_path = args.ledger or default_ledger_path(args.project)
         ledger = load_ledger(ledger_path)
         try:
@@ -1780,10 +1721,7 @@ def main(argv: list[str]) -> int:
         return 0
 
     try:
-        if horizon is None:
-            rule = resolve_two_axis(sensitivity, blast, self_directed, prior_failure)
-        else:
-            rule = resolve(sensitivity, horizon, blast, self_directed, prior_failure)
+        rule = resolve(sensitivity, horizon, blast, self_directed, prior_failure)
     except NoRuleMatches as exc:
         print(str(exc), file=sys.stderr)
         return 1

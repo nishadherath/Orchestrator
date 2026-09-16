@@ -55,6 +55,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import shutil
 import subprocess
 import sys
@@ -206,9 +207,22 @@ def main(argv: list[str]) -> int:
                           "human wanting the full picture, never for a live orchestrator session")
     args = ap.parse_args(argv)
 
-    harness = subprocess.run([sys.executable, str(HARNESS)], capture_output=True, text=True, cwd=REPO_ROOT)
-    if harness.returncode != 0:
-        print("refusing to build: harness failed\n" + harness.stdout[-1500:], file=sys.stderr)
+    # DIST (docs/PLAN-6.md D.2, audit C7) checks dist/ against what this
+    # very build is about to write, so it necessarily fails on a stale
+    # dist/ right up until this build replaces it; gating the build on it
+    # would be a deadlock, not a safety check. Every other check still
+    # gates: this parses --json rather than trusting the exit code so one
+    # check's expected pre-build failure cannot mask a real one.
+    harness = subprocess.run([sys.executable, str(HARNESS), "--json"], capture_output=True, text=True, cwd=REPO_ROOT)
+    try:
+        checks = json.loads(harness.stdout)["checks"]
+    except (json.JSONDecodeError, KeyError):
+        print("refusing to build: harness did not produce parseable --json output\n" + harness.stdout[-1500:], file=sys.stderr)
+        return 1
+    blocking_failures = [c for c in checks if c["status"] == "FAIL" and c["id"] != "DIST"]
+    if blocking_failures:
+        print("refusing to build: harness failed\n" +
+              "\n".join(f"FAIL {c['id']}: {c['detail']}" for c in blocking_failures), file=sys.stderr)
         return 1
 
     suffix = "-with-rationale" if args.with_rationale else ""
@@ -216,8 +230,18 @@ def main(argv: list[str]) -> int:
     version = version_stamp() + suffix
     files = planned_files(version, dist_dir, args.with_rationale)
     if args.dry_run:
+        # Per-file status against what is actually on disk (docs/PLAN-6.md
+        # D.2, audit A1): this used to print "would write" for every file
+        # regardless of whether it would change anything, so it could not
+        # answer "would this build do anything" without a separate diff.
         for path in sorted(files):
-            print(f"would write {path.relative_to(REPO_ROOT)} ({len(files[path])} chars)")
+            if not path.exists():
+                status = "new"
+            elif path.read_text(encoding="utf-8") == files[path]:
+                status = "unchanged"
+            else:
+                status = "changed"
+            print(f"{status:>9} {path.relative_to(REPO_ROOT)} ({len(files[path])} chars)")
         print(f"version {version}")
         return 0
 

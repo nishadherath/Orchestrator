@@ -227,12 +227,26 @@ Tasks:
       `main()`, and `score_routing.py`'s `--axes 2` call site and CLI
       option are all deleted together, since none of them has a caller
       once the two-axis mode retires.
-- [ ] D.2 C7, A3, A2, B8, A1, A11: new DIST check (`planned_files()`
+- [x] D.2 C7, A3, A2, B8, A1, A11: new DIST check (`planned_files()`
       with the committed stamp against `dist/`); `PROSE_GLOBS` gains
       `README.md`; INV7 reads `docs/FINDINGS.md` for a dated E4 row and
       PASSes on it, SKIPs otherwise; `build_dist.py --dry-run` prints
       `unchanged`/`changed`/`new` per file; scenario counts in
-      `check.py`'s docstrings match the scripts.
+      `check.py`'s docstrings match the scripts (already accurate,
+      confirmed rather than changed: SYSTEM, ROUTE-SELFTEST and
+      HANDOFF-SELFTEST's numeric counts already matched their scripts'
+      live output). Amended while executing: DIST necessarily fails
+      against a stale `dist/` right up until a build replaces it, and
+      `build_dist.py`'s own pre-build harness gate ran the full harness
+      including DIST, a deadlock (refusing to build the one thing that
+      would make DIST pass). Fixed by having the gate parse `check.py
+      --json` and exclude DIST from what blocks a build; every other
+      check still gates it. `dist/` was then rebuilt in this task's own
+      commit, not deferred to D.5, since three shipped files had already
+      drifted (`src/routing_table.json` from C.3, `tools/route.py` from
+      D.1, `src/README.md` from the cherry-picked out-of-plan fix) and
+      nothing between here and D.5 touches another shipped file except
+      possibly D.4's `generate_priors.py` fix.
 - [ ] D.3 C5: `test/harness/results_index.py` writes
       `test/results/INDEX.md` (date, kind, bundle, size, citing D
       entries); `check.py --record` runs it; the first index committed.
@@ -243,11 +257,14 @@ Tasks:
       `compaction_bench.py` drops arm C and the `(cost1 or 0) + 0`
       expression; `generate_priors.py` derives `generated_on` from the
       date it runs.
-- [ ] D.5 `dist/` rebuilt if any shipped file changed; final
-      `check.py --record`; D82: what the plan delivered against the
-      audit, one line per stage, and any finding left open with the
-      reason; this file marked complete. Update this stage's status
-      line and commit it.
+- [ ] D.5 `dist/` rebuilt only if D.4's `generate_priors.py` fix changed
+      `src/routing_priors.json`'s `generated_on` (D.2 already rebuilt it
+      for every other shipped-file change through D.1); final
+      `check.py --record`; D83, not D82 (D82 was used in Stage C.4 for
+      two erratum notes found while executing that stage): what the plan
+      delivered against the audit, one line per stage, and any finding
+      left open with the reason; this file marked complete. Update this
+      stage's status line and commit it.
 
 Exit criteria: harness green with DIST and ROUTE-MODES counted and
 INV7 no longer a permanent skip; `docs/AUDIT-2026-09-16.md`'s 63
