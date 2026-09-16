@@ -10,6 +10,12 @@ configuration and prose; there is no build step and no server to run.
 Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
 `.claude/ORCHESTRATOR_VERSION`; quote that version in any report.
 
+Citations to `docs/*.md` and `test/results/*.md` files anywhere in this
+document, and a bare decision number (`D<n>`), point at this bundle's
+source repository, not at files this bundle ships: they are provenance
+for a human who wants to check the reasoning behind a claim, not
+something you need on disk to install or use the bundle.
+
 ## Layout of the bundle
 
 ```
@@ -131,24 +137,30 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 2. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`
    (create the file if it does not exist). It sets `promptCacheTtl: "1h"`, the
    `statusLine` and `subagentStatusLine` commands that give `route.py --explain`
-   its context reading, and a `SessionStart` hook (matcher `compact`) that runs
-   `route.py --recover` after a platform compaction. If your project already
-   has any of these keys, merge them by hand rather than overwriting: chain an
-   existing `statusLine`/`subagentStatusLine` command to `context_probe.py`
-   (run one, then the other), and add the `SessionStart` entry alongside any
+   its context reading, a `permissions.allow` entry for `Bash(python3 *)` so
+   `route.py` runs on every task without a per-call approval prompt (the
+   settings table below), and a `SessionStart` hook (matcher `compact`) that
+   runs `route.py --recover` after a platform compaction. If your project
+   already has any of these keys, merge them by hand rather than overwriting:
+   chain an existing `statusLine`/`subagentStatusLine` command to
+   `context_probe.py` (run one, then the other), append the
+   `Bash(python3 *)` entry to an existing `permissions.allow` array rather
+   than replacing it, and add the `SessionStart` entry alongside any
    existing hooks for that event rather than replacing the array.
 
-   The fragment's `_user_settings.autoCompactWindow` is documentation, not a
-   real key in this file: set `autoCompactWindow` directly in this project's
-   own `.claude/settings.json` (confirmed to take effect at project scope,
-   not only user scope, `docs/FINDINGS.md` "Plan 4 Stage D"), in
+   The fragment carries `autoCompactWindow: 200000` as a real key, merged
+   into this project's own `.claude/settings.json` at project scope, which
+   is confirmed to take effect, not only user scope (`docs/FINDINGS.md`
+   "Plan 4 Stage D"). If you would rather set it in
    `~/.claude/settings.json` for a user-wide default, or export
-   `CLAUDE_CODE_AUTO_COMPACT_WINDOW=200000` instead, which overrides either.
-   `preflight.py` (step 4 below) checks whichever you chose. Skip this step
-   only if you have deliberately decided not to use the compaction
-   mechanism at all (see "Known limits" below); `route.py --explain`'s
-   context line then always reads "unknown" and never recommends a
-   handoff, which is a silent degradation, not a failure.
+   `CLAUDE_CODE_AUTO_COMPACT_WINDOW=200000` instead, drop the fragment's
+   `autoCompactWindow` key when merging; either overrides it, so leaving
+   it in does no harm but is redundant. `preflight.py` (step 4 below)
+   checks whichever you chose. Skip this step only if you have
+   deliberately decided not to use the compaction mechanism at all (see
+   "Known limits" below); `route.py --explain`'s context line then always
+   reads "unknown" and never recommends a handoff, which is a silent
+   degradation, not a failure.
 
 3. Give the project a `CLAUDE.md` that reads `ORCHESTRATOR.md`. If the
    project has none yet, copy `dist/CLAUDE.template.md` to `CLAUDE.md`: it
@@ -260,12 +272,11 @@ A project that already has a `CLAUDE.md`, and possibly its own
 
 4. Merge `dist/settings.fragment.json` into `$CONSUMER/.claude/settings.json`,
    same as step 2 of a new install: an existing project is exactly where a
-   `statusLine`, `subagentStatusLine`, or `SessionStart` hook is likely to
-   already be configured, so merge key by key rather than overwriting.
-   `autoCompactWindow` is not a key this fragment carries directly; set it
-   in this same file for project scope (confirmed to work, `docs/FINDINGS.md`
-   "Plan 4 Stage D"), in `~/.claude/settings.json` for a user-wide default,
-   or export `CLAUDE_CODE_AUTO_COMPACT_WINDOW`, which overrides either.
+   `statusLine`, `subagentStatusLine`, `permissions.allow`, `autoCompactWindow`,
+   or `SessionStart` hook is likely to already be configured, so merge key
+   by key rather than overwriting. If `autoCompactWindow` is already set,
+   leave the existing value; the fragment's own `200000` is a default, not
+   a requirement.
 
 5. Add the line `Read ORCHESTRATOR.md before delegating any task.` to the
    existing `CLAUDE.md` rather than replacing the file. Where you add it
@@ -303,9 +314,14 @@ A project that already has a `CLAUDE.md`, and possibly its own
 
 Three checks, cheapest first:
 
-1. **`/workers`** (this bundle's own status command): lists all fifteen
-   definitions and confirms they loaded. If it reports fewer than fifteen,
-   `.claude/agents/` is missing files or a restart is still needed.
+1. **`python3 preflight.py`**'s "bundle installed" row: counts the
+   worker definitions actually on disk under `.claude/agents/` against
+   the fifteen expected and reports the installed bundle version. If it
+   reports fewer than fifteen, files are missing or a restart is still
+   needed. `/workers` (this bundle's own status command) reports on
+   workers running or finished in the current session, not on which
+   definitions are installed; it is a check on the next step, not this
+   one.
 2. **Spawn one worker and watch `/tasks` while it runs.** The row shows the
    model and, because every definition sets `effort` explicitly, the effort
    level. Ask for something small and unambiguous first (a mechanical task,
@@ -419,7 +435,9 @@ explains why, keyed by the commit named in the version string.
   either expected-cost arithmetic (fires nowhere on the shipped priors) or
   an explicit risk-appetite policy on open, consequential tasks
   (`routing_priors.json`'s `controller_rule.proactive_policy`). Either
-  costs roughly USD 2.5 to 3.5 per fire, since the Controller is a
+  costs about USD 2.99 per fire (`src/cost_table.json` `controller`: the
+  measured quick-mode mean plus one floor instantiation, ranging USD
+  2.35 to 3.29 across the runs on record), since the Controller is a
   multi-role state machine running several `claude -p` calls rather than
   one worker, and the orchestrator session pays for those calls directly
   with the Bash tool; there is no separate approval gate on it beyond what

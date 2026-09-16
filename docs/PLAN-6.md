@@ -76,16 +76,16 @@ Exit criteria: D81 present; the handoff names sonnet, high; harness green.
 
 ## Stage B. The consumer bundle
 
-Status: **not started**
+Status: **done (2026-09-16)**
 Model: sonnet, high. Implementation from the audit's own fix sentences,
 in its rank order. Load `python.sonnet.md`. Zero live spend; the dogfood
 install in B.10 copies files and runs `preflight.py`, nothing paid.
 
 Tasks:
 
-- [ ] B.1 C1: delete `USAGE_PROJECT.md`; `README.md`'s Map table drops
+- [x] B.1 C1: delete `USAGE_PROJECT.md`; `README.md`'s Map table drops
       its row.
-- [ ] B.2 B6, B7, D1: `src/LIFECYCLE.md` "Reporting state" and
+- [x] B.2 B6, B7, D1: `src/LIFECYCLE.md` "Reporting state" and
       `src/commands/workers.md` step 1 reworded to what an agent can do
       (`ListAgents`, the transcript directory, completion notifications),
       with `/tasks` kept as the human cross-check, per
@@ -93,7 +93,7 @@ Tasks:
       works" step 1 replaced by `preflight.py`'s bundle row;
       `LIFECYCLE.md`'s opening states that the Agent tool and the Task
       tool are one tool.
-- [ ] B.3 A26, D2, A31 (A31 added here; omitted from Stage A's task
+- [x] B.3 A26, D2, A31 (A31 added here; omitted from Stage A's task
       list against the audit, found by a finding-ID diff before this
       task started): `preflight.py` FAILs when `python3` is not on
       PATH, naming the fix; `settings.fragment.json` gains
@@ -101,26 +101,26 @@ Tasks:
       step says so; `ROUTING.md` section 2's fallback names all three
       JSON files; `preflight.py`'s docstring says "seven things", not
       "six".
-- [ ] B.4 B1: `ROUTING.md` section 3 gains the `--spawn` step after the
+- [x] B.4 B1: `ROUTING.md` section 3 gains the `--spawn` step after the
       Agent call; section 2's record command becomes `--record --pending
       <id>`; `LIFECYCLE.md`'s Handoffs paragraph says the pending list
       is what `--spawn` feeds. New harness check ROUTE-MODES: every
       `route.py` flag named in `settings.fragment.json`'s commands is
       named in `src/ROUTING.md` or `src/LIFECYCLE.md`.
-- [ ] B.5 A4: `posterior()` counts `final_outcome == "fail"` at the
+- [x] B.5 A4: `posterior()` counts `final_outcome == "fail"` at the
       floor whether or not an escalation was recorded; docstring says
       so; `--selftest` gains scenario n (three unescalated floor fails
       lower the floor mean); `backtest_ledger.py`'s pass conditions
       re-run and, if any bucket's `first` moves, that is a result to
       record in D82, not a reason to revert.
-- [ ] B.6 A13, A14, A15, A16: `system_controller.py --record` writes
+- [x] B.6 A13, A14, A15, A16: `system_controller.py --record` writes
       `runs/<id>/RECORD.md`, never `test/results/`; `--budget-usd`
       defaults to 4.0 and `ROUTING.md` section 4's command passes it;
       a `RuntimeError` from a role closes as a gap report with
       `REPORT.md` the way `BudgetExhausted` does; the three `assert`
       guards become explicit raises; the unreachable `return` goes.
       `--selftest` gains the RuntimeError-closes-as-gap scenario.
-- [ ] B.7 A27, A32, A28, A29, A30, A10, B14, B18: `settings.fragment.json`
+- [x] B.7 A27, A32, A28, A29, A30, A10, B14, B18: `settings.fragment.json`
       carries `autoCompactWindow: 200000` as a real key (E31) and drops
       `_user_settings`; its comment marks `refreshInterval` and the TTL
       keys as documented, not observed; `ROUTING.md` section 4 states
@@ -131,7 +131,7 @@ Tasks:
       `--explain`'s real output order; `strip_rationale` trims
       whitespace-only lines; `docs/COMPACTION-DESIGN.md` section 7
       gains a one-line E31 note.
-- [ ] B.8 A7, A12, A5, A6, A8, A9 (A11 closed early in B.5: bumping
+- [x] B.8 A7, A12, A5, A6, A8, A9 (A11 closed early in B.5: bumping
       the selftest scenario count to 14 meant fixing both the count
       route.py prints and the count check.py's ROUTE-SELFTEST
       docstring states, in the same edit, or a fresh instance of A11's
@@ -149,14 +149,14 @@ Tasks:
       `score_routing.py`'s `--axes 2` call site in a later stage would
       leave a dangling reference to a deleted function across a stage
       boundary for no reason, since nothing runs it in this plan).
-- [ ] B.9 A17, A18, A19, A20: `claudep.call_claude` wraps
+- [x] B.9 A17, A18, A19, A20: `claudep.call_claude` wraps
       `JSONDecodeError` and `TimeoutExpired` as `RuntimeError` with the
       stdout tail and elapsed time, and callers' duplicate handling is
       trimmed; `Checkpoint._append` writes LF; `handoff.py new` defaults
       its output under `<project>/handoffs/`; `generate_workers.py`'s
       marker and unrouted-cell description are corrected and the
       fifteen definitions regenerated.
-- [ ] B.10 `dist/` rebuilt; installed into `orchestrator-scratch` per
+- [x] B.10 `dist/` rebuilt; installed into `orchestrator-scratch` per
       `src/README.md`'s existing-project steps; `preflight.py` there 0
       failing; the install logged in `test/results/` per the dogfooding
       rule; this stage's status line updated and committed.
