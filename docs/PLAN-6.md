@@ -167,7 +167,7 @@ that names it.
 
 ## Stage C. The repository's own documents
 
-Status: **not started**
+Status: **done (2026-09-16)**
 Model: sonnet, medium. Prose edits from the audit's fix sentences.
 
 Tasks:
@@ -204,7 +204,7 @@ Tasks:
       heading; `test/harness/empirical-checklist.md` marks E4, E31 and
       E32 done with dates, corrects E8's Settles column, and lists E24
       to E28 with a pointer to FINDINGS.
-- [ ] C.5 `README.md`: the sentences that say "the audit found" for A4,
+- [x] C.5 `README.md`: the sentences that say "the audit found" for A4,
       B1 and A26 rewritten to their fixed state; Map table updated.
       Update this stage's status line and commit it.
 
