@@ -179,6 +179,9 @@ python3 tools/route.py --project <this project's root> --record \
 Skipping this is not a shortcut; it is the project staying on the shipped,
 generic priors forever instead of its own measured experience. Every
 escalation (section 4) is one `--escalation` flag, in the order tried.
+`SELF-LEARNING.md` states exactly what a project's own ledger does and does
+not change as it accumulates, and what to check if a bucket does not seem
+to be learning.
 
 <!-- rationale:start -->
 **Why this replaced a static table.** Eleven benchmark tasks across every

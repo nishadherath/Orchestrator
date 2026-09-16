@@ -75,6 +75,9 @@ src/
 ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md, rationale
                                                      spans stripped: see "How routing
                                                      works" below)
+SELF-LEARNING.md                                    (what the per-project ledger learns,
+                                                     what it does not, and how to tell
+                                                     the two apart)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
                                                      handoff rule and the compact
@@ -90,6 +93,8 @@ preflight.py                                        (checks the settings below)
 This project's own `.claude/routing-ledger.jsonl` is not part of the bundle. `route.py`
 creates it on first use (`--record`) and it grows as the project runs; do not copy one
 from another project, since it is what makes the routing self-learning per project.
+`SELF-LEARNING.md` states exactly what that self-learning does and does not do, including
+its limits, not only the mechanics.
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on

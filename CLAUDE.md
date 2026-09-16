@@ -71,6 +71,9 @@ src/
   LIFECYCLE.md          state model, messaging, resume semantics
   WORKER_PERSONA.md     shared persona plus 15 model-specific sections; the
                         generator's source
+  SELF-LEARNING.md      the per-project ledger mechanism: what it learns,
+                        what it cannot, kept current as route.py's
+                        thresholds change
   README.md             install instructions and settings traps
   CLAUDE.template.md    the charter a consumer project's install writes
   preflight.py          the installed bundle's own pre-flight checks
@@ -149,11 +152,12 @@ handoffs/                one file per stage boundary that changes model or
                         effort, written by tools/handoff.py new and checked
                         by the harness's HANDOFF check
 dist/                   assembled installable bundle; .claude/ plus
-                        ORCHESTRATOR.md, README.md, preflight.py,
-                        CLAUDE.template.md and settings.fragment.json, plus
-                        tools/, src/System/ and the three JSON files, the
-                        Controller and its dependency chain (D63); stamped
-                        with the source commit
+                        ORCHESTRATOR.md, README.md, SELF-LEARNING.md,
+                        preflight.py, CLAUDE.template.md and
+                        settings.fragment.json, plus tools/, src/System/
+                        and the three JSON files, the Controller and its
+                        dependency chain (D63); stamped with the source
+                        commit
 ```
 
 ## Invariants

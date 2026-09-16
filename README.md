@@ -90,7 +90,8 @@ One task, end to end:
    table after five (`routing_priors.json` `steering`). A floor failure
    recorded with `--outcome fail` and no `--escalation` counts in the
    posterior the same as an escalated one (fixed 2026-09-16, audit A4,
-   docs/PLAN-6.md B.5).
+   docs/PLAN-6.md B.5). `src/SELF-LEARNING.md` is the full account of
+   what this mechanism learns, what it cannot, and its limitations.
 
 Escalation has two triggers beyond "the next rung on failure". A worker
 that reports it cannot meet its acceptance criteria without acting against
@@ -217,6 +218,7 @@ instructions.
 | Path | What it is |
 | :--- | :--- |
 | `src/ROUTING.md`, `src/LIFECYCLE.md` | The orchestrator's instructions; rationale spans are stripped on build |
+| `src/SELF-LEARNING.md` | The per-project ledger mechanism: what it learns, what it cannot, capabilities and limitations |
 | `src/WORKER_PERSONA.md`, `src/agents/` | The worker persona and the fifteen generated definitions |
 | `src/routing_table.json`, `routing_priors.json`, `cost_table.json` | The two-rule table, the per-bucket priors, the measured unit costs |
 | `src/System/` | The Controller's problem-solving framework: roles, techniques, record schemas |
