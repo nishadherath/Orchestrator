@@ -180,7 +180,7 @@ Tasks:
       one that cites P39; the escalation-rate question names
       `route.py --record --escalation`; the persona line names
       `bash.<class>.md` for grader work.
-- [ ] C.2 B2: `docs/COST.md` dated per section; the Controller paragraph
+- [x] C.2 B2: `docs/COST.md` dated per section; the Controller paragraph
       rewritten to D63's state with the cost from `cost_table.json`; the
       bundle version, the `route.py` and `handoff.py` sizes, the
       `B0_BRIEF.md` row, the "section 1.1" citation and the "no session
