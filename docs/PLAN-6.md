@@ -185,7 +185,7 @@ Tasks:
       bundle version, the `route.py` and `handoff.py` sizes, the
       `B0_BRIEF.md` row, the "section 1.1" citation and the "no session
       after Stage 13" sentence corrected.
-- [ ] C.3 B3, B4, B5, B15, B13, B17: `docs/PREMISES.md` gains a
+- [x] C.3 B3, B4, B5, B15, B13, B17: `docs/PREMISES.md` gains a
       "last checked" column and a section naming the rows D44, D64 and
       D80 changed, with P05, P10, P13, P14 and the "eleven of eighteen"
       paragraph corrected; `docs/FRONTIERS.md` gains a banner naming

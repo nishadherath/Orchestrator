@@ -1387,6 +1387,14 @@ above the floor that nothing has yet measured. Every run is Jeb's to start;
 the session prepares commands with real paths and never starts a paid run
 itself.
 
+**Superseded 2026-09-15 (D57, docs/PLAN-6.md Stage C.3, B17).** D57
+replaced the rule in the paragraph above: the session now starts a
+`claude -p` run itself, stating the projected cost first and asking only
+above USD 100. This plan is complete and the paragraph is left as the
+historical record of the rule it ran under; every plan from `docs/PLAN-2.md`
+on ran, and `CLAUDE.md`'s own "Paid runs" paragraph states, the current
+rule.
+
 ## What this plan does not do
 
 - It does not run deep mode. Quick mode is the smallest fleet that tests

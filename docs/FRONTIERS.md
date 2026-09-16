@@ -1,5 +1,16 @@
 # What the benchmark has measured for each routing row
 
+**Superseded 2026-09-16 (docs/PLAN-6.md Stage C.3, B4).** This is a
+2026-09-14 snapshot of the eleven-rule table D44 and D45 collapsed the
+same day it was written; the rows it describes below no longer exist in
+`src/routing_table.json`, which now has one non-escalation rule (the
+floor) and one escalation-only rule (the frontier). It stays here
+because it is the cited provenance every bucket in
+`src/routing_priors.json` traces back to (D64), not because it describes
+the current table. `src/routing_priors.json` is the successor document
+for what the shipped table currently does; read this file for the
+history the priors were built on.
+
 Written 2026-09-14 for `docs/PLAN.md` Stage 8.1. One entry per rule in
 `src/routing_table.json`, stating what the benchmark (`test/results/`,
 tasks T1 through T11) has measured for the task class the rule covers.
