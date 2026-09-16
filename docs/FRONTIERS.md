@@ -1,5 +1,16 @@
 # What the benchmark has measured for each routing row
 
+**Superseded 2026-09-16 (docs/PLAN-6.md Stage C.3, B4).** This is a
+2026-09-14 snapshot of the eleven-rule table D44 and D45 collapsed the
+same day it was written; the rows it describes below no longer exist in
+`src/routing_table.json`, which now has one non-escalation rule (the
+floor) and one escalation-only rule (the frontier). It stays here
+because it is the cited provenance every bucket in
+`src/routing_priors.json` traces back to (D64), not because it describes
+the current table. `src/routing_priors.json` is the successor document
+for what the shipped table currently does; read this file for the
+history the priors were built on.
+
 Written 2026-09-14 for `docs/PLAN.md` Stage 8.1. One entry per rule in
 `src/routing_table.json`, stating what the benchmark (`test/results/`,
 tasks T1 through T11) has measured for the task class the rule covers.
@@ -85,7 +96,10 @@ because an instruction has to be reclassified; medium, because the work is
 read a problem statement, check three call sites, edit, run two suites,
 write an artefact, in one repository; contained, because the change is one
 function pinned by tests) confirmed `worker-opus-high` 9 of 9 with
-`worker-sonnet-xhigh` 0 of 9 below it. T9, the same triple with a false
+`worker-sonnet-xhigh` 0 of 9 below it (elsewhere cited as 12 of 12,
+`src/routing_priors.json`: this 9-of-9 confirmation batch plus a 3-of-3
+search batch that also passed, D42 point 4; both counts describe the
+same evidence). T9, the same triple with a false
 measurement in place of a false constraint, confirmed the floor 9 of 9.
 T8, which opus reads as medium (D26, D28) though F09 assigns short,
 confirmed the floor.

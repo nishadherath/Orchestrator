@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""Write `.claude/context-usage.json` from Claude Code's own status line JSON,
-so `tools/route.py` can read the orchestrator's context usage without a tool
-that lets an agent inspect its own session (docs/PLAN-3.md Stage B,
-docs/COMPACTION-DESIGN.md section 2).
+"""Write `.claude/context-main.json` and `.claude/context-tasks.json` from
+Claude Code's own status line JSON, so `tools/route.py` can read the
+orchestrator's context usage without a tool that lets an agent inspect its
+own session (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md section 2).
 
 Responsible for: two status line commands, wired into `statusLine` and
 `subagentStatusLine` in `.claude/settings.json` (`dist/settings.fragment.json`).
-`--main` reads the main status line's JSON on stdin and writes the `main`
-key; `--tasks` reads the subagent status line's JSON and writes the `tasks`
-key, tracking each named task's peak observed tokens across refreshes.
-Each mode only ever rewrites its own key, read-modify-write via a temporary
-file and rename, so a `--main` and a `--tasks` invocation racing each other
-cannot clobber one another's half of the file.
+`--main` reads the main status line's JSON on stdin and writes
+`context-main.json` whole; `--tasks` reads the subagent status line's
+JSON on stdin and writes `context-tasks.json` whole, tracking each named
+task's peak observed tokens across refreshes. Each mode owns one file
+outright and never opens the other's, so a `--main` and a `--tasks`
+invocation racing each other, which the main status line and a running
+subagent's status line genuinely do, cannot clobber one another's data
+the way two modes sharing one file under a read-modify-write did before
+this split (audit A12, docs/AUDIT-2026-09-16.md: both `--main` and
+`--tasks` used to read the whole shared file, patch their own key, and
+atomically replace it whole, which is a lost-update race regardless of
+how careful the atomic-replace step itself is, since the race is in the
+read-then-decide-then-write window, not in the write). `route.py` reads
+both files; see `default_main_usage_path` and `default_tasks_usage_path`.
 
 Deliberately does not: read or write the routing ledger (`route.py` does
 that), or assume `tokenSamples`' shape (undocumented beyond its name,
@@ -49,11 +57,16 @@ import os
 import sys
 from pathlib import Path
 
-USAGE_FILENAME = ".claude/context-usage.json"
+MAIN_USAGE_FILENAME = ".claude/context-main.json"
+TASKS_USAGE_FILENAME = ".claude/context-tasks.json"
 
 
-def default_usage_path(project: Path) -> Path:
-    return project / USAGE_FILENAME
+def default_main_usage_path(project: Path) -> Path:
+    return project / MAIN_USAGE_FILENAME
+
+
+def default_tasks_usage_path(project: Path) -> Path:
+    return project / TASKS_USAGE_FILENAME
 
 
 def _now_iso() -> str:
@@ -202,11 +215,12 @@ def status_line_text(record: dict) -> str:
 
 
 def merge_task_record(existing: dict | None, task: dict) -> dict:
-    """One task's entry in the `tasks` key (section 2). `peak_tokens` is
-    the largest numeric value ever observed for this task name, across
-    `tokenCount` and every leaf of `tokenSamples`, kept across refreshes
-    even once the task stops appearing in the visible rows (a completed
-    task's last known peak is exactly what `route.py --record` wants).
+    """One task's entry in `context-tasks.json`'s `tasks` key (section 2).
+    `peak_tokens` is the largest numeric value ever observed for this task
+    name, across `tokenCount` and every leaf of `tokenSamples`, kept
+    across refreshes even once the task stops appearing in the visible
+    rows (a completed task's last known peak is exactly what
+    `route.py --record` wants).
 
     Deliberately does not count compactions any more (docs/COMPACTION-DESIGN.md
     section 13.2, D72): the drop-past-half heuristic this function used to
@@ -245,16 +259,24 @@ def _as_number(v: object) -> float | None:
 
 
 def run_main(payload: dict, usage_path: Path, project: Path) -> str:
-    data = _load_usage_file(usage_path)
+    """Writes `context-main.json` whole: this mode owns the file
+    outright, so every call is a fresh, complete replacement rather than
+    a read-modify-write. There is nothing to merge (`main_record` always
+    recomputes the whole record from the current payload) and nothing to
+    race, unlike before the file split (audit A12)."""
     record = main_record(payload, project)
-    data["main"] = record
-    data["written_at"] = _now_iso()
-    data["session_id"] = payload.get("session_id")
+    data = {"main": record, "written_at": _now_iso(), "session_id": payload.get("session_id")}
     _atomic_write_json(usage_path, data)
     return status_line_text(record)
 
 
 def run_tasks(payload: dict, usage_path: Path) -> None:
+    """Writes `context-tasks.json` whole. Still a read-modify-write of
+    its own file, unlike `run_main`: `merge_task_record` needs the prior
+    call's `peak_tokens` for the same task name to track the maximum
+    ever observed across refreshes. Owning the file outright removes the
+    race with `run_main` (audit A12); this function never opens
+    `context-main.json` at all."""
     data = _load_usage_file(usage_path)
     tasks_out = dict(data.get("tasks") or {})
     for task in payload.get("tasks", []) or []:
@@ -262,10 +284,9 @@ def run_tasks(payload: dict, usage_path: Path) -> None:
         if not name:
             continue
         tasks_out[name] = merge_task_record(tasks_out.get(name), task)
-    data["tasks"] = tasks_out
-    data["written_at"] = _now_iso()
-    data.setdefault("session_id", payload.get("session_id"))
-    _atomic_write_json(usage_path, data)
+    session_id = data.get("session_id") or payload.get("session_id")
+    out = {"tasks": tasks_out, "written_at": _now_iso(), "session_id": session_id}
+    _atomic_write_json(usage_path, out)
 
 
 def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
@@ -279,9 +300,14 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     13.2 (D72); (c) and its sibling (c2), which asserted the drop-past-half
     compaction heuristic, are removed rather than renumbered, since that
     heuristic itself is gone (see `merge_task_record`'s docstring).
-    Scenario (f) is new in this stage: the effective-window recomputation
-    of `used_percentage` against a configured `autoCompactWindow` smaller
-    than the model's native window."""
+    Scenario (f) is the effective-window recomputation of
+    `used_percentage` against a configured `autoCompactWindow` smaller
+    than the model's native window. Scenarios (a) and (b) are rewritten
+    for the two-file split (audit A12, docs/AUDIT-2026-09-16.md,
+    docs/PLAN-6.md Stage B.8): each mode now owns its own file, so what
+    they prove is that a `--tasks` call leaves `context-main.json`
+    untouched and vice versa, by construction rather than by care taken
+    inside a shared read-modify-write."""
     import tempfile
 
     problems: list[str] = []
@@ -297,7 +323,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
 
     with tempfile.TemporaryDirectory(prefix="context-probe-selftest-") as tmp:
         project = Path(tmp)
-        usage_path = project / USAGE_FILENAME
+        main_path = default_main_usage_path(project)
+        tasks_path = default_tasks_usage_path(project)
 
         # (a) with no settings file in this project, _resolve_autocompact_window
         # finds nothing, so effective_window falls back to context_window_size
@@ -305,10 +332,11 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         # figure already was: today's behaviour, preserved. platform_used_percentage
         # carries the platform's verbatim figure alongside it, and
         # effective_window_source names context_window_size since nothing
-        # configured overrides it.
-        line = run_main(sample["main"], usage_path, project)
+        # configured overrides it. context-tasks.json must not exist yet:
+        # a --main call never touches it.
+        line = run_main(sample["main"], main_path, project)
         check("Opus" in line and "8%" in line, f"(a) --main should render the model and used_percentage, got {line!r}")
-        data = _load_usage_file(usage_path)
+        data = _load_usage_file(main_path)
         main_record_out = data.get("main", {})
         check(main_record_out.get("used_percentage") == 8, "(a) main.used_percentage should round-trip")
         check(main_record_out.get("platform_used_percentage") == 8,
@@ -317,17 +345,18 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check(main_record_out.get("effective_window_source") == "context_window_size",
               f"(a) with no configured window, effective_window_source should name context_window_size, "
               f"got {main_record_out.get('effective_window_source')!r}")
-        check("tasks" not in data, "(a) a --main-only file should carry no tasks key yet")
+        check(not tasks_path.exists(), "(a) a --main-only run should never create context-tasks.json")
 
-        run_tasks(sample["tasks"], usage_path)
-        data = _load_usage_file(usage_path)
+        run_tasks(sample["tasks"], tasks_path)
+        data = _load_usage_file(main_path)
         check(data.get("main", {}).get("used_percentage") == 8,
-              "(b) --tasks must not disturb the main key written by (a)")
-        check(set(data.get("tasks", {})) == {"refactor-parser", "audit-schemas"},
-              f"(b) both named tasks should be present, got {sorted(data.get('tasks', {}))}")
-        check(data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
+              "(b) --tasks writing its own file must not disturb context-main.json written by (a)")
+        tasks_data = _load_usage_file(tasks_path)
+        check(set(tasks_data.get("tasks", {})) == {"refactor-parser", "audit-schemas"},
+              f"(b) both named tasks should be present in context-tasks.json, got {sorted(tasks_data.get('tasks', {}))}")
+        check(tasks_data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
               f"(b) peak_tokens should be the max of tokenCount and tokenSamples, "
-              f"got {data['tasks']['refactor-parser']['peak_tokens']}")
+              f"got {tasks_data['tasks']['refactor-parser']['peak_tokens']}")
 
         # (c) a second, lower sample for the same task must not lower its
         # recorded peak: peak_tokens tracks the maximum ever seen, not the
@@ -336,25 +365,29 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         lower = json.loads(json.dumps(sample["tasks"]))
         lower["tasks"][0]["tokenCount"] = 9000
         lower["tasks"][0]["tokenSamples"] = [9000]
-        run_tasks(lower, usage_path)
-        data = _load_usage_file(usage_path)
-        check(data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
+        run_tasks(lower, tasks_path)
+        tasks_data = _load_usage_file(tasks_path)
+        check(tasks_data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
               f"(c) a lower later sample should not lower peak_tokens, got "
-              f"{data['tasks']['refactor-parser']['peak_tokens']}")
+              f"{tasks_data['tasks']['refactor-parser']['peak_tokens']}")
 
         # (d) crossing the handoff threshold changes the rendered line's
         # warmth reporting is out of scope here (route.py --explain owns
         # the threshold); this only checks the over-threshold sample still
-        # round-trips its own fields correctly.
-        run_main(sample["main_over_threshold"], usage_path, project)
-        data = _load_usage_file(usage_path)
+        # round-trips its own fields correctly, and that context-tasks.json
+        # (written by (b) and (c) above) is still untouched by a --main call.
+        run_main(sample["main_over_threshold"], main_path, project)
+        data = _load_usage_file(main_path)
         check(data["main"]["used_percentage"] == 73, "(d) a second --main call should overwrite the main key, not merge it")
+        tasks_data = _load_usage_file(tasks_path)
+        check(tasks_data["tasks"]["refactor-parser"]["peak_tokens"] == 42000,
+              "(d) a --main call must never disturb context-tasks.json")
 
     # (e) a payload the platform has not populated yet (no API response so
     # far) should not crash and should record every field as absent.
     with tempfile.TemporaryDirectory(prefix="context-probe-selftest-") as tmp:
         empty_line = run_main({"model": {"display_name": "Sonnet"}, "context_window": {}},
-                               Path(tmp) / USAGE_FILENAME, Path(tmp))
+                               default_main_usage_path(Path(tmp)), Path(tmp))
     check("ctx ?" in empty_line, f"(e) an unpopulated context_window should render 'ctx ?', got {empty_line!r}")
 
     # (f) docs/COMPACTION-DESIGN.md section 13.8: a project whose
@@ -369,12 +402,12 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         settings_path = project / ".claude" / "settings.json"
         settings_path.parent.mkdir(parents=True, exist_ok=True)
         settings_path.write_text(json.dumps({"autoCompactWindow": 200000}), encoding="utf-8")
-        usage_path = project / USAGE_FILENAME
+        main_path = default_main_usage_path(project)
         payload = {"model": {"display_name": "Sonnet"},
                    "context_window": {"total_input_tokens": 100000, "context_window_size": 1000000,
                                        "used_percentage": 10}}
-        run_main(payload, usage_path, project)
-        data = _load_usage_file(usage_path)
+        run_main(payload, main_path, project)
+        data = _load_usage_file(main_path)
         record = data.get("main", {})
         check(record.get("used_percentage") == 50,
               f"(f) used_percentage should be computed against the resolved 200,000 window, not the "
@@ -394,8 +427,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     group = ap.add_mutually_exclusive_group()
-    group.add_argument("--main", action="store_true", help="the statusLine command: read stdin, write the main key")
-    group.add_argument("--tasks", action="store_true", help="the subagentStatusLine command: read stdin, write the tasks key")
+    group.add_argument("--main", action="store_true", help="the statusLine command: read stdin, write context-main.json")
+    group.add_argument("--tasks", action="store_true", help="the subagentStatusLine command: read stdin, write context-tasks.json")
     group.add_argument("--selftest", action="store_true", help="run the scripted round trip against the documentation-derived sample")
     ap.add_argument("--project", type=Path, default=Path("."), help="consumer project root")
     ap.add_argument("--json", action="store_true", help="with --selftest, print each check as it runs")
@@ -420,11 +453,10 @@ def main(argv: list[str]) -> int:
         print(f"context_probe.py: stdin did not parse as JSON: {exc}", file=sys.stderr)
         return 1
 
-    usage_path = default_usage_path(args.project)
     if args.main:
-        print(run_main(payload, usage_path, args.project))
+        print(run_main(payload, default_main_usage_path(args.project), args.project))
     else:
-        run_tasks(payload, usage_path)
+        run_tasks(payload, default_tasks_usage_path(args.project))
     return 0
 
 

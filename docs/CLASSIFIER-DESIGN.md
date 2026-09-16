@@ -136,6 +136,18 @@ prose at build time, so a consumer still reads a table and there is still one
 place it is defined. If the classifier later ships, the renderer stops
 emitting section 2 and nothing else changes.
 
+**As built (2026-09-16, docs/PLAN-6.md Stage C.3, B13): the rendering half
+never happened.** `src/routing_table.json` did become the single source of
+truth read by `generate_workers.py` and `check.py`, and `tools/route.py`
+reads it too, but `build_dist.py` copies `routing_priors.json`,
+`cost_table.json` and `routing_table.json` into `dist/src/` verbatim as
+data; it does not render the table into `ORCHESTRATOR.md`'s prose. D44 (2026-09-14) then collapsed the
+table itself to the floor plus one escalation rule and removed the
+destination table from `src/ROUTING.md` section 2's prose entirely, so
+the renderer this section describes has no table left to render by the
+time anyone could have built it: the whole premise (a consumer reads a
+rendered table) predates the design it would have served.
+
 This is worth doing whether or not the classifier ships, because it is what
 makes the free check below possible, and because it turns the two-axis
 variant from a rewrite into a configuration flag.

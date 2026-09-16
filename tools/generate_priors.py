@@ -22,6 +22,7 @@ the side effect of rewriting it.
 """
 from __future__ import annotations
 
+import datetime as dt
 import json
 import sys
 from pathlib import Path
@@ -38,10 +39,18 @@ def _beta(passes, n, cap=CAP, kind="measured", prov=""):
             "n_measured": n, "passes_measured": passes, "n_eff": n_eff, "kind": kind, "provenance": prov}
 
 
-def build_priors() -> dict:
+def build_priors(generated_on: str | None = None) -> dict:
     """Pure: returns the document; writes nothing. The commit that added
     this file is where the aggregation and Laplace/n_eff arithmetic were
-    reasoned through; nothing here reads a result file directly."""
+    reasoned through; nothing here reads a result file directly.
+
+    `generated_on` defaults to today (docs/PLAN-6.md D.4, audit A34): it
+    used to be a string literal, so a regenerated file kept the old date
+    unless someone edited it by hand. `main()`'s --check path passes the
+    committed file's own recorded date instead of leaving the default, so
+    a day passing does not make --check FAIL on the date field alone; a
+    real content drift is still caught, since every other key is still
+    compared."""
     F = "docs/FRONTIERS.md and the benchmark confirmations it cites: "
     buckets: dict[str, dict] = {}
 
@@ -91,7 +100,7 @@ def build_priors() -> dict:
     return {
         "_comment": "Per-bucket priors for tools/route.py (docs/PLAN-2.md Stage 1.4, D64). A bucket is sensitivity/horizon/blast. 'floor' is a Beta prior on worker-sonnet-low passing; each rung entry is a Beta prior on that cell passing given every cheaper active rung failed (the benchmark staircase only climbed after failure, so its measured rates at higher cells are exactly that conditional). Means are Laplace ((passes+1)/(n+2)); effective sample sizes are capped (measured 10, bracketed 4, policy 3) so a consumer project's own ledger moves a bucket after a handful of its own outcomes. 'kind' says whether a number was measured, bracketed between measured neighbours, inherited across blast radius as policy, or a weakly held default. Every threshold named steering_* steers routing and may never be cited as evidence; the reporting bar is nine runs with a Wilson lower bound above 0.7 and lives in the harness, not here.",
         "version": 1,
-        "generated_on": "2026-09-15",
+        "generated_on": generated_on or dt.date.today().isoformat(),
         "generated_by": "docs/PLAN-2.md Stage 1.4; the aggregation and Laplace/n_eff arithmetic are in the commit that added this file",
         "cells": ["worker-sonnet-low", "worker-sonnet-medium", "worker-sonnet-high", "worker-sonnet-xhigh", "worker-sonnet-max",
                   "worker-opus-low", "worker-opus-medium", "worker-opus-high", "worker-opus-xhigh", "worker-opus-max",
@@ -109,7 +118,7 @@ def build_priors() -> dict:
             "handoff_context_percent": 70,
             "handoff_context_note": "route.py --explain's context line recommends a handoff at this percentage of the model's context window (docs/PLAN-3.md Stage B, D68); it never blocks or replaces the platform's own auto-compact, which fires at autocompact_window_tokens",
             "context_stale_s": 600,
-            "context_stale_note": "a .claude/context-usage.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
+            "context_stale_note": "a .claude/context-main.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
             "autocompact_window_tokens": 200000,
             "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently",
             "overflow_advisory_min_mean": 0.3,
@@ -146,11 +155,15 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--check", action="store_true", help="write nothing; exit 1 if the committed file drifted")
     args = ap.parse_args(argv)
 
-    doc = build_priors()
-    rendered = render(doc)
-
     if args.check:
         current = PRIORS_PATH.read_text(encoding="utf-8") if PRIORS_PATH.exists() else None
+        current_generated_on = None
+        if current:
+            try:
+                current_generated_on = json.loads(current).get("generated_on")
+            except json.JSONDecodeError:
+                pass
+        rendered = render(build_priors(generated_on=current_generated_on))
         if current == rendered:
             print(f"{PRIORS_PATH.relative_to(REPO)} matches the generator")
             return 0
@@ -158,6 +171,8 @@ def main(argv: list[str]) -> int:
               f"re-run without --check and commit the result", file=sys.stderr)
         return 1
 
+    doc = build_priors()
+    rendered = render(doc)
     PRIORS_PATH.write_text(rendered, encoding="utf-8", newline="\n")
     for k, b in doc["buckets"].items():
         f = b["floor"]

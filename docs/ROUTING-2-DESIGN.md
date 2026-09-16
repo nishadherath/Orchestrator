@@ -97,7 +97,12 @@ product of the failure probabilities of every cheaper rung; `P_fail_all`;
 per-rung `P(reach)`. Cost per rung from `cost_table.json`, or from the
 ledger's mean for that cell once it has `ledger_overrides_after` entries.
 The Controller is not a cell rung in this sum; it is what the sum is
-compared against.
+compared against. **As built (2026-09-16, Stage C.3, B13): the
+ledger-mean override was missing until Stage B.8 (A5, `docs/AUDIT-2026-09-16.md`)
+added it, and it is not literally inside this function; `plan()` computes
+`ledger_cell_means()` and merges it into the `costs` dict this function
+receives, so the override reaches `expected_ladder_cost` through its
+argument, not through code written inside it.**
 
 **`controller_decision(priors, post, costs, bucket) -> dict`**: returns
 `{proactive: bool, reason: "policy"|"expected_cost"|"none", E_ladder,
@@ -110,7 +115,10 @@ controller_cost`, with `failure_cost` = `E_ladder` for contained and
 **`plan(assessment, priors, ledger, costs) -> dict`**: the one function the
 orchestrator calls. Returns `{first: <cell or "controller">, ladder: [...],
 controller: <decision>, bucket, posterior, projection: {cost_usd_expected,
-cost_usd_range, wall_clock_s_expected}}`. `first` is `controller` when the
+cost_usd_range, wall_clock_s_expected}}`. **As built (2026-09-16,
+docs/PLAN-6.md Stage C.3, B13): `projection` carries `cost_usd_expected`
+and `wall_clock_s_expected` only; `cost_usd_range` was never added.**
+`first` is `controller` when the
 decision is proactive, else the cheapest active rung whose posterior pass
 mean is at least `steering_first_rung_min_pass`, else the floor. If
 `prior_failure` is `failed_at_xhigh`, `first` is the frontier rung (the
@@ -223,14 +231,22 @@ front matter, and the two computed sections: cost as the sum of `N x
 cost_per_run_usd` per cell plus `controller runs x (quick_mode_run_usd +
 instantiation_usd)` plus `verdicts x opus_prose_router_usd`, with a range
 from each row's min and max, each addend named with its source row and
-regime; time as the same sum over wall clocks, stated as a range. Values
-come from the project's ledger means for a cell once it has
-`ledger_overrides_after` entries, else `cost_table.json`, and the line
-says which. A cell with a null cost (the frontier cells) is written as
-"unmeasured" and the total is marked "excludes N unmeasured". A model or
-effort change with no cells is a session handoff: the cost line then
-states the session load estimate from `cost_table.json`'s `session` row,
-labelled an estimate.
+regime; time as the same sum over wall clocks, stated as a range. **As
+built (2026-09-16, Stage C.3, B13): no cell, controller or verdict count
+is ever passed in this repository's own handoffs (`docs/PLAN-6.md`'s
+handoffs are all model/effort changes, "spawn"-reason handoffs use
+`--pending-workers` instead), so `new` has never been exercised with
+`--cell`, `--cells`, `--controller-runs` or `--verdicts` arguments, and
+the min/max range this paragraph describes has never been produced or
+checked against a real run. The two computed-line paragraph below,
+session load and estimate, is the path every handoff on record has
+actually taken.** Values come from the project's ledger means for a cell
+once it has `ledger_overrides_after` entries, else `cost_table.json`, and
+the line says which. A cell with a null cost (the frontier cells) is
+written as "unmeasured" and the total is marked "excludes N unmeasured".
+A model or effort change with no cells is a session handoff: the cost
+line then states the session load estimate from `cost_table.json`'s
+`session` row, labelled an estimate.
 
 **`check`**: `handoff.py check <file>` exits 1 naming the first missing
 or empty heading, the first heading out of order, or a computed line that

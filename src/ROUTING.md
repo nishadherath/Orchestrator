@@ -52,10 +52,12 @@ assessment: <mechanical|structured|open>, <short|medium|long>, <contained|conseq
 
 `self_directed`: does the task demand sustained investigation that
 reshapes its own plan as it goes, rather than merely being long? State it
-for the record; it is not an input to how the cell is chosen (D64: a
-schema-forced classifier measured it firing on 38 percent of sonnet's
-verdicts against a 6 percent base rate, and the one row it used to
-disambiguate is gone from the table below).
+for the record; it is not an input to how the cell is chosen.
+<!-- rationale:start -->
+(D64: a schema-forced classifier measured it firing on 38 percent of
+sonnet's verdicts against a 6 percent base rate, and the one row it used
+to disambiguate is gone from the table below.)
+<!-- rationale:end -->
 
 `prior_failure`: is there a documented failure at `xhigh` on this exact
 task, from an earlier attempt in this same conversation? `none` unless
@@ -104,21 +106,29 @@ moves no work.
 
 Resolve the cell in code, from the assessment line (section 1.1), a
 per-project ledger of what actually happened here before, and the
-benchmark priors this repository ships (D64, `docs/PLAN-2.md` Stage 4).
+benchmark priors this repository ships.
+<!-- rationale:start -->
+(Seeded from this repository's own benchmark, documented in
+`docs/PLAN-2.md` Stage 4, D64.)
+<!-- rationale:end -->
+
 With the Bash tool:
 
 ```
 python3 tools/route.py --from-line "<the assessment line>" --project <this project's root> --explain
 ```
 
-Read the output. `--explain` prints the bucket, the posterior for the
-floor and every active rung, the Controller's expected-cost arithmetic,
-and its decision with a one-word reason (`policy`, `expected_cost`, or
-`none`); the last line is the projection. The cell to act on is the value
-`plan()` returned as `first`, which `--explain`'s own printed lines make
-visible without parsing JSON: either a worker name (`worker-<model>-<effort>`)
-to spawn as section 3 describes, or the literal word `controller`, meaning
-invoke the Controller mechanism in section 4 directly, not a worker to spawn.
+Read the output. `--explain` prints, in order: the bucket; the posterior
+for the floor and every active rung; the Controller's expected-cost
+arithmetic and its decision with a one-word reason (`policy`,
+`expected_cost`, or `none`); the projection; an overflow line, only when
+one fires (section 2's own overflow paragraph below); the context line;
+and, last, on its own line, the bare cell name. That final line is the
+value `plan()` returned as `first`, which `--explain`'s own printed
+lines make visible without parsing JSON: either a worker name
+(`worker-<model>-<effort>`) to spawn as section 3 describes, or the
+literal word `controller`, meaning invoke the Controller mechanism in
+section 4 directly, not a worker to spawn.
 
 State the assessment line, the resolved cell, and the reason, together, in
 the same routing line section 3 asks for. This is the record a wrong
@@ -134,29 +144,34 @@ carrying forward whatever the previous part's own output established (a
 subtotal, a file written, a decision made); do not resume one worker
 across the whole task and do not rely on the platform's own compaction to
 carry state between parts. This is a measured remedy, not a policy
-guess: on one task shape, splitting brought the combined failure rate
-(task not completed or its constraint violated) from 11 of 12 down to 0
-of 12, non-overlapping 95 percent Wilson intervals
+guess. It does not change `first`, since a compaction is a horizon
+signal, not a capability one: the same cell, spawned in parts.
+<!-- rationale:start -->
+(On one task shape, splitting brought the combined failure rate (task
+not completed or its constraint violated) from 11 of 12 down to 0 of
+12, non-overlapping 95 percent Wilson intervals
 (`test/results/2026-09-15-decomposition-preregistration.md`,
-`docs/DECISIONS.md` D80). It does not change `first`, since a compaction
-is a horizon signal, not a capability one (D68): the same cell, spawned
-in parts.
+`docs/DECISIONS.md` D80, D68).)
+<!-- rationale:end -->
 
 **If `route.py` cannot run** (Bash is not permitted, or `src/routing_priors.json`,
-`src/cost_table.json`, or the script itself is missing from the installed
-bundle), spawn `worker-sonnet-low` and say so plainly in the routing line:
+`src/cost_table.json`, `src/routing_table.json`, or the script itself is
+missing from the installed bundle), spawn `worker-sonnet-low` and say so
+plainly in the routing line:
 name what failed and that the resolver did not run. Never fall back to
 choosing a cell yourself from memory of what the table used to say. A
 silently substituted judgement, indistinguishable from a real resolution
-in the transcript, is exactly the failure this file exists to prevent
-(`docs/CLASSIFIER-DESIGN.md`, D39).
+in the transcript, is exactly the failure this file exists to prevent.
+<!-- rationale:start -->
+(`docs/CLASSIFIER-DESIGN.md`, D39.)
+<!-- rationale:end -->
 
-**After the task finishes**, record the outcome so this project's own
-ledger can learn from it:
+**After the task finishes**, complete the pending entry `--spawn` (section
+3) wrote, so this project's own ledger can learn from it:
 
 ```
 python3 tools/route.py --project <this project's root> --record \
-  --task-slug <short name> --first-cell <the cell you spawned, or controller> \
+  --pending <the id --spawn printed> \
   --outcome pass|fail|unknown --cost-usd <total across every cell tried> \
   --wall-clock-s <total> [--escalation <cell>:<pass|fail> ...]
 ```
@@ -240,8 +255,24 @@ handover prompt must therefore be self-contained and must state:
   Verbose output is the reason it was delegated, so ask for the summary, not the
   transcript.
 
-After spawning, state in one line the assessment, the resolved cell and
-reason (section 2), and the assigned name.
+After spawning, run this with the Bash tool:
+
+```
+python3 tools/route.py --spawn --project <this project's root> \
+  --from-line "<the assessment line>" --task-slug <short name> \
+  --first-cell <the cell you just spawned, or controller> \
+  --worker-name <the name you gave it>
+```
+
+This writes a pending ledger entry with `final_outcome: unknown`, which the
+`SessionStart(compact)` hook (`LIFECYCLE.md`, "Handoffs") lists if this
+session compacts before the task finishes, so a fresh context after a
+compaction can see the work in flight rather than only what a summary
+kept. It prints the entry's id (`led-NNN`); keep it, section 2's
+completion command needs it.
+
+Then state in one line the assessment, the resolved cell and reason
+(section 2), and the assigned name.
 
 ## 4. Escalation and de-escalation
 
@@ -260,15 +291,20 @@ reason (section 2), and the assigned name.
      worker: write the task (and, for the falsified-constraint trigger,
      the constraint, its stated reason, and the evidence the worker
      found) to a file, then `python3 tools/system_controller.py --problem
-     <that file> --project <this project's root> --mode quick --record`.
-     This costs roughly USD 2 to 3 and takes several minutes; state that
-     estimate before running it, per this project's own rule for who
-     starts a paid run. Read the run's `REPORT.md` when it finishes. If
-     the outcome is `solution`, re-spawn `worker-sonnet-low` with
-     `REPORT.md`'s answer and the original task, instructed to apply the
-     answer rather than redo the analysis. Treat a Controller `solution`
-     as a strong candidate to verify against the acceptance criteria, not
-     as confirmed correct on arrival.
+     <that file> --project <this project's root> --mode quick`. Add
+     `--record` only if you want a `RECORD.md` written into the run's
+     own `runs/<id>/` directory alongside `REPORT.md`; it is not needed
+     to read the answer.
+     This costs about USD 2.99 per fire and takes several minutes
+     (`src/cost_table.json` `controller`: the measured quick-mode mean
+     plus one floor instantiation, ranging USD 2.35 to 3.29 across the
+     runs on record); say the estimate before running it. Read the run's
+     `REPORT.md` when it finishes. If the outcome is `solution`,
+     re-spawn `worker-sonnet-low` with `REPORT.md`'s answer and the
+     original task, instructed to apply the answer rather than redo the
+     analysis. Treat a Controller `solution` as a strong candidate to
+     verify against the acceptance criteria, not as confirmed correct on
+     arrival.
      <!-- rationale:start -->
      (The instantiation step is the one Stage 11 measured this arm
      through. Cost of this step, Controller plus instantiation: about USD
@@ -283,7 +319,11 @@ reason (section 2), and the assigned name.
      <!-- rationale:start -->
      (`worker-opus-high` cleared the benchmark task built to the
      falsified-constraint shape nine of nine from a cold start, D42, D44,
-     at USD 0.86 to 1.11 per run; it is the confirmed cell, and step 1 is
+     at USD 0.86 to 1.11 per run; it is the confirmed cell (elsewhere
+     cited as twelve of twelve, `src/routing_priors.json`: nine cold-start
+     confirmation runs plus three search runs that also passed, D42
+     point 4; both counts are true and describe the same evidence
+     counted two ways), and step 1 is
      tried first because it costs about the same and, when it works,
      keeps a full audit trail, `ledger.jsonl`, `REPORT.md`, a plain
      worker report does not.)

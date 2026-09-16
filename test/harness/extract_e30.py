@@ -1,9 +1,26 @@
-"""Extract the E30 transcripts into test/results/2026-09-15-e30-transcripts.md (docs/PLAN-4.md Stage A.2, D72)."""
+"""Extract the E30 transcripts into test/results/2026-09-15-e30-transcripts.md (docs/PLAN-4.md Stage A.2, D72).
+
+A one-off generator kept for provenance, not a general tool: RUNS below
+names four specific session ids captured on one machine during D71's
+probe, and its output file already quotes its own source. --repo and
+--base (docs/PLAN-6.md D.4, audit A24) replace what were hard-coded
+absolute paths to that one machine, so the script is at least portable
+to wherever those four transcripts (or a differently-named equivalent
+set) actually live, rather than only ever runnable from the original
+checkout."""
+import argparse
 import json, glob, os, re, sys
 from pathlib import Path
 
-REPO = Path(r"C:\Users\Bob\Desktop\Code\Claude\Orchestrator")
-BASE = Path(r"C:\Users\Bob\.claude\projects\C--Users-Bob-Desktop-Code-Claude-orchestrator-scratch")
+ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+ap.add_argument("--repo", type=Path, default=Path(r"C:\Users\Bob\Desktop\Code\Claude\Orchestrator"),
+                 help="this repository's root; test/results/ under it is where the output is written")
+ap.add_argument("--base", type=Path,
+                 default=Path(r"C:\Users\Bob\.claude\projects\C--Users-Bob-Desktop-Code-Claude-orchestrator-scratch"),
+                 help="the Claude Code projects directory holding the four session ids in RUNS below")
+args = ap.parse_args()
+REPO = args.repo
+BASE = args.base
 RUNS = [
     ("run 1", "f7e62e19-b4b1-4176-8718-b54e2d087525", 100000, "greek",
      "Greek-letter filler; the compaction summariser was refused by a [bio] safety classifier, both summaries are stubs, and the run then died on the same refusal"),

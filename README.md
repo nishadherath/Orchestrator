@@ -87,10 +87,10 @@ One task, end to end:
    escalations to the ledger. A rung outside the default ladder activates
    for a bucket after three recorded outcomes at that cell with a
    posterior above 0.5; the project's own cost figures replace the shipped
-   table after five (`routing_priors.json` `steering`). The audit found
-   that a floor failure recorded without an escalation does not move the
-   posterior (audit A4), so today the ledger learns only from failures
-   that were escalated.
+   table after five (`routing_priors.json` `steering`). A floor failure
+   recorded with `--outcome fail` and no `--escalation` counts in the
+   posterior the same as an escalated one (fixed 2026-09-16, audit A4,
+   docs/PLAN-6.md B.5).
 
 Escalation has two triggers beyond "the next rung on failure". A worker
 that reports it cannot meet its acceptance criteria without acting against
@@ -106,14 +106,19 @@ USD 0.36 to apply the answer through one floor worker
 
 Context is handled on disk, never in the model's memory. A status-line
 script writes the orchestrator's own context usage to
-`.claude/context-usage.json`; `--explain` compares it against a 70 percent
+`.claude/context-main.json` and each subagent's peak token usage to
+`.claude/context-tasks.json`, one file per writer so the two status lines
+racing each other cannot clobber one another's data (audit A12);
+`--explain` reads `context-main.json` and compares it against a 70 percent
 threshold and says when to write a handoff (`tools/handoff.py`, a
 ten-heading file with computed cost and time lines) before the platform
 compacts. A `SessionStart` hook on the `compact` matcher prints the
-routing rule and the newest handoff after a compaction. The audit found the
-hook's pending-worker listing can never populate in a consumer project
-because the `--spawn` step that feeds it is not in `ORCHESTRATOR.md`
-(audit B1).
+routing rule and the newest handoff after a compaction. The hook's
+pending-worker listing is fed by `route.py --spawn`, run immediately
+after the orchestrator's own Agent tool call (fixed 2026-09-16, audit
+B1, docs/PLAN-6.md B.4): before this fix the step that feeds the
+listing was not in `ORCHESTRATOR.md`, so the listing could never
+populate in a consumer project.
 
 Seven platform settings defeat all of this silently, each documented with
 its source in `docs/FINDINGS.md` and listed as an invariant in `CLAUDE.md`:
@@ -153,13 +158,14 @@ worker's row (E2); no agent, including the orchestrator, can read that
 panel itself (E19), so the routing line and the worker transcript under
 `~/.claude/projects/` are the signals a session can act on.
 
-Two settings the fragment does not carry: `autoCompactWindow`, which
-works at project scope (E31) and should be set to 200,000 for the
-handoff threshold to fire before the platform compacts; and the
-`Bash(python3 *)` permission that lets the orchestrator run `route.py`
-without a prompt on every task, which `preflight.py` warns about but does
-not add. The commands in the fragment call `python3` by that name;
-`preflight.py` does not check it resolves (audit A26).
+Two settings the fragment carries, added 2026-09-16 (docs/PLAN-6.md
+B.3, B.7; both previously missing, audit A26): `autoCompactWindow`,
+set to 200,000, project scope, confirmed to work (E31), so the handoff
+threshold fires before the platform compacts; and the `Bash(python3
+*)` permission, so the orchestrator can run `route.py` without a
+prompt on every task. The commands in the fragment call `python3` by
+that name; `preflight.py`'s "python3 on PATH" check now FAILs, naming
+the fix, if it does not resolve.
 
 ## How to work on it
 
@@ -219,11 +225,10 @@ instructions.
 | `dist/` | The installable bundle, stamped with its source commit |
 | `test/harness/` | `check.py` and the paid measurement scripts |
 | `test/fixtures/` | 18 routing fixtures, 15 benchmark tasks, the schema examples |
-| `test/results/` | 175 dated result files; no index yet (audit C5) |
-| `docs/` | Decisions, findings, premises, cost, the design documents, the five plans, this audit |
-| `handoffs/` | Five session handoffs, each passing `handoff.py check` |
-| `USAGE_PROJECT.md` | An older install guide the audit recommends removing (audit C1) |
-| `graft/`, `dist-rubric-only/` | Gitignored local artefacts: a code index for one machine's tooling, and a stale measurement build |
+| `test/results/` | 176 dated result files (2026-09-16); no index yet (audit C5, Stage D.3) |
+| `docs/` | Decisions, findings, premises, cost, the design documents, the six plans, this audit |
+| `handoffs/` | Seven session handoffs, each passing `handoff.py check` |
+| `graft/`, `dist-with-rationale/` | Gitignored local artefacts: a code index for one machine's tooling, and a bundle built with `--with-rationale` for comparison, rebuilt on demand |
 
 ## What is not known
 

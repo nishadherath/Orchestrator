@@ -31,75 +31,95 @@ A premise is load-bearing when removing it changes what the system does. The
 last section names the load-bearing unverified ones, which is the list
 `SYSTEM.md` says a quick-mode answer must always carry.
 
+**What later decisions changed here.** This ledger was built 2026-09-11 and
+most rows have not been re-checked since; the "Last checked" column names
+each row's date rather than leaving the whole document dated once at the
+top. Three decisions moved rows without a matching ledger edit at the time,
+corrected here (Stage C.3, B3):
+
+- **D44** (2026-09-14, Stage 8) collapsed the eleven-rule table to the floor
+  plus one escalation rule. It moved P05 (blast no longer separates any
+  destination), P10 (nine of fifteen routed became three of fifteen), and
+  P13 (its `worker-opus-xhigh`/`worker-fable-xhigh` tie-break row no longer
+  exists).
+- **D64** (2026-09-15, Plan 2) rewrote routing as the ladder `route.py`
+  resolves from `routing_priors.json`, and added `route.py --record
+  --escalation`, closing the "nothing collects the record" gap the metric
+  section below still describes; that instrument now exists even though the
+  gap it closes is left in place below as history.
+- **D80** (2026-09-16, Plan 5 Stage C) answered P29 on one task shape:
+  decomposing before a `compact_boundary` fires beat a single compacting
+  worker, 0 of 12 against 11 of 12 failures. P29's row already carries this.
+
 ## Group A. The assessment axes
 
-| Id | Premise | Class | Source | Confidence | Cheapest verification | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P01 | Task difficulty, for routing, decomposes into exactly three axes | policy | `ROUTING.md` section 1 | low | Score a two-axis variant against the same fixtures; Stage 6 builds it | open |
-| P02 | Intelligence sensitivity predicts which model class a task needs | unverified | `ROUTING.md` section 1; the axis carries the model choice in every row | low and falling | A benchmark task whose openness forces a cell above the floor; Stage 7 | pressured |
-| P03 | Horizon can be assessed before any tool call is made | habit, from human project estimation | `ROUTING.md` section 1 | low | Already done, five times over: F03, F05, F08, F11 and F18 each needed correction on horizon specifically (D23 to D33) | pressured |
-| P04 | Blast radius is a property of the deliverable, not of the situation it concerns | policy (a stipulation) | `ROUTING.md` section 1, added after F13's wobble | high as a definition | Not applicable; a stipulation cannot be wrong, only unhelpful. Its usefulness shows as fixture stability on F13 and F18 | live |
-| P05 | Blast radius warrants a higher cell | policy (risk appetite, not capability) | `ROUTING.md` section 2, where blast separates `worker-sonnet-low` from `worker-opus-xhigh` on open work | unmeasurable by current instruments | None exists. See P33 | live, load-bearing |
-| P06 | The three axes are independent enough that a triple is a meaningful address | unverified | Implicit in the table's shape | low | Free, and done below: sensitivity predicts horizon at 70.6 percent against a 35.3 percent base rate across the seventeen assessed fixtures | pressured |
+| Id | Premise | Class | Source | Confidence | Cheapest verification | Status | Last checked |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| P01 | Task difficulty, for routing, decomposes into exactly three axes | policy | `ROUTING.md` section 1 | low | Score a two-axis variant against the same fixtures; Stage 6 builds it | open | 2026-09-11 |
+| P02 | Intelligence sensitivity predicts which model class a task needs | unverified | `ROUTING.md` section 1; the axis carries the model choice in every row | low and falling | A benchmark task whose openness forces a cell above the floor; Stage 7 | pressured | 2026-09-11 |
+| P03 | Horizon can be assessed before any tool call is made | habit, from human project estimation | `ROUTING.md` section 1 | low | Already done, five times over: F03, F05, F08, F11 and F18 each needed correction on horizon specifically (D23 to D33) | pressured | 2026-09-11 |
+| P04 | Blast radius is a property of the deliverable, not of the situation it concerns | policy (a stipulation) | `ROUTING.md` section 1, added after F13's wobble | high as a definition | Not applicable; a stipulation cannot be wrong, only unhelpful. Its usefulness shows as fixture stability on F13 and F18 | live | 2026-09-11 |
+| P05 | Blast radius warrants a higher cell | policy (risk appetite, not capability) | `ROUTING.md` section 1 still assesses it, but D44/D45 collapsed the table to a floor rule with no blast condition and a `prior_failure`-only frontier rule; blast no longer separates any destination directly, so this premise is currently unexercised by the shipped table, not merely unmeasured | unmeasurable by current instruments, and inert in the current table | None exists. See P33 | live, load-bearing as policy though not currently load-bearing on any destination | 2026-09-16 (Stage C.3) |
+| P06 | The three axes are independent enough that a triple is a meaningful address | unverified | Implicit in the table's shape | low | Free, and done below: sensitivity predicts horizon at 70.6 percent against a 35.3 percent base rate across the seventeen assessed fixtures | pressured | 2026-09-11 |
 
 ## Group B. The routing table
 
-| Id | Premise | Class | Source | Confidence | Cheapest verification | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P07 | Routing each task to the cheapest sufficient cell costs less overall than sending everything to one capable cell | unverified (the project's thesis) | `CLAUDE.md`, "What this repository is"; `BENCHMARK-DESIGN.md`'s opening | low, and contradicted for the measured territory | Compare cost per solved task against B0 on Stage 7's task set | pressured |
-| P08 | A routing row is a passive destination: adding one affects only tasks that route to it | falsified (was habit) | D13, re-confirmed D22 to D27 | high that it is false | Done twice, about USD 9 a pass | falsified |
-| P09 | Covering all eighteen axis triples is desirable in itself | falsified (was habit) | D9 proposed it, D13 withdrew it | high | Done: the attractor experiment | falsified |
-| P10 | Fifteen cells, three models by five efforts, is the right granularity | policy | `CLAUDE.md` fixes the matrix; `tools/cells.py` declares it | medium as policy, untested as design | Count what is reachable: nine of fifteen are routed, six are labelled "not in the routing table" and are paid on every orchestrator turn | live, with measured waste |
-| P11 | `max` shows diminishing returns; sonnet at `max` loses to opus at `high`; fable at low effort wastes the model | unverified (three claims, merged) | `ROUTING.md` section 2 constraints, stated as fact | low; no measurement exists for any of the three | One benchmark task at two cells, nine runs each | open |
-| P12 | Taking the cheaper of two defensible cells and escalating on evidence beats rounding up | policy, and the one the design leans on hardest | `ROUTING.md` sections 2 and 4 | medium | Count escalations in real use; nothing instruments this today | live, uninstrumented |
-| P13 | `worker-opus-xhigh` is preferred to `worker-fable-xhigh` unless the task demands sustained self-directed investigation | policy with fixture backing | D9's tie-break, D21; F11 and F12 against F18 | medium | Reproducibility is at reporting grade (all three 9 of 9, 2026-09-11); the destinations themselves are unmeasured | live |
-| P14 | Asking the user costs more than a worker starting on a slightly wrong reading, so spawn is the default | policy | D10, `ROUTING.md` section 1.1, 1,810 characters paid every orchestrator turn | medium | Measured once: nine spurious clarifies before the rule (E12), exactly one correct clarify per run after | live |
-| P15 | Handover quality is fixed, so the cell is the only lever on outcome | habit, never stated aloud until now | Implicit: no decision entry, fixture or benchmark task varies the handover prompt while holding the cell constant | none | Run one benchmark task at the floor with a deliberately better handover, nine runs, against the same task's recorded floor result | open |
+| Id | Premise | Class | Source | Confidence | Cheapest verification | Status | Last checked |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| P07 | Routing each task to the cheapest sufficient cell costs less overall than sending everything to one capable cell | unverified (the project's thesis) | `CLAUDE.md`, "What this repository is"; `BENCHMARK-DESIGN.md`'s opening | low, and contradicted for the measured territory | Compare cost per solved task against B0 on Stage 7's task set | pressured | 2026-09-11 |
+| P08 | A routing row is a passive destination: adding one affects only tasks that route to it | falsified (was habit) | D13, re-confirmed D22 to D27 | high that it is false | Done twice, about USD 9 a pass | falsified | 2026-09-11 |
+| P09 | Covering all eighteen axis triples is desirable in itself | falsified (was habit) | D9 proposed it, D13 withdrew it | high | Done: the attractor experiment | falsified | 2026-09-11 |
+| P10 | Fifteen cells, three models by five efforts, is the right granularity | policy | `CLAUDE.md` fixes the matrix; `tools/cells.py` declares it | medium as policy, untested as design | Count what is reachable: `src/routing_table.json` names three of fifteen (`worker-sonnet-low` the floor; `worker-opus-max` and `worker-fable-max` the frontier), twelve unrouted, all twelve still paid on every orchestrator turn as a description in the Agent tool's listing | live, with measured waste | 2026-09-16 (Stage C.3) |
+| P11 | `max` shows diminishing returns; sonnet at `max` loses to opus at `high`; fable at low effort wastes the model | unverified (three claims, merged) | `ROUTING.md` section 2 constraints, stated as fact | low; no measurement exists for any of the three | One benchmark task at two cells, nine runs each | open | 2026-09-11 |
+| P12 | Taking the cheaper of two defensible cells and escalating on evidence beats rounding up | policy, and the one the design leans on hardest | `ROUTING.md` sections 2 and 4 | medium | Count escalations in real use; nothing instruments this today | live, uninstrumented | 2026-09-11 |
+| P13 | `worker-opus-xhigh` is preferred to `worker-fable-xhigh` unless the task demands sustained self-directed investigation | policy with fixture backing, now moot | D9's tie-break, D21; F11 and F12 against F18 | medium when written; not applicable to the shipped table | The row this tie-break governed no longer exists: D44/D45's frontier rule names `worker-opus-max`/`worker-fable-max`, not the `xhigh` pair, so there is nothing left to prefer between. Retained for its history, not as live guidance | moot: the destinations it compared are not in `src/routing_table.json` | 2026-09-16 (Stage C.3) |
+| P14 | Asking the user costs more than a worker starting on a slightly wrong reading, so spawn is the default | policy | D10, `ROUTING.md` section 1.2, 1,810 characters paid every orchestrator turn | medium | Measured once: nine spurious clarifies before the rule (E12), exactly one correct clarify per run after | live | 2026-09-16 (Stage C.3) |
+| P15 | Handover quality is fixed, so the cell is the only lever on outcome | habit, never stated aloud until now | Implicit: no decision entry, fixture or benchmark task varies the handover prompt while holding the cell constant | none | Run one benchmark task at the floor with a deliberately better handover, nine runs, against the same task's recorded floor result | open | 2026-09-11 |
 
 ## Group C. The fixtures
 
-| Id | Premise | Class | Source | Confidence | Cheapest verification | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P16 | Each fixture's assessment triple is the correct reading of its task | policy (one person's judgement, confirmed 2026-09-05 and 2026-09-07) | `routing.jsonl` `assigned_by`; `test/fixtures/README.md` | medium for reproducibility, unmeasured for correctness | Reproducibility is measured: 16 of 18 clear the bar at reporting grade (2026-09-11). Correctness has no instrument | live. Merges 51 premises |
-| P17 | Each fixture's `expected_cell` is the cheapest sufficient destination for its triple | unverified above the floor, measured at it | `routing.jsonl`; `BENCHMARK-DESIGN.md` states plainly that expected cells are judgement until the benchmark supplies a frontier | high at the floor (T1 to T8, each 9 of 9), low above it | Stage 7 | pressured. Merges 17 premises |
-| P18 | Fixture agreement measures routing appropriateness | false as stated; it measures agreement with a human label | `score_routing.py`'s own docstring uses the phrase | high that the two differ | Definitional; see the metric section | corrected here |
-| P19 | Eighteen fixtures represent the work the orchestrator will actually meet | unverified | Implicit in tuning the table against them | low | Route a sample of real backlog tasks and score agreement, which is E13 repeated at more than two tasks | open |
+| Id | Premise | Class | Source | Confidence | Cheapest verification | Status | Last checked |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| P16 | Each fixture's assessment triple is the correct reading of its task | policy (one person's judgement, confirmed 2026-09-05 and 2026-09-07) | `routing.jsonl` `assigned_by`; `test/fixtures/README.md` | medium for reproducibility, unmeasured for correctness | Reproducibility is measured: 16 of 18 clear the bar at reporting grade (2026-09-11). Correctness has no instrument | live. Merges 51 premises | 2026-09-11 |
+| P17 | Each fixture's `expected_cell` is the cheapest sufficient destination for its triple | unverified above the floor, measured at it | `routing.jsonl`; `BENCHMARK-DESIGN.md` states plainly that expected cells are judgement until the benchmark supplies a frontier | high at the floor (T1 to T8, each 9 of 9), low above it | Stage 7 | pressured. Merges 17 premises | 2026-09-11 |
+| P18 | Fixture agreement measures routing appropriateness | false as stated; it measures agreement with a human label | `score_routing.py`'s own docstring uses the phrase | high that the two differ | Definitional; see the metric section | corrected here | 2026-09-11 |
+| P19 | Eighteen fixtures represent the work the orchestrator will actually meet | unverified | Implicit in tuning the table against them | low | Route a sample of real backlog tasks and score agreement, which is E13 repeated at more than two tasks | open | 2026-09-11 |
 
 ## Group D. The platform
 
-| Id | Premise | Class | Source | Confidence | Cheapest verification | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P20 | Effort is subagent-only; agent teams flatten it (invariant 1) | law | Documentation 2026-09-05; harness INV1 | high | `preflight.py`, free, every run | live |
-| P21 | A per-invocation `model` beats frontmatter (invariant 2) | law | Documentation, resolution order | high | Harness INV2 asserts the instruction; obedience is measured by `score_routing.py` | live |
-| P22 | `CLAUDE_CODE_EFFORT_LEVEL` beats frontmatter effort (invariant 3) | law | Documentation | high | `preflight.py` | live |
-| P23 | `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` flattens every cell (invariant 4) | law | Documentation | high | `preflight.py` | live |
-| P24 | Haiku is excluded from the matrix (invariant 5) | policy; its original justification was falsified | D5; E8 disproved "haiku has no effort levels" | high that it is a policy | Not applicable; the exclusion is a decision | live as policy, open as a question |
-| P25 | A blocked model is substituted, not failed (invariant 6) | law | Documentation | high | `preflight.py` checks `availableModels` | live |
-| P26 | A user-stopped worker cannot be resumed; a `TaskStop`-stopped one can (invariant 7) | law, verified | E3 and E4 (2.1.245); E4 re-verified 2026-09-11 on 2.1.263 | high | Done twice | live |
-| P27 | The `/tasks` row is the ground-truth signal for what actually ran | falsified for any agent reader | `CLAUDE.md` "Verification is the hard problem" signal 1; `LIFECYCLE.md`; `src/commands/workers.md` | high | Done, free: E19, 2026-09-11 | falsified for agents |
-| P28 | The worker transcript records model and effort and is readable by the orchestrator | law | E7 (2.1.245), re-verified 2026-09-11: the `.jsonl` carries both, the `.meta.json` sidecar carries neither | high | Done | live, and now the only agent-readable verification signal |
-| P29 | A `compact_boundary` entry is a reliable signal the cell was undersized | reclassified 2026-09-15 (D68): a horizon signal, not a capability one, since every cell has the same window. Confirmed live (D80, `docs/PLAN-5.md` Stage C): on T12, decomposing the task the advisory names removed the failures a compacted single worker showed | `CLAUDE.md` "Verification is the hard problem", signal 2; `docs/COMPACTION-DESIGN.md` section 6; D71; narrowed by `docs/PLAN-4.md` Stage B (D75, D77, 81 runs across three shapes); answered on T12 by `docs/PLAN-5.md` Stage C (D80) | live, 2026-09-16: 12 runs per arm, `test/results/2026-09-15-decomposition-preregistration.md`'s pre-registered rule. `test/results/2026-09-15-decomposition-bench.md` has the committed record | decomposition supported on T12: arm A (one compacting worker) 11 of 12 combined failures, [0.646, 0.985]; arm D (the harness's own two-part split) 0 of 12, [0.000, 0.243], non-overlapping. `src/ROUTING.md` section 2 now instructs the orchestrator to split on the overflow advisory, which previously fired with no corresponding instruction anywhere in that file | live, as a horizon signal with a demonstrated remedy, not merely a countable artefact: this is the status the premise moves to on a supported result. Still open: whether the effect generalises past T12's shape to T13 or T14 (not run), and whether "trim the handover", the advisory's other named remedy, does anything at all (never tested) |
-| P30 | A spawned worker's cost rolls up into the parent's `total_cost_usd` | law, verified | E14, 2026-09-07 | high | Done | live |
+| Id | Premise | Class | Source | Confidence | Cheapest verification | Status | Last checked |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| P20 | Effort is subagent-only; agent teams flatten it (invariant 1) | law | Documentation 2026-09-05; harness INV1 | high | `preflight.py`, free, every run | live | 2026-09-11 |
+| P21 | A per-invocation `model` beats frontmatter (invariant 2) | law | Documentation, resolution order | high | Harness INV2 asserts the instruction; obedience is measured by `score_routing.py` | live | 2026-09-11 |
+| P22 | `CLAUDE_CODE_EFFORT_LEVEL` beats frontmatter effort (invariant 3) | law | Documentation | high | `preflight.py` | live | 2026-09-11 |
+| P23 | `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` flattens every cell (invariant 4) | law | Documentation | high | `preflight.py` | live | 2026-09-11 |
+| P24 | Haiku is excluded from the matrix (invariant 5) | policy; its original justification was falsified | D5; E8 disproved "haiku has no effort levels" | high that it is a policy | Not applicable; the exclusion is a decision | live as policy, open as a question | 2026-09-11 |
+| P25 | A blocked model is substituted, not failed (invariant 6) | law | Documentation | high | `preflight.py` checks `availableModels` | live | 2026-09-11 |
+| P26 | A user-stopped worker cannot be resumed; a `TaskStop`-stopped one can (invariant 7) | law, verified | E3 and E4 (2.1.245); E4 re-verified 2026-09-11 on 2.1.263 | high | Done twice | live | 2026-09-11 |
+| P27 | The `/tasks` row is the ground-truth signal for what actually ran | falsified for any agent reader | `CLAUDE.md` "Verification is the hard problem" signal 1; `LIFECYCLE.md`; `src/commands/workers.md` | high | Done, free: E19, 2026-09-11 | falsified for agents | 2026-09-11 |
+| P28 | The worker transcript records model and effort and is readable by the orchestrator | law | E7 (2.1.245), re-verified 2026-09-11: the `.jsonl` carries both, the `.meta.json` sidecar carries neither | high | Done | live, and now the only agent-readable verification signal | 2026-09-11 |
+| P29 | A `compact_boundary` entry is a reliable signal the cell was undersized | reclassified 2026-09-15 (D68): a horizon signal, not a capability one, since every cell has the same window. Confirmed live (D80, `docs/PLAN-5.md` Stage C): on T12, decomposing the task the advisory names removed the failures a compacted single worker showed | `CLAUDE.md` "Verification is the hard problem", signal 2; `docs/COMPACTION-DESIGN.md` section 6; D71; narrowed by `docs/PLAN-4.md` Stage B (D75, D77, 81 runs across three shapes); answered on T12 by `docs/PLAN-5.md` Stage C (D80) | live, 2026-09-16: 12 runs per arm, `test/results/2026-09-15-decomposition-preregistration.md`'s pre-registered rule. `test/results/2026-09-15-decomposition-bench.md` has the committed record | decomposition supported on T12: arm A (one compacting worker) 11 of 12 combined failures, [0.646, 0.985]; arm D (the harness's own two-part split) 0 of 12, [0.000, 0.243], non-overlapping. `src/ROUTING.md` section 2 now instructs the orchestrator to split on the overflow advisory, which previously fired with no corresponding instruction anywhere in that file | live, as a horizon signal with a demonstrated remedy, not merely a countable artefact: this is the status the premise moves to on a supported result. Still open: whether the effect generalises past T12's shape to T13 or T14 (not run), and whether "trim the handover", the advisory's other named remedy, does anything at all (never tested) | 2026-09-16 (D80) |
+| P30 | A spawned worker's cost rolls up into the parent's `total_cost_usd` | law, verified | E14, 2026-09-07 | high | Done | live | 2026-09-11 |
 
 ## Group E. The benchmark method
 
-| Id | Premise | Class | Source | Confidence | Cheapest verification | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P31 | A deterministic exit code is the only trustworthy grader when capability is the thing under test | policy, well argued | `BENCHMARK-DESIGN.md` | high | Not applicable | live |
-| P32 | Planting a known defect converts diagnosis into a string match without changing the task's difficulty | unverified, and three times defective in practice | `BENCHMARK-DESIGN.md`; D16, D17, D30 | medium | The five-phrasing grader test the plan requires from T9 on | live with a known failure mode |
-| P33 | Blast radius cannot be measured by this method | law of the method, conceded by the design | `BENCHMARK-DESIGN.md` | high | Not applicable | live. Consequence: P05 can never be verified by the benchmark |
-| P34 | Synthetic plantable-defect tasks stand in for the real work the orchestrator will route | unverified, flagged by the design itself | `BENCHMARK-DESIGN.md`, "What this cannot answer" | low | The same experiment as P19 | open |
-| P35 | R_search of 3 steers, R_confirm of 9 reports, at a 0.7 Wilson lower bound | maths on a policy base | `BENCHMARK-DESIGN.md`; D15 corrected R_confirm from 8 | high | Verified this session: eight of eight gives 67.6 percent, nine of nine gives 70.1 percent | live, now applied to routing too (D37) |
+| Id | Premise | Class | Source | Confidence | Cheapest verification | Status | Last checked |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| P31 | A deterministic exit code is the only trustworthy grader when capability is the thing under test | policy, well argued | `BENCHMARK-DESIGN.md` | high | Not applicable | live | 2026-09-11 |
+| P32 | Planting a known defect converts diagnosis into a string match without changing the task's difficulty | unverified, and three times defective in practice | `BENCHMARK-DESIGN.md`; D16, D17, D30 | medium | The five-phrasing grader test the plan requires from T9 on | live with a known failure mode | 2026-09-11 |
+| P33 | Blast radius cannot be measured by this method | law of the method, conceded by the design | `BENCHMARK-DESIGN.md` | high | Not applicable | live. Consequence: P05 can never be verified by the benchmark | 2026-09-11 |
+| P34 | Synthetic plantable-defect tasks stand in for the real work the orchestrator will route | unverified, flagged by the design itself | `BENCHMARK-DESIGN.md`, "What this cannot answer" | low | The same experiment as P19 | open | 2026-09-11 |
+| P35 | R_search of 3 steers, R_confirm of 9 reports, at a 0.7 Wilson lower bound | maths on a policy base | `BENCHMARK-DESIGN.md`; D15 corrected R_confirm from 8 | high | Verified this session: eight of eight gives 67.6 percent, nine of nine gives 70.1 percent | live, now applied to routing too (D37) | 2026-09-11 |
 
 ## Group F. The economics
 
-| Id | Premise | Class | Source | Confidence | Cheapest verification | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P36 | The router's own cost is small relative to the work it routes | falsified | `docs/COST.md`, 2026-09-11: mean opus verdict USD 0.1645 against mean floor run USD 0.1641 | high; 108 verdicts, 96 runs | Done | falsified at the floor, where every measured task has landed |
-| P37 | Opus is the better orchestrator, and worth its cost | split: "better" verified, "worth it" unverified | 2026-09-06 (88.2 against 62.7 percent, non-overlapping); 2026-09-11 baseline, 95.7 percent at reporting grade | high on accuracy, none on value | Value needs the cost of a wrong routing decision, which nothing measures | live, half-measured |
-| P38 | Prompt caching makes repeated routing runs cheaper | law with a boundary, measured | Sequential runs fall 20 to 54 percent; E16 found no sharing across three genuinely parallel launches | high | Done | live, boundary known |
-| P39 | A worker performs the same whether or not it is told its own cell | unverified, and untested by construction | All fifteen `model-specific-*` sections in `WORKER_PERSONA.md` are empty; the generator omits an empty section entirely | none | Fill one section, re-run one benchmark task at the bar. No code change needed | open |
-| P40 | The orchestrator obeys the rubric it is given | measured | 2026-09-11 baseline, 155 of 162 | high overall, with two known exceptions | Done, and repeatable at USD 27 a pass | live, with F09 a reporting-grade counter-example |
+| Id | Premise | Class | Source | Confidence | Cheapest verification | Status | Last checked |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| P36 | The router's own cost is small relative to the work it routes | falsified | `docs/COST.md`, 2026-09-11: mean opus verdict USD 0.1645 against mean floor run USD 0.1641 | high; 108 verdicts, 96 runs | Done | falsified at the floor, where every measured task has landed | 2026-09-11 |
+| P37 | Opus is the better orchestrator, and worth its cost | split: "better" verified, "worth it" unverified | 2026-09-06 (88.2 against 62.7 percent, non-overlapping); 2026-09-11 baseline, 95.7 percent at reporting grade | high on accuracy, none on value | Value needs the cost of a wrong routing decision, which nothing measures | live, half-measured | 2026-09-11 |
+| P38 | Prompt caching makes repeated routing runs cheaper | law with a boundary, measured | Sequential runs fall 20 to 54 percent; E16 found no sharing across three genuinely parallel launches | high | Done | live, boundary known | 2026-09-11 |
+| P39 | A worker performs the same whether or not it is told its own cell | unverified, and untested by construction | All fifteen `model-specific-*` sections in `WORKER_PERSONA.md` are empty; the generator omits an empty section entirely | none | Fill one section, re-run one benchmark task at the bar. No code change needed | open | 2026-09-11 |
+| P40 | The orchestrator obeys the rubric it is given | measured | 2026-09-11 baseline, 155 of 162 | high overall, with two known exceptions | Done, and repeatable at USD 27 a pass | live, with F09 a reporting-grade counter-example | 2026-09-11 |
 
 ## What the merging cost
 
@@ -148,17 +168,28 @@ for horizon all along". Fixtures that break the confound, mechanical work
 with a long horizon, open work with a short one, are the ones that would
 make the experiment decisive, and the suite is thin in exactly those cells.
 
-**Eleven of eighteen triples have a fixture behind them.** Of the eighteen
-possible triples, eleven are fixture-backed, five are covered by a table row
-with no fixture landing on them, and two are deliberate documented gaps.
-This matches the harness's own ROW-BACKED count exactly, so it is not a new
-measurement, but it reframes the five: `(mechanical, medium, consequential)`,
-`(open, medium, consequential)`, `(open, short, consequential)`,
-`(structured, long, consequential)` and `(structured, short, consequential)`.
-Four of those five are consequential, which is to say the table's least
-evidenced rows are concentrated on the axis the benchmark cannot measure at
-all (P05, P33). That is not a coincidence. It is the same gap seen from two
-directions.
+**Eleven of eighteen triples had a fixture behind them, against the
+eleven-rule table this paragraph was written for.** Superseded 2026-09-16
+(Stage C.3, B3): D44 collapsed that table to one non-escalation rule (the
+floor) plus one escalation-only rule (the frontier), so "backed" is no
+longer a per-triple question the harness asks; `check.py`'s ROW-BACKED now
+asks only whether the floor rule itself has a fixture landing on it, which
+sixteen of eighteen fixtures trivially do (every fixture except F14 and
+F16, which fire the policy dial or the clarify rule instead of reaching a
+destination, per `test/fixtures/README.md`'s Coverage paragraph). The
+original count and the five under-evidenced triples it named
+(`(mechanical, medium, consequential)`, `(open, medium, consequential)`,
+`(open, short, consequential)`, `(structured, long, consequential)` and
+`(structured, short, consequential)`) describe a table that no longer
+exists; they are retained below as history, not as a current measurement.
+The original paragraph:
+
+> Of the eighteen possible triples, eleven are fixture-backed, five are
+> covered by a table row with no fixture landing on them, and two are
+> deliberate documented gaps. Four of the five under-evidenced triples are
+> consequential, which is to say the table's least evidenced rows were
+> concentrated on the axis the benchmark cannot measure at all (P05, P33).
+> That was not a coincidence. It was the same gap seen from two directions.
 
 ## Goal ladder
 

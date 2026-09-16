@@ -52,7 +52,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import benchmark  # noqa: E402
 
 CELL = "worker-sonnet-low"
-CONTEXT_USAGE_REL = ".claude/context-usage.json"
+# Two files, not one, since tools/context_probe.py's own A12 fix
+# (docs/AUDIT-2026-09-16.md, docs/PLAN-6.md Stage B.8): --main and
+# --tasks each own a file outright now, rather than racing on one
+# shared context-usage.json.
+MAIN_USAGE_REL = ".claude/context-main.json"
+TASKS_USAGE_REL = ".claude/context-tasks.json"
 SESSION_POINTER_REL = ".claude/session.json"
 CLAUDE_MD_POINTER = "Read ORCHESTRATOR.md before delegating any task."
 
@@ -127,7 +132,8 @@ def prepare(project: Path, task_id: str = DEFAULT_TASK) -> None:
     print(f"Preparing {project} for an interactive session ({config['plan']}, task D.1), task {task_id}.\n")
     print(ensure_autocompact_window(project, window))
     print(ensure_orchestrator_pointer(project))
-    print(remove_if_exists(project, CONTEXT_USAGE_REL))
+    print(remove_if_exists(project, MAIN_USAGE_REL))
+    print(remove_if_exists(project, TASKS_USAGE_REL))
     print(remove_if_exists(project, SESSION_POINTER_REL))
     task = benchmark.load_task(task_id)
     dest = benchmark.seed_task(project, task)
@@ -174,28 +180,37 @@ def read_json(path: Path) -> dict | None:
 def check(project: Path, autocompact_readback: str | None, task_id: str = DEFAULT_TASK) -> None:
     config = TASK_CONFIG[task_id]
     window = config["window"]
-    usage_path = project / CONTEXT_USAGE_REL
-    usage = read_json(usage_path)
+    main_path = project / MAIN_USAGE_REL
+    main_data = read_json(main_path)
+    tasks_path = project / TASKS_USAGE_REL
+    tasks_data = read_json(tasks_path)
     pointer_path = project / SESSION_POINTER_REL
     pointer = read_json(pointer_path)
 
     print(f"# Interactive session readback, task {task_id}, {project}\n")
 
-    print(f"## {CONTEXT_USAGE_REL}")
-    if usage is None:
-        print(f"Absent. The statusLine/subagentStatusLine hooks did not fire, or the session never "
-              f"produced an API response (`docs/FINDINGS.md`'s headless finding would then extend to "
-              f"an interactive session too, which would itself be worth recording).\n")
+    print(f"## {MAIN_USAGE_REL}")
+    if main_data is None:
+        print(f"Absent. The statusLine hook did not fire, or the session never produced an API "
+              f"response (`docs/FINDINGS.md`'s headless finding would then extend to an interactive "
+              f"session too, which would itself be worth recording).\n")
     else:
-        main = usage.get("main") or {}
-        print(f"Present, written_at {usage.get('written_at')!r}.")
+        main = main_data.get("main") or {}
+        print(f"Present, written_at {main_data.get('written_at')!r}.")
         window_note = (f"configured autoCompactWindow: {window}" if window is not None
                         else "autoCompactWindow left unset on purpose")
         print(f"main.context_window_size: {main.get('context_window_size')!r} "
               f"({window_note}; model's native window per "
               f"src/cost_table.json's context.model_windows: check against main.model {main.get('model')!r})")
         print(f"main.used_percentage: {main.get('used_percentage')!r}")
-        tasks = usage.get("tasks") or {}
+        print()
+
+    print(f"## {TASKS_USAGE_REL}")
+    if tasks_data is None:
+        print("Absent. The subagentStatusLine hook did not fire, or no worker's status line "
+              "refreshed before the session ended.\n")
+    else:
+        tasks = tasks_data.get("tasks") or {}
         if not tasks:
             print("No tasks entry recorded (subagentStatusLine may not have fired, or the worker "
                   "finished before its first refresh).")
@@ -224,24 +239,24 @@ def check(project: Path, autocompact_readback: str | None, task_id: str = DEFAUL
         else:
             print(f"| **TODO**: what did `/autocompact` report? | Re-run `--check` with "
                   f"`--autocompact-readback <value>`, or fill this row in by hand | E31 |")
-        if usage is not None:
-            main = usage.get("main") or {}
+        if main_data is not None:
+            main = main_data.get("main") or {}
             cws = main.get("context_window_size")
             print(f"| `main.context_window_size` reports {cws!r} with `autoCompactWindow` set to {window} | "
-                  f"`{CONTEXT_USAGE_REL}` from this session, task D.2 | E32 |")
+                  f"`{MAIN_USAGE_REL}` from this session, task D.2 | E32 |")
         else:
-            print(f"| **TODO**: `{CONTEXT_USAGE_REL}` was absent; re-run `--check` after a session that "
+            print(f"| **TODO**: `{MAIN_USAGE_REL}` was absent; re-run `--check` after a session that "
                   f"produced at least one status line refresh | (no file to cite) | E32 |")
     else:
-        tasks = (usage or {}).get("tasks") or {}
+        tasks = (tasks_data or {}).get("tasks") or {}
         if tasks:
             sample_shape = next(iter(tasks.values())).get("tokenSamples")
             print(f"| `tokenSamples` observed as {sample_shape!r} after a multi-minute worker with the "
-                  f"tasks panel open | `{CONTEXT_USAGE_REL}` from this session | tokenSamples' shape |")
+                  f"tasks panel open | `{TASKS_USAGE_REL}` from this session | tokenSamples' shape |")
         else:
             print(f"| `tokenSamples` still not populated even after a multi-minute worker with the tasks "
-                  f"panel open | `{CONTEXT_USAGE_REL}` from this session (tasks key: "
-                  f"{'present but empty' if usage is not None else 'file absent'}) | tokenSamples' shape "
+                  f"panel open | `{TASKS_USAGE_REL}` from this session (tasks key: "
+                  f"{'present but empty' if tasks_data is not None else 'file absent'}) | tokenSamples' shape "
                   f"(duration retired as the explanation, D78's own finding) |")
     event_value = pointer.get("event") if pointer else None
     print(f"| `.claude/session.json`'s `event` reads {event_value!r} on a "
@@ -306,10 +321,13 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         # verbatim, including a tokenSamples shape it has never seen
         # before (a list of dicts, not of plain ints, proving this does
         # not assume the shape).
-        usage_path = project / CONTEXT_USAGE_REL
-        usage_path.parent.mkdir(parents=True, exist_ok=True)
-        usage_path.write_text(json.dumps({
+        main_path = project / MAIN_USAGE_REL
+        main_path.parent.mkdir(parents=True, exist_ok=True)
+        main_path.write_text(json.dumps({
             "main": {"context_window_size": 130000, "used_percentage": 12, "model": "claude-sonnet-5"},
+        }), encoding="utf-8")
+        tasks_path = project / TASKS_USAGE_REL
+        tasks_path.write_text(json.dumps({
             "tasks": {"probe-worker": {"tokenSamples": [{"t": 100}, {"t": 4200}], "peak_tokens": 4200}},
         }), encoding="utf-8")
         pointer_path = project / SESSION_POINTER_REL

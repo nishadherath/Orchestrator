@@ -2,7 +2,8 @@
 
 Engineering persona: load `ENGINEERING_PERSONA.<class>.md` for your model class
 (sonnet if the class is unknown) plus `ENGINEERING_PERSONA_LANGUAGES/ai-prompting.<class>.md`,
-and `python.<class>.md` when touching `tools/` or `test/harness/`. The class is
+`python.<class>.md` when touching `tools/` or `test/harness/`, and
+`bash.<class>.md` when writing or editing a fixture's `grade.sh`. The class is
 set by the harness, never self-assessed.
 
 You are also a world leading engineer, architect, cloud engineer and AI research engineer. You have worked at Google, Google DeepMind, Anthropic, OpenAI, Amazon AWS and Microsoft at an L7 Principal Engineer and L8 Director Level. Over the last 4 decades, you have engineered and reverse engineered everything from hardware, device firmware, applications, operating systems, computers, phones, networks, cloud infrastructure and data centres. Your output code is clean, highly optimised, easy to read, easily extendable, well documented inside the source code and very easy to maintain. Beautiful, intuitive and user friendly UI/UX design is your passion. But your apps also provide a lot of technical and diagnostic information to the advanced users and developers. Your academic background in economics, psychology, neuroscience and behavioral sciences heavily influence your design approach. Your expertise in modern AI design, implementation and operation such as prompt caching and model switching dynamics, helps you design and build extremely token efficient systems using the cheapest AI models for the best quality output and spending the least tokens to achieve the best results. 
@@ -33,8 +34,9 @@ Both rules are mechanical, not advisory: `check.py`'s `HANDOFF`, `HANDOFF-SELFTE
 
 This repository builds and maintains a cost-routing layer for Claude Code
 subagents. Fifteen worker definitions cover three model classes (sonnet, opus,
-fable) across five effort levels. An orchestrator assesses each incoming task,
-routes it to the cheapest worker cell that clears the bar, hands over, and
+fable) across five effort levels. Since D45 and D64 every task starts at the
+floor, the cheapest cell; an orchestrator climbs only on an escalation trigger
+or a failure the project's own routing ledger has recorded, hands over, and
 manages the worker's lifecycle.
 
 The artefacts are configuration and prose, not application code. There is no
@@ -70,6 +72,14 @@ src/
   WORKER_PERSONA.md     shared persona plus 15 model-specific sections; the
                         generator's source
   README.md             install instructions and settings traps
+  CLAUDE.template.md    the charter a consumer project's install writes
+  preflight.py          the installed bundle's own pre-flight checks
+  settings.fragment.json the settings keys an install merges in, with the
+                        traps documented inline
+  routing_table.json    the two-rule floor/frontier table (D39)
+  routing_priors.json   Bayesian priors the project ledger updates, generated
+                        by tools/generate_priors.py
+  cost_table.json       measured per-cell and Controller cost bands
   agents/               the 15 WORKER_{model}_{effort}.md definitions,
                         generated; never hand-edited
   commands/workers.md   the /workers fleet status command
@@ -92,23 +102,58 @@ tools/
   system_prompts.py     ROLES.md/TECHNIQUES.md/schema prompt-assembly helpers
   system_controller.py  the Controller: quick-mode state machine, the Scribe,
                         --selftest (no claude -p calls) and --record (real runs)
+  route.py              resolves an assessment to a cell: --spawn writes the
+                        pending-worker record, --record --pending completes
+                        it, --explain shows the reasoning, --selftest runs
+                        the scripted scenarios
+  handoff.py            new/check for the handoffs/ files this file's
+                        "Handoffs" rule requires
+  context_probe.py      writes .claude/context-main.json and
+                        .claude/context-tasks.json for the statusline hooks
+  generate_priors.py    regenerates src/routing_priors.json from a project's
+                        recorded ledger
+  cells.py              the MODELS x EFFORTS matrix every other script imports
 test/
-  harness/              check.py (static assertions), score_routing.py
-                        (fixture calibration), empirical-checklist.md (the
+  harness/              check.py (static assertions) plus eleven scripts:
+                        score_routing.py (fixture calibration),
+                        backtest_ledger.py, replay_routing.py,
+                        compaction_bench.py, cost_rollup_check.py,
+                        extract_e30.py, fleet_benchmark.py, benchmark.py,
+                        interactive_checklist.py, empirical-checklist.md (the
                         checks that need a live session), persona.sha256
-  fixtures/             calibration tasks with known-correct cells
-                        plus system/, the example ledgers the SCHEMA check runs
-  results/              dated harness output, committed
+  fixtures/              calibration tasks with known-correct cells
+                        (test/fixtures/README.md), benchmark/ (grader tasks,
+                        test/fixtures/benchmark/README.md), plus system/, the
+                        example ledgers the SCHEMA check runs
+  results/               dated harness and benchmark output, committed
 docs/
   DECISIONS.md          decision ledger, append-only
   FINDINGS.md           verified behaviour of Claude Code itself
   FRONTIERS.md          what the benchmark has measured for each routing row
+  PREMISES.md           the premise ledger: what is assumed, what has been
+                        checked, what is still open
+  COST.md               measured cost per cell, per routing verdict and per
+                        Controller run
   PLAN.md               the staged action plan, complete; see "The staged plan"
+  PLAN-2.md to PLAN-5.md  later staged plans, each complete; read for the
+                        history behind a current rule, not as instructions
+  PLAN-6.md             the plan this audit's own findings are fixed under
   REVIEW.md             the 2026-09-10 review the plan is built on
+  COMPACTION-DESIGN.md  the two-step trigger and the split-handover design
+                        against context overflow (D80)
+  CLASSIFIER-DESIGN.md  the two-stage assessment classifier's design
+  ROUTING-2-DESIGN.md   the complexity-routing design docs/PLAN-2.md implemented
+  BENCHMARK-DESIGN.md   the benchmark harness's design
+  AUDIT-2026-09-16.md   the four-pass audit docs/PLAN-6.md fixes
+handoffs/                one file per stage boundary that changes model or
+                        effort, written by tools/handoff.py new and checked
+                        by the harness's HANDOFF check
 dist/                   assembled installable bundle; .claude/ plus
-                        ORCHESTRATOR.md and README.md, stamped with the
-                        source commit; also tools/ and src/System/, the
-                        Controller and its dependency chain (D63)
+                        ORCHESTRATOR.md, README.md, preflight.py,
+                        CLAUDE.template.md and settings.fragment.json, plus
+                        tools/, src/System/ and the three JSON files, the
+                        Controller and its dependency chain (D63); stamped
+                        with the source commit
 ```
 
 ## Invariants
@@ -138,8 +183,12 @@ than trusting them.
    completed workers resume on message. Observed, not documented, as of
    2026-09-05.
 
-Each invariant needs a corresponding assertion in `test/harness/`. An invariant
-with no assertion is an assumption.
+Each invariant needs a corresponding assertion in `test/harness/`. Invariant 7
+has none: `check.py`'s INV7 is a permanent SKIP, because whether a worker was
+user-stopped or orchestrator-stopped is not visible to any static check. It
+was confirmed empirically instead, E4 in `docs/FINDINGS.md` (2026-09-05); that
+observation, not a harness assertion, is the invariant's evidence, and it is
+this list's one deliberate exception rather than an unassessed assumption.
 
 ## Working practice
 
@@ -174,6 +223,12 @@ write it in `docs/FINDINGS.md` as unverified with the date and the version
 checked. Do not encode it as fact in `src/`. Platform behaviour here has changed
 repeatedly and version-gated features are common.
 
+**Paid runs.** A `claude -p` run (a benchmark, a routing batch, a Controller
+run, a probe) is started by the session itself, not by asking first: state
+what is about to run and its projected cost in USD, then start it. Ask before
+starting only when the projection exceeds USD 100. Report the measured cost
+beside the projection once the run finishes (D57).
+
 ## Verification is the hard problem
 
 Routing correctness is not directly observable. A worker that produced a decent
@@ -202,20 +257,19 @@ These are unresolved, not decided. Do not close one without evidence in
 - ~~Does the effort level appear in the worker transcript, or only in the panel?~~
   Resolved 2026-09-05 (E7, `docs/FINDINGS.md`): it appears in the transcript. Each worker's
   `agent-{agentId}.jsonl` also has a sibling `agent-{agentId}.meta.json`, undocumented before this check.
-- Do the fifteen `model-specific-*` persona sections earn their existence? A
-  plausible finding is that effort-specific guidance is noise and only
-  model-specific guidance matters, collapsing fifteen sections to three. Not
-  tested by this plan; still open at close-out (Stage 13).
-- Does telling a worker its own effort level change its behaviour usefully, or
-  does it induce performative deliberation at high effort and premature closure
-  at low? Not tested by this plan; still open at close-out.
+- Does telling a worker its own cell change its behaviour, usefully or
+  otherwise (`docs/PREMISES.md` P39)? All fifteen `model-specific-*` sections
+  in `WORKER_PERSONA.md` are empty (the generator omits an empty section
+  entirely), so the question is not yet askable of real behaviour; it can be
+  tested cheaply by filling one section and re-running one benchmark task at
+  the bar, no code change needed. Untested by construction; still open.
 - What is the actual escalation rate from each starting cell? Three escalations
   from one cell means the rubric is wrong for that task class, but the threshold
-  is a guess. Narrowed but not answered: the table now has one starting cell
-  (the floor) and one escalation trigger (section 4), so the question is now
-  "how often does the trigger fire in real use", and the first opportunity to
-  fire it live, Stage 12's dogfood install, had not yet done so as of
-  2026-09-15 (`test/results/2026-09-15-dogfood-install.md`). Still open.
+  is a guess. The table now has one starting cell (the floor) and one
+  escalation trigger (section 4), and `route.py --record --escalation` now
+  records the rate per project; the first opportunity to fire it live,
+  Stage 12's dogfood install, had not yet done so as of 2026-09-15
+  (`test/results/2026-09-15-dogfood-install.md`). Still open as a number.
 - ~~Is the three-axis rubric better than a simpler two-axis one? Blast radius
   and intelligence sensitivity may be measuring the same thing.~~ Made moot,
   not answered, 2026-09-14 (D44, D45): the shipped table routes every task to
@@ -243,7 +297,9 @@ These are unresolved, not decided. Do not close one without evidence in
 - ~~Does any benchmark task exist that `worker-sonnet-low` measurably fails?~~
   Answered 2026-09-13 (D42, `docs/PLAN.md` Stage 7): yes, one of eleven. T10
   fails at every sonnet cell (xhigh 0 of 12) and confirms at `worker-opus-high`,
-  9 of 9. But what it fails on is not capability: all 20 failing sonnet runs
+  9 of 9 (elsewhere cited as 12 of 12, `src/routing_priors.json`: confirmation
+  plus the search runs that also passed, D42 point 4; both counts describe
+  the same evidence). But what it fails on is not capability: all 20 failing sonnet runs
   verified that the task's frozen-file constraint had a false justification,
   wrote that down, and obeyed the constraint anyway; opus treated the falsified
   justification as dissolving the instruction. T9 (a false measurement, not a

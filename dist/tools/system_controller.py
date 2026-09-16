@@ -125,6 +125,20 @@ class BudgetExhausted(RuntimeError):
     spent"), instead of the crash it was in the first fleet batch."""
 
 
+class RoleOutputMismatch(RuntimeError):
+    """A role's own reply, after the one scripted retry, still does not
+    contain exactly the record `_one_of()` needed (a FrameRecord, a B0
+    candidate, and so on): the role's fault, not the Controller's own
+    code. run_quick turns this into a gap report with `REPORT.md`
+    written, the same as `BudgetExhausted`, rather than the traceback it
+    was before (audit A15, docs/AUDIT-2026-09-16.md). Kept distinct from
+    a bare RuntimeError deliberately: the three internal invariant
+    checks on a code-written record (ProblemRecord, SolutionRecord,
+    GapReport) below stay loud raises, since those indicate a defect in
+    this script's own code, not a recoverable role failure, and must not
+    be swallowed into a plausible-looking "gap" outcome."""
+
+
 # --------------------------------------------------------------------------
 # The Scribe (task 10.3): validates, assigns ids, enforces single writer and
 # ledger-version freshness, and is the only thing that touches runs/<id>/.
@@ -470,7 +484,6 @@ def _parse_jsonl_reply(text: str) -> tuple[list[dict], list[str]]:
                 unparsed.append(fragment)
             i = line_end + 1
     return records, unparsed
-    return records
 
 
 def _parse_schema_result(res: claudep.ClaudeCallResult, schema: dict) -> dict:
@@ -775,7 +788,8 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
                            "constraints": [], "budget_usd": budget_usd, "mode": "quick", "acceptance_criteria": [],
                            "ledger_version": 0, "references": []}
         accepted, rej = scribe.write([problem_record], writer_role="controller", expected_types={"ProblemRecord"})
-        assert accepted and not rej, f"ProblemRecord rejected: {rej}"
+        if not accepted or rej:
+            raise RuntimeError(f"ProblemRecord rejected: {rej}")
         problem = accepted[0]
         write_digest(scribe, dirs, "intake", "Problem recorded verbatim; nothing judged yet.", [problem])
 
@@ -940,7 +954,8 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
                "audit_trail": [problem["id"], frame["id"], winner["id"]], "problem_type": frame["problem_type"],
                "ledger_version": frame["ledger_version"], "references": [winner["id"]]}
         accepted, rej = scribe.write([sol], writer_role="librarian", expected_types={"SolutionRecord"})
-        assert accepted and not rej, f"SolutionRecord rejected: {rej}"
+        if not accepted or rej:
+            raise RuntimeError(f"SolutionRecord rejected: {rej}")
         solution = accepted[0]
         write_digest(scribe, dirs, "close", f"Closed with {winner['id']}; {len(unverified_lb)} unverified "
                      "load-bearing premise(s) remain.", [solution])
@@ -956,6 +971,19 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         write_digest(scribe, dirs, "close", f"Budget exhausted after USD {spent['usd']:.4f} of {budget_usd:.4f}: "
                      f"{exc}. Stopping with a gap report.", [gap])
         return finish("gap", gap)
+    except RoleOutputMismatch as exc:
+        # A role's reply never converged to the one record _one_of()
+        # needed, after the scripted retry: close with a gap report and
+        # REPORT.md written, the same shape as BudgetExhausted, rather
+        # than the traceback with nothing to read this used to leave
+        # (audit A15, docs/AUDIT-2026-09-16.md). The schema's four
+        # termination values have no exact fit for "a role's output
+        # never usable"; no_improvement is the closest: the run made no
+        # progress toward a solution the ledger could act on.
+        gap = _gap_report(scribe, "no_improvement", next_test=str(exc))
+        write_digest(scribe, dirs, "close", f"A role's output could not be used: {exc}. "
+                     "Stopping with a gap report.", [gap])
+        return finish("gap", gap)
 
 
 def _premise_cap_note(frame: dict) -> str:
@@ -969,8 +997,8 @@ def _premise_cap_note(frame: dict) -> str:
 def _one_of(records: list[dict], record_type: str | None, label: str, allow_type_check: bool = True) -> dict:
     matches = [r for r in records if not allow_type_check or r["type"] == record_type]
     if len(matches) != 1:
-        raise RuntimeError(f"{label}: expected exactly one record, got {len(matches)} (after Scribe "
-                           "validation and retry); see this run's rejections.jsonl for what was rejected and why")
+        raise RoleOutputMismatch(f"{label}: expected exactly one record, got {len(matches)} (after Scribe "
+                                 "validation and retry); see this run's rejections.jsonl for what was rejected and why")
     return matches[0]
 
 
@@ -996,7 +1024,8 @@ def _gap_report(scribe: Scribe, termination: str, next_test: str = "") -> dict:
               "termination": termination, "ledger_version": scribe.frozen_version,
               "references": [frame["id"]] if frame else []}
     accepted, rej = scribe.write([record], writer_role="librarian", expected_types={"GapReport"})
-    assert accepted and not rej, f"GapReport rejected: {rej}"
+    if not accepted or rej:
+        raise RuntimeError(f"GapReport rejected: {rej}")
     return accepted[0]
 
 
@@ -1373,6 +1402,22 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
         check((result10.run_dir / "REPORT.md").exists() and "budget_spent" in (result10.run_dir / "REPORT.md").read_text(encoding="utf-8"),
               "scenario 10: the gap run still writes REPORT.md naming the termination")
 
+        # --- Scenario 11: a role's output that never converges closes as
+        # a gap, REPORT.md and all, instead of the traceback it left
+        # before (audit A15, docs/AUDIT-2026-09-16.md). The Framer
+        # replies with zero records for the initial Frame call; since
+        # nothing was rejected (there is nothing to reject), no retry
+        # fires and _one_of raises RoleOutputMismatch immediately.
+        script11 = {("frame", "framer"): [[]]}
+        result11 = run_quick("A problem whose Framer never produces a FrameRecord.", tmp_path,
+                              budget_usd=5.0, timeout=30,
+                              runner_factory=lambda _r: FakeRoleRunner(script11), run_id="s11")
+        check(result11.outcome == "gap" and result11.record.get("termination") == "no_improvement",
+              f"scenario 11: a RoleOutputMismatch closes as a no_improvement gap, got "
+              f"{result11.outcome!r} {result11.record.get('termination')!r}")
+        check((result11.run_dir / "REPORT.md").exists(),
+              "scenario 11: the gap run still writes REPORT.md rather than propagating the traceback")
+
     return (not problems, problems)
 
 
@@ -1384,7 +1429,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--problem", type=Path, help="path to a text file with the problem statement")
     ap.add_argument("--project", type=Path, help="consumer project; runs/<id>/ is created inside it")
     ap.add_argument("--mode", choices=["quick"], default="quick")
-    ap.add_argument("--budget-usd", type=float, default=3.0)
+    ap.add_argument("--budget-usd", type=float, default=4.0,
+                     help="default 4.0: the measured quick-mode mean is USD 2.623 with a max of 2.923 "
+                          "(src/cost_table.json controller), and three recorded runs died on a 3.0 "
+                          "budget with about 3 percent headroom over that max (audit A14, "
+                          "docs/AUDIT-2026-09-16.md); 4.0 leaves headroom over the measured max instead")
     ap.add_argument("--timeout", type=float, default=900)
     ap.add_argument("--record", action="store_true", help="write test/results/<date>-system-controller-<run-id>.md")
     ap.add_argument("--dry-run", action="store_true", help="print the phase plan; make no claude -p calls")
@@ -1395,7 +1444,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
         if ok:
-            print("selftest: PASS, 11 scenarios")
+            print("selftest: PASS, 12 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -1429,15 +1478,21 @@ def main(argv: list[str] | None = None) -> int:
         print(f"termination: {result.record.get('termination')}")
 
     if args.record:
-        results_dir = REPO_ROOT / "test" / "results"
-        results_dir.mkdir(exist_ok=True)
-        out = claudep.unique_path(results_dir / f"{dt.datetime.now().strftime('%Y-%m-%d')}-system-controller-{result.run_dir.name}.md")
+        # Inside result.run_dir itself, never under REPO_ROOT / "test" /
+        # "results": in an installed bundle REPO_ROOT resolves to the
+        # consumer's own project root (this file's own path, two parents
+        # up), which is this repository's own results layout, not
+        # theirs, and every Controller fire would otherwise leave a file
+        # under <consumer>/test/results/ that belongs to no one there
+        # (audit A13, docs/AUDIT-2026-09-16.md). result.run_dir is
+        # already unique per run id, so no collision guard is needed.
+        out = result.run_dir / "RECORD.md"
         lines = [f"# Controller run, {dt.datetime.now().strftime('%Y-%m-%d %H:%M')}, {result.run_dir.name}", "",
                  f"Outcome: {result.outcome}. Calls: {result.calls}. Cost: USD {result.total_cost_usd:.4f}. "
                  f"Run directory: `{result.run_dir}`.", "", "```json",
                  json.dumps(result.record, indent=2, ensure_ascii=False), "```"]
         out.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
-        print(f"recorded {out.relative_to(REPO_ROOT)}")
+        print(f"recorded {out}")
     return 0
 
 

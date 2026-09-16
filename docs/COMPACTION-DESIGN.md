@@ -24,6 +24,21 @@ every task.
 
 ## 2. The context probe: `tools/context_probe.py`
 
+**Superseded by the A12 fix** (`docs/AUDIT-2026-09-16.md`,
+`docs/PLAN-6.md` Stage B.8): "each mode rewrites only its own key ...
+so the two never clobber each other", below, was not true. Both modes
+read the whole shared file, patched their own key, and atomically
+replaced it whole; that is a lost-update race in the read-then-write
+window regardless of how careful the replace step is, and it shipped
+this way from this section's own original design. `--main` and
+`--tasks` now write two separate files, `context-main.json` and
+`context-tasks.json`, each owned outright by one mode, which removes
+the race by construction rather than by care. `route.py` reads both,
+in the file each field actually lives in. This section's own text and
+JSON examples below are left as the record of the design before this
+fix, per this document's own convention (section 13's own opening
+states the same rule for its revisions).
+
 One script, two modes, ships in `dist/tools/`.
 
 `--main` is the `statusLine` command. It reads the status line's JSON
@@ -142,7 +157,7 @@ listing. Exit 0 always, including when the ledger is absent.
 
 ```
 context: 64% of 200,000 (statusline, 12 s ago); handoff above 70%: not yet
-context: unknown (no .claude/context-usage.json; expected in a headless session)
+context: unknown (no .claude/context-main.json; expected in a headless session)
 context: 73% of 200,000 (statusline, 5 s ago); handoff above 70%: WRITE A HANDOFF BEFORE THIS TASK
 ```
 
@@ -157,7 +172,7 @@ threshold comparison is still made.
 
 Precedence, and `source` records which applied:
 
-1. `statusline`: `.claude/context-usage.json` has a `tasks` entry whose
+1. `statusline`: `.claude/context-tasks.json` has a `tasks` entry whose
    name matches `--worker-name` (or the pending entry's name). `peak_tokens`,
    `window`, `compactions` from section 2.
 2. `transcript`: `~/.claude/projects/<project slug>/<session>/subagents/`
@@ -246,6 +261,13 @@ D68 sits far below a 1M window and the minimum the platform accepts is
 100,000. `subagentPromptCacheTtl` is left at its five-minute default:
 every worker run on record finished inside five minutes (`cost_table.json`
 cells, wall clock) and a one-hour write costs 1.6 times more.
+
+**Superseded by E31** (`docs/FINDINGS.md`, Plan 4 Stage D): project
+scope is confirmed to take effect, not only user scope, so the fragment
+now ships `autoCompactWindow` as a real top-level key rather than under
+`_user_settings` (`docs/PLAN-6.md` Stage B.7, audit A27/B18). This
+section's own text and example above are left as the record of the
+design before that evidence existed.
 
 ## 8. Compact instructions
 
@@ -401,8 +423,9 @@ detection and the `compactions` key in `tasks` entries are removed
 
 ### 13.3 `route.py --explain`'s context line
 
-Source order: `.claude/context-usage.json` if present and fresh, as
-section 4; else the orchestrator's own transcript through `.claude/session.json`
+Source order: `.claude/context-main.json` if present and fresh, as
+section 4 (renamed by the A12 split, section 2); else the orchestrator's
+own transcript through `.claude/session.json`
 (13.4), taking the last assistant message's input total against the
 effective window resolved as in 13.2, printed as `context: 64% of
 200,000 effective (transcript, 12 s ago)`; else `unknown`. The threshold

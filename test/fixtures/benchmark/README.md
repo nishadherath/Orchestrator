@@ -1,10 +1,38 @@
 # Benchmark task fixtures
 
-One directory per task, matching `docs/BENCHMARK-DESIGN.md`. T1 through T8
+One directory per task, matching `docs/BENCHMARK-DESIGN.md`. T1 through T15
 exist: T1 and T5 were the pilot pair (D14); T2, T3, T4 and T6 followed once
 the pilot produced real per-cell numbers; T7 replaced T6 as the fixture
 backing F13's row at a larger scale (its own note in `BENCHMARK-DESIGN.md`
 explains why); T8 was added to settle F09's row at a fair scale (D30).
+**List corrected 2026-09-16 (docs/PLAN-6.md Stage C.3, B5): T9 through
+T15 were missing.**
+
+- **T9** (`docs/PLAN.md` Stage 7): a false measurement, not a false
+  constraint, confirmed at the floor.
+- **T10** (D42): the falsified-constraint shape. Fails at every sonnet
+  cell and confirms at `worker-opus-high`; every failing sonnet run
+  correctly identified the constraint's stated reason as false and
+  obeyed the constraint anyway, which is what section 4's
+  falsified-constraint trigger exists for.
+- **T11** (D47 and later): T7's lineage (an incident diagnosis across a
+  multi-service repo) at a larger scale, confirmed at the floor.
+- **T12** (`docs/PLAN-4.md` Stage B, `docs/PLAN-5.md` Stage C, D80): a
+  long, uniform chunk-by-chunk read task, tool-restricted to Read and
+  Write (constraint shape S1). The fixture the mid-task compaction and
+  decomposition measurements were built and run against.
+- **T13** (`docs/PLAN-4.md` Stage B): a detail-fidelity constraint
+  (output path, format, and a forbidden filename, constraint shape S2),
+  graded from the artefact alone.
+- **T14** (`docs/PLAN-4.md` Stage B): a negative-scope constraint (one
+  named chunk file must never be read, constraint shape S3), checked
+  against the transcript after the compaction boundary.
+- **T15** (`docs/PLAN-5.md` Stage D): a longer chunk-reading task (twelve
+  files) with no artificial window override, used with
+  `test/harness/interactive_checklist.py --task T15` to probe whether
+  `.claude/context-tasks.json`'s `tokenSamples` populates under the
+  model's own native compaction window. Still open as of that stage;
+  `CLAUDE.md`'s open questions has the current state.
 
 Each task directory holds:
 

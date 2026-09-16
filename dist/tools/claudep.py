@@ -34,6 +34,7 @@ import shutil
 import subprocess
 import sys
 import time
+from collections.abc import Sequence
 from pathlib import Path
 
 # claude -p starts in Manual permission mode by default (docs/en/permission-modes),
@@ -69,7 +70,7 @@ class ClaudeCallResult:
 
 
 def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str | None = None,
-                 permission_args: list[str] = (), extra_args: list[str] = (),
+                 permission_args: Sequence[str] = (), extra_args: Sequence[str] = (),
                  json_schema: dict | None = None, max_budget_usd: float | None = None,
                  timeout: float = 300, dry_run: bool = False) -> ClaudeCallResult:
     """Invoke `claude -p <prompt> --output-format json`, with `--model`,
@@ -77,10 +78,18 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
     extra flags, appended in that order.
 
     Raises RuntimeError on a non-zero exit, carrying the last 400 characters
-    of stderr, matching what both prior call sites did. `extras` holds
-    `usage`, `duration_ms` and `num_turns` from the response when present;
-    callers that need only `result` and `cost_usd` (score_routing.py's
-    original shape) can ignore it.
+    of stderr, matching what both prior call sites did; on a
+    `subprocess.TimeoutExpired`, carrying the elapsed time and the
+    command shown; and on stdout that does not parse as JSON despite a
+    zero exit, carrying the stdout tail (audit A17,
+    docs/AUDIT-2026-09-16.md: every caller used to catch
+    `json.JSONDecodeError` and `subprocess.TimeoutExpired` itself around
+    this call, three duplicated boundaries instead of one, and
+    `system_controller.py`'s `LiveRoleRunner.__call__` caught only
+    `RuntimeError`, so a non-JSON reply crashed a live Controller run
+    uncaught). `extras` holds `usage`, `duration_ms` and `num_turns` from
+    the response when present; callers that need only `result` and
+    `cost_usd` (score_routing.py's original shape) can ignore it.
 
     `json_schema` and `max_budget_usd` are E25 (docs/FINDINGS.md, 2026-09-14):
     real `claude -p` flags, confirmed to exist via `--help` but not yet
@@ -114,15 +123,24 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
         return ClaudeCallResult(result="", cost_usd=None, elapsed_s=0.0, extras={}, raw={}, cmd_shown=cmd_shown)
 
     start = time.monotonic()
-    proc = subprocess.run(cmd, input=prompt if via_stdin else None, capture_output=True, text=True,
-                          encoding="utf-8", cwd=cwd, timeout=timeout)
+    try:
+        proc = subprocess.run(cmd, input=prompt if via_stdin else None, capture_output=True, text=True,
+                              encoding="utf-8", cwd=cwd, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        elapsed = time.monotonic() - start
+        raise RuntimeError(f"claude -p timed out after {elapsed:.0f}s (limit {timeout:.0f}s): "
+                           f"{cmd_shown}") from exc
     elapsed = time.monotonic() - start
     if proc.returncode != 0:
         # A budget abort (--max-budget-usd) reports on stdout as JSON with
         # an empty stderr; show whichever stream has the reason.
         detail = proc.stderr.strip()[-400:] or proc.stdout.strip()[-400:]
         raise RuntimeError(f"claude exited {proc.returncode}: {detail}")
-    data = json.loads(proc.stdout)
+    try:
+        data = json.loads(proc.stdout)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"claude -p exited 0 but stdout was not JSON ({exc}); "
+                           f"stdout tail: {proc.stdout.strip()[-400:]!r}") from exc
     extras = {k: data.get(k) for k in ("usage", "duration_ms", "num_turns") if k in data}
     return ClaudeCallResult(result=str(data.get("result", "")), cost_usd=data.get("total_cost_usd"),
                              elapsed_s=elapsed, extras=extras, raw=data, cmd_shown=cmd_shown)
@@ -219,7 +237,12 @@ class Checkpoint:
         self._append({"kind": "meta", "meta": meta})
 
     def _append(self, row: dict) -> None:
-        with self.path.open("a", encoding="utf-8") as f:
+        # newline="\n": without it, a text-mode append on Windows
+        # translates every \n this write emits to \r\n, so a checkpoint
+        # file written on Windows accumulates CRLF lines against
+        # persona section 13.4's LF-endings rule (audit A18,
+        # docs/AUDIT-2026-09-16.md).
+        with self.path.open("a", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(row, default=str) + "\n")
             f.flush()
             os.fsync(f.fileno())

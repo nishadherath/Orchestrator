@@ -2,7 +2,7 @@
 """Preflight check: verify the orchestrator's environment before trusting the routing.
 
 Responsible for: turning README.md's "Settings that will break this" table
-into a script a consumer runs once, instead of checking six things by hand.
+into a script a consumer runs once, instead of checking seven things by hand.
 Exits 0 only if every check that can be verified from a shell passes; a WARN
 is something this script cannot verify (an admin-controlled policy, or a
 version it could not parse) and needs a human to confirm.
@@ -186,6 +186,27 @@ def check_route_selftest(cwd: Path) -> dict:
         return {"check": "route.py --selftest", "status": "PASS", "detail": proc.stdout.strip().splitlines()[-1] if proc.stdout.strip() else "ok"}
     return {"check": "route.py --selftest", "status": "FAIL",
             "detail": (proc.stdout + proc.stderr).strip()[-1500:]}
+
+
+def check_python3_on_path() -> dict:
+    """Every hook and status-line command `src/settings.fragment.json`
+    ships calls `python3` by that literal name (`route.py --recover`,
+    `context_probe.py`, both `SessionStart` hooks). On a machine where
+    the interpreter is on PATH only as `py` or `python` (common on
+    Windows), every one of those commands fails silently the moment
+    Claude Code invokes it: this script itself runs under
+    `sys.executable`, not the literal name the fragment hard-codes, so
+    no other check here can see the gap (audit A26,
+    `docs/AUDIT-2026-09-16.md`)."""
+    found = shutil.which("python3")
+    if found:
+        return {"check": "python3 on PATH", "status": "PASS", "detail": f"found at {found}"}
+    return {"check": "python3 on PATH", "status": "FAIL",
+            "detail": "no `python3` on PATH (checked with shutil.which). Every hook and status-line "
+                      "command in settings.fragment.json calls python3 by that literal name and will "
+                      "fail silently once merged. Add a `python3` alias or symlink pointing at your "
+                      "interpreter, or edit settings.fragment.json's commands to name your interpreter "
+                      "directly before merging it"}
 
 
 def check_bash_permission(cwd: Path) -> dict:
@@ -409,7 +430,8 @@ def main(argv: list[str]) -> int:
     cwd = Path.cwd()
     controller = check_controller(cwd)
     checks = check_env() + [check_available_models(cwd), check_version(), check_bundle(cwd), controller,
-                            check_routing_data(cwd), check_route_selftest(cwd), check_bash_permission(cwd),
+                            check_routing_data(cwd), check_route_selftest(cwd), check_python3_on_path(),
+                            check_bash_permission(cwd),
                             check_autocompact_window(cwd), check_autocompact_headroom(cwd, args.per_turn_tokens),
                             check_cache_ttl(cwd, controller["status"] == "PASS"),
                             check_compaction_hook(cwd), check_context_probe(cwd)]

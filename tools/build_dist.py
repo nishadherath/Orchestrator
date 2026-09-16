@@ -37,9 +37,11 @@ a context that reveals what destinations exist or why one might be
 attractive (the mechanism D44 found and D64 built the ledger-based
 resolver specifically to avoid reintroducing). `--with-rationale` builds
 a second bundle, `dist-with-rationale/`, never `dist/` itself, keeping
-every span, for the harness (`test/harness/score_routing.py`'s two-stage
-classifier measurement, D39, predates this and reused the same mechanism
-under its old name, `--rubric-only`; both flags do the same thing today).
+every span, for a human or a harness run that wants the full evidence in
+context rather than the stripped version every live orchestrator gets
+(`test/harness/score_routing.py`'s default `--classifier two-stage`
+refuses to run against a `-with-rationale` stamp for exactly this
+reason: seeing the evidence is what the stripping exists to prevent).
 `dist-with-rationale/` is gitignored: a measurement artefact, not a
 shipping deliverable, rebuilt on demand.
 
@@ -53,6 +55,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import shutil
 import subprocess
 import sys
@@ -95,6 +98,18 @@ def strip_rationale(routing_text: str) -> str:
     so an edit to ROUTING.md that adds an unmatched marker fails loudly
     here instead of quietly shipping a bundle with a stray HTML comment
     or, worse, a rationale block that was never actually removed.
+
+    Trailing whitespace is trimmed per line before the blank-line
+    collapse, not after: a span nested inside an indented bullet's own
+    continuation lines leaves the marker's own indentation behind on
+    what is otherwise a blank line (the indentation sits in the text
+    kept before the start marker, not in the span removed), and `\n{3,}`
+    only ever matches consecutive newline characters, never a line that
+    holds nothing but spaces between two of them. Trimming first turns
+    that line genuinely blank so the collapse catches it, instead of
+    leaving a whitespace-only line visible in the shipped file (audit
+    B14, docs/AUDIT-2026-09-16.md; found in dist/ORCHESTRATOR.md section
+    4's own numbered list).
     """
     import re
     out: list[str] = []
@@ -108,7 +123,8 @@ def strip_rationale(routing_text: str) -> str:
         assert end != -1, f"src/ROUTING.md: {RATIONALE_START!r} with no following {RATIONALE_END!r}"
         out.append(routing_text[i:start])
         i = end + len(RATIONALE_END)
-    result = re.sub(r"\n{3,}", "\n\n", "".join(out))
+    result = re.sub(r"[ \t]+$", "", "".join(out), flags=re.MULTILINE)
+    result = re.sub(r"\n{3,}", "\n\n", result)
     assert RATIONALE_START not in result and RATIONALE_END not in result, \
         "src/ROUTING.md: a rationale marker survived stripping"
     return result
@@ -116,7 +132,7 @@ def strip_rationale(routing_text: str) -> str:
 
 def version_stamp() -> str:
     rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
-    # dist/ and dist-rubric-only/ are this script's own output, always
+    # dist/ and dist-with-rationale/ are this script's own output, always
     # uncommitted relative to the source commit it just built from (the
     # docstring's "one commit before the commit that adds dist/"), so
     # including them here made every honest, source-clean build stamp
@@ -125,7 +141,7 @@ def version_stamp() -> str:
     # showing nothing but dist/ itself modified). The dirty check exists
     # to catch uncommitted *source* drift, which this excludes them from.
     dirty = subprocess.run(["git", "status", "--porcelain", "--", ".", ":(exclude)dist",
-                            ":(exclude)dist-rubric-only", ":(exclude)dist-with-rationale"],
+                            ":(exclude)dist-with-rationale"],
                             capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
     return f"{dt.date.today().isoformat()}-{rev}{'-dirty' if dirty else ''}"
 
@@ -138,10 +154,9 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     them (`strip_rationale`), which is the shipping behaviour since a
     consumer's own orchestrator session should not read the evidence
     behind a mechanism before making the assessment that mechanism acts
-    on. `dist_dir` lets `--rubric-only` and `--with-rationale` each write
-    to their own named bundle rather than the default `dist/`, so the
-    ordinary build (no flag) is unaffected by either and every bundle can
-    exist side by side for comparison.
+    on. `dist_dir` lets `--with-rationale` write to its own named bundle
+    rather than the default `dist/`, so the ordinary build (no flag) is
+    unaffected and both bundles can exist side by side for comparison.
     """
     out: dict[Path, str] = {}
     for agent in sorted((SRC / "agents").glob("WORKER_*.md")):
@@ -185,30 +200,48 @@ def worker_half(brief_path: Path) -> str:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="list what would be written; write nothing")
-    group = ap.add_mutually_exclusive_group()
-    group.add_argument("--rubric-only", action="store_true",
-                        help="build into dist-rubric-only/ instead of dist/, for the two-stage "
-                             "classifier measurement (D39); content is identical to the ordinary "
-                             "dist/ build today, since stripping the rationale is now the default")
-    group.add_argument("--with-rationale", action="store_true",
-                        help="build into dist-with-rationale/ instead of dist/, keeping every "
-                             "<!-- rationale:start/end --> span ORCHESTRATOR.md carries: the "
-                             "evidence and cost figures behind each mechanism, for a harness or a "
-                             "human wanting the full picture, never for a live orchestrator session")
+    ap.add_argument("--with-rationale", action="store_true",
+                     help="build into dist-with-rationale/ instead of dist/, keeping every "
+                          "<!-- rationale:start/end --> span ORCHESTRATOR.md carries: the "
+                          "evidence and cost figures behind each mechanism, for a harness or a "
+                          "human wanting the full picture, never for a live orchestrator session")
     args = ap.parse_args(argv)
 
-    harness = subprocess.run([sys.executable, str(HARNESS)], capture_output=True, text=True, cwd=REPO_ROOT)
-    if harness.returncode != 0:
-        print("refusing to build: harness failed\n" + harness.stdout[-1500:], file=sys.stderr)
+    # DIST (docs/PLAN-6.md D.2, audit C7) checks dist/ against what this
+    # very build is about to write, so it necessarily fails on a stale
+    # dist/ right up until this build replaces it; gating the build on it
+    # would be a deadlock, not a safety check. Every other check still
+    # gates: this parses --json rather than trusting the exit code so one
+    # check's expected pre-build failure cannot mask a real one.
+    harness = subprocess.run([sys.executable, str(HARNESS), "--json"], capture_output=True, text=True, cwd=REPO_ROOT)
+    try:
+        checks = json.loads(harness.stdout)["checks"]
+    except (json.JSONDecodeError, KeyError):
+        print("refusing to build: harness did not produce parseable --json output\n" + harness.stdout[-1500:], file=sys.stderr)
+        return 1
+    blocking_failures = [c for c in checks if c["status"] == "FAIL" and c["id"] != "DIST"]
+    if blocking_failures:
+        print("refusing to build: harness failed\n" +
+              "\n".join(f"FAIL {c['id']}: {c['detail']}" for c in blocking_failures), file=sys.stderr)
         return 1
 
-    suffix = "-rubric-only" if args.rubric_only else "-with-rationale" if args.with_rationale else ""
+    suffix = "-with-rationale" if args.with_rationale else ""
     dist_dir = DIST.with_name(f"dist{suffix}") if suffix else DIST
     version = version_stamp() + suffix
     files = planned_files(version, dist_dir, args.with_rationale)
     if args.dry_run:
+        # Per-file status against what is actually on disk (docs/PLAN-6.md
+        # D.2, audit A1): this used to print "would write" for every file
+        # regardless of whether it would change anything, so it could not
+        # answer "would this build do anything" without a separate diff.
         for path in sorted(files):
-            print(f"would write {path.relative_to(REPO_ROOT)} ({len(files[path])} chars)")
+            if not path.exists():
+                status = "new"
+            elif path.read_text(encoding="utf-8") == files[path]:
+                status = "unchanged"
+            else:
+                status = "changed"
+            print(f"{status:>9} {path.relative_to(REPO_ROOT)} ({len(files[path])} chars)")
         print(f"version {version}")
         return 0
 

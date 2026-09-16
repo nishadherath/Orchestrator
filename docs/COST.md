@@ -1,14 +1,16 @@
 # Recurring token cost
 
-Bundle version `2026-09-15-2203a02` (`dist/.claude/ORCHESTRATOR_VERSION`).
-Recomputed 2026-09-15 per `docs/PLAN-2.md` Stage 5.3, against the
-routing-2 bundle (Stage 4); the prior figures below this point were
-measured against `2026-09-15-9b5f64b`, before Plan 2. Measured by
-counting UTF-8 bytes in `dist/` and dividing by four, the same
-approximation `test/harness/empirical-checklist.md` uses for its E12 cost
-estimate. This is an estimate, not a token count: the real count comes
-from the provider's usage report (persona section 7.3), not a
-client-side guess, and belongs here once a live run reports it.
+**Header re-checked 2026-09-16, docs/PLAN-6.md Stage C.2 (B2).** Bundle
+version `2026-09-16-b55d618` (`dist/.claude/ORCHESTRATOR_VERSION`); this
+section's own figures below were last recomputed 2026-09-15 per
+`docs/PLAN-2.md` Stage 5.3, against the routing-2 bundle (Stage 4), and
+have not been re-measured against a later bundle. The prior figures below
+this point were measured against `2026-09-15-9b5f64b`, before Plan 2.
+Measured by counting UTF-8 bytes in `dist/` and dividing by four, the
+same approximation `test/harness/empirical-checklist.md` uses for its
+E12 cost estimate. This is an estimate, not a token count: the real
+count comes from the provider's usage report (persona section 7.3), not
+a client-side guess, and belongs here once a live run reports it.
 
 | Artefact | Paid on | Chars | Tokens (chars / 4) |
 | :--- | :--- | :--- | :--- |
@@ -17,7 +19,7 @@ client-side guess, and belongs here once a live run reports it.
 | 15 worker descriptions (`dist/.claude/agents/*.md` frontmatter) | every orchestrator turn, in the Agent tool's subagent_type listing | 2,641 | ~660 |
 | One worker definition (`dist/.claude/agents/WORKER_*.md`, persona inlined) | once per worker start, to that worker only | 1,909 to 1,971 (mean 1,957) | ~477 to ~493 (mean ~489) |
 | `dist/.claude/commands/workers.md` | once per `/workers` invocation | 1,983 | ~496 |
-| `dist/.claude/B0_BRIEF.md` | read on demand, only when `ROUTING.md` section 4's falsified-constraint trigger fires, and only by the orchestrator deciding the handover, not by every turn (D60, Stage 12) | 5,836 | ~1,459 |
+| `dist/.claude/B0_BRIEF.md` | not read automatically by anything as of D63 (2026-09-15): it stays in the bundle as a documented manual alternative, but section 4's falsified-constraint trigger now runs the Controller directly instead of the B0-brief-then-opus-high sequence D60/D61 put there | 5,836 | ~1,459 |
 | `tools/route.py --from-line ... --explain` output | every orchestrator turn, read as command output, not as a file | 490 to 800 across two representative buckets, headless (no `context-usage.json`), 2026-09-15 after Stage B's context line; 408 to 718 at Stage 5, before it | ~123 to ~200 |
 
 Command that produced these counts, from the repository root:
@@ -37,13 +39,14 @@ orchestrator sees about each cell without opening its definition, about
 176 characters each; a worker definition is a self-contained persona so a
 worker needs no file read at startup (D3); `/workers` is invoked rather
 than persistent, so its cost is per call rather than per turn;
-`B0_BRIEF.md` is the one artefact in this table that is not a recurring
-per-turn cost at all, since section 4's trigger fires rarely (D60 measured
-it on one task shape; the first live fire in the installed bundle had not
-happened as of the Stage 12 dogfood log) and the file is read only then.
+`B0_BRIEF.md` is the one artefact in this table with no recurring
+per-turn cost at all: D63 (2026-09-15) replaced its automatic trigger
+with the Controller, so the file is read only if an orchestrator chooses
+the documented manual alternative, not on any scheduled path.
 
 **What Plan 2 changed here.** `tools/route.py`, `tools/handoff.py`
-(40,461 and 19,739 characters), `src/routing_priors.json`,
+(99,613 and 21,292 characters, re-measured 2026-09-16; 40,461 and 19,739
+when Plan 2 wrote this section), `src/routing_priors.json`,
 `src/cost_table.json`, and `src/routing_table.json` (30,699 characters
 combined) all ship in `dist/`, but none of them are a recurring
 per-turn cost: `ROUTING.md` section 2 invokes `route.py` with the Bash
@@ -57,18 +60,21 @@ read `route.py` is longer than the static table it replaced; that
 prose is procedural, not evidentiary, so it was not a candidate for
 stripping in the first place (D64's own distinction).
 
-`ORCHESTRATOR.md` grew from 12,185 to 14,732 characters across the plan
+`ORCHESTRATOR.md` grew from 12,185 to 14,732 characters across Plan 2
 (21 percent), almost entirely in Stage 12: section 4's falsified-constraint
 trigger went from a one-step re-spawn to a two-step sequence naming the
 brief, its measured record, and the cost arithmetic for using it first
-(D60). This is the largest single addition since the clarify rule
-(D10, below), and it buys the same thing D47 already measured: the floor
-plus the brief clears the shape the floor alone cannot, at roughly a third
-of the confirmed cell's cost, so most of section 4's growth is paid for by
-avoiding the dearer escalation more often, not merely spent.
+(D60). That was the largest single addition since the clarify rule
+(D10, below) at the time, and it bought the same thing D47 already
+measured: the floor plus the brief clears the shape the floor alone
+cannot, at roughly a third of the confirmed cell's cost. D63 (2026-09-15)
+then replaced that two-step brief sequence with the Controller mechanism
+described below, so this growth is history, not the shape of section 4
+today; the shipped `dist/ORCHESTRATOR.md` is 22,571 characters as of
+`b55d618` (2026-09-16), not re-broken down here.
 
 The largest single addition before that was the clarify rule (`ROUTING.md`
-section 1.1, D10), 1,810 characters or 452 tokens, unchanged since D10
+section 1.2, D10), 1,810 characters or 452 tokens, unchanged since D10
 added it: a rise of roughly 18 percent in what every orchestrator turn
 paid at the time it was added. What it buys: E12 measured an opus
 orchestrator answering clarify on 9 of 17 fixtures, 5 of them with a
@@ -131,27 +137,31 @@ expectation is not measured here; whoever next runs a live routing batch
 against this bundle should record the new figure rather than assume the
 old one still holds.
 
-## The Controller: measured, not shipped
+## The Controller: shipped on one scoped trigger (D63)
 
-`tools/system_controller.py` (Stage 10) is the one runtime this
-repository built beyond Claude Code itself (`CLAUDE.md`, D48). Stage 11's
-verdict (D59) was "prompt": the fleet did not beat B0 at the reporting
-bar within three times its cost, so the Controller does not ship into
-`ORCHESTRATOR.md` or the routing table, and nothing above adds it to the
-recurring cost of using the shipped bundle.
+**Corrected 2026-09-16, docs/PLAN-6.md Stage C.2 (B2).** This section
+previously said the Controller "does not ship into `ORCHESTRATOR.md` or
+the routing table" (Stage 11's verdict, D59). D63 (2026-09-15, at Jeb's
+direction) reversed that: `tools/system_controller.py` and its
+dependency chain now ship in `dist/tools/` and `dist/src/System/`, and
+`src/ROUTING.md` section 4's falsified-constraint trigger invokes it by
+default, replacing the B0-brief-then-opus-high sequence D60/D61 put
+there. It is still not a general destination in the routing table and
+nothing else in this repository spawns it (`CLAUDE.md`, "What this
+repository is").
 
-Its own cost, measured for the record since the question ("the
-Controller's per-run cost if it shipped") was asked directly by this
-task: USD 1.87 to 1.97 per run on the toy problem (three completed runs,
-Stage 10.9), and USD 2.0 to 3.0 per run on the T10 benchmark fixture
-across two batches (eleven completed runs, D56, D58), mean USD 2.7. Per
-solved task, with one floor-cell instantiation added, USD 4.40 (D59)
-against B0's USD 0.41 and the floor's own USD 0.16. The Framer at
-`worker-opus-high`, called two to three times per run under quick mode's
-verify-and-reframe loop, is 30 to 50 percent of that cost by itself. This
-figure is not revisited unless a future stage reopens Stage 11's
-question at a cheaper configuration (D59's own note on what would change
-the verdict).
+Its per-fire cost, from `src/cost_table.json`'s `controller` row (six
+completed runs on record, D58, regime E27): the quick-mode run alone
+means USD 2.623 (range USD 1.983 to 2.923), plus one floor-cell
+instantiation to apply a `solution` outcome, mean USD 0.3628, for a
+combined mean of about USD 2.99 (range USD 2.35 to 3.29). This is the
+same figure `src/ROUTING.md` section 4 states inline before running it.
+Earlier figures recorded for the record before D63 shipped it (USD 1.87
+to 1.97 on the toy problem, Stage 10.9; USD 2.0 to 3.0 mean USD 2.7 on
+the T10 benchmark fixture across two batches, D56, D58; USD 4.40 per
+solved task against B0's USD 0.41 and the floor's USD 0.16, D59) are
+superseded by the `cost_table.json` figure above, which is what the
+shipped prose now quotes.
 
 ## The fixed load of a stage session
 
@@ -189,10 +199,14 @@ stage's detail is what task 13.4 requires ("every stage `done` or
 (`CLAUDE.md`, "diagnostic before patch", "no silent capability claims")
 treats the record of what was measured as the load-bearing artefact, not
 overhead to trim. The 44,741-token session load was paid twelve times
-across this plan's thirteen stages (once per stage's fresh confirmation,
-`CLAUDE.md` step 3) and will not be paid again: no session opens this
-repository under this protocol after Stage 13, since there is no next
-stage for the pointer in `CLAUDE.md` to send it to.
+across `docs/PLAN.md`'s own thirteen stages (once per stage's fresh
+confirmation, `CLAUDE.md` step 3 as it read at the time). **Corrected
+2026-09-16, Stage C.2 (B2): this was never true of the repository as a
+whole, only of `docs/PLAN.md`.** `docs/PLAN-2.md` through `docs/PLAN-5.md`
+each opened further staged sessions after `docs/PLAN.md` closed, and
+`docs/PLAN-6.md`, including this session, does too; the figure above is
+what `docs/PLAN.md` alone paid, not a claim that no session opens this
+repository after it.
 
 ## Context compaction
 

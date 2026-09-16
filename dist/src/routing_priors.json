@@ -1,7 +1,7 @@
 {
   "_comment": "Per-bucket priors for tools/route.py (docs/PLAN-2.md Stage 1.4, D64). A bucket is sensitivity/horizon/blast. 'floor' is a Beta prior on worker-sonnet-low passing; each rung entry is a Beta prior on that cell passing given every cheaper active rung failed (the benchmark staircase only climbed after failure, so its measured rates at higher cells are exactly that conditional). Means are Laplace ((passes+1)/(n+2)); effective sample sizes are capped (measured 10, bracketed 4, policy 3) so a consumer project's own ledger moves a bucket after a handful of its own outcomes. 'kind' says whether a number was measured, bracketed between measured neighbours, inherited across blast radius as policy, or a weakly held default. Every threshold named steering_* steers routing and may never be cited as evidence; the reporting bar is nine runs with a Wilson lower bound above 0.7 and lives in the harness, not here.",
   "version": 1,
-  "generated_on": "2026-09-15",
+  "generated_on": "2026-09-16",
   "generated_by": "docs/PLAN-2.md Stage 1.4; the aggregation and Laplace/n_eff arithmetic are in the commit that added this file",
   "cells": [
     "worker-sonnet-low",
@@ -38,7 +38,7 @@
     "handoff_context_percent": 70,
     "handoff_context_note": "route.py --explain's context line recommends a handoff at this percentage of the model's context window (docs/PLAN-3.md Stage B, D68); it never blocks or replaces the platform's own auto-compact, which fires at autocompact_window_tokens",
     "context_stale_s": 600,
-    "context_stale_note": "a .claude/context-usage.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
+    "context_stale_note": "a .claude/context-main.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
     "autocompact_window_tokens": 200000,
     "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently",
     "overflow_advisory_min_mean": 0.3,

@@ -42,6 +42,9 @@ AGENTS_DIR = SRC / "agents"
 FIXTURES = REPO_ROOT / "test" / "fixtures" / "routing.jsonl"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
 PERSONA_MANIFEST = REPO_ROOT / "test" / "harness" / "persona.sha256"
+SETTINGS_FRAGMENT = SRC / "settings.fragment.json"
+FINDINGS = REPO_ROOT / "docs" / "FINDINGS.md"
+DIST = REPO_ROOT / "dist"
 
 # tools/ is put on sys.path so `cells` resolves when this file runs as a script.
 sys.path.insert(0, str(REPO_ROOT / "tools"))
@@ -60,8 +63,11 @@ CODE_SPAN_RE = re.compile(r"`[^`\n]*`")
 URL_RE = re.compile(r"https?://\S+")
 
 # Prose-checked files: everything this repository authors. Generated persona
-# files are guarded by hash instead (D2) and are excluded here.
-PROSE_GLOBS = ("CLAUDE.md", "src/**/*.md", "src/*.py", "docs/*.md", "test/**/*.md", "tools/*.py", "test/harness/*.py", "handoffs/*.md")
+# files are guarded by hash instead (D2) and are excluded here. README.md
+# added 2026-09-16 (docs/PLAN-6.md D.2, audit A3): the root orientation
+# document was unguarded by this check, the same gap USAGE_PROJECT.md had
+# before B.1 deleted it.
+PROSE_GLOBS = ("CLAUDE.md", "README.md", "src/**/*.md", "src/*.py", "docs/*.md", "test/**/*.md", "tools/*.py", "test/harness/*.py", "handoffs/*.md")
 
 
 @dataclass
@@ -181,6 +187,15 @@ def load_generator():
     return module
 
 
+def load_build_dist():
+    """Import tools/build_dist.py the same way load_generator() imports its sibling."""
+    spec = importlib.util.spec_from_file_location("build_dist", REPO_ROOT / "tools" / "build_dist.py")
+    assert spec and spec.loader, "cannot load tools/build_dist.py"
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def load_route():
     """Import tools/route.py the same way load_generator() imports its sibling."""
     spec = importlib.util.spec_from_file_location("route", REPO_ROOT / "tools" / "route.py")
@@ -204,6 +219,59 @@ def check_routing(r: Report, defs: dict[str, dict[str, str]]) -> None:
     r.add("INV2", "Invariant 2: orchestrator never passes model on spawn",
           "Never pass a `model` parameter" in routing and all("never pass a model parameter" in d.get("description", "") for d in defs.values()),
           "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py")
+
+
+ROUTE_PY_FLAG_RE = re.compile(r"--[a-z][a-z-]*")
+
+
+def check_route_modes(r: Report) -> None:
+    """ROUTE-MODES: every `route.py` flag named in a command
+    `src/settings.fragment.json` wires up (a `statusLine`,
+    `subagentStatusLine`, or hook command) is named somewhere in
+    `src/ROUTING.md` or `src/LIFECYCLE.md`.
+
+    Guards against the class of defect audit finding B1
+    (`docs/AUDIT-2026-09-16.md`) found: `docs/COMPACTION-DESIGN.md`
+    documented a `route.py --spawn` step it asserted `ROUTING.md`
+    already had, and `ROUTING.md` never actually had it, so the
+    `SessionStart(compact)` hook's pending-worker list was always
+    empty in every consumer install. A mode the fragment wires up
+    silently, with no shipped prose ever mentioning it, is exactly
+    this failure and this check makes it fail loudly instead."""
+    if not SETTINGS_FRAGMENT.exists():
+        r.add("ROUTE-MODES", "every route.py flag the fragment wires up is named in the shipped prose",
+              False, f"{SETTINGS_FRAGMENT.relative_to(REPO_ROOT)} missing")
+        return
+    try:
+        fragment = json.loads(SETTINGS_FRAGMENT.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        r.add("ROUTE-MODES", "every route.py flag the fragment wires up is named in the shipped prose",
+              False, f"{SETTINGS_FRAGMENT.relative_to(REPO_ROOT)}: invalid JSON: {exc}")
+        return
+
+    commands: list[str] = []
+    for key in ("statusLine", "subagentStatusLine"):
+        cmd = (fragment.get(key) or {}).get("command")
+        if cmd:
+            commands.append(cmd)
+    for entry in (fragment.get("hooks", {}) or {}).get("SessionStart", []) or []:
+        for hook in entry.get("hooks", []) or []:
+            cmd = hook.get("command")
+            if cmd:
+                commands.append(cmd)
+
+    flags: set[str] = set()
+    for cmd in commands:
+        if "route.py" not in cmd:
+            continue
+        flags.update(ROUTE_PY_FLAG_RE.findall(cmd))
+
+    prose = ((SRC / "ROUTING.md").read_text(encoding="utf-8")
+             + (SRC / "LIFECYCLE.md").read_text(encoding="utf-8"))
+    missing = sorted(f for f in flags if f not in prose)
+    r.add("ROUTE-MODES", "every route.py flag the fragment wires up is named in the shipped prose",
+          not missing, f"{len(flags)} flag(s) checked, all named" if not missing
+          else f"named in the fragment's commands but nowhere in ROUTING.md or LIFECYCLE.md: {missing}")
 
 
 def _fixture_rows() -> list[dict]:
@@ -424,8 +492,25 @@ def check_available_models(r: Report) -> None:
 
 
 def check_invariant7(r: Report) -> None:
+    """PASS if docs/FINDINGS.md has a dated row citing E4 (the user-stop half
+    of invariant 7); SKIP otherwise. Corrected 2026-09-16 (docs/PLAN-6.md
+    D.2, audit A2, B8): this was a permanent SKIP naming E3 and E4 as
+    still-needed, even after both were done and recorded (2026-09-05,
+    re-verified 2026-09-11); it never read the file it was telling a
+    session to check.
+    """
+    text = FINDINGS.read_text(encoding="utf-8") if FINDINGS.exists() else ""
+    sections = re.split(r"(?m)^## ", text)[1:]  # drop the preamble before the first heading
+    for section in sections:
+        heading, _, body = section.partition("\n")
+        date_m = re.search(r"\d{4}-\d{2}-\d{2}", heading)
+        if date_m and re.search(r"\bE4\b", body):
+            r.add("INV7", "Invariant 7: user-stopped worker is not resumable", True,
+                  f"docs/FINDINGS.md, {date_m.group()} ({heading.strip()})")
+            return
     r.add("INV7", "Invariant 7: user-stopped worker is not resumable", None,
-          "needs a live session: empirical-checklist.md items E3 and E4")
+          "needs a live session: empirical-checklist.md items E3 and E4; "
+          "no dated E4 row found in docs/FINDINGS.md")
 
 
 def check_prose(r: Report) -> None:
@@ -512,6 +597,43 @@ def check_persona_manifest(r: Report, update: bool) -> None:
           f"{len(current)} files match" if ok else f"changed={changed} missing={missing} unlisted={extra}; rebuild from source, do not hand-edit (DECISIONS.md D2)")
 
 
+def check_dist(r: Report) -> None:
+    """DIST: dist/ is faithful to what tools/build_dist.py would write at its
+    own committed stamp (docs/PLAN-6.md D.2, audit C7). Every other
+    generated artefact has a drift check (GEN for src/agents/, ROUTE-PRIORS
+    for the priors, PERSONA for the personas); dist/ had none, so a dist/
+    that was one source edit stale passed every other check. This is
+    pass 1's own scratchpad script (docs/AUDIT-2026-09-16.md), made
+    permanent: planned_files() is called with the stamp already committed
+    in dist/.claude/ORCHESTRATOR_VERSION, not a freshly computed one (a
+    fresh stamp differs on every run, by the commit hash alone, and would
+    make this check FAIL on every clean checkout).
+    """
+    version_file = DIST / ".claude" / "ORCHESTRATOR_VERSION"
+    if not version_file.exists():
+        r.add("DIST", "dist/ matches build_dist.planned_files() at its committed stamp", False,
+              f"{version_file.relative_to(REPO_ROOT)} missing; dist/ not built")
+        return
+    committed_version = version_file.read_text(encoding="utf-8").strip()
+    build_dist = load_build_dist()
+    with_rationale = committed_version.endswith("-with-rationale")
+    planned = build_dist.planned_files(committed_version, DIST, with_rationale)
+    on_disk = {p for p in DIST.rglob("*") if p.is_file()}
+    problems: list[str] = []
+    for path, content in planned.items():
+        if not path.exists():
+            problems.append(f"missing: {path.relative_to(REPO_ROOT)}")
+        elif path.read_text(encoding="utf-8") != content:
+            problems.append(f"changed: {path.relative_to(REPO_ROOT)}")
+    extra = sorted(p for p in on_disk - set(planned))
+    for path in extra:
+        problems.append(f"unplanned: {path.relative_to(REPO_ROOT)}")
+    ok = not problems
+    r.add("DIST", "dist/ matches build_dist.planned_files() at its committed stamp", ok,
+          f"{len(planned)} files match at {committed_version}" if ok
+          else f"{len(problems)} problem(s) at {committed_version}: {problems[:10]}")
+
+
 SYSTEM_FIXTURES = REPO_ROOT / "test" / "fixtures" / "system"
 # The line numbers in broken.jsonl that carry a deliberate defect. The check
 # asserts the validator reports exactly these and no others, so a validator
@@ -577,13 +699,15 @@ def check_schemas(r: Report) -> None:
 
 
 def check_system_controller(r: Report) -> None:
-    """SYSTEM: tools/system_controller.py's --selftest passes: eleven scripted
+    """SYSTEM: tools/system_controller.py's --selftest passes: twelve scripted
     scenarios (a pretty-printed-record parse plus nested-schema surfacing,
     happy path, dissolution, budget exhaustion, stale-version rejection,
     single-writer rejection, reframe cap, reframed-continues, self-chosen-id
     remap, non-Frame retry recovery, a runner out of budget closing as a
-    gap), no claude -p calls (docs/PLAN.md Stage 10.6; scenarios 0, 7, 8, 9
-    and 10 added after live runs in Stages 10.9 and 11.3 found real bugs)."""
+    gap, a role's output that never converges closing as a gap), no
+    claude -p calls (docs/PLAN.md Stage 10.6; scenarios 0, 7, 8, 9 and 10
+    added after live runs in Stages 10.9 and 11.3 found real bugs;
+    scenario 11 added by docs/PLAN-6.md Stage B.6, audit A15)."""
     script = REPO_ROOT / "tools" / "system_controller.py"
     if not script.exists():
         r.add("SYSTEM", "system_controller.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
@@ -729,13 +853,16 @@ def check_backtest(r: Report) -> None:
 
 
 def check_route_selftest(r: Report) -> None:
-    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 12 scripted
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 15 scripted
     ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text;
     the spawn/record/recover round trip and the --explain context line
     from docs/PLAN-3.md Stage B; the overflow advisory firing and not
     firing from Stage C; transcript-first fill_context and the
     session-pointer round trip from docs/PLAN-4.md Stage C, section 13.1
-    and 13.4), no claude -p calls."""
+    and 13.4; an unescalated floor failure lowering the posterior, and a
+    project's own ledger-measured cost overriding cost_table.json in the
+    expected ladder cost, from docs/PLAN-6.md Stage B.5 and B.8,
+    D81/A4/A5), no claude -p calls."""
     script = REPO_ROOT / "tools" / "route.py"
     if not script.exists():
         r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")
@@ -924,6 +1051,7 @@ def main(argv: list[str]) -> int:
     defs = check_definitions(report)
     check_generator(report)
     check_routing(report, defs)
+    check_route_modes(report)
     check_route_total(report)
     check_row_backed(report)
     check_table_data(report)
@@ -933,6 +1061,7 @@ def main(argv: list[str]) -> int:
     check_invariant7(report)
     check_prose(report)
     check_persona_manifest(report, args.update_persona_manifest)
+    check_dist(report)
     check_fixtures(report, defs)
     check_schemas(report)
     check_system_controller(report)
@@ -966,6 +1095,13 @@ def main(argv: list[str]) -> int:
         out = RESULTS_DIR / f"{when.strftime('%Y-%m-%d')}-harness.md"
         out.write_text(render_markdown(report, when, git_rev), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
+        # docs/PLAN-6.md D.3, audit C5: --record is the one point every
+        # harness run that writes to test/results/ already passes through,
+        # so it is where the index it needs to stay current gets rebuilt.
+        index_script = REPO_ROOT / "test" / "harness" / "results_index.py"
+        index_proc = subprocess.run([sys.executable, str(index_script)], capture_output=True, text=True, cwd=REPO_ROOT)
+        print(index_proc.stdout.strip() if index_proc.returncode == 0
+              else f"results_index.py failed:\n{(index_proc.stdout + index_proc.stderr).strip()[-500:]}")
     return 1 if report.failed else 0
 
 
