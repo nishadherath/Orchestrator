@@ -172,7 +172,7 @@ Model: sonnet, medium. Prose edits from the audit's fix sentences.
 
 Tasks:
 
-- [ ] C.1 B9, C6, A2 (wording), C2: `CLAUDE.md`'s opening paragraph
+- [x] C.1 B9, C6, A2 (wording), C2: `CLAUDE.md`'s opening paragraph
       describes the floor-plus-ledger design; Layout regenerated from
       the tree; a "Paid runs" paragraph under Working practice states
       D57's rule; the invariants sentence admits the empirical class
