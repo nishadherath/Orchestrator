@@ -3,8 +3,8 @@
 Adopted 2026-09-16 on branch `v1.0-beta`, after `docs/AUDIT-2026-09-16.md`
 closed. Authored by Claude (Fable 5.1) at Jeb's direction; the audit and
 the three decisions this plan rests on were put to Jeb and answered
-before this file existed (D81). Status of the plan as a whole: **in
-progress (since 2026-09-16)**.
+before this file existed (D81). Status of the plan as a whole: **done
+(2026-09-16), D83**.
 
 Jeb's brief: fix everything the audit found, all 63 findings, in the
 audit's own ranked order, consumer bundle first. Zero live spend.
@@ -213,7 +213,7 @@ number for one measurement stated two ways across the documents.
 
 ## Stage D. Harness, tools, artefacts
 
-Status: **not started**
+Status: **done (2026-09-16), D83**
 Model: sonnet, high. Load `python.sonnet.md`.
 
 Tasks:
@@ -257,7 +257,7 @@ Tasks:
       `compaction_bench.py` drops arm C and the `(cost1 or 0) + 0`
       expression; `generate_priors.py` derives `generated_on` from the
       date it runs.
-- [ ] D.5 `dist/` rebuilt only if D.4's `generate_priors.py` fix changed
+- [x] D.5 `dist/` rebuilt only if D.4's `generate_priors.py` fix changed
       `src/routing_priors.json`'s `generated_on` (D.2 already rebuilt it
       for every other shipped-file change through D.1); final
       `check.py --record`; D83, not D82 (D82 was used in Stage C.4 for

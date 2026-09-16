@@ -4951,3 +4951,73 @@ batch and a 9-of-9 confirmation batch, both at `worker-opus-high`; 9 of
 9 is the confirmation-grade number the reporting bar is scored against,
 12 of 12 is search and confirmation combined. Neither number is wrong;
 neither citation said so until now.
+
+## 2026-09-16 D83. Plan 6 closed: what it delivered against `docs/AUDIT-2026-09-16.md`
+
+Decision: all four stages done; every one of the audit's 63 findings is
+either closed by a named commit or accounted for below as never needing
+one. Zero live spend throughout, per D81's own projection.
+
+**One line per stage.**
+
+- **Stage A** (fable, high): the plan itself, D81's three pre-answered
+  decisions (A4, B1, A22), the Stage B handoff.
+- **Stage B** (sonnet, high, ten commits): the consumer bundle.
+  `USAGE_PROJECT.md` gone; `LIFECYCLE.md`/`workers.md`/`README.md`
+  reworded to what an agent can actually do; `preflight.py` FAILs
+  without `python3` on PATH; `--spawn` wired into section 3 so the
+  pending-worker listing populates; the posterior counts an
+  unescalated floor failure; the Controller's `--record` path,
+  `--budget-usd` default and error handling fixed; the fragment gains
+  `autoCompactWindow` and the `Bash(python3 *)` permission; `route.py`
+  and `context_probe.py`'s A12 file split; `claudep`'s subprocess/JSON
+  boundary; `dist/` rebuilt and dogfood-installed.
+- **Stage C** (sonnet, medium then high within the stage, five
+  commits): the repository's own documents. `CLAUDE.md`, `docs/COST.md`,
+  `docs/PREMISES.md` (a "Last checked" column on all forty rows),
+  `docs/FRONTIERS.md`, both fixtures READMEs, `routing_table.json`'s
+  comment, two design docs' "as built" notes, `docs/PLAN.md`'s cost
+  summary, `docs/FINDINGS.md`, `docs/PLAN-4.md`'s spend arithmetic,
+  three T10 citation clarifications, this ledger's D82 erratum entry,
+  the empirical checklist, and root `README.md`'s three "audit found"
+  sentences rewritten to their fixed state.
+- **Stage D** (sonnet, high, four commits): harness, tools, artefacts.
+  Two-stage becomes `score_routing.py`'s default and the two-axis mode
+  (`resolve_two_axis`, `--axes`, `--rubric-only`) retires; a DIST check
+  closes the one generated artefact that had no drift check, exposing
+  and fixing a real build-gate deadlock along the way; INV7 reads
+  `docs/FINDINGS.md` instead of a permanent SKIP; `PROSE_GLOBS` covers
+  `README.md`; `--dry-run` diffs instead of blindly printing;
+  `test/results/INDEX.md` maps 176 files to the decisions that cite
+  them; `fixture_fingerprint`, `role_probe.py`, `cost_rollup_check.py`,
+  `extract_e30.py`, `compaction_bench.py` and `generate_priors.py` each
+  got their named fix.
+
+**Findings needing no task.** `C4` (the README already names `graft/`
+as machine tooling, written before this plan started) and `C8`
+("nothing wrong", recorded in the audit only so its table was
+complete) are the two of 63 with no line in `docs/PLAN-6.md`; neither
+needed one.
+
+**One out-of-plan fix landed mid-stream.** While closing out Stage C
+this session noticed `README.md`, `src/README.md` and
+`docs/COMPACTION-DESIGN.md` still describing the single
+`.claude/context-usage.json` file the A12 split (Stage B.8) replaced
+with `context-main.json`/`context-tasks.json`; a defect this audit
+predates, since A12 itself was only fixed while this plan ran, not
+something the audit could have caught. Flagged as a background task
+rather than expanding Stage C's own scope, fixed on branch
+`claude/jovial-ptolemy-e9f17e`, and cherry-picked onto `v1.0-beta` at
+`1197081` between Stage C and Stage D.
+
+**What is left open.** Nothing from the audit itself. Two things this
+plan's own execution surfaced remain unaddressed by choice: `docs/PLAN-2.md`
+through `docs/PLAN-5.md` are not re-swept for the same class of drift
+this audit found in `docs/PLAN.md` and the repository's other
+documents, since this plan's scope was the audit's 63 findings, not a
+second audit; and `docs/PREMISES.md`'s forty rows carry a "Last
+checked" date but most still read 2026-09-11, unrevisited rather than
+re-verified, which the column makes visible rather than fixes.
+
+Reversal: none contemplated; this entry closes the plan, it does not
+open a question.
