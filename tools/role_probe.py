@@ -30,9 +30,7 @@ import datetime as dt
 import importlib.util
 import json
 import shutil
-import subprocess
 import sys
-import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -42,18 +40,19 @@ T10_REPO = REPO_ROOT / "test" / "fixtures" / "benchmark" / "T10" / "repo"
 RESULTS_DIR = REPO_ROOT / "test" / "results"
 
 sys.path.insert(0, str(REPO_ROOT / "tools"))
+import claudep  # noqa: E402 (path must be set first); shared invocation, permission flags, unique_path
 from system_prompts import OUTPUT_RULE, as_jsonl, role_section, schema_summary, technique_brief  # noqa: E402
+from system_controller import QUICK_CELLS, _parse_jsonl_reply  # noqa: E402
 
-# src/System/ROLES.md, quick-mode column. Kept in step by hand; the probe
-# prints the cell it used so a drift is visible in the result file.
+# The short probe keys against system_controller.QUICK_CELLS' role names
+# (docs/PLAN-6.md D.4, audit A23): this used to duplicate QUICK_CELLS by
+# hand, which could drift from ROLES.md's own quick-mode column silently.
 CELLS = {
-    "frame": ("framer", "opus", "high"),
-    "verify": ("verifier", "sonnet", "medium"),
-    "generate": ("generator", "sonnet", "high"),
-    "critique": ("critic", "opus", "medium"),
+    "frame": ("framer", *QUICK_CELLS["framer"]),
+    "verify": ("verifier", *QUICK_CELLS["verifier"]),
+    "generate": ("generator", *QUICK_CELLS["generator"]),
+    "critique": ("critic", *QUICK_CELLS["critic"]),
 }
-
-PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *),Bash(python *)"]
 
 
 def load_validator():
@@ -124,35 +123,30 @@ def run(role: str, project: Path, timeout: float) -> dict:
         if not dest.exists():
             shutil.copytree(T10_REPO, dest)
     prompt, expected = build_prompt(role, project)
-    cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", model, "--effort", effort, *PERMISSION_ARGS]
-    start = time.perf_counter()
-    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=project, timeout=timeout)
-    wall = time.perf_counter() - start
-    out: dict = {"role": role, "model": model, "effort": effort, "wall_clock_s": round(wall, 1),
-                 "prompt_chars": len(prompt), "exit": proc.returncode, "expected_types": expected}
+    out: dict = {"role": role, "model": model, "effort": effort,
+                 "prompt_chars": len(prompt), "expected_types": expected}
     try:
-        payload = json.loads(proc.stdout)
-    except json.JSONDecodeError:
-        out.update({"error": "claude -p output was not JSON", "stdout_head": proc.stdout[:400], "stderr_head": proc.stderr[:400]})
+        res = claudep.call_claude(prompt, cwd=project, model=model, effort=effort,
+                                   permission_args=claudep.FORWARDER_PERMISSION_ARGS, timeout=timeout)
+    except RuntimeError as exc:
+        out.update({"wall_clock_s": 0.0, "error": str(exc)})
         return out
-    out["cost_usd"] = payload.get("total_cost_usd")
-    out["duration_ms"] = payload.get("duration_ms")
-    out["num_turns"] = payload.get("num_turns")
-    usage = payload.get("usage", {})
+    out["wall_clock_s"] = round(res.elapsed_s, 1)
+    out["cost_usd"] = res.cost_usd
+    out["duration_ms"] = res.extras.get("duration_ms")
+    out["num_turns"] = res.extras.get("num_turns")
+    usage = res.extras.get("usage") or {}
     out["tokens"] = {k: usage.get(k) for k in ("input_tokens", "output_tokens", "cache_creation_input_tokens", "cache_read_input_tokens")}
-    result = payload.get("result", "") or ""
+    result = res.result
     out["reply_chars"] = len(result)
 
-    # Parse the reply as JSONL, tolerating a code fence the rule forbade.
-    lines = [l.strip() for l in result.strip().strip("`").splitlines() if l.strip() and not l.strip().startswith("```")]
-    records, bad = [], 0
-    for l in lines:
-        try:
-            records.append(json.loads(l))
-        except json.JSONDecodeError:
-            bad += 1
+    # raw_decode-based parse (system_controller._parse_jsonl_reply), which
+    # survives a pretty-printed record spanning several lines the way a
+    # per-line json.loads() split silently dropped in a live run
+    # (2026-09-14, docs/PLAN-6.md D.4, audit A23).
+    records, unparsed = _parse_jsonl_reply(result)
     out["records_parsed"] = len(records)
-    out["lines_unparsed"] = bad
+    out["lines_unparsed"] = len(unparsed)
     v = load_validator()
     schemas = v.load_schemas()
     # Validate against the example ledger so references to it resolve.
@@ -190,7 +184,7 @@ def render(results: list[dict], when: str) -> str:
     for r in results:
         lines += ["", f"## {r['role']}", ""]
         if r.get("error"):
-            lines += [f"Error: {r['error']}", "", "```", r.get("stdout_head", ""), r.get("stderr_head", ""), "```"]
+            lines += [f"Error: {r['error']}"]
             continue
         if r.get("schema_problem_sample"):
             lines += ["Schema problems (first eight):", ""] + [f"- {p}" for p in r["schema_problem_sample"]] + [""]
@@ -212,7 +206,7 @@ def main(argv: list[str] | None = None) -> int:
             prompt, expected = build_prompt(role, args.project)
             _, model, effort = CELLS[role]
             print(f"{role}: claude -p <{len(prompt)} chars> --output-format json --model {model} --effort {effort} "
-                  f"{' '.join(PERMISSION_ARGS)}  -> expects {expected}")
+                  f"{' '.join(claudep.FORWARDER_PERMISSION_ARGS)}  -> expects {expected}")
         return 0
     if shutil.which("claude") is None:
         print("claude not on PATH", file=sys.stderr)
@@ -226,7 +220,7 @@ def main(argv: list[str] | None = None) -> int:
               f"schema problems {r.get('schema_problems')}" + (f" ERROR {r['error']}" if r.get("error") else ""))
     if args.record:
         RESULTS_DIR.mkdir(exist_ok=True)
-        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-role-probe-{'+'.join(roles)}.md"
+        out = claudep.unique_path(RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-role-probe-{'+'.join(roles)}.md")
         out.write_text(render(results, when), encoding="utf-8", newline="\n")
         print(f"recorded {out.relative_to(REPO_ROOT)}")
     return 0

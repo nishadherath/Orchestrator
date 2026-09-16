@@ -250,7 +250,7 @@ Tasks:
 - [x] D.3 C5: `test/harness/results_index.py` writes
       `test/results/INDEX.md` (date, kind, bundle, size, citing D
       entries); `check.py --record` runs it; the first index committed.
-- [ ] D.4 C9, A23, A24, A25, A34: `fixture_fingerprint` skips
+- [x] D.4 C9, A23, A24, A25, A34: `fixture_fingerprint` skips
       `__pycache__` and `*.pyc`; `role_probe.py` and
       `cost_rollup_check.py` call `claudep.call_claude`, import the cells,
       and use `unique_path`; `extract_e30.py` takes `--repo` and `--base`;

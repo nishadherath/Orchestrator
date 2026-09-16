@@ -154,12 +154,21 @@ def fixture_fingerprint(task: dict) -> str:
     measures: the prompt, the grader, and every file in the starting repo.
     Checked against a checkpoint's stored fingerprint before reusing its
     runs, so editing a fixture between invocations is caught rather than
-    silently blending pre- and post-edit results into one reported rate."""
+    silently blending pre- and post-edit results into one reported rate.
+
+    Skips __pycache__/*.pyc (docs/PLAN-6.md D.4, audit C9): a grader test
+    run leaves these behind under a task's repo/ on some machines and not
+    others (T1, T4, T5, T9, T11 carry one locally), so including them made
+    the same fixture fingerprint differently on a machine with the cache
+    present than on a clean checkout, refusing a checkpoint resume as
+    "fixture edited" when nothing about the fixture itself had changed.
+    The same exclusion fleet_benchmark.py's role_edits() already applies
+    to a different check (D56)."""
     h = hashlib.sha256()
     h.update(task["task_text"].encode("utf-8"))
     h.update(task["grade_script"].read_bytes())
     for f in sorted(task["repo"].rglob("*")):
-        if f.is_file():
+        if f.is_file() and "__pycache__" not in f.parts and f.suffix != ".pyc":
             h.update(f.relative_to(task["repo"]).as_posix().encode("utf-8"))
             h.update(f.read_bytes())
     return h.hexdigest()

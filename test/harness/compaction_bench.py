@@ -47,7 +47,7 @@ import benchmark  # noqa: E402
 
 CHECKPOINT_FILENAME = ".compaction-bench-checkpoint.jsonl"
 DEFAULT_TASKS = ("T12", "T13", "T14")
-DEFAULT_ARMS = ("A", "B", "C")
+DEFAULT_ARMS = ("A", "B")
 DEFAULT_CELL = "worker-sonnet-low"
 DEFAULT_WINDOW = 130000
 COMPACT_INSTRUCTIONS_MARKER = "# Compact instructions"
@@ -59,8 +59,17 @@ COMPACT_INSTRUCTIONS_MARKER = "# Compact instructions"
 # the same window as A, no instructions appended, but two forwarder calls
 # per run (run_one_decomposed) instead of one; main()'s loop dispatches
 # on this, not on a fourth boolean table here.
-ARM_SETS_WINDOW = {"A": True, "B": False, "C": True, "D": True}
-ARM_APPENDS_INSTRUCTIONS = {"A": False, "B": False, "C": True, "D": False}
+#
+# Arm C dropped from both tables (docs/PLAN-6.md D.4, audit A25): its own
+# instrument, compact_instructions_text(), has raised ValueError since D77
+# and its data is closed and committed
+# (test/results/2026-09-15-compaction-bench.md); it was dead but still
+# selectable from --arms. compact_instructions_text() and
+# with_instructions_appended() are kept for provenance, per their own
+# docstrings, and would need a real instructions text given directly to
+# run again, not a resurrection of this dispatch.
+ARM_SETS_WINDOW = {"A": True, "B": False, "D": True}
+ARM_APPENDS_INSTRUCTIONS = {"A": False, "B": False, "D": False}
 
 
 def compact_instructions_text() -> str:
@@ -504,7 +513,7 @@ def run_one_decomposed(project: Path, task: dict, dest: Path, cell: str, forward
     restore_window()
     if error is not None:
         return {"cell": cell, "outcome": "forwarder_error", "error": f"part 2: {error}",
-                "cost": (cost1 or 0) + 0 if cost1 is not None else None, "wall_clock": elapsed1,
+                "cost": cost1, "wall_clock": elapsed1,
                 "grade_output": "[not graded: part 2 forwarder call failed]", "transcript": None,
                 "partial_txt": partial_text, "subtotal_handed_over": subtotal_handed_over}
 

@@ -41,13 +41,15 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
-import subprocess
 import sys
 import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RESULTS_DIR = REPO_ROOT / "test" / "results"
+
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+import claudep  # noqa: E402 (path must be set first); shared invocation, permission flags, unique_path
 
 TASK = (
     "Write a detailed technical explainer, about 2000 words, of how TCP "
@@ -82,30 +84,21 @@ def spawn_prompt(task: str) -> str:
     )
 
 
-PERMISSION_ARGS = ["--permission-mode", "acceptEdits", "--allowedTools", "Bash(python3 *)"]
-
-
 def run_once(project: Path, prompt: str, model: str, timeout: float) -> dict:
-    cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", model, *PERMISSION_ARGS]
     start = time.monotonic()
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, cwd=project, timeout=timeout)
-    except subprocess.TimeoutExpired:
-        return {"error": f"timed out after {timeout:.0f}s", "elapsed_s": round(timeout, 1)}
-    elapsed = time.monotonic() - start
-    if proc.returncode != 0:
-        return {"error": f"claude exited {proc.returncode}: {proc.stderr.strip()[-400:]}", "elapsed_s": round(elapsed, 1)}
-    try:
-        data = json.loads(proc.stdout)
-    except json.JSONDecodeError as e:
-        return {"error": f"unparseable JSON: {e}; stdout tail: {proc.stdout[-300:]!r}", "elapsed_s": round(elapsed, 1)}
+        res = claudep.call_claude(prompt, cwd=project, model=model,
+                                   permission_args=claudep.FORWARDER_PERMISSION_ARGS, timeout=timeout)
+    except RuntimeError as exc:
+        return {"error": str(exc), "elapsed_s": round(time.monotonic() - start, 1)}
+    usage = res.extras.get("usage")
     return {
-        "total_cost_usd": data.get("total_cost_usd"),
-        "usage": data.get("usage"),
-        "num_turns": data.get("num_turns"),
-        "duration_ms": data.get("duration_ms"),
-        "elapsed_s": round(elapsed, 1),
-        "result_chars": len(str(data.get("result", ""))),
+        "total_cost_usd": res.cost_usd,
+        "usage": usage,
+        "num_turns": res.extras.get("num_turns"),
+        "duration_ms": res.extras.get("duration_ms"),
+        "elapsed_s": round(res.elapsed_s, 1),
+        "result_chars": len(res.result),
     }
 
 
@@ -183,7 +176,7 @@ def main(argv: list[str]) -> int:
     if args.record:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         tag = "smoke" if args.smoke_test else "full"
-        out = RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-cost-rollup-check-{tag}.md"
+        out = claudep.unique_path(RESULTS_DIR / f"{dt.datetime.now().strftime('%Y-%m-%d')}-cost-rollup-check-{tag}.md")
         lines = [
             f"# Cost roll-up check ({tag}), {dt.datetime.now().strftime('%Y-%m-%d %H:%M')}",
             "",
