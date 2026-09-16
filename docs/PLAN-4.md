@@ -247,8 +247,13 @@ Tasks:
       three arms, D75); the decision on each shape and on the compact
       instructions, as the pre-registration fixes it, applied to the
       nine-run data.
-      Done 2026-09-15, USD 17.92 (Stage B total USD 40.34, inside the
-      plan's own USD 26 to 40 projection at the top of the range). Also
+      Done 2026-09-15, USD 17.92 (Stage B total USD 42.04, corrected
+      2026-09-16 (docs/PLAN-6.md Stage C.4, B10): this line said USD
+      40.34 against USD 26 to 40, the summary at the top of this stage
+      says USD 42.04 against USD 26 to 42, and 1.70 + 22.42 + 17.92 =
+      42.04 is the arithmetic that actually adds up; inside the plan's
+      own USD 26 to 42 ceiling, narrowly above the pre-registration's
+      own USD 40 one). Also
       implemented and backfilled pre-registration rule 7
       (injection-refusal, never actually automated before this, only
       identified by manual reading in the dry pass), finding 21 of 81

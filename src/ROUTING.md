@@ -319,7 +319,11 @@ Then state in one line the assessment, the resolved cell and reason
      <!-- rationale:start -->
      (`worker-opus-high` cleared the benchmark task built to the
      falsified-constraint shape nine of nine from a cold start, D42, D44,
-     at USD 0.86 to 1.11 per run; it is the confirmed cell, and step 1 is
+     at USD 0.86 to 1.11 per run; it is the confirmed cell (elsewhere
+     cited as twelve of twelve, `src/routing_priors.json`: nine cold-start
+     confirmation runs plus three search runs that also passed, D42
+     point 4; both counts are true and describe the same evidence
+     counted two ways), and step 1 is
      tried first because it costs about the same and, when it works,
      keeps a full audit trail, `ledger.jsonl`, `REPORT.md`, a plain
      worker report does not.)

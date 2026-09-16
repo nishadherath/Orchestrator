@@ -4927,3 +4927,27 @@ a repository-side one); zero live spend.
 
 Reversal: Jeb reverses any of the three by name; Stage B's tasks B.4,
 B.5 and Stage D's D.1 are the code that would be reverted.
+
+## 2026-09-16 D82. Two erratum notes, docs/PLAN-6.md Stage C.4 (B11, B16)
+
+Decision: this ledger is append-only, so two small corrections found
+during the audit's own document pass are recorded here rather than
+edited in place.
+
+**B16.** D54's own heading (above, "2026-09-14 D54. Sixth live run
+meets Stage 10.9's exit criteria; one") breaks across two lines; the
+words "known limitation confirmed recurring and left as accepted" are
+the rest of the intended title but render as the entry's first body
+line instead, so any grep for that heading by its full text fails
+silently. The entry's content is unaffected; this is a formatting
+erratum only.
+
+**B11.** D42's own results section and D62 point 1's citation of it
+both say `worker-opus-high` cleared T10 "9 of 9". `tools/generate_priors.py` and
+`src/cost_table.json` (n=12) instead cite "12 of 12" for the same cell
+on the same task. Both are correct and describe the same evidence
+counted two ways: D42's own results section records a 3-of-3 search
+batch and a 9-of-9 confirmation batch, both at `worker-opus-high`; 9 of
+9 is the confirmation-grade number the reporting bar is scored against,
+12 of 12 is search and confirmation combined. Neither number is wrong;
+neither citation said so until now.

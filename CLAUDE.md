@@ -297,7 +297,9 @@ These are unresolved, not decided. Do not close one without evidence in
 - ~~Does any benchmark task exist that `worker-sonnet-low` measurably fails?~~
   Answered 2026-09-13 (D42, `docs/PLAN.md` Stage 7): yes, one of eleven. T10
   fails at every sonnet cell (xhigh 0 of 12) and confirms at `worker-opus-high`,
-  9 of 9. But what it fails on is not capability: all 20 failing sonnet runs
+  9 of 9 (elsewhere cited as 12 of 12, `src/routing_priors.json`: confirmation
+  plus the search runs that also passed, D42 point 4; both counts describe
+  the same evidence). But what it fails on is not capability: all 20 failing sonnet runs
   verified that the task's frozen-file constraint had a false justification,
   wrote that down, and obeyed the constraint anyway; opus treated the falsified
   justification as dissolving the instruction. T9 (a false measurement, not a

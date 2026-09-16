@@ -196,7 +196,7 @@ Tasks:
       `docs/ROUTING-2-DESIGN.md` and `docs/CLASSIFIER-DESIGN.md` gain
       one-sentence "as built" notes on the four unbuilt claims;
       `docs/PLAN.md`'s cost summary gains a one-line D57 note.
-- [ ] C.4 B8, B10, B11, B12, B16, A33: `docs/FINDINGS.md`'s E3/E4
+- [x] C.4 B8, B10, B11, B12, B16, A33: `docs/FINDINGS.md`'s E3/E4
       label, duplicated heading and two moved paths ("now at");
       `docs/PLAN-4.md`'s Stage B total (42.04) and ceiling (26 to 42);
       one sentence beside each "9 of 9" or "12 of 12" citation of T10

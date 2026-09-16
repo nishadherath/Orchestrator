@@ -96,7 +96,10 @@ because an instruction has to be reclassified; medium, because the work is
 read a problem statement, check three call sites, edit, run two suites,
 write an artefact, in one repository; contained, because the change is one
 function pinned by tests) confirmed `worker-opus-high` 9 of 9 with
-`worker-sonnet-xhigh` 0 of 9 below it. T9, the same triple with a false
+`worker-sonnet-xhigh` 0 of 9 below it (elsewhere cited as 12 of 12,
+`src/routing_priors.json`: this 9-of-9 confirmation batch plus a 3-of-3
+search batch that also passed, D42 point 4; both counts describe the
+same evidence). T9, the same triple with a false
 measurement in place of a false constraint, confirmed the floor 9 of 9.
 T8, which opus reads as medium (D26, D28) though F09 assigns short,
 confirmed the floor.
