@@ -99,37 +99,6 @@ def cell_counts(args: argparse.Namespace) -> dict[str, int]:
     return counts
 
 
-def ledger_cell_means(project: Path, ledger_overrides_after: int) -> dict[str, dict]:
-    """Per-cell {cost_per_run_usd, wall_clock_s} from the project's own
-    ledger, only for a cell with at least `ledger_overrides_after` entries
-    across every bucket (docs/ROUTING-2-DESIGN.md section 3's
-    ledger_overrides_after; the same threshold route.py's projections use).
-    A cell short of that returns nothing here, so the caller falls back to
-    src/cost_table.json for it."""
-    ledger = route.load_ledger(route.default_ledger_path(project))
-    per_cell: dict[str, list[dict]] = {}
-    for entry in ledger:
-        cells_seen = [entry.get("first_cell")] + [e.get("cell") for e in entry.get("escalations", []) or []]
-        # Split the entry's total cost/wall evenly across the cells it
-        # actually touched: the ledger records one total per task, not a
-        # per-rung breakdown, so an even split is the least assumption-laden
-        # attribution available without re-deriving benchmark.py's own
-        # per-cell accounting inside the ledger schema.
-        cells_seen = [c for c in cells_seen if c]
-        if not cells_seen:
-            continue
-        share_cost = (entry.get("cost_usd") or 0) / len(cells_seen)
-        share_wall = (entry.get("wall_clock_s") or 0) / len(cells_seen)
-        for cell in cells_seen:
-            per_cell.setdefault(cell, []).append({"cost": share_cost, "wall": share_wall})
-    means = {}
-    for cell, rows in per_cell.items():
-        if len(rows) >= ledger_overrides_after:
-            means[cell] = {"cost_per_run_usd": sum(r["cost"] for r in rows) / len(rows),
-                           "wall_clock_s": sum(r["wall"] for r in rows) / len(rows)}
-    return means
-
-
 def compute_projection(counts: dict[str, int], controller_runs: int, verdicts: int,
                         costs: dict, ledger_means: dict | None = None) -> dict:
     ledger_means = ledger_means or {}
@@ -191,7 +160,12 @@ def computed_lines(args: argparse.Namespace) -> tuple[str, str]:
         return cost_line, time_line
 
     overrides_after = route.load_priors()["steering"]["ledger_overrides_after"]
-    ledger_means = ledger_cell_means(Path(args.project), overrides_after)
+    # route.ledger_cell_means (audit A5, docs/AUDIT-2026-09-16.md): moved
+    # there so plan()'s own --explain projection can use the same
+    # per-cell means this file's projections always have; imported here
+    # rather than kept as a second, hand-copied definition.
+    project_ledger = route.load_ledger(route.default_ledger_path(Path(args.project)))
+    ledger_means = route.ledger_cell_means(project_ledger, overrides_after)
     proj = compute_projection(counts, args.controller_runs, args.verdicts, costs, ledger_means)
     cost_line = "Computed: " + " + ".join(proj["parts_cost"]) if proj["parts_cost"] else "Computed: "
     cost_line += f" = USD {proj['total_cost']:.4f}"

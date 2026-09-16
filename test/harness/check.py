@@ -785,14 +785,16 @@ def check_backtest(r: Report) -> None:
 
 
 def check_route_selftest(r: Report) -> None:
-    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 14 scripted
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 15 scripted
     ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text;
     the spawn/record/recover round trip and the --explain context line
     from docs/PLAN-3.md Stage B; the overflow advisory firing and not
     firing from Stage C; transcript-first fill_context and the
     session-pointer round trip from docs/PLAN-4.md Stage C, section 13.1
-    and 13.4; an unescalated floor failure lowering the posterior from
-    docs/PLAN-6.md Stage B.5, D81/A4), no claude -p calls."""
+    and 13.4; an unescalated floor failure lowering the posterior, and a
+    project's own ledger-measured cost overriding cost_table.json in the
+    expected ladder cost, from docs/PLAN-6.md Stage B.5 and B.8,
+    D81/A4/A5), no claude -p calls."""
     script = REPO_ROOT / "tools" / "route.py"
     if not script.exists():
         r.add("ROUTE-SELFTEST", "route.py --selftest passes", False, f"{script.relative_to(REPO_ROOT)} missing")

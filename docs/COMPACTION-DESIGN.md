@@ -24,6 +24,21 @@ every task.
 
 ## 2. The context probe: `tools/context_probe.py`
 
+**Superseded by the A12 fix** (`docs/AUDIT-2026-09-16.md`,
+`docs/PLAN-6.md` Stage B.8): "each mode rewrites only its own key ...
+so the two never clobber each other", below, was not true. Both modes
+read the whole shared file, patched their own key, and atomically
+replaced it whole; that is a lost-update race in the read-then-write
+window regardless of how careful the replace step is, and it shipped
+this way from this section's own original design. `--main` and
+`--tasks` now write two separate files, `context-main.json` and
+`context-tasks.json`, each owned outright by one mode, which removes
+the race by construction rather than by care. `route.py` reads both,
+in the file each field actually lives in. This section's own text and
+JSON examples below are left as the record of the design before this
+fix, per this document's own convention (section 13's own opening
+states the same rule for its revisions).
+
 One script, two modes, ships in `dist/tools/`.
 
 `--main` is the `statusLine` command. It reads the status line's JSON

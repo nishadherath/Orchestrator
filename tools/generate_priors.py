@@ -109,7 +109,7 @@ def build_priors() -> dict:
             "handoff_context_percent": 70,
             "handoff_context_note": "route.py --explain's context line recommends a handoff at this percentage of the model's context window (docs/PLAN-3.md Stage B, D68); it never blocks or replaces the platform's own auto-compact, which fires at autocompact_window_tokens",
             "context_stale_s": 600,
-            "context_stale_note": "a .claude/context-usage.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
+            "context_stale_note": "a .claude/context-main.json sample older than this is reported as stale rather than aged, since the status line only updates on session events (docs/en/statusline); the threshold comparison against handoff_context_percent is still made on a stale sample",
             "autocompact_window_tokens": 200000,
             "autocompact_window_note": "the value dist/settings.fragment.json sets as autoCompactWindow (docs/COMPACTION-DESIGN.md section 7); handoff_context_percent must fire before this is reached on the 200K reference model ROUTE-PRIORS checks against, which is why the two are shipped together and checked together rather than independently",
             "overflow_advisory_min_mean": 0.3,

@@ -7,28 +7,34 @@ of rules, and returns the first rule whose conditions match the given
 assessment. The table is data so `generate_workers.py`, `check.py` and this
 script share one source instead of three parsers of `ROUTING.md`'s prose.
 
-Deliberately does not: read `ROUTING.md`, decide whether a classifier ships
-(that is Stage 6's measurement and D40), or validate that the table itself
-is well-formed beyond what resolution needs (`check.py`'s TABLE-PROSE and
-ROUTE-TOTAL checks do that).
+Deliberately does not: read `ROUTING.md` itself, decide the mechanism a
+live session uses to obtain an assessment (that is `ROUTING.md` section 1's
+job; this module only resolves one once it has it), or validate that the
+table itself is well-formed beyond what resolution needs (`check.py`'s
+ROUTE-TOTAL and ROW-BACKED checks do that).
 
-The one non-obvious thing: the table has five inputs, not three
-(`docs/PREMISES.md`, `docs/CLASSIFIER-DESIGN.md`). `self_directed` and
-`prior_failure` default to the common case (false, none) so a caller that
-only has the three assessment axes still gets a correct answer for every
-triple except the one row `prior_failure` alone can reach (the frontier
-row) and the one row `self_directed` alone disambiguates (the fable-xhigh
-tie-break within open, long, consequential). Rules are checked in the order
-the JSON lists them; `frontier` is listed first because it must override
-every other condition, and `open-long-consequential-self-directed` is
-listed before the general `open-any-consequential` row it would otherwise
-lose to.
+The one non-obvious thing, current since D44/D45 collapsed the table to
+two rules (`docs/AUDIT-2026-09-16.md` audit A8, correcting a docstring
+that still described the eleven-rule table D44 replaced): `frontier`
+matches only `prior_failure: failed_at_xhigh` and is listed first so it
+overrides everything else; `floor` names no conditions at all and so
+matches every triple that reaches it, which is every triple that is not
+the frontier case. `self_directed` is still accepted and still recorded
+in a `--record`/`--spawn` ledger entry (`docs/DECISIONS.md` D64: kept for
+the record, a schema-forced classifier measured it firing on 38 percent
+of sonnet's verdicts against a 6 percent base rate, so it is not trusted
+input), but it is not an input to resolution any more: no rule in the
+current table names it in its conditions. Everything above the floor
+that a task ever reaches now comes from `plan()`'s ledger-aware ladder
+below, not from a second static rule.
 
 Usage:
     python3 tools/route.py --sensitivity structured --horizon short --blast contained
-    python3 tools/route.py --sensitivity open --horizon long --blast consequential --self-directed
-    python3 tools/route.py --sensitivity mechanical --horizon long --blast contained
-        (a documented gap: exits 1, explains why, per docs/DECISIONS.md D27)
+    python3 tools/route.py --sensitivity open --horizon long --blast consequential
+        (both resolve to worker-sonnet-low: the floor matches every triple)
+    python3 tools/route.py --sensitivity open --horizon long --blast consequential \\
+        --prior-failure failed_at_xhigh
+        (the frontier rule: worker-opus-max, reachable only this way)
 
     Ledger-aware routing and outcome recording (docs/PLAN-2.md Stage 2,
     docs/ROUTING-2-DESIGN.md) and pending-worker tracking across a
@@ -378,7 +384,17 @@ def complete_ledger_entry(path: Path, entry_id: str, updates: dict) -> dict:
     exception to it. Raises `LedgerEntryNotFound` or
     `LedgerEntryNotPending` rather than silently appending a stray
     record, since a pending entry that cannot be found or is already
-    complete is a caller bug, not routine."""
+    complete is a caller bug, not routine.
+
+    Writes via a sibling temp file and an atomic replace, the same
+    pattern `tools/generate_workers.py`'s `write_atomic` and
+    `tools/context_probe.py`'s `_atomic_write_json` already use, rather
+    than truncating `path` in place: a crash between the truncation and
+    the last write used to lose every routing outcome the project had
+    recorded (audit A6, docs/AUDIT-2026-09-16.md). `Path.replace` is
+    atomic on the platforms this repository ships to, including Windows,
+    where `context_probe.py`'s own use of the identical pattern is
+    already confirmed working."""
     entries = load_ledger(path)
     for i, entry in enumerate(entries):
         if entry.get("id") == entry_id:
@@ -387,9 +403,11 @@ def complete_ledger_entry(path: Path, entry_id: str, updates: dict) -> dict:
             completed = {**entry, **updates}
             entries[i] = completed
             path.parent.mkdir(parents=True, exist_ok=True)
-            with path.open("w", encoding="utf-8") as f:
+            tmp = path.with_suffix(path.suffix + ".tmp")
+            with tmp.open("w", encoding="utf-8", newline="\n") as f:
                 for e in entries:
                     f.write(json.dumps(e, ensure_ascii=False) + "\n")
+            tmp.replace(path)
             return completed
     raise LedgerEntryNotFound(entry_id)
 
@@ -537,6 +555,46 @@ def _rung_pass_mean(post: dict, cell: str) -> float:
     return post["rungs"].get(cell, {"mean": 0.5})["mean"]
 
 
+def ledger_cell_means(ledger: list[dict], ledger_overrides_after: int) -> dict[str, dict]:
+    """Per-cell `{cost_per_run_usd, wall_clock_s}` from a project's own
+    ledger entries (any bucket), only for a cell with at least
+    `ledger_overrides_after` entries (`routing_priors.json`
+    `steering.ledger_overrides_after`, the same threshold `plan()` below
+    now applies to its own projection). A cell short of that is absent
+    from the return value, so the caller falls back to
+    `src/cost_table.json` for it.
+
+    Moved here from `tools/handoff.py` (audit A5, docs/AUDIT-2026-09-16.md):
+    `handoff.py`'s own projections already called this, but `plan()`'s
+    `expected_ladder_cost`/`controller_decision` arithmetic, which
+    `--explain` prints, read only `src/cost_table.json` and never this
+    project's own measured costs, so a project could accumulate a
+    hundred outcomes and `--explain` would still project against the
+    generic priors this repository shipped. `handoff.py` now imports
+    this function instead of defining its own copy."""
+    per_cell: dict[str, list[dict]] = {}
+    for entry in ledger:
+        cells_seen = [entry.get("first_cell")] + [e.get("cell") for e in entry.get("escalations", []) or []]
+        # Split the entry's total cost/wall evenly across the cells it
+        # actually touched: the ledger records one total per task, not a
+        # per-rung breakdown, so an even split is the least assumption-laden
+        # attribution available without re-deriving benchmark.py's own
+        # per-cell accounting inside the ledger schema.
+        cells_seen = [c for c in cells_seen if c]
+        if not cells_seen:
+            continue
+        share_cost = (entry.get("cost_usd") or 0) / len(cells_seen)
+        share_wall = (entry.get("wall_clock_s") or 0) / len(cells_seen)
+        for cell in cells_seen:
+            per_cell.setdefault(cell, []).append({"cost": share_cost, "wall": share_wall})
+    means = {}
+    for cell, rows in per_cell.items():
+        if len(rows) >= ledger_overrides_after:
+            means[cell] = {"cost_per_run_usd": sum(r["cost"] for r in rows) / len(rows),
+                           "wall_clock_s": sum(r["wall"] for r in rows) / len(rows)}
+    return means
+
+
 def expected_ladder_cost(post: dict, costs: dict) -> dict:
     """Sequential expected cost and wall clock down the active rungs:
     cost(rung) x P(reach rung), where P(reach) is the product of the
@@ -600,7 +658,14 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     the Controller's decision and why, and a cost/time projection. Falls
     straight to the frontier rung on `prior_failure`, exactly as
     `resolve()` already does, since that mechanism is unchanged by any of
-    this."""
+    this.
+
+    The projection uses this project's own measured cost and wall clock
+    for a cell once its ledger holds `steering.ledger_overrides_after`
+    entries there, via `ledger_cell_means()`, falling back to
+    `src/cost_table.json` for any cell short of that (audit A5,
+    docs/AUDIT-2026-09-16.md: this used to be true only of
+    `tools/handoff.py`'s own projections, never of `--explain`'s)."""
     priors = priors if priors is not None else load_priors()
     costs = costs if costs is not None else load_cost_table()
     ledger = ledger if ledger is not None else []
@@ -614,7 +679,12 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
 
     bucket = f"{sensitivity}/{horizon}/{blast}"
     post = posterior(priors, ledger, bucket)
-    decision = controller_decision(priors, post, costs, bucket)
+    ledger_means = ledger_cell_means(ledger, priors["steering"]["ledger_overrides_after"])
+    effective_costs = costs
+    if ledger_means:
+        effective_costs = dict(costs)
+        effective_costs["cells"] = {**costs["cells"], **ledger_means}
+    decision = controller_decision(priors, post, effective_costs, bucket)
 
     if decision["proactive"]:
         first = "controller"
@@ -644,12 +714,17 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                             "wall_clock_s_expected": round(wall_expected, 1)}}
 
 
-CONTEXT_USAGE_FILENAME = ".claude/context-usage.json"
+MAIN_USAGE_FILENAME = ".claude/context-main.json"
+TASKS_USAGE_FILENAME = ".claude/context-tasks.json"
 SESSION_POINTER_FILENAME = ".claude/session.json"
 
 
-def default_context_usage_path(project: Path) -> Path:
-    return project / CONTEXT_USAGE_FILENAME
+def default_main_usage_path(project: Path) -> Path:
+    return project / MAIN_USAGE_FILENAME
+
+
+def default_tasks_usage_path(project: Path) -> Path:
+    return project / TASKS_USAGE_FILENAME
 
 
 def default_session_pointer_path(project: Path) -> Path:
@@ -862,10 +937,10 @@ def fill_context(project: Path, worker_name: str | None, cell: str | None = None
         return {"peak_tokens": stats["peak_tokens"], "window": stats["window"],
                 "compactions": stats["compactions"], "source": "transcript"}
 
-    usage_path = default_context_usage_path(project)
-    if usage_path.exists():
+    tasks_path = default_tasks_usage_path(project)
+    if tasks_path.exists():
         try:
-            data = json.loads(usage_path.read_text(encoding="utf-8"))
+            data = json.loads(tasks_path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             data = {}
         task = (data.get("tasks") or {}).get(worker_name)
@@ -963,7 +1038,10 @@ def context_explain_line(project: Path, priors: dict) -> str:
     model's native window is unverified, E32; this does not attempt to
     correct for it, and says so in the docstring rather than guessing).
 
-    Section 13.3's addition: when `.claude/context-usage.json` is absent
+    Section 13.3's addition: when `.claude/context-main.json` (before
+    Stage B.8 of `docs/PLAN-6.md`, a `main` key inside the single shared
+    `.claude/context-usage.json`; audit A12 split the two apart so
+    `--main` and `--tasks` can no longer race on one file) is absent
     entirely (never populated, the common case for a headless
     orchestrator with no status line wired up), falls back to the
     orchestrator's own transcript through `.claude/session.json` (13.4)
@@ -983,7 +1061,7 @@ def context_explain_line(project: Path, priors: dict) -> str:
     steering = priors["steering"]
     threshold = steering["handoff_context_percent"]
     stale_s = steering["context_stale_s"]
-    path = default_context_usage_path(project)
+    path = default_main_usage_path(project)
     if not path.exists():
         pointer = _read_session_pointer(project)
         transcript_path = Path(pointer["transcript_path"]) if pointer and pointer.get("transcript_path") else None
@@ -1006,11 +1084,11 @@ def context_explain_line(project: Path, priors: dict) -> str:
                     verdict = "WRITE A HANDOFF BEFORE THIS TASK" if used >= threshold else "not yet"
                     return (f"context: {used:.0f}% of {effective_window:,} effective (transcript, {age_str}); "
                             f"handoff above {threshold:.0f}%: {verdict}")
-        return "context: unknown (no .claude/context-usage.json; expected in a headless session)"
+        return "context: unknown (no .claude/context-main.json; expected in a headless session)"
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
-        return "context: unknown (.claude/context-usage.json did not parse)"
+        return "context: unknown (.claude/context-main.json did not parse)"
     main = data.get("main") or {}
     used, window = main.get("used_percentage"), main.get("context_window_size")
     if used is None or window is None:
@@ -1229,30 +1307,33 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
 
     # (i) context_explain_line: absent file, under threshold, over
     # threshold, and a stale sample all print the right thing rather than
-    # a wrong number (docs/COMPACTION-DESIGN.md section 4).
+    # a wrong number (docs/COMPACTION-DESIGN.md section 4). context-main.json
+    # and context-tasks.json are separate files since the A12 split (audit
+    # A12, docs/PLAN-6.md Stage B.8): context_explain_line reads only the
+    # main file, fill_context (below) only the tasks file.
     with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
         project = Path(tmp)
         line_absent = context_explain_line(project, priors)
-        check(line_absent.startswith("context: unknown") and "no .claude/context-usage.json" in line_absent,
-              f"(i) an absent context-usage.json should print 'unknown', got {line_absent!r}")
+        check(line_absent.startswith("context: unknown") and "no .claude/context-main.json" in line_absent,
+              f"(i) an absent context-main.json should print 'unknown', got {line_absent!r}")
 
-        usage_path = default_context_usage_path(project)
-        usage_path.parent.mkdir(parents=True, exist_ok=True)
+        main_path = default_main_usage_path(project)
+        main_path.parent.mkdir(parents=True, exist_ok=True)
         threshold = priors["steering"]["handoff_context_percent"]
-        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold - 5, "context_window_size": 200000,
-                                                     "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
+        main_path.write_text(json.dumps({"main": {"used_percentage": threshold - 5, "context_window_size": 200000,
+                                                    "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
         line_under = context_explain_line(project, priors)
         check("not yet" in line_under, f"(i) below the threshold should print 'not yet', got {line_under!r}")
 
-        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
-                                                     "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
+        main_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
+                                                    "sampled_at": dt.datetime.now().isoformat()}}), encoding="utf-8")
         line_over = context_explain_line(project, priors)
         check("WRITE A HANDOFF" in line_over, f"(i) at or above the threshold should recommend a handoff, got {line_over!r}")
 
         stale_s = priors["steering"]["context_stale_s"]
         old_ts = (dt.datetime.now() - dt.timedelta(seconds=stale_s + 60)).isoformat()
-        usage_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
-                                                     "sampled_at": old_ts}}), encoding="utf-8")
+        main_path.write_text(json.dumps({"main": {"used_percentage": threshold + 5, "context_window_size": 200000,
+                                                    "sampled_at": old_ts}}), encoding="utf-8")
         line_stale = context_explain_line(project, priors)
         check("stale" in line_stale and "WRITE A HANDOFF" in line_stale,
               f"(i) a stale sample should print 'stale' but still make the threshold comparison, got {line_stale!r}")
@@ -1264,15 +1345,24 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check(none_ctx["source"] == "none" and none_ctx["peak_tokens"] is None,
               f"fill_context(None) should report source 'none' with nothing observed, got {none_ctx}")
 
-        usage_path.write_text(json.dumps({"tasks": {"probe-worker": {"peak_tokens": 91000, "contextWindowSize": 200000,
+        tasks_path = default_tasks_usage_path(project)
+        tasks_path.write_text(json.dumps({"tasks": {"probe-worker": {"peak_tokens": 91000, "contextWindowSize": 200000,
                                                                        "compactions": 2}}}), encoding="utf-8")
         statusline_ctx = fill_context(project, "probe-worker")
         check(statusline_ctx == {"peak_tokens": 91000, "window": 200000, "compactions": 2, "source": "statusline"},
-              f"fill_context should read a matching name from the probe's tasks key, got {statusline_ctx}")
+              f"fill_context should read a matching name from context-tasks.json's tasks key, got {statusline_ctx}")
 
         missing_ctx = fill_context(project, "no-such-worker")
         check(missing_ctx["source"] == "none",
               f"fill_context should fall through to 'none' for a name the probe never saw, got {missing_ctx}")
+
+        # A --main write to context-main.json above must never leak into
+        # fill_context's read of context-tasks.json, and vice versa: the
+        # two files are independent, which is the whole point of the split.
+        check(json.loads(main_path.read_text(encoding="utf-8")).get("tasks") is None,
+              "(i) context-main.json must never carry a tasks key")
+        check(json.loads(tasks_path.read_text(encoding="utf-8")).get("main") is None,
+              "(i) context-tasks.json must never carry a main key")
 
     # (j) four compacted floor attempts, no other history: the capability
     # posterior (floor_mean) is untouched (D68: a compaction is a horizon
@@ -1382,7 +1472,7 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
                   f"session's transcript, not the newer decoy in a different session, got {scoped_ctx}")
 
     # (m) context_explain_line's transcript fallback when
-    # .claude/context-usage.json is absent (docs/COMPACTION-DESIGN.md
+    # .claude/context-main.json is absent (docs/COMPACTION-DESIGN.md
     # section 13.3): with no session pointer at all, 'unknown' is
     # unchanged from (i); with a pointer naming a real transcript, the
     # last assistant message's input total against the effective window
@@ -1409,8 +1499,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
 
         with mock.patch.object(Path, "home", return_value=fake_home):
             no_pointer_line = context_explain_line(project, priors)
-            check(no_pointer_line.startswith("context: unknown") and "no .claude/context-usage.json" in no_pointer_line,
-                  f"(m) with no session pointer and no context-usage.json, the line should stay "
+            check(no_pointer_line.startswith("context: unknown") and "no .claude/context-main.json" in no_pointer_line,
+                  f"(m) with no session pointer and no context-main.json, the line should stay "
                   f"'unknown', got {no_pointer_line!r}")
 
             _write_session_pointer({"session_id": "session-main", "transcript_path": str(transcript_path),
@@ -1441,6 +1531,30 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     check(p_after_n["posterior"]["floor_mean"] < p_before_n["posterior"]["floor_mean"],
           f"(n) three unescalated floor failures should lower the floor's posterior mean, got "
           f"{p_before_n['posterior']['floor_mean']} -> {p_after_n['posterior']['floor_mean']}")
+
+    # (o) plan()'s own --explain projection now uses a project's own
+    # measured cost for a cell once its ledger crosses
+    # steering.ledger_overrides_after entries there, not only
+    # tools/handoff.py's projections (audit A5, docs/AUDIT-2026-09-16.md).
+    # Direct unit check on ledger_cell_means first (each entry's cost
+    # split evenly across the two cells it touched, averaged over five
+    # entries), then an end-to-end check that plan()'s expected ladder
+    # cost drops once the override applies, against the same bucket's
+    # empty-ledger baseline (worker-opus-high costs USD 0.9217 in
+    # src/cost_table.json; these entries measure it at 0.10).
+    ledger_o = [{"bucket": "open/medium/contained", "first_cell": "worker-sonnet-low",
+                 "escalations": [{"cell": "worker-opus-high", "outcome": "pass"}],
+                 "final_outcome": "pass", "cost_usd": 0.20, "wall_clock_s": 40.0}] * 5
+    means_o = ledger_cell_means(ledger_o, priors["steering"]["ledger_overrides_after"])
+    check(means_o.get("worker-opus-high") == {"cost_per_run_usd": 0.1, "wall_clock_s": 20.0},
+          f"(o) ledger_cell_means should split each entry's cost/wall evenly across the two cells "
+          f"it touched and average over 5 entries, got {means_o.get('worker-opus-high')}")
+    p_before_o = plan("open", "medium", "contained", priors=priors, ledger=[], costs=costs)
+    p_after_o = plan("open", "medium", "contained", priors=priors, ledger=ledger_o, costs=costs)
+    check(p_after_o["controller"]["e_ladder_usd"] < p_before_o["controller"]["e_ladder_usd"],
+          f"(o) plan()'s expected ladder cost should fall once the ledger's cheaper measured cost "
+          f"overrides cost_table.json's worker-opus-high figure, got "
+          f"{p_before_o['controller']['e_ladder_usd']} -> {p_after_o['controller']['e_ladder_usd']}")
 
     return (not problems, problems)
 
@@ -1502,7 +1616,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 14 scenarios")
+            print("selftest: PASS, 15 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -1527,7 +1641,17 @@ def main(argv: list[str]) -> int:
 
     def resolve_assessment() -> tuple[str, str | None, str, bool, str]:
         if args.from_line:
-            a = parse_assessment_line(args.from_line)
+            try:
+                a = parse_assessment_line(args.from_line)
+            except AssessmentLineError as exc:
+                # ap.error() prints "usage: ..." plus the message to
+                # stderr and exits 2, the same contract every other
+                # input defect in this function already uses, rather
+                # than a Python traceback with no exit code an
+                # orchestrator's own "if route.py cannot run" fallback
+                # (ROUTING.md section 2) can act on (audit A7,
+                # docs/AUDIT-2026-09-16.md).
+                ap.error(str(exc))
             return a["sensitivity"], a["horizon"], a["blast"], a["self_directed"], a["prior_failure"]
         if not args.sensitivity or not args.blast:
             ap.error("--sensitivity and --blast are required (or pass --from-line)")

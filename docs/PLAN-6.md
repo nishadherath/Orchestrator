@@ -142,9 +142,13 @@ Tasks:
       `ledger_cell_means` moves into `route.py` and `plan()` applies it,
       `handoff.py` imports it; `complete_ledger_entry` writes via a temp
       file and `os.replace`; the module docstring describes the two-rule
-      table and D44; `resolve_two_axis` and the two-axis CLI path are
-      deleted (D81); the selftest count in `check.py`'s docstring
-      matches.
+      table and D44; the selftest count in `check.py`'s docstring
+      matches. `resolve_two_axis` moved to D.1 (A9's own fix sentence
+      groups it with retiring the two-axis mode as a whole, which is
+      `score_routing.py`'s change; deleting it here and fixing
+      `score_routing.py`'s `--axes 2` call site in a later stage would
+      leave a dangling reference to a deleted function across a stage
+      boundary for no reason, since nothing runs it in this plan).
 - [ ] B.9 A17, A18, A19, A20: `claudep.call_claude` wraps
       `JSONDecodeError` and `TimeoutExpired` as `RuntimeError` with the
       stdout tail and elapsed time, and callers' duplicate handling is
@@ -214,12 +218,15 @@ Model: sonnet, high. Load `python.sonnet.md`.
 
 Tasks:
 
-- [ ] D.1 A22, A21, C3: `score_routing.py` defaults to
-      `--classifier two-stage`, accepts a plain `dist/` stamp, keeps
+- [ ] D.1 A22, A21, A9 (moved from B.8), C3: `score_routing.py` defaults
+      to `--classifier two-stage`, accepts a plain `dist/` stamp, keeps
       prose mode behind the flag, drops the F03 note; `build_dist.py`
       loses `--rubric-only` and its docstring's stale sentence;
       `dist-rubric-only/` deleted locally and its `.gitignore` line
-      removed.
+      removed; `route.py`'s `resolve_two_axis`, its two-axis CLI path in
+      `main()`, and `score_routing.py`'s `--axes 2` call site and CLI
+      option are all deleted together, since none of them has a caller
+      once the two-axis mode retires.
 - [ ] D.2 C7, A3, A2, B8, A1, A11: new DIST check (`planned_files()`
       with the committed stamp against `dist/`); `PROSE_GLOBS` gains
       `README.md`; INV7 reads `docs/FINDINGS.md` for a dated E4 row and
