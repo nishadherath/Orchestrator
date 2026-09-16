@@ -89,10 +89,11 @@ VERDICT_RE = re.compile(
 
 # The two-stage classifier's own instruction (docs/CLASSIFIER-DESIGN.md, D39):
 # never mentions a destination or a worker name, asks for the five-field
-# schema route.py resolves against, and, at --axes 2, drops horizon
-# entirely rather than asking for it and discarding the answer, since the
-# point under test is whether the model can be asked less.
-TWO_STAGE_INSTRUCTION_3AXES = (
+# schema route.py resolves against. Formerly also had a two-axis variant
+# that dropped horizon (--axes 2); deleted 2026-09-16 (docs/PLAN-6.md D.1,
+# audit A22) along with route.py's resolve_two_axis(), which this mode's
+# axes=2 path was the only caller of outside that function itself.
+TWO_STAGE_INSTRUCTION = (
     "\n\nThis is a routing calibration run for the two-stage classifier design "
     "(docs/CLASSIFIER-DESIGN.md). Assess this task only, using all five fields "
     "below. Do not select a worker, do not spawn one, and do not do the task. "
@@ -102,45 +103,29 @@ TWO_STAGE_INSTRUCTION_3AXES = (
     "assessment: <mechanical|structured|open>, <short|medium|long>, <contained|consequential>; "
     "self_directed: <true|false>; prior_failure: <none|failed_at_xhigh>"
 )
-TWO_STAGE_INSTRUCTION_2AXES = (
-    "\n\nThis is a routing calibration run for the two-stage classifier design "
-    "(docs/CLASSIFIER-DESIGN.md). Assess this task only, using the four fields "
-    "below; horizon is deliberately not asked for. Do not select a worker, do "
-    "not spawn one, and do not do the task. Assume every artefact the task "
-    "refers to exists, even though this project does not contain it. Reply "
-    "with exactly one line, nothing else, in the form:\n"
-    "assessment: <mechanical|structured|open>, <contained|consequential>; "
-    "self_directed: <true|false>; prior_failure: <none|failed_at_xhigh>"
-)
-TWO_STAGE_RE_3AXES = re.compile(
+TWO_STAGE_RE = re.compile(
     r"assessment:\s*(?P<sensitivity>\w+)\s*,\s*(?P<horizon>\w+)\s*,\s*(?P<blast>\w+)\s*;\s*"
     r"self_directed:\s*(?P<self_directed>true|false)\s*;\s*"
     r"prior_failure:\s*(?P<prior_failure>none|failed_at_xhigh)",
     re.IGNORECASE,
 )
-TWO_STAGE_RE_2AXES = re.compile(
-    r"assessment:\s*(?P<sensitivity>\w+)\s*,\s*(?P<blast>\w+)\s*;\s*"
-    r"self_directed:\s*(?P<self_directed>true|false)\s*;\s*"
-    r"prior_failure:\s*(?P<prior_failure>none|failed_at_xhigh)",
-    re.IGNORECASE,
-)
 
 
-def mode_label(classifier: str, axes: int, assess_only: bool) -> str:
+def mode_label(classifier: str, assess_only: bool) -> str:
     if classifier == "two-stage":
-        return f"two-stage, {axes} axes"
+        return "two-stage"
     return "assessment only" if assess_only else "assess and select"
 
 
-def classifier_tag(classifier: str, axes: int) -> str:
-    return f"-two-stage-{axes}axis" if classifier == "two-stage" else ""
+def classifier_tag(classifier: str) -> str:
+    return "-two-stage" if classifier == "two-stage" else ""
 
 
-def select_instruction(classifier: str, axes: int, assess_only: bool) -> str:
+def select_instruction(classifier: str, assess_only: bool) -> str:
     """The one place the run loop and --dry-run agree on which instruction a
     given configuration sends, so the two paths cannot drift apart."""
     if classifier == "two-stage":
-        return TWO_STAGE_INSTRUCTION_3AXES if axes == 3 else TWO_STAGE_INSTRUCTION_2AXES
+        return TWO_STAGE_INSTRUCTION
     return ASSESS_ONLY_INSTRUCTION if assess_only else VERDICT_INSTRUCTION
 
 
@@ -187,10 +172,10 @@ def score_assess_only(fixture: dict, verdict: str) -> dict:
             "parsed": True, "raw": verdict.strip()[:200]}
 
 
-def score_two_stage(fixture: dict, verdict: str, axes: int) -> dict:
+def score_two_stage(fixture: dict, verdict: str) -> dict:
     """Score a two-stage classifier verdict (docs/CLASSIFIER-DESIGN.md, D39).
 
-    Field agreement is primary and `agree` (all requested fields correct) is
+    Field agreement is primary and `agree` (all five fields correct) is
     what feeds the run's overall Wilson interval and grade, per the design:
     cell agreement forgives up to a third of single-field errors
     (docs/PREMISES.md), so a run scored on cell agreement alone would
@@ -198,21 +183,10 @@ def score_two_stage(fixture: dict, verdict: str, axes: int) -> dict:
     still computed, by resolving the model's own field values through
     route.py exactly as a real Controller would, and reported alongside,
     since it is what a consumer ultimately gets routed to.
-
-    At axes=2 the model is never asked for horizon at all (not asked and
-    scored as absent; the point under test is asking less), and cell
-    resolution goes through route.resolve_two_axis() instead of
-    route.resolve(). Per the pre-registration, axes=2 rows are not valid
-    evidence for cell agreement, since dropping an axis changes what the
-    correct cell is for four fixtures by construction; `cell_agree` is
-    still computed here for completeness, and the caller must not cite it
-    as confirmation either way.
     """
-    pattern = TWO_STAGE_RE_3AXES if axes == 3 else TWO_STAGE_RE_2AXES
-    m = pattern.search(verdict)
+    m = TWO_STAGE_RE.search(verdict)
     expected = fixture.get("assessment")
-    exp_bits = [expected["sensitivity"], expected["horizon"], expected["blast"]] if axes == 3 and expected else \
-               [expected["sensitivity"], expected["blast"]] if expected else []
+    exp_bits = [expected["sensitivity"], expected["horizon"], expected["blast"]] if expected else []
     exp_text = ("/".join(exp_bits) + f"; self_directed={fixture.get('self_directed', False)}"
                 f"; prior_failure={fixture.get('prior_failure', 'none')}") if expected else "[no assessment]"
     if not m or not expected:
@@ -222,30 +196,26 @@ def score_two_stage(fixture: dict, verdict: str, axes: int) -> dict:
 
     got_sensitivity = m.group("sensitivity").lower()
     got_blast = m.group("blast").lower()
-    got_horizon = m.group("horizon").lower() if axes == 3 else None
+    got_horizon = m.group("horizon").lower()
     got_self_directed = m.group("self_directed").lower() == "true"
     got_prior_failure = m.group("prior_failure").lower()
 
-    checks = [expected["sensitivity"] == got_sensitivity, expected["blast"] == got_blast]
-    if axes == 3:
-        checks.append(expected["horizon"] == got_horizon)
-    checks.append(fixture.get("self_directed", False) == got_self_directed)
-    checks.append(fixture.get("prior_failure", "none") == got_prior_failure)
+    checks = [expected["sensitivity"] == got_sensitivity, expected["blast"] == got_blast,
+              expected["horizon"] == got_horizon,
+              fixture.get("self_directed", False) == got_self_directed,
+              fixture.get("prior_failure", "none") == got_prior_failure]
     fields_agree = sum(checks)
 
     try:
-        if axes == 3:
-            rule = route_lib.resolve(got_sensitivity, got_horizon, got_blast, got_self_directed, got_prior_failure)
-        else:
-            rule = route_lib.resolve_two_axis(got_sensitivity, got_blast, got_self_directed, got_prior_failure)
+        rule = route_lib.resolve(got_sensitivity, got_horizon, got_blast, got_self_directed, got_prior_failure)
         cell = rule["worker"]
     except (route_lib.NoRuleMatches, route_lib.UnknownAxisValue):
         cell = None
     acceptable = {fixture.get("expected_cell")} | set(fixture.get("also_acceptable", []))
     acceptable.discard(None)
 
-    got_bits = [got_sensitivity, got_horizon, got_blast] if axes == 3 else [got_sensitivity, got_blast]
-    got_text = "/".join(got_bits) + f"; self_directed={got_self_directed}; prior_failure={got_prior_failure}"
+    got_text = (f"{got_sensitivity}/{got_horizon}/{got_blast}; self_directed={got_self_directed}; "
+                f"prior_failure={got_prior_failure}")
     return {"id": fixture["id"], "expected": exp_text, "chosen": got_text,
             "agree": fields_agree == len(checks), "fields_agree": fields_agree, "fields_total": len(checks),
             "cell_agree": bool(cell) and cell in acceptable, "cell": cell,
@@ -440,11 +410,6 @@ def render_two_stage_summary(fixture_ids: list[str], per_fixture_agree: dict[str
              (f"Cell agreement (derived, reported for context) {cell_successes}/{cell_n} "
               f"({cell_successes / cell_n:.1%}, 95% Wilson [{clo:.1%}, {chi:.1%}])."
               if cell_n else "Cell agreement: not computed (no scored rows)."), ""]
-    if "2 axes" in meta["mode"]:
-        lines += ["Two-axis configuration: cell agreement above is NOT valid evidence either way "
-                  "(docs/CLASSIFIER-DESIGN.md's pre-registration fixes this in advance). Dropping horizon "
-                  "changes what the correct cell is for four fixtures by construction (F03, F05, F07, F10), "
-                  "so a low cell-agreement figure here reflects the axis change, not classifier error.", ""]
     lines += [f"{sum(clears.values())} of {len(fixture_ids)} fixtures clear the {WILSON_BAR:.0%} Wilson lower "
               "bound on all-fields agreement" + ("." if grade == "reporting" else ", but this is steering grade: "
               "not yet reporting-grade confirmation."), "",
@@ -476,12 +441,12 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--assess-only", action="store_true",
                      help="ask for the assessment triple only, not a worker; agreement then means all three axes correct. "
                           "Ignored if --classifier two-stage, which is always assessment-only by design")
-    ap.add_argument("--classifier", choices=("prose", "two-stage"), default="prose",
-                     help="prose (default): today's rubric-and-table prompt. two-stage: schema-forced assessment "
-                          "with no destination table in context, resolved by tools/route.py in code (D39, "
-                          "docs/CLASSIFIER-DESIGN.md). two-stage requires --project to be a dist-rubric-only/ install")
-    ap.add_argument("--axes", type=int, choices=(2, 3), default=3,
-                     help="two-stage only: 3 asks for horizon, 2 drops it (the two-axis variant). Ignored otherwise")
+    ap.add_argument("--classifier", choices=("prose", "two-stage"), default="two-stage",
+                     help="two-stage (default, since 2026-09-16, docs/PLAN-6.md D.1, audit A22): schema-forced "
+                          "assessment with no destination table in context, resolved by tools/route.py in code "
+                          "(D39, docs/CLASSIFIER-DESIGN.md). prose: the pre-D64 rubric-and-table prompt, kept so "
+                          "recorded prose-mode batches can still be replayed; measures a mechanism the shipped "
+                          "ORCHESTRATOR.md no longer produces")
     ap.add_argument("--dry-run", action="store_true", help="print the commands; run nothing")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--record", action="store_true",
@@ -504,15 +469,18 @@ def main(argv: list[str]) -> int:
         return 2
     version_file = project / ".claude" / "ORCHESTRATOR_VERSION"
     bundle = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no .claude/ORCHESTRATOR_VERSION)"
-    # Per the pre-registration's own constraint ("the rubric-only bundle and
-    # the current bundle must not both be installed in the same project
-    # during a run"): refuse rather than silently score a two-stage run
-    # against a project that still has the destination table in context,
-    # which would invalidate the whole measurement without any visible sign.
-    if args.classifier == "two-stage" and not bundle.endswith("-rubric-only"):
-        print(f"refusing to run --classifier two-stage: {project}'s installed bundle ({bundle!r}) does not end "
-              f"'-rubric-only'. Install dist-rubric-only/ (python3 tools/build_dist.py --rubric-only) into a "
-              f"separate project first (docs/CLASSIFIER-DESIGN.md)", file=sys.stderr)
+    # An ordinary dist/ build has stripped rationale spans (D64), the same
+    # as the former --rubric-only build; only --with-rationale keeps the
+    # destination table's reasoning in context, which would invalidate a
+    # two-stage run without any visible sign. Corrected 2026-09-16
+    # (docs/PLAN-6.md D.1, audit A22): this used to require a
+    # "-rubric-only" stamp suffix, forcing an identical rebuild under a
+    # different name for every ordinary dist/ install.
+    if args.classifier == "two-stage" and bundle.endswith("-with-rationale"):
+        print(f"refusing to run --classifier two-stage: {project}'s installed bundle ({bundle!r}) was built with "
+              f"--with-rationale, which keeps the destination table's reasoning in context. Install an ordinary "
+              f"dist/ build (no flags to build_dist.py) into a separate project first (docs/CLASSIFIER-DESIGN.md)",
+              file=sys.stderr)
         return 2
 
     fixtures = load_fixtures(set(args.only.split(",")) if args.only else None)
@@ -531,7 +499,7 @@ def main(argv: list[str]) -> int:
 
     if args.dry_run:
         for fx in fixtures:
-            instruction = select_instruction(args.classifier, args.axes, args.assess_only)
+            instruction = select_instruction(args.classifier, args.assess_only)
             _, _, shown = run_orchestrator(project, args.model, fx["task"] + instruction, True, args.effort)
             print(f"{fx['id']}: {shown}")
         print(f"--runs {args.runs}: would make {args.runs * len(fixtures)} total calls "
@@ -550,7 +518,7 @@ def main(argv: list[str]) -> int:
         if args.runs > 1 and not args.json:
             print(f"=== run {run_idx}/{args.runs} ===")
         for fx in fixtures:
-            instruction = select_instruction(args.classifier, args.axes, args.assess_only)
+            instruction = select_instruction(args.classifier, args.assess_only)
             try:
                 verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + instruction, False, args.effort)
             except RuntimeError as exc:
@@ -563,7 +531,7 @@ def main(argv: list[str]) -> int:
             else:
                 total_cost += float(cost)
             if args.classifier == "two-stage":
-                rows.append(score_two_stage(fx, verdict, args.axes))
+                rows.append(score_two_stage(fx, verdict))
             elif args.assess_only:
                 rows.append(score_assess_only(fx, verdict))
             else:
@@ -581,7 +549,7 @@ def main(argv: list[str]) -> int:
                     "bundle": bundle, "project": str(project), "reviewed": reviewed,
                     "cost": f"USD {total_cost:.4f}" if cost_known else "not reported",
                     "run": run_idx, "runs": args.runs,
-                    "mode": mode_label(args.classifier, args.axes, args.assess_only)}
+                    "mode": mode_label(args.classifier, args.assess_only)}
         if not args.json:
             prefix = f"run {run_idx}/{args.runs} " if args.runs > 1 else ""
             print(f"\n{prefix}agreement {sum(r['agree'] for r in rows)}/{len(rows)}; bundle {bundle}; fixtures human-reviewed: {reviewed}")
@@ -592,7 +560,7 @@ def main(argv: list[str]) -> int:
                                   f"{args.model or 'default'}-{bundle_tag(bundle)}"
                                   f"{only_tag(args.only)}"
                                   f"{'-assessonly' if args.assess_only else ''}"
-                                  f"{classifier_tag(args.classifier, args.axes)}{suffix}.md"))
+                                  f"{classifier_tag(args.classifier)}{suffix}.md"))
             render_fn = render_two_stage if args.classifier == "two-stage" else render
             out.write_text(render_fn(rows, run_meta), encoding="utf-8", newline="\n")
             print(f"recorded {out.relative_to(REPO_ROOT)}")
@@ -608,7 +576,7 @@ def main(argv: list[str]) -> int:
     overall_n = sum(len(v) for v in per_fixture_agree.values())
     summary_meta = {"when": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "git": git_rev, "model": args.model,
                      "bundle": bundle, "project": str(project), "reviewed": reviewed, "runs": args.runs,
-                     "mode": mode_label(args.classifier, args.axes, args.assess_only)}
+                     "mode": mode_label(args.classifier, args.assess_only)}
 
     if args.json:
         print(json.dumps({
@@ -628,7 +596,7 @@ def main(argv: list[str]) -> int:
                               f"{args.model or 'default'}-{bundle_tag(bundle)}"
                               f"{only_tag(args.only)}"
                               f"{'-assessonly' if args.assess_only else ''}"
-                              f"{classifier_tag(args.classifier, args.axes)}-summary.md"))
+                              f"{classifier_tag(args.classifier)}-summary.md"))
         if args.classifier == "two-stage":
             content = render_two_stage_summary(fixture_ids, per_fixture_agree, per_fixture_cell_agree,
                                                 overall_successes, overall_n, run_costs, summary_meta)

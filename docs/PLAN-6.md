@@ -218,7 +218,7 @@ Model: sonnet, high. Load `python.sonnet.md`.
 
 Tasks:
 
-- [ ] D.1 A22, A21, A9 (moved from B.8), C3: `score_routing.py` defaults
+- [x] D.1 A22, A21, A9 (moved from B.8), C3: `score_routing.py` defaults
       to `--classifier two-stage`, accepts a plain `dist/` stamp, keeps
       prose mode behind the flag, drops the F03 note; `build_dist.py`
       loses `--rubric-only` and its docstring's stale sentence;

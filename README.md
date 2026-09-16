@@ -228,7 +228,7 @@ instructions.
 | `test/results/` | 176 dated result files (2026-09-16); no index yet (audit C5, Stage D.3) |
 | `docs/` | Decisions, findings, premises, cost, the design documents, the six plans, this audit |
 | `handoffs/` | Seven session handoffs, each passing `handoff.py check` |
-| `graft/`, `dist-rubric-only/` | Gitignored local artefacts: a code index for one machine's tooling, and a stale measurement build |
+| `graft/`, `dist-with-rationale/` | Gitignored local artefacts: a code index for one machine's tooling, and a bundle built with `--with-rationale` for comparison, rebuilt on demand |
 
 ## What is not known
 

@@ -37,9 +37,11 @@ a context that reveals what destinations exist or why one might be
 attractive (the mechanism D44 found and D64 built the ledger-based
 resolver specifically to avoid reintroducing). `--with-rationale` builds
 a second bundle, `dist-with-rationale/`, never `dist/` itself, keeping
-every span, for the harness (`test/harness/score_routing.py`'s two-stage
-classifier measurement, D39, predates this and reused the same mechanism
-under its old name, `--rubric-only`; both flags do the same thing today).
+every span, for a human or a harness run that wants the full evidence in
+context rather than the stripped version every live orchestrator gets
+(`test/harness/score_routing.py`'s default `--classifier two-stage`
+refuses to run against a `-with-rationale` stamp for exactly this
+reason: seeing the evidence is what the stripping exists to prevent).
 `dist-with-rationale/` is gitignored: a measurement artefact, not a
 shipping deliverable, rebuilt on demand.
 
@@ -129,7 +131,7 @@ def strip_rationale(routing_text: str) -> str:
 
 def version_stamp() -> str:
     rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
-    # dist/ and dist-rubric-only/ are this script's own output, always
+    # dist/ and dist-with-rationale/ are this script's own output, always
     # uncommitted relative to the source commit it just built from (the
     # docstring's "one commit before the commit that adds dist/"), so
     # including them here made every honest, source-clean build stamp
@@ -138,7 +140,7 @@ def version_stamp() -> str:
     # showing nothing but dist/ itself modified). The dirty check exists
     # to catch uncommitted *source* drift, which this excludes them from.
     dirty = subprocess.run(["git", "status", "--porcelain", "--", ".", ":(exclude)dist",
-                            ":(exclude)dist-rubric-only", ":(exclude)dist-with-rationale"],
+                            ":(exclude)dist-with-rationale"],
                             capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
     return f"{dt.date.today().isoformat()}-{rev}{'-dirty' if dirty else ''}"
 
@@ -151,10 +153,9 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     them (`strip_rationale`), which is the shipping behaviour since a
     consumer's own orchestrator session should not read the evidence
     behind a mechanism before making the assessment that mechanism acts
-    on. `dist_dir` lets `--rubric-only` and `--with-rationale` each write
-    to their own named bundle rather than the default `dist/`, so the
-    ordinary build (no flag) is unaffected by either and every bundle can
-    exist side by side for comparison.
+    on. `dist_dir` lets `--with-rationale` write to its own named bundle
+    rather than the default `dist/`, so the ordinary build (no flag) is
+    unaffected and both bundles can exist side by side for comparison.
     """
     out: dict[Path, str] = {}
     for agent in sorted((SRC / "agents").glob("WORKER_*.md")):
@@ -198,16 +199,11 @@ def worker_half(brief_path: Path) -> str:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="list what would be written; write nothing")
-    group = ap.add_mutually_exclusive_group()
-    group.add_argument("--rubric-only", action="store_true",
-                        help="build into dist-rubric-only/ instead of dist/, for the two-stage "
-                             "classifier measurement (D39); content is identical to the ordinary "
-                             "dist/ build today, since stripping the rationale is now the default")
-    group.add_argument("--with-rationale", action="store_true",
-                        help="build into dist-with-rationale/ instead of dist/, keeping every "
-                             "<!-- rationale:start/end --> span ORCHESTRATOR.md carries: the "
-                             "evidence and cost figures behind each mechanism, for a harness or a "
-                             "human wanting the full picture, never for a live orchestrator session")
+    ap.add_argument("--with-rationale", action="store_true",
+                     help="build into dist-with-rationale/ instead of dist/, keeping every "
+                          "<!-- rationale:start/end --> span ORCHESTRATOR.md carries: the "
+                          "evidence and cost figures behind each mechanism, for a harness or a "
+                          "human wanting the full picture, never for a live orchestrator session")
     args = ap.parse_args(argv)
 
     harness = subprocess.run([sys.executable, str(HARNESS)], capture_output=True, text=True, cwd=REPO_ROOT)
@@ -215,7 +211,7 @@ def main(argv: list[str]) -> int:
         print("refusing to build: harness failed\n" + harness.stdout[-1500:], file=sys.stderr)
         return 1
 
-    suffix = "-rubric-only" if args.rubric_only else "-with-rationale" if args.with_rationale else ""
+    suffix = "-with-rationale" if args.with_rationale else ""
     dist_dir = DIST.with_name(f"dist{suffix}") if suffix else DIST
     version = version_stamp() + suffix
     files = planned_files(version, dist_dir, args.with_rationale)
