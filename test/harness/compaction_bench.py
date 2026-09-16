@@ -338,7 +338,9 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
         report_text, cost, elapsed, extras = benchmark.run_cell(
             project, cell, task["task_text"], workdir_rel, forwarder_model, permission_args, timeout)
         error = None
-    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+    except RuntimeError as exc:
+        # claudep.call_claude wraps TimeoutExpired and JSONDecodeError
+        # as RuntimeError itself (audit A17, docs/AUDIT-2026-09-16.md).
         report_text, cost, elapsed, extras, error = None, None, None, {}, str(exc)
     finally:
         if window is not None:
@@ -473,7 +475,9 @@ def run_one_decomposed(project: Path, task: dict, dest: Path, cell: str, forward
         report1, cost1, elapsed1, _ = benchmark.run_cell(
             project, cell, part1_text, workdir_rel, forwarder_model, permission_args, timeout)
         error = None
-    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+    except RuntimeError as exc:
+        # claudep.call_claude wraps TimeoutExpired and JSONDecodeError
+        # as RuntimeError itself (audit A17, docs/AUDIT-2026-09-16.md).
         report1, cost1, elapsed1, error = None, None, None, str(exc)
     if error is not None:
         restore_window()
@@ -493,7 +497,9 @@ def run_one_decomposed(project: Path, task: dict, dest: Path, cell: str, forward
             project, cell, part2_text.format(subtotal=subtotal_handed_over), workdir_rel,
             forwarder_model, permission_args, timeout)
         error = None
-    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+    except RuntimeError as exc:
+        # claudep.call_claude wraps TimeoutExpired and JSONDecodeError
+        # as RuntimeError itself (audit A17, docs/AUDIT-2026-09-16.md).
         report2, cost2, elapsed2, error = None, None, None, str(exc)
     restore_window()
     if error is not None:

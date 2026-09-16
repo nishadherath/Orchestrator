@@ -553,7 +553,10 @@ def main(argv: list[str]) -> int:
             instruction = select_instruction(args.classifier, args.axes, args.assess_only)
             try:
                 verdict, cost, _ = run_orchestrator(project, args.model, fx["task"] + instruction, False, args.effort)
-            except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
+            except RuntimeError as exc:
+                # claudep.call_claude wraps TimeoutExpired and
+                # JSONDecodeError as RuntimeError itself (audit A17,
+                # docs/AUDIT-2026-09-16.md).
                 verdict, cost = f"[error] {exc}", None
             if cost is None:
                 cost_known = False

@@ -158,7 +158,9 @@ def run_one(project: Path, task: dict, dest: Path, run_index: int, forwarder_mod
     try:
         report_text, cost, elapsed, extras = benchmark.run_cell(
             project, INSTANTIATE_CELL, handover, workdir_rel, forwarder_model, permission_args, timeout)
-    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+    except RuntimeError as exc:
+        # claudep.call_claude wraps TimeoutExpired and JSONDecodeError
+        # as RuntimeError itself (audit A17, docs/AUDIT-2026-09-16.md).
         record["error"] = f"instantiate: {exc}"[:1000]
         record["grade_output"] = "[not graded: forwarder call failed]"
         return record

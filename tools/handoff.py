@@ -412,7 +412,12 @@ def main(argv: list[str]) -> int:
                 continue
             clean_argv.append(a)
         text = render(args, clean_argv)
-        out = args.out or (REPO_ROOT / "handoffs" / f"{dt.date.today().isoformat()}-{args.slug}.md")
+        # <project>/handoffs/, not REPO_ROOT / "handoffs": the two
+        # coincide in an installed dist/ bundle, but in this repository
+        # --project <consumer> with --pending-workers read the
+        # consumer's own ledger while the file landed here regardless
+        # (audit A19, docs/AUDIT-2026-09-16.md).
+        out = args.out or (Path(args.project) / "handoffs" / f"{dt.date.today().isoformat()}-{args.slug}.md")
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(text, encoding="utf-8", newline="\n")
         print(f"wrote {out}")

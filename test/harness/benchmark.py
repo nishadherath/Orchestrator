@@ -366,7 +366,11 @@ def run_one(project: Path, task: dict, dest: Path, cell: str, forwarder_model: s
     try:
         report_text, cost, elapsed, extras = run_cell(project, cell, task.get("handover_text", task["task_text"]), workdir_rel,
                                                         forwarder_model, permission_args, timeout)
-    except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
+    except RuntimeError as exc:
+        # claudep.call_claude now wraps subprocess.TimeoutExpired and
+        # json.JSONDecodeError as RuntimeError itself (audit A17,
+        # docs/AUDIT-2026-09-16.md), so this no longer needs its own
+        # copy of that boundary.
         error = str(exc)
     if error is not None:
         return {"cell": cell, "passed": False, "cost": None, "wall_clock": None, "error": error,
