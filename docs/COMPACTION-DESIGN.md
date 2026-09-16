@@ -157,7 +157,7 @@ listing. Exit 0 always, including when the ledger is absent.
 
 ```
 context: 64% of 200,000 (statusline, 12 s ago); handoff above 70%: not yet
-context: unknown (no .claude/context-usage.json; expected in a headless session)
+context: unknown (no .claude/context-main.json; expected in a headless session)
 context: 73% of 200,000 (statusline, 5 s ago); handoff above 70%: WRITE A HANDOFF BEFORE THIS TASK
 ```
 
@@ -172,7 +172,7 @@ threshold comparison is still made.
 
 Precedence, and `source` records which applied:
 
-1. `statusline`: `.claude/context-usage.json` has a `tasks` entry whose
+1. `statusline`: `.claude/context-tasks.json` has a `tasks` entry whose
    name matches `--worker-name` (or the pending entry's name). `peak_tokens`,
    `window`, `compactions` from section 2.
 2. `transcript`: `~/.claude/projects/<project slug>/<session>/subagents/`
@@ -423,8 +423,9 @@ detection and the `compactions` key in `tasks` entries are removed
 
 ### 13.3 `route.py --explain`'s context line
 
-Source order: `.claude/context-usage.json` if present and fresh, as
-section 4; else the orchestrator's own transcript through `.claude/session.json`
+Source order: `.claude/context-main.json` if present and fresh, as
+section 4 (renamed by the A12 split, section 2); else the orchestrator's
+own transcript through `.claude/session.json`
 (13.4), taking the last assistant message's input total against the
 effective window resolved as in 13.2, printed as `context: 64% of
 200,000 effective (transcript, 12 s ago)`; else `unknown`. The threshold

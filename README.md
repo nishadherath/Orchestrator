@@ -106,7 +106,10 @@ USD 0.36 to apply the answer through one floor worker
 
 Context is handled on disk, never in the model's memory. A status-line
 script writes the orchestrator's own context usage to
-`.claude/context-usage.json`; `--explain` compares it against a 70 percent
+`.claude/context-main.json` and each subagent's peak token usage to
+`.claude/context-tasks.json`, one file per writer so the two status lines
+racing each other cannot clobber one another's data (audit A12);
+`--explain` reads `context-main.json` and compares it against a 70 percent
 threshold and says when to write a handoff (`tools/handoff.py`, a
 ten-heading file with computed cost and time lines) before the platform
 compacts. A `SessionStart` hook on the `compact` matcher prints the
