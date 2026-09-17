@@ -31,10 +31,19 @@ LIVE_ADAPTER = ROOT / "tools" / "evaluation_live_worker.py"
 LIVE_ADAPTER_TESTS = ROOT / "test" / "harness" / "evaluation_live_worker_tests.py"
 LIVE_ADAPTER_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.json"
 LIVE_ADAPTER_REPORT = ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.md"
+LIVE_CONTROLLER = ROOT / "tools" / "evaluation_live_controller.py"
+LIVE_CONTROLLER_TESTS = ROOT / "test" / "harness" / "evaluation_live_controller_tests.py"
+LIVE_CONTROLLER_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.json"
+LIVE_CONTROLLER_REPORT = ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.md"
 LIVE_EPISODE = ROOT / "tools" / "evaluation_live_episode.py"
 LIVE_EPISODE_TESTS = ROOT / "test" / "harness" / "evaluation_live_episode_tests.py"
 LIVE_EPISODE_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-live-episode-integration.json"
 LIVE_EPISODE_REPORT = ROOT / "test" / "results" / "2026-09-17-live-episode-integration.md"
+PILOT_RUNNER = ROOT / "tools" / "evaluation_pilot.py"
+PILOT_TESTS = ROOT / "test" / "harness" / "evaluation_pilot_tests.py"
+PILOT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
+PILOT_REPORT = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.md"
+PILOT_AUTHORISATION_TEMPLATE = ROOT / "docs" / "REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json"
 
 
 def sha256(path: Path) -> str:
@@ -61,9 +70,11 @@ def bound_files() -> list[Path]:
         ROOT / "src" / "System" / "schemas" / "RoutingLedgerEntry.schema.json",
         ROOT / "src" / "System" / "schemas" / "BudgetEntry.schema.json",
         ROOT / "tools" / "acceptance.py",
+        ROOT / "tools" / "claudep.py",
         ROOT / "tools" / "dispatch_budget.py",
         ROOT / "tools" / "evaluation_freeze.py",
         ROOT / "tools" / "realworld_isolation.py",
+        ROOT / "tools" / "system_controller.py",
         ROOT / "test" / "harness" / "realworld.py",
         ROOT / "test" / "harness" / "realworld_tests.py",
         ISOLATION,
@@ -75,7 +86,11 @@ def bound_files() -> list[Path]:
         CALIBRATION, CALIBRATION_TESTS, CALIBRATION_EVIDENCE,
         ADJUDICATION, ADJUDICATION_TESTS, ADJUDICATION_EVIDENCE,
         LIVE_ADAPTER, LIVE_ADAPTER_TESTS, LIVE_ADAPTER_EVIDENCE, LIVE_ADAPTER_REPORT,
+        LIVE_CONTROLLER, LIVE_CONTROLLER_TESTS, LIVE_CONTROLLER_EVIDENCE,
+        LIVE_CONTROLLER_REPORT,
         LIVE_EPISODE, LIVE_EPISODE_TESTS, LIVE_EPISODE_EVIDENCE, LIVE_EPISODE_REPORT,
+        PILOT_RUNNER, PILOT_TESTS, PILOT_EVIDENCE, PILOT_REPORT,
+        PILOT_AUTHORISATION_TEMPLATE,
     ) if path.is_file()]
     return sorted(set(fixed + fixture_files + oracle_files + runner_files + calibration_files))
 
@@ -165,9 +180,41 @@ def valid_live_episode_evidence() -> tuple[bool, str | None, dict]:
         and value.get("implementation_sha256") == sha256(LIVE_EPISODE)
         and report.get("path") == LIVE_EPISODE_REPORT.relative_to(ROOT).as_posix()
         and report.get("sha256") == sha256(LIVE_EPISODE_REPORT)
-        and len(checks) == 8 and all(checks.values())
+        and len(checks) == 9 and all(checks.values())
         and set(cases) == {"b0-repair", "b1-ladder", "b2-controller",
                            "crash_recovery", "missing_cost"}
+    )
+    return valid, evidence_digest, value
+
+
+def valid_live_controller_evidence() -> tuple[bool, str | None, dict]:
+    valid, evidence_digest, value = valid_evidence(LIVE_CONTROLLER_EVIDENCE)
+    checks = value.get("checks") or {}
+    report = value.get("report") or {}
+    valid = bool(
+        valid and LIVE_CONTROLLER.is_file() and LIVE_CONTROLLER_REPORT.is_file()
+        and value.get("mode") == "offline-injected-controller-v1"
+        and value.get("offline_only") is True and value.get("model_calls") == 0
+        and value.get("implementation_sha256") == sha256(LIVE_CONTROLLER)
+        and report.get("path") == LIVE_CONTROLLER_REPORT.relative_to(ROOT).as_posix()
+        and report.get("sha256") == sha256(LIVE_CONTROLLER_REPORT)
+        and len(checks) == 9 and all(checks.values())
+    )
+    return valid, evidence_digest, value
+
+
+def valid_pilot_preflight_evidence() -> tuple[bool, str | None, dict]:
+    valid, evidence_digest, value = valid_evidence(PILOT_EVIDENCE)
+    checks = value.get("checks") or {}
+    report = value.get("report") or {}
+    valid = bool(
+        valid and PILOT_RUNNER.is_file() and PILOT_REPORT.is_file()
+        and value.get("mode") == "offline-pilot-preflight-v1"
+        and value.get("offline_only") is True and value.get("model_calls") == 0
+        and value.get("implementation_sha256") == sha256(PILOT_RUNNER)
+        and report.get("path") == PILOT_REPORT.relative_to(ROOT).as_posix()
+        and report.get("sha256") == sha256(PILOT_REPORT)
+        and len(checks) == 5 and all(checks.values())
     )
     return valid, evidence_digest, value
 
@@ -186,7 +233,9 @@ def candidate() -> dict:
     runner_valid, runner_digest, runner = valid_runner_evidence(RUNNER_EVIDENCE)
     calibration_valid, calibration_digest, calibration = valid_calibration_evidence()
     adapter_valid, adapter_digest, adapter = valid_live_adapter_evidence()
+    controller_valid, controller_digest, controller = valid_live_controller_evidence()
     episode_valid, episode_digest, episode = valid_live_episode_evidence()
+    pilot_valid, pilot_digest, pilot = valid_pilot_preflight_evidence()
     blockers = []
     if remaining:
         blockers.append(f"pilot fixtures not ready: {', '.join(remaining)}")
@@ -204,7 +253,10 @@ def candidate() -> dict:
         blockers.append("live episode worker adapter and offline qualification evidence are missing")
     if not episode_valid:
         blockers.append("live policy executor and restart-safe episode integration are missing or invalid")
-    blockers.append("live Controller escalation adapter is missing")
+    if not controller_valid:
+        blockers.append("live Controller escalation adapter and offline qualification evidence are missing or invalid")
+    if not pilot_valid:
+        blockers.append("six-episode pilot preflight and authorisation boundary are missing or invalid")
     blockers.append("paid pilot has not been authorised")
     return {
         "schema_version": 1,
@@ -264,8 +316,16 @@ def candidate() -> dict:
             "integration_evidence": LIVE_EPISODE_EVIDENCE.relative_to(ROOT).as_posix(),
             "integration_evidence_sha256": episode_digest,
             "integration_mode": episode.get("mode"),
-            "controller_adapter_implemented": False,
-            "note": "Worker sequencing and at-most-once recovery qualify offline; live Controller execution remains open.",
+            "controller_adapter_implemented": LIVE_CONTROLLER.is_file(),
+            "controller_adapter_qualified": controller_valid,
+            "controller_adapter_evidence": LIVE_CONTROLLER_EVIDENCE.relative_to(ROOT).as_posix(),
+            "controller_adapter_evidence_sha256": controller_digest,
+            "controller_adapter_mode": controller.get("mode"),
+            "pilot_preflight_qualified": pilot_valid,
+            "pilot_preflight_evidence": PILOT_EVIDENCE.relative_to(ROOT).as_posix(),
+            "pilot_preflight_evidence_sha256": pilot_digest,
+            "pilot_preflight_mode": pilot.get("mode"),
+            "note": "Worker and Controller execution, nested accounting, sequencing and at-most-once recovery qualify offline.",
         },
         "policies": {path.stem: files[path.relative_to(ROOT).as_posix()] for path in sorted(POLICIES.glob("*.json"))},
         "prices": json.loads(PRICE.read_text(encoding="utf-8")),
@@ -283,7 +343,11 @@ def candidate() -> dict:
 
 
 def stable(value: dict) -> dict:
-    return {key: item for key, item in value.items() if key != "created_at"}
+    # The freeze commit necessarily follows the source revision it records.
+    # Candidate content is bound by candidate_sha256; ignore the informational
+    # revision and timestamp when checking a committed freeze.
+    return {key: item for key, item in value.items()
+            if key not in {"created_at", "source_revision"}}
 
 
 def main(argv: list[str]) -> int:

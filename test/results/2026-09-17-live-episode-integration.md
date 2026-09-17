@@ -11,10 +11,11 @@ Result: **PASS**. Mode: `offline-scripted-adapters-v1`. Model calls: **0**.
 | missing cost retains allowance | pass |
 | event chains valid | pass |
 | hidden grade after policy stop | pass |
+| controller metadata reaches routing ledger | pass |
 | policy boundary excludes forbidden inputs | pass |
 
 ## Limits
 
 - Scripted adapters qualify policy ordering, external grading and recovery without model calls.
 - The live worker adapter is separately calibrated and qualified.
-- A live Controller adapter is not implemented; Controller escalation remains launch-blocking.
+- The live Controller adapter is qualified separately with injected provider-free accounting.

@@ -109,7 +109,7 @@ class LiveEpisodeTests(unittest.TestCase):
         route_plan = {"first": "controller", "execution_ladder": []}
         with tempfile.TemporaryDirectory(prefix="live-episode-controller-") as folder:
             worker = self.subject.ScriptedWorker(["reference"])
-            runner = self.subject.LiveEpisodeRunner(Path(folder), worker)
+            runner = self.subject.LiveEpisodeRunner(Path(folder), worker, None)
             spec = self.subject.LiveEpisodeSpec("episode", "D01", "B1")
             original = self.subject.load_frozen_plan
             try:
@@ -130,6 +130,32 @@ class LiveEpisodeTests(unittest.TestCase):
         self.assertEqual(result["stage"], "blocked")
         self.assertIsNone(result["grade"])
         self.assertGreater(result["reserved_usd"], 0)
+
+    def test_controller_identity_mismatch_blocks_after_cost_reconciliation(self):
+        class MismatchController(self.subject.ScriptedController):
+            def run(inner_self, request):
+                outcome = super().run(request)
+                outcome["identity_valid"] = False
+                outcome["served_models"] = ["claude-haiku-4-5"]
+                return outcome
+
+        route_plan = {"first": "controller", "execution_ladder": []}
+        with tempfile.TemporaryDirectory(prefix="live-episode-controller-identity-") as folder:
+            runner = self.subject.LiveEpisodeRunner(
+                Path(folder), self.subject.ScriptedWorker(["reference"]),
+                MismatchController(["solution"]),
+            )
+            spec = self.subject.LiveEpisodeSpec("episode", "D01", "B1")
+            original = self.subject.load_frozen_plan
+            try:
+                self.subject.load_frozen_plan = lambda ignored: route_plan
+                result = runner.run(spec)
+            finally:
+                self.subject.load_frozen_plan = original
+        self.assertEqual(result["stage"], "blocked")
+        self.assertEqual(result["stop_reason"], "controller_identity_mismatch")
+        self.assertEqual(result["reserved_usd"], 0)
+        self.assertIsNone(result["grade"])
 
     def test_qualification_passes_without_model_calls(self):
         with tempfile.TemporaryDirectory(prefix="live-episode-qualification-") as folder:

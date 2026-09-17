@@ -380,7 +380,44 @@ fail-closed accounting rule. Scripted B0, B1 and B2 episodes produce accepted
 external grades only after policy termination and write schema-valid version-2
 routing records.
 
-Unverified: the Controller boundary uses a scripted adapter. No live adapter yet
-maps `system_controller.py` outcomes and aggregate usage into the episode's
-single outer reservation. The paid checkpoint, host-bound end-to-end execution
-and provider behaviour after process loss remain untested.
+At that point the Controller boundary used a scripted adapter. The following
+finding records its implementation. The paid checkpoint, host-bound end-to-end
+execution and provider behaviour after process loss remain untested.
+
+## Live Controller adapter qualification, 2026-09-18
+
+Observed offline with zero model calls: the live adapter copies the actor into
+an evaluator-owned Controller workspace and permits read, glob and grep only.
+Each Controller role call uses streamed output and records expected, served,
+billed and auxiliary models in its inner durable budget. The adapter aggregates
+known spend and token categories once, marks the outer result final only when
+all inner rows are settled, and retains the outer hold after incomplete inner
+accounting. A wrong served model preserves its cost but fails identity.
+
+The Controller report becomes guidance for the next worker. Its run directory
+and SolutionRecord technique reach the version-2 routing ledger. Offline cases
+also prove the actor remains byte-identical and a pre-budget failure reports
+unknown cost. The episode blocks before hidden grading on Controller identity
+or accounting failure.
+
+Unverified: fake dispatch does not prove the installed Claude CLI's streamed
+schema for every Controller role, live role performance, or provider-side
+termination after local process loss. The paid six-episode checkpoint remains
+the first end-to-end test of those properties.
+
+## Paid pilot launch boundary, 2026-09-18
+
+Observed offline with zero model calls: the release candidate previously had
+episode-level caps but no single executable boundary for the six-episode
+checkpoint. A manual loop could omit an arm, continue after an identity failure
+or run against an approval for a different candidate.
+
+`tools/evaluation_pilot.py` now fixes the matrix to D01 and D11 under B0, B1 and
+B2, with six USD 4 episode caps, USD 24 total episode exposure and USD 2 separate
+calibration headroom. Execution requires an approval file matching the exact
+candidate hash, manifest hash and USD 26 ceiling. Durable campaign state skips
+completed episodes on restart and stops before the next episode when accounting,
+identity, event-chain, oracle-integrity or launch-preflight evidence fails.
+
+Unverified: the qualification uses fake episodes. No authorisation file exists,
+and no paid episode has run.

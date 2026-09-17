@@ -62,7 +62,7 @@
         "status": "pass"
       },
       "learning_eligible": true,
-      "ledger_sha256": "e89f257b1ac5d085e04a91ef5ab0628a2ac270441b8355bd82336ccd7b960962",
+      "ledger_sha256": "6cee15fddf0fa70c06f78fbc0e21ab4b20792d3e62fb78ef9c00cc37a74510c2",
       "policy_id": "B2",
       "reserved_usd": 0.0,
       "sequence": [
@@ -109,25 +109,26 @@
     "b0_repairs_once_at_floor": true,
     "b1_uses_frozen_ladder": true,
     "b2_requires_two_distinct_failures": true,
+    "controller_metadata_reaches_routing_ledger": true,
     "dispatch_recovery_never_redispatches": true,
     "event_chains_valid": true,
     "hidden_grade_after_policy_stop": true,
     "missing_cost_retains_allowance": true,
     "policy_boundary_excludes_forbidden_inputs": true
   },
-  "evidence_sha256": "591d9d45123a4ee1efc49e2c911ea6192b862aa8fd845f2bb1d015fa39d15522",
-  "implementation_sha256": "069642d3a5e85ea34d22a119414862cc0d25d95d6b09c735d6036a46c2ce024c",
+  "evidence_sha256": "44be45e9a80229c7c0d97c42bd995aad2cc6277d6c603dc571a709c7d331ac53",
+  "implementation_sha256": "588c008225559d9d46274ebfd6947f01d7f2f6d60f8326e8b6022a0390496eb6",
   "limits": [
     "Scripted adapters qualify policy ordering, external grading and recovery without model calls.",
     "The live worker adapter is separately calibrated and qualified.",
-    "A live Controller adapter is not implemented; Controller escalation remains launch-blocking."
+    "The live Controller adapter is qualified separately with injected provider-free accounting."
   ],
   "mode": "offline-scripted-adapters-v1",
   "model_calls": 0,
   "offline_only": true,
   "report": {
     "path": "test/results/2026-09-17-live-episode-integration.md",
-    "sha256": "ec5b5fbcf898522af2dd3dc2c0234d59c1e43fc67fc37c55ad0f09b90994afa8"
+    "sha256": "dd0b3e7ff3979bcb912d6aa759e097a5bd13a2a89687134f4311111a83bfa96f"
   },
   "result": "PASS",
   "schema_version": 1

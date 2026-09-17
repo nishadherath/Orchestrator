@@ -79,18 +79,18 @@ there if model identity, usage roll-up, grading or reservation records do not
 reconcile. The broader 104-episode working estimate remains USD 110-220 and its
 hard allocation remains USD 440 until pilot evidence supports a narrower value.
 
-The offline episode runner, live worker adapter, policy executor, restart-safe
-integration and calibration are complete. The complete remaining programme is
-approximately 1-2 engineer-days plus 2-4 hours of result review. Calibration
+The offline episode runner, live worker adapter, live Controller adapter,
+policy executor, restart-safe integration and calibration are complete. The
+complete remaining programme is approximately 1-2 engineer-days plus 2-4
+hours of result review. Calibration
 cost USD 0.0476572 API equivalent across terminal calls; the first run also
 retains a separate USD 0.05 uncertain timeout allowance. These are Claude Code
 list-price telemetry under the signed-in Max subscription, not an API invoice.
 
 ## Launch blockers and exact next action
 
-The paid launch remains closed because the live Controller escalation adapter
-is not implemented, the candidate tree is dirty, the project licence is
-undecided and no pilot spending has been authorised. The offline runner blocker is closed by
+The paid launch remains closed because the candidate tree is dirty, the project
+licence is undecided and no pilot spending has been authorised. The offline runner blocker is closed by
 `test/results/2026-09-17-realworld-runner.json` and its Markdown report. The
 live calibration blocker is closed by the original record and
 `test/results/2026-09-17-live-calibration-adjudication.json`.
@@ -113,27 +113,27 @@ runs only after policy termination. The evidence is
 `test/results/2026-09-17-live-episode-integration.json` and the neighbouring
 Markdown report. No model call was made.
 
-Next, implement the live Controller adapter against this injected boundary and
-qualify its outer-budget reconciliation without a paid call. Then review the
-refreshed candidate freeze, settle the licence and source-state decisions, and
-present the concrete W05 six-episode cost projection for operator authorisation.
-Regenerate host isolation and the freeze immediately before any pilot execution.
+`tools/evaluation_live_controller.py` now runs the quick Controller in an
+evaluator-owned copy of the actor with read-only tools. Streamed per-role
+messages prove the served task model while aggregate billing retains auxiliary
+models and all token categories. The Controller's inner durable budget is the
+source of the episode's known subtotal. The outer reservation settles only
+when every inner call is final. Identity mismatch preserves measured cost and
+blocks learning; incomplete accounting retains the outer allowance. The
+Controller report, run directory and winning technique flow into observable
+history and the routing ledger. Offline evidence is
+`test/results/2026-09-18-live-controller-adapter.json`; no model call was made.
 
-## Next-session handoff
+Next, review the refreshed candidate freeze, settle the licence and source-state
+decisions, and present the concrete W05 six-episode cost projection for operator
+authorisation. Regenerate host isolation and the freeze immediately before any
+pilot execution.
 
-Keep **GPT-5.6 Sol, High**. Start the next project session with a Graft freshness
-check. If its persistent MCP process reports an older snapshot after the final
-deep build, start a fresh session so it reloads the rebuilt local graph.
-
-The next bounded goal is W05's live Controller adapter and outer-budget
-reconciliation. Preserve the dirty worktree and current freeze. Relevant files
-are the live episode integration and evidence, live worker adapter, Controller,
-both calibration records, the budget and acceptance tools, the isolation probe,
-this readiness record and the main evaluation plan.
-
-Keep **GPT-5.6 Sol, High** for preparation. Allow **2-4 hours** and estimate
-**USD 3-8 direct OpenAI API equivalent** for development and review using the
-same 2026-09-17 price source and broad cache assumptions as the preceding
-handoff. The completed Claude calibration reported USD 0.0476572 API equivalent
-plus a retained USD 0.05 uncertain allowance. Graft semantic-summary charges
-remain additional and unknown because the CLI does not report billed usage.
+The paid-pilot launch boundary is now qualified offline. It fixes the checkpoint
+to D01 and D11 under B0, B1 and B2, caps the six episode reservations at USD 24,
+and keeps USD 2 separate calibration headroom. Execution requires an exact
+candidate-bound USD 26 authorisation file. Durable campaign state skips complete
+episodes after restart and stops the sequence after the first accounting,
+identity, event-chain, oracle-integrity or preflight failure. The qualification
+evidence is `test/results/2026-09-18-pilot-preflight.json`; no model call was
+made. The active authorisation file has deliberately not been created.

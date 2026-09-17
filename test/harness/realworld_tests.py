@@ -66,12 +66,17 @@ class RealWorldFoundationTests(unittest.TestCase):
         self.assertTrue(first["live_episode_execution"]["adapter_qualified"])
         self.assertTrue(first["live_episode_execution"]["policy_executor_implemented"])
         self.assertTrue(first["live_episode_execution"]["restart_safe_integration_qualified"])
-        self.assertFalse(first["live_episode_execution"]["controller_adapter_implemented"])
+        self.assertTrue(first["live_episode_execution"]["controller_adapter_implemented"])
+        self.assertTrue(first["live_episode_execution"]["controller_adapter_qualified"])
+        self.assertTrue(first["live_episode_execution"]["pilot_preflight_qualified"])
         self.assertNotIn(
             "live policy executor and restart-safe episode integration are missing or invalid",
             first["blockers"],
         )
-        self.assertIn("live Controller escalation adapter is missing", first["blockers"])
+        self.assertNotIn(
+            "live Controller escalation adapter and offline qualification evidence are missing or invalid",
+            first["blockers"],
+        )
         self.assertIn("claude-sonnet-5", first["models"]["required_actual_ids"])
         self.assertIn("test/oracles/realworld/D01/test_hidden.py", first["bound_files"])
         self.assertIn(
@@ -97,6 +102,12 @@ class RealWorldFoundationTests(unittest.TestCase):
         self.assertIn("tools/evaluation_runner.py", first["bound_files"])
         self.assertIn("test/results/2026-09-17-realworld-runner.json", first["bound_files"])
         self.assertIn("tools/evaluation_live_episode.py", first["bound_files"])
+        self.assertIn("tools/evaluation_live_controller.py", first["bound_files"])
+        self.assertIn("tools/evaluation_pilot.py", first["bound_files"])
+        self.assertIn(
+            "test/results/2026-09-18-live-controller-adapter.json",
+            first["bound_files"],
+        )
         self.assertIn(
             "test/results/2026-09-17-live-episode-integration.json",
             first["bound_files"],

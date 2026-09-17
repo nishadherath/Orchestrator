@@ -483,9 +483,33 @@ before dispatch; recovery from an in-flight action retains its allowance and
 never calls the provider again. Scripted no-cost cases prove B0 floor repair,
 B1 ladder escalation, B2's two-distinct-failure Controller trigger, external
 grading after termination, missing-cost retention and crash recovery. The
-freeze now records policy execution and restart safety as qualified. Live
-Controller execution remains a separate launch blocker, and no paid pilot
-episode has run.
+freeze now records policy execution and restart safety as qualified. At that
+point live Controller execution remained a separate launch blocker. No paid
+pilot episode has run.
+
+W05 Controller adapter progress, 2026-09-18:
+`tools/evaluation_live_controller.py` now runs the quick Controller in a
+separate evaluator-owned copy of the actor. Role calls use streamed output,
+exact served-model checks and read-only repository tools. The adapter rolls the
+Controller's durable per-role budget into the episode's single outer
+reservation, returns the report as worker guidance, and records its run path
+and winning technique. Offline cases cover exact aggregate cost and tokens,
+auxiliary billing, model mismatch, incomplete inner accounting, failure before
+budget creation and actor immutability. `tools/evaluation_live_episode.py`
+enables the adapter by default and blocks learning on Controller identity or
+accounting failure. Evidence is
+`test/results/2026-09-18-live-controller-adapter.json`; no paid call ran. The
+remaining launch decisions are source cleanliness, project licence and explicit
+pilot spending authorisation.
+
+W05 paid-pilot preflight progress, 2026-09-18: the six-episode matrix is now an
+executable candidate-bound manifest rather than a manual procedure. D01 and D11
+each run once under B0, B1 and B2. Episode reservations total at most USD 24;
+USD 2 remains separate calibration headroom. The launcher requires an exact
+USD 26 operator authorisation, checkpoints between episodes, resumes without
+repeating complete episodes and stops after the first instrumentation,
+accounting, identity or integrity failure. Offline qualification uses six fake
+episodes and makes no model calls. No active authorisation file exists.
 
 ## Verification, records and stage completion
 

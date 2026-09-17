@@ -5333,3 +5333,45 @@ can admit spending beyond the episode limit. A narrow observable policy boundary
 also prevents evaluation labels from becoming routing inputs. The Controller is
 an injected interface until its multi-call accounting can be reconciled with one
 outer episode reservation.
+
+## D98. Reconcile Controller role calls as one outer episode attempt, 2026-09-18
+
+Decision: run the quick Controller in an evaluator-owned copy of the actor with
+read, glob and grep tools only. Require streamed served-model evidence on every
+launched role call. Keep its per-role DispatchBudget as the accounting source,
+then project the exact known subtotal and aggregate token fields into the
+episode's single outer reservation. Finalise that reservation only when every
+inner row is settled. Preserve a known subtotal while retaining the remaining
+hold if any inner row is uncertain.
+
+Return REPORT.md as guidance for the next worker and carry the Controller run
+directory and winning SolutionRecord technique into the routing ledger. Treat
+a served-model mismatch as terminal billing evidence but reject the episode for
+learning. Refuse an existing Controller workspace so restart cannot replay paid
+role calls.
+
+Why: charging the outer budget for each inner role would double count, while
+trusting only the Controller's aggregate result would lose per-role model
+identity and make partial failure look final. A copied read-only workspace also
+lets the Controller inspect the exact actor state without changing the graded
+actor or gaining access to hidden evaluator material.
+
+## D99. Bind paid pilot execution to one candidate and USD 26 ceiling, 2026-09-18
+
+Decision: execute the first checkpoint only through a six-row manifest covering
+D01 and D11 under B0, B1 and B2. Keep each episode's USD 4 durable cap, giving a
+USD 24 episode maximum, and reserve USD 2 outside the launcher for calibration.
+Require a separate operator authorisation file that names the candidate hash,
+manifest hash, approver, time and exact USD 26 combined ceiling.
+
+Persist campaign progress before each episode. Re-enter the same durable episode
+after interruption, skip episodes already complete, and stop before the next
+episode on unresolved accounting, model mismatch, invalid event chain, changed
+oracle or failed launch preflight. Store campaign output only under the ignored
+pilot-runs directory or an explicit external path.
+
+Why: six independent episode caps bound total exposure only if the episode set
+itself is fixed. A candidate-bound authorisation prevents later source changes
+or a regenerated plan from inheriting an earlier spending decision. Stopping
+between episodes preserves useful evidence without multiplying a failed
+instrumentation condition across the remaining arms.

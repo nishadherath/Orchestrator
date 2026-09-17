@@ -543,8 +543,8 @@ Use the same operator handoff and Graft requirements for implementation work.
 | W08. Reserved comparison | W07 | 48 episodes, clustered uncertainty, incident review and release-gate decision. No post-hoc retuning on the same reserved set. | 3-8 execution hours plus review |
 | W09. Package qualified defaults | W08 passes | Reviewed aggregate importer/output; updated source/bundle, offline smoke checks, clean install, evidence notes and rollback path. | 0.5-1 day |
 
-Current status: W01-W04, live instrumentation calibration, the live worker
-adapter, policy execution and restart-safe integration are complete.
+Current status: W01-W04, live instrumentation calibration, the live worker and
+Controller adapters, policy execution and restart-safe integration are complete.
 All eight W03 tasks are qualified.
 The W04 runner gives every episode a separate budget, actor root, Graft root and
 hash-chained journal; it writes a schema-valid version-2 routing record and
@@ -569,12 +569,15 @@ effects, refuses recovered redispatch, retains uncertain allowances and grades
 only after termination. Its zero-call evidence is
 `test/results/2026-09-17-live-episode-integration.json`.
 
-The exact next action is a live Controller adapter that reconciles the
-Controller's internal multi-call budget with the episode's outer reservation.
-Qualify the boundary with scripted Controller telemetry before any paid episode.
-Then regenerate the host isolation proof and candidate freeze, record the
-six-episode price projection and obtain operator authorisation. W05-W08 paid
-execution remains unstarted.
+The Controller adapter runs in an evaluator-owned actor copy, exposes only
+read-only tools and reconciles its internal per-role budget with the episode's
+outer reservation. Scripted telemetry proves exact subtotal, token roll-up,
+identity rejection, incomplete-charge retention and actor immutability. Its
+zero-call evidence is `test/results/2026-09-18-live-controller-adapter.json`.
+
+The exact next action is to regenerate the host isolation proof and candidate
+freeze immediately before launch, record the six-episode price projection and
+obtain operator authorisation. W05-W08 paid execution remains unstarted.
 
 ## 11. Later extensions, only after the small campaign earns them
 

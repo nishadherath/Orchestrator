@@ -6,9 +6,8 @@ and B2 policy decisions. It persists dispatch intent before each external side
 effect. A later process that finds an in-flight dispatch never repeats it: the
 allowance stays held and the episode stops for operator reconciliation.
 
-The Controller is an injected adapter. This module defines its boundary and
-qualifies its policy integration offline, but does not claim a live Controller
-adapter exists.
+The Controller uses a live adapter by default. Tests may inject scripted
+adapters or explicitly disable it to exercise the launch-blocking path.
 """
 from __future__ import annotations
 
@@ -29,6 +28,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "test" / "harness"))
 
 import acceptance  # noqa: E402
+import evaluation_live_controller  # noqa: E402
 import evaluation_live_worker  # noqa: E402
 import evaluation_runner  # noqa: E402
 import realworld  # noqa: E402
@@ -54,10 +54,13 @@ class LiveEpisodeError(RuntimeError):
 
 
 class ControllerAdapter(Protocol):
-    """Boundary for a future live Controller implementation."""
+    """Boundary for live or scripted Controller implementations."""
 
-    def run(self, request: dict) -> dict:
+    def run(self, request: evaluation_live_controller.ControllerRequest) -> dict:
         """Return a terminal Controller outcome and provider accounting."""
+
+
+_DEFAULT_CONTROLLER = object()
 
 
 @dataclasses.dataclass(frozen=True)
@@ -209,11 +212,12 @@ class LiveEpisodeRunner:
     """Run or resume one live episode with durable at-most-once dispatch."""
 
     def __init__(self, campaign_root: Path, worker_adapter=None,
-                 controller_adapter: ControllerAdapter | None = None):
+                 controller_adapter: ControllerAdapter | None | object = _DEFAULT_CONTROLLER):
         self.root = campaign_root.resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.worker = worker_adapter or evaluation_live_worker.LiveWorkerAdapter()
-        self.controller = controller_adapter
+        self.controller = (evaluation_live_controller.LiveControllerAdapter()
+                           if controller_adapter is _DEFAULT_CONTROLLER else controller_adapter)
         catalogue = realworld.load_catalogue()
         self.tasks = {task["id"]: task for task in realworld.ready_tasks(catalogue)}
         self.catalogue = catalogue
@@ -223,7 +227,8 @@ class LiveEpisodeRunner:
         base = self.root / spec.episode_id
         return {"base": base, "actor": base / "actor", "state": base / "state.json",
                 "events": base / "events.jsonl", "budget": base / "dispatch-budget.json",
-                "ledger": base / "routing-ledger.jsonl"}
+                "ledger": base / "routing-ledger.jsonl",
+                "controllers": base / "controller-workspaces"}
 
     def _save(self, paths: dict[str, Path], state: dict, stage: str,
               event: str, details: dict) -> None:
@@ -412,12 +417,13 @@ class LiveEpisodeRunner:
                 policy="\n".join(policy["rules"]) + prior + guidance,
             )
             return self.worker.run(request)
-        request = {
-            "actor_root": paths["actor"], "allowance_usd": action["allowance_usd"],
-            "issue": (realworld.FIXTURES / task["issue"]).read_text(encoding="utf-8"),
-            "allowed_edits": list(task["allowed_edits"]),
-            "observations": [self._controller_observation(row) for row in history],
-        }
+        request = evaluation_live_controller.ControllerRequest(
+            actor_root=paths["actor"], controller_root=paths["controllers"],
+            allowance_usd=action["allowance_usd"], invocation_id=action["invocation_id"],
+            issue=(realworld.FIXTURES / task["issue"]).read_text(encoding="utf-8"),
+            allowed_edits=tuple(task["allowed_edits"]),
+            observations=tuple(self._controller_observation(row) for row in history),
+        )
         return self.controller.run(request)  # type: ignore[union-attr]
 
     @staticmethod
@@ -455,6 +461,9 @@ class LiveEpisodeRunner:
             "finished_at": outcome.get("finished_at"),
             "wall_clock_s": outcome.get("wall_clock_s"),
             "actor_digest": state["pending_actor_snapshot"]["digest"],
+            "served_models": outcome.get("served_models"),
+            "billed_models": outcome.get("billed_models"),
+            "auxiliary_billed_models": outcome.get("auxiliary_billed_models"),
         }
         if action["kind"] == "worker":
             public = realworld.run_checks(paths["actor"], paths["actor"] / "public_checks", False)
@@ -470,7 +479,10 @@ class LiveEpisodeRunner:
             if controller_outcome not in {"solution", "gap", "dissolved", "error"}:
                 raise LiveEpisodeError(f"invalid Controller outcome: {controller_outcome!r}")
             history.update(controller_outcome=controller_outcome,
-                           guidance=outcome.get("guidance"))
+                           guidance=outcome.get("guidance"),
+                           controller_run_dir=outcome.get("controller_run_dir"),
+                           winning_technique=outcome.get("winning_technique"),
+                           inner_accounting=outcome.get("inner_accounting"))
         state["history"].append(history)
         state.pop("current_action", None)
         state.pop("pending_outcome", None)
@@ -484,6 +496,12 @@ class LiveEpisodeRunner:
             state["stop_reason"] = "worker_identity_mismatch"
             self._save(paths, state, "blocked", "worker_identity_rejected", {
                 "invocation_id": invocation_id, "actual_model": outcome.get("actual_model"),
+            })
+        elif action["kind"] == "controller" and outcome.get("identity_valid") is not True:
+            state["stop_reason"] = "controller_identity_mismatch"
+            self._save(paths, state, "blocked", "controller_identity_rejected", {
+                "invocation_id": invocation_id,
+                "served_models": outcome.get("served_models"),
             })
         else:
             self._save(paths, state, "ready", "action_reconciled", {
@@ -534,6 +552,11 @@ class LiveEpisodeRunner:
                          if isinstance(row.get("cost_usd"), (int, float)))
         total_wall = sum(row["wall_clock_s"] for row in state["history"]
                          if isinstance(row.get("wall_clock_s"), (int, float)))
+        controller_rows = [row for row in state["history"] if row["kind"] == "controller"]
+        controller_run_dir = next((row.get("controller_run_dir") for row in reversed(controller_rows)
+                                   if row.get("controller_run_dir")), None)
+        winning_technique = next((row.get("winning_technique") for row in reversed(controller_rows)
+                                  if row.get("winning_technique")), None)
         record = {
             "type": "RoutingLedgerEntry", "id": "led-001", "ledger_version": 2,
             "references": [], "ts": LOGICAL_TIME, "task_slug": spec.task_id.lower(),
@@ -544,7 +567,8 @@ class LiveEpisodeRunner:
                             for row in attempts[1:]],
             "final_outcome": "pass" if grade["accepted"] else "fail",
             "cost_usd": round(total_cost, 9), "wall_clock_s": round(total_wall, 6),
-            "controller_run_dir": None, "winning_technique": None,
+            "controller_run_dir": controller_run_dir,
+            "winning_technique": winning_technique,
             "notes": f"live evaluation policy {spec.policy_id}",
             "context": {"peak_tokens": None, "window": None,
                         "compactions": None, "source": "none"},
@@ -560,8 +584,7 @@ class LiveEpisodeRunner:
         state["budget"] = evaluation_runner.normalise_budget(budget.snapshot())
         state["learning_eligible"] = bool(
             acceptance.qualified(record["acceptance"])
-            and all(row.get("identity_valid") is True
-                    for row in state["history"] if row["kind"] == "worker")
+            and all(row.get("identity_valid") is True for row in state["history"])
             and not budget.snapshot()["unresolved"]
         )
         self._save(paths, state, "complete", "episode_completed", {
@@ -632,7 +655,7 @@ class ScriptedController:
         self.outcomes = list(outcomes)
         self.calls = 0
 
-    def run(self, request: dict) -> dict:
+    def run(self, request: evaluation_live_controller.ControllerRequest) -> dict:
         self.calls += 1
         outcome = self.outcomes.pop(0)
         return {
@@ -641,6 +664,11 @@ class ScriptedController:
             "actual_model": "controller-multi-role", "identity_valid": True,
             "effort_evidence": "scripted-controller", "controller_outcome": outcome,
             "guidance": "Preserve explicit falsey values by testing against None.",
+            "controller_run_dir": f"{request.invocation_id}/runs/controller",
+            "winning_technique": "subtract", "served_models": ["claude-sonnet-5"],
+            "billed_models": ["claude-sonnet-5"], "auxiliary_billed_models": [],
+            "inner_accounting": {"complete": True, "known_spend_usd": 0.10,
+                                 "reserved_usd": 0.0, "unresolved": [], "calls": 1},
             "started_at": LOGICAL_TIME, "finished_at": LOGICAL_TIME, "wall_clock_s": 0.2,
         }
 
@@ -660,6 +688,10 @@ def run_qualification(work: Path) -> dict:
     b2_controller = ScriptedController(["solution"])
     b2, b2_worker = run_case("b2-controller", "B2",
                              ["wrong_happy", "wrong_contract", "reference"], b2_controller)
+    b2_ledger = json.loads(
+        (work / "b2-controller" / "b2-controller" / "routing-ledger.jsonl")
+        .read_text(encoding="utf-8")
+    )
 
     crash_worker = ScriptedWorker([RuntimeError("synthetic crash after dispatch")])
     crash_spec = LiveEpisodeSpec("crash-recovery", "D01", "B0")
@@ -699,6 +731,9 @@ def run_qualification(work: Path) -> dict:
         "hidden_grade_after_policy_stop": all(
             case["grade"] is not None for case in (b0, b1, b2)
         ),
+        "controller_metadata_reaches_routing_ledger":
+        b2_ledger["controller_run_dir"] == "inv-b2-controller-003/runs/controller"
+        and b2_ledger["winning_technique"] == "subtract",
         "policy_boundary_excludes_forbidden_inputs": set(
             PolicyExecutor.decide.__annotations__
         ).isdisjoint({"task_id", "source_project_name", "hidden_grade", "reference_solution"}),
@@ -711,7 +746,7 @@ def run_qualification(work: Path) -> dict:
         "limits": [
             "Scripted adapters qualify policy ordering, external grading and recovery without model calls.",
             "The live worker adapter is separately calibrated and qualified.",
-            "A live Controller adapter is not implemented; Controller escalation remains launch-blocking.",
+            "The live Controller adapter is qualified separately with injected provider-free accounting.",
         ],
     }
 
@@ -742,7 +777,7 @@ def validate(path: Path) -> tuple[bool, str]:
         recorded == digest(value) and value.get("result") == "PASS"
         and value.get("offline_only") is True and value.get("model_calls") == 0
         and value.get("implementation_sha256") == file_sha256(Path(__file__))
-        and len(checks) == 8 and all(checks.values())
+        and len(checks) == 9 and all(checks.values())
         and report_path.is_relative_to(ROOT.resolve()) and report_path.is_file()
         and report.get("sha256") == file_sha256(report_path)
     )

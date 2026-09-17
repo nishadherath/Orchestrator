@@ -993,6 +993,26 @@ def check_live_worker_adapter(r: Report) -> None:
     r.add("LIVE-WORKER", "live attempt adapter qualifies without model calls", passed, detail)
 
 
+def check_live_controller_adapter(r: Report) -> None:
+    """LIVE-CONTROLLER: nested accounting, identity and isolation pass."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_live_controller_tests.py"
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.json"
+    adapter = REPO_ROOT / "tools" / "evaluation_live_controller.py"
+    test_result = subprocess.run(
+        [sys.executable, str(tests)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    evidence_result = subprocess.run(
+        [sys.executable, str(adapter), "--check", "--output", str(evidence)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+    )
+    passed = test_result.returncode == 0 and evidence_result.returncode == 0
+    detail = (test_result.stdout + test_result.stderr + "\n"
+              + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
+    r.add("LIVE-CONTROLLER", "live Controller adapter qualifies without model calls",
+          passed, detail)
+
+
 def check_live_episode_integration(r: Report) -> None:
     """LIVE-EPISODE: policy ordering and at-most-once recovery pass."""
     tests = REPO_ROOT / "test" / "harness" / "evaluation_live_episode_tests.py"
@@ -1010,6 +1030,26 @@ def check_live_episode_integration(r: Report) -> None:
     detail = (test_result.stdout + test_result.stderr + "\n"
               + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
     r.add("LIVE-EPISODE", "live policy and restart safety qualify without model calls",
+          passed, detail)
+
+
+def check_pilot_preflight(r: Report) -> None:
+    """PILOT-PREFLIGHT: fixed envelope and exact authorisation gate pass."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_pilot_tests.py"
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
+    runner = REPO_ROOT / "tools" / "evaluation_pilot.py"
+    test_result = subprocess.run(
+        [sys.executable, str(tests)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    evidence_result = subprocess.run(
+        [sys.executable, str(runner), "--check", "--evidence", str(evidence)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+    )
+    passed = test_result.returncode == 0 and evidence_result.returncode == 0
+    detail = (test_result.stdout + test_result.stderr + "\n"
+              + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
+    r.add("PILOT-PREFLIGHT", "paid pilot envelope qualifies without model calls",
           passed, detail)
 
 
@@ -1247,7 +1287,9 @@ def main(argv: list[str]) -> int:
     check_evaluation_runner(report)
     check_live_calibration(report)
     check_live_worker_adapter(report)
+    check_live_controller_adapter(report)
     check_live_episode_integration(report)
+    check_pilot_preflight(report)
     check_release_candidate(report)
     check_improvement_regressions(report)
     check_replay(report)

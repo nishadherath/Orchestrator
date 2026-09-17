@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026-09-17-4fb4682-dirty",
+  "bundle_version": "2026-09-18-a55ea63-dirty",
   "configuration": {
     "backup_root": ".claude/orchestrator-install/backups",
     "claude_markers": [
@@ -22,7 +22,7 @@
   },
   "files": {
     ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-    ".claude/ORCHESTRATOR_VERSION": "b9184f921e3166d64a93836392f57f5f5b7b4c54c5e7dfacaa8a57923b94e2ea",
+    ".claude/ORCHESTRATOR_VERSION": "efe149088210aba20d40403cb526975b57605503995234f1ac37e5619baa5588",
     ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
     ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
     ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -40,7 +40,7 @@
     ".claude/agents/WORKER_sonnet_xhigh.md": "6cd3b1e10bf2b77905225d4f1da65786d4b1524f7ff963faccdb634f5b586f66",
     ".claude/commands/workers.md": "beb906eaaae4e298b74a3b6ddfa81aaf91b5400b2be87081f1f06ff652a07d9d",
     "ORCHESTRATOR-REFERENCE.md": "3539b11c9630cad7f924c48a9df3726a22f5cd585acd129539842746f4b7e7c1",
-    "ORCHESTRATOR.md": "d7de79be94d7f0969a4c33bf38b25ff0e2478e3b752177d83cd2306f192b8668",
+    "ORCHESTRATOR.md": "b71037249b761e4157eef3493a3657c1c8c6789bbb3d02aaf64c915da703ca5e",
     "SELF-LEARNING.md": "257f583762ab5c5b4b3c4fc1db2f145153421ca7e01b426ec29ef03ccc8b53cf",
     "acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
     "preflight.py": "2605e07bd1eef3cccee82c4fec15da3104ae921a05533756c04e376b2d820d22",
@@ -63,12 +63,12 @@
     "src/routing_priors.json": "f5c73f272a147f719f7b23232b090be909f69616f0039906a0280630b6aa229c",
     "src/routing_table.json": "7b4d0558ecc230d8f55c4f0ed786e292ecdb65c3dfc8aee6ddb3012091b07626",
     "tools/acceptance.py": "5e38ee32b3e8b119bc9f87a23226d7dec1e4486ff35d6689adaa436b2e28145a",
-    "tools/claudep.py": "455e042f02353f8c2c8fe2f159fb5a674d099ce595dfde68c83a5c03dd759e4a",
+    "tools/claudep.py": "73f9ce62d8c9f7233acb5c588b2c57a4e915991050b3a78fc8461fd11d151420",
     "tools/context_probe.py": "6bbe5bb0bbb5b00cdc50e82a97065386b05f2a5c627335f49192ebdabac6e557",
     "tools/dispatch_budget.py": "7c08aef6bedbef8afa52cda093cf3e1c5c9a918ed0d43ab3eb7dd149c1e55381",
     "tools/handoff.py": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
     "tools/route.py": "ff3092560e391468f15bcc314511d27b20aec902cbf6e4022183c78047307949",
-    "tools/system_controller.py": "d0b695498b325ae52defe5653b45719925288e3ffc336224f38c33a091a90f3f",
+    "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1",
     "tools/system_prompts.py": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
     "tools/validate_records.py": "6cc7af156c2d034c83869b81d561c5650d3ffcdc18d17d0bac2291f3e871e1f3"
   },

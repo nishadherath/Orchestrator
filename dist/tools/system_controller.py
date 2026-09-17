@@ -358,12 +358,35 @@ class LiveRoleRunner:
     proceed without."""
 
     def __init__(self, project: Path, remaining_budget: Callable[[], float], *,
-                 budget: DispatchBudget | None = None, max_output_tokens: int | None = 8192):
+                 budget: DispatchBudget | None = None, max_output_tokens: int | None = 8192,
+                 permission_args: tuple[str, ...] | None = None,
+                 extra_args: tuple[str, ...] = (), stream_json: bool = False,
+                 require_identity: bool = False):
         self.project = project
         self.remaining_budget = remaining_budget
         self.budget = budget  # run_quick binds this before any live dispatch.
         self.max_output_tokens = max_output_tokens
+        self.permission_args = (tuple(claudep.FORWARDER_PERMISSION_ARGS)
+                                if permission_args is None else permission_args)
+        self.extra_args = extra_args
+        self.stream_json = stream_json
+        self.require_identity = require_identity
         self.deadline: float | None = None
+
+    @staticmethod
+    def _identity(model: str, result: claudep.ClaudeCallResult | None) -> dict:
+        expected = {"sonnet": "claude-sonnet-5", "opus": "claude-opus-5"}.get(model)
+        extras = result.extras if result else {}
+        root_models = extras.get("root_models") if isinstance(extras.get("root_models"), list) else []
+        child_models = extras.get("child_models") if isinstance(extras.get("child_models"), list) else []
+        actual = root_models[0] if len(root_models) == 1 else None
+        return {
+            "expected_model": expected, "actual_model": actual,
+            "identity_valid": actual == expected and not child_models,
+            "root_models": root_models, "child_models": child_models,
+            "billed_models": extras.get("billed_models", []),
+            "auxiliary_billed_models": extras.get("auxiliary_billed_models", []),
+        }
 
     def _invoke(self, phase: str, role: str, prompt: str, *, timeout: float,
                 schema: dict | None = None) -> tuple[claudep.ClaudeCallResult, str]:
@@ -400,9 +423,10 @@ class LiveRoleRunner:
         try:
             result = claudep.call_claude(
                 prompt, cwd=self.project, model=model, effort=effort,
-                permission_args=claudep.FORWARDER_PERMISSION_ARGS if schema is None else (),
+                permission_args=self.permission_args if schema is None else (),
+                extra_args=self.extra_args,
                 json_schema=schema, max_budget_usd=allowance, timeout=timeout,
-                max_output_tokens=self.max_output_tokens)
+                max_output_tokens=self.max_output_tokens, stream_json=self.stream_json)
         except BaseException as exc:
             partial = exc.partial if isinstance(exc, claudep.ClaudeCallError) else None
             # A timeout, cancellation or malformed/lost response is not proof
@@ -411,15 +435,22 @@ class LiveRoleRunner:
             final = bool(partial and partial.raw.get("type") == "result"
                          and partial.cost_usd is not None
                          and not isinstance(exc.__cause__, subprocess.TimeoutExpired))
-            self._account(ident, partial, final=final, status="failed", error=str(exc)[:500])
+            self._account(ident, partial, final=final, status="failed", error=str(exc)[:500],
+                          identity=self._identity(model, partial))
             if isinstance(exc, (KeyboardInterrupt, SystemExit)):
                 raise
             raise RoleCallFailed(f"{role} invocation {ident} failed; usage recorded: {exc}") from exc
-        self._account(ident, result, final=result.cost_usd is not None, status="completed")
+        identity = self._identity(model, result)
+        self._account(ident, result, final=result.cost_usd is not None, status="completed",
+                      identity=identity)
+        if self.require_identity and not identity["identity_valid"]:
+            raise RoleCallFailed(
+                f"{role} invocation {ident} served {identity['root_models']!r}; "
+                f"expected {identity['expected_model']!r}; usage recorded")
         return result, ident
 
     def _account(self, ident: str, result: claudep.ClaudeCallResult | None, *,
-                 final: bool, status: str, error: str = "") -> None:
+                 final: bool, status: str, error: str = "", identity: dict | None = None) -> None:
         cost = result.cost_usd if result else None
         try:
             if cost is not None:
@@ -438,7 +469,8 @@ class LiveRoleRunner:
         telemetry = {"status": status, "error": error,
                      "wall_clock_s": elapsed,
                      "usage": usage,
-                     "result": result.result if result else None}
+                     "result": result.result if result else None,
+                     "identity": identity}
         self.budget.settle(ident, cost, final=final, telemetry=telemetry,
                            evidence="terminal-result" if final else "incomplete-usage")
 
@@ -550,7 +582,7 @@ def _parse_schema_result(res: claudep.ClaudeCallResult, schema: dict) -> dict:
     top-level keys; `result` as a JSON string; the raw response envelope
     itself. Raises with the raw payload attached if none fit, so a live
     run fails loudly rather than silently misreading an unfamiliar shape."""
-    candidates = [res.raw.get("result"), res.raw]
+    candidates = [res.raw.get("structured_output"), res.raw.get("result"), res.raw]
     for candidate in candidates:
         if isinstance(candidate, str):
             try:
