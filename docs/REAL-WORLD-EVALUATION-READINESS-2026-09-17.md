@@ -207,3 +207,17 @@ W07 remains closed. Its 32 development episodes require a new manifest that
 fixes B0 and B1, frozen triggers and schedule, a current cost projection and a
 new exact operator authorisation. Evidence is
 `test/results/2026-09-18-realworld-corpus.json` and the neighbouring report.
+
+## Qualified W07 launch profile, 2026-09-18
+
+The offline launcher qualification now covers the fixed 32-episode development
+comparison. D01-D12 run under B0 and B1, followed by the predeclared D03, D05,
+D07 and D11 repetitions under both arms. Serial task pairs alternate their
+first policy. Resume skips every completed episode, and authorization remains
+bound to the exact candidate, manifest and ceiling.
+
+Pilot policy means produce a USD 2.084651012 point projection. Applying the
+highest pilot episode to all 32 runs produces USD 13.1220064. These estimates
+do not replace the USD 128 episode envelope and USD 12 separate headroom. No
+provider call starts until a clean candidate and manifest exist and the
+operator explicitly approves their exact USD 140 ceiling.

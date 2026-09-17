@@ -1,4 +1,4 @@
-# Paid pilot preflight qualification
+# Paid evaluation preflight qualification
 
 Result: **PASS**. Model calls: **0**.
 
@@ -6,6 +6,9 @@ Result: **PASS**. Model calls: **0**.
 | :--- | :--- |
 | fixed six episode matrix | pass |
 | fixed eighteen episode matrix | pass |
+| fixed thirty two episode matrix | pass |
+| development repetitions are predeclared | pass |
+| development arm order alternates | pass |
 | fixed cost ceilings | pass |
 | exact authorisation required | pass |
 | authorisation cannot cross profiles | pass |

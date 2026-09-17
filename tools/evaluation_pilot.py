@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Prepare, validate and execute an authorised live-pilot checkpoint.
+"""Prepare, validate and execute an authorised real-world evaluation stage.
 
 Preparation and qualification make no model calls. Execution is unavailable
 without an exact operator authorisation file bound to the current candidate
-and manifest. Two fixed profiles separate the completed six-episode
-instrumentation checkpoint from the remaining eighteen pilot episodes.
+and manifest. Fixed profiles preserve the completed pilot stages and define
+the 32-episode W07 development comparison without changing historical runs.
 """
 from __future__ import annotations
 
@@ -36,8 +36,14 @@ CONTINUATION_MANIFEST = ROOT / "docs" / "REAL-WORLD-PILOT-18-EPISODE-2026-09-18.
 CONTINUATION_REPORT = ROOT / "docs" / "REAL-WORLD-PILOT-18-EPISODE-2026-09-18.md"
 CONTINUATION_AUTHORISATION = ROOT / "docs" / "REAL-WORLD-PILOT-CONTINUATION-AUTHORISATION.json"
 CONTINUATION_CAMPAIGN_ROOT = ROOT / "pilot-runs" / "realworld-v1-remaining-eighteen"
+DEVELOPMENT_MANIFEST = ROOT / "docs" / "REAL-WORLD-DEVELOPMENT-32-EPISODE-2026-09-18.json"
+DEVELOPMENT_REPORT = ROOT / "docs" / "REAL-WORLD-DEVELOPMENT-32-EPISODE-2026-09-18.md"
+DEVELOPMENT_AUTHORISATION = ROOT / "docs" / "REAL-WORLD-DEVELOPMENT-AUTHORISATION.json"
+DEVELOPMENT_CAMPAIGN_ROOT = ROOT / "pilot-runs" / "realworld-v1-development-thirty-two"
 DEFAULT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
 DEFAULT_EVIDENCE_REPORT = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.md"
+PILOT_CHECKPOINT_RESULT = ROOT / "test" / "results" / "2026-09-18-realworld-pilot-checkpoint.json"
+PILOT_CONTINUATION_RESULT = ROOT / "test" / "results" / "2026-09-18-realworld-pilot-continuation.json"
 EPISODE_BUDGET_USD = 4.0
 
 
@@ -50,13 +56,29 @@ class PilotProfile:
     sequence_start: int
     calibration_headroom_usd: float
     description: str
+    policies: tuple[str, ...] = ("B0", "B1", "B2")
+    repeat_tasks: tuple[str, ...] = ()
+    alternate_policy_order: bool = False
 
     @property
-    def episodes(self) -> tuple[tuple[int, str, str, str], ...]:
-        rows = ((task, policy) for task in self.tasks for policy in ("B0", "B1", "B2"))
+    def episodes(self) -> tuple[tuple[int, str, str, str, int], ...]:
+        rows: list[tuple[str, str, int]] = []
+        occurrences: dict[str, int] = {}
+        for pair_index, task in enumerate((*self.tasks, *self.repeat_tasks)):
+            occurrences[task] = occurrences.get(task, 0) + 1
+            policies = self.policies
+            if self.alternate_policy_order and pair_index % 2:
+                policies = tuple(reversed(policies))
+            rows.extend((task, policy, occurrences[task]) for policy in policies)
         return tuple(
-            (sequence, f"pilot-{sequence:02d}-{task.lower()}-{policy.lower()}", task, policy)
-            for sequence, (task, policy) in enumerate(rows, self.sequence_start)
+            (
+                sequence,
+                f"evaluation-{sequence:03d}-{task.lower()}-{policy.lower()}-r{repetition}",
+                task,
+                policy,
+                repetition,
+            )
+            for sequence, (task, policy, repetition) in enumerate(rows, self.sequence_start)
         )
 
     @property
@@ -86,12 +108,34 @@ CONTINUATION_PROFILE = PilotProfile(
     calibration_headroom_usd=2.0,
     description="D03, D05 and D07-D10 once under each policy B0, B1 and B2",
 )
-PROFILES = {profile.key: profile for profile in (CHECKPOINT_PROFILE, CONTINUATION_PROFILE)}
+DEVELOPMENT_PROFILE = PilotProfile(
+    key="development-thirty-two",
+    campaign="realworld-v1-development-thirty-two",
+    title="W07 32-episode development comparison approval package",
+    tasks=tuple(f"D{number:02d}" for number in range(1, 13)),
+    repeat_tasks=("D03", "D05", "D07", "D11"),
+    policies=("B0", "B1"),
+    alternate_policy_order=True,
+    sequence_start=25,
+    calibration_headroom_usd=12.0,
+    description=("D01-D12 once under B0 and B1, then the predeclared D03, D05, "
+                 "D07 and D11 repeats under both policies"),
+)
+PROFILES = {
+    profile.key: profile
+    for profile in (CHECKPOINT_PROFILE, CONTINUATION_PROFILE, DEVELOPMENT_PROFILE)
+}
 PROFILE_PATHS = {
     CHECKPOINT_PROFILE.key: (DEFAULT_MANIFEST, DEFAULT_REPORT, DEFAULT_AUTHORISATION,
                              DEFAULT_CAMPAIGN_ROOT),
     CONTINUATION_PROFILE.key: (CONTINUATION_MANIFEST, CONTINUATION_REPORT,
                                CONTINUATION_AUTHORISATION, CONTINUATION_CAMPAIGN_ROOT),
+    DEVELOPMENT_PROFILE.key: (DEVELOPMENT_MANIFEST, DEVELOPMENT_REPORT,
+                              DEVELOPMENT_AUTHORISATION, DEVELOPMENT_CAMPAIGN_ROOT),
+}
+AUTHORISATION_BLOCKERS = {
+    "paid pilot has not been authorised",
+    "paid W07 development comparison has not been authorised",
 }
 
 
@@ -112,9 +156,49 @@ def file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def development_cost_projection() -> dict:
+    """Project W07 from measured pilot arm costs without hiding the hard cap."""
+    paths = (PILOT_CHECKPOINT_RESULT, PILOT_CONTINUATION_RESULT)
+    evidence = [json.loads(path.read_text(encoding="utf-8")) for path in paths]
+    episodes = [row for result in evidence for row in result["episodes"]]
+    by_policy = {
+        policy: [row["cost_usd"] for row in episodes if row["policy_id"] == policy]
+        for policy in DEVELOPMENT_PROFILE.policies
+    }
+    counts = {
+        policy: sum(1 for row in DEVELOPMENT_PROFILE.episodes if row[3] == policy)
+        for policy in DEVELOPMENT_PROFILE.policies
+    }
+    means = {policy: sum(costs) / len(costs) for policy, costs in by_policy.items()}
+    maximum = max(row["cost_usd"] for row in episodes)
+    return {
+        "method": "pilot policy mean multiplied by the fixed W07 episode count",
+        "source_evidence": [
+            {"path": path.relative_to(ROOT).as_posix(), "sha256": file_sha256(path)}
+            for path in paths
+        ],
+        "policy_episode_counts": counts,
+        "pilot_policy_mean_usd": {key: round(value, 12) for key, value in means.items()},
+        "point_estimate_usd": round(sum(means[key] * counts[key] for key in counts), 9),
+        "maximum_observed_pilot_episode_usd": round(maximum, 9),
+        "observed_max_extrapolation_usd": round(maximum * len(DEVELOPMENT_PROFILE.episodes), 9),
+        "limitation": "The pilot is small; neither extrapolation is a billing limit.",
+    }
+
+
 def pilot_manifest(candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
                    profile: PilotProfile = CHECKPOINT_PROFILE) -> dict:
     freeze = candidate_fn()
+    cost = {
+        "currency": "USD", "episode_count": len(profile.episodes),
+        "per_episode_cap_usd": EPISODE_BUDGET_USD,
+        "episode_total_cap_usd": profile.episode_total_usd,
+        "calibration_headroom_usd": profile.calibration_headroom_usd,
+        "combined_authorisation_ceiling_usd": profile.total_ceiling_usd,
+        "basis": f"{len(profile.episodes)} fixed episode reservations plus separate calibration headroom",
+    }
+    if profile is DEVELOPMENT_PROFILE:
+        cost["measured_projection"] = development_cost_projection()
     value = {
         "schema_version": 1,
         "profile": profile.key,
@@ -123,18 +207,12 @@ def pilot_manifest(candidate_fn: Callable[[], dict] = evaluation_freeze.candidat
         "source_revision": freeze["source_revision"],
         "bundle_version": freeze["bundle"]["version"],
         "isolation_evidence_sha256": freeze["isolation"]["evidence_sha256"],
-        "cost": {
-            "currency": "USD", "episode_count": len(profile.episodes),
-            "per_episode_cap_usd": EPISODE_BUDGET_USD,
-            "episode_total_cap_usd": profile.episode_total_usd,
-            "calibration_headroom_usd": profile.calibration_headroom_usd,
-            "combined_authorisation_ceiling_usd": profile.total_ceiling_usd,
-            "basis": f"{len(profile.episodes)} fixed episode reservations plus separate calibration headroom",
-        },
+        "cost": cost,
         "episodes": [
             {"sequence": sequence, "episode_id": episode_id, "task_id": task_id,
-             "policy_id": policy_id, "budget_usd": EPISODE_BUDGET_USD}
-            for sequence, episode_id, task_id, policy_id in profile.episodes
+             "policy_id": policy_id, "repetition": repetition,
+             "budget_usd": EPISODE_BUDGET_USD}
+            for sequence, episode_id, task_id, policy_id, repetition in profile.episodes
         ],
         "stop_conditions": [
             "candidate, bundle, isolation or authorisation does not validate",
@@ -228,7 +306,7 @@ def execute(manifest_path: Path, authorisation_path: Path, campaign_root: Path,
         raise PilotError(f"pilot is not authorised: {auth_detail}")
     freeze = candidate_fn()
     blockers = [item for item in freeze.get("blockers", [])
-                if item != "paid pilot has not been authorised"]
+                if item not in AUTHORISATION_BLOCKERS]
     if blockers:
         raise PilotError("candidate has launch blockers: " + "; ".join(blockers))
     campaign_root = campaign_root.resolve()
@@ -337,6 +415,7 @@ def run_qualification(work: Path) -> dict:
         }
     checkpoint = runs[CHECKPOINT_PROFILE.key]
     continuation = runs[CONTINUATION_PROFILE.key]
+    development = runs[DEVELOPMENT_PROFILE.key]
     tampered = dict(continuation["authorisation"],
                     maximum_authorised_usd=CONTINUATION_PROFILE.total_ceiling_usd + 1)
     tampered_path = work / "tampered.json"
@@ -349,17 +428,41 @@ def run_qualification(work: Path) -> dict:
                                           for row in continuation["manifest"]["episodes"]] == [
             (task, policy) for task in ("D03", "D05", "D07", "D08", "D09", "D10")
             for policy in ("B0", "B1", "B2")],
+        "fixed_thirty_two_episode_matrix": [
+            (row["task_id"], row["policy_id"], row["repetition"])
+            for row in development["manifest"]["episodes"]
+        ] == [
+            (task, policy, 1)
+            for index, task in enumerate(DEVELOPMENT_PROFILE.tasks)
+            for policy in (("B0", "B1") if index % 2 == 0 else ("B1", "B0"))
+        ] + [
+            (task, policy, 2)
+            for index, task in enumerate(DEVELOPMENT_PROFILE.repeat_tasks,
+                                         start=len(DEVELOPMENT_PROFILE.tasks))
+            for policy in (("B0", "B1") if index % 2 == 0 else ("B1", "B0"))
+        ],
+        "development_repetitions_are_predeclared": [
+            row["task_id"] for row in development["manifest"]["episodes"]
+            if row["repetition"] == 2 and row["policy_id"] == "B0"
+        ] == ["D03", "D05", "D07", "D11"],
+        "development_arm_order_alternates": [
+            tuple(row["policy_id"] for row in development["manifest"]["episodes"][offset:offset + 2])
+            for offset in range(0, 32, 2)
+        ] == [("B0", "B1") if pair % 2 == 0 else ("B1", "B0") for pair in range(16)],
         "fixed_cost_ceilings": (
             checkpoint["manifest"]["cost"]["episode_total_cap_usd"] == 24.0
             and checkpoint["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 26.0
             and continuation["manifest"]["cost"]["episode_total_cap_usd"] == 72.0
             and continuation["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 74.0
+            and development["manifest"]["cost"]["episode_total_cap_usd"] == 128.0
+            and development["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 140.0
         ),
         "exact_authorisation_required": validate_authorisation(
             continuation["authorisation_path"], continuation["manifest"])[0]
         and not validate_authorisation(tampered_path, continuation["manifest"])[0],
         "authorisation_cannot_cross_profiles": not validate_authorisation(
-            checkpoint["authorisation_path"], continuation["manifest"])[0],
+            checkpoint["authorisation_path"], continuation["manifest"])[0]
+        and not validate_authorisation(checkpoint["authorisation_path"], development["manifest"])[0],
         "offline_campaigns_complete_once": all(
             run["result"]["status"] == "completed"
             and len(run["result"]["episodes"]) == len(run["profile"].episodes)
@@ -373,7 +476,7 @@ def run_qualification(work: Path) -> dict:
         ),
     }
     return {
-        "schema_version": 1, "mode": "offline-pilot-preflight-v1",
+        "schema_version": 2, "mode": "offline-paid-evaluation-preflight-v2",
         "offline_only": True, "model_calls": 0,
         "result": "PASS" if all(checks.values()) else "FAIL", "checks": checks,
         "limits": [
@@ -422,8 +525,30 @@ def write_preparation(manifest_path: Path, report_path: Path,
             "Anthropic through the local Claude CLI. Task calls request Claude Sonnet 5 or",
             "Claude Opus 5. B2 can also invoke the frozen read-only Controller roles.", "",
         ])
-    lines.extend(["| # | Task | Policy | Episode cap |", "| -: | :--- | :--- | ---: |"])
-    lines.extend(f"| {row['sequence']} | {row['task_id']} | {row['policy_id']} | USD {row['budget_usd']:.2f} |"
+    if profile is DEVELOPMENT_PROFILE:
+        projection = value["cost"]["measured_projection"]
+        lines.extend([
+            "## Measured cost context", "",
+            f"The policy-mean pilot extrapolation is **USD {projection['point_estimate_usd']:.9f}**.",
+            f"Applying the highest single pilot episode to all 32 episodes gives **USD "
+            f"{projection['observed_max_extrapolation_usd']:.9f}**. The pilot is small, so both",
+            "figures are planning evidence rather than billing limits. The exact USD 140",
+            "ceiling remains authoritative because every episode retains its USD 4",
+            "failure-path allowance and USD 12 remains separate campaign headroom.", "",
+            "## Outbound data and destination", "",
+            "Execution sends the synthetic D01-D12 fixture issues, public checks, source",
+            "files read by an agent and runtime observations to Anthropic through the local",
+            "Claude CLI. Task calls request Claude Sonnet 5 or Claude Opus 5. B1 can invoke",
+            "the frozen read-only Controller roles when its observable trigger fires.", "",
+            "## Scheduling", "",
+            "Episodes run serially in adjacent task pairs. The first policy alternates by",
+            "pair to reduce time-order bias. D03, D05, D07 and D11 repeats are fixed before",
+            "execution and cannot be selected from favourable first-run outcomes.", "",
+        ])
+    lines.extend(["| # | Task | Policy | Repetition | Episode cap |",
+                  "| -: | :--- | :--- | ---: | ---: |"])
+    lines.extend(f"| {row['sequence']} | {row['task_id']} | {row['policy_id']} | "
+                 f"{row['repetition']} | USD {row['budget_usd']:.2f} |"
                  for row in value["episodes"])
     lines.extend(["", "## Stop conditions", ""])
     lines.extend(f"- {item}." for item in value["stop_conditions"])
@@ -443,7 +568,7 @@ def validate_evidence(path: Path) -> tuple[bool, str]:
     ok = bool(recorded == digest(value) and value.get("result") == "PASS"
               and value.get("offline_only") is True and value.get("model_calls") == 0
               and value.get("implementation_sha256") == file_sha256(Path(__file__))
-              and len(checks) == 7 and all(checks.values()))
+              and len(checks) == 10 and all(checks.values()))
     return ok, f"mode={value.get('mode')}; digest={'valid' if recorded == digest(value) else 'invalid'}"
 
 
@@ -478,13 +603,14 @@ def main(argv: list[str]) -> int:
             value = run_qualification(Path(folder))
         value.update({"recorded_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
                       "host": platform.node(), "implementation_sha256": file_sha256(Path(__file__))})
-        args.evidence_report.write_text(render_report(value, "Paid pilot preflight qualification"),
+        args.evidence_report.write_text(
+            render_report(value, "Paid evaluation preflight qualification"),
                                         encoding="utf-8", newline="\n")
         value["report"] = {"path": args.evidence_report.relative_to(ROOT).as_posix(),
                            "sha256": file_sha256(args.evidence_report)}
         value["evidence_sha256"] = digest(value)
         evaluation_runner.atomic_json(args.evidence, value)
-        print(f"{value['result']}: pilot preflight, 0 model calls")
+        print(f"{value['result']}: paid evaluation preflight, 0 model calls")
         return 0 if value["result"] == "PASS" else 1
     if args.check:
         ok, detail = validate_evidence(args.evidence)

@@ -504,3 +504,19 @@ policy-specific failures. This supports a reserved comparison, not a claim of
 uncontaminated model evaluation. Evidence is
 `test/results/2026-09-18-realworld-corpus.json` and the neighbouring Markdown
 report.
+
+## W07 development preflight qualification, 2026-09-18
+
+Observed offline with zero model calls: the paid-evaluation launcher now fixes
+32 W07 episodes covering D01-D12 under B0 and B1 plus both arms for the
+predeclared D03, D05, D07 and D11 repetitions. Adjacent task pairs alternate
+which policy runs first. Fake campaigns complete once, retain exact per-episode
+accounting and make no calls when resumed. Pilot approvals fail validation
+against the W07 profile, and changed candidate, manifest or ceiling values are
+rejected.
+
+The pilot policy means project USD 2.084651012 for the fixed schedule. Applying
+the highest observed pilot episode, USD 0.4100627, to every W07 episode gives
+USD 13.1220064. The authorised risk envelope remains USD 140: 32 independent
+USD 4 episode caps plus USD 12 separate headroom. No W07 provider call has run,
+and neither cost extrapolation is a billing guarantee.

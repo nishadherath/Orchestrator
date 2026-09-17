@@ -214,12 +214,12 @@ def valid_pilot_preflight_evidence() -> tuple[bool, str | None, dict]:
     report = value.get("report") or {}
     valid = bool(
         valid and PILOT_RUNNER.is_file() and PILOT_REPORT.is_file()
-        and value.get("mode") == "offline-pilot-preflight-v1"
+        and value.get("mode") == "offline-paid-evaluation-preflight-v2"
         and value.get("offline_only") is True and value.get("model_calls") == 0
         and value.get("implementation_sha256") == sha256(PILOT_RUNNER)
         and report.get("path") == PILOT_REPORT.relative_to(ROOT).as_posix()
         and report.get("sha256") == sha256(PILOT_REPORT)
-        and len(checks) == 7 and all(checks.values())
+        and len(checks) == 10 and all(checks.values())
     )
     return valid, evidence_digest, value
 
@@ -298,7 +298,7 @@ def candidate() -> dict:
         blockers.append("pilot profile preflight and authorisation boundary are missing or invalid")
     if not corpus_valid:
         blockers.append("complete development and reserved corpus evidence is missing or invalid")
-    blockers.append("paid W07 development comparison has no frozen manifest or authorisation")
+    blockers.append("paid W07 development comparison has not been authorised")
     return {
         "schema_version": 1,
         "created_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),

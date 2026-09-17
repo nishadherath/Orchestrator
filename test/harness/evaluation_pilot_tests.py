@@ -47,7 +47,7 @@ class PilotTests(unittest.TestCase):
             valid, _, _ = self.subject.validate_authorisation(path, manifest)
         self.assertFalse(valid)
 
-    def test_profiles_are_disjoint_complete_and_separately_authorised(self):
+    def test_profiles_are_fixed_complete_and_separately_authorised(self):
         candidate = {
             "candidate_sha256": "a" * 64, "source_revision": "offline",
             "source_dirty": False, "bundle": {"version": "offline"},
@@ -57,6 +57,8 @@ class PilotTests(unittest.TestCase):
             lambda: candidate, self.subject.CHECKPOINT_PROFILE)
         continuation = self.subject.pilot_manifest(
             lambda: candidate, self.subject.CONTINUATION_PROFILE)
+        development = self.subject.pilot_manifest(
+            lambda: candidate, self.subject.DEVELOPMENT_PROFILE)
         checkpoint_ids = {row["episode_id"] for row in checkpoint["episodes"]}
         continuation_ids = {row["episode_id"] for row in continuation["episodes"]}
         self.assertEqual(len(checkpoint_ids), 6)
@@ -65,6 +67,30 @@ class PilotTests(unittest.TestCase):
         self.assertEqual([row["sequence"] for row in continuation["episodes"]],
                          list(range(7, 25)))
         self.assertEqual(continuation["cost"]["combined_authorisation_ceiling_usd"], 74.0)
+        development_rows = development["episodes"]
+        self.assertEqual(len(development_rows), 32)
+        self.assertEqual([row["sequence"] for row in development_rows], list(range(25, 57)))
+        self.assertEqual(
+            [(row["task_id"], row["policy_id"], row["repetition"])
+             for row in development_rows[:4]],
+            [("D01", "B0", 1), ("D01", "B1", 1),
+             ("D02", "B1", 1), ("D02", "B0", 1)],
+        )
+        repeated = [row for row in development_rows if row["repetition"] == 2]
+        self.assertEqual(
+            [(row["task_id"], row["policy_id"]) for row in repeated],
+            [("D03", "B0"), ("D03", "B1"),
+             ("D05", "B1"), ("D05", "B0"),
+             ("D07", "B0"), ("D07", "B1"),
+             ("D11", "B1"), ("D11", "B0")],
+        )
+        self.assertEqual(development["cost"]["episode_total_cap_usd"], 128.0)
+        self.assertEqual(development["cost"]["combined_authorisation_ceiling_usd"], 140.0)
+        self.assertAlmostEqual(
+            development["cost"]["measured_projection"]["point_estimate_usd"],
+            2.084651012,
+            places=9,
+        )
         authorisation = {
             "schema_version": 1, "decision": "approved",
             "candidate_sha256": checkpoint["candidate_sha256"],
@@ -77,6 +103,7 @@ class PilotTests(unittest.TestCase):
             path.write_text(json.dumps(authorisation), encoding="utf-8")
             self.assertTrue(self.subject.validate_authorisation(path, checkpoint)[0])
             self.assertFalse(self.subject.validate_authorisation(path, continuation)[0])
+            self.assertFalse(self.subject.validate_authorisation(path, development)[0])
 
     def test_recorded_evidence_rejects_tampering(self):
         source = json.loads(self.subject.DEFAULT_EVIDENCE.read_text(encoding="utf-8"))

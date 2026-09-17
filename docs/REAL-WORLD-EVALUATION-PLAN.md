@@ -600,10 +600,18 @@ session could access arm-labelled pilot outcomes, so strict H-fixture author
 blinding is not claimed; construction stayed within the frozen pre-pilot
 blueprints. Evidence is `test/results/2026-09-18-realworld-corpus.json`.
 
-W07-W08 remain unstarted. The next action is W07 preparation: fix the 32
+W07 execution and W08 remain unstarted. The next action is W07 preparation: fix the 32
 development episodes for B0 and B1, freeze triggers and the evaluation schedule,
 reconcile a current cost projection, then request a new exact authorisation.
 No W07 call is authorised by the completed pilot approvals.
+
+W07 preparation completed offline on 2026-09-18. The launcher fixes D01-D12
+once per B0/B1 arm and the predeclared D03, D05, D07 and D11 repetitions once
+more per arm. Serial pairs alternate which policy runs first. The pilot policy
+means give a USD 2.084651012 point estimate; applying the highest pilot episode
+to every W07 run gives USD 13.1220064. The USD 140 authorisation ceiling remains
+the binding risk limit. Execution is pending a clean candidate-bound manifest
+and exact operator approval; W08 remains unstarted.
 
 ## 11. Later extensions, only after the small campaign earns them
 

@@ -555,6 +555,15 @@ outcomes; the fixtures remained constrained to the frozen pre-pilot blueprints.
 W07 remains unauthorised. Evidence is
 `test/results/2026-09-18-realworld-corpus.json`.
 
+W07 preparation, 2026-09-18: the launcher now defines the exact 32-episode
+development schedule for B0 and B1. D01-D12 run once per arm; D03, D05, D07 and
+D11 then run once more per arm. Policy-first order alternates across pairs, and
+historical approvals cannot cross into this profile. Offline preflight passes
+with zero model calls. The measured point projection is USD 2.084651012 and the
+all-episodes-at-the-pilot-maximum extrapolation is USD 13.1220064. Execution
+remains blocked until the clean candidate, manifest and exact USD 140 approval
+are present.
+
 ## Verification, records and stage completion
 
 For every implemented stage:

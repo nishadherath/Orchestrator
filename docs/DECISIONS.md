@@ -5464,3 +5464,26 @@ separation and adversarial variants make the corpus reproducible and resistant
 to superficial fixture solutions. The limitation prevents stronger validity
 claims than the process supports. A separately authorised W07 boundary prevents
 historical pilot approval from carrying into a larger paid comparison.
+
+## D105. Fix W07 as a 32-episode paired B0/B1 comparison, 2026-09-18
+
+Decision: compare the retained B0 fixed-fallback baseline with the selected B1
+incumbent on D01-D12, followed by one predeclared repetition of D03, D05, D07
+and D11 under both policies. Run the 16 task pairs serially and alternate which
+policy runs first. Number these episodes 25-56 after the completed pilot. Keep
+the established USD 4 per-episode allowance, USD 128 episode envelope and USD
+12 separate headroom, requiring an exact candidate-and-manifest-bound USD 140
+authorisation before execution.
+
+Use the complete pilot's per-policy mean cost only as a point projection. Also
+show an extrapolation that applies the highest observed pilot episode to all 32
+W07 episodes. Neither estimate replaces the hard envelope. Keep B0/B1 policy,
+prompt, grader, dependency and bundle versions frozen during execution. Select
+the W08 candidate from the complete development evidence and freeze the
+reserved schedule before inspecting any H-task result.
+
+Why: the fixed repetitions prevent favourable-task selection, while alternating
+the first arm reduces a simple service-load ordering bias. Preserving individual
+episode allowances keeps failure and escalation paths observable even though
+measured pilot spending was much lower. Exact authorisation prevents either
+completed pilot approval from carrying into W07.
