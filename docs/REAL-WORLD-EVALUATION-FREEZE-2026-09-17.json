@@ -1,11 +1,10 @@
 {
   "blockers": [
-    "candidate source tree is dirty",
     "project licence remains an operator decision",
     "paid pilot has not been authorised"
   ],
   "bound_files": {
-    "dist/bundle-manifest.json": "645f14d072208e25fc80ca824b996c14df0cca231770cc2b89ca25015d1fa5d1",
+    "dist/bundle-manifest.json": "5d053be8e06ba440a8e3e146b5c363aa1e023f5681f5d98f7d92f01b19383f74",
     "docs/REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json": "2233221c56218ffa2e593bf1ba0e481b88e6af81e50b97f4feddb7ffea5ee1a3",
     "src/System/schemas/BudgetEntry.schema.json": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
     "src/System/schemas/RoutingLedgerEntry.schema.json": "04e2cc54f53e37adabbc69c692801321e3bac4e93b1ff2da546ee6dbfd40f1c9",
@@ -164,7 +163,7 @@
     "test/results/2026-09-17-live-episode-integration.md": "dd0b3e7ff3979bcb912d6aa759e097a5bd13a2a89687134f4311111a83bfa96f",
     "test/results/2026-09-17-live-worker-adapter.json": "41883d58464dca1f81c78cf745a99a1650716806ff8af2677e820f2246e266ad",
     "test/results/2026-09-17-live-worker-adapter.md": "37327a28f2b52fd8ba443811546101ef889aa667914270039ea276ce3010c912",
-    "test/results/2026-09-17-realworld-isolation.json": "d5b65a56a0852a067e5558b2549bab95f3e1152f4df748d25736c36a232c1334",
+    "test/results/2026-09-17-realworld-isolation.json": "d02bfbc511af17129db4ad2d83a04c60817a3f4793d1470fecbad9be07009b77",
     "test/results/2026-09-17-realworld-runner.json": "7855c89c6c36a0796c08eec36a4738fd5a88a32d3fbdf4e841c184686791d3d1",
     "test/results/2026-09-17-realworld-runner.md": "90533a52c3605c0e4177cafb7fc85c714a5d367f4b84b40c9cd59706b93a0f43",
     "test/results/2026-09-18-live-controller-adapter.json": "0f4d8dc146ece6da68151b820ab0f08e3df7ba000bf0af67acd8ec45c0b3b4a5",
@@ -186,12 +185,12 @@
     "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1"
   },
   "bundle": {
-    "manifest_sha256": "645f14d072208e25fc80ca824b996c14df0cca231770cc2b89ca25015d1fa5d1",
+    "manifest_sha256": "5d053be8e06ba440a8e3e146b5c363aa1e023f5681f5d98f7d92f01b19383f74",
     "payload_files": 50,
-    "version": "2026-09-18-a55ea63-dirty"
+    "version": "2026-09-18-98315bb"
   },
   "campaign": "realworld-v1",
-  "candidate_sha256": "727fd152975d72551174c4b6dad56463a87d82ee8dedad56498baa838801b387",
+  "candidate_sha256": "0bca4b209ab553e6962b3a830ed2b14e831da5f5a63310f1c7f95b1c0934f7de",
   "contracts": {
     "acceptance": "acceptance-v2",
     "active_model_timeout_seconds": 900,
@@ -200,7 +199,7 @@
     "external_grader_timeout_seconds": 120,
     "routing_ledger_schema": 2
   },
-  "created_at": "2026-09-18T06:35:27+10:00",
+  "created_at": "2026-09-18T06:40:50+10:00",
   "episode_runner": {
     "evidence": "test/results/2026-09-17-realworld-runner.json",
     "evidence_sha256": "febb5a22d2147239e6b4b36026eb55491502e51282f2d8d38442f544c555f24c",
@@ -210,7 +209,7 @@
   },
   "isolation": {
     "boundary": "WSL2 Linux user and mode separation",
-    "evidence_sha256": "29f442413fc7dca388333c69c221b0e916dac71f6d6bcf7b2929597cc631e5f1",
+    "evidence_sha256": "65a93612fd3cbed3007f40d53daa0b1e5dc74eec890d70892de6079ab93cde6a",
     "valid": true
   },
   "live_calibration": {
@@ -336,6 +335,6 @@
     "schema_version": 1
   },
   "schema_version": 1,
-  "source_dirty": true,
-  "source_revision": "a55ea63b12551f1771de0d66bfc33d881b27a503"
+  "source_dirty": false,
+  "source_revision": "171d9b69048e7639380f68de4f21ce236f13e6cf"
 }

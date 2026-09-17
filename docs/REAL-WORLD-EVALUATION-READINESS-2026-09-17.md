@@ -137,3 +137,10 @@ episodes after restart and stops the sequence after the first accounting,
 identity, event-chain, oracle-integrity or preflight failure. The qualification
 evidence is `test/results/2026-09-18-pilot-preflight.json`; no model call was
 made. The active authorisation file has deliberately not been created.
+
+Release-candidate sealing on 2026-09-18 produced clean bundle stamp
+`2026-09-18-98315bb`, refreshed the WSL2 isolation proof, and froze candidate
+`0bca4b209ab553e6962b3a830ed2b14e831da5f5a63310f1c7f95b1c0934f7de`.
+The concrete matrix and stop conditions are in
+`docs/REAL-WORLD-PILOT-6-EPISODE-2026-09-18.md`. The remaining candidate
+blockers are the project licence decision and exact paid-pilot authorisation.

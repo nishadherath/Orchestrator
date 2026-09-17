@@ -1,0 +1,70 @@
+{
+  "bundle_version": "2026-09-18-98315bb",
+  "campaign": "realworld-v1-six-episode-checkpoint",
+  "candidate_sha256": "0bca4b209ab553e6962b3a830ed2b14e831da5f5a63310f1c7f95b1c0934f7de",
+  "cost": {
+    "basis": "six fixed episode reservations plus separate calibration headroom",
+    "calibration_headroom_usd": 2.0,
+    "combined_authorisation_ceiling_usd": 26.0,
+    "currency": "USD",
+    "episode_count": 6,
+    "episode_total_cap_usd": 24.0,
+    "per_episode_cap_usd": 4.0
+  },
+  "episodes": [
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-01-d01-b0",
+      "policy_id": "B0",
+      "sequence": 1,
+      "task_id": "D01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-02-d01-b1",
+      "policy_id": "B1",
+      "sequence": 2,
+      "task_id": "D01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-03-d01-b2",
+      "policy_id": "B2",
+      "sequence": 3,
+      "task_id": "D01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-04-d11-b0",
+      "policy_id": "B0",
+      "sequence": 4,
+      "task_id": "D11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-05-d11-b1",
+      "policy_id": "B1",
+      "sequence": 5,
+      "task_id": "D11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-06-d11-b2",
+      "policy_id": "B2",
+      "sequence": 6,
+      "task_id": "D11"
+    }
+  ],
+  "isolation_evidence_sha256": "65a93612fd3cbed3007f40d53daa0b1e5dc74eec890d70892de6079ab93cde6a",
+  "manifest_sha256": "b754eaf06f4371fa1b783d5281340588e9d36d55b17226fbeb388826372bc521",
+  "review_after": "all six episodes complete, or immediately after the first stop condition",
+  "schema_version": 1,
+  "source_revision": "171d9b69048e7639380f68de4f21ce236f13e6cf",
+  "stop_conditions": [
+    "candidate, bundle, isolation or authorisation does not validate",
+    "an episode stops with unresolved provider accounting",
+    "a served task model does not match the exact required model",
+    "the event chain, external grade or protected-oracle check is invalid",
+    "the fixed USD 24 episode envelope or USD 26 combined ceiling would be exceeded"
+  ]
+}
