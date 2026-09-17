@@ -1,6 +1,6 @@
 # Six-episode paid pilot approval package
 
-Candidate: `0bca4b209ab553e6962b3a830ed2b14e831da5f5a63310f1c7f95b1c0934f7de`.
+Candidate: `4fd79c1577ef97ccae9430d9b5f666edf72172d0973135baa3808642e6d08dcd`.
 
 The fixed checkpoint runs D01 and D11 once under each policy B0, B1 and B2.
 Six episode reservations cap model spend at **USD 24**. Separate calibration

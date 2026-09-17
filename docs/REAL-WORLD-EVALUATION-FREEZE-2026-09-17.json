@@ -1,10 +1,10 @@
 {
   "blockers": [
-    "project licence remains an operator decision",
     "paid pilot has not been authorised"
   ],
   "bound_files": {
-    "dist/bundle-manifest.json": "5d053be8e06ba440a8e3e146b5c363aa1e023f5681f5d98f7d92f01b19383f74",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "dist/bundle-manifest.json": "20f2d4de2bcccfa084823a95169c4f833cc3b630fda1f7154324f9421feb5d82",
     "docs/REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json": "2233221c56218ffa2e593bf1ba0e481b88e6af81e50b97f4feddb7ffea5ee1a3",
     "src/System/schemas/BudgetEntry.schema.json": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
     "src/System/schemas/RoutingLedgerEntry.schema.json": "04e2cc54f53e37adabbc69c692801321e3bac4e93b1ff2da546ee6dbfd40f1c9",
@@ -163,7 +163,7 @@
     "test/results/2026-09-17-live-episode-integration.md": "dd0b3e7ff3979bcb912d6aa759e097a5bd13a2a89687134f4311111a83bfa96f",
     "test/results/2026-09-17-live-worker-adapter.json": "41883d58464dca1f81c78cf745a99a1650716806ff8af2677e820f2246e266ad",
     "test/results/2026-09-17-live-worker-adapter.md": "37327a28f2b52fd8ba443811546101ef889aa667914270039ea276ce3010c912",
-    "test/results/2026-09-17-realworld-isolation.json": "d02bfbc511af17129db4ad2d83a04c60817a3f4793d1470fecbad9be07009b77",
+    "test/results/2026-09-17-realworld-isolation.json": "5c72b24813c08d43aa9a40b5d6f8249a372ebca8fdb4aee3f0511473a8c809f2",
     "test/results/2026-09-17-realworld-runner.json": "7855c89c6c36a0796c08eec36a4738fd5a88a32d3fbdf4e841c184686791d3d1",
     "test/results/2026-09-17-realworld-runner.md": "90533a52c3605c0e4177cafb7fc85c714a5d367f4b84b40c9cd59706b93a0f43",
     "test/results/2026-09-18-live-controller-adapter.json": "0f4d8dc146ece6da68151b820ab0f08e3df7ba000bf0af67acd8ec45c0b3b4a5",
@@ -173,7 +173,7 @@
     "tools/acceptance.py": "5e38ee32b3e8b119bc9f87a23226d7dec1e4486ff35d6689adaa436b2e28145a",
     "tools/claudep.py": "73f9ce62d8c9f7233acb5c588b2c57a4e915991050b3a78fc8461fd11d151420",
     "tools/dispatch_budget.py": "7c08aef6bedbef8afa52cda093cf3e1c5c9a918ed0d43ab3eb7dd149c1e55381",
-    "tools/evaluation_freeze.py": "a5f178bb65b9429f44f61e50d0a85e6dbefd4ae193c05b8c4851910095d5e3d4",
+    "tools/evaluation_freeze.py": "5c99ea624d974d4777fded5ad13de6e89f816f5274d379589ad1493a8131e1da",
     "tools/evaluation_live_controller.py": "c5cb5ab8b0226e86ded35c02c0a413586b024cd358d7cf4d9479145946c159e3",
     "tools/evaluation_live_episode.py": "588c008225559d9d46274ebfd6947f01d7f2f6d60f8326e8b6022a0390496eb6",
     "tools/evaluation_live_worker.py": "02739a49eedcc185b3bc68892f38a5e554d385a941a04841b147f4e44a9add6c",
@@ -185,12 +185,12 @@
     "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1"
   },
   "bundle": {
-    "manifest_sha256": "5d053be8e06ba440a8e3e146b5c363aa1e023f5681f5d98f7d92f01b19383f74",
+    "manifest_sha256": "20f2d4de2bcccfa084823a95169c4f833cc3b630fda1f7154324f9421feb5d82",
     "payload_files": 50,
-    "version": "2026-09-18-98315bb"
+    "version": "2026-09-18-de8cefc"
   },
   "campaign": "realworld-v1",
-  "candidate_sha256": "0bca4b209ab553e6962b3a830ed2b14e831da5f5a63310f1c7f95b1c0934f7de",
+  "candidate_sha256": "4fd79c1577ef97ccae9430d9b5f666edf72172d0973135baa3808642e6d08dcd",
   "contracts": {
     "acceptance": "acceptance-v2",
     "active_model_timeout_seconds": 900,
@@ -199,7 +199,7 @@
     "external_grader_timeout_seconds": 120,
     "routing_ledger_schema": 2
   },
-  "created_at": "2026-09-18T06:40:50+10:00",
+  "created_at": "2026-09-18T06:54:35+10:00",
   "episode_runner": {
     "evidence": "test/results/2026-09-17-realworld-runner.json",
     "evidence_sha256": "febb5a22d2147239e6b4b36026eb55491502e51282f2d8d38442f544c555f24c",
@@ -209,7 +209,7 @@
   },
   "isolation": {
     "boundary": "WSL2 Linux user and mode separation",
-    "evidence_sha256": "65a93612fd3cbed3007f40d53daa0b1e5dc74eec890d70892de6079ab93cde6a",
+    "evidence_sha256": "189e55b4f739bd882699c8b9770759ee2dc1071abda04dcc1adc0ffd8e6b6c7f",
     "valid": true
   },
   "live_calibration": {
@@ -336,5 +336,5 @@
   },
   "schema_version": 1,
   "source_dirty": false,
-  "source_revision": "171d9b69048e7639380f68de4f21ce236f13e6cf"
+  "source_revision": "3976db5a8500bd27f1c69b998ec4d6ca10669966"
 }

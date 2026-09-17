@@ -1,7 +1,7 @@
 {
-  "bundle_version": "2026-09-18-98315bb",
+  "bundle_version": "2026-09-18-de8cefc",
   "campaign": "realworld-v1-six-episode-checkpoint",
-  "candidate_sha256": "0bca4b209ab553e6962b3a830ed2b14e831da5f5a63310f1c7f95b1c0934f7de",
+  "candidate_sha256": "4fd79c1577ef97ccae9430d9b5f666edf72172d0973135baa3808642e6d08dcd",
   "cost": {
     "basis": "six fixed episode reservations plus separate calibration headroom",
     "calibration_headroom_usd": 2.0,
@@ -55,11 +55,11 @@
       "task_id": "D11"
     }
   ],
-  "isolation_evidence_sha256": "65a93612fd3cbed3007f40d53daa0b1e5dc74eec890d70892de6079ab93cde6a",
-  "manifest_sha256": "b754eaf06f4371fa1b783d5281340588e9d36d55b17226fbeb388826372bc521",
+  "isolation_evidence_sha256": "189e55b4f739bd882699c8b9770759ee2dc1071abda04dcc1adc0ffd8e6b6c7f",
+  "manifest_sha256": "86e5fe1aec9a0d4db03ac5cf84f26e38e8ab9ce57a9e5173c583c1e324e793b7",
   "review_after": "all six episodes complete, or immediately after the first stop condition",
   "schema_version": 1,
-  "source_revision": "171d9b69048e7639380f68de4f21ce236f13e6cf",
+  "source_revision": "3976db5a8500bd27f1c69b998ec4d6ca10669966",
   "stop_conditions": [
     "candidate, bundle, isolation or authorisation does not validate",
     "an episode stops with unresolved provider accounting",
