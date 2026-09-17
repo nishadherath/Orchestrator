@@ -1,6 +1,7 @@
 # Real-world orchestration evaluation plan
 
-Date: 2026-09-17. Status: offline foundation in progress; no paid episode has run.
+Date: 2026-09-17. Status: six-episode paid instrumentation checkpoint passed;
+the remaining 18 pilot episodes require a new bound manifest and approval.
 Expands improvement 4, "Evaluate real tasks", in the
 [audit summary](AUDIT-SUMMARY-2026-09-17.md).
 
@@ -27,8 +28,8 @@ Proposed live campaign: 104 episodes, a USD 100 pilot allocation and USD 440
 maximum campaign allocation, subject to the accounting controls below. The
 working expenditure estimate is USD 110-220, conditional on the token workload
 assumptions in section 8. Stop after the pilot if it does not justify further
-work. The current implementation starts no paid experiments. The live pilot
-remains closed by the candidate freeze until every listed blocker is resolved.
+work. The first six paid episodes completed on 2026-09-18. The remaining pilot
+remains closed until its own candidate-bound manifest and approval exist.
 
 Initial coverage is Python and JavaScript maintenance, local data/services,
 verification, delegation and recovery. It does not establish readiness for
@@ -553,7 +554,12 @@ failure, timeout, cancellation, interruption and resume, identity mismatch,
 missing usage and evaluator failure across B0, B1 and B2. Two independent runs
 produce identical state fingerprints. The evidence is
 `test/results/2026-09-17-realworld-runner.json` and its readable report is the
-neighbouring Markdown file. W05's paid checkpoint has not started.
+neighbouring Markdown file. W05's six-episode paid instrumentation checkpoint
+completed on 2026-09-18. All six D01/D11 episodes passed on the first Sonnet-low
+attempt with valid identity, accounting, event chains, boundaries and hidden
+grades. Reconciled spend was USD 0.139236601. The result is recorded in
+`test/results/2026-09-18-realworld-pilot-checkpoint.json` and its neighbouring
+Markdown report.
 
 The calibration confirmed direct and spawned terminal responses, disjoint usage,
 parent/child roll-up, retained uncertain timeout accounting and the mediated
@@ -575,9 +581,13 @@ outer reservation. Scripted telemetry proves exact subtotal, token roll-up,
 identity rejection, incomplete-charge retention and actor immutability. Its
 zero-call evidence is `test/results/2026-09-18-live-controller-adapter.json`.
 
-The exact next action is to regenerate the host isolation proof and candidate
-freeze immediately before launch, record the six-episode price projection and
-obtain operator authorisation. W05-W08 paid execution remains unstarted.
+The exact next action is to prepare a candidate-bound manifest for the remaining
+18 W05 episodes across D03, D05 and D07-D10 under B0, B1 and B2. Retain the USD
+4 episode cap and a maximum USD 74 continuation envelope, comprising USD 72 of
+episode reservations and the remaining USD 2 pilot headroom. Rebuild and check
+the candidate immediately before launch, then obtain a separate exact operator
+authorisation. The first authorisation does not carry forward. W06-W08 remain
+unstarted.
 
 ## 11. Later extensions, only after the small campaign earns them
 

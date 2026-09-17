@@ -149,3 +149,23 @@ The operator selected Apache-2.0 and approved the fixed USD 26 pilot envelope on
 2026-09-18. The licence is shipped in the distribution without replacing a
 consumer project's licence. Candidate and manifest hashes must be regenerated
 after this authorised packaging change before the first paid call.
+
+## Executed checkpoint, 2026-09-18
+
+This readiness snapshot is superseded for the six-episode checkpoint. The
+post-licence candidate was frozen as
+`4fd79c1577ef97ccae9430d9b5f666edf72172d0973135baa3808642e6d08dcd`,
+the exact approval validated, and the complete 48-check harness passed at
+launch revision `1da7078`.
+
+All six D01/D11 episodes under B0, B1 and B2 completed on their first
+Sonnet-low attempt. Hidden grading, model identity, accounting, event chains,
+actor boundaries and oracle protection passed in every case. Reconciled spend
+was USD 0.139236601 of the USD 26 ceiling; no calibration headroom was used.
+See `test/results/2026-09-18-realworld-pilot-checkpoint.md` and its neighbouring
+JSON record.
+
+The checkpoint did not distinguish the policies because no task reached a
+fallback or Controller. The next launch boundary is a new manifest and approval
+for the remaining 18 W05 episodes. The completed USD 26 authorisation does not
+apply to them.

@@ -509,7 +509,20 @@ USD 2 remains separate calibration headroom. The launcher requires an exact
 USD 26 operator authorisation, checkpoints between episodes, resumes without
 repeating complete episodes and stops after the first instrumentation,
 accounting, identity or integrity failure. Offline qualification uses six fake
-episodes and makes no model calls. No active authorisation file exists.
+episodes and makes no model calls.
+
+W05 paid checkpoint result, 2026-09-18: the operator selected Apache-2.0,
+approved the exact synthetic payload, Anthropic destination and USD 26 ceiling,
+and all six episodes completed. Each passed public and hidden checks on its
+first Sonnet-low attempt. Identity, accounting, event chains, actor boundaries
+and protected oracles all reconciled; all six records are learning-eligible.
+Known spend was USD 0.139236601 and calibration headroom was unused. Aggregate
+billing retained Haiku 4.5 auxiliary overhead. Because every policy stopped at
+the common floor, this is an instrumentation pass rather than policy-comparison
+evidence. The result is
+`test/results/2026-09-18-realworld-pilot-checkpoint.json`. Stage 7.3 remains
+open for the remaining 18 W05 episodes and later comparisons; a new exact
+authorisation is required before any further paid call.
 
 ## Verification, records and stage completion
 

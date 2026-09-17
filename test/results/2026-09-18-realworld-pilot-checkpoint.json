@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "campaign": "realworld-v1-six-episode-checkpoint",
+  "result": "PASS",
+  "executed_revision": "1da7078",
+  "bundle_version": "2026-09-18-de8cefc",
+  "candidate_sha256": "4fd79c1577ef97ccae9430d9b5f666edf72172d0973135baa3808642e6d08dcd",
+  "manifest_sha256": "86e5fe1aec9a0d4db03ac5cf84f26e38e8ab9ce57a9e5173c583c1e324e793b7",
+  "authorisation_sha256": "161e07cd92b0b048cc5a8840df3b6a10ad23ff3418f162c4e976bedbb56428a3",
+  "budget": {
+    "authorised_ceiling_usd": 26.0,
+    "episode_reservation_ceiling_usd": 24.0,
+    "calibration_headroom_usd": 2.0,
+    "calibration_headroom_used_usd": 0.0,
+    "known_spend_usd": 0.139236601,
+    "unused_authorised_ceiling_usd": 25.860763399,
+    "percent_of_authorised_ceiling": 0.535525388
+  },
+  "aggregate_usage": {
+    "attempts": 6,
+    "controller_dispatches": 0,
+    "escalations": 0,
+    "input_tokens": 42,
+    "cache_creation_input_tokens": 17099,
+    "cache_read_input_tokens": 100678,
+    "output_tokens": 4347,
+    "wall_clock_seconds": 70.781,
+    "cost_source": "provider_reported"
+  },
+  "integrity": {
+    "completed_episodes": 6,
+    "accepted_hidden_grades": 6,
+    "valid_event_chains": 6,
+    "valid_model_identities": 6,
+    "complete_accounting": 6,
+    "preserved_actor_boundaries": 6,
+    "unchanged_oracles": 6,
+    "learning_eligible_episodes": 6
+  },
+  "observed_models": {
+    "requested_cells": [
+      "worker-sonnet-low"
+    ],
+    "served_task_models": [
+      "claude-sonnet-5"
+    ],
+    "auxiliary_billed_models": [
+      "claude-haiku-4-5-20251001"
+    ]
+  },
+  "episodes": [
+    {
+      "episode_id": "pilot-01-d01-b0",
+      "task_id": "D01",
+      "policy_id": "B0",
+      "sequence": ["worker-sonnet-low"],
+      "actual_model": "claude-sonnet-5",
+      "effort": "low",
+      "cost_usd": 0.0297866,
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 5635,
+      "cache_read_input_tokens": 10108,
+      "output_tokens": 404,
+      "wall_clock_seconds": 10.547,
+      "accepted": true,
+      "learning_eligible": true,
+      "ledger_sha256": "01a4b5dfbd2e796a584ad7d547587175f6d079ff152daf4e6494386fc98c433f"
+    },
+    {
+      "episode_id": "pilot-02-d01-b1",
+      "task_id": "D01",
+      "policy_id": "B1",
+      "sequence": ["worker-sonnet-low"],
+      "actual_model": "claude-sonnet-5",
+      "effort": "low",
+      "cost_usd": 0.015129,
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 1682,
+      "cache_read_input_tokens": 14050,
+      "output_tokens": 443,
+      "wall_clock_seconds": 8.14,
+      "accepted": true,
+      "learning_eligible": true,
+      "ledger_sha256": "5718cc3b9cc0894dfe511954c43a2d2229b83f71c809dd6407a10f3ef0ae49ec"
+    },
+    {
+      "episode_id": "pilot-03-d01-b2",
+      "task_id": "D01",
+      "policy_id": "B2",
+      "sequence": ["worker-sonnet-low"],
+      "actual_model": "claude-sonnet-5",
+      "effort": "low",
+      "cost_usd": 0.015738601,
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 1811,
+      "cache_read_input_tokens": 14308,
+      "output_tokens": 438,
+      "wall_clock_seconds": 7.547,
+      "accepted": true,
+      "learning_eligible": true,
+      "ledger_sha256": "8f674c793cb9bd4fafed073001352747098e4decdfe0035e586015e158a23c38"
+    },
+    {
+      "episode_id": "pilot-04-d11-b0",
+      "task_id": "D11",
+      "policy_id": "B0",
+      "sequence": ["worker-sonnet-low"],
+      "actual_model": "claude-sonnet-5",
+      "effort": "low",
+      "cost_usd": 0.0231598,
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 2375,
+      "cache_read_input_tokens": 20529,
+      "output_tokens": 836,
+      "wall_clock_seconds": 11.953,
+      "accepted": true,
+      "learning_eligible": true,
+      "ledger_sha256": "2c6353071287e17990707c2da5771332b18c9da096f220e36591a80bf8a0b9c7"
+    },
+    {
+      "episode_id": "pilot-05-d11-b1",
+      "task_id": "D11",
+      "policy_id": "B1",
+      "sequence": ["worker-sonnet-low"],
+      "actual_model": "claude-sonnet-5",
+      "effort": "low",
+      "cost_usd": 0.024156,
+      "input_tokens": 6,
+      "cache_creation_input_tokens": 2502,
+      "cache_read_input_tokens": 14335,
+      "output_tokens": 1011,
+      "wall_clock_seconds": 11.578,
+      "accepted": true,
+      "learning_eligible": true,
+      "ledger_sha256": "21c023156637698db0985d305f2dd80d0c61cec0228189999f36c7ce5927977b"
+    },
+    {
+      "episode_id": "pilot-06-d11-b2",
+      "task_id": "D11",
+      "policy_id": "B2",
+      "sequence": ["worker-sonnet-low"],
+      "actual_model": "claude-sonnet-5",
+      "effort": "low",
+      "cost_usd": 0.0312666,
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 3094,
+      "cache_read_input_tokens": 27348,
+      "output_tokens": 1215,
+      "wall_clock_seconds": 21.016,
+      "accepted": true,
+      "learning_eligible": true,
+      "ledger_sha256": "c44961b5171ca1613203a259e7214ea402cbe27b7dec376775ba211da242fc1e"
+    }
+  ],
+  "interpretation": {
+    "instrumentation_checkpoint_passed": true,
+    "policy_comparison_informative": false,
+    "reason": "All six episodes passed on the first Sonnet-low attempt, so no policy escalations or Controller paths were exercised."
+  }
+}

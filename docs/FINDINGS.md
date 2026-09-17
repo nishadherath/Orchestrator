@@ -428,3 +428,21 @@ The operator selected Apache-2.0. The repository and generated bundle now carry
 the official licence text, and the bundle manifest records the SPDX identifier.
 The installer treats the licence as support material so it remains available in
 the redistributed bundle without overwriting a consumer project's licence.
+
+## Paid six-episode instrumentation checkpoint, 2026-09-18
+
+Observed live: D01 and D11 each ran under B0, B1 and B2. All six episodes
+stopped after one `worker-sonnet-low` attempt, passed public and hidden checks,
+preserved the actor boundary and oracle, matched `claude-sonnet-5`, reconciled
+provider-reported billing and retained valid event chains. All six records are
+learning-eligible. Total spend was USD 0.139236601 and total model wall time was
+70.781 seconds. Haiku 4.5 appeared only as auxiliary aggregate billing and its
+cost remained included.
+
+The checkpoint confirms the live direct-attempt path and the accounting and
+grading instruments. It provides no evidence about policy differences, Opus
+fallback or Controller behaviour because both tasks passed at the common floor.
+The result therefore supports continuing the predeclared pilot but does not
+support a default change. Evidence is
+`test/results/2026-09-18-realworld-pilot-checkpoint.json` and the neighbouring
+Markdown report.

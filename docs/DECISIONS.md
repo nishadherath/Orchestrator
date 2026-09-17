@@ -5388,3 +5388,18 @@ Why: the operator explicitly selected Apache-2.0. Shipping the licence in the
 bundle satisfies the redistribution requirement while keeping installation into
 an existing consumer repository from claiming that repository's unrelated work.
 The explicit patent grant also fits a reusable engineering tool.
+
+## D101. Treat the six-episode result as instrumentation evidence, 2026-09-18
+
+Decision: accept the D01/D11 checkpoint as proof that the live episode boundary
+works for direct Sonnet-low attempts. Continue W05 only through a new manifest
+and separate approval for the remaining 18 episodes. Do not choose among B0,
+B1 and B2, retune routing or change defaults from the checkpoint result.
+
+Why: all six episodes passed on the common first rung. Identity, accounting,
+event chains, external grading, actor boundaries and protected oracles were
+valid, satisfying the predeclared infrastructure continuation condition at USD
+0.139236601. The policies made no different decision, and no escalation, Opus
+or Controller path ran. Two easy tasks with two observations per arm cannot
+support a policy ranking. The unused amount under the completed authorisation
+is budget headroom, not permission for a different episode set.
