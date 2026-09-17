@@ -8,13 +8,13 @@
     "evaluator_mode": "700"
   },
   "evaluator_identity": "root",
-  "evidence_sha256": "65a93612fd3cbed3007f40d53daa0b1e5dc74eec890d70892de6079ab93cde6a",
+  "evidence_sha256": "189e55b4f739bd882699c8b9770759ee2dc1071abda04dcc1adc0ffd8e6b6c7f",
   "host": "BOBS-X1",
   "limits": [
     "This proves the local filesystem boundary mechanism, not model transport or full episode execution.",
     "Every campaign host must run a fresh probe before paid execution."
   ],
-  "recorded_at": "2026-09-18T06:40:12+10:00",
+  "recorded_at": "2026-09-18T06:54:05+10:00",
   "result": "PASS",
   "schema_version": 1
 }
