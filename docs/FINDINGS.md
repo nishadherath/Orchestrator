@@ -456,3 +456,28 @@ USD 72 of episode reservations and a USD 74 combined ceiling. Profile defaults
 use separate manifest, approval and campaign paths. A valid checkpoint approval
 fails continuation validation, and resuming either complete fake campaign does
 not redispatch an episode.
+
+## Paid 18-episode continuation and pilot decision, 2026-09-18
+
+Observed live: all 18 continuation episodes completed with valid task-model
+identity, provider-reported accounting, event chains, actor boundaries and
+unchanged protected oracles. All are learning-eligible. Seven hidden grades
+passed and eleven failed. Spend was USD 1.281458307 over 21 attempts: 20 Sonnet
+5 low-effort attempts and one Opus 5 high-effort fallback. Haiku 4.5 auxiliary
+billing remained included. No Controller role ran.
+
+D05 and D07 passed under every arm. D03, D09 and D10 failed hidden grading under
+every arm after visible acceptance passed. D08-B0 failed visibly twice, invoked
+the fixed Opus fallback and passed; the independent B1 and B2 Sonnet attempts
+passed visible acceptance but failed the hidden grade. The D08 result proves the
+live Opus fallback can recover a visible failure. Its single stochastic sample
+does not prove that B0 has a stable acceptance advantage.
+
+Across the complete 24-episode pilot, B0 accepted 5/8 tasks for USD 0.674036103,
+B1 accepted 4/8 for USD 0.368289403, and B2 accepted 4/8 for USD 0.378369402.
+B1 and B2 followed the same path on every pilot task. B1 is therefore the
+conservative adaptive finalist, with B0 retained as baseline. The 32 percent
+lower measured B1 cost per accepted result supports proceeding to offline W06,
+but the sample does not support changing defaults. Evidence is
+`test/results/2026-09-18-realworld-pilot-continuation.json` and the neighbouring
+Markdown report.

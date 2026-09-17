@@ -2,10 +2,10 @@
   "version": 1,
   "execution_status": "completed",
   "result": "PASS",
-  "git": "a69b921",
-  "recorded_at": "2026-09-18T07:38:19.354099+10:00",
+  "git": "7ad19c8",
+  "recorded_at": "2026-09-18T08:08:53.533393+10:00",
   "result_path": "test/results/2026-09-18-harness.md",
-  "result_sha256": "6ddec368dd60135c31b46cb7366c93a2de0eb18639fbc64f35fa1ae64f3c43d3",
+  "result_sha256": "c5aeaea0848b93ac3c3bfe94f8e46337b39abade99eba651946684968ce7f7b5",
   "checks": [
     {
       "id": "DEF",
@@ -107,7 +107,7 @@
       "id": "PROSE",
       "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
       "status": "PASS",
-      "detail": "347 files clean"
+      "detail": "348 files clean"
     },
     {
       "id": "PERSONA",
@@ -167,73 +167,73 @@
       "id": "DISPATCH-BUDGET",
       "covers": "Controller budget races and recovery pass",
       "status": "PASS",
-      "detail": ".............................\n----------------------------------------------------------------------\nRan 29 tests in 2.417s\n\nOK"
+      "detail": ".............................\n----------------------------------------------------------------------\nRan 29 tests in 1.949s\n\nOK"
     },
     {
       "id": "ACCEPTANCE",
       "covers": "acceptance evidence and incomplete recovery pass",
       "status": "PASS",
-      "detail": "led-001\ncontext: none\nled-001\ncontext: existing terminal event reused; verification was not rerun\n.....ledger entry 'led-001' is not pending (final_outcome already 'pass')\n.....\n----------------------------------------------------------------------\nRan 10 tests in 3.523s\n\nOK"
+      "detail": "led-001\ncontext: none\nled-001\ncontext: existing terminal event reused; verification was not rerun\n.....ledger entry 'led-001' is not pending (final_outcome already 'pass')\n.....\n----------------------------------------------------------------------\nRan 10 tests in 2.523s\n\nOK"
     },
     {
       "id": "CONTEXT",
       "covers": "prompt reduction preserves the operating contract",
       "status": "PASS",
-      "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.052s\n\nOK"
+      "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.025s\n\nOK"
     },
     {
       "id": "INSTALL",
       "covers": "transactional install, upgrade, uninstall and rollback pass",
       "status": "PASS",
-      "detail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 10.042s\n\nOK"
+      "detail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 7.486s\n\nOK"
     },
     {
       "id": "DIAGNOSTICS",
       "covers": "operational status and detailed explanation pass",
       "status": "PASS",
-      "detail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.060s\n\nOK"
+      "detail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.108s\n\nOK"
     },
     {
       "id": "REALWORLD",
       "covers": "eight real-world graders and candidate freeze pass offline",
       "status": "PASS",
-      "detail": "test_catalogue_and_adversarial_graders (__main__.RealWorldFoundationTests.test_catalogue_and_adversarial_graders) ... ok\ntest_cli_reports_json (__main__.RealWorldFoundationTests.test_cli_reports_json) ... ok\ntest_freeze_is_content_addressed_and_launch_closed (__main__.RealWorldFoundationTests.test_freeze_is_content_addressed_and_launch_closed) ... ok\ntest_recorded_wsl_isolation_boundary (__main__.RealWorldFoundationTests.test_recorded_wsl_isolation_boundary) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 44.135s\n\nOK"
+      "detail": "test_catalogue_and_adversarial_graders (__main__.RealWorldFoundationTests.test_catalogue_and_adversarial_graders) ... ok\ntest_cli_reports_json (__main__.RealWorldFoundationTests.test_cli_reports_json) ... ok\ntest_freeze_is_content_addressed_and_launch_closed (__main__.RealWorldFoundationTests.test_freeze_is_content_addressed_and_launch_closed) ... ok\ntest_recorded_wsl_isolation_boundary (__main__.RealWorldFoundationTests.test_recorded_wsl_isolation_boundary) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 37.006s\n\nOK"
     },
     {
       "id": "EPISODE",
       "covers": "offline episode checkpoint and deterministic replay pass",
       "status": "PASS",
-      "detail": "test_event_chain_rejects_tampering (__main__.EvaluationRunnerTests.test_event_chain_rejects_tampering) ... ok\ntest_evidence_digest_rejects_tampering (__main__.EvaluationRunnerTests.test_evidence_digest_rejects_tampering) ... ok\ntest_interruption_resumes_without_redispatch (__main__.EvaluationRunnerTests.test_interruption_resumes_without_redispatch) ... ok\ntest_qualification_covers_failure_and_accounting_paths (__main__.EvaluationRunnerTests.test_qualification_covers_failure_and_accounting_paths) ... ok\ntest_transition_journal_recovers_after_append_failure (__main__.EvaluationRunnerTests.test_transition_journal_recovers_after_append_failure) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 13.731s\n\nOK\n\nPASS: mode=offline-fake-worker-v1; digest=valid"
+      "detail": "test_event_chain_rejects_tampering (__main__.EvaluationRunnerTests.test_event_chain_rejects_tampering) ... ok\ntest_evidence_digest_rejects_tampering (__main__.EvaluationRunnerTests.test_evidence_digest_rejects_tampering) ... ok\ntest_interruption_resumes_without_redispatch (__main__.EvaluationRunnerTests.test_interruption_resumes_without_redispatch) ... ok\ntest_qualification_covers_failure_and_accounting_paths (__main__.EvaluationRunnerTests.test_qualification_covers_failure_and_accounting_paths) ... ok\ntest_transition_journal_recovers_after_append_failure (__main__.EvaluationRunnerTests.test_transition_journal_recovers_after_append_failure) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 11.522s\n\nOK\n\nPASS: mode=offline-fake-worker-v1; digest=valid"
     },
     {
       "id": "CALIBRATE",
       "covers": "live identity, billing and timeout evidence validates offline",
       "status": "PASS",
-      "detail": "test_evidence_validation_rejects_tampering (__main__.LiveCalibrationTests.test_evidence_validation_rejects_tampering) ... ok\ntest_rollup_detects_descendant_usage (__main__.LiveCalibrationTests.test_rollup_detects_descendant_usage) ... ok\ntest_unknown_usage_stays_unknown (__main__.LiveCalibrationTests.test_unknown_usage_stays_unknown) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.192s\n\nOK\n\ntest_invalid_stream_line_is_counted (__main__.AdjudicationTests.test_invalid_stream_line_is_counted) ... ok\ntest_stream_attributes_root_worker_and_auxiliary_billing (__main__.AdjudicationTests.test_stream_attributes_root_worker_and_auxiliary_billing) ... ok\ntest_validation_rejects_tampering (__main__.AdjudicationTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.061s\n\nOK\n\nPASS: digest=valid; result=PASS"
+      "detail": "test_evidence_validation_rejects_tampering (__main__.LiveCalibrationTests.test_evidence_validation_rejects_tampering) ... ok\ntest_rollup_detects_descendant_usage (__main__.LiveCalibrationTests.test_rollup_detects_descendant_usage) ... ok\ntest_unknown_usage_stays_unknown (__main__.LiveCalibrationTests.test_unknown_usage_stays_unknown) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.104s\n\nOK\n\ntest_invalid_stream_line_is_counted (__main__.AdjudicationTests.test_invalid_stream_line_is_counted) ... ok\ntest_stream_attributes_root_worker_and_auxiliary_billing (__main__.AdjudicationTests.test_stream_attributes_root_worker_and_auxiliary_billing) ... ok\ntest_validation_rejects_tampering (__main__.AdjudicationTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.045s\n\nOK\n\nPASS: digest=valid; result=PASS"
     },
     {
       "id": "LIVE-WORKER",
       "covers": "live attempt adapter qualifies without model calls",
       "status": "PASS",
-      "detail": "test_command_is_exact_model_restricted_and_tool_minimal (__main__.LiveWorkerTests.test_command_is_exact_model_restricted_and_tool_minimal) ... ok\ntest_qualification_passes_without_model_calls (__main__.LiveWorkerTests.test_qualification_passes_without_model_calls) ... ok\ntest_stream_keeps_auxiliary_billing_separate (__main__.LiveWorkerTests.test_stream_keeps_auxiliary_billing_separate) ... ok\ntest_timeout_never_becomes_zero_cost (__main__.LiveWorkerTests.test_timeout_never_becomes_zero_cost) ... ok\ntest_validation_rejects_tampering (__main__.LiveWorkerTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.398s\n\nOK\n\nPASS: mode=offline-fake-transport-v1; digest=valid"
+      "detail": "test_command_is_exact_model_restricted_and_tool_minimal (__main__.LiveWorkerTests.test_command_is_exact_model_restricted_and_tool_minimal) ... ok\ntest_qualification_passes_without_model_calls (__main__.LiveWorkerTests.test_qualification_passes_without_model_calls) ... ok\ntest_stream_keeps_auxiliary_billing_separate (__main__.LiveWorkerTests.test_stream_keeps_auxiliary_billing_separate) ... ok\ntest_timeout_never_becomes_zero_cost (__main__.LiveWorkerTests.test_timeout_never_becomes_zero_cost) ... ok\ntest_validation_rejects_tampering (__main__.LiveWorkerTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.338s\n\nOK\n\nPASS: mode=offline-fake-transport-v1; digest=valid"
     },
     {
       "id": "LIVE-CONTROLLER",
       "covers": "live Controller adapter qualifies without model calls",
       "status": "PASS",
-      "detail": "test_duplicate_workspace_refuses_redispatch (__main__.LiveControllerTests.test_duplicate_workspace_refuses_redispatch) ... ok\ntest_qualification_covers_nested_accounting_without_model_calls (__main__.LiveControllerTests.test_qualification_covers_nested_accounting_without_model_calls) ... ok\ntest_validation_rejects_tampering (__main__.LiveControllerTests.test_validation_rejects_tampering) ... ok\ntest_workspace_cannot_be_nested_in_actor (__main__.LiveControllerTests.test_workspace_cannot_be_nested_in_actor) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.510s\n\nOK\n\nPASS: mode=offline-injected-controller-v1; digest=valid"
+      "detail": "test_duplicate_workspace_refuses_redispatch (__main__.LiveControllerTests.test_duplicate_workspace_refuses_redispatch) ... ok\ntest_qualification_covers_nested_accounting_without_model_calls (__main__.LiveControllerTests.test_qualification_covers_nested_accounting_without_model_calls) ... ok\ntest_validation_rejects_tampering (__main__.LiveControllerTests.test_validation_rejects_tampering) ... ok\ntest_workspace_cannot_be_nested_in_actor (__main__.LiveControllerTests.test_workspace_cannot_be_nested_in_actor) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.515s\n\nOK\n\nPASS: mode=offline-injected-controller-v1; digest=valid"
     },
     {
       "id": "LIVE-EPISODE",
       "covers": "live policy and restart safety qualify without model calls",
       "status": "PASS",
-      "detail": "test_b0_has_fixed_three_worker_ceiling_and_no_controller (__main__.LiveEpisodeTests.test_b0_has_fixed_three_worker_ceiling_and_no_controller) ... ok\ntest_b2_same_hypothesis_does_not_trigger_controller (__main__.LiveEpisodeTests.test_b2_same_hypothesis_does_not_trigger_controller) ... ok\ntest_controller_absence_blocks_before_dispatch (__main__.LiveEpisodeTests.test_controller_absence_blocks_before_dispatch) ... ok\ntest_controller_identity_mismatch_blocks_after_cost_reconciliation (__main__.LiveEpisodeTests.test_controller_identity_mismatch_blocks_after_cost_reconciliation) ... ok\ntest_crash_after_budget_start_before_dispatch_event_never_redispatches (__main__.LiveEpisodeTests.test_crash_after_budget_start_before_dispatch_event_never_redispatches) ... ok\ntest_crash_recovery_retains_allowance_and_never_redispatches (__main__.LiveEpisodeTests.test_crash_recovery_retains_allowance_and_never_redispatches) ... ok\ntest_missing_cost_blocks_before_hidden_grade (__main__.LiveEpisodeTests.test_missing_cost_blocks_before_hidden_grade) ... ok\ntest_policy_executor_has_no_hidden_or_task_inputs (__main__.LiveEpisodeTests.test_policy_executor_has_no_hidden_or_task_inputs) ... ok\ntest_qualification_passes_without_model_calls (__main__.LiveEpisodeTests.test_qualification_passes_without_model_calls) ... ok\ntest_validation_rejects_tampering (__main__.LiveEpisodeTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 5.169s\n\nOK\n\nPASS: mode=offline-scripted-adapters-v1; digest=valid"
+      "detail": "test_b0_has_fixed_three_worker_ceiling_and_no_controller (__main__.LiveEpisodeTests.test_b0_has_fixed_three_worker_ceiling_and_no_controller) ... ok\ntest_b2_same_hypothesis_does_not_trigger_controller (__main__.LiveEpisodeTests.test_b2_same_hypothesis_does_not_trigger_controller) ... ok\ntest_controller_absence_blocks_before_dispatch (__main__.LiveEpisodeTests.test_controller_absence_blocks_before_dispatch) ... ok\ntest_controller_identity_mismatch_blocks_after_cost_reconciliation (__main__.LiveEpisodeTests.test_controller_identity_mismatch_blocks_after_cost_reconciliation) ... ok\ntest_crash_after_budget_start_before_dispatch_event_never_redispatches (__main__.LiveEpisodeTests.test_crash_after_budget_start_before_dispatch_event_never_redispatches) ... ok\ntest_crash_recovery_retains_allowance_and_never_redispatches (__main__.LiveEpisodeTests.test_crash_recovery_retains_allowance_and_never_redispatches) ... ok\ntest_missing_cost_blocks_before_hidden_grade (__main__.LiveEpisodeTests.test_missing_cost_blocks_before_hidden_grade) ... ok\ntest_policy_executor_has_no_hidden_or_task_inputs (__main__.LiveEpisodeTests.test_policy_executor_has_no_hidden_or_task_inputs) ... ok\ntest_qualification_passes_without_model_calls (__main__.LiveEpisodeTests.test_qualification_passes_without_model_calls) ... ok\ntest_validation_rejects_tampering (__main__.LiveEpisodeTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 3.874s\n\nOK\n\nPASS: mode=offline-scripted-adapters-v1; digest=valid"
     },
     {
       "id": "PILOT-PREFLIGHT",
       "covers": "paid pilot envelope qualifies without model calls",
       "status": "PASS",
-      "detail": "test_authorisation_template_is_deliberately_inactive (__main__.PilotTests.test_authorisation_template_is_deliberately_inactive) ... ok\ntest_offline_qualification (__main__.PilotTests.test_offline_qualification) ... ok\ntest_profiles_are_disjoint_complete_and_separately_authorised (__main__.PilotTests.test_profiles_are_disjoint_complete_and_separately_authorised) ... ok\ntest_recorded_evidence_rejects_tampering (__main__.PilotTests.test_recorded_evidence_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 2.294s\n\nOK\n\nPASS: mode=offline-pilot-preflight-v1; digest=valid"
+      "detail": "test_authorisation_template_is_deliberately_inactive (__main__.PilotTests.test_authorisation_template_is_deliberately_inactive) ... ok\ntest_offline_qualification (__main__.PilotTests.test_offline_qualification) ... ok\ntest_profiles_are_disjoint_complete_and_separately_authorised (__main__.PilotTests.test_profiles_are_disjoint_complete_and_separately_authorised) ... ok\ntest_recorded_evidence_rejects_tampering (__main__.PilotTests.test_recorded_evidence_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 1.906s\n\nOK\n\nPASS: mode=offline-pilot-preflight-v1; digest=valid"
     },
     {
       "id": "RELEASE",

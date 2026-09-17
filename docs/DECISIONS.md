@@ -5419,3 +5419,24 @@ checkpoint, keep the combined pilot allocation at USD 100 and let one offline
 qualification exercise both launch boundaries. Dynamic path defaults also
 prevent a continuation preparation command from overwriting the checkpoint
 manifest or campaign.
+
+## D103. Retain B0 and select B1 for corpus development, 2026-09-18
+
+Decision: close W05 after all 24 pilot episodes. Retain B0 as the required
+fixed-fallback baseline and select B1, the repaired incumbent policy, as the
+adaptive finalist for W06-W08. Proceed to offline W06 corpus completion. Do not
+change redistributable defaults, revise B2 or start W07 model calls from this
+pilot alone.
+
+Why: all 24 episodes had valid execution evidence and cost USD 1.420694908.
+B0 accepted 5/8 tasks for USD 0.674036103. B1 accepted 4/8 for USD 0.368289403,
+and B2 accepted 4/8 for USD 0.378369402. B1 and B2 took the same observed path
+on every task, so the small cost difference is insufficient to claim a new
+policy improvement and gives no reason to replace the incumbent with B2. B1's
+measured cost per accepted result was 32 percent lower than B0, satisfying the
+predeclared credible-cost-benefit continuation condition. B0's single extra
+acceptance came from the only Opus fallback after two visible D08 failures; one
+stochastic episode cannot establish a stable acceptance advantage. D03, D09
+and D10 passed visible checks but failed hidden grading across all arms, leaving
+no policy-visible signal for a justified trigger change. Controller execution
+therefore remains live-unverified.

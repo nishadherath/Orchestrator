@@ -531,6 +531,18 @@ offline preflight covers both profiles, rejects cross-profile approval and
 resumes complete campaigns without redispatch. The continuation manifest must
 be frozen against a clean candidate before requesting its exact USD 74 approval.
 
+W05 pilot decision, 2026-09-18: the separately authorised continuation
+completed all 18 episodes for USD 1.281458307. All identity, accounting,
+event-chain, actor-boundary and oracle checks passed. Across the complete
+24-episode pilot, B0 accepted 5/8 tasks for USD 0.674036103, B1 accepted 4/8 for
+USD 0.368289403, and B2 accepted 4/8 for USD 0.378369402. B1 and B2 took the
+same observed path on every task, so B1 remains the conservative adaptive
+finalist and B0 remains the required baseline. The measured B1 cost per
+accepted result was 32 percent below B0, satisfying the plan's cost-benefit
+condition to proceed to offline W06. No default changes are supported yet,
+Controller execution remains live-unverified, and no W07 call is authorised.
+Evidence is `test/results/2026-09-18-realworld-pilot-continuation.json`.
+
 ## Verification, records and stage completion
 
 For every implemented stage:

@@ -169,3 +169,21 @@ The checkpoint did not distinguish the policies because no task reached a
 fallback or Controller. The next launch boundary is a new manifest and approval
 for the remaining 18 W05 episodes. The completed USD 26 authorisation does not
 apply to them.
+
+## Executed continuation and W05 decision, 2026-09-18
+
+The continuation was frozen as candidate
+`ce6cf4467b0ec462202f5cf419c5845aac471d30a9956fe3382b620b60660bec`
+and separately authorised to a USD 74 ceiling. All 18 D03, D05 and D07-D10
+episodes completed for USD 1.281458307. Identity, accounting, event chains,
+actor boundaries and oracle protection passed in every episode; 7 hidden grades
+passed and 11 failed. One B0 episode exercised an Opus fallback. No Controller
+role ran.
+
+Across all 24 pilot episodes, B0 accepted 5/8 tasks for USD 0.674036103, B1
+accepted 4/8 for USD 0.368289403, and B2 accepted 4/8 for USD 0.378369402. B1
+and B2 followed identical observed paths, so B1 is the conservative adaptive
+finalist and B0 remains the fixed-fallback baseline. Proceed to offline W06;
+do not change defaults or begin paid W07 work from this pilot alone. See
+`test/results/2026-09-18-realworld-pilot-continuation.md` and its neighbouring
+JSON record.

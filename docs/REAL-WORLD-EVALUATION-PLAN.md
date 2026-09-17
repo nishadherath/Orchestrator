@@ -554,12 +554,14 @@ failure, timeout, cancellation, interruption and resume, identity mismatch,
 missing usage and evaluator failure across B0, B1 and B2. Two independent runs
 produce identical state fingerprints. The evidence is
 `test/results/2026-09-17-realworld-runner.json` and its readable report is the
-neighbouring Markdown file. W05's six-episode paid instrumentation checkpoint
-completed on 2026-09-18. All six D01/D11 episodes passed on the first Sonnet-low
-attempt with valid identity, accounting, event chains, boundaries and hidden
-grades. Reconciled spend was USD 0.139236601. The result is recorded in
-`test/results/2026-09-18-realworld-pilot-checkpoint.json` and its neighbouring
-Markdown report.
+neighbouring Markdown file. W05 completed on 2026-09-18. Its six-episode
+instrumentation checkpoint passed for USD 0.139236601, and the separately bound
+18-episode continuation completed for USD 1.281458307. All 24 episodes had
+valid identity, accounting, event chains, boundaries and protected oracles.
+Thirteen hidden grades passed. The records are
+`test/results/2026-09-18-realworld-pilot-checkpoint.json` and
+`test/results/2026-09-18-realworld-pilot-continuation.json`, with neighbouring
+Markdown reports.
 
 The calibration confirmed direct and spawned terminal responses, disjoint usage,
 parent/child roll-up, retained uncertain timeout accounting and the mediated
@@ -581,13 +583,15 @@ outer reservation. Scripted telemetry proves exact subtotal, token roll-up,
 identity rejection, incomplete-charge retention and actor immutability. Its
 zero-call evidence is `test/results/2026-09-18-live-controller-adapter.json`.
 
-The launcher and offline preflight now support a separate continuation profile
-for the remaining 18 W05 episodes across D03, D05 and D07-D10 under B0, B1 and
-B2. It retains the USD 4 episode cap and a maximum USD 74 envelope, comprising
-USD 72 of episode reservations and USD 2 headroom. The exact next action is to
-seal its candidate-bound manifest, refresh the host evidence, run the complete
-offline gate and request a separate operator authorisation. The first
-authorisation does not carry forward. W06-W08 remain unstarted.
+The complete pilot selected B1 as the adaptive finalist while retaining B0 as
+the fixed-fallback baseline. B1 and B2 each accepted 4/8 tasks and followed the
+same observed path; B1 cost USD 0.010079999 less. B0 accepted 5/8 at materially
+higher cost, with its extra pass coming from the pilot's only Opus fallback.
+B1's measured cost per accepted result was 32 percent below B0, which meets the
+predeclared cost-benefit condition to continue. This small stochastic pilot does
+not justify a default change or a B2 revision. W06-W08 remain unstarted. The
+next action is offline W06 corpus completion and sealing; paid W07 execution
+requires a new frozen manifest, current cost projection and authorisation.
 
 ## 11. Later extensions, only after the small campaign earns them
 
