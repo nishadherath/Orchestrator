@@ -1,5 +1,8 @@
 # Worker orchestration setup
 
+Licensed under the Apache License, Version 2.0. See `LICENSE` in the
+distribution root.
+
 This bundle installs a cost-routing layer for Claude Code subagents into a
 consumer project: fifteen worker definitions spanning three model classes
 (sonnet, opus, fable) at five effort levels each, and a routing document that
