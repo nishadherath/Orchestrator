@@ -1,0 +1,9 @@
+{
+  "approved_at": "2026-09-18T07:47:50.7390277+10:00",
+  "approved_by": "operator",
+  "candidate_sha256": "ce6cf4467b0ec462202f5cf419c5845aac471d30a9956fe3382b620b60660bec",
+  "decision": "approved",
+  "manifest_sha256": "537a21cbb46012923ac229d3a4f98a8dd7883cf60a67fc084e8a80c25d12b83c",
+  "maximum_authorised_usd": 74.0,
+  "schema_version": 1
+}
