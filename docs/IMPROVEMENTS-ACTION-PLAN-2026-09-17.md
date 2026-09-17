@@ -524,6 +524,13 @@ evidence. The result is
 open for the remaining 18 W05 episodes and later comparisons; a new exact
 authorisation is required before any further paid call.
 
+W05 continuation preparation, 2026-09-18: the launcher now exposes a separate
+`continuation-eighteen` profile for D03, D05 and D07-D10 under all three
+policies. Episodes 7-24 have USD 72 of reservations plus USD 2 headroom. The
+offline preflight covers both profiles, rejects cross-profile approval and
+resumes complete campaigns without redispatch. The continuation manifest must
+be frozen against a clean candidate before requesting its exact USD 74 approval.
+
 ## Verification, records and stage completion
 
 For every implemented stage:

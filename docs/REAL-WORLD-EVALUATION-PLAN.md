@@ -581,13 +581,13 @@ outer reservation. Scripted telemetry proves exact subtotal, token roll-up,
 identity rejection, incomplete-charge retention and actor immutability. Its
 zero-call evidence is `test/results/2026-09-18-live-controller-adapter.json`.
 
-The exact next action is to prepare a candidate-bound manifest for the remaining
-18 W05 episodes across D03, D05 and D07-D10 under B0, B1 and B2. Retain the USD
-4 episode cap and a maximum USD 74 continuation envelope, comprising USD 72 of
-episode reservations and the remaining USD 2 pilot headroom. Rebuild and check
-the candidate immediately before launch, then obtain a separate exact operator
-authorisation. The first authorisation does not carry forward. W06-W08 remain
-unstarted.
+The launcher and offline preflight now support a separate continuation profile
+for the remaining 18 W05 episodes across D03, D05 and D07-D10 under B0, B1 and
+B2. It retains the USD 4 episode cap and a maximum USD 74 envelope, comprising
+USD 72 of episode reservations and USD 2 headroom. The exact next action is to
+seal its candidate-bound manifest, refresh the host evidence, run the complete
+offline gate and request a separate operator authorisation. The first
+authorisation does not carry forward. W06-W08 remain unstarted.
 
 ## 11. Later extensions, only after the small campaign earns them
 

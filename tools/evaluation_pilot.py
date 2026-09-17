@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Prepare, validate and execute the authorised six-episode live pilot.
+"""Prepare, validate and execute an authorised live-pilot checkpoint.
 
 Preparation and qualification make no model calls. Execution is unavailable
 without an exact operator authorisation file bound to the current candidate
-and manifest. The fixed six episode caps sum to USD 24; USD 2 of calibration
-headroom is outside this launcher, giving a combined approval ceiling of USD 26.
+and manifest. Two fixed profiles separate the completed six-episode
+instrumentation checkpoint from the remaining eighteen pilot episodes.
 """
 from __future__ import annotations
 
@@ -32,18 +32,67 @@ DEFAULT_REPORT = ROOT / "docs" / "REAL-WORLD-PILOT-6-EPISODE-2026-09-18.md"
 DEFAULT_AUTHORISATION = ROOT / "docs" / "REAL-WORLD-PILOT-AUTHORISATION.json"
 AUTHORISATION_TEMPLATE = ROOT / "docs" / "REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json"
 DEFAULT_CAMPAIGN_ROOT = ROOT / "pilot-runs" / "realworld-v1-six-episode"
+CONTINUATION_MANIFEST = ROOT / "docs" / "REAL-WORLD-PILOT-18-EPISODE-2026-09-18.json"
+CONTINUATION_REPORT = ROOT / "docs" / "REAL-WORLD-PILOT-18-EPISODE-2026-09-18.md"
+CONTINUATION_AUTHORISATION = ROOT / "docs" / "REAL-WORLD-PILOT-CONTINUATION-AUTHORISATION.json"
+CONTINUATION_CAMPAIGN_ROOT = ROOT / "pilot-runs" / "realworld-v1-remaining-eighteen"
 DEFAULT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
 DEFAULT_EVIDENCE_REPORT = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.md"
 EPISODE_BUDGET_USD = 4.0
-EPISODE_TOTAL_USD = 24.0
-CALIBRATION_HEADROOM_USD = 2.0
-TOTAL_CEILING_USD = 26.0
-EPISODES = tuple(
-    (f"pilot-{index:02d}-{task.lower()}-{policy.lower()}", task, policy)
-    for index, (task, policy) in enumerate(
-        ((task, policy) for task in ("D01", "D11") for policy in ("B0", "B1", "B2")), 1
-    )
+
+
+@dataclasses.dataclass(frozen=True)
+class PilotProfile:
+    key: str
+    campaign: str
+    title: str
+    tasks: tuple[str, ...]
+    sequence_start: int
+    calibration_headroom_usd: float
+    description: str
+
+    @property
+    def episodes(self) -> tuple[tuple[int, str, str, str], ...]:
+        rows = ((task, policy) for task in self.tasks for policy in ("B0", "B1", "B2"))
+        return tuple(
+            (sequence, f"pilot-{sequence:02d}-{task.lower()}-{policy.lower()}", task, policy)
+            for sequence, (task, policy) in enumerate(rows, self.sequence_start)
+        )
+
+    @property
+    def episode_total_usd(self) -> float:
+        return len(self.episodes) * EPISODE_BUDGET_USD
+
+    @property
+    def total_ceiling_usd(self) -> float:
+        return self.episode_total_usd + self.calibration_headroom_usd
+
+
+CHECKPOINT_PROFILE = PilotProfile(
+    key="checkpoint-six",
+    campaign="realworld-v1-six-episode-checkpoint",
+    title="Six-episode paid pilot approval package",
+    tasks=("D01", "D11"),
+    sequence_start=1,
+    calibration_headroom_usd=2.0,
+    description="D01 and D11 once under each policy B0, B1 and B2",
 )
+CONTINUATION_PROFILE = PilotProfile(
+    key="continuation-eighteen",
+    campaign="realworld-v1-remaining-eighteen",
+    title="Remaining eighteen-episode paid pilot approval package",
+    tasks=("D03", "D05", "D07", "D08", "D09", "D10"),
+    sequence_start=7,
+    calibration_headroom_usd=2.0,
+    description="D03, D05 and D07-D10 once under each policy B0, B1 and B2",
+)
+PROFILES = {profile.key: profile for profile in (CHECKPOINT_PROFILE, CONTINUATION_PROFILE)}
+PROFILE_PATHS = {
+    CHECKPOINT_PROFILE.key: (DEFAULT_MANIFEST, DEFAULT_REPORT, DEFAULT_AUTHORISATION,
+                             DEFAULT_CAMPAIGN_ROOT),
+    CONTINUATION_PROFILE.key: (CONTINUATION_MANIFEST, CONTINUATION_REPORT,
+                               CONTINUATION_AUTHORISATION, CONTINUATION_CAMPAIGN_ROOT),
+}
 
 
 class PilotError(RuntimeError):
@@ -63,49 +112,54 @@ def file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def pilot_manifest(candidate_fn: Callable[[], dict] = evaluation_freeze.candidate) -> dict:
+def pilot_manifest(candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
+                   profile: PilotProfile = CHECKPOINT_PROFILE) -> dict:
     freeze = candidate_fn()
     value = {
         "schema_version": 1,
-        "campaign": "realworld-v1-six-episode-checkpoint",
+        "profile": profile.key,
+        "campaign": profile.campaign,
         "candidate_sha256": freeze["candidate_sha256"],
         "source_revision": freeze["source_revision"],
         "bundle_version": freeze["bundle"]["version"],
         "isolation_evidence_sha256": freeze["isolation"]["evidence_sha256"],
         "cost": {
-            "currency": "USD", "episode_count": len(EPISODES),
+            "currency": "USD", "episode_count": len(profile.episodes),
             "per_episode_cap_usd": EPISODE_BUDGET_USD,
-            "episode_total_cap_usd": EPISODE_TOTAL_USD,
-            "calibration_headroom_usd": CALIBRATION_HEADROOM_USD,
-            "combined_authorisation_ceiling_usd": TOTAL_CEILING_USD,
-            "basis": "six fixed episode reservations plus separate calibration headroom",
+            "episode_total_cap_usd": profile.episode_total_usd,
+            "calibration_headroom_usd": profile.calibration_headroom_usd,
+            "combined_authorisation_ceiling_usd": profile.total_ceiling_usd,
+            "basis": f"{len(profile.episodes)} fixed episode reservations plus separate calibration headroom",
         },
         "episodes": [
-            {"sequence": index, "episode_id": episode_id, "task_id": task_id,
+            {"sequence": sequence, "episode_id": episode_id, "task_id": task_id,
              "policy_id": policy_id, "budget_usd": EPISODE_BUDGET_USD}
-            for index, (episode_id, task_id, policy_id) in enumerate(EPISODES, 1)
+            for sequence, episode_id, task_id, policy_id in profile.episodes
         ],
         "stop_conditions": [
             "candidate, bundle, isolation or authorisation does not validate",
             "an episode stops with unresolved provider accounting",
             "a served task model does not match the exact required model",
             "the event chain, external grade or protected-oracle check is invalid",
-            "the fixed USD 24 episode envelope or USD 26 combined ceiling would be exceeded",
+            f"the fixed USD {profile.episode_total_usd:.0f} episode envelope or USD "
+            f"{profile.total_ceiling_usd:.0f} combined ceiling would be exceeded",
         ],
-        "review_after": "all six episodes complete, or immediately after the first stop condition",
+        "review_after": (f"all {len(profile.episodes)} episodes complete, or immediately after "
+                         "the first stop condition"),
     }
     value["manifest_sha256"] = digest(value)
     return value
 
 
 def validate_manifest(path: Path, candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
-                      *, require_clean: bool = True) -> tuple[bool, str, dict]:
+                      *, require_clean: bool = True,
+                      profile: PilotProfile = CHECKPOINT_PROFILE) -> tuple[bool, str, dict]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return False, f"cannot read pilot manifest: {exc}", {}
     recorded = value.pop("manifest_sha256", None)
-    expected = pilot_manifest(candidate_fn)
+    expected = pilot_manifest(candidate_fn, profile)
     expected.pop("manifest_sha256", None)
     comparable_value = {key: item for key, item in value.items() if key != "source_revision"}
     comparable_expected = {key: item for key, item in expected.items() if key != "source_revision"}
@@ -113,9 +167,10 @@ def validate_manifest(path: Path, candidate_fn: Callable[[], dict] = evaluation_
     valid = bool(
         recorded == digest(value) and comparable_value == comparable_expected
         and (not require_clean or current.get("source_dirty") is False)
-        and len(value.get("episodes") or []) == 6
-        and sum(row.get("budget_usd", 0) for row in value["episodes"]) == EPISODE_TOTAL_USD
-        and (value.get("cost") or {}).get("combined_authorisation_ceiling_usd") == TOTAL_CEILING_USD
+        and len(value.get("episodes") or []) == len(profile.episodes)
+        and sum(row.get("budget_usd", 0) for row in value["episodes"]) == profile.episode_total_usd
+        and (value.get("cost") or {}).get("combined_authorisation_ceiling_usd")
+        == profile.total_ceiling_usd
     )
     value["manifest_sha256"] = recorded
     detail = (f"candidate={value.get('candidate_sha256')}; "
@@ -128,15 +183,19 @@ def validate_authorisation(path: Path, manifest: dict) -> tuple[bool, str, dict]
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return False, f"cannot read pilot authorisation: {exc}", {}
+    ceiling = (manifest.get("cost") or {}).get("combined_authorisation_ceiling_usd")
     valid = bool(
         value.get("schema_version") == 1 and value.get("decision") == "approved"
         and value.get("candidate_sha256") == manifest.get("candidate_sha256")
         and value.get("manifest_sha256") == manifest.get("manifest_sha256")
-        and value.get("maximum_authorised_usd") == TOTAL_CEILING_USD
+        and value.get("maximum_authorised_usd") == ceiling
         and isinstance(value.get("approved_at"), str) and value["approved_at"].strip()
         and isinstance(value.get("approved_by"), str) and value["approved_by"].strip()
     )
-    return valid, ("exact approval present" if valid else "approval does not match candidate, manifest and USD 26 ceiling"), value
+    ceiling_text = f"{ceiling:g}" if isinstance(ceiling, (int, float)) else "unknown"
+    detail = ("exact approval present" if valid else
+              f"approval does not match candidate, manifest and USD {ceiling_text} ceiling")
+    return valid, detail, value
 
 
 def _episode_integrity(campaign_root: Path, episode_id: str) -> dict:
@@ -158,9 +217,10 @@ def _episode_integrity(campaign_root: Path, episode_id: str) -> dict:
 
 
 def execute(manifest_path: Path, authorisation_path: Path, campaign_root: Path,
-            *, candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
+            *, profile: PilotProfile = CHECKPOINT_PROFILE,
+            candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
             runner_factory: Callable[[Path], object] = evaluation_live_episode.LiveEpisodeRunner) -> dict:
-    valid, detail, manifest = validate_manifest(manifest_path, candidate_fn)
+    valid, detail, manifest = validate_manifest(manifest_path, candidate_fn, profile=profile)
     if not valid:
         raise PilotError(f"pilot manifest invalid: {detail}")
     authorised, auth_detail, _ = validate_authorisation(authorisation_path, manifest)
@@ -250,38 +310,67 @@ def run_qualification(work: Path) -> dict:
         "blockers": ["paid pilot has not been authorised"],
     }
     candidate_fn = lambda: json.loads(json.dumps(candidate))
-    manifest = pilot_manifest(candidate_fn)
-    manifest_path = work / "manifest.json"
-    evaluation_runner.atomic_json(manifest_path, manifest)
-    authorisation = {
-        "schema_version": 1, "decision": "approved",
-        "candidate_sha256": manifest["candidate_sha256"],
-        "manifest_sha256": manifest["manifest_sha256"],
-        "maximum_authorised_usd": TOTAL_CEILING_USD,
-        "approved_at": "qualification-clock", "approved_by": "offline-fixture",
-    }
-    authorisation_path = work / "authorisation.json"
-    evaluation_runner.atomic_json(authorisation_path, authorisation)
-    campaign = work / "campaign"
-    result = execute(manifest_path, authorisation_path, campaign,
-                     candidate_fn=candidate_fn, runner_factory=_FakePilotRunner)
-    tampered = dict(authorisation, maximum_authorised_usd=TOTAL_CEILING_USD + 1)
+    runs = {}
+    for profile in PROFILES.values():
+        manifest = pilot_manifest(candidate_fn, profile)
+        profile_root = work / profile.key
+        profile_root.mkdir(parents=True)
+        manifest_path = profile_root / "manifest.json"
+        evaluation_runner.atomic_json(manifest_path, manifest)
+        authorisation = {
+            "schema_version": 1, "decision": "approved",
+            "candidate_sha256": manifest["candidate_sha256"],
+            "manifest_sha256": manifest["manifest_sha256"],
+            "maximum_authorised_usd": profile.total_ceiling_usd,
+            "approved_at": "qualification-clock", "approved_by": "offline-fixture",
+        }
+        authorisation_path = profile_root / "authorisation.json"
+        evaluation_runner.atomic_json(authorisation_path, authorisation)
+        campaign = profile_root / "campaign"
+        result = execute(manifest_path, authorisation_path, campaign, profile=profile,
+                         candidate_fn=candidate_fn, runner_factory=_FakePilotRunner)
+        resumed = execute(manifest_path, authorisation_path, campaign, profile=profile,
+                          candidate_fn=candidate_fn, runner_factory=_FakePilotRunner)
+        runs[profile.key] = {
+            "profile": profile, "manifest": manifest, "authorisation": authorisation,
+            "authorisation_path": authorisation_path, "result": result, "resumed": resumed,
+        }
+    checkpoint = runs[CHECKPOINT_PROFILE.key]
+    continuation = runs[CONTINUATION_PROFILE.key]
+    tampered = dict(continuation["authorisation"],
+                    maximum_authorised_usd=CONTINUATION_PROFILE.total_ceiling_usd + 1)
     tampered_path = work / "tampered.json"
     evaluation_runner.atomic_json(tampered_path, tampered)
     checks = {
         "fixed_six_episode_matrix": [(row["task_id"], row["policy_id"])
-                                     for row in manifest["episodes"]] == [
+                                     for row in checkpoint["manifest"]["episodes"]] == [
             (task, policy) for task in ("D01", "D11") for policy in ("B0", "B1", "B2")],
-        "fixed_cost_ceiling": manifest["cost"]["episode_total_cap_usd"] == 24.0
-        and manifest["cost"]["combined_authorisation_ceiling_usd"] == 26.0,
-        "exact_authorisation_required": validate_authorisation(authorisation_path, manifest)[0]
-        and not validate_authorisation(tampered_path, manifest)[0],
-        "offline_campaign_completes_once": result["status"] == "completed"
-        and len(result["episodes"]) == 6 and result["known_episode_spend_usd"] == 0.06,
-        "resume_does_not_repeat_completed_episodes": execute(
-            manifest_path, authorisation_path, campaign,
-            candidate_fn=candidate_fn, runner_factory=_FakePilotRunner,
-        )["known_episode_spend_usd"] == 0.06,
+        "fixed_eighteen_episode_matrix": [(row["task_id"], row["policy_id"])
+                                          for row in continuation["manifest"]["episodes"]] == [
+            (task, policy) for task in ("D03", "D05", "D07", "D08", "D09", "D10")
+            for policy in ("B0", "B1", "B2")],
+        "fixed_cost_ceilings": (
+            checkpoint["manifest"]["cost"]["episode_total_cap_usd"] == 24.0
+            and checkpoint["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 26.0
+            and continuation["manifest"]["cost"]["episode_total_cap_usd"] == 72.0
+            and continuation["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 74.0
+        ),
+        "exact_authorisation_required": validate_authorisation(
+            continuation["authorisation_path"], continuation["manifest"])[0]
+        and not validate_authorisation(tampered_path, continuation["manifest"])[0],
+        "authorisation_cannot_cross_profiles": not validate_authorisation(
+            checkpoint["authorisation_path"], continuation["manifest"])[0],
+        "offline_campaigns_complete_once": all(
+            run["result"]["status"] == "completed"
+            and len(run["result"]["episodes"]) == len(run["profile"].episodes)
+            and run["result"]["known_episode_spend_usd"]
+            == round(len(run["profile"].episodes) * 0.01, 9)
+            for run in runs.values()
+        ),
+        "resume_does_not_repeat_completed_episodes": all(
+            run["resumed"]["known_episode_spend_usd"]
+            == run["result"]["known_episode_spend_usd"] for run in runs.values()
+        ),
     }
     return {
         "schema_version": 1, "mode": "offline-pilot-preflight-v1",
@@ -305,24 +394,41 @@ def render_report(value: dict, title: str) -> str:
 
 
 def write_preparation(manifest_path: Path, report_path: Path,
-                      candidate_fn: Callable[[], dict] = evaluation_freeze.candidate) -> dict:
-    value = pilot_manifest(candidate_fn)
+                      candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
+                      profile: PilotProfile = CHECKPOINT_PROFILE) -> dict:
+    value = pilot_manifest(candidate_fn, profile)
     evaluation_runner.atomic_json(manifest_path, value)
     lines = [
-        "# Six-episode paid pilot approval package", "",
+        f"# {profile.title}", "",
         f"Candidate: `{value['candidate_sha256']}`.", "",
-        "The fixed checkpoint runs D01 and D11 once under each policy B0, B1 and B2.",
-        "Six episode reservations cap model spend at **USD 24**. Separate calibration",
-        "headroom is **USD 2**, so the requested combined ceiling is **USD 26**.", "",
+        f"The fixed package runs {profile.description}.",
+        f"{len(profile.episodes)} episode reservations cap model spend at **USD "
+        f"{profile.episode_total_usd:.0f}**. Separate calibration headroom is **USD "
+        f"{profile.calibration_headroom_usd:.0f}**, so the requested combined ceiling is "
+        f"**USD {profile.total_ceiling_usd:.0f}**.", "",
         "No paid call starts without an approval file matching this manifest and candidate.", "",
-        "| # | Task | Policy | Episode cap |", "| -: | :--- | :--- | ---: |",
     ]
+    if profile is CONTINUATION_PROFILE:
+        lines.extend([
+            "## Measured cost context", "",
+            "The completed six-episode checkpoint averaged USD 0.0232061 per first-rung",
+            "episode. A floor-only extrapolation for these 18 episodes is USD 0.417710.",
+            "The planning range is **USD 1-22** because these harder tasks can invoke Opus",
+            "fallbacks or the approximately USD 2.99 historical quick Controller path.",
+            "The USD 74 ceiling remains authoritative; the range is not a billing limit.", "",
+            "## Outbound data and destination", "",
+            "Execution sends the synthetic D03, D05 and D07-D10 fixture issue prompts,",
+            "public checks, source files read by an agent and runtime observations to",
+            "Anthropic through the local Claude CLI. Task calls request Claude Sonnet 5 or",
+            "Claude Opus 5. B2 can also invoke the frozen read-only Controller roles.", "",
+        ])
+    lines.extend(["| # | Task | Policy | Episode cap |", "| -: | :--- | :--- | ---: |"])
     lines.extend(f"| {row['sequence']} | {row['task_id']} | {row['policy_id']} | USD {row['budget_usd']:.2f} |"
                  for row in value["episodes"])
     lines.extend(["", "## Stop conditions", ""])
     lines.extend(f"- {item}." for item in value["stop_conditions"])
     lines.extend(["", "## Required operator decision", "",
-                  "Choose the project licence, then approve or reject this exact USD 26 package.", ""])
+                  f"Approve or reject this exact USD {profile.total_ceiling_usd:.0f} package.", ""])
     report_path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return value
 
@@ -337,7 +443,7 @@ def validate_evidence(path: Path) -> tuple[bool, str]:
     ok = bool(recorded == digest(value) and value.get("result") == "PASS"
               and value.get("offline_only") is True and value.get("model_calls") == 0
               and value.get("implementation_sha256") == file_sha256(Path(__file__))
-              and len(checks) == 5 and all(checks.values()))
+              and len(checks) == 7 and all(checks.values()))
     return ok, f"mode={value.get('mode')}; digest={'valid' if recorded == digest(value) else 'invalid'}"
 
 
@@ -348,16 +454,24 @@ def main(argv: list[str]) -> int:
     mode.add_argument("--qualify", action="store_true")
     mode.add_argument("--check", action="store_true")
     mode.add_argument("--execute", action="store_true")
-    parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
-    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
-    parser.add_argument("--authorisation", type=Path, default=DEFAULT_AUTHORISATION)
-    parser.add_argument("--campaign-root", type=Path, default=DEFAULT_CAMPAIGN_ROOT)
+    parser.add_argument("--profile", choices=tuple(PROFILES), default=CHECKPOINT_PROFILE.key)
+    parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--report", type=Path)
+    parser.add_argument("--authorisation", type=Path)
+    parser.add_argument("--campaign-root", type=Path)
     parser.add_argument("--evidence", type=Path, default=DEFAULT_EVIDENCE)
     parser.add_argument("--evidence-report", type=Path, default=DEFAULT_EVIDENCE_REPORT)
     args = parser.parse_args(argv)
+    profile = PROFILES[args.profile]
+    default_manifest, default_report, default_authorisation, default_campaign = PROFILE_PATHS[profile.key]
+    args.manifest = args.manifest or default_manifest
+    args.report = args.report or default_report
+    args.authorisation = args.authorisation or default_authorisation
+    args.campaign_root = args.campaign_root or default_campaign
     if args.prepare:
-        value = write_preparation(args.manifest, args.report)
-        print(f"prepared {len(value['episodes'])} episodes; maximum authorised USD {TOTAL_CEILING_USD:.2f}")
+        value = write_preparation(args.manifest, args.report, profile=profile)
+        print(f"prepared {len(value['episodes'])} episodes; maximum authorised USD "
+              f"{profile.total_ceiling_usd:.2f}")
         return 0
     if args.qualify:
         with tempfile.TemporaryDirectory(prefix="pilot-preflight-") as folder:
@@ -376,7 +490,7 @@ def main(argv: list[str]) -> int:
         ok, detail = validate_evidence(args.evidence)
         print(f"{'PASS' if ok else 'FAIL'}: {detail}")
         return 0 if ok else 1
-    result = execute(args.manifest, args.authorisation, args.campaign_root)
+    result = execute(args.manifest, args.authorisation, args.campaign_root, profile=profile)
     print(json.dumps(result, indent=2))
     return 0 if result["status"] == "completed" else 1
 

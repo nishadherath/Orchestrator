@@ -215,7 +215,7 @@ def valid_pilot_preflight_evidence() -> tuple[bool, str | None, dict]:
         and value.get("implementation_sha256") == sha256(PILOT_RUNNER)
         and report.get("path") == PILOT_REPORT.relative_to(ROOT).as_posix()
         and report.get("sha256") == sha256(PILOT_REPORT)
-        and len(checks) == 5 and all(checks.values())
+        and len(checks) == 7 and all(checks.values())
     )
     return valid, evidence_digest, value
 
@@ -257,7 +257,7 @@ def candidate() -> dict:
     if not controller_valid:
         blockers.append("live Controller escalation adapter and offline qualification evidence are missing or invalid")
     if not pilot_valid:
-        blockers.append("six-episode pilot preflight and authorisation boundary are missing or invalid")
+        blockers.append("pilot profile preflight and authorisation boundary are missing or invalid")
     blockers.append("paid pilot has not been authorised")
     return {
         "schema_version": 1,

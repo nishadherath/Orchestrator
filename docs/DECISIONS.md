@@ -5403,3 +5403,19 @@ valid, satisfying the predeclared infrastructure continuation condition at USD
 or Controller path ran. Two easy tasks with two observations per arm cannot
 support a policy ranking. The unused amount under the completed authorisation
 is budget headroom, not permission for a different episode set.
+
+## D102. Separate pilot continuation into a second immutable profile, 2026-09-18
+
+Decision: keep the completed six-episode checkpoint and the remaining 18 pilot
+episodes as separate profiles in the same launcher. The continuation fixes D03,
+D05 and D07-D10 under B0, B1 and B2 as episodes 7-24. It has USD 72 of episode
+reservations and USD 2 of its own headroom, for an exact USD 74 ceiling. Require
+the CLI profile, candidate hash, manifest hash and ceiling to agree. An approval
+or campaign state from either profile is invalid for the other.
+
+Why: editing the historical six-row definition would blur completed evidence
+and risk inheriting its approval. Separate profiles preserve the original
+checkpoint, keep the combined pilot allocation at USD 100 and let one offline
+qualification exercise both launch boundaries. Dynamic path defaults also
+prevent a continuation preparation command from overwriting the checkpoint
+manifest or campaign.

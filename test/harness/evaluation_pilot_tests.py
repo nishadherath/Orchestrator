@@ -47,6 +47,37 @@ class PilotTests(unittest.TestCase):
             valid, _, _ = self.subject.validate_authorisation(path, manifest)
         self.assertFalse(valid)
 
+    def test_profiles_are_disjoint_complete_and_separately_authorised(self):
+        candidate = {
+            "candidate_sha256": "a" * 64, "source_revision": "offline",
+            "source_dirty": False, "bundle": {"version": "offline"},
+            "isolation": {"evidence_sha256": "b" * 64}, "blockers": [],
+        }
+        checkpoint = self.subject.pilot_manifest(
+            lambda: candidate, self.subject.CHECKPOINT_PROFILE)
+        continuation = self.subject.pilot_manifest(
+            lambda: candidate, self.subject.CONTINUATION_PROFILE)
+        checkpoint_ids = {row["episode_id"] for row in checkpoint["episodes"]}
+        continuation_ids = {row["episode_id"] for row in continuation["episodes"]}
+        self.assertEqual(len(checkpoint_ids), 6)
+        self.assertEqual(len(continuation_ids), 18)
+        self.assertTrue(checkpoint_ids.isdisjoint(continuation_ids))
+        self.assertEqual([row["sequence"] for row in continuation["episodes"]],
+                         list(range(7, 25)))
+        self.assertEqual(continuation["cost"]["combined_authorisation_ceiling_usd"], 74.0)
+        authorisation = {
+            "schema_version": 1, "decision": "approved",
+            "candidate_sha256": checkpoint["candidate_sha256"],
+            "manifest_sha256": checkpoint["manifest_sha256"],
+            "maximum_authorised_usd": 26.0,
+            "approved_at": "test-clock", "approved_by": "test",
+        }
+        with tempfile.TemporaryDirectory(prefix="pilot-profile-auth-") as folder:
+            path = Path(folder) / "authorisation.json"
+            path.write_text(json.dumps(authorisation), encoding="utf-8")
+            self.assertTrue(self.subject.validate_authorisation(path, checkpoint)[0])
+            self.assertFalse(self.subject.validate_authorisation(path, continuation)[0])
+
     def test_recorded_evidence_rejects_tampering(self):
         source = json.loads(self.subject.DEFAULT_EVIDENCE.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory(prefix="pilot-evidence-",

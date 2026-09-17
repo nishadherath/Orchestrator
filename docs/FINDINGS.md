@@ -446,3 +446,13 @@ The result therefore supports continuing the predeclared pilot but does not
 support a default change. Evidence is
 `test/results/2026-09-18-realworld-pilot-checkpoint.json` and the neighbouring
 Markdown report.
+
+## Remaining-pilot launch profile, 2026-09-18
+
+Observed offline with zero model calls: the pilot launcher now qualifies two
+disjoint profiles. The completed checkpoint retains episodes 1-6 and its USD 26
+ceiling. The continuation fixes episodes 7-24 across D03, D05 and D07-D10, with
+USD 72 of episode reservations and a USD 74 combined ceiling. Profile defaults
+use separate manifest, approval and campaign paths. A valid checkpoint approval
+fails continuation validation, and resuming either complete fake campaign does
+not redispatch an episode.

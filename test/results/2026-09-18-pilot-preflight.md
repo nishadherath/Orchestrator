@@ -5,9 +5,11 @@ Result: **PASS**. Model calls: **0**.
 | Check | Result |
 | :--- | :--- |
 | fixed six episode matrix | pass |
-| fixed cost ceiling | pass |
+| fixed eighteen episode matrix | pass |
+| fixed cost ceilings | pass |
 | exact authorisation required | pass |
-| offline campaign completes once | pass |
+| authorisation cannot cross profiles | pass |
+| offline campaigns complete once | pass |
 | resume does not repeat completed episodes | pass |
 
 ## Limits
