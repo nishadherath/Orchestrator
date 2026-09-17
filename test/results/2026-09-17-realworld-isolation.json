@@ -1,0 +1,20 @@
+{
+  "actor_identity": "nobody",
+  "boundary": "WSL2 Linux user and mode separation",
+  "checks": {
+    "actor_oracle_read": "denied",
+    "actor_workspace": "read_write",
+    "evaluator_actor_read": "actor-output",
+    "evaluator_mode": "700"
+  },
+  "evaluator_identity": "root",
+  "evidence_sha256": "29f442413fc7dca388333c69c221b0e916dac71f6d6bcf7b2929597cc631e5f1",
+  "host": "BOBS-X1",
+  "limits": [
+    "This proves the local filesystem boundary mechanism, not model transport or full episode execution.",
+    "Every campaign host must run a fresh probe before paid execution."
+  ],
+  "recorded_at": "2026-09-17T18:14:42+10:00",
+  "result": "PASS",
+  "schema_version": 1
+}

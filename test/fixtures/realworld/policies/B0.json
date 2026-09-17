@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "B0",
+  "name": "fixed-fallback",
+  "start_cell": "worker-sonnet-low",
+  "rules": [
+    "Run visible verification after the first attempt.",
+    "Permit one repair at worker-sonnet-low after an observable verification failure.",
+    "Permit one worker-opus-high attempt only after the repair also fails and its reservation fits.",
+    "Never use routing priors or the Controller."
+  ],
+  "maximum_worker_attempts": 3,
+  "controller_allowed": false
+}

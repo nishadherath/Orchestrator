@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "campaign": "realworld-v1",
+  "pilot_ids": ["D01", "D03", "D05", "D07", "D08", "D09", "D10", "D11"],
+  "tasks": [
+    {
+      "id": "D01",
+      "family_id": "configuration-precedence",
+      "application_id": "click-consumer",
+      "split": "development",
+      "scenario_kind": "repair",
+      "runtime": "python>=3.11",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "click==8.5.0",
+        "upstream_url": "https://github.com/pallets/click",
+        "source_revision": "8.5.0@8b19813f2bfca99f1018a587a8cf54fc959f2e5d",
+        "artifact": "click-8.5.0-py3-none-any.whl",
+        "artifact_sha256": "255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360",
+        "licence": "BSD-3-Clause"
+      },
+      "repo": "development/D01/repo",
+      "issue": "development/D01/issue.md",
+      "oracle": "D01/test_hidden.py",
+      "allowed_edits": ["consumer/config.py"],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D11",
+      "family_id": "interrupted-resume",
+      "application_id": "durable-importer",
+      "split": "development",
+      "scenario_kind": "recovery",
+      "runtime": "python>=3.11",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "standard-library",
+        "upstream_url": null,
+        "licence": "project-licence-pending"
+      },
+      "repo": "development/D11/repo",
+      "issue": "development/D11/issue.md",
+      "oracle": "D11/test_hidden.py",
+      "allowed_edits": ["importer/state.py"],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D03",
+      "family_id": "http-retry",
+      "application_id": "httpx-consumer",
+      "split": "development",
+      "scenario_kind": "repair",
+      "runtime": "python==3.12",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "httpx==0.28.1",
+        "upstream_url": "https://github.com/encode/httpx",
+        "source_revision": "0.28.1@26d48e0",
+        "artifact": "httpx-0.28.1-py3-none-any.whl",
+        "artifact_sha256": "d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad",
+        "licence": "BSD-3-Clause"
+      },
+      "repo": "development/D03/repo",
+      "issue": "development/D03/issue.md",
+      "oracle": "D03/test_hidden.py",
+      "allowed_edits": ["client/retry.py"],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D05",
+      "family_id": "tenant-cache",
+      "application_id": "cachetools-consumer",
+      "split": "development",
+      "scenario_kind": "repair",
+      "runtime": "python==3.12",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "cachetools==7.2.0",
+        "upstream_url": "https://github.com/tkem/cachetools",
+        "source_revision": "7.2.0",
+        "artifact": "cachetools-7.2.0-py3-none-any.whl",
+        "artifact_sha256": "3045213f186b89fdd95d94441354c4bd87c570b7a38d8c3fd1d9dd37f6dc90d8",
+        "licence": "MIT"
+      },
+      "repo": "development/D05/repo",
+      "issue": "development/D05/issue.md",
+      "oracle": "D05/test_hidden.py",
+      "allowed_edits": ["service/reports.py"],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D07",
+      "family_id": "bounded-shutdown",
+      "application_id": "p-limit-consumer",
+      "split": "development",
+      "scenario_kind": "recovery",
+      "runtime": "node>=20",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "p-limit==7.3.2",
+        "upstream_url": "https://github.com/sindresorhus/p-limit",
+        "source_revision": "7.3.2@783068bb9e967fd7bea8642e1bf5a3627fe38bdf",
+        "artifact": "p-limit-7.3.2.tgz",
+        "artifact_sha256": "3aac092d46cdd003ceb1d098cac5b298a840642295e4c3eebf877b9ca3fdd7ab",
+        "lockfile": "provenance.lock.json",
+        "licence": "MIT"
+      },
+      "repo": "development/D07/repo",
+      "issue": "development/D07/issue.md",
+      "oracle": "D07/test_hidden.py",
+      "allowed_edits": ["worker/runner.js"],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D08",
+      "family_id": "sqlite-migration",
+      "application_id": "account-store",
+      "split": "development",
+      "scenario_kind": "migration",
+      "runtime": "python>=3.11; sqlite>=3.37",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "standard-library",
+        "upstream_url": null,
+        "licence": "project-licence-pending"
+      },
+      "repo": "development/D08/repo",
+      "issue": "development/D08/issue.md",
+      "oracle": "D08/test_hidden.py",
+      "allowed_edits": ["store/migration.py"],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D09",
+      "family_id": "cross-module-api",
+      "application_id": "order-service",
+      "split": "development",
+      "scenario_kind": "coordinated-change",
+      "runtime": "python>=3.11",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "standard-library",
+        "upstream_url": null,
+        "licence": "project-licence-pending"
+      },
+      "repo": "development/D09/repo",
+      "issue": "development/D09/issue.md",
+      "oracle": "D09/test_hidden.py",
+      "allowed_edits": [
+        "orders/__init__.py",
+        "orders/batch.py",
+        "orders/cli.py",
+        "orders/parser.py",
+        "orders/storage.py",
+        "orders/types.py"
+      ],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    },
+    {
+      "id": "D10",
+      "family_id": "false-diagnosis",
+      "application_id": "retention-service",
+      "split": "development",
+      "scenario_kind": "clarification",
+      "runtime": "python>=3.11",
+      "source": {
+        "kind": "authored-consumer",
+        "dependency": "standard-library",
+        "upstream_url": null,
+        "licence": "project-licence-pending"
+      },
+      "repo": "development/D10/repo",
+      "issue": "development/D10/issue.md",
+      "oracle": "D10/test_hidden.py",
+      "allowed_edits": [
+        "case_a/resolution.json",
+        "case_a/service/retention.py",
+        "case_b/resolution.json"
+      ],
+      "visible_checks": ["public_checks/test_public.py"],
+      "variants": ["reference", "alternative", "wrong_happy", "wrong_hardcoded", "wrong_contract"],
+      "readiness": "ready"
+    }
+  ]
+}

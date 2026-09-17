@@ -49,6 +49,7 @@ DIST = REPO_ROOT / "dist"
 # tools/ is put on sys.path so `cells` resolves when this file runs as a script.
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
+from route import _atomic_write_bytes  # noqa: E402
 
 SENSITIVITY = ("mechanical", "structured", "open")
 HORIZON = ("short", "medium", "long")
@@ -853,7 +854,7 @@ def check_backtest(r: Report) -> None:
 
 
 def check_route_selftest(r: Report) -> None:
-    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 15 scripted
+    """ROUTE-SELFTEST: tools/route.py's --selftest passes: 19 scripted
     ledger-aware scenarios (7 from docs/PLAN.md Stage 2.5's own task text;
     the spawn/record/recover round trip and the --explain context line
     from docs/PLAN-3.md Stage B; the overflow advisory firing and not
@@ -869,6 +870,174 @@ def check_route_selftest(r: Report) -> None:
         return
     proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
     r.add("ROUTE-SELFTEST", "route.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_claudep_selftest(r: Report) -> None:
+    """CLAUDEP-SELFTEST: subprocess failures retain recoverable invocation
+    cost and usage metadata without making a live ``claude -p`` call."""
+    script = REPO_ROOT / "tools" / "claudep.py"
+    if not script.exists():
+        r.add("CLAUDEP-SELFTEST", "claudep.py --selftest passes", False,
+              f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script), "--selftest"], capture_output=True, text=True, timeout=30)
+    r.add("CLAUDEP-SELFTEST", "claudep.py --selftest passes", proc.returncode == 0,
+          proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
+
+
+def check_dispatch_budget(r: Report) -> None:
+    """DISPATCH-BUDGET: atomic admission, failure accounting and safe recovery."""
+    script = REPO_ROOT / "test" / "harness" / "dispatch_budget_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    r.add("DISPATCH-BUDGET", "Controller budget races and recovery pass", proc.returncode == 0,
+          (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_acceptance_evidence(r: Report) -> None:
+    """ACCEPTANCE: contracts, exact artefacts, protected tests and recovery."""
+    script = REPO_ROOT / "test" / "harness" / "acceptance_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    r.add("ACCEPTANCE", "acceptance evidence and incomplete recovery pass", proc.returncode == 0,
+          (proc.stdout + proc.stderr).strip()[-1400:])
+
+
+def check_context_contract(r: Report) -> None:
+    """CONTEXT: static reduction and every mandatory instruction surface."""
+    script = REPO_ROOT / "test" / "harness" / "context_contract_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    r.add("CONTEXT", "prompt reduction preserves the operating contract", proc.returncode == 0,
+          (proc.stdout + proc.stderr).strip()[-1400:])
+
+
+def check_installer(r: Report) -> None:
+    """INSTALL: ownership, idempotence, conflicts and semantic rollback."""
+    script = REPO_ROOT / "test" / "harness" / "install_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=120)
+    r.add("INSTALL", "transactional install, upgrade, uninstall and rollback pass", proc.returncode == 0,
+          (proc.stdout + proc.stderr).strip()[-1800:])
+
+
+def check_diagnostics(r: Report) -> None:
+    """DIAGNOSTICS: operational status is authoritative and read-only."""
+    script = REPO_ROOT / "test" / "harness" / "diagnostic_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=60)
+    r.add("DIAGNOSTICS", "operational status and detailed explanation pass", proc.returncode == 0,
+          (proc.stdout + proc.stderr).strip()[-1400:])
+
+
+def check_realworld_foundation(r: Report) -> None:
+    """REALWORLD: isolated external graders reject adversarial repairs offline."""
+    script = REPO_ROOT / "test" / "harness" / "realworld_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=120)
+    r.add("REALWORLD", "eight real-world graders and candidate freeze pass offline", proc.returncode == 0,
+          (proc.stdout + proc.stderr).strip()[-1800:])
+
+
+def check_evaluation_runner(r: Report) -> None:
+    """EPISODE: checkpoint, replay, accounting and failure-path regression."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_runner_tests.py"
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-realworld-runner.json"
+    runner = REPO_ROOT / "tools" / "evaluation_runner.py"
+    test_proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                               capture_output=True, text=True, timeout=90)
+    evidence_proc = subprocess.run(
+        [sys.executable, str(runner), "--check", "--output", str(evidence)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+    )
+    passed = test_proc.returncode == 0 and evidence_proc.returncode == 0
+    detail = (test_proc.stdout + test_proc.stderr + "\n"
+              + evidence_proc.stdout + evidence_proc.stderr).strip()[-1800:]
+    r.add("EPISODE", "offline episode checkpoint and deterministic replay pass", passed, detail)
+
+
+def check_live_calibration(r: Report) -> None:
+    """CALIBRATION: offline parsers and integrity-bound live evidence pass."""
+    tests = [
+        REPO_ROOT / "test" / "harness" / "live_calibration_tests.py",
+        REPO_ROOT / "test" / "harness" / "live_calibration_adjudication_tests.py",
+    ]
+    results = [subprocess.run(
+        [sys.executable, str(path)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=60,
+    ) for path in tests]
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-live-calibration-adjudication.json"
+    verifier = REPO_ROOT / "tools" / "live_calibration_adjudication.py"
+    evidence_result = subprocess.run(
+        [sys.executable, str(verifier), "--check", "--output", str(evidence)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+    )
+    passed = all(item.returncode == 0 for item in results) and evidence_result.returncode == 0
+    detail = "\n".join(
+        item.stdout + item.stderr for item in results + [evidence_result]
+    ).strip()[-1800:]
+    r.add("CALIBRATE", "live identity, billing and timeout evidence validates offline", passed, detail)
+
+
+def check_live_worker_adapter(r: Report) -> None:
+    """LIVE-WORKER: restricted command, attribution and failure paths pass."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_live_worker_tests.py"
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.json"
+    adapter = REPO_ROOT / "tools" / "evaluation_live_worker.py"
+    test_result = subprocess.run(
+        [sys.executable, str(tests)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    evidence_result = subprocess.run(
+        [sys.executable, str(adapter), "--check", "--output", str(evidence)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+    )
+    passed = test_result.returncode == 0 and evidence_result.returncode == 0
+    detail = (test_result.stdout + test_result.stderr + "\n"
+              + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
+    r.add("LIVE-WORKER", "live attempt adapter qualifies without model calls", passed, detail)
+
+
+def check_live_episode_integration(r: Report) -> None:
+    """LIVE-EPISODE: policy ordering and at-most-once recovery pass."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_live_episode_tests.py"
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-live-episode-integration.json"
+    runner = REPO_ROOT / "tools" / "evaluation_live_episode.py"
+    test_result = subprocess.run(
+        [sys.executable, str(tests)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    evidence_result = subprocess.run(
+        [sys.executable, str(runner), "--check", "--output", str(evidence)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+    )
+    passed = test_result.returncode == 0 and evidence_result.returncode == 0
+    detail = (test_result.stdout + test_result.stderr + "\n"
+              + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
+    r.add("LIVE-EPISODE", "live policy and restart safety qualify without model calls",
+          passed, detail)
+
+
+def check_release_candidate(r: Report) -> None:
+    """RELEASE: source parity and redistribution exclusions are executable."""
+    script = REPO_ROOT / "tools" / "release_check.py"
+    proc = subprocess.run([sys.executable, str(script), "--json"], capture_output=True, text=True, timeout=60)
+    try:
+        value = json.loads(proc.stdout)
+        detail = (f"mechanical failures={value['mechanical_failures']}; "
+                  f"operator actions={value['operator_actions']}")
+        ok = proc.returncode == 0 and not value["mechanical_failures"]
+    except (json.JSONDecodeError, KeyError, TypeError):
+        ok, detail = False, (proc.stdout + proc.stderr).strip()[-1200:]
+    r.add("RELEASE", "release-candidate parity and redistribution checks run", ok, detail)
+
+
+def check_improvement_regressions(r: Report) -> None:
+    """AUDIT-REGRESSIONS: desired R1/R2/R3/R5 behaviour is executable;
+    open findings are explicit expected failures rather than bug-affirming
+    assertions."""
+    script = REPO_ROOT / "test" / "harness" / "improvement_regressions.py"
+    if not script.exists():
+        r.add("AUDIT-REGRESSIONS", "audit desired-behaviour regressions run", False,
+              f"{script.relative_to(REPO_ROOT)} missing")
+        return
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=30)
+    r.add("AUDIT-REGRESSIONS", "audit desired-behaviour regressions run", proc.returncode == 0,
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
@@ -1068,6 +1237,19 @@ def main(argv: list[str]) -> int:
     check_route_priors(report)
     check_cost_table(report)
     check_route_selftest(report)
+    check_claudep_selftest(report)
+    check_dispatch_budget(report)
+    check_acceptance_evidence(report)
+    check_context_contract(report)
+    check_installer(report)
+    check_diagnostics(report)
+    check_realworld_foundation(report)
+    check_evaluation_runner(report)
+    check_live_calibration(report)
+    check_live_worker_adapter(report)
+    check_live_episode_integration(report)
+    check_release_candidate(report)
+    check_improvement_regressions(report)
     check_replay(report)
     check_backtest(report)
     check_handoff_selftest(report)
@@ -1094,6 +1276,14 @@ def main(argv: list[str]) -> int:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         out = RESULTS_DIR / f"{when.strftime('%Y-%m-%d')}-harness.md"
         out.write_text(render_markdown(report, when, git_rev), encoding="utf-8", newline="\n")
+        status = {"version": 1, "execution_status": "completed" if report.failed == 0 else "failed",
+                  "result": "PASS" if report.failed == 0 else "FAIL", "git": git_rev,
+                  "recorded_at": when.astimezone().isoformat(),
+                  "result_path": out.relative_to(REPO_ROOT).as_posix(),
+                  "result_sha256": hashlib.sha256(out.read_bytes()).hexdigest(),
+                  "checks": [c.__dict__ for c in report.checks]}
+        status_path = RESULTS_DIR / f"{when.strftime('%Y-%m-%d')}-harness-status.json"
+        _atomic_write_bytes(status_path, (json.dumps(status, indent=2) + "\n").encode("utf-8"))
         print(f"recorded {out.relative_to(REPO_ROOT)}")
         # docs/PLAN-6.md D.3, audit C5: --record is the one point every
         # harness run that writes to test/results/ already passes through,
@@ -1106,4 +1296,15 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    try:
+        result = main(sys.argv[1:])
+    except BaseException as exc:
+        if "--record" in sys.argv[1:]:
+            when = dt.datetime.now().astimezone()
+            status = {"version": 1, "execution_status": "interrupted", "result": None,
+                      "recorded_at": when.isoformat(),
+                      "error": f"{type(exc).__name__}: {exc}"[:1000]}
+            path = RESULTS_DIR / f"{when.strftime('%Y-%m-%d')}-harness-status.json"
+            _atomic_write_bytes(path, (json.dumps(status, indent=2) + "\n").encode("utf-8"))
+        raise
+    sys.exit(result)

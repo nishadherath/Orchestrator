@@ -208,3 +208,179 @@ reproducible command on a named version.
 | :--- | :--- | :--- |
 | `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` changes the nesting depth | `src/README.md` | Set it to 1, spawn a worker that spawns a worker, observe the refusal. Last checked 2026-09-15 (Stage 13 consolidation): still not tested; no stage needed to touch spawn depth |
 | Background workers run with a reduced built-in tool set, beyond `SendMessage` (now confirmed present, see above) | `src/README.md` | A self-reported tool list is unreliable (E9 got "PowerShell" as a tool name, which does not exist); needs a test that exercises tools rather than lists them. Last checked 2026-09-15 (Stage 13 consolidation): still not tested |
+
+
+## Controller dispatch controls, 2026-09-17
+
+Observed offline: atomic per-run reservations, parallel admission, actual child
+process death, repeated recovery, retained unknown usage, partial failure costs,
+cancellation and preservation of successful sibling output pass deterministic
+mocked-provider tests. These do not measure live provider billing behaviour.
+
+Documented: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars)
+lists `CLAUDE_CODE_MAX_OUTPUT_TOKENS` as a per-request output control for most
+requests, subject to model limits. The Controller supplies a child-only value
+of 8192 by default. Availability was checked 2026-09-17; actual enforcement,
+quality effects and interaction with thinking output were not probed.
+
+Unverified: `--max-budget-usd` as an invoice ceiling, provider termination after
+a local timeout/cancellation, and live token-setting enforcement. The runtime
+therefore retains uncertain allowances and records reported overspend. No paid
+Claude compatibility experiment was run during Stage 3.
+
+## Acceptance evidence and recovery, 2026-09-17
+
+Observed offline: ten deterministic acceptance cases reject claimed success
+when its command fails, stale or tampered evidence, changed artefacts, missing
+outputs, timeouts and protected-test weakening. They also cover rubric review,
+the evidence-before-ledger crash window, duplicate and conflicting completion,
+blocked work and missing hook output. Route selftests and Controller dispatch
+tests exercise the integrated transaction and durable run status paths.
+
+Unverified: passing a declared command is not proof of general semantic
+correctness, a review decision is not an executable oracle, and missing Claude
+lifecycle observations cannot distinguish an interrupted external process from
+one that is still running. Stage 4 made those limits explicit and prevents all
+three from silently becoming automatic capability evidence. No paid model or
+provider call was made.
+
+## Static context reduction, 2026-09-17
+
+Observed offline: the installed template plus stable orchestrator core changed
+from 34,999 to 10,657 characters, estimated from 8,750 to 2,665 tokens by the
+same `ceil(characters / 4)` method. Repository-development standing text changed
+from an estimated 7,848 to 2,224 tokens. A selected generated worker changed
+from a 606.3-token mean to 423.7, and each extracted Controller role brief lost
+an estimated 378 tokens from its shared prefix. Six deterministic context tests
+preserve mandatory rules and the rationale-isolation comparison bundle.
+
+Unverified: provider token counts, prompt-cache effects, billed savings,
+latency and behavioural equivalence. The full 8,051-token reference remains a
+conditional cost when a named trigger needs it. No model or provider call was
+made in Stage 5.
+
+## Reversible installation and operational diagnostics, 2026-09-17
+
+Observed offline on Windows: seven transactional installer cases pass. They
+cover a clean consumer under a path containing spaces, an idempotent repeat,
+an owned-file upgrade and rollback, configuration preservation, uninstall and
+uninstall rollback, malformed JSON, a changed owned value and a tampered
+bundle. The installed clean consumer also runs route selftests, freezes and
+verifies command acceptance, records fake work, reports an incomplete attempt
+and recovers it. Four diagnostic cases cover observed model/effort mismatch,
+unknown execution and cost, acceptance state, Controller reservations, prior
+age, Graft configuration and invalid inputs. No paid model call ran.
+
+Defined but not observed here: the GitHub Actions workflow has Windows and
+Ubuntu jobs, but no hosted run was available in this session. Linux
+compatibility therefore remains unverified. The 90-day prior-staleness flag is
+a labelled maintenance policy. Graft configuration and a local graph directory
+do not prove a live MCP connection; only `graft_check_freshness` does.
+
+Release state: source equivalence, generated files and redistribution scans
+are executable checks. Publication is not ready because no project licence or
+notice has been selected, the development bundle is stamped dirty, and
+publication still requires an explicit operator action.
+
+## Real-world evaluation foundation, 2026-09-17
+
+Observed offline: all eight pilot tasks reject the original defect and three
+adversarial repairs while accepting two materially different correct repairs.
+All eight also reject deleted or weakened public checks and an
+actor-created shadow oracle. The harness copies only the actor repository into
+a disposable root, runs hidden checks from an external evaluator path, and
+confirms evaluator hashes are unchanged. Regression cases cover catalogue and
+grader behaviour, edit-boundary attacks, stable candidate hashing, recorded
+isolation evidence and the command-line report. No paid model call ran.
+
+A WSL2 probe on this Windows host confirms that Linux `nobody` can use the
+actor workspace but receives access denied for the root-owned mode-0700
+evaluator directory; root can read the actor's output. This proves the selected
+filesystem mechanism. It does not yet prove that Claude completes a task or
+that a complete model episode preserves the boundary. At this point the offline
+episode runner and replay evidence were still launch blockers; the next finding
+records their completion.
+
+## Offline episode runner and replay, 2026-09-17
+
+Observed offline: nine fake-worker scenarios across B0, B1 and B2 complete from
+two independent campaign roots with identical state fingerprints. Hash-chained
+event journals validate, every episode records exactly one dispatch and an
+interruption after a committed worker result resumes without redispatch. The
+external grader accepts correct outputs, rejects the wrong output and runs only
+after a termination event. Version-2 routing records pass the repository schema
+validator.
+
+The fake accounting reports USD 1.40 known spend and USD 8.00 retained allowance
+for two deliberately unknown-cost episodes, with no double counting. Cancelled,
+unknown-cost, blocked-grade and actual-model-mismatch episodes are excluded from
+learning. Evidence and the readable report are integrity-bound to the runner,
+catalogue, policies, acceptance code, budget code and routing schema. The run
+made zero model calls.
+
+Unverified: fake workers do not establish Claude behaviour, live model identity,
+CLI parent and child billing roll-up, provider termination after timeout, or a
+complete model episode under the WSL2 identities. Those remain live calibration
+gates rather than offline claims.
+
+## Live instrumentation calibration, 2026-09-17
+
+Observed live through Claude Code 2.1.273: direct and one-worker calls returned
+terminal envelopes with non-overlapping usage categories and list-price cost
+telemetry. The spawned call's aggregate usage exceeded its parent iteration by
+2 input, 4,459 cache-creation and 138 output tokens, establishing descendant
+roll-up. A forced one-second local timeout returned no terminal envelope, so its
+USD 0.05 allowance remains uncertain rather than becoming zero. The mediated
+WSL actor could write output and could not read the root-owned oracle; the root
+evaluator graded the output.
+
+The final `modelUsage` map is not a task-message identity map. It contained
+Sonnet 5 and Haiku 4.5 even for the no-tool direct call. A second spawn-only run
+enabled streamed output and forwarded subagent text, with root and custom worker
+both explicitly pinned. All three attributable assistant messages reported
+`claude-sonnet-5`; the single forwarded worker message also reported Sonnet 5.
+Haiku 4.5 remained in aggregate billing without an attributable task message,
+so it is recorded as Claude Code auxiliary overhead rather than worker
+substitution. The two runs reported USD 0.0476572 API equivalent in terminal
+costs under the signed-in Max subscription.
+
+Unverified: the CLI does not identify the purpose of undocumented auxiliary
+calls, a local timeout does not prove provider-side termination, and the
+calibration mediates output into WSL rather than running Claude itself as Linux
+`nobody`. The evidence files preserve those limits and the uncertain allowance.
+
+## Live worker adapter qualification, 2026-09-17
+
+Observed offline with zero model calls: the live attempt adapter builds an exact
+model and effort command in the actor root with restricted safe mode, strict MCP
+isolation, no session persistence or permission prompting, and only read, edit,
+write, glob and grep tools. Fake transport applied the reference D01 repair;
+public and external hidden checks accepted it. Evidence derived from the live
+calibration shape preserved Sonnet identity, Haiku auxiliary billing and all
+usage categories. Timeout kept cost unknown, an Opus response to a Sonnet cell
+failed identity, and missing terminal cost did not settle accounting.
+
+Unverified at that point: this was an attempt adapter, not a policy executor.
+The following finding records the completed policy and recovery integration.
+
+## Live episode policy and recovery qualification, 2026-09-17
+
+Observed offline with zero model calls: the integrated runner executes B0's
+fixed repair and fallback sequence, B1's frozen routing ladder, and B2's
+observable two-distinct-failure trigger. Its policy decision API receives only
+the policy identifier, frozen route plan and attempt observations. Task identity,
+source project, hidden grade and reference solution do not cross that boundary.
+
+Every action receives a unique atomic reservation and a hash-chained dispatch
+event before the adapter is invoked. A synthetic crash after dispatch leaves the
+invocation running. A fresh runner detects that state, makes no adapter call,
+settles it as uncertain, retains the unused allowance and stops for operator
+reconciliation. A terminal envelope with missing cost follows the same
+fail-closed accounting rule. Scripted B0, B1 and B2 episodes produce accepted
+external grades only after policy termination and write schema-valid version-2
+routing records.
+
+Unverified: the Controller boundary uses a scripted adapter. No live adapter yet
+maps `system_controller.py` outcomes and aggregate usage into the episode's
+single outer reservation. The paid checkpoint, host-bound end-to-end execution
+and provider behaviour after process loss remain untested.

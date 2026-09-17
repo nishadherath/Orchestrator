@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "recorded_at": "2026-09-17",
+  "method": "Exact UTF-8 bytes and Unicode characters; estimated tokens are ceil(characters / 4), not tokenizer counts or billed usage.",
+  "bundle_version": "2026-09-17-4fb4682-dirty",
+  "surfaces": {
+    "repository_development_standing": {
+      "characters": 31389,
+      "estimated_tokens": 7848,
+      "sha256": "0c6af8b406bba45a155d7d76235779e868189f80cc8e54f31fa0d83a3afd6c56"
+    },
+    "consumer_orchestrator_standing": {
+      "characters": 34999,
+      "estimated_tokens": 8750,
+      "sha256": "e8d580dc198b9e2fcb31959467f33013fa0f23d1c08d21a64ab76a31d2c1f909"
+    },
+    "selected_worker": {
+      "minimum_estimated_tokens": 594,
+      "maximum_estimated_tokens": 610,
+      "mean_estimated_tokens": 606.3,
+      "source_sha256": "b4d006df4d1ba8a61e555c11768655d7ef76dbf5b54dcdf14b55c0072e7fc54d"
+    },
+    "controller_role_static_briefs": {
+      "framer_estimated_tokens": 1128,
+      "verifier_estimated_tokens": 1004,
+      "generator_estimated_tokens": 1059,
+      "critic_estimated_tokens": 1002,
+      "selector_estimated_tokens": 931,
+      "librarian_estimated_tokens": 949,
+      "roles_source_sha256": "aaf9349349ab7ccd37e724112e7c5e59dbf91c9346b5f6ac9e247832b7a6fb2f"
+    },
+    "generator_technique_briefs": {
+      "subtract_estimated_tokens": 789,
+      "re_represent_estimated_tokens": 735,
+      "abduce_estimated_tokens": 745,
+      "source_sha256": "002fb8d825a66382f1011a5796c65d7f907340789e216d38691e7ac68da19340"
+    }
+  },
+  "limits": [
+    "Repository-development and installed-consumer surfaces are separate.",
+    "Task input, tool schemas, retrieved code, ledger records and model reasoning are excluded.",
+    "Controller totals cover extracted static role text only; dynamic records and schema summaries are excluded.",
+    "Static character reduction does not prove lower billed usage or unchanged model behaviour."
+  ]
+}

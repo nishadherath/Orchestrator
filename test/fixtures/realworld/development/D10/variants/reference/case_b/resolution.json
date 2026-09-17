@@ -1,0 +1,5 @@
+{
+  "action": "clarify",
+  "evidence": "ownership.json says the file is authored, but case_b/CONSTRAINT.md explicitly prohibits changing it.",
+  "question": "May case_b/service/retention.py be changed to repair the day conversion, or must the current behaviour remain?"
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "B1",
+  "name": "repaired-current-policy",
+  "start_cell": "route.py decision",
+  "rules": [
+    "Use the frozen dist routing and Controller rules.",
+    "Require acceptance-v2 evidence before an accepted outcome.",
+    "Use atomic reservations and retain the cost of failed or cancelled attempts."
+  ],
+  "bound_files": [
+    "dist/ORCHESTRATOR.md",
+    "dist/tools/route.py",
+    "dist/tools/system_controller.py",
+    "dist/src/routing_table.json",
+    "dist/src/routing_priors.json"
+  ],
+  "controller_allowed": true
+}

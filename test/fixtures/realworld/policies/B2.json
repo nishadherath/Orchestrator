@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "B2",
+  "name": "economical-observable-triggers",
+  "start_cell": "worker-sonnet-low",
+  "rules": [
+    "Run the cheapest visible check that can falsify the proposed repair before escalating.",
+    "Repair locally once when the failure is new, bounded, and consistent with the current hypothesis.",
+    "Escalate after two distinct failed hypotheses or one verified cross-module contract conflict.",
+    "Clarify only when two plausible user choices produce materially different accepted states.",
+    "Split only independent file sets with an integration check; keep shared-contract work serial.",
+    "Invoke the Controller only after an observable constraint falsification that the floor repair cannot resolve.",
+    "Stop with a resumable record when the worst-case next reservation does not fit."
+  ],
+  "forbidden_inputs": ["task_id", "source_project_name", "hidden_grade", "reference_solution"],
+  "maximum_local_repairs_per_hypothesis": 1,
+  "controller_allowed": true
+}

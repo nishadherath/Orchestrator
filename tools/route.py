@@ -41,10 +41,20 @@ Usage:
     compaction (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md):
     python3 tools/route.py --from-line "<assessment line>" --project . --explain
     python3 tools/route.py --spawn --from-line "<line>" --project . \\
-        --task-slug refactor-parser --first-cell worker-sonnet-low --worker-name refactor-parser
+        --task-slug refactor-parser --first-cell worker-sonnet-low --worker-name refactor-parser \\
+        --acceptance-contract acceptance-contract.json
     python3 tools/route.py --record --pending led-042 --project . \\
-        --outcome pass --cost-usd 0.17 --wall-clock-s 52
+        --outcome pass --cost-usd 0.17 --wall-clock-s 52 \\
+        --attempt-json '{"requested_cell":"worker-sonnet-low",...}'
+    python3 tools/route.py --review-acceptance led-042 --project . \\
+        --review-decision pass --reviewer "operator" --review-notes "Rubric met"
     python3 tools/route.py --recover --project .
+
+    Explicit version-2 migration and byte-exact reversal:
+    python3 tools/route.py --project . --migrate-ledger-v2 --dry-run
+    python3 tools/route.py --project . --migrate-ledger-v2
+    python3 tools/route.py --project . --restore-ledger-backup \\
+        .claude/routing-ledger.jsonl.pre-v2.bak
 
     The session pointer, written from a SessionStart hook's own stdin
     (docs/COMPACTION-DESIGN.md section 13.4), so fill_context can scope a
@@ -55,13 +65,18 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import datetime as dt
 import json
 import os
 import re
 import sys
+import tempfile
+import time
 from pathlib import Path
-from typing import Literal, TypedDict
+from typing import Iterator, Literal, TypedDict
+
+import acceptance as acceptance_lib
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TABLE_PATH = REPO_ROOT / "src" / "routing_table.json"
@@ -295,17 +310,139 @@ def load_ledger(path: Path) -> list[dict]:
         if not line:
             continue
         try:
-            entries.append(json.loads(line))
+            entry = json.loads(line)
         except json.JSONDecodeError:
             print(f"warning: {path} line {lineno} did not parse (a partial write from an "
                   "interrupted append?); ignoring it", file=sys.stderr)
+            continue
+        version = entry.get("ledger_version", 0) if isinstance(entry, dict) else None
+        if version not in (0, 1, 2):
+            raise RoutingError(
+                f"cannot read {path} line {lineno}: unsupported ledger_version {version!r}; "
+                "upgrade this bundle or restore a compatible ledger"
+            )
+        entries.append(entry)
     return entries
 
 
-def append_ledger_entry(path: Path, entry: dict) -> None:
+class LedgerLockTimeout(RoutingError):
+    def __init__(self, path: Path, timeout_s: float) -> None:
+        super().__init__(f"timed out after {timeout_s:.1f}s waiting for ledger lock {str(path)!r}; "
+                         "retry after the other route.py process finishes")
+
+
+@contextlib.contextmanager
+def ledger_lock(path: Path, timeout_s: float = 10.0) -> Iterator[None]:
+    """Hold a cross-process exclusive lock for one complete ledger transaction.
+
+    The sibling lock file is persistent but the operating-system lock is not:
+    it is released when the process exits, including after a crash. This avoids
+    stale lock-directory recovery while keeping JSONL as the inspectable source
+    of truth. Every mutating operation acquires this lock before reading IDs or
+    current state and holds it through the durable write/replace.
+    """
+    if timeout_s < 0:
+        raise ValueError(f"ledger lock timeout must be non-negative, got {timeout_s!r}")
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    lock_path = path.with_suffix(path.suffix + ".lock")
+    handle = lock_path.open("a+b")
+    handle.seek(0, os.SEEK_END)
+    if handle.tell() == 0:
+        handle.write(b"\0")
+        handle.flush()
+    deadline = time.monotonic() + timeout_s
+    acquired = False
+    try:
+        while not acquired:
+            try:
+                handle.seek(0)
+                if os.name == "nt":
+                    import msvcrt
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                else:
+                    import fcntl
+                    fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                acquired = True
+            except (OSError, BlockingIOError):
+                if time.monotonic() >= deadline:
+                    raise LedgerLockTimeout(lock_path, timeout_s)
+                time.sleep(0.01)
+        yield
+    finally:
+        if acquired:
+            handle.seek(0)
+            if os.name == "nt":
+                import msvcrt
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+        handle.close()
+
+
+def _atomic_write_ledger(path: Path, lines: list[str]) -> None:
+    """Durably replace a ledger using a unique sibling temporary file."""
+    data = "".join(line.rstrip("\r\n") + "\n" for line in lines).encode("utf-8")
+    _atomic_write_bytes(path, data)
+
+
+def _atomic_write_bytes(path: Path, data: bytes) -> None:
+    """Durably replace one file while leaving the old bytes intact on failure."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, name = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=path.parent)
+    tmp = Path(name)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        tmp.replace(path)
+    finally:
+        if tmp.exists():
+            tmp.unlink()
+
+
+def _ledger_rows(path: Path) -> list[tuple[dict | None, str]]:
+    """Return parsed rows with their original text so rewrites preserve damage."""
+    if not path.exists():
+        return []
+    rows: list[tuple[dict | None, str]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        try:
+            value = json.loads(line) if line.strip() else None
+        except json.JSONDecodeError:
+            value = None
+        rows.append((value if isinstance(value, dict) else None, line))
+    return rows
+
+
+def append_ledger_entry(path: Path, entry: dict) -> None:
+    """Append a caller-assigned record without permitting a duplicate id."""
+    if not isinstance(entry, dict) or not entry.get("id"):
+        raise ValueError("ledger entry must be an object with a non-empty id")
+    with ledger_lock(path):
+        entries = load_ledger(path)
+        if any(row.get("id") == entry["id"] for row in entries):
+            raise RoutingError(f"ledger entry id {entry['id']!r} already exists in {str(path)!r}")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(entry, ensure_ascii=False) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+
+
+def create_ledger_entry(path: Path, entry: dict) -> dict:
+    """Assign and append the next ledger id within one locked transaction."""
+    if "id" in entry:
+        raise ValueError("create_ledger_entry assigns id; remove the caller-supplied id")
+    with ledger_lock(path):
+        completed = {**entry, "id": next_ledger_id(load_ledger(path))}
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(completed, ensure_ascii=False) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        return completed
 
 
 class LedgerEntryNotFound(RoutingError):
@@ -321,40 +458,29 @@ class LedgerEntryNotPending(RoutingError):
 def complete_ledger_entry(path: Path, entry_id: str, updates: dict) -> dict:
     """Complete a `--spawn`-created pending entry in place
     (docs/COMPACTION-DESIGN.md section 4), rather than appending a second
-    record for the same task. Rewrites the whole file from every entry
-    that parses, in order, with `entry_id`'s fields merged with `updates`;
-    a line `load_ledger` could not parse is therefore dropped by this
-    write path the same way `load_ledger` already drops it on read, which
-    is `--record`'s existing tolerance for a partial write, not a new
-    exception to it. Raises `LedgerEntryNotFound` or
-    `LedgerEntryNotPending` rather than silently appending a stray
-    record, since a pending entry that cannot be found or is already
-    complete is a caller bug, not routine.
+    record for the same task. The operating-system lock covers read,
+    status check, merge and atomic replacement. Unparseable lines are
+    retained exactly rather than disappearing during a valid update.
 
-    Writes via a sibling temp file and an atomic replace, the same
-    pattern `tools/generate_workers.py`'s `write_atomic` and
-    `tools/context_probe.py`'s `_atomic_write_json` already use, rather
-    than truncating `path` in place: a crash between the truncation and
-    the last write used to lose every routing outcome the project had
-    recorded (audit A6, docs/AUDIT-2026-09-16.md). `Path.replace` is
-    atomic on the platforms this repository ships to, including Windows,
-    where `context_probe.py`'s own use of the identical pattern is
-    already confirmed working."""
-    entries = load_ledger(path)
-    for i, entry in enumerate(entries):
-        if entry.get("id") == entry_id:
+    Replaying the same field updates after a lost acknowledgement is
+    idempotent. A conflicting second result raises LedgerEntryNotPending;
+    a missing id raises LedgerEntryNotFound. A unique sibling temporary
+    file avoids collisions between separate project sessions, and an
+    interrupted replace leaves the original ledger intact."""
+    with ledger_lock(path):
+        rows = _ledger_rows(path)
+        for i, (entry, original) in enumerate(rows):
+            if entry is None or entry.get("id") != entry_id:
+                continue
             if entry.get("final_outcome") != "unknown":
+                if all(entry.get(key) == value for key, value in updates.items()):
+                    return entry
                 raise LedgerEntryNotPending(entry_id, entry.get("final_outcome"))
             completed = {**entry, **updates}
-            entries[i] = completed
-            path.parent.mkdir(parents=True, exist_ok=True)
-            tmp = path.with_suffix(path.suffix + ".tmp")
-            with tmp.open("w", encoding="utf-8", newline="\n") as f:
-                for e in entries:
-                    f.write(json.dumps(e, ensure_ascii=False) + "\n")
-            tmp.replace(path)
+            rows[i] = (completed, json.dumps(completed, ensure_ascii=False))
+            _atomic_write_ledger(path, [line for _, line in rows])
             return completed
-    raise LedgerEntryNotFound(entry_id)
+        raise LedgerEntryNotFound(entry_id)
 
 
 _PENDING_NOTE_PREFIX = "pending: "
@@ -377,6 +503,222 @@ def next_ledger_id(ledger: list[dict]) -> str:
             except ValueError:
                 continue
     return f"led-{n + 1:03d}"
+
+
+_ATTEMPT_INPUT_FIELDS = {
+    "invocation_id", "parent_invocation_id", "requested_cell", "actual_model",
+    "effort_evidence", "bundle_version", "policy_version", "started_at",
+    "finished_at", "execution_status", "outcome", "wall_clock_s", "usage",
+}
+_TERMINAL_ATTEMPT_STATES = {"completed", "failed", "cancelled", "interrupted"}
+_ATTEMPT_STATES = _TERMINAL_ATTEMPT_STATES | {"pending", "running"}
+
+
+def _empty_usage(cost_usd: float | None = None, *, source: str = "unknown") -> dict:
+    return {"input_tokens": None, "cache_creation_input_tokens": None,
+            "cache_read_input_tokens": None, "output_tokens": None,
+            "cost_usd": cost_usd, "currency": "USD" if cost_usd is not None else None,
+            "cost_source": source, "price_snapshot": None, "includes_descendants": None}
+
+
+def _normalise_attempt(raw: dict, sequence: int, default_cell: str,
+                       default_outcome: str = "unknown") -> dict:
+    """Validate and fill one version-2 attempt from CLI or migration input."""
+    if not isinstance(raw, dict):
+        raise RoutingError(f"attempt {sequence} must be a JSON object, got {type(raw).__name__}")
+    unknown = set(raw) - _ATTEMPT_INPUT_FIELDS
+    if unknown:
+        raise RoutingError(f"attempt {sequence} has unsupported field(s) {sorted(unknown)}")
+    cell = raw.get("requested_cell", default_cell)
+    if not isinstance(cell, str) or not re.fullmatch(r"(?:controller|worker-[a-z]+-[a-z]+)", cell):
+        raise RoutingError(f"attempt {sequence} requested_cell {cell!r} is not a worker cell or controller")
+    outcome = raw.get("outcome", default_outcome)
+    if outcome not in ("pass", "fail", "unknown"):
+        raise RoutingError(f"attempt {sequence} outcome {outcome!r} is not pass, fail or unknown")
+    status = raw.get("execution_status")
+    if status is None:
+        status = "completed" if outcome == "pass" else "failed" if outcome == "fail" else "interrupted"
+    if status not in _ATTEMPT_STATES:
+        raise RoutingError(f"attempt {sequence} execution_status {status!r} is not one of {sorted(_ATTEMPT_STATES)}")
+    for key, limit in (("invocation_id", 200), ("parent_invocation_id", 200),
+                       ("actual_model", 120), ("effort_evidence", 200),
+                       ("bundle_version", 120), ("policy_version", 120)):
+        value = raw.get(key)
+        if value is not None and (not isinstance(value, str) or not value or len(value) > limit):
+            raise RoutingError(f"attempt {sequence} {key} must be null or 1-{limit} characters, got {value!r}")
+    timestamp_pattern = re.compile(
+        r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})?$")
+    for key in ("started_at", "finished_at"):
+        value = raw.get(key)
+        if value is not None and (not isinstance(value, str) or not timestamp_pattern.fullmatch(value)):
+            raise RoutingError(f"attempt {sequence} {key} must be null or an ISO 8601 timestamp, got {value!r}")
+    wall = raw.get("wall_clock_s")
+    if wall is not None and (isinstance(wall, bool) or not isinstance(wall, (int, float)) or wall < 0):
+        raise RoutingError(f"attempt {sequence} wall_clock_s must be a non-negative number or null, got {wall!r}")
+    usage = {**_empty_usage(), **(raw.get("usage") or {})}
+    allowed_usage = set(_empty_usage())
+    unexpected_usage = set(usage) - allowed_usage
+    if unexpected_usage:
+        raise RoutingError(f"attempt {sequence} usage has unsupported field(s) {sorted(unexpected_usage)}")
+    for key in ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens"):
+        value = usage[key]
+        if value is not None and (isinstance(value, bool) or not isinstance(value, int) or value < 0):
+            raise RoutingError(f"attempt {sequence} usage.{key} must be a non-negative integer or null, got {value!r}")
+    cost = usage["cost_usd"]
+    if cost is not None and (isinstance(cost, bool) or not isinstance(cost, (int, float)) or cost < 0):
+        raise RoutingError(f"attempt {sequence} usage.cost_usd must be a non-negative number or null, got {cost!r}")
+    if usage["cost_source"] not in ("provider_reported", "price_derived", "measured_zero", "unknown"):
+        raise RoutingError(f"attempt {sequence} usage.cost_source {usage['cost_source']!r} is invalid")
+    if cost is None and usage["cost_source"] != "unknown":
+        raise RoutingError(f"attempt {sequence} has no usage.cost_usd, so cost_source must be 'unknown'")
+    if cost is not None and usage["cost_source"] == "unknown":
+        raise RoutingError(f"attempt {sequence} has usage.cost_usd, so cost_source cannot be 'unknown'")
+    if cost is not None and usage["currency"] != "USD":
+        raise RoutingError(f"attempt {sequence} with usage.cost_usd must set currency to 'USD'")
+    return {"id": f"att-{sequence:03d}", "sequence": sequence,
+            "invocation_id": raw.get("invocation_id"),
+            "parent_invocation_id": raw.get("parent_invocation_id"),
+            "start_kind": "direct" if sequence == 1 else "escalation",
+            "requested_cell": cell, "actual_model": raw.get("actual_model"),
+            "effort_evidence": raw.get("effort_evidence"),
+            "bundle_version": raw.get("bundle_version"),
+            "policy_version": raw.get("policy_version"),
+            "started_at": raw.get("started_at"), "finished_at": raw.get("finished_at"),
+            "execution_status": status, "outcome": outcome,
+            "wall_clock_s": wall, "usage": usage}
+
+
+def parse_attempts(values: list[str], first_cell: str, escalations: list[dict], final_outcome: str,
+                   task_cost_usd: float | None, task_wall_clock_s: float | None,
+                   *, pending: bool = False) -> list[dict]:
+    """Build version-2 attempts without fabricating multi-cell attribution."""
+    if values:
+        attempts = []
+        for i, value in enumerate(values, start=1):
+            try:
+                raw = json.loads(value)
+            except json.JSONDecodeError as exc:
+                raise RoutingError(f"--attempt-json value {i} did not parse as JSON: {exc}") from exc
+            default_cell = first_cell if i == 1 else (
+                escalations[i - 2]["cell"] if i - 2 < len(escalations) else first_cell)
+            default_outcome = ("fail" if i == 1 and escalations else
+                               escalations[i - 2]["outcome"] if i > 1 and i - 2 < len(escalations) else "unknown")
+            attempts.append(_normalise_attempt(raw, i, default_cell, default_outcome))
+        expected_cells = [first_cell] + [item["cell"] for item in escalations]
+        actual_cells = [item["requested_cell"] for item in attempts]
+        if actual_cells != expected_cells:
+            raise RoutingError(f"attempt cells {actual_cells!r} do not match routed cells {expected_cells!r}")
+        return attempts
+
+    if pending:
+        return [_normalise_attempt({"execution_status": "pending"}, 1, first_cell)]
+
+    cells = [first_cell] + [item["cell"] for item in escalations]
+    outcomes = ["fail" if escalations else "unknown"] + [item["outcome"] for item in escalations]
+    attempts = []
+    for i, (cell, outcome) in enumerate(zip(cells, outcomes), start=1):
+        raw: dict = {"outcome": outcome}
+        if len(cells) == 1:
+            raw["outcome"] = final_outcome
+            raw["wall_clock_s"] = task_wall_clock_s
+            raw["usage"] = _empty_usage(task_cost_usd,
+                                          source="measured_zero" if task_cost_usd == 0 else
+                                                 "provider_reported" if task_cost_usd is not None else "unknown")
+        attempts.append(_normalise_attempt(raw, i, cell, outcome))
+    return attempts
+
+
+def _entry_v2_fields(first_cell: str, escalations: list[dict], final_outcome: str,
+                     cost_usd: float | None, wall_clock_s: float | None,
+                     attempt_values: list[str], *, pending: bool = False) -> dict:
+    attempts = parse_attempts(attempt_values, first_cell, escalations, final_outcome,
+                              cost_usd, wall_clock_s, pending=pending)
+    status = ("running" if pending else "completed" if final_outcome == "pass" else
+              "failed" if final_outcome == "fail" else "interrupted")
+    return {"ledger_version": 2, "execution_status": status, "attempts": attempts,
+            "acceptance": {"status": "unverified", "evidence": [],
+                           "contract_version": "unverified-v1"}}
+
+
+def migrate_ledger_v2(path: Path, *, dry_run: bool = False) -> dict:
+    """Explicitly migrate legacy task rows to version 2 with an exact backup."""
+    with ledger_lock(path):
+        if not path.exists():
+            raise RoutingError(f"cannot migrate missing ledger {str(path)!r}; record a task first")
+        original = path.read_bytes()
+        rows = _ledger_rows(path)
+        invalid = [i for i, (entry, line) in enumerate(rows, start=1) if entry is None and line.strip()]
+        if invalid:
+            raise RoutingError(f"cannot migrate {str(path)!r}: unparseable JSON on line(s) {invalid}; "
+                               "repair or preserve those rows before retrying")
+        changed = 0
+        migrated_lines: list[str] = []
+        for entry, original_line in rows:
+            if entry is None:
+                migrated_lines.append(original_line)
+                continue
+            if entry.get("type") != "RoutingLedgerEntry":
+                raise RoutingError(f"cannot migrate {str(path)!r}: record {entry.get('id')!r} has "
+                                   f"unexpected type {entry.get('type')!r}")
+            version = entry.get("ledger_version")
+            if version == 2:
+                migrated_lines.append(original_line)
+                continue
+            if version not in (0, 1):
+                raise RoutingError(f"cannot migrate record {entry.get('id')!r}: unsupported "
+                                   f"ledger_version {version!r}")
+            escalations = entry.get("escalations") or []
+            final_outcome = entry.get("final_outcome", "unknown")
+            migrated = {**entry,
+                        **_entry_v2_fields(entry.get("first_cell", ""), escalations, final_outcome,
+                                           entry.get("cost_usd"), entry.get("wall_clock_s"), [],
+                                           pending=final_outcome == "unknown")}
+            if "context" not in migrated:
+                migrated["context"] = dict(_NO_CONTEXT_OBSERVED)
+            migrated_lines.append(json.dumps(migrated, ensure_ascii=False))
+            changed += 1
+        result = {"records": sum(1 for entry, _ in rows if entry is not None),
+                  "changed": changed, "backup": None, "dry_run": dry_run}
+        if dry_run or changed == 0:
+            return result
+        backup = path.with_suffix(path.suffix + ".pre-v2.bak")
+        if backup.exists():
+            if backup.read_bytes() != original:
+                raise RoutingError(f"refusing to overwrite existing migration backup {str(backup)!r}; "
+                                   "move or verify it before retrying")
+        else:
+            with backup.open("xb") as handle:
+                handle.write(original)
+                handle.flush()
+                os.fsync(handle.fileno())
+        _atomic_write_ledger(path, migrated_lines)
+        result["backup"] = str(backup)
+        return result
+
+
+def restore_ledger_backup(path: Path, backup: Path, *, dry_run: bool = False) -> dict:
+    """Restore exact backup bytes while retaining the current ledger once."""
+    if not backup.is_file():
+        raise RoutingError(f"ledger backup {str(backup)!r} is not a file")
+    backup_bytes = backup.read_bytes()
+    with ledger_lock(path):
+        current = path.read_bytes() if path.exists() else b""
+        result = {"ledger": str(path), "backup": str(backup), "bytes": len(backup_bytes),
+                  "dry_run": dry_run}
+        if dry_run:
+            return result
+        pre_restore = path.with_suffix(path.suffix + ".pre-restore.bak")
+        if pre_restore.exists() and pre_restore.read_bytes() != current:
+            raise RoutingError(f"refusing to overwrite existing pre-restore backup {str(pre_restore)!r}; "
+                               "move or verify it before retrying")
+        if not pre_restore.exists():
+            with pre_restore.open("xb") as handle:
+                handle.write(current)
+                handle.flush()
+                os.fsync(handle.fileno())
+        _atomic_write_bytes(path, backup_bytes)
+        result["pre_restore_backup"] = str(pre_restore)
+        return result
 
 
 def _beta_mean(alpha: float, beta: float, passes: int, fails: int) -> float:
@@ -409,28 +751,151 @@ def _known_compaction_count(entry: dict) -> int | None:
     return context.get("compactions")
 
 
-def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
-    """Per-bucket posterior (docs/ROUTING-2-DESIGN.md section 3): the
-    floor's Beta mean, updated from every ledger entry in this bucket
-    whose outcome against the floor is known (a `pass` with no
-    escalations, or a `fail`, an escalated failure or not); each rung's
-    Beta mean conditional on every cheaper rung having failed, updated
-    from every escalation record naming that rung in this bucket; and
+_EVIDENCE_IDENTITY_FIELDS = ("actual_model", "bundle_version", "policy_version",
+                             "acceptance_contract_version")
+
+
+def _parse_evidence_time(value: object) -> dt.datetime | None:
+    if not isinstance(value, str):
+        return None
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=dt.timezone.utc)
+    return parsed.astimezone(dt.timezone.utc)
+
+
+def _learning_observations(ledger: list[dict], bucket: str, *,
+                           max_age_days: int | None = None,
+                           now: dt.datetime | None = None) -> tuple[list[dict], dict]:
+    """Return capability observations and explicit exclusion counts.
+
+    Version-2 task claims train capability only when acceptance is pass/fail.
+    Legacy rows remain a labelled compatibility population because historical
+    benchmark ledgers predate acceptance fields. Cost accounting is separate
+    and continues to retain failed or interrupted spending.
+    """
+    if max_age_days is not None and max_age_days < 0:
+        raise ValueError(f"max_age_days must be non-negative or None, got {max_age_days!r}")
+    reference = now or dt.datetime.now(dt.timezone.utc)
+    if reference.tzinfo is None:
+        reference = reference.replace(tzinfo=dt.timezone.utc)
+    cutoff = reference.astimezone(dt.timezone.utc) - dt.timedelta(days=max_age_days) if max_age_days is not None else None
+    stats = {"entries_seen": 0, "compacted_excluded": 0, "unverified_excluded": 0,
+             "age_excluded": 0, "unknown_outcome_excluded": 0,
+             "legacy_claimed_observations": 0}
+    observations: list[dict] = []
+
+    for entry in ledger:
+        if entry.get("bucket") != bucket:
+            continue
+        stats["entries_seen"] += 1
+        if _is_compacted(entry):
+            stats["compacted_excluded"] += 1
+            continue
+        attempts = entry.get("attempts")
+        if isinstance(attempts, list):
+            acceptance = entry.get("acceptance") or {}
+            acceptance_status = acceptance.get("status")
+            if not acceptance_lib.qualified(acceptance):
+                stats["unverified_excluded"] += 1
+                continue
+            terminal = [a for a in attempts if isinstance(a, dict)
+                        and a.get("execution_status") in _TERMINAL_ATTEMPT_STATES]
+            terminal.sort(key=lambda a: a.get("sequence", 0))
+            for index, attempt in enumerate(terminal):
+                when = _parse_evidence_time(attempt.get("finished_at") or attempt.get("started_at"))
+                if cutoff is not None and (when is None or when < cutoff):
+                    stats["age_excluded"] += 1
+                    continue
+                outcome = attempt.get("outcome")
+                if index == len(terminal) - 1:
+                    outcome = acceptance_status
+                if outcome not in ("pass", "fail"):
+                    stats["unknown_outcome_excluded"] += 1
+                    continue
+                identity = {field: (acceptance.get("contract_version") if field == "acceptance_contract_version"
+                                    else attempt.get(field))
+                            for field in _EVIDENCE_IDENTITY_FIELDS}
+                observations.append({"cell": attempt.get("requested_cell"), "outcome": outcome,
+                                     "population": attempt.get("start_kind", "direct" if index == 0 else "conditional"),
+                                     "identity": identity, "legacy": False})
+            continue
+
+        # Version 0/1 compatibility: these task outcomes were the only source
+        # available to the existing benchmark backtest. Keep them distinct as
+        # unknown-identity, claimed evidence rather than inventing verification.
+        cells = [entry.get("first_cell")] + [e.get("cell") for e in (entry.get("escalations") or [])]
+        outcomes = (["fail" if entry.get("escalations") else entry.get("final_outcome")]
+                    + [e.get("outcome") for e in (entry.get("escalations") or [])])
+        for index, (cell, outcome) in enumerate(zip(cells, outcomes)):
+            if not cell or outcome not in ("pass", "fail"):
+                stats["unknown_outcome_excluded"] += 1
+                continue
+            if cutoff is not None:
+                when = _parse_evidence_time(entry.get("ts"))
+                if when is None or when < cutoff:
+                    stats["age_excluded"] += 1
+                    continue
+            observations.append({"cell": cell, "outcome": outcome,
+                                 "population": "direct" if index == 0 else "conditional",
+                                 "identity": {field: None for field in _EVIDENCE_IDENTITY_FIELDS},
+                                 "legacy": True})
+            stats["legacy_claimed_observations"] += 1
+    return observations, stats
+
+
+def _select_identity_observations(observations: list[dict], target: dict | None,
+                                  include_incompatible: bool) -> tuple[list[dict], dict]:
+    """Choose one exact identity cohort, or require an explicit override."""
+    if include_incompatible:
+        return observations, {"mode": "explicit_pool", "groups": len({_identity_key(o) for o in observations}),
+                              "excluded": 0, "conflict": False}
+    if target:
+        selected = [o for o in observations
+                    if all(o["identity"].get(k) == v for k, v in target.items() if v is not None)]
+        return selected, {"mode": "exact", "target": target, "groups": len({_identity_key(o) for o in observations}),
+                          "excluded": len(observations) - len(selected), "conflict": False}
+    groups: dict[tuple, list[dict]] = {}
+    for observation in observations:
+        groups.setdefault(_identity_key(observation), []).append(observation)
+    known = {key: rows for key, rows in groups.items() if any(value is not None for value in key)}
+    if len(known) > 1:
+        return [], {"mode": "exact", "groups": len(groups), "excluded": len(observations),
+                    "conflict": True}
+    if len(known) == 1:
+        selected = next(iter(known.values()))
+        return selected, {"mode": "exact", "groups": len(groups),
+                          "excluded": len(observations) - len(selected), "conflict": False}
+    selected = groups.get((None,) * len(_EVIDENCE_IDENTITY_FIELDS), [])
+    return selected, {"mode": "legacy_unknown", "groups": len(groups),
+                      "excluded": len(observations) - len(selected), "conflict": False}
+
+
+def _identity_key(observation: dict) -> tuple:
+    return tuple(observation["identity"].get(field) for field in _EVIDENCE_IDENTITY_FIELDS)
+
+
+def posterior(priors: dict, ledger: list[dict], bucket: str, *,
+              evidence_identity: dict | None = None,
+              max_age_days: int | None = None,
+              include_incompatible: bool = False,
+              now: dt.datetime | None = None) -> dict:
+    """Per-bucket posterior (docs/ROUTING-2-DESIGN.md section 3): a
+    direct-start Beta mean for each cell, a separate rung mean conditional
+    on every cheaper attempt having failed, and
     the active rung list in cost order, `default_ladder`'s cells plus
     any cell that has met the activation threshold from this bucket's
     own escalation history. Raises NoRuleMatches (reusing `resolve()`'s
     own exception, since it is the same kind of gap) for a bucket
     outside the eighteen `routing_priors.json` seeds.
 
-    A floor failure counts whether or not the orchestrator went on to
-    escalate it (`final_outcome == "fail"`), or escalated it regardless
-    of what the escalated attempt's own outcome ended up being (any
-    non-empty `escalations`, since an escalation happens only after the
-    floor has already failed). Before D81/A4 (`docs/AUDIT-2026-09-16.md`)
-    only the second case counted, so a `--record --outcome fail` with no
-    `--escalation` flag, a legal call `ORCHESTRATOR.md` section 2
-    invites, moved neither `floor_pass` nor `floor_fail` and the ledger
-    silently ignored it.
+    Version-2 capability rows require acceptance pass/fail, use exact
+    model/bundle/policy/acceptance identities by default, and may be limited
+    by age. Legacy rows remain a labelled unknown-identity compatibility
+    population. Direct starts never update conditional escalation evidence.
 
     A confirmed-compacted entry (docs/COMPACTION-DESIGN.md section 6,
     D68) is excluded from the floor and rung counts above, since a
@@ -444,42 +909,57 @@ def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
         raise NoRuleMatches(s, h, b, f"{bucket!r} is not one of the seeded buckets")
 
     all_entries = [e for e in ledger if e.get("bucket") == bucket]
-    entries = [e for e in all_entries if not _is_compacted(e)]
+    observations, evidence_stats = _learning_observations(
+        ledger, bucket, max_age_days=max_age_days, now=now)
+
+    by_population: dict[tuple[str, str], list[dict]] = {}
+    for observation in observations:
+        if observation.get("cell"):
+            population = "conditional" if observation["population"] in ("conditional", "escalation") else "direct"
+            by_population.setdefault((observation["cell"], population), []).append(observation)
+
+    selected: dict[tuple[str, str], list[dict]] = {}
+    identity_diagnostics: dict[str, dict] = {}
+    for key, rows in by_population.items():
+        chosen, diagnostic = _select_identity_observations(rows, evidence_identity, include_incompatible)
+        selected[key] = chosen
+        identity_diagnostics[f"{key[0]}:{key[1]}"] = diagnostic
 
     floor_prior = bdata["floor"]
-    floor_pass = sum(1 for e in entries if e.get("first_cell") == "worker-sonnet-low"
-                      and not e.get("escalations") and e.get("final_outcome") == "pass")
-    floor_fail = sum(1 for e in entries if e.get("first_cell") == "worker-sonnet-low"
-                      and (e.get("final_outcome") == "fail" or e.get("escalations")))
+    floor_rows = selected.get(("worker-sonnet-low", "direct"), [])
+    floor_pass = sum(1 for row in floor_rows if row["outcome"] == "pass")
+    floor_fail = sum(1 for row in floor_rows if row["outcome"] == "fail")
     floor_mean = _beta_mean(floor_prior["alpha"], floor_prior["beta"], floor_pass, floor_fail)
-
-    rung_counts: dict[str, list[int]] = {}
-    for e in entries:
-        for esc in e.get("escalations", []) or []:
-            cell, outcome = esc.get("cell"), esc.get("outcome")
-            if not cell or outcome not in ("pass", "fail"):
-                continue
-            counts = rung_counts.setdefault(cell, [0, 0])
-            counts[0 if outcome == "pass" else 1] += 1
 
     default_weak_prior = {"alpha": 1.0, "beta": 1.0}  # uninformative: no bucket-specific
     # measurement exists for a rung the ledger alone activates, so it starts
     # at mean 0.5 and moves on that project's own evidence from there.
     rung_priors = bdata.get("rungs_given_failure_below", {})
     rungs: dict[str, dict] = {}
-    seen_cells = set(rung_counts) | set(rung_priors)
+    seen_cells = {cell for cell, _ in by_population} | set(rung_priors)
     for cell in seen_cells:
-        prior = rung_priors.get(cell, default_weak_prior)
-        p, f = rung_counts.get(cell, (0, 0))
-        rungs[cell] = {"mean": _beta_mean(prior["alpha"], prior["beta"], p, f),
-                       "ledger_passes": p, "ledger_fails": f}
+        conditional_prior = rung_priors.get(cell, default_weak_prior)
+        conditional_rows = selected.get((cell, "conditional"), [])
+        direct_rows = selected.get((cell, "direct"), [])
+        cp = sum(1 for row in conditional_rows if row["outcome"] == "pass")
+        cf = sum(1 for row in conditional_rows if row["outcome"] == "fail")
+        dp = sum(1 for row in direct_rows if row["outcome"] == "pass")
+        df = sum(1 for row in direct_rows if row["outcome"] == "fail")
+        conditional = {"mean": _beta_mean(conditional_prior["alpha"], conditional_prior["beta"], cp, cf),
+                       "ledger_passes": cp, "ledger_fails": cf}
+        direct = {"mean": _beta_mean(default_weak_prior["alpha"], default_weak_prior["beta"], dp, df),
+                  "ledger_passes": dp, "ledger_fails": df}
+        # Top-level values retain the legacy conditional interface used by
+        # reports; new routing decisions name the population explicitly.
+        rungs[cell] = {**conditional, "conditional": conditional, "direct": direct}
 
     steering = priors["steering"]
     base_ladder = [c for c in priors["default_ladder"] if c in COST_ORDER]
     activated = [cell for cell, m in rungs.items()
                  if cell not in base_ladder and cell in COST_ORDER
-                 and (m["ledger_passes"] + m["ledger_fails"]) >= steering["steering_rung_activation_min_n"]
-                 and m["mean"] >= steering["steering_rung_activation_min_pass"]]
+                 and (m["conditional"]["ledger_passes"] + m["conditional"]["ledger_fails"])
+                     >= steering["steering_rung_activation_min_n"]
+                 and m["conditional"]["mean"] >= steering["steering_rung_activation_min_pass"]]
     active_rungs = sorted(set(base_ladder) | set(activated), key=COST_ORDER.index)
 
     known_counts = [c for c in (_known_compaction_count(e) for e in all_entries) if c is not None]
@@ -491,23 +971,33 @@ def posterior(priors: dict, ledger: list[dict], bucket: str) -> dict:
     return {"bucket": bucket, "floor_mean": floor_mean, "floor_ledger_passes": floor_pass,
             "floor_ledger_fails": floor_fail, "rungs": rungs, "active_rungs": active_rungs,
             "overflow_mean": overflow_mean, "overflow_n": overflow_pass + overflow_fail,
-            "overflow_compacted": overflow_pass}
+            "overflow_compacted": overflow_pass,
+            "evidence": {**evidence_stats, "max_age_days": max_age_days,
+                         "identity_target": evidence_identity,
+                         "include_incompatible": include_incompatible,
+                         "identity_populations": identity_diagnostics}}
 
 
-def _rung_pass_mean(post: dict, cell: str) -> float:
+def _rung_pass_mean(post: dict, cell: str, population: str = "conditional") -> float:
     if cell == "worker-sonnet-low":
         return post["floor_mean"]
-    return post["rungs"].get(cell, {"mean": 0.5})["mean"]
+    rung = post["rungs"].get(cell, {})
+    return (rung.get(population) or {"mean": rung.get("mean", 0.5)})["mean"]
 
 
-def ledger_cell_means(ledger: list[dict], ledger_overrides_after: int) -> dict[str, dict]:
+def ledger_cell_means(ledger: list[dict], ledger_overrides_after: int, *,
+                      evidence_identity: dict | None = None,
+                      include_incompatible: bool = False) -> dict[str, dict]:
     """Per-cell `{cost_per_run_usd, wall_clock_s}` from a project's own
-    ledger entries (any bucket), only for a cell with at least
-    `ledger_overrides_after` entries (`routing_priors.json`
+    version-2 attempts (any bucket), only for a compatible identity cohort
+    and a cell with at least
+    `ledger_overrides_after` measured terminal attempts (`routing_priors.json`
     `steering.ledger_overrides_after`, the same threshold `plan()` below
     now applies to its own projection). A cell short of that is absent
     from the return value, so the caller falls back to
-    `src/cost_table.json` for it.
+    `src/cost_table.json` for it. Pending/running work and null measurements
+    are excluded. Version 0/1 task totals remain usable only when one cell
+    ran; multi-cell totals cannot be attributed honestly and are excluded.
 
     Moved here from `tools/handoff.py` (audit A5, docs/AUDIT-2026-09-16.md):
     `handoff.py`'s own projections already called this, but `plan()`'s
@@ -517,42 +1007,67 @@ def ledger_cell_means(ledger: list[dict], ledger_overrides_after: int) -> dict[s
     hundred outcomes and `--explain` would still project against the
     generic priors this repository shipped. `handoff.py` now imports
     this function instead of defining its own copy."""
+    if ledger_overrides_after < 1:
+        raise ValueError(f"ledger_overrides_after must be at least 1, got {ledger_overrides_after!r}")
     per_cell: dict[str, list[dict]] = {}
     for entry in ledger:
-        cells_seen = [entry.get("first_cell")] + [e.get("cell") for e in entry.get("escalations", []) or []]
-        # Split the entry's total cost/wall evenly across the cells it
-        # actually touched: the ledger records one total per task, not a
-        # per-rung breakdown, so an even split is the least assumption-laden
-        # attribution available without re-deriving benchmark.py's own
-        # per-cell accounting inside the ledger schema.
-        cells_seen = [c for c in cells_seen if c]
-        if not cells_seen:
+        attempts = entry.get("attempts")
+        if isinstance(attempts, list):
+            acceptance = entry.get("acceptance") or {}
+            for attempt in attempts:
+                if not isinstance(attempt, dict) or attempt.get("execution_status") not in _TERMINAL_ATTEMPT_STATES:
+                    continue
+                cell = attempt.get("requested_cell")
+                usage = attempt.get("usage") or {}
+                cost, wall = usage.get("cost_usd"), attempt.get("wall_clock_s")
+                if cell and cost is not None and wall is not None:
+                    identity = {field: (acceptance.get("contract_version")
+                                        if field == "acceptance_contract_version" else attempt.get(field))
+                                for field in _EVIDENCE_IDENTITY_FIELDS}
+                    per_cell.setdefault(cell, []).append({"cost": cost, "wall": wall,
+                                                          "identity": identity})
             continue
-        share_cost = (entry.get("cost_usd") or 0) / len(cells_seen)
-        share_wall = (entry.get("wall_clock_s") or 0) / len(cells_seen)
-        for cell in cells_seen:
-            per_cell.setdefault(cell, []).append({"cost": share_cost, "wall": share_wall})
+
+        # Version 0/1 stored only a task total. It is attributable when
+        # exactly one cell ran; multi-cell totals stay unknown by cell.
+        if entry.get("final_outcome") not in ("pass", "fail"):
+            continue
+        if entry.get("escalations"):
+            continue
+        cell, cost, wall = entry.get("first_cell"), entry.get("cost_usd"), entry.get("wall_clock_s")
+        if cell and cost is not None and wall is not None:
+            per_cell.setdefault(cell, []).append({
+                "cost": cost, "wall": wall,
+                "identity": {field: None for field in _EVIDENCE_IDENTITY_FIELDS},
+            })
     means = {}
     for cell, rows in per_cell.items():
-        if len(rows) >= ledger_overrides_after:
-            means[cell] = {"cost_per_run_usd": sum(r["cost"] for r in rows) / len(rows),
-                           "wall_clock_s": sum(r["wall"] for r in rows) / len(rows)}
+        selected, _ = _select_identity_observations(
+            rows, evidence_identity, include_incompatible)
+        if len(selected) >= ledger_overrides_after:
+            means[cell] = {"cost_per_run_usd": sum(r["cost"] for r in selected) / len(selected),
+                           "wall_clock_s": sum(r["wall"] for r in selected) / len(selected),
+                           "attempts_measured": len(selected)}
     return means
 
 
-def expected_ladder_cost(post: dict, costs: dict) -> dict:
-    """Sequential expected cost and wall clock down the active rungs:
+def expected_ladder_cost(post: dict, costs: dict, start_cell: str | None = None) -> dict:
+    """Sequential expected cost and wall clock from the selected active rung:
     cost(rung) x P(reach rung), where P(reach) is the product of the
-    failure probabilities of every cheaper active rung (the benchmark
+    failure probabilities of preceding execution rungs (the benchmark
     staircase only ever climbed after a failure, so a rung's measured
     rate already is this conditional; docs/ROUTING-2-DESIGN.md section 3,
     D64 point 2). A rung with no cost row (the frontier cells) is skipped
     in the sum and named in `unpriced_rungs`, not silently treated as
     free."""
+    active = list(post["active_rungs"])
+    if start_cell is None:
+        start_cell = active[0] if active else "worker-sonnet-low"
+    execution_rungs = active[active.index(start_cell):] if start_cell in active else [start_cell]
     e_cost, e_wall, p_reach = 0.0, 0.0, 1.0
     p_reach_by_rung: dict[str, float] = {}
     unpriced: list[str] = []
-    for cell in post["active_rungs"]:
+    for index, cell in enumerate(execution_rungs):
         row = costs["cells"].get(cell, {})
         cost, wall = row.get("cost_per_run_usd"), row.get("wall_clock_s")
         p_reach_by_rung[cell] = p_reach
@@ -561,13 +1076,15 @@ def expected_ladder_cost(post: dict, costs: dict) -> dict:
         else:
             e_cost += cost * p_reach
             e_wall += (wall or 0) * p_reach
-        p_reach *= (1 - _rung_pass_mean(post, cell))
+        p_reach *= (1 - _rung_pass_mean(post, cell, "direct" if index == 0 else "conditional"))
     return {"e_ladder_usd": round(e_cost, 4), "e_ladder_wall_s": round(e_wall, 1),
             "p_fail_all": round(p_reach, 4), "p_reach_by_rung": {k: round(v, 4) for k, v in p_reach_by_rung.items()},
-            "unpriced_rungs": unpriced}
+            "unpriced_rungs": unpriced, "start_cell": start_cell,
+            "execution_rungs": execution_rungs}
 
 
-def controller_decision(priors: dict, post: dict, costs: dict, bucket: str) -> dict:
+def controller_decision(priors: dict, post: dict, costs: dict, bucket: str,
+                        start_cell: str | None = None) -> dict:
     """Whether the Controller pre-empts the ladder for this bucket
     (docs/ROUTING-2-DESIGN.md section 3, D64): a labelled risk-appetite
     policy naming sensitivity and blast, checked first, or expected-cost
@@ -575,20 +1092,30 @@ def controller_decision(priors: dict, post: dict, costs: dict, bucket: str) -> d
     arithmetic fires in no bucket; only the policy dial does, and only
     where it is enabled."""
     rule = priors["controller_rule"]
-    ladder = expected_ladder_cost(post, costs)
-    controller_cost = costs["controller"]["quick_mode_run_usd"] + costs["controller"]["instantiation_usd"]
+    ladder = expected_ladder_cost(post, costs, start_cell)
+    controller_row = costs["controller"]
+    controller_cost = controller_row["quick_mode_run_usd"] + controller_row["instantiation_usd"]
+    unknown_terms = []
+    if not controller_row.get("failed_runs_included", False):
+        unknown_terms.append("controller failed-run cost is excluded from the measured mean")
+    if controller_row.get("failure_retry_cost_usd") is None:
+        unknown_terms.append("controller failure/retry cost is unmeasured")
+    if controller_row.get("verification_cost_usd") is None:
+        unknown_terms.append("acceptance verification cost is unmeasured")
+    completeness = {"projection_complete": not unknown_terms and not ladder["unpriced_rungs"],
+                    "unknown_terms": unknown_terms}
     sensitivity, horizon, blast = bucket.split("/")
 
     policy = rule["proactive_policy"]
     if (policy["enabled"] and sensitivity in policy["when"].get("sensitivity", ())
             and blast in policy["when"].get("blast", ())):
-        return {**ladder, "proactive": True, "reason": "policy", "controller_cost_usd": round(controller_cost, 4),
+        return {**ladder, **completeness, "proactive": True, "reason": "policy", "controller_cost_usd": round(controller_cost, 4),
                 "failure_cost_usd": None, "label": policy["label"]}
 
     failure_cost = (rule["failure_cost"]["consequential_usd"] if blast == "consequential"
                     else ladder["e_ladder_usd"])
     fires = ladder["e_ladder_usd"] + ladder["p_fail_all"] * failure_cost > controller_cost
-    return {**ladder, "proactive": fires, "reason": "expected_cost" if fires else "none",
+    return {**ladder, **completeness, "proactive": fires, "reason": "expected_cost" if fires else "none",
             "controller_cost_usd": round(controller_cost, 4), "failure_cost_usd": round(failure_cost, 4),
             "label": None}
 
@@ -596,21 +1123,26 @@ def controller_decision(priors: dict, post: dict, costs: dict, bucket: str) -> d
 def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
          self_directed: bool = False, prior_failure: PriorFailure = "none",
          priors: dict | None = None, ledger: list[dict] | None = None,
-         costs: dict | None = None) -> dict:
+         costs: dict | None = None, *, evidence_identity: dict | None = None,
+         max_evidence_age_days: int | None = None,
+         include_incompatible_evidence: bool = False) -> dict:
     """The one function an orchestrator calls (docs/ROUTING-2-DESIGN.md
     section 3): resolves an assessment plus a project's own ledger to the
     cell (or `"controller"`) to try first, the rest of the active ladder,
     the Controller's decision and why, and a cost/time projection. Falls
     straight to the frontier rung on `prior_failure`, exactly as
     `resolve()` already does, since that mechanism is unchanged by any of
-    this.
+    this. The first executed rung uses its direct posterior; later rungs use
+    their conditional posterior.
 
     The projection uses this project's own measured cost and wall clock
     for a cell once its ledger holds `steering.ledger_overrides_after`
     entries there, via `ledger_cell_means()`, falling back to
     `src/cost_table.json` for any cell short of that (audit A5,
     docs/AUDIT-2026-09-16.md: this used to be true only of
-    `tools/handoff.py`'s own projections, never of `--explain`'s)."""
+    `tools/handoff.py`'s own projections, never of `--explain`'s). Capability
+    evidence can be selected by exact identity and bounded by age; cost and
+    capability eligibility remain separate."""
     priors = priors if priors is not None else load_priors()
     costs = costs if costs is not None else load_cost_table()
     ledger = ledger if ledger is not None else []
@@ -623,20 +1155,27 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                                "note": "frontier rung from prior_failure; unmeasured (src/cost_table.json)"}}
 
     bucket = f"{sensitivity}/{horizon}/{blast}"
-    post = posterior(priors, ledger, bucket)
-    ledger_means = ledger_cell_means(ledger, priors["steering"]["ledger_overrides_after"])
+    post = posterior(priors, ledger, bucket, evidence_identity=evidence_identity,
+                     max_age_days=max_evidence_age_days,
+                     include_incompatible=include_incompatible_evidence)
+    ledger_means = ledger_cell_means(
+        ledger, priors["steering"]["ledger_overrides_after"],
+        evidence_identity=evidence_identity,
+        include_incompatible=include_incompatible_evidence)
     effective_costs = costs
     if ledger_means:
         effective_costs = dict(costs)
         effective_costs["cells"] = {**costs["cells"], **ledger_means}
-    decision = controller_decision(priors, post, effective_costs, bucket)
+    min_pass = priors["steering"]["steering_first_rung_min_pass"]
+    selected_worker = next(
+        (c for c in post["active_rungs"] if _rung_pass_mean(post, c, "direct") >= min_pass),
+        post["active_rungs"][0] if post["active_rungs"] else "worker-sonnet-low")
+    decision = controller_decision(priors, post, effective_costs, bucket, selected_worker)
 
     if decision["proactive"]:
         first = "controller"
     else:
-        min_pass = priors["steering"]["steering_first_rung_min_pass"]
-        first = next((c for c in post["active_rungs"] if _rung_pass_mean(post, c) >= min_pass),
-                     post["active_rungs"][0] if post["active_rungs"] else "worker-sonnet-low")
+        first = selected_worker
 
     controller_cost = costs["controller"]["quick_mode_run_usd"] + costs["controller"]["instantiation_usd"]
     controller_wall = costs["controller"]["wall_clock_s"] + costs["controller"]["instantiation_wall_s"]
@@ -653,7 +1192,8 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                          f"compacted; split the task or trim the handover before spawning {first}"
                          if advisory else None)}
 
-    return {"first": first, "bucket": bucket, "ladder": post["active_rungs"], "controller": decision,
+    return {"first": first, "bucket": bucket, "ladder": post["active_rungs"],
+            "execution_ladder": decision["execution_rungs"], "controller": decision,
             "posterior": post, "overflow": overflow,
             "projection": {"cost_usd_expected": round(cost_expected, 4),
                             "wall_clock_s_expected": round(wall_expected, 1)}}
@@ -1088,6 +1628,16 @@ def recover_report(project: Path) -> str:
         "what it names (ORCHESTRATOR.md section 2).",
     ]
     lines.extend(pending_workers_lines(project))
+    ledger = load_ledger(default_ledger_path(project))
+    acceptance_lines = [line for entry in ledger for line in acceptance_lib.diagnostic(project, entry)]
+    missing_context = [entry.get("id", "(unknown)") for entry in ledger
+                       if entry.get("final_outcome") == "unknown"
+                       and (entry.get("context") or {}).get("source") in (None, "none")]
+    lines.append("Acceptance and recovery actions:")
+    lines.extend([f"  {line}" for line in acceptance_lines] or ["  (none)"])
+    if missing_context:
+        lines.append("Missing lifecycle evidence: " + ", ".join(missing_context)
+                     + "; no hook/status output was observed, so do not infer an outcome.")
     handoffs_dir = project / "handoffs"
     handoff_files = sorted(handoffs_dir.glob("*.md")) if handoffs_dir.is_dir() else []
     newest = max(handoff_files, key=lambda p: p.stat().st_mtime) if handoff_files else None
@@ -1221,6 +1771,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
                    "final_outcome": "unknown", "cost_usd": 0, "wall_clock_s": 0,
                    "controller_run_dir": None, "winning_technique": None, "notes": "pending: selftest-worker"}
         append_ledger_entry(ledger_path, spawned)
+        with ledger_path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write("not json; preserve this interrupted row\n")
         pending_ledger = load_ledger(ledger_path)
         post_h = posterior(priors, pending_ledger, "mechanical/short/contained")
         check(post_h["floor_ledger_passes"] == 0 and post_h["floor_ledger_fails"] == 0,
@@ -1237,11 +1789,17 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         after = load_ledger(ledger_path)
         check(len(after) == 1, f"(h) completing in place should not append a second record, got {len(after)} entries")
         report_done = recover_report(project)
-        check("(none)" in report_done and "led-001" not in report_done,
-              f"(h) recover_report should list no pending entries once completed, got:\n{report_done}")
+        check("Pending workers (spawned, outcome not recorded):\n  (none)" in report_done
+              and "execution pending" not in report_done,
+              f"(h) recover_report should list no pending execution once completed, got:\n{report_done}")
+        repeated = complete_ledger_entry(ledger_path, "led-001", {"final_outcome": "pass"})
+        check(repeated["id"] == "led-001",
+              "(h) replaying an identical completion should be idempotent")
+        check("not json; preserve this interrupted row" in ledger_path.read_text(encoding="utf-8"),
+              "(h) completing an entry should preserve an unparseable ledger row byte-for-byte")
         try:
-            complete_ledger_entry(ledger_path, "led-001", {"final_outcome": "pass"})
-            check(False, "(h) completing an already-complete entry should raise LedgerEntryNotPending")
+            complete_ledger_entry(ledger_path, "led-001", {"final_outcome": "fail"})
+            check(False, "(h) a conflicting second completion should raise LedgerEntryNotPending")
         except LedgerEntryNotPending:
             pass
         try:
@@ -1481,25 +2039,232 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     # measured cost for a cell once its ledger crosses
     # steering.ledger_overrides_after entries there, not only
     # tools/handoff.py's projections (audit A5, docs/AUDIT-2026-09-16.md).
-    # Direct unit check on ledger_cell_means first (each entry's cost
-    # split evenly across the two cells it touched, averaged over five
-    # entries), then an end-to-end check that plan()'s expected ladder
-    # cost drops once the override applies, against the same bucket's
-    # empty-ledger baseline (worker-opus-high costs USD 0.9217 in
-    # src/cost_table.json; these entries measure it at 0.10).
+    # Direct unit check on ledger_cell_means first: task totals cannot be
+    # divided evenly when the version-2 attempts carry exact unequal costs.
+    # Then an end-to-end check confirms plan() consumes those exact means.
+    exact_attempts = parse_attempts([
+        json.dumps({"requested_cell": "worker-sonnet-low", "outcome": "fail", "wall_clock_s": 10.0,
+                    "usage": {**_empty_usage(0.10, source="provider_reported")}}),
+        json.dumps({"requested_cell": "worker-opus-high", "outcome": "pass", "wall_clock_s": 90.0,
+                    "usage": {**_empty_usage(1.90, source="provider_reported")}}),
+    ], "worker-sonnet-low", [{"cell": "worker-opus-high", "outcome": "pass"}], "pass", 2.0, 100.0)
     ledger_o = [{"bucket": "open/medium/contained", "first_cell": "worker-sonnet-low",
                  "escalations": [{"cell": "worker-opus-high", "outcome": "pass"}],
-                 "final_outcome": "pass", "cost_usd": 0.20, "wall_clock_s": 40.0}] * 5
+                 "final_outcome": "pass", "cost_usd": 2.0, "wall_clock_s": 100.0,
+                 "ledger_version": 2, "execution_status": "completed", "attempts": exact_attempts}] * 5
     means_o = ledger_cell_means(ledger_o, priors["steering"]["ledger_overrides_after"])
-    check(means_o.get("worker-opus-high") == {"cost_per_run_usd": 0.1, "wall_clock_s": 20.0},
-          f"(o) ledger_cell_means should split each entry's cost/wall evenly across the two cells "
-          f"it touched and average over 5 entries, got {means_o.get('worker-opus-high')}")
+    check(means_o.get("worker-sonnet-low") == {"cost_per_run_usd": 0.1, "wall_clock_s": 10.0,
+                                                "attempts_measured": 5}
+          and means_o.get("worker-opus-high") == {"cost_per_run_usd": 1.9, "wall_clock_s": 90.0,
+                                                   "attempts_measured": 5},
+          f"(o) ledger_cell_means should preserve USD 0.10 and USD 1.90 attempts, got {means_o}")
     p_before_o = plan("open", "medium", "contained", priors=priors, ledger=[], costs=costs)
     p_after_o = plan("open", "medium", "contained", priors=priors, ledger=ledger_o, costs=costs)
-    check(p_after_o["controller"]["e_ladder_usd"] < p_before_o["controller"]["e_ladder_usd"],
-          f"(o) plan()'s expected ladder cost should fall once the ledger's cheaper measured cost "
-          f"overrides cost_table.json's worker-opus-high figure, got "
+    check(p_after_o["controller"]["e_ladder_usd"] > p_before_o["controller"]["e_ladder_usd"],
+          f"(o) plan()'s expected ladder cost should rise when the exact measured opus cost "
+          f"exceeds cost_table.json's figure, got "
           f"{p_before_o['controller']['e_ladder_usd']} -> {p_after_o['controller']['e_ladder_usd']}")
+
+    # (p) pending records and unknown measurements never become zero-cost
+    # evidence; a measured zero remains a real observation.
+    pending_p = [{"first_cell": "worker-sonnet-low", "escalations": [], "final_outcome": "unknown",
+                  "cost_usd": 0, "wall_clock_s": 0}] * 5
+    check(ledger_cell_means(pending_p, 5) == {},
+          f"(p) pending records must not override cost/time, got {ledger_cell_means(pending_p, 5)}")
+    zero_attempt = parse_attempts([], "worker-sonnet-low", [], "pass", 0.0, 0.0)
+    measured_zero_p = [{"first_cell": "worker-sonnet-low", "escalations": [], "final_outcome": "pass",
+                        "ledger_version": 2, "attempts": zero_attempt}] * 5
+    zero_means = ledger_cell_means(measured_zero_p, 5)
+    check(zero_means.get("worker-sonnet-low", {}).get("cost_per_run_usd") == 0.0,
+          f"(p) measured zero must remain distinct from unknown, got {zero_means}")
+
+    # (q) separate route.py processes allocate IDs while holding the same
+    # operating-system lock. No process may lose a row or reuse an ID.
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        project = Path(tmp)
+        contract_path = project / "acceptance.json"
+        contract_path.write_text(json.dumps({
+            "version": 1, "kind": "command", "criteria": ["selftest"],
+            "constraints": [], "required_outputs": ["result.txt"],
+            "protected_paths": [], "command": [sys.executable, "-c", "raise SystemExit(0)"],
+            "rubric": [], "timeout_s": 30,
+        }), encoding="utf-8")
+        line = "assessment: mechanical, short, contained; self_directed: false; prior_failure: none"
+        processes = []
+        import subprocess
+        for i in range(6):
+            processes.append(subprocess.Popen([
+                sys.executable, str(Path(__file__).resolve()), "--spawn", "--from-line", line,
+                "--project", str(project), "--task-slug", f"concurrent-{i}",
+                "--first-cell", "worker-sonnet-low", "--worker-name", f"worker-{i}",
+                "--acceptance-contract", str(contract_path),
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True))
+        results = [process.communicate(timeout=30) + (process.returncode,) for process in processes]
+        concurrent_rows = load_ledger(default_ledger_path(project))
+        ids = [row.get("id") for row in concurrent_rows]
+        check(all(code == 0 for _, _, code in results) and len(ids) == 6 and len(set(ids)) == 6,
+              f"(q) concurrent creates should retain 6 unique rows, got ids={ids!r}, results={results!r}")
+
+    # (r) migration is explicit, dry-run safe, byte-backed, idempotent and
+    # exactly restorable. A failed atomic replace leaves the original intact.
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        ledger_path = Path(tmp) / "routing-ledger.jsonl"
+        legacy = {"type": "RoutingLedgerEntry", "id": "led-001", "ledger_version": 0,
+                  "references": [], "ts": "2026-09-17T00:00:00Z", "task_slug": "legacy",
+                  "bucket": "mechanical/short/contained", "self_directed": False,
+                  "first_cell": "worker-sonnet-low", "escalations": [], "final_outcome": "pass",
+                  "cost_usd": 0.25, "wall_clock_s": 12.0, "controller_run_dir": None,
+                  "winning_technique": None, "notes": ""}
+        original = (json.dumps(legacy) + "\n").encode("utf-8")
+        ledger_path.write_bytes(original)
+        preview = migrate_ledger_v2(ledger_path, dry_run=True)
+        check(preview["changed"] == 1 and ledger_path.read_bytes() == original
+              and not ledger_path.with_suffix(ledger_path.suffix + ".pre-v2.bak").exists(),
+              f"(r) migration dry-run must change no bytes, got {preview}")
+        migrated = migrate_ledger_v2(ledger_path)
+        backup = Path(migrated["backup"])
+        rows = load_ledger(ledger_path)
+        check(backup.read_bytes() == original and rows[0]["ledger_version"] == 2
+              and rows[0]["attempts"][0]["usage"]["cost_usd"] == 0.25,
+              f"(r) migration should preserve an exact backup and attributable single-cell cost, got {migrated}")
+        second = migrate_ledger_v2(ledger_path)
+        check(second["changed"] == 0 and backup.read_bytes() == original,
+              f"(r) migration should be idempotent, got {second}")
+        restored = restore_ledger_backup(ledger_path, backup)
+        check(ledger_path.read_bytes() == original and Path(restored["pre_restore_backup"]).is_file(),
+              f"(r) restore should reproduce the original bytes and retain migrated bytes, got {restored}")
+
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        from unittest import mock
+        ledger_path = Path(tmp) / "routing-ledger.jsonl"
+        original = (json.dumps(legacy) + "\n").encode("utf-8")
+        ledger_path.write_bytes(original)
+        try:
+            with mock.patch.object(Path, "replace", side_effect=OSError("injected replace failure")):
+                migrate_ledger_v2(ledger_path)
+            check(False, "(r) injected replace failure should escape migration")
+        except OSError:
+            pass
+        check(ledger_path.read_bytes() == original,
+              "(r) interrupted migration must leave the original ledger bytes intact")
+
+    # (s) Ordinary reads reject a future schema rather than silently learning
+    # from fields whose meaning this bundle does not know.
+    with tempfile.TemporaryDirectory(prefix="route-selftest-") as tmp:
+        future_path = Path(tmp) / "routing-ledger.jsonl"
+        future_path.write_text(json.dumps({"type": "RoutingLedgerEntry", "id": "led-001",
+                                           "ledger_version": 99}) + "\n",
+                               encoding="utf-8", newline="\n")
+        try:
+            load_ledger(future_path)
+        except RoutingError as exc:
+            future_rejected = "unsupported ledger_version 99" in str(exc)
+        else:
+            future_rejected = False
+        check(future_rejected, "(s) ordinary reads must reject unsupported future ledger versions")
+
+    # (t) Direct starts and conditional escalations are distinct capability
+    # populations. Acceptance, rather than a worker claim, supplies the final
+    # task verdict for version-2 evidence.
+    def evidence_entry(cell: str, outcome: str, *, start_kind: str = "direct",
+                       model: str = "model-a", acceptance: str | None = None,
+                       finished_at: str = "2026-09-17T00:00:00Z") -> dict:
+        attempt = {"sequence": 1, "requested_cell": cell, "start_kind": start_kind,
+                   "actual_model": model, "bundle_version": "bundle-a",
+                   "policy_version": "policy-a", "execution_status": "completed",
+                   "outcome": outcome, "finished_at": finished_at,
+                   "usage": {"cost_usd": 0.2}, "wall_clock_s": 10.0}
+        contract = {"version": 1, "kind": "command", "criteria": ["fixture"],
+                    "constraints": [], "required_outputs": ["result.txt"],
+                    "protected_paths": [], "command": ["fixture-check"],
+                    "rubric": [], "timeout_s": 30.0}
+        status = acceptance or outcome
+        command_evidence = {"kind": "command", "command": {"exit_code": 0 if status == "pass" else 1},
+                            "artefacts": {}, "protected": {}, "protected_unchanged": True,
+                            "blocked_reason": None}
+        command_evidence["result_digest"] = acceptance_lib.digest(command_evidence)
+        acceptance_record = ({"status": status, "contract_version": acceptance_lib.CONTRACT_VERSION,
+                              "contract": contract, "contract_digest": acceptance_lib.digest(contract),
+                              "protected_baseline": {"files": [], "missing": [], "digest": acceptance_lib.digest({})},
+                              "evidence": command_evidence,
+                              "review": None}
+                             if status in ("pass", "fail") else
+                             {"status": status, "evidence": [], "contract_version": "unverified-v1"})
+        return {"bucket": "mechanical/short/contained", "first_cell": cell,
+                "final_outcome": outcome, "attempts": [attempt],
+                "acceptance": acceptance_record}
+
+    direct_failures = [evidence_entry("worker-opus-high", "fail") for _ in range(20)]
+    post_t = posterior(priors, direct_failures, "mechanical/short/contained")
+    opus_t = post_t["rungs"]["worker-opus-high"]
+    check(opus_t["direct"]["ledger_fails"] == 20
+          and opus_t["conditional"]["ledger_fails"] == 0,
+          f"(t) direct failures must update only the direct population, got {opus_t}")
+    conditional_failures = [evidence_entry("worker-opus-high", "fail", start_kind="escalation")
+                            for _ in range(20)]
+    post_t2 = posterior(priors, conditional_failures, "mechanical/short/contained")
+    opus_t2 = post_t2["rungs"]["worker-opus-high"]
+    check(opus_t2["conditional"]["ledger_fails"] == 20
+          and opus_t2["direct"]["ledger_fails"] == 0,
+          f"(t) escalation failures must update only the conditional population, got {opus_t2}")
+
+    # (u) Unverified and stale evidence is excluded. Incompatible exact
+    # identity cohorts cannot silently pool; an explicit target can select one.
+    unverified = evidence_entry("worker-opus-high", "pass", acceptance="unverified")
+    post_u = posterior(priors, [unverified], "mechanical/short/contained")
+    check(post_u["rungs"]["worker-opus-high"]["direct"]["ledger_passes"] == 0
+          and post_u["evidence"]["unverified_excluded"] == 1,
+          f"(u) unverified evidence must not train capability, got {post_u['evidence']}")
+    conflicting = ([evidence_entry("worker-opus-high", "pass", model="model-a") for _ in range(10)]
+                   + [evidence_entry("worker-opus-high", "fail", model="model-b") for _ in range(10)])
+    post_conflict = posterior(priors, conflicting, "mechanical/short/contained")
+    direct_conflict = post_conflict["rungs"]["worker-opus-high"]["direct"]
+    diagnostic = post_conflict["evidence"]["identity_populations"]["worker-opus-high:direct"]
+    check(direct_conflict["ledger_passes"] == 0 and direct_conflict["ledger_fails"] == 0
+          and diagnostic["conflict"],
+          f"(u) incompatible identities must retain the prior and report conflict, got {direct_conflict}, {diagnostic}")
+    post_exact = posterior(priors, conflicting, "mechanical/short/contained",
+                           evidence_identity={"actual_model": "model-a"})
+    check(post_exact["rungs"]["worker-opus-high"]["direct"]["ledger_passes"] == 10,
+          f"(u) exact identity selection should use only model-a, got {post_exact['rungs']['worker-opus-high']}")
+    post_old = posterior(priors, [evidence_entry("worker-opus-high", "pass", finished_at="2020-01-01T00:00:00Z")],
+                         "mechanical/short/contained", max_age_days=30,
+                         now=dt.datetime(2026, 9, 17, tzinfo=dt.timezone.utc))
+    check(post_old["evidence"]["age_excluded"] == 1,
+          f"(u) stale evidence should be excluded, got {post_old['evidence']}")
+
+    # (v) Cost accounting retains terminal failed/interrupted spend even if
+    # the outer task is unresolved. Capability eligibility remains separate.
+    unresolved_costs = [evidence_entry("worker-opus-high", "fail") for _ in range(5)]
+    for row in unresolved_costs:
+        row["final_outcome"] = "unknown"
+    means_v = ledger_cell_means(unresolved_costs, 5)
+    check(means_v.get("worker-opus-high", {}).get("cost_per_run_usd") == 0.2,
+          f"(v) terminal spend from unresolved tasks must remain in cost means, got {means_v}")
+
+    # (w) A selected elevated start pays that cell in full and projects only
+    # later rungs. Missing Controller failure/retry and verification terms are
+    # explicit rather than silently treated as zero.
+    selected_w = plan("mechanical", "short", "contained", priors=priors,
+                      ledger=direct_failures, costs=costs,
+                      evidence_identity={"actual_model": "model-a"})
+    check(selected_w["first"] == "worker-sonnet-low"
+          or selected_w["controller"]["start_cell"] == selected_w["first"],
+          f"(w) projection must begin at the selected worker, got {selected_w}")
+    synthetic_post = posterior(priors, [], "mechanical/short/contained")
+    synthetic_post["rungs"]["worker-opus-high"]["direct"] = {
+        "mean": 0.9, "ledger_passes": 9, "ledger_fails": 1}
+    ladder_w = expected_ladder_cost(synthetic_post, costs, "worker-opus-high")
+    check(ladder_w["execution_rungs"][0] == "worker-opus-high"
+          and ladder_w["p_reach_by_rung"]["worker-opus-high"] == 1.0
+          and ladder_w["e_ladder_usd"] >= costs["cells"]["worker-opus-high"]["cost_per_run_usd"],
+          f"(w) selected-start projection must charge the selected rung in full, got {ladder_w}")
+    decision_w = controller_decision(priors, synthetic_post, costs,
+                                     "mechanical/short/contained", "worker-opus-high")
+    check(not decision_w["projection_complete"]
+          and any("failure/retry" in term for term in decision_w["unknown_terms"])
+          and any("verification" in term for term in decision_w["unknown_terms"]),
+          f"(w) missing Controller terms must be exposed, got {decision_w}")
 
     return (not problems, problems)
 
@@ -1522,7 +2287,19 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--ledger", type=Path, help="override the ledger path")
     ap.add_argument("--explain", action="store_true",
                      help="use the priors and ledger (docs/PLAN-2.md Stage 2) and print the "
-                         "posterior, the expected-cost arithmetic and the decision, one line each")
+                          "posterior, the expected-cost arithmetic and the decision, one line each")
+    ap.add_argument("--evidence-model",
+                    help="select only evidence from this exact served model identity")
+    ap.add_argument("--evidence-bundle-version",
+                    help="select only evidence from this exact worker bundle version")
+    ap.add_argument("--evidence-policy-version",
+                    help="select only evidence from this exact routing policy version")
+    ap.add_argument("--evidence-acceptance-version",
+                    help="select only evidence from this exact acceptance-contract version")
+    ap.add_argument("--evidence-max-age-days", type=int,
+                    help="exclude capability evidence older than this many days")
+    ap.add_argument("--include-incompatible-evidence", action="store_true",
+                    help="explicitly pool different model/bundle/policy/acceptance identities")
     ap.add_argument("--record", action="store_true", help="append an outcome to the ledger instead of resolving, "
                                                             "or complete a --pending entry in place")
     ap.add_argument("--spawn", action="store_true",
@@ -1535,9 +2312,22 @@ def main(argv: list[str]) -> int:
                                            "the name recorded at --spawn time instead")
     ap.add_argument("--pending", metavar="LED-ID",
                      help="--record: complete this --spawn entry in place instead of appending a new one")
+    ap.add_argument("--acceptance-contract", type=Path,
+                    help="--spawn/--record: version-1 JSON contract frozen before work starts")
+    ap.add_argument("--review-acceptance", metavar="LED-ID",
+                    help="settle a rubric contract after explicit human review")
+    ap.add_argument("--review-decision", choices=("pass", "fail"))
+    ap.add_argument("--reviewer", help="identity of the human making --review-decision")
+    ap.add_argument("--review-notes", default="", help="review provenance, at most 1000 characters")
     ap.add_argument("--recover", action="store_true",
                      help="print the SessionStart(compact) hook's report: pending workers and the newest "
                           "handoff, zero model calls (docs/COMPACTION-DESIGN.md section 4)")
+    ap.add_argument("--migrate-ledger-v2", action="store_true",
+                    help="explicitly migrate version 0/1 rows to per-attempt version 2; creates an exact backup")
+    ap.add_argument("--restore-ledger-backup", type=Path, metavar="PATH",
+                    help="restore exact ledger bytes from PATH, retaining the current ledger as a pre-restore backup")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --migrate-ledger-v2 or --restore-ledger-backup, report without writing")
     ap.add_argument("--session-pointer", action="store_true",
                      help="SessionStart hook mode (docs/COMPACTION-DESIGN.md section 13.4): read the hook's "
                           "own JSON input from stdin and write .claude/session.json under --project; "
@@ -1545,8 +2335,13 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--task-slug", help="--record/--spawn: short name for the routed task")
     ap.add_argument("--first-cell", help="--record/--spawn: the cell, or 'controller', tried first")
     ap.add_argument("--outcome", choices=("pass", "fail", "unknown"), help="--record: final_outcome")
-    ap.add_argument("--cost-usd", type=float, help="--record: total cost across every rung tried")
-    ap.add_argument("--wall-clock-s", type=float, help="--record: total wall clock across every rung tried")
+    ap.add_argument("--cost-usd", type=float,
+                    help="--record: total cost across every rung tried; omit when unknown, never substitute zero")
+    ap.add_argument("--wall-clock-s", type=float,
+                    help="--record: total wall clock across every rung tried; omit when unknown")
+    ap.add_argument("--attempt-json", action="append", default=[], metavar="JSON",
+                    help="--record: repeatable per-attempt object, in routed order; records exact cell, "
+                         "served model, status, usage and wall time without allocating the task total")
     ap.add_argument("--escalation", action="append", default=[], metavar="CELL:OUTCOME",
                      help="--record: repeatable, one later rung tried, in order")
     ap.add_argument("--controller-run-dir", help="--record: the Controller's runs/<id>, if it ran")
@@ -1560,7 +2355,7 @@ def main(argv: list[str]) -> int:
     if args.selftest:
         ok, problems = _selftest(verbose=args.json)
         if ok:
-            print("selftest: PASS, 15 scenarios")
+            print("selftest: PASS, 23 scenarios")
             return 0
         print(f"selftest: FAIL, {len(problems)} problem(s)")
         for p in problems:
@@ -1579,9 +2374,49 @@ def main(argv: list[str]) -> int:
         _write_session_pointer(payload, args.project)
         return 0
 
+    if args.migrate_ledger_v2 and args.restore_ledger_backup:
+        ap.error("choose only one of --migrate-ledger-v2 and --restore-ledger-backup")
+    if args.dry_run and not (args.migrate_ledger_v2 or args.restore_ledger_backup):
+        ap.error("--dry-run needs --migrate-ledger-v2 or --restore-ledger-backup")
+    if args.migrate_ledger_v2 or args.restore_ledger_backup:
+        ledger_path = args.ledger or default_ledger_path(args.project)
+        try:
+            result = (migrate_ledger_v2(ledger_path, dry_run=args.dry_run)
+                      if args.migrate_ledger_v2 else
+                      restore_ledger_backup(ledger_path, args.restore_ledger_backup, dry_run=args.dry_run))
+        except (OSError, RoutingError, ValueError) as exc:
+            print(f"route.py ledger operation failed for {str(ledger_path)!r}: {exc}", file=sys.stderr)
+            return 1
+        print(json.dumps(result, indent=2 if args.json else None))
+        return 0
+
     if args.recover:
         print(recover_report(args.project))
         return 0
+
+    if args.review_acceptance:
+        if not args.review_decision or not args.reviewer:
+            ap.error("--review-acceptance needs --review-decision and --reviewer")
+        ledger_path = args.ledger or default_ledger_path(args.project)
+        with ledger_lock(ledger_path):
+            rows = _ledger_rows(ledger_path)
+            for i, (entry, original) in enumerate(rows):
+                if entry is None or entry.get("id") != args.review_acceptance:
+                    continue
+                try:
+                    resolved = acceptance_lib.review(args.project, entry.get("acceptance") or {},
+                                                     args.review_acceptance, args.review_decision,
+                                                     args.reviewer, args.review_notes)
+                except acceptance_lib.AcceptanceError as exc:
+                    print(f"acceptance review failed: {exc}", file=sys.stderr)
+                    return 1
+                updated = {**entry, "acceptance": resolved}
+                rows[i] = (updated, json.dumps(updated, ensure_ascii=False))
+                _atomic_write_ledger(ledger_path, [line for _, line in rows])
+                print(args.review_acceptance)
+                return 0
+        print(str(LedgerEntryNotFound(args.review_acceptance)), file=sys.stderr)
+        return 1
 
     def resolve_assessment() -> tuple[str, str, str, bool, str]:
         if args.from_line:
@@ -1604,29 +2439,34 @@ def main(argv: list[str]) -> int:
     ledger_aware = args.record or args.explain or args.ledger is not None or args.from_line is not None
 
     if args.spawn:
-        if not all((args.task_slug, args.first_cell, args.worker_name)):
-            ap.error("--spawn needs --task-slug, --first-cell and --worker-name")
+        if not all((args.task_slug, args.first_cell, args.worker_name, args.acceptance_contract)):
+            ap.error("--spawn needs --task-slug, --first-cell, --worker-name and --acceptance-contract")
         sensitivity, horizon, blast, self_directed, _ = resolve_assessment()
         if horizon is None:
             ap.error("--spawn needs --horizon (or a --from-line that carries one)")
         ledger_path = args.ledger or default_ledger_path(args.project)
-        ledger = load_ledger(ledger_path)
         notes = _PENDING_NOTE_PREFIX + args.worker_name
         if args.notes:
             notes += f"; {args.notes}"
-        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
+        try:
+            acceptance = acceptance_lib.load_contract(args.project, args.acceptance_contract)
+        except acceptance_lib.AcceptanceError as exc:
+            ap.error(str(exc))
+        entry = {"type": "RoutingLedgerEntry", "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
                  "first_cell": args.first_cell, "escalations": [], "final_outcome": "unknown",
-                 "cost_usd": 0, "wall_clock_s": 0, "controller_run_dir": None, "winning_technique": None,
-                 "notes": notes[:300], "context": dict(_NO_CONTEXT_OBSERVED)}
-        append_ledger_entry(ledger_path, entry)
+                 "cost_usd": None, "wall_clock_s": None, "controller_run_dir": None, "winning_technique": None,
+                 "notes": notes[:300], "context": dict(_NO_CONTEXT_OBSERVED),
+                 **_entry_v2_fields(args.first_cell, [], "unknown", None, None, [], pending=True),
+                 "acceptance": acceptance}
+        entry = create_ledger_entry(ledger_path, entry)
         print(entry["id"])
         return 0
 
     if args.record and args.pending:
-        if not all((args.outcome is not None, args.cost_usd is not None, args.wall_clock_s is not None)):
-            ap.error("--record --pending needs --outcome, --cost-usd and --wall-clock-s")
+        if args.outcome is None:
+            ap.error("--record --pending needs --outcome; omit unknown cost or duration instead of using zero")
         ledger_path = args.ledger or default_ledger_path(args.project)
         pending_entry = next((e for e in load_ledger(ledger_path) if e.get("id") == args.pending), None)
         if pending_entry is None:
@@ -1639,10 +2479,34 @@ def main(argv: list[str]) -> int:
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
         context = fill_context(args.project, pending_worker_name(pending_entry), pending_entry.get("first_cell"))
+        try:
+            version_fields = _entry_v2_fields(pending_entry["first_cell"], escalations, args.outcome,
+                                              args.cost_usd, args.wall_clock_s, args.attempt_json)
+        except RoutingError as exc:
+            ap.error(str(exc))
+        if pending_entry.get("final_outcome") != "unknown":
+            proposed = {"escalations": escalations, "final_outcome": args.outcome,
+                        "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
+                        "controller_run_dir": args.controller_run_dir,
+                        "winning_technique": args.winning_technique,
+                        "execution_status": version_fields["execution_status"],
+                        "attempts": version_fields["attempts"]}
+            if args.notes:
+                proposed["notes"] = args.notes[:300]
+            if all(pending_entry.get(key) == value for key, value in proposed.items()):
+                print(pending_entry["id"])
+                print("context: existing terminal event reused; verification was not rerun")
+                return 0
+            print(str(LedgerEntryNotPending(args.pending, pending_entry.get("final_outcome"))), file=sys.stderr)
+            return 1
+        try:
+            acceptance = acceptance_lib.verify(args.project, pending_entry.get("acceptance") or {}, args.pending)
+        except acceptance_lib.AcceptanceError as exc:
+            ap.error(str(exc))
         updates = {"escalations": escalations, "final_outcome": args.outcome,
                    "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
                    "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
-                   "ledger_version": 1, "context": context}
+                   "context": context, **version_fields, "acceptance": acceptance}
         if args.notes:
             updates["notes"] = args.notes[:300]
         try:
@@ -1655,14 +2519,13 @@ def main(argv: list[str]) -> int:
         return 0
 
     if args.record:
-        if not all((args.task_slug, args.first_cell, args.outcome is not None,
-                    args.cost_usd is not None, args.wall_clock_s is not None)):
-            ap.error("--record needs --task-slug, --first-cell, --outcome, --cost-usd and --wall-clock-s")
+        if not all((args.task_slug, args.first_cell, args.outcome is not None, args.acceptance_contract)):
+            ap.error("--record needs --task-slug, --first-cell, --outcome and --acceptance-contract; "
+                     "omit unknown cost or duration instead of using zero")
         sensitivity, horizon, blast, self_directed, _ = resolve_assessment()
         if horizon is None:
             ap.error("--record needs --horizon (or a --from-line that carries one)")
         ledger_path = args.ledger or default_ledger_path(args.project)
-        ledger = load_ledger(ledger_path)
         escalations = []
         for item in args.escalation:
             cell, _, outcome = item.partition(":")
@@ -1670,14 +2533,33 @@ def main(argv: list[str]) -> int:
                 ap.error(f"--escalation {item!r} must be CELL:pass|fail|unknown")
             escalations.append({"cell": cell, "outcome": outcome})
         context = fill_context(args.project, args.worker_name, args.first_cell)
-        entry = {"type": "RoutingLedgerEntry", "id": next_ledger_id(ledger), "ledger_version": 1, "references": [],
+        try:
+            acceptance = acceptance_lib.load_contract(args.project, args.acceptance_contract)
+        except acceptance_lib.AcceptanceError as exc:
+            ap.error(str(exc))
+        entry = {"type": "RoutingLedgerEntry", "references": [],
                  "ts": dt.datetime.now().isoformat(), "task_slug": args.task_slug,
                  "bucket": f"{sensitivity}/{horizon}/{blast}", "self_directed": self_directed,
-                 "first_cell": args.first_cell, "escalations": escalations, "final_outcome": args.outcome,
-                 "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
-                 "controller_run_dir": args.controller_run_dir, "winning_technique": args.winning_technique,
-                 "notes": args.notes[:300], "context": context}
-        append_ledger_entry(ledger_path, entry)
+                 "first_cell": args.first_cell, "escalations": [], "final_outcome": "unknown",
+                 "cost_usd": None, "wall_clock_s": None,
+                 "controller_run_dir": None, "winning_technique": None,
+                 "notes": args.notes[:300], "context": context,
+                 **_entry_v2_fields(args.first_cell, [], "unknown", None, None, [], pending=True),
+                 "acceptance": acceptance}
+        try:
+            entry = create_ledger_entry(ledger_path, entry)
+            version_fields = _entry_v2_fields(args.first_cell, escalations, args.outcome,
+                                              args.cost_usd, args.wall_clock_s, args.attempt_json)
+            acceptance = acceptance_lib.verify(args.project, acceptance, entry["id"])
+            entry = complete_ledger_entry(ledger_path, entry["id"], {
+                "escalations": escalations, "final_outcome": args.outcome,
+                "cost_usd": args.cost_usd, "wall_clock_s": args.wall_clock_s,
+                "controller_run_dir": args.controller_run_dir,
+                "winning_technique": args.winning_technique,
+                "context": context, **version_fields, "acceptance": acceptance})
+        except (RoutingError, acceptance_lib.AcceptanceError) as exc:
+            print(str(exc), file=sys.stderr)
+            return 1
         print(entry["id"])
         print(f"context: {context['source']}")
         return 0
@@ -1687,8 +2569,20 @@ def main(argv: list[str]) -> int:
     if ledger_aware:
         ledger_path = args.ledger or default_ledger_path(args.project)
         ledger = load_ledger(ledger_path)
+        evidence_identity = {
+            key: value for key, value in {
+                "actual_model": args.evidence_model,
+                "bundle_version": args.evidence_bundle_version,
+                "policy_version": args.evidence_policy_version,
+                "acceptance_contract_version": args.evidence_acceptance_version,
+            }.items() if value is not None
+        } or None
         try:
-            result = plan(sensitivity, horizon, blast, self_directed, prior_failure, ledger=ledger)
+            result = plan(
+                sensitivity, horizon, blast, self_directed, prior_failure, ledger=ledger,
+                evidence_identity=evidence_identity,
+                max_evidence_age_days=args.evidence_max_age_days,
+                include_incompatible_evidence=args.include_incompatible_evidence)
         except NoRuleMatches as exc:
             print(str(exc), file=sys.stderr)
             return 1
@@ -1700,15 +2594,31 @@ def main(argv: list[str]) -> int:
                       f"(ledger: {post['floor_ledger_passes']} pass, {post['floor_ledger_fails']} fail)")
                 print(f"active rungs, cost order: {post['active_rungs']}")
                 for cell, m in sorted(post["rungs"].items()):
-                    print(f"  {cell}: posterior mean {m['mean']:.3f} (ledger: {m['ledger_passes']} pass, {m['ledger_fails']} fail)")
+                    direct, conditional = m["direct"], m["conditional"]
+                    print(f"  {cell}: direct {direct['mean']:.3f} "
+                          f"({direct['ledger_passes']} pass, {direct['ledger_fails']} fail); "
+                          f"conditional {conditional['mean']:.3f} "
+                          f"({conditional['ledger_passes']} pass, {conditional['ledger_fails']} fail)")
+                evidence = post["evidence"]
+                conflicts = sorted(name for name, diagnostic in evidence["identity_populations"].items()
+                                   if diagnostic.get("conflict"))
+                print(f"evidence: {evidence['entries_seen']} entries; "
+                      f"excluded unverified={evidence['unverified_excluded']}, "
+                      f"old={evidence['age_excluded']}, compacted={evidence['compacted_excluded']}; "
+                      f"identity target={evidence['identity_target'] or 'automatic exact cohort'}")
+                if conflicts:
+                    print(f"evidence identity conflicts (prior retained): {conflicts}")
             if result["controller"]:
                 c = result["controller"]
-                print(f"expected ladder cost: USD {c['e_ladder_usd']:.4f}, wall clock {c['e_ladder_wall_s']:.0f} s, "
+                print(f"expected ladder from {c['start_cell']}: {c['execution_rungs']}; "
+                      f"cost USD {c['e_ladder_usd']:.4f}, wall clock {c['e_ladder_wall_s']:.0f} s, "
                       f"P(fail all) {c['p_fail_all']:.3f}")
                 print(f"Controller cost: USD {c['controller_cost_usd']:.4f}; decision: "
                       f"{'proactive' if c['proactive'] else 'not proactive'} ({c['reason']})")
                 if c["label"]:
                     print(f"  {c['label']}")
+                if c["unknown_terms"]:
+                    print(f"projection incomplete: {'; '.join(c['unknown_terms'])}")
             print(f"projection: USD {result['projection']['cost_usd_expected']}, "
                   f"{result['projection']['wall_clock_s_expected']} s")
             if result["overflow"] and result["overflow"]["advisory"]:

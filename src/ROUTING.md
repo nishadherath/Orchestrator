@@ -118,8 +118,9 @@ With the Bash tool:
 python3 tools/route.py --from-line "<the assessment line>" --project <this project's root> --explain
 ```
 
-Read the output. `--explain` prints, in order: the bucket; the posterior
-for the floor and every active rung; the Controller's expected-cost
+Read the output. `--explain` prints, in order: the bucket; separate direct and
+conditional posteriors for every active rung; evidence exclusions and identity
+conflicts; the Controller's expected-cost
 arithmetic and its decision with a one-word reason (`policy`,
 `expected_cost`, or `none`); the projection; an overflow line, only when
 one fires (section 2's own overflow paragraph below); the context line;
@@ -129,6 +130,17 @@ lines make visible without parsing JSON: either a worker name
 (`worker-<model>-<effort>`) to spawn as section 3 describes, or the
 literal word `controller`, meaning invoke the Controller mechanism in
 section 4 directly, not a worker to spawn.
+
+Version-2 capability updates require acceptance status `pass` or `fail`.
+Unverified records still contribute measured terminal costs. By default the
+resolver uses one exact served-model/bundle/policy/acceptance-contract cohort
+and retains the prior when multiple known cohorts conflict. Select a cohort
+with `--evidence-model`, `--evidence-bundle-version`,
+`--evidence-policy-version` and `--evidence-acceptance-version`; optionally
+exclude old capability evidence with `--evidence-max-age-days N`. Use
+`--include-incompatible-evidence` only as an explicit decision to pool cohorts.
+A projection marked incomplete names unmeasured Controller failure/retry,
+verification or frontier terms.
 
 State the assessment line, the resolved cell, and the reason, together, in
 the same routing line section 3 asks for. This is the record a wrong
@@ -173,12 +185,42 @@ in the transcript, is exactly the failure this file exists to prevent.
 python3 tools/route.py --project <this project's root> --record \
   --pending <the id --spawn printed> \
   --outcome pass|fail|unknown --cost-usd <total across every cell tried> \
-  --wall-clock-s <total> [--escalation <cell>:<pass|fail> ...]
+  --wall-clock-s <total> [--escalation <cell>:<pass|fail> ...] \
+  [--attempt-json '<one invocation object>' ...]
 ```
+
+The route tool runs the frozen acceptance contract before completing the
+entry. A claimed pass with a failing command records acceptance `fail`. A
+timeout or missing verifier records `blocked`; it does not train capability.
+Evidence under `.claude/acceptance/` binds the command, exit status, output and
+protected-test hashes, revision, working-diff identity and timestamps. If
+completion crashes after verification, repeat the same command: matching
+evidence is reused without rerunning the verifier. A conflicting second
+terminal event is rejected.
+
+A rubric contract records `review_required`. Settle it only after explicit
+human review:
+
+```
+python3 tools/route.py --project <this project's root> \
+  --review-acceptance <led-NNN> --review-decision pass|fail \
+  --reviewer <name> [--review-notes "<basis>"]
+```
+
+The review identity and exact artefact hashes are recorded. Prose is never
+automatically treated as a verified pass.
 
 Skipping this is not a shortcut; it is the project staying on the shipped,
 generic priors forever instead of its own measured experience. Every
 escalation (section 4) is one `--escalation` flag, in the order tried.
+Add one `--attempt-json` in the same order for exact per-invocation evidence:
+requested cell, actual served model and effort evidence when observable,
+execution status, outcome, wall clock, token usage and reported or derived
+cost provenance. The route tool rejects an attempt order that differs from
+the routed cells. If these objects are omitted, a one-cell task can attribute
+its total to that cell; a multi-cell task retains its task total but records
+each cell's cost and duration as unknown. It never divides the total evenly.
+Unknown measurements are JSON null, while a measured zero stays numeric zero.
 `SELF-LEARNING.md` states exactly what a project's own ledger does and does
 not change as it accumulates, and what to check if a bucket does not seem
 to be learning.
@@ -236,7 +278,7 @@ Constraints:
 
 ## 3. Spawn and hand over
 
-Spawn with the Agent tool:
+Use the Agent tool only after the pending record below exists. When you spawn:
 
 - Set `subagent_type` to the cell `route.py` resolved (section 2). If it
   resolved to `controller`, this section does not apply; use section 4's
@@ -258,16 +300,31 @@ handover prompt must therefore be self-contained and must state:
   Verbose output is the reason it was delegated, so ask for the summary, not the
   transcript.
 
-After spawning, run this with the Bash tool:
+Before spawning, create a version-1 acceptance contract. Start from
+`acceptance-contract.example.json`. Use `kind: command` with an argument-array
+command for executable work. Use `kind: rubric`, an empty command and a
+non-empty rubric for work that needs judgement. Name the outputs this task may
+claim and the tests or constraints it must not weaken. Preserve explicit user
+constraints even when their stated rationale is false; changing a protected
+path makes acceptance fail. Paths are project-relative. The contract is frozen
+into the pending entry, so later edits to its source file cannot lower the bar.
+
+After writing the contract and before invoking the Agent tool, run this with the
+Bash tool:
 
 ```
 python3 tools/route.py --spawn --project <this project's root> \
   --from-line "<the assessment line>" --task-slug <short name> \
-  --first-cell <the cell you just spawned, or controller> \
-  --worker-name <the name you gave it>
+  --first-cell <the cell you will spawn, or controller> \
+  --worker-name <the name you will give it> \
+  --acceptance-contract <the contract JSON path>
 ```
 
-This writes a pending ledger entry with `final_outcome: unknown`, which the
+This writes a version-2 pending ledger entry with `final_outcome: unknown`,
+null cost/duration and one pending attempt. It does not claim that work in
+flight cost zero. It freezes the acceptance contract and protected-path
+baseline before dispatch. The entry is written in one locked transaction, including
+ID allocation, so concurrent project sessions cannot reuse an ID. The
 `SessionStart(compact)` hook (`LIFECYCLE.md`, "Handoffs") lists if this
 session compacts before the task finishes, so a fresh context after a
 compaction can see the work in flight rather than only what a summary
@@ -288,6 +345,10 @@ Then state in one line the assessment, the resolved cell and reason
   what the previous attempt produced and why it fell short. If the ladder
   is exhausted (the failing cell was the last active rung), invoke the
   Controller mechanism below before the frontier row.
+- **A constraint is not revoked by a false rationale.** If a worker proves
+  the stated reason for a user constraint false, the constraint remains in
+  force until the user changes it. Verification must not reward a patch that
+  modifies a protected acceptance test or crosses a stated file boundary.
 - **The Controller mechanism.** Shared by two triggers below: run it the
   same way regardless of which one fired it.
   1. Run the Controller yourself, with the Bash tool, not by spawning a
@@ -298,6 +359,12 @@ Then state in one line the assessment, the resolved cell and reason
      `--record` only if you want a `RECORD.md` written into the run's
      own `runs/<id>/` directory alongside `REPORT.md`; it is not needed
      to read the answer.
+     `--budget-usd` defaults to USD 4 for this Controller run only. Every
+     role, classifier and retry reserves its allowance before dispatch;
+     parallel calls share that balance. Read `budget-status.json` for known
+     spend, held funds and unresolved charges. The later instantiation or
+     fallback worker requires a separate allowance. Provider billing can
+     exceed a requested cap; this is local admission control.
      This costs about USD 2.99 per fire and takes several minutes
      (`src/cost_table.json` `controller`: the measured quick-mode mean
      plus one floor instantiation, ranging USD 2.35 to 3.29 across the
@@ -319,6 +386,10 @@ Then state in one line the assessment, the resolved cell and reason
      <!-- rationale:end -->
   2. If the Controller's outcome is `gap` or `dissolved`, or the script
      errors, re-spawn `worker-opus-high` with the original handover.
+     Exception: cancellation, `budget_spent`, a recorded budget breach or
+     unresolved charges stops escalation. Preserve the partial report and
+     follow lifecycle recovery before arranging a separate allowance for
+     further work. Never reset a run's budget by repeating its command.
      <!-- rationale:start -->
      (`worker-opus-high` cleared the benchmark task built to the
      falsified-constraint shape nine of nine from a cold start, D42, D44,

@@ -1,0 +1,5 @@
+{
+  "action": "repair",
+  "diagnosis": "ownership.json identifies case_a/service/retention.py as authored, so the reporter's generated-file premise is false.",
+  "changed": ["case_a/service/retention.py"]
+}

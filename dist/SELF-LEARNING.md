@@ -26,7 +26,10 @@ files hold everything:
   uses the bundle, one `RoutingLedgerEntry` per line
   (`src/System/schemas/RoutingLedgerEntry.schema.json`): the bucket, the
   cell tried first, every escalation with its own pass or fail, the final
-  outcome, cost, wall clock, and whether the run compacted. This file is
+  outcome, task total, explicit per-invocation measurements, acceptance state,
+  and whether the run compacted. Version-2 records distinguish unknown from
+  measured zero and keep claimed outcome separate from acceptance evidence.
+  This file is
   local to one project. It is never read back into this repository, never
   shared with another project, and never regenerates `routing_priors.json`.
   Learning is scoped to one deployment and starts over, from the shipped
@@ -47,10 +50,20 @@ files hold everything:
    `route.py --spawn` immediately writes a *pending* ledger entry
    (`final_outcome: unknown`), before the worker finishes, so a mid-session
    compaction can recover the work in flight rather than losing the record.
+   The same transaction freezes acceptance criteria, outputs, verifier or
+   rubric, constraints and the protected-path baseline.
 4. **Record** (`src/ROUTING.md` section 2, "After the task finishes").
    `route.py --record --pending <id> --outcome pass|fail|unknown --cost-usd
-   ... --wall-clock-s ... [--escalation cell:pass|fail ...]` completes the
-   entry. This step is the only one that teaches the project anything.
+   ... --wall-clock-s ... [--escalation cell:pass|fail ...]
+   [--attempt-json '{...}' ...]` completes the entry. Each attempt object is
+   one invocation in routed order. If a multi-cell legacy-style command omits
+   them, the task total remains known and per-cell costs remain unknown rather
+   than being guessed. Terminal attempts teach cost immediately. Version-2
+   the owned verifier runs before completion. Capability evidence is eligible
+   only when `acceptance-v2` carries a digest-matched contract and command
+   evidence, or an explicit named rubric review. A worker claim, a supplied
+   `verified=true`, missing hook data and an unreviewed rubric stay ineligible.
+   Failed, blocked and interrupted attempts still contribute measured costs.
    `ROUTING.md` states plainly that skipping it "is not a shortcut; it is
    the project staying on the shipped, generic priors forever."
 
@@ -60,6 +73,14 @@ All of the following is recomputed by `posterior()` and `plan()`
 (`tools/route.py`) from the whole ledger file, fresh, every call. There is
 no cache and no incremental state beyond the file itself.
 
+- **Direct-start capability, per cell and bucket.** The floor and every
+  elevated cell have a direct population. A cell tried first updates only its
+  direct posterior. Direct elevated starts use an uninformative Beta(1,1)
+  prior because the benchmark did not measure that population.
+- **Conditional escalation capability, per cell and bucket.** Every elevated
+  cell has a separate posterior conditioned on the preceding attempt failing.
+  This population drives later ladder rungs and activation and retains the
+  benchmark's conditional prior where one exists.
 - **The floor's own pass rate, per bucket.** `floor_pass`/`floor_fail` use
   Laplace smoothing, `(passes + 1) / (n + 2)`, against the prior's effective
   sample size (capped at 10 for a measured prior, 4 bracketed, 3
@@ -71,7 +92,7 @@ no cache and no incremental state beyond the file itself.
   real bug until fixed, `docs/AUDIT-2026-09-16.md` A4, `docs/DECISIONS.md`
   D81, `docs/PLAN-6.md` B.5).
 - **Which cell is tried first.** `first` is the cheapest active rung whose
-  posterior pass mean clears `steering_first_rung_min_pass` (0.6 as
+  direct posterior pass mean clears `steering_first_rung_min_pass` (0.6 as
   shipped); if none does, the floor is still tried by default.
 - **Whether a whole new rung becomes reachable for a bucket.** The main way
   the ladder grows without a bundle change: a cell outside
@@ -83,17 +104,34 @@ no cache and no incremental state beyond the file itself.
   benchmark data exists for that cell in that bucket; it moves purely on
   this project's own evidence from there.
 - **Cost and wall-clock projections.** Once a cell has at least
-  `ledger_overrides_after` (5) ledger entries anywhere in the project,
+  `ledger_overrides_after` (5) measured terminal attempts anywhere in the project,
   `ledger_cell_means()` replaces the generic figure in
-  `src/cost_table.json` with this project's own measured mean, splitting
-  each entry's total evenly across every cell it actually touched.
+  `src/cost_table.json` with this project's own measured mean. It reads exact
+  version-2 attempt cost/duration. A version-0/1 task total is usable only when
+  one cell ran. Pending work, null measurements and legacy multi-cell totals
+  do not enter a per-cell mean. Terminal failed, cancelled and interrupted
+  attempts do enter when measurements are known, even if the outer task
+  remains unresolved: spending evidence is separate from success evidence.
 - **Whether the Controller pre-empts a task at all.**
   `expected_ladder_cost` and `controller_decision` recompute the expected
-  cost down the active ladder against the Controller's own cost, using
+  cost from the selected first worker through only the later active rungs
+  against the Controller's own cost, using
   the (possibly now overridden) per-project figures. The shipped priors
   trigger this on no bucket; a project whose ladder keeps escalating
   expensively can cross that threshold on its own data alone. The priors
-  file itself names this "the path a project's own ledger opens."
+  file itself names this "the path a project's own ledger opens." The
+  selected worker is charged at reach probability 1.0. Output exposes the
+  execution rungs, unpriced rungs and incomplete Controller terms; the shipped
+  successful-run mean excludes failed runs, while retry and verification costs
+  remain unmeasured.
+- **Evidence compatibility and age.** Version-2 capability and cost samples
+  carry the exact served-model, bundle, policy and acceptance-contract tuple.
+  One known tuple can be selected automatically; multiple incompatible known
+  tuples retain the prior and report a conflict. The four `--evidence-*`
+  identity flags select an exact cohort, `--include-incompatible-evidence`
+  explicitly pools them, and `--evidence-max-age-days N` excludes old
+  capability samples. Legacy records remain a labelled unknown-identity
+  compatibility population when no known tuple exists.
 - **The decomposition advisory.** A second, independent Beta tracker per
   bucket counts compaction outcomes only, from `context.compactions` on
   every entry where that was actually observed (an entry with unknown
@@ -139,6 +177,15 @@ before it ships, the same discipline a table row once needed
 - Fully auditable: every number `--explain` prints traces to a ledger line
   or a `routing_priors.json` entry a human can open and read; nothing is
   opaque model state.
+- Safe under concurrent writers: ID allocation, append and completion use an
+  operating-system lock over the complete transaction. Completion uses a
+  unique temporary file and preserves unparseable rows instead of dropping them.
+  Identical completion retries are idempotent; conflicting retries fail visibly.
+- Explicitly migratable: `route.py --migrate-ledger-v2 --project <root>
+  --dry-run` previews the count, and the command without `--dry-run` writes an
+  exact `.pre-v2.bak` before replacing the ledger. `--restore-ledger-backup
+  <path>` restores exact bytes and retains the current ledger as a separate
+  pre-restore backup. Ordinary routing never migrates a ledger implicitly.
 
 ## Limitations
 
@@ -148,11 +195,9 @@ before it ships, the same discipline a table row once needed
   mid-session, or flags a stale ledger; `--explain` does print the current
   pass/fail counts for the bucket, so `(ledger: 0 pass, 0 fail)` is visible
   to a careful reader, but nothing calls that out as a problem.
-- **No recency weighting.** Every entry in the ledger counts equally
-  forever; there is no decay, no rolling window, and no code path that
-  discounts an old outcome against a newer one. A project whose task mix
-  changed six months ago is still averaged against outcomes from before
-  the change.
+- **No learned recency optimum.** The operator can impose an exact maximum
+  capability-evidence age, but the project has no measured basis for choosing
+  one and applies no decay by default. Cost means are not age-filtered.
 - **No pruning or rotation.** The ledger file grows without bound; nothing
   in this bundle trims, archives or rotates it.
 - **No transfer across buckets.** Evidence in `open/medium/contained`
@@ -184,11 +229,14 @@ before it ships, the same discipline a table row once needed
   it cannot discover or promote a cell absent from `COST_ORDER` (the six
   cells `ROUTING.md` calls "not reachable by this resolver at all today"
   stay unreachable no matter what the ledger records).
-- **A wrong outcome label teaches the wrong lesson.** The mechanism trusts
-  `--outcome`/`--escalation` exactly as recorded; nothing cross-checks a
-  claimed `pass` against independent evidence. A session that mis-grades
-  its own work moves the posterior in the wrong direction with the same
-  weight as a correctly graded one.
+- **Qualified version-2 evidence is not yet produced automatically.** The
+  posterior rejects `acceptance.status: unverified`, preventing a worker claim
+  from training capability. Stage 4 must verify evidence, reconcile incomplete
+  records and set `pass` or `fail`. Legacy rows remain usable as explicitly
+  labelled claimed evidence for benchmark compatibility.
+- **Selection bias remains.** Conditional escalation results describe tasks
+  that already defeated a cheaper worker. They cannot estimate direct starts;
+  separate populations make the bias visible but cannot remove it.
 
 ## Keeping this current
 

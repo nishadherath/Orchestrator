@@ -1,0 +1,13 @@
+{
+  "enabledMcpjsonServers": ["graft"],
+  "permissions": {
+    "allow": [
+      "mcp__graft__graft_check_freshness",
+      "mcp__graft__graft_repo_map",
+      "mcp__graft__graft_find_code",
+      "mcp__graft__graft_find_all",
+      "mcp__graft__graft_file_api",
+      "mcp__graft__graft_trace_calls"
+    ]
+  }
+}
