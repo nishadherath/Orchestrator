@@ -1,0 +1,224 @@
+{
+  "attack_checks": 72,
+  "catalogue_sha256": "53950607fab888e0cffc00a6179d6ef45c5e13e5f1c689a36f964e31e59d485c",
+  "development_tasks": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12"
+  ],
+  "evidence_sha256": "62f88ca1b2233774727685b4adaf0368cdda3161bf1a89901fb2483e5b76022b",
+  "implementation_sha256": "ab62f69de209184dead2a76222e8b1f348ebfac741b79961df2d092e6a9c3881",
+  "isolation": {
+    "detail": "boundary=WSL2 Linux user and mode separation; digest=valid",
+    "passed": true
+  },
+  "mode": "offline-corpus-qualification-v1",
+  "model_calls": 0,
+  "offline_only": true,
+  "report": {
+    "path": "test/results/2026-09-18-realworld-corpus.md",
+    "sha256": "913b0f7ecb537821458cb925d8fd1703dcc836624c6da0e73a0fff34848f2953"
+  },
+  "reserved_authoring": {
+    "arm_label_blinding": "not-provable-same-session",
+    "basis": "Frozen pre-pilot task blueprints in docs/REAL-WORLD-EVALUATION-PLAN.md",
+    "limitation": "The authoring session had access to pilot outcomes; fixtures were constrained to the pre-pilot blueprints and were not adapted to policy-specific failures."
+  },
+  "reserved_tasks": [
+    "H01",
+    "H02",
+    "H03",
+    "H04",
+    "H05",
+    "H06",
+    "H07",
+    "H08",
+    "H09",
+    "H10",
+    "H11",
+    "H12"
+  ],
+  "result": "PASS",
+  "schema_version": 1,
+  "task_count": 24,
+  "tasks": [
+    {
+      "attacks_rejected": true,
+      "id": "D01",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D11",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D03",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D05",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D07",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D08",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D09",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D10",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D02",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D04",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D06",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "D12",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H01",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H02",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H03",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H04",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H05",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H06",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H07",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H08",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H09",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H10",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H11",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    },
+    {
+      "attacks_rejected": true,
+      "id": "H12",
+      "oracle_unchanged": true,
+      "passed": true,
+      "variants_as_expected": true
+    }
+  ],
+  "variant_states": 144
+}

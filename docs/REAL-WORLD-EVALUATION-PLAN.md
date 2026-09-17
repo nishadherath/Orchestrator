@@ -539,7 +539,7 @@ Use the same operator handoff and Graft requirements for implementation work.
 | W03. Eight-task pilot corpus | W02 | Designated D tasks, pinned dependencies, public checks, reference solutions and adversarial grader validation. | 2-3 days |
 | W04. Episode runner and report | W01-W03 | Checkpointed runs, event records, three frozen policies, external grading, paired outcomes and complete cost totals; offline replay passes. | 1-2 days |
 | W05. Pilot decision | W04 | 24 episodes or an explicit stop; measured-versus-projected spend; chosen finalist and justified go/no-go. | 2-6 execution hours plus review |
-| W06. Complete and seal corpus | W02 and W05 go decision | Remaining four D tasks and 12 H tasks; independent applications where specified; source and grader provenance. Keep the H-fixture author blind to arm-labelled pilot outcomes. | 2-4 days |
+| W06. Complete and seal corpus | W02 and W05 go decision | **Complete.** Remaining four D tasks and 12 H tasks; independent applications where specified; source and grader provenance. Strict author blinding is recorded as unprovable in the same session. | 2-4 days |
 | W07. Development and freeze | W05-W06 | 32 development episodes, one selected candidate, frozen triggers and predefined evaluation schedule. | 2-6 execution hours plus review |
 | W08. Reserved comparison | W07 | 48 episodes, clustered uncertainty, incident review and release-gate decision. No post-hoc retuning on the same reserved set. | 3-8 execution hours plus review |
 | W09. Package qualified defaults | W08 passes | Reviewed aggregate importer/output; updated source/bundle, offline smoke checks, clean install, evidence notes and rollback path. | 0.5-1 day |
@@ -589,9 +589,21 @@ same observed path; B1 cost USD 0.010079999 less. B0 accepted 5/8 at materially
 higher cost, with its extra pass coming from the pilot's only Opus fallback.
 B1's measured cost per accepted result was 32 percent below B0, which meets the
 predeclared cost-benefit condition to continue. This small stochastic pilot does
-not justify a default change or a B2 revision. W06-W08 remain unstarted. The
-next action is offline W06 corpus completion and sealing; paid W07 execution
-requires a new frozen manifest, current cost projection and authorisation.
+not justify a default change or a B2 revision.
+
+W06 completed offline on 2026-09-18. The corpus now contains D01-D12 and
+H01-H12. Its external graders accepted both valid implementations and rejected
+the original plus three adversarial implementations for every task: 144 states
+and 72 boundary-attack checks in total. The exact catalogue, fixtures, oracles
+and zero-call evidence are sealed by the candidate freeze. The authoring
+session could access arm-labelled pilot outcomes, so strict H-fixture author
+blinding is not claimed; construction stayed within the frozen pre-pilot
+blueprints. Evidence is `test/results/2026-09-18-realworld-corpus.json`.
+
+W07-W08 remain unstarted. The next action is W07 preparation: fix the 32
+development episodes for B0 and B1, freeze triggers and the evaluation schedule,
+reconcile a current cost projection, then request a new exact authorisation.
+No W07 call is authorised by the completed pilot approvals.
 
 ## 11. Later extensions, only after the small campaign earns them
 

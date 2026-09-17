@@ -1,0 +1,1 @@
+"""Authored Werkzeug consumer fixture."""

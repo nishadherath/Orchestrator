@@ -187,3 +187,23 @@ finalist and B0 remains the fixed-fallback baseline. Proceed to offline W06;
 do not change defaults or begin paid W07 work from this pilot alone. See
 `test/results/2026-09-18-realworld-pilot-continuation.md` and its neighbouring
 JSON record.
+
+## Completed W06 corpus seal, 2026-09-18
+
+The complete corpus now contains D01-D12 and H01-H12. Offline qualification
+passed all 24 tasks, 144 original/solution/adversarial states and 72 attempted
+acceptance-boundary attacks with zero model calls. The reserved split uses a
+separate application ID for every task; H01/H02 retain their pinned Werkzeug
+source cluster and H08/H09 retain the planned coordination comparison. Source,
+licence, fixture and grader provenance are bound into the refreshed candidate.
+
+The reserved author was not independently blind to arm-labelled pilot results:
+the same session had access to them. The fixtures were constrained to the
+frozen pre-pilot blueprints and were not revised around arm-specific failures.
+This is a documented validity limitation, so H01-H12 are described as reserved
+evaluation rather than uncontaminated model testing.
+
+W07 remains closed. Its 32 development episodes require a new manifest that
+fixes B0 and B1, frozen triggers and schedule, a current cost projection and a
+new exact operator authorisation. Evidence is
+`test/results/2026-09-18-realworld-corpus.json` and the neighbouring report.

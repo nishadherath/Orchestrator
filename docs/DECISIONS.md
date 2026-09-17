@@ -5440,3 +5440,27 @@ stochastic episode cannot establish a stable acceptance advantage. D03, D09
 and D10 passed visible checks but failed hidden grading across all arms, leaving
 no policy-visible signal for a justified trigger change. Controller execution
 therefore remains live-unverified.
+
+## D104. Seal a 12-task development and 12-task reserved corpus, 2026-09-18
+
+Decision: complete D01-D12 and H01-H12 as the version-1 evaluation corpus. Give
+every task an actor-visible issue and public checks, an evaluator-only oracle,
+two independently valid implementations and three plausible invalid
+implementations. Require every reserved task to use a distinct application ID;
+retain H01/H02 as a pinned Werkzeug source cluster and H08/H09 as the planned
+independent-versus-dependent coordination comparison. Bind the exact catalogue,
+fixtures, oracles and a zero-call qualification record into the candidate
+freeze. Keep paid W07 closed until a separate development manifest, projection
+and operator authorisation exist.
+
+Record the reserved-authoring limitation rather than claiming strict blinding.
+The same session that constructed the fixtures could access arm-labelled pilot
+outcomes. Construction was constrained to the pre-pilot task blueprints and did
+not respond to policy-specific failures, but independent author blinding is not
+provable. Treat H01-H12 as reserved evaluation, not uncontaminated model testing.
+
+Why: the exact split, application boundaries, dependency hashes, oracle
+separation and adversarial variants make the corpus reproducible and resistant
+to superficial fixture solutions. The limitation prevents stronger validity
+claims than the process supports. A separately authorised W07 boundary prevents
+historical pilot approval from carrying into a larger paid comparison.

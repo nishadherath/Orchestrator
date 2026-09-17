@@ -1,0 +1,1 @@
+"""Date-boundary report fixture."""

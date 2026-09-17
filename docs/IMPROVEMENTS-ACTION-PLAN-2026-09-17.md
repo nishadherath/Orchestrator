@@ -543,6 +543,18 @@ condition to proceed to offline W06. No default changes are supported yet,
 Controller execution remains live-unverified, and no W07 call is authorised.
 Evidence is `test/results/2026-09-18-realworld-pilot-continuation.json`.
 
+W06 corpus completion, 2026-09-18: D02, D04, D06 and D12 complete the
+development split; H01-H12 complete the reserved split. Each task has an issue,
+actor repository, public checks, external hidden oracle, two accepted solutions
+and three rejected plausible wrong implementations. The zero-call qualification
+passed 24 tasks, 144 states and 72 protected-boundary attacks. Catalogue
+invariants enforce the exact split, reserved application independence, the
+Werkzeug source cluster and the H08/H09 coordination comparison. Strict reserved
+author blinding is not claimed because the authoring session could see pilot
+outcomes; the fixtures remained constrained to the frozen pre-pilot blueprints.
+W07 remains unauthorised. Evidence is
+`test/results/2026-09-18-realworld-corpus.json`.
+
 ## Verification, records and stage completion
 
 For every implemented stage:

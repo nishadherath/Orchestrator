@@ -44,6 +44,9 @@ PILOT_TESTS = ROOT / "test" / "harness" / "evaluation_pilot_tests.py"
 PILOT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
 PILOT_REPORT = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.md"
 PILOT_AUTHORISATION_TEMPLATE = ROOT / "docs" / "REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json"
+CORPUS_HARNESS = ROOT / "test" / "harness" / "realworld.py"
+CORPUS_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-realworld-corpus.json"
+CORPUS_REPORT = ROOT / "test" / "results" / "2026-09-18-realworld-corpus.md"
 
 
 def sha256(path: Path) -> str:
@@ -92,6 +95,7 @@ def bound_files() -> list[Path]:
         LIVE_EPISODE, LIVE_EPISODE_TESTS, LIVE_EPISODE_EVIDENCE, LIVE_EPISODE_REPORT,
         PILOT_RUNNER, PILOT_TESTS, PILOT_EVIDENCE, PILOT_REPORT,
         PILOT_AUTHORISATION_TEMPLATE,
+        CORPUS_EVIDENCE, CORPUS_REPORT,
     ) if path.is_file()]
     return sorted(set(fixed + fixture_files + oracle_files + runner_files + calibration_files))
 
@@ -220,6 +224,39 @@ def valid_pilot_preflight_evidence() -> tuple[bool, str | None, dict]:
     return valid, evidence_digest, value
 
 
+def valid_corpus_evidence() -> tuple[bool, str | None, dict]:
+    valid, evidence_digest, value = valid_evidence(CORPUS_EVIDENCE)
+    report = value.get("report") or {}
+    expected_development = [f"D{number:02d}" for number in range(1, 13)]
+    expected_reserved = [f"H{number:02d}" for number in range(1, 13)]
+    task_results = value.get("tasks") or []
+    valid = bool(
+        valid and CORPUS_HARNESS.is_file() and CORPUS_REPORT.is_file()
+        and value.get("mode") == "offline-corpus-qualification-v1"
+        and value.get("offline_only") is True and value.get("model_calls") == 0
+        and value.get("implementation_sha256") == sha256(CORPUS_HARNESS)
+        and value.get("catalogue_sha256") == sha256(CATALOGUE)
+        and value.get("development_tasks") == expected_development
+        and value.get("reserved_tasks") == expected_reserved
+        and value.get("task_count") == 24
+        and value.get("variant_states") == 144
+        and value.get("attack_checks") == 72
+        and len(task_results) == 24
+        and all(
+            task.get("passed") is True
+            and task.get("oracle_unchanged") is True
+            and task.get("variants_as_expected") is True
+            and task.get("attacks_rejected") is True
+            for task in task_results
+        )
+        and (value.get("reserved_authoring") or {}).get("arm_label_blinding")
+            == "not-provable-same-session"
+        and report.get("path") == CORPUS_REPORT.relative_to(ROOT).as_posix()
+        and report.get("sha256") == sha256(CORPUS_REPORT)
+    )
+    return valid, evidence_digest, value
+
+
 def candidate() -> dict:
     catalogue = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     ready = sorted(task["id"] for task in catalogue["tasks"] if task.get("readiness") == "ready")
@@ -237,6 +274,7 @@ def candidate() -> dict:
     controller_valid, controller_digest, controller = valid_live_controller_evidence()
     episode_valid, episode_digest, episode = valid_live_episode_evidence()
     pilot_valid, pilot_digest, pilot = valid_pilot_preflight_evidence()
+    corpus_valid, corpus_digest, corpus = valid_corpus_evidence()
     blockers = []
     if remaining:
         blockers.append(f"pilot fixtures not ready: {', '.join(remaining)}")
@@ -258,7 +296,9 @@ def candidate() -> dict:
         blockers.append("live Controller escalation adapter and offline qualification evidence are missing or invalid")
     if not pilot_valid:
         blockers.append("pilot profile preflight and authorisation boundary are missing or invalid")
-    blockers.append("paid pilot has not been authorised")
+    if not corpus_valid:
+        blockers.append("complete development and reserved corpus evidence is missing or invalid")
+    blockers.append("paid W07 development comparison has no frozen manifest or authorisation")
     return {
         "schema_version": 1,
         "created_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -336,6 +376,15 @@ def candidate() -> dict:
             "remaining_tasks": remaining,
             "planned_episodes": 24,
             "allocation_usd": 100.0,
+        },
+        "corpus": {
+            "qualified": corpus_valid,
+            "evidence": CORPUS_EVIDENCE.relative_to(ROOT).as_posix(),
+            "evidence_sha256": corpus_digest,
+            "task_count": corpus.get("task_count"),
+            "development_tasks": corpus.get("development_tasks"),
+            "reserved_tasks": corpus.get("reserved_tasks"),
+            "reserved_authoring": corpus.get("reserved_authoring"),
         },
         "bound_files": files,
         "paid_launch_ready": not blockers,

@@ -31,9 +31,16 @@ class RealWorldFoundationTests(unittest.TestCase):
         report = self.harness.report()
         self.assertEqual(report["result"], "PASS", report)
         self.assertEqual(report["model_calls"], 0)
+        self.assertEqual(set(report["ready_tasks"]), {
+            *(f"D{number:02d}" for number in range(1, 13)),
+            *(f"H{number:02d}" for number in range(1, 13)),
+        })
+        self.assertEqual(report["corpus_tasks_remaining"], [])
+        self.assertEqual(len(report["development_tasks"]), 12)
+        self.assertEqual(len(report["reserved_tasks"]), 12)
         self.assertEqual(
-            set(report["ready_tasks"]),
-            {"D01", "D03", "D05", "D07", "D08", "D09", "D10", "D11"},
+            report["reserved_authoring"]["arm_label_blinding"],
+            "not-provable-same-session",
         )
         self.assertTrue(report["isolation"]["passed"], report["isolation"])
         for task in report["tasks"]:
@@ -112,6 +119,9 @@ class RealWorldFoundationTests(unittest.TestCase):
             "test/results/2026-09-17-live-episode-integration.json",
             first["bound_files"],
         )
+        self.assertIn("test/oracles/realworld/H12/test_hidden.py", first["bound_files"])
+        self.assertEqual(first["corpus"]["task_count"], 24)
+        self.assertTrue(first["corpus"]["qualified"])
 
     def test_recorded_wsl_isolation_boundary(self):
         path = ROOT / "test" / "results" / "2026-09-17-realworld-isolation.json"
@@ -124,7 +134,7 @@ class RealWorldFoundationTests(unittest.TestCase):
             cwd=ROOT,
             capture_output=True,
             text=True,
-            timeout=60,
+            timeout=120,
         )
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(json.loads(completed.stdout)["result"], "PASS")

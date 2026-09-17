@@ -481,3 +481,26 @@ lower measured B1 cost per accepted result supports proceeding to offline W06,
 but the sample does not support changing defaults. Evidence is
 `test/results/2026-09-18-realworld-pilot-continuation.json` and the neighbouring
 Markdown report.
+
+## Complete real-world corpus qualification, 2026-09-18
+
+Observed offline with zero model calls: all 12 development tasks and 12 reserved
+tasks passed the external-grader contract. Across 144 states, each original
+defect and each of three plausible wrong implementations was rejected, while a
+reference implementation and an alternative implementation were accepted.
+Seventy-two attempts to delete or weaken public checks or shadow evaluator
+material were rejected, and every protected oracle remained byte-identical.
+
+H01 and H02 use separate consumer applications against the pinned Werkzeug
+3.1.8 wheel. H03-H12 use separate authored applications, including the paired
+independent and dependency-sensitive coordination cases H08/H09. Authored
+standard-library fixtures inherit the repository's Apache-2.0 licence; external
+dependency artefacts retain their recorded upstream licences and hashes.
+
+Limitation: strict arm-label blinding cannot be established because the
+authoring session had access to the completed pilot outcome. The reserved
+fixtures follow the frozen pre-pilot blueprints and were not adapted to
+policy-specific failures. This supports a reserved comparison, not a claim of
+uncontaminated model evaluation. Evidence is
+`test/results/2026-09-18-realworld-corpus.json` and the neighbouring Markdown
+report.
