@@ -5375,3 +5375,16 @@ itself is fixed. A candidate-bound authorisation prevents later source changes
 or a regenerated plan from inheriting an earlier spending decision. Stopping
 between episodes preserves useful evidence without multiplying a failed
 instrumentation condition across the remaining arms.
+
+## D100. Distribute the project under Apache-2.0, 2026-09-18
+
+Decision: apply the Apache License, Version 2.0 to the project. Keep the complete
+official licence text in the repository root and in every generated distribution
+bundle. Mark `LICENSE` as bundle support material so the installer does not
+replace a consumer project's own licence file. Record `Apache-2.0` and the
+licence path in the bundle manifest.
+
+Why: the operator explicitly selected Apache-2.0. Shipping the licence in the
+bundle satisfies the redistribution requirement while keeping installation into
+an existing consumer repository from claiming that repository's unrelated work.
+The explicit patent grant also fits a reusable engineering tool.

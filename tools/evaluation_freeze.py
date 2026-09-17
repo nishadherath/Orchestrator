@@ -63,6 +63,7 @@ def git(*args: str) -> str:
 
 def bound_files() -> list[Path]:
     fixed = [
+        ROOT / "LICENSE",
         ROOT / "dist" / "bundle-manifest.json",
         CATALOGUE,
         PRICE,

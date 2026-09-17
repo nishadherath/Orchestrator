@@ -84,7 +84,7 @@ RATIONALE_END = "<!-- rationale:end -->"
 # consumer project by install.py. Every other planned file is bundle-owned.
 INSTALL_SUPPORT_FILES = {
     "README.md", "CLAUDE.template.md", "settings.fragment.json",
-    "install.py", "bundle-manifest.json",
+    "install.py", "bundle-manifest.json", "LICENSE",
 }
 
 
@@ -193,6 +193,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     out[dist_dir / "ORCHESTRATOR.md"] = ORCHESTRATOR_HEADER.format(version=version, source=source) + orchestrator_body
     out[dist_dir / "ORCHESTRATOR-REFERENCE.md"] = routing.rstrip("\n") + "\n\n" + lifecycle
     out[dist_dir / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
+    out[dist_dir / "LICENSE"] = (REPO_ROOT / "LICENSE").read_text(encoding="utf-8")
     out[dist_dir / "SELF-LEARNING.md"] = (SRC / "SELF-LEARNING.md").read_text(encoding="utf-8")
     out[dist_dir / "CLAUDE.template.md"] = (SRC / "CLAUDE.template.md").read_text(encoding="utf-8")
     out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
@@ -215,7 +216,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
             "state_file": ".claude/orchestrator-install/state.json",
             "backup_root": ".claude/orchestrator-install/backups",
         },
-        "licence": {"status": "operator_action_required", "file": None},
+        "licence": {"status": "present", "spdx": "Apache-2.0", "file": "LICENSE"},
     }
     out[dist_dir / "bundle-manifest.json"] = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"

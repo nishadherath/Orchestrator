@@ -144,3 +144,8 @@ Release-candidate sealing on 2026-09-18 produced clean bundle stamp
 The concrete matrix and stop conditions are in
 `docs/REAL-WORLD-PILOT-6-EPISODE-2026-09-18.md`. The remaining candidate
 blockers are the project licence decision and exact paid-pilot authorisation.
+
+The operator selected Apache-2.0 and approved the fixed USD 26 pilot envelope on
+2026-09-18. The licence is shipped in the distribution without replacing a
+consumer project's licence. Candidate and manifest hashes must be regenerated
+after this authorised packaging change before the first paid call.

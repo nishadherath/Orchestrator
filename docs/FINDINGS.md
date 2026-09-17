@@ -421,3 +421,10 @@ identity, event-chain, oracle-integrity or launch-preflight evidence fails.
 
 Unverified: the qualification uses fake episodes. No authorisation file exists,
 and no paid episode has run.
+
+## Apache-2.0 distribution boundary, 2026-09-18
+
+The operator selected Apache-2.0. The repository and generated bundle now carry
+the official licence text, and the bundle manifest records the SPDX identifier.
+The installer treats the licence as support material so it remains available in
+the redistributed bundle without overwriting a consumer project's licence.
