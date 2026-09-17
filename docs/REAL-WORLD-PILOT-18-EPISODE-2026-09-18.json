@@ -1,0 +1,155 @@
+{
+  "bundle_version": "2026-09-18-de8cefc",
+  "campaign": "realworld-v1-remaining-eighteen",
+  "candidate_sha256": "ce6cf4467b0ec462202f5cf419c5845aac471d30a9956fe3382b620b60660bec",
+  "cost": {
+    "basis": "18 fixed episode reservations plus separate calibration headroom",
+    "calibration_headroom_usd": 2.0,
+    "combined_authorisation_ceiling_usd": 74.0,
+    "currency": "USD",
+    "episode_count": 18,
+    "episode_total_cap_usd": 72.0,
+    "per_episode_cap_usd": 4.0
+  },
+  "episodes": [
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-07-d03-b0",
+      "policy_id": "B0",
+      "sequence": 7,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-08-d03-b1",
+      "policy_id": "B1",
+      "sequence": 8,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-09-d03-b2",
+      "policy_id": "B2",
+      "sequence": 9,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-10-d05-b0",
+      "policy_id": "B0",
+      "sequence": 10,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-11-d05-b1",
+      "policy_id": "B1",
+      "sequence": 11,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-12-d05-b2",
+      "policy_id": "B2",
+      "sequence": 12,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-13-d07-b0",
+      "policy_id": "B0",
+      "sequence": 13,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-14-d07-b1",
+      "policy_id": "B1",
+      "sequence": 14,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-15-d07-b2",
+      "policy_id": "B2",
+      "sequence": 15,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-16-d08-b0",
+      "policy_id": "B0",
+      "sequence": 16,
+      "task_id": "D08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-17-d08-b1",
+      "policy_id": "B1",
+      "sequence": 17,
+      "task_id": "D08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-18-d08-b2",
+      "policy_id": "B2",
+      "sequence": 18,
+      "task_id": "D08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-19-d09-b0",
+      "policy_id": "B0",
+      "sequence": 19,
+      "task_id": "D09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-20-d09-b1",
+      "policy_id": "B1",
+      "sequence": 20,
+      "task_id": "D09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-21-d09-b2",
+      "policy_id": "B2",
+      "sequence": 21,
+      "task_id": "D09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-22-d10-b0",
+      "policy_id": "B0",
+      "sequence": 22,
+      "task_id": "D10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-23-d10-b1",
+      "policy_id": "B1",
+      "sequence": 23,
+      "task_id": "D10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "pilot-24-d10-b2",
+      "policy_id": "B2",
+      "sequence": 24,
+      "task_id": "D10"
+    }
+  ],
+  "isolation_evidence_sha256": "8ec774fe2dce94e66ae25fa77ddfc6abcc7517be176371936ed846b80cc20879",
+  "manifest_sha256": "537a21cbb46012923ac229d3a4f98a8dd7883cf60a67fc084e8a80c25d12b83c",
+  "profile": "continuation-eighteen",
+  "review_after": "all 18 episodes complete, or immediately after the first stop condition",
+  "schema_version": 1,
+  "source_revision": "df72a1bbfeea07f3d94cc7ad07135f954c0dd430",
+  "stop_conditions": [
+    "candidate, bundle, isolation or authorisation does not validate",
+    "an episode stops with unresolved provider accounting",
+    "a served task model does not match the exact required model",
+    "the event chain, external grade or protected-oracle check is invalid",
+    "the fixed USD 72 episode envelope or USD 74 combined ceiling would be exceeded"
+  ]
+}
