@@ -1,14 +1,13 @@
 {
-  "blockers": [
-    "paid W08 reserved comparison has not been authorised"
-  ],
+  "blockers": [],
   "bound_files": {
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-    "dist/bundle-manifest.json": "20f2d4de2bcccfa084823a95169c4f833cc3b630fda1f7154324f9421feb5d82",
+    "dist/bundle-manifest.json": "51123a85a3cac7d83764163d5486eea02a156a041defc93d4c5973e587fe2692",
     "docs/REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json": "2233221c56218ffa2e593bf1ba0e481b88e6af81e50b97f4feddb7ffea5ee1a3",
     "src/System/schemas/BudgetEntry.schema.json": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
     "src/System/schemas/RoutingLedgerEntry.schema.json": "04e2cc54f53e37adabbc69c692801321e3bac4e93b1ff2da546ee6dbfd40f1c9",
     "src/acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
+    "src/routing_priors.json": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
     "test/fixtures/realworld/catalogue.json": "53950607fab888e0cffc00a6179d6ef45c5e13e5f1c689a36f964e31e59d485c",
     "test/fixtures/realworld/development/D01/issue.md": "b39bb3e1ec62dff711b4ca0047ef460e56e193b8be363b04f6ff8262d3b2d771",
     "test/fixtures/realworld/development/D01/repo/THIRD_PARTY.md": "a42e06fa12dee8d8473cb2cbaacc5636fcf66f78777c673af09c43b11fce1381",
@@ -316,10 +315,13 @@
     "test/harness/evaluation_live_episode_tests.py": "18e5347ecda703358efc3083f622e295532b088b69bdc7bcb80f5df96f84729f",
     "test/harness/evaluation_live_worker_tests.py": "7fa1c9ef2a7fed0e0a37405db97228ffe16d5aeb05093851bf60d8613aa5c2cc",
     "test/harness/evaluation_pilot_tests.py": "b9dab665e1484d1c075d411bdd7142b8d110a949f2c2945868f982c8833db0e5",
+    "test/harness/evaluation_reserved_result_tests.py": "833087f2c17d173da975050d19be067f15416d6bdb65d1cd95ecdfdc3b40353a",
+    "test/harness/install_tests.py": "e35f9f38bea0482d32af2a674e37bb8137a2af549e77ed1e58210ffbdfb38170",
     "test/harness/live_calibration_adjudication_tests.py": "c12b872a355d6ff776d06b40f7d32a00893c7db9a04489d97d8a7d564c5968a6",
     "test/harness/live_calibration_tests.py": "6f26b013b2241533ee1ca7a53b3e294651da87f3420d42b13e1d129f7b2b3452",
+    "test/harness/qualified_default_tests.py": "b355d62a7ebbc4ab9de3a44b1aeb89af786ef9509fc5da3b67d7d8fa653c76fc",
     "test/harness/realworld.py": "ab62f69de209184dead2a76222e8b1f348ebfac741b79961df2d092e6a9c3881",
-    "test/harness/realworld_tests.py": "6c4fb128b0751a87360bc2522d03d2d3331df5059f532a06f88369484d5a9f57",
+    "test/harness/realworld_tests.py": "8c5744cb70b91ff982753514e79a9dee10f1ac1ee024c7364c3feb0dca6195da",
     "test/oracles/realworld/D01/test_hidden.py": "b6ea024cfb5e878bf766a8910b03a30242454029e6ab75e1475c64f6100221f3",
     "test/oracles/realworld/D02/test_hidden.py": "12dc386285de8487f2f3d87c51bdfc88687639d3c8c9e89ae8abff45a67c4dcb",
     "test/oracles/realworld/D03/test_hidden.py": "2fea7ea11418e1e60794337251210440c3ed45d6eb10a7adec0f1271469ea0c5",
@@ -346,7 +348,7 @@
     "test/oracles/realworld/H12/test_hidden.py": "9d6bdbc46b1b04994b987a2409f01f928928fdbe8ab812671111f4cd6370f146",
     "test/results/2026-09-17-live-calibration-adjudication.json": "24ca29df956e8d627765cc69bffe9cdb6f0397482204a1a12f4b9a44f8a02923",
     "test/results/2026-09-17-live-calibration.json": "71f4e89770c810d3d8ebcde8aed3c9ca8d5b3b665b3e60a4835364a16ff4cc62",
-    "test/results/2026-09-17-live-episode-integration.json": "a12fa811b481565573a00a3296b9261df7383f2cb1892a449620cd9f6f195e05",
+    "test/results/2026-09-17-live-episode-integration.json": "43b94ea646d7f38916c7d60d6904ebee0b768a6760de6bdf00fbaf2adf1eab23",
     "test/results/2026-09-17-live-episode-integration.md": "dd0b3e7ff3979bcb912d6aa759e097a5bd13a2a89687134f4311111a83bfa96f",
     "test/results/2026-09-17-live-worker-adapter.json": "41883d58464dca1f81c78cf745a99a1650716806ff8af2677e820f2246e266ad",
     "test/results/2026-09-17-live-worker-adapter.md": "37327a28f2b52fd8ba443811546101ef889aa667914270039ea276ce3010c912",
@@ -361,28 +363,32 @@
     "test/results/2026-09-18-realworld-corpus.md": "913b0f7ecb537821458cb925d8fd1703dcc836624c6da0e73a0fff34848f2953",
     "test/results/2026-09-18-realworld-development.json": "dbfda3d2bc143da45aa638f9fce7902fdef82b19d35e96b54c05d7beb202eadc",
     "test/results/2026-09-18-realworld-development.md": "e4f3e7cd0ad3452f0ac4af3a3d888d2415a46050ca61686388dcc683cbe62135",
+    "test/results/2026-09-18-realworld-reserved.json": "2169492ff14198a539af2635bd177907d46e5d2aef1c06baa0214f55af455d39",
+    "test/results/2026-09-18-realworld-reserved.md": "362f156dc806c84280a22ef9bdc1b5b3af17b09dcde7dcb00fcbf961ceef05d2",
     "tools/acceptance.py": "5e38ee32b3e8b119bc9f87a23226d7dec1e4486ff35d6689adaa436b2e28145a",
     "tools/claudep.py": "73f9ce62d8c9f7233acb5c588b2c57a4e915991050b3a78fc8461fd11d151420",
     "tools/dispatch_budget.py": "7c08aef6bedbef8afa52cda093cf3e1c5c9a918ed0d43ab3eb7dd149c1e55381",
     "tools/evaluation_development_result.py": "b70e4108da054d87b29c995efd806f5e8163718cb3a0a509109faad2024e728f",
-    "tools/evaluation_freeze.py": "0aa3fc30407e72a02e09a83b8d2e77f50348f98552503462091d81929e1f5d65",
+    "tools/evaluation_freeze.py": "71f40f965f128a5ee6cdd07204151d1e1fc5fcac5dadeb95ce245ccc82788dbb",
     "tools/evaluation_live_controller.py": "c5cb5ab8b0226e86ded35c02c0a413586b024cd358d7cf4d9479145946c159e3",
-    "tools/evaluation_live_episode.py": "588c008225559d9d46274ebfd6947f01d7f2f6d60f8326e8b6022a0390496eb6",
+    "tools/evaluation_live_episode.py": "589e66129c88a5e97f61aacce8e2dde0178b66c5e5d684666fc47feebae83dc5",
     "tools/evaluation_live_worker.py": "02739a49eedcc185b3bc68892f38a5e554d385a941a04841b147f4e44a9add6c",
     "tools/evaluation_pilot.py": "852d134d035fdf64cae026e5ac582fc98dcd1c45c811d79356aefe6d86e99d8f",
+    "tools/evaluation_reserved_result.py": "5297ad2c262e5d57911448b5faed7945395bcd44556d4c201589482b76d7d1c5",
     "tools/evaluation_runner.py": "c00a42db9ed3cf6933083c9cfc46bd3078b24dd296451e5c9af0cb04ccb2fa99",
     "tools/live_calibration.py": "5ab6965bd7577cbc06d9e5e54b554c24443f1fa298ca90c7ad686654ba704472",
     "tools/live_calibration_adjudication.py": "90a9e92c132d81523f881c552aa4b07b7cb5c673f3bbfaeb08bc6439e7d06367",
     "tools/realworld_isolation.py": "f04fd546dfbc7428d65edb5619154656dc1e2b5c14fd48859ad91df229b91505",
+    "tools/route.py": "6dd79c63bbd2873aa70a075ff0185518dba440f9cb4687c6122a0b9b8c7226a0",
     "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1"
   },
   "bundle": {
-    "manifest_sha256": "20f2d4de2bcccfa084823a95169c4f833cc3b630fda1f7154324f9421feb5d82",
+    "manifest_sha256": "51123a85a3cac7d83764163d5486eea02a156a041defc93d4c5973e587fe2692",
     "payload_files": 50,
-    "version": "2026-09-18-de8cefc"
+    "version": "2026-09-18-313a87b"
   },
   "campaign": "realworld-v1",
-  "candidate_sha256": "99f6e7447b81054101c7ad57c4cd1bfd14b8d860aeec6f54f6f5a8d812e04fa4",
+  "candidate_sha256": "5e019f58c76b27b9416af8f2f773b554527461e8d8d119c89985e8c74139c245",
   "contracts": {
     "acceptance": "acceptance-v2",
     "active_model_timeout_seconds": 900,
@@ -430,7 +436,7 @@
     ],
     "task_count": 24
   },
-  "created_at": "2026-09-18T10:35:47+10:00",
+  "created_at": "2026-09-18T12:12:45+10:00",
   "development": {
     "decision": {
       "adaptive_candidate": "B1",
@@ -519,7 +525,7 @@
     "controller_adapter_mode": "offline-injected-controller-v1",
     "controller_adapter_qualified": true,
     "integration_evidence": "test/results/2026-09-17-live-episode-integration.json",
-    "integration_evidence_sha256": "44be45e9a80229c7c0d97c42bd995aad2cc6277d6c603dc571a709c7d331ac53",
+    "integration_evidence_sha256": "bec8a4b8d33fcb0c0b1faefbf5c66bd8f9c6e75ebdcd479476c043fd71416e01",
     "integration_mode": "offline-scripted-adapters-v1",
     "note": "Worker and Controller execution, nested accounting, sequencing and at-most-once recovery qualify offline.",
     "pilot_preflight_evidence": "test/results/2026-09-18-pilot-preflight.json",
@@ -541,7 +547,7 @@
       "claude-opus-5"
     ]
   },
-  "paid_launch_ready": false,
+  "paid_launch_ready": true,
   "pilot": {
     "allocation_usd": 100.0,
     "planned_episodes": 24,
@@ -629,7 +635,98 @@
     },
     "schema_version": 1
   },
+  "qualified_default": {
+    "adaptive_routing_enabled": false,
+    "checks": {
+      "behavioural_regression_present": true,
+      "configuration_exact": true,
+      "install_rollback_regression_present": true,
+      "rollback_documented": true,
+      "source_bundle_priors_equal": true,
+      "source_bundle_router_equal": true
+    },
+    "controller_allowed": false,
+    "decision": "docs/DECISIONS.md D107",
+    "evidence": "test/results/2026-09-18-realworld-reserved.json",
+    "evidence_sha256": "79624e2bf2c846531a4d2ebc746449a7c70c3e4310d0271cb9d0342ee5e47382",
+    "maximum_worker_attempts": 3,
+    "policy_id": "B0",
+    "qualified": true,
+    "rollback": "restore adaptive_routing_enabled and the D106 source revision, rebuild dist, then apply the transactional installer rollback",
+    "sequence": [
+      "worker-sonnet-low",
+      "worker-sonnet-low",
+      "worker-opus-high"
+    ]
+  },
+  "reserved": {
+    "decision": {
+      "candidate_not_promoted": "B1",
+      "package_policy": "B0",
+      "paired_acceptance_wins": {
+        "B0": 2,
+        "B1": 0,
+        "ties": 22
+      },
+      "proceed_to_w09": true,
+      "qualified_default": "B0",
+      "reason": "B1 failed the predeclared reserved promotion gates: it accepted fewer episodes, increased false successes, cost more per accepted episode, completed only five ordinary task families twice and did not pass H11. B0 recorded two paired wins, no paired losses and slightly lower total spend. Package the simpler B0 policy as the qualified default without retuning on reserved outcomes."
+    },
+    "evidence": "test/results/2026-09-18-realworld-reserved.json",
+    "evidence_sha256": "79624e2bf2c846531a4d2ebc746449a7c70c3e4310d0271cb9d0342ee5e47382",
+    "known_spend_usd": 1.053580005,
+    "policy_summary": [
+      {
+        "accepted": 12,
+        "attempts": 25,
+        "controller_dispatches": 0,
+        "cost_per_accepted_usd": 0.04372225,
+        "episode_latency_p50_seconds": 11.683333,
+        "episode_latency_p90_seconds": 17.817708,
+        "episodes": 24,
+        "false_successes": 12,
+        "operator_interventions": 0,
+        "opus_escalations": 0,
+        "policy_id": "B0",
+        "spend_usd": 0.524667002,
+        "wall_clock_seconds": 320.485192
+      },
+      {
+        "accepted": 10,
+        "attempts": 24,
+        "controller_dispatches": 0,
+        "cost_per_accepted_usd": 0.0528913,
+        "episode_latency_p50_seconds": 12.107528,
+        "episode_latency_p90_seconds": 19.634671,
+        "episodes": 24,
+        "false_successes": 14,
+        "operator_interventions": 0,
+        "opus_escalations": 0,
+        "policy_id": "B1",
+        "spend_usd": 0.528913003,
+        "wall_clock_seconds": 327.160405
+      }
+    ],
+    "promotion_gates": {
+      "H11_candidate_protocol_both_repetitions": false,
+      "candidate_cost_per_accepted_reduction_fraction": -0.209711303,
+      "candidate_ordinary_families_complete_both": 5,
+      "candidate_p90_latency_change_fraction": 0.101975125,
+      "cost_reduction_gate_met": false,
+      "false_success_not_increased": false,
+      "latency_gate_met": true,
+      "maximum_p90_latency_increase_fraction": 0.2,
+      "no_both-repetitions_family_regression": true,
+      "no_critical_contract_violation": true,
+      "operator_interventions_not_increased": true,
+      "ordinary_family_threshold_met": false,
+      "promotion_gate_passed": false,
+      "required_cost_reduction_fraction": 0.2,
+      "required_ordinary_families_complete_both": 10
+    },
+    "qualified": true
+  },
   "schema_version": 1,
   "source_dirty": false,
-  "source_revision": "9cb87ca082072c0ed5e0a06a7a28d1411fb7a071"
+  "source_revision": "81d00bc19a8f91cd48899846c7665fe6f56cef13"
 }
