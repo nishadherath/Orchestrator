@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026-09-18-313a87b",
+  "bundle_version": "2026-09-18-05c046a",
   "configuration": {
     "backup_root": ".claude/orchestrator-install/backups",
     "claude_markers": [
@@ -22,7 +22,7 @@
   },
   "files": {
     ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-    ".claude/ORCHESTRATOR_VERSION": "7b21c97a458c8d3c6f853b585aac0d3bd2d86a0244f30e9d81360055deb38fbb",
+    ".claude/ORCHESTRATOR_VERSION": "4d39ff6096497f6487b73b40cacce4214456a1e98e60413348746ff7d692be96",
     ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
     ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
     ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -40,8 +40,8 @@
     ".claude/agents/WORKER_sonnet_xhigh.md": "6cd3b1e10bf2b77905225d4f1da65786d4b1524f7ff963faccdb634f5b586f66",
     ".claude/commands/workers.md": "beb906eaaae4e298b74a3b6ddfa81aaf91b5400b2be87081f1f06ff652a07d9d",
     "ORCHESTRATOR-REFERENCE.md": "4d85d483acccffe16f5eb8f82abc819d1470a5153f0ac2a5979632c69ba20ff7",
-    "ORCHESTRATOR.md": "deb96689ffd1c3f0d6ed85af6fcd677471cdddb037cd89529a74b14b8d0b7b1e",
-    "SELF-LEARNING.md": "d50266e5a854fbd61225fb208064487a449f870f69f48e193d12c1e26f0302f4",
+    "ORCHESTRATOR.md": "2f11802e4015bb82f5a167797b04bfcafb26127efb30fc686f62cf9a6166fef0",
+    "SELF-LEARNING.md": "99dbd9c862d8363e4371edb7bb15f0ccdac21240f626b9774e6819da996d8f03",
     "acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
     "preflight.py": "2605e07bd1eef3cccee82c4fec15da3104ae921a05533756c04e376b2d820d22",
     "src/System/ROLES.md": "749255df28c862bddbdf302046fbce1a372c68d810f8c4db5053573fb726e751",
