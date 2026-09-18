@@ -9,6 +9,9 @@ Result: **PASS**. Model calls: **0**.
 | fixed thirty two episode matrix | pass |
 | development repetitions are predeclared | pass |
 | development arm order alternates | pass |
+| fixed forty eight episode matrix | pass |
+| reserved tasks repeat exactly twice | pass |
+| reserved arm order alternates | pass |
 | fixed cost ceilings | pass |
 | exact authorisation required | pass |
 | authorisation cannot cross profiles | pass |

@@ -520,3 +520,26 @@ the highest observed pilot episode, USD 0.4100627, to every W07 episode gives
 USD 13.1220064. The authorised risk envelope remains USD 140: 32 independent
 USD 4 episode caps plus USD 12 separate headroom. No W07 provider call has run,
 and neither cost extrapolation is a billing guarantee.
+
+## W07 development result and W08 preflight, 2026-09-18
+
+Observed live: all 32 authorised W07 episodes completed with valid served-model
+identity, provider accounting, event chains, actor boundaries and unchanged
+protected oracles. Reconciled spend was USD 1.376153606. B0 accepted 11/16 for
+USD 0.568966604; B1 accepted 12/16 for USD 0.807187002. B1's only paired
+acceptance win was D08. It had no paired loss and used Opus on both D07 runs,
+where B0 used a second Sonnet attempt. The fixed D03, D05, D07 and D11 repeats
+matched their first-run acceptance outcomes under both policies.
+
+The result retains B0 as baseline and freezes unchanged B1 as the W08 candidate;
+it does not change project defaults. The integrity-bound evidence is
+`test/results/2026-09-18-realworld-development.json` with its neighbouring
+Markdown report.
+
+Observed offline with zero model calls: W08 is fixed at 48 episodes, covering
+H01-H12 twice under B0 and B1. It uses sequences 57-104, serial adjacent pairs
+and alternating first-policy order. W07 policy means project USD 2.064230409.
+Applying the highest W07 episode cost to all 48 episodes projects USD
+8.3018832. Both are planning estimates; the binding limit is USD 192 of episode
+reservations plus USD 8 headroom. W08 requires a separate exact USD 200
+authorisation and has not started.

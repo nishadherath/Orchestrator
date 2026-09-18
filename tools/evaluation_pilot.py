@@ -40,10 +40,15 @@ DEVELOPMENT_MANIFEST = ROOT / "docs" / "REAL-WORLD-DEVELOPMENT-32-EPISODE-2026-0
 DEVELOPMENT_REPORT = ROOT / "docs" / "REAL-WORLD-DEVELOPMENT-32-EPISODE-2026-09-18.md"
 DEVELOPMENT_AUTHORISATION = ROOT / "docs" / "REAL-WORLD-DEVELOPMENT-AUTHORISATION.json"
 DEVELOPMENT_CAMPAIGN_ROOT = ROOT / "pilot-runs" / "realworld-v1-development-thirty-two"
+RESERVED_MANIFEST = ROOT / "docs" / "REAL-WORLD-RESERVED-48-EPISODE-2026-09-18.json"
+RESERVED_REPORT = ROOT / "docs" / "REAL-WORLD-RESERVED-48-EPISODE-2026-09-18.md"
+RESERVED_AUTHORISATION = ROOT / "docs" / "REAL-WORLD-RESERVED-AUTHORISATION.json"
+RESERVED_CAMPAIGN_ROOT = ROOT / "pilot-runs" / "realworld-v1-reserved-forty-eight"
 DEFAULT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
 DEFAULT_EVIDENCE_REPORT = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.md"
 PILOT_CHECKPOINT_RESULT = ROOT / "test" / "results" / "2026-09-18-realworld-pilot-checkpoint.json"
 PILOT_CONTINUATION_RESULT = ROOT / "test" / "results" / "2026-09-18-realworld-pilot-continuation.json"
+DEVELOPMENT_RESULT = ROOT / "test" / "results" / "2026-09-18-realworld-development.json"
 EPISODE_BUDGET_USD = 4.0
 
 
@@ -121,9 +126,22 @@ DEVELOPMENT_PROFILE = PilotProfile(
     description=("D01-D12 once under B0 and B1, then the predeclared D03, D05, "
                  "D07 and D11 repeats under both policies"),
 )
+RESERVED_PROFILE = PilotProfile(
+    key="reserved-forty-eight",
+    campaign="realworld-v1-reserved-forty-eight",
+    title="W08 48-episode reserved comparison approval package",
+    tasks=tuple(f"H{number:02d}" for number in range(1, 13)),
+    repeat_tasks=tuple(f"H{number:02d}" for number in range(1, 13)),
+    policies=("B0", "B1"),
+    alternate_policy_order=True,
+    sequence_start=57,
+    calibration_headroom_usd=8.0,
+    description="H01-H12 twice under the frozen B0 baseline and B1 adaptive candidate",
+)
 PROFILES = {
     profile.key: profile
-    for profile in (CHECKPOINT_PROFILE, CONTINUATION_PROFILE, DEVELOPMENT_PROFILE)
+    for profile in (CHECKPOINT_PROFILE, CONTINUATION_PROFILE,
+                    DEVELOPMENT_PROFILE, RESERVED_PROFILE)
 }
 PROFILE_PATHS = {
     CHECKPOINT_PROFILE.key: (DEFAULT_MANIFEST, DEFAULT_REPORT, DEFAULT_AUTHORISATION,
@@ -132,10 +150,13 @@ PROFILE_PATHS = {
                                CONTINUATION_AUTHORISATION, CONTINUATION_CAMPAIGN_ROOT),
     DEVELOPMENT_PROFILE.key: (DEVELOPMENT_MANIFEST, DEVELOPMENT_REPORT,
                               DEVELOPMENT_AUTHORISATION, DEVELOPMENT_CAMPAIGN_ROOT),
+    RESERVED_PROFILE.key: (RESERVED_MANIFEST, RESERVED_REPORT,
+                           RESERVED_AUTHORISATION, RESERVED_CAMPAIGN_ROOT),
 }
 AUTHORISATION_BLOCKERS = {
     "paid pilot has not been authorised",
     "paid W07 development comparison has not been authorised",
+    "paid W08 reserved comparison has not been authorised",
 }
 
 
@@ -186,6 +207,34 @@ def development_cost_projection() -> dict:
     }
 
 
+def reserved_cost_projection() -> dict:
+    """Project W08 from the complete, independently graded W07 evidence."""
+    evidence = json.loads(DEVELOPMENT_RESULT.read_text(encoding="utf-8"))
+    summaries = {row["policy_id"]: row for row in evidence["policy_summary"]}
+    counts = {
+        policy: sum(1 for row in RESERVED_PROFILE.episodes if row[3] == policy)
+        for policy in RESERVED_PROFILE.policies
+    }
+    means = {
+        policy: summaries[policy]["spend_usd"] / summaries[policy]["episodes"]
+        for policy in RESERVED_PROFILE.policies
+    }
+    maximum = max(row["cost_usd"] for row in evidence["episodes"])
+    return {
+        "method": "W07 policy mean multiplied by the fixed W08 episode count",
+        "source_evidence": {
+            "path": DEVELOPMENT_RESULT.relative_to(ROOT).as_posix(),
+            "sha256": file_sha256(DEVELOPMENT_RESULT),
+        },
+        "policy_episode_counts": counts,
+        "development_policy_mean_usd": {key: round(value, 12) for key, value in means.items()},
+        "point_estimate_usd": round(sum(means[key] * counts[key] for key in counts), 9),
+        "maximum_observed_development_episode_usd": round(maximum, 9),
+        "observed_max_extrapolation_usd": round(maximum * len(RESERVED_PROFILE.episodes), 9),
+        "limitation": "Reserved tasks differ from development tasks; neither extrapolation is a billing limit.",
+    }
+
+
 def pilot_manifest(candidate_fn: Callable[[], dict] = evaluation_freeze.candidate,
                    profile: PilotProfile = CHECKPOINT_PROFILE) -> dict:
     freeze = candidate_fn()
@@ -199,6 +248,8 @@ def pilot_manifest(candidate_fn: Callable[[], dict] = evaluation_freeze.candidat
     }
     if profile is DEVELOPMENT_PROFILE:
         cost["measured_projection"] = development_cost_projection()
+    elif profile is RESERVED_PROFILE:
+        cost["measured_projection"] = reserved_cost_projection()
     value = {
         "schema_version": 1,
         "profile": profile.key,
@@ -416,6 +467,7 @@ def run_qualification(work: Path) -> dict:
     checkpoint = runs[CHECKPOINT_PROFILE.key]
     continuation = runs[CONTINUATION_PROFILE.key]
     development = runs[DEVELOPMENT_PROFILE.key]
+    reserved = runs[RESERVED_PROFILE.key]
     tampered = dict(continuation["authorisation"],
                     maximum_authorised_usd=CONTINUATION_PROFILE.total_ceiling_usd + 1)
     tampered_path = work / "tampered.json"
@@ -449,6 +501,25 @@ def run_qualification(work: Path) -> dict:
             tuple(row["policy_id"] for row in development["manifest"]["episodes"][offset:offset + 2])
             for offset in range(0, 32, 2)
         ] == [("B0", "B1") if pair % 2 == 0 else ("B1", "B0") for pair in range(16)],
+        "fixed_forty_eight_episode_matrix": [
+            (row["task_id"], row["policy_id"], row["repetition"])
+            for row in reserved["manifest"]["episodes"]
+        ] == [
+            (task, policy, repetition)
+            for repetition in (1, 2)
+            for index, task in enumerate(RESERVED_PROFILE.tasks)
+            for policy in (("B0", "B1") if (index + (repetition - 1) * 12) % 2 == 0
+                           else ("B1", "B0"))
+        ],
+        "reserved_tasks_repeat_exactly_twice": all(
+            sum(row["task_id"] == task and row["repetition"] == repetition
+                for row in reserved["manifest"]["episodes"]) == 2
+            for task in RESERVED_PROFILE.tasks for repetition in (1, 2)
+        ),
+        "reserved_arm_order_alternates": [
+            tuple(row["policy_id"] for row in reserved["manifest"]["episodes"][offset:offset + 2])
+            for offset in range(0, 48, 2)
+        ] == [("B0", "B1") if pair % 2 == 0 else ("B1", "B0") for pair in range(24)],
         "fixed_cost_ceilings": (
             checkpoint["manifest"]["cost"]["episode_total_cap_usd"] == 24.0
             and checkpoint["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 26.0
@@ -456,6 +527,8 @@ def run_qualification(work: Path) -> dict:
             and continuation["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 74.0
             and development["manifest"]["cost"]["episode_total_cap_usd"] == 128.0
             and development["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 140.0
+            and reserved["manifest"]["cost"]["episode_total_cap_usd"] == 192.0
+            and reserved["manifest"]["cost"]["combined_authorisation_ceiling_usd"] == 200.0
         ),
         "exact_authorisation_required": validate_authorisation(
             continuation["authorisation_path"], continuation["manifest"])[0]
@@ -545,6 +618,24 @@ def write_preparation(manifest_path: Path, report_path: Path,
             "pair to reduce time-order bias. D03, D05, D07 and D11 repeats are fixed before",
             "execution and cannot be selected from favourable first-run outcomes.", "",
         ])
+    if profile is RESERVED_PROFILE:
+        projection = value["cost"]["measured_projection"]
+        lines.extend([
+            "## Measured cost context", "",
+            f"The W07 policy-mean extrapolation is **USD {projection['point_estimate_usd']:.9f}**.",
+            f"Applying the highest W07 episode to all 48 episodes gives **USD "
+            f"{projection['observed_max_extrapolation_usd']:.9f}**. Reserved tasks differ",
+            "from development tasks, so both figures are planning evidence rather than",
+            "billing limits. The exact USD 200 ceiling remains authoritative.", "",
+            "## Outbound data and destination", "",
+            "Execution sends the synthetic H01-H12 fixture issues, public checks, source",
+            "files read by an agent and runtime observations to Anthropic through the local",
+            "Claude CLI. B0 and B1 remain frozen; no reserved outcome may change them.", "",
+            "## Scheduling", "",
+            "Each reserved task runs twice under both policies. Episodes run serially in",
+            "adjacent pairs and alternate which policy runs first. The full schedule is",
+            "fixed before any reserved outcome is inspected.", "",
+        ])
     lines.extend(["| # | Task | Policy | Repetition | Episode cap |",
                   "| -: | :--- | :--- | ---: | ---: |"])
     lines.extend(f"| {row['sequence']} | {row['task_id']} | {row['policy_id']} | "
@@ -568,7 +659,7 @@ def validate_evidence(path: Path) -> tuple[bool, str]:
     ok = bool(recorded == digest(value) and value.get("result") == "PASS"
               and value.get("offline_only") is True and value.get("model_calls") == 0
               and value.get("implementation_sha256") == file_sha256(Path(__file__))
-              and len(checks) == 10 and all(checks.values()))
+              and len(checks) == 13 and all(checks.values()))
     return ok, f"mode={value.get('mode')}; digest={'valid' if recorded == digest(value) else 'invalid'}"
 
 

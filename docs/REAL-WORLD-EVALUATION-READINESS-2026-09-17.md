@@ -221,3 +221,19 @@ highest pilot episode to all 32 runs produces USD 13.1220064. These estimates
 do not replace the USD 128 episode envelope and USD 12 separate headroom. No
 provider call starts until a clean candidate and manifest exist and the
 operator explicitly approves their exact USD 140 ceiling.
+
+## Executed W07 and qualified W08 profile, 2026-09-18
+
+W07 completed all 32 development episodes for USD 1.376153606. All launch,
+identity, accounting, event-chain, isolation, oracle and learning-eligibility
+checks passed. B0 accepted 11/16 episodes for USD 0.568966604. B1 accepted
+12/16 for USD 0.807187002, producing one paired acceptance win and no paired
+loss. B1's higher total and per-accepted cost prevents a default change. B0
+remains the baseline and unchanged B1 proceeds as the reserved candidate.
+
+W08 preparation fixes 48 episodes over H01-H12, twice per policy, as sequences
+57-104. Task pairs run serially and alternate which policy runs first. The W07
+mean-cost projection is USD 2.064230409 and the all-episodes-at-the-W07-maximum
+projection is USD 8.3018832. The exact exposure boundary remains USD 200. No
+reserved provider call may run before a clean candidate, matching manifest and
+new exact authorisation exist.

@@ -59,6 +59,8 @@ class PilotTests(unittest.TestCase):
             lambda: candidate, self.subject.CONTINUATION_PROFILE)
         development = self.subject.pilot_manifest(
             lambda: candidate, self.subject.DEVELOPMENT_PROFILE)
+        reserved = self.subject.pilot_manifest(
+            lambda: candidate, self.subject.RESERVED_PROFILE)
         checkpoint_ids = {row["episode_id"] for row in checkpoint["episodes"]}
         continuation_ids = {row["episode_id"] for row in continuation["episodes"]}
         self.assertEqual(len(checkpoint_ids), 6)
@@ -91,6 +93,33 @@ class PilotTests(unittest.TestCase):
             2.084651012,
             places=9,
         )
+        reserved_rows = reserved["episodes"]
+        self.assertEqual(len(reserved_rows), 48)
+        self.assertEqual([row["sequence"] for row in reserved_rows], list(range(57, 105)))
+        self.assertEqual(
+            [(row["task_id"], row["policy_id"], row["repetition"])
+             for row in reserved_rows[:4]],
+            [("H01", "B0", 1), ("H01", "B1", 1),
+             ("H02", "B1", 1), ("H02", "B0", 1)],
+        )
+        self.assertEqual(
+            [(row["task_id"], row["policy_id"], row["repetition"])
+             for row in reserved_rows[24:28]],
+            [("H01", "B0", 2), ("H01", "B1", 2),
+             ("H02", "B1", 2), ("H02", "B0", 2)],
+        )
+        self.assertEqual(reserved["cost"]["episode_total_cap_usd"], 192.0)
+        self.assertEqual(reserved["cost"]["combined_authorisation_ceiling_usd"], 200.0)
+        self.assertAlmostEqual(
+            reserved["cost"]["measured_projection"]["point_estimate_usd"],
+            2.064230409,
+            places=9,
+        )
+        self.assertAlmostEqual(
+            reserved["cost"]["measured_projection"]["observed_max_extrapolation_usd"],
+            8.3018832,
+            places=9,
+        )
         authorisation = {
             "schema_version": 1, "decision": "approved",
             "candidate_sha256": checkpoint["candidate_sha256"],
@@ -104,6 +133,7 @@ class PilotTests(unittest.TestCase):
             self.assertTrue(self.subject.validate_authorisation(path, checkpoint)[0])
             self.assertFalse(self.subject.validate_authorisation(path, continuation)[0])
             self.assertFalse(self.subject.validate_authorisation(path, development)[0])
+            self.assertFalse(self.subject.validate_authorisation(path, reserved)[0])
 
     def test_recorded_evidence_rejects_tampering(self):
         source = json.loads(self.subject.DEFAULT_EVIDENCE.read_text(encoding="utf-8"))

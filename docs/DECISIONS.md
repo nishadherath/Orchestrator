@@ -5487,3 +5487,27 @@ the first arm reduces a simple service-load ordering bias. Preserving individual
 episode allowances keeps failure and escalation paths observable even though
 measured pilot spending was much lower. Exact authorisation prevents either
 completed pilot approval from carrying into W07.
+
+## D106. Retain B0 and test unchanged B1 on the reserved set, 2026-09-18
+
+Decision: close W07 after all 32 authorised development episodes. Keep B0 as
+the baseline and carry B1 forward unchanged as the adaptive candidate. Do not
+change the redistributable defaults. Freeze W08 as 48 episodes: H01-H12 twice
+under both policies, numbered 57-104, run serially in adjacent pairs with the
+first policy alternating by task. Require a new candidate-and-manifest-bound
+USD 200 authorisation before any reserved call.
+
+Use the W07 policy means as a planning estimate for W08 and show a second
+extrapolation that applies the highest W07 episode cost to all 48 episodes.
+Keep the USD 192 episode envelope and USD 8 campaign headroom as the binding
+limit. Do not inspect an H-task result before the complete schedule, policies,
+candidate and manifest are frozen.
+
+Why: W07 completed with valid identity, accounting, event chains, boundaries
+and oracles for USD 1.376153606. B1 accepted 12/16 episodes and B0 accepted
+11/16. B1 had one paired win and no paired loss, but spent USD 0.807187002
+against B0's USD 0.568966604 and had the higher cost per accepted result. The
+single added acceptance supports independent reserved testing, while the cost
+increase and small sample do not support changing the default. Repeating every
+reserved task provides paired stability evidence without selecting repetitions
+from favourable first-run outcomes.

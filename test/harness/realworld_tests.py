@@ -122,6 +122,20 @@ class RealWorldFoundationTests(unittest.TestCase):
         self.assertIn("test/oracles/realworld/H12/test_hidden.py", first["bound_files"])
         self.assertEqual(first["corpus"]["task_count"], 24)
         self.assertTrue(first["corpus"]["qualified"])
+        self.assertTrue(first["development"]["qualified"])
+        self.assertEqual(first["development"]["known_spend_usd"], 1.376153606)
+        self.assertEqual(first["development"]["decision"]["baseline_retained"], "B0")
+        self.assertEqual(first["development"]["decision"]["adaptive_candidate"], "B1")
+        self.assertIn("paid W08 reserved comparison has not been authorised", first["blockers"])
+        self.assertNotIn(
+            "W07 development comparison evidence is missing or invalid",
+            first["blockers"],
+        )
+        self.assertIn("tools/evaluation_development_result.py", first["bound_files"])
+        self.assertIn(
+            "test/results/2026-09-18-realworld-development.json",
+            first["bound_files"],
+        )
 
     def test_recorded_wsl_isolation_boundary(self):
         path = ROOT / "test" / "results" / "2026-09-17-realworld-isolation.json"

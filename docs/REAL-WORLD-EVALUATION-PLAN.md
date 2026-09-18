@@ -540,8 +540,8 @@ Use the same operator handoff and Graft requirements for implementation work.
 | W04. Episode runner and report | W01-W03 | Checkpointed runs, event records, three frozen policies, external grading, paired outcomes and complete cost totals; offline replay passes. | 1-2 days |
 | W05. Pilot decision | W04 | 24 episodes or an explicit stop; measured-versus-projected spend; chosen finalist and justified go/no-go. | 2-6 execution hours plus review |
 | W06. Complete and seal corpus | W02 and W05 go decision | **Complete.** Remaining four D tasks and 12 H tasks; independent applications where specified; source and grader provenance. Strict author blinding is recorded as unprovable in the same session. | 2-4 days |
-| W07. Development and freeze | W05-W06 | 32 development episodes, one selected candidate, frozen triggers and predefined evaluation schedule. | 2-6 execution hours plus review |
-| W08. Reserved comparison | W07 | 48 episodes, clustered uncertainty, incident review and release-gate decision. No post-hoc retuning on the same reserved set. | 3-8 execution hours plus review |
+| W07. Development and freeze | W05-W06 | **Complete.** 32 development episodes, B0 baseline retained, unchanged B1 candidate selected and reserved schedule predefined. | 2-6 execution hours plus review |
+| W08. Reserved comparison | W07 | **Prepared; execution pending exact approval.** 48 episodes, clustered uncertainty, incident review and release-gate decision. No post-hoc retuning on the same reserved set. | 3-8 execution hours plus review |
 | W09. Package qualified defaults | W08 passes | Reviewed aggregate importer/output; updated source/bundle, offline smoke checks, clean install, evidence notes and rollback path. | 0.5-1 day |
 
 Current status: W01-W04, live instrumentation calibration, the live worker and
@@ -600,10 +600,8 @@ session could access arm-labelled pilot outcomes, so strict H-fixture author
 blinding is not claimed; construction stayed within the frozen pre-pilot
 blueprints. Evidence is `test/results/2026-09-18-realworld-corpus.json`.
 
-W07 execution and W08 remain unstarted. The next action is W07 preparation: fix the 32
-development episodes for B0 and B1, freeze triggers and the evaluation schedule,
-reconcile a current cost projection, then request a new exact authorisation.
-No W07 call is authorised by the completed pilot approvals.
+W07 execution is complete. W08 execution remains unstarted and requires its own
+clean candidate, fixed manifest and exact USD 200 authorisation.
 
 W07 preparation completed offline on 2026-09-18. The launcher fixes D01-D12
 once per B0/B1 arm and the predeclared D03, D05, D07 and D11 repetitions once
@@ -639,3 +637,16 @@ and upstream documentation informed this design. The 24 fixtures, new runner,
 policy candidate, cost reductions and release gates are proposed work.
 No upstream source was vendored, no paid episode ran, and no runtime or bundle
 behaviour was changed by writing this plan.
+
+## W07 result and W08 fixed schedule, 2026-09-18
+
+W07 completed all 32 episodes for USD 1.376153606. B0 accepted 11/16 for USD
+0.568966604 and B1 accepted 12/16 for USD 0.807187002. B1 recorded one paired
+win and no paired loss, but its higher cost prevents a default change. B0
+remains the baseline and unchanged B1 is the W08 candidate.
+
+W08 preparation is complete offline. The reserved schedule fixes H01-H12 twice
+under both policies, 48 episodes in sequences 57-104, with alternating first
+arm. W07 means project USD 2.064230409; applying the maximum W07 episode to all
+48 runs projects USD 8.3018832. The USD 200 ceiling remains authoritative.
+Execution requires a clean candidate-bound manifest and a new exact approval.

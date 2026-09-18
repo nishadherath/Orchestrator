@@ -633,3 +633,17 @@ also passed `tools/handoff.py check` directly. Graft reported both graphs in
 sync. Documentation links, cost arithmetic and referenced entry files were
 checked; `git diff --check` passed. These checks validate this handoff and the
 existing repository invariants, not implementation of any unchecked action.
+
+## W07 result and W08 preparation, 2026-09-18
+
+All 32 development episodes completed with valid instrumentation for USD
+1.376153606. B0 accepted 11/16; B1 accepted 12/16, with one paired acceptance
+win and no paired loss. B1 cost 42 percent more in total and more per accepted
+episode, so B0 remains the baseline, unchanged B1 remains the candidate, and
+defaults remain unchanged.
+
+W08 is fixed before reserved results are inspected: H01-H12 run twice under
+both policies in 48 serial episodes with alternating first-policy order. Its
+W07-mean projection is USD 2.064230409, its observed-maximum extrapolation is
+USD 8.3018832, and its binding authorisation ceiling is USD 200. W08 is ready
+for a clean freeze and exact approval; no reserved call has run.

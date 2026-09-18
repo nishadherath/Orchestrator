@@ -47,6 +47,10 @@ PILOT_AUTHORISATION_TEMPLATE = ROOT / "docs" / "REAL-WORLD-PILOT-AUTHORISATION-T
 CORPUS_HARNESS = ROOT / "test" / "harness" / "realworld.py"
 CORPUS_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-realworld-corpus.json"
 CORPUS_REPORT = ROOT / "test" / "results" / "2026-09-18-realworld-corpus.md"
+DEVELOPMENT_RESULT_TOOL = ROOT / "tools" / "evaluation_development_result.py"
+DEVELOPMENT_RESULT_TESTS = ROOT / "test" / "harness" / "evaluation_development_result_tests.py"
+DEVELOPMENT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-realworld-development.json"
+DEVELOPMENT_REPORT = ROOT / "test" / "results" / "2026-09-18-realworld-development.md"
 
 
 def sha256(path: Path) -> str:
@@ -96,6 +100,8 @@ def bound_files() -> list[Path]:
         PILOT_RUNNER, PILOT_TESTS, PILOT_EVIDENCE, PILOT_REPORT,
         PILOT_AUTHORISATION_TEMPLATE,
         CORPUS_EVIDENCE, CORPUS_REPORT,
+        DEVELOPMENT_RESULT_TOOL, DEVELOPMENT_RESULT_TESTS,
+        DEVELOPMENT_EVIDENCE, DEVELOPMENT_REPORT,
     ) if path.is_file()]
     return sorted(set(fixed + fixture_files + oracle_files + runner_files + calibration_files))
 
@@ -219,7 +225,7 @@ def valid_pilot_preflight_evidence() -> tuple[bool, str | None, dict]:
         and value.get("implementation_sha256") == sha256(PILOT_RUNNER)
         and report.get("path") == PILOT_REPORT.relative_to(ROOT).as_posix()
         and report.get("sha256") == sha256(PILOT_REPORT)
-        and len(checks) == 10 and all(checks.values())
+        and len(checks) == 13 and all(checks.values())
     )
     return valid, evidence_digest, value
 
@@ -257,6 +263,35 @@ def valid_corpus_evidence() -> tuple[bool, str | None, dict]:
     return valid, evidence_digest, value
 
 
+def valid_development_evidence() -> tuple[bool, str | None, dict]:
+    """Validate the completed W07 result before it can inform W08."""
+    valid, evidence_digest, value = valid_evidence(DEVELOPMENT_EVIDENCE)
+    checks = value.get("checks") or {}
+    report = value.get("report") or {}
+    policies = {row.get("policy_id"): row for row in value.get("policy_summary") or []}
+    decision = value.get("decision") or {}
+    valid = bool(
+        valid and DEVELOPMENT_RESULT_TOOL.is_file() and DEVELOPMENT_REPORT.is_file()
+        and value.get("offline_aggregation") is True and value.get("model_calls") == 0
+        and value.get("implementation_sha256") == sha256(DEVELOPMENT_RESULT_TOOL)
+        and value.get("candidate_sha256")
+            == "6f89533045ac2a6abe29e989f5a8ba69666a8f50bab6e58b334ab467a6638f28"
+        and value.get("manifest_sha256")
+            == "b5e78aab46c13eba30fb8dd0a6a0bda71b68cada30c10269e5247b287ede15a8"
+        and (value.get("budget") or {}).get("known_spend_usd") == 1.376153606
+        and policies.get("B0", {}).get("accepted") == 11
+        and policies.get("B1", {}).get("accepted") == 12
+        and decision.get("baseline_retained") == "B0"
+        and decision.get("adaptive_candidate") == "B1"
+        and decision.get("proceed_to_w08") is True
+        and decision.get("default_changed") is False
+        and len(checks) == 11 and all(checks.values())
+        and report.get("path") == DEVELOPMENT_REPORT.relative_to(ROOT).as_posix()
+        and report.get("sha256") == sha256(DEVELOPMENT_REPORT)
+    )
+    return valid, evidence_digest, value
+
+
 def candidate() -> dict:
     catalogue = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     ready = sorted(task["id"] for task in catalogue["tasks"] if task.get("readiness") == "ready")
@@ -275,6 +310,7 @@ def candidate() -> dict:
     episode_valid, episode_digest, episode = valid_live_episode_evidence()
     pilot_valid, pilot_digest, pilot = valid_pilot_preflight_evidence()
     corpus_valid, corpus_digest, corpus = valid_corpus_evidence()
+    development_valid, development_digest, development = valid_development_evidence()
     blockers = []
     if remaining:
         blockers.append(f"pilot fixtures not ready: {', '.join(remaining)}")
@@ -298,7 +334,9 @@ def candidate() -> dict:
         blockers.append("pilot profile preflight and authorisation boundary are missing or invalid")
     if not corpus_valid:
         blockers.append("complete development and reserved corpus evidence is missing or invalid")
-    blockers.append("paid W07 development comparison has not been authorised")
+    if not development_valid:
+        blockers.append("W07 development comparison evidence is missing or invalid")
+    blockers.append("paid W08 reserved comparison has not been authorised")
     return {
         "schema_version": 1,
         "created_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -385,6 +423,14 @@ def candidate() -> dict:
             "development_tasks": corpus.get("development_tasks"),
             "reserved_tasks": corpus.get("reserved_tasks"),
             "reserved_authoring": corpus.get("reserved_authoring"),
+        },
+        "development": {
+            "qualified": development_valid,
+            "evidence": DEVELOPMENT_EVIDENCE.relative_to(ROOT).as_posix(),
+            "evidence_sha256": development_digest,
+            "known_spend_usd": (development.get("budget") or {}).get("known_spend_usd"),
+            "policy_summary": development.get("policy_summary"),
+            "decision": development.get("decision"),
         },
         "bound_files": files,
         "paid_launch_ready": not blockers,

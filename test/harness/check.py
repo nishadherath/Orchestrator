@@ -1056,6 +1056,26 @@ def check_pilot_preflight(r: Report) -> None:
           passed, detail)
 
 
+def check_development_result(r: Report) -> None:
+    """W07-RESULT: paid evidence is reconciled and integrity-bound offline."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_development_result_tests.py"
+    evidence = REPO_ROOT / "test" / "results" / "2026-09-18-realworld-development.json"
+    aggregator = REPO_ROOT / "tools" / "evaluation_development_result.py"
+    test_result = subprocess.run(
+        [sys.executable, str(tests)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    evidence_result = subprocess.run(
+        [sys.executable, str(aggregator), "--check"], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=30,
+    )
+    passed = test_result.returncode == 0 and evidence_result.returncode == 0
+    detail = (test_result.stdout + test_result.stderr + "\n"
+              + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
+    r.add("W07-RESULT", "W07 paid evidence reconciles and validates offline",
+          passed, detail)
+
+
 def check_release_candidate(r: Report) -> None:
     """RELEASE: source parity and redistribution exclusions are executable."""
     script = REPO_ROOT / "tools" / "release_check.py"
@@ -1293,6 +1313,7 @@ def main(argv: list[str]) -> int:
     check_live_controller_adapter(report)
     check_live_episode_integration(report)
     check_pilot_preflight(report)
+    check_development_result(report)
     check_release_candidate(report)
     check_improvement_regressions(report)
     check_replay(report)
