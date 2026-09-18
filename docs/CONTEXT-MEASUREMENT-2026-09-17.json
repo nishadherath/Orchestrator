@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "date": "2026-09-17",
+  "method": "ceil(Unicode characters / 4); an estimate for static comparison, not tokenizer or billing telemetry",
+  "before": {
+    "repository_development_standing": {"characters": 31389, "estimated_tokens": 7848},
+    "consumer_orchestrator_standing": {"characters": 34999, "estimated_tokens": 8750},
+    "selected_worker_mean_estimated_tokens": 606.3,
+    "controller_role_static_estimated_tokens": {
+      "framer": 1128,
+      "verifier": 1004,
+      "generator": 1059,
+      "critic": 1002,
+      "selector": 931,
+      "librarian": 949
+    }
+  },
+  "after": {
+    "repository_development_standing": {
+      "characters": 8893,
+      "estimated_tokens": 2224,
+      "sha256": "553b1ca46eaa5b2390c488c06eb6830f527966d01a7b4bef3f23800150cf486d"
+    },
+    "consumer_orchestrator_standing": {
+      "characters": 10657,
+      "estimated_tokens": 2665,
+      "sha256": "3aa986304d36243fcc33acb6fdd6b56c46d5e51d220a20aaf5f73394b6a8bc89"
+    },
+    "selected_worker": {
+      "minimum_estimated_tokens": 412,
+      "maximum_estimated_tokens": 427,
+      "mean_estimated_tokens": 423.7
+    },
+    "controller_role_static_estimated_tokens": {
+      "framer": 750,
+      "verifier": 626,
+      "generator": 681,
+      "critic": 624,
+      "selector": 553,
+      "librarian": 571
+    },
+    "conditional_orchestrator_reference": {
+      "characters": 32201,
+      "estimated_tokens": 8051,
+      "sha256": "3539b11c9630cad7f924c48a9df3726a22f5cd585acd129539842746f4b7e7c1"
+    }
+  },
+  "change": {
+    "repository_development_estimated_tokens": -5624,
+    "repository_development_percent": -71.7,
+    "consumer_orchestrator_estimated_tokens": -6085,
+    "consumer_orchestrator_percent": -69.5,
+    "selected_worker_mean_estimated_tokens": -182.6,
+    "selected_worker_mean_percent": -30.1,
+    "each_controller_role_estimated_tokens": -378
+  },
+  "unchanged": [
+    "Controller technique briefs",
+    "routing priors, thresholds and cells",
+    "prompt cache TTL",
+    "acceptance and budget runtime code"
+  ],
+  "limits": [
+    "Static estimates do not prove a provider token count, cache hit, latency change, monetary saving or unchanged model behaviour.",
+    "The conditional reference costs tokens when a named trigger requires it.",
+    "Task input, tool schemas, source retrieval, ledger records, outputs and reasoning are excluded.",
+    "No paid model compatibility probe ran in Stage 5."
+  ]
+}

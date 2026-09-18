@@ -1,26 +1,31 @@
 # CLAUDE.md
 
-Read ORCHESTRATOR.md before delegating any task.
+Read `ORCHESTRATOR.md` before delegating any task. Load only the relevant
+section of `ORCHESTRATOR-REFERENCE.md` when the core document directs you to it.
+
+## Required retrieval
+
+Every task, session, agent and subagent starts with `graft_check_freshness`.
+Use scoped Graft search, file API and call graph tools before broad repository
+reads. Direct reads remain appropriate for exact edits, tests and unindexed
+documents. If Graft is unavailable, repair or report the connection before
+repository discovery. Put this rule and the repository root in every handover;
+each child verifies its own access. The bundle README describes installation.
 
 ## Handoffs
 
-When this session's own model or effort must change, or you are about to
-launch a top-level agent that needs a different model or effort than this
-session's, write a handoff file under `handoffs/` before stopping:
+Before changing model or effort, starting a fresh session, or launching any
+agent or subagent, create and validate a concise file under `handoffs/`:
 
+```text
+python3 tools/handoff.py new --slug <name> --reason <model-change|effort-change|spawn> \
+  --to-model <sonnet|opus|fable> --to-effort <low|medium|high|xhigh|max> \
+  [--cell <resolved-worker>]
+python3 tools/handoff.py check handoffs/<file>
 ```
-python3 tools/handoff.py new --slug <short-name> --reason model-change \
-    --to-model <sonnet|opus|fable> --to-effort <low|medium|high|xhigh|max>
-python3 tools/handoff.py check handoffs/<the file it wrote>
-```
 
-Fill in the prose sections the tool leaves blank (goal, decisions already
-made, verified facts, work completed, unresolved questions, exact next
-action) before handing off; `check` refuses a file with an empty or
-placeholder section. The tool computes the cost and time projection lines
-itself, from `src/cost_table.json` or this project's own
-`.claude/routing-ledger.jsonl`; do not estimate them by hand.
-
-The fresh session's first action is to read the handoff file named to it,
-not to re-derive context from conversation history. `src/LIFECYCLE.md`
-(bundled into `ORCHESTRATOR.md`) has the full rule.
+Fill every prose section and retain the computed workload projection. Add a
+dated direct API cost range and elapsed-time range for the session work. Notify
+the operator before any switch or launch they must perform. The receiving
+session reads the named handoff first. `ORCHESTRATOR.md` contains the operating
+contract; its reference-loading section identifies when more detail is needed.

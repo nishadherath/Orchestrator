@@ -18,10 +18,13 @@ missed deduplication.
 Usage:
     python3 preflight.py                run from the consumer project's root
     python3 preflight.py --json
+    python3 preflight.py --status       add operational state
+    python3 preflight.py --status --explain
 """
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import os
 import re
@@ -117,12 +120,17 @@ def check_bundle(cwd: Path) -> dict:
     count = len(list(agents_dir.glob("WORKER_*.md")))
     version_file = cwd / ".claude" / "ORCHESTRATOR_VERSION"
     version = version_file.read_text(encoding="utf-8").strip() if version_file.exists() else "unknown (no ORCHESTRATOR_VERSION file)"
+    prompt_files = [cwd / "ORCHESTRATOR.md", cwd / "ORCHESTRATOR-REFERENCE.md"]
+    missing_prompts = [str(path.relative_to(cwd)) for path in prompt_files if not path.is_file()]
     # B0_BRIEF.md is a manual, optional alternative since D63 (no longer read
     # by section 4's automatic trigger), so its absence is noted, not a FAIL.
     brief = cwd / ".claude" / "B0_BRIEF.md"
     brief_note = "" if brief.is_file() else f"; {brief} missing (optional; a manual single-worker alternative)"
-    return {"check": "bundle installed", "status": "PASS" if count == 15 else "FAIL",
-            "detail": f"{count} of 15 worker definitions found in {agents_dir}; bundle version {version}{brief_note}"}
+    ok = count == 15 and not missing_prompts
+    prompt_note = "" if not missing_prompts else f"; missing prompt files: {missing_prompts}"
+    return {"check": "bundle installed", "status": "PASS" if ok else "FAIL",
+            "detail": f"{count} of 15 worker definitions found in {agents_dir}; bundle version {version}"
+                      f"{prompt_note}{brief_note}"}
 
 
 def check_controller(cwd: Path) -> dict:
@@ -133,6 +141,7 @@ def check_controller(cwd: Path) -> dict:
     or absent (in which case the trigger falls through to worker-opus-high
     directly, per its own documented fallback)."""
     required = [cwd / "tools" / "system_controller.py", cwd / "tools" / "claudep.py",
+                cwd / "tools" / "acceptance.py",
                 cwd / "tools" / "system_prompts.py", cwd / "tools" / "validate_records.py",
                 cwd / "src" / "System" / "ROLES.md", cwd / "src" / "System" / "TECHNIQUES.md"]
     schemas_dir = cwd / "src" / "System" / "schemas"
@@ -419,9 +428,196 @@ def check_context_probe(cwd: Path) -> dict:
                       "recommend a handoff before a compaction (src/settings.fragment.json)"}
 
 
+def _routing_entries(cwd: Path) -> tuple[list[dict], list[str]]:
+    """Read the append-only ledger without importing a possibly broken route.py."""
+    path = cwd / ".claude" / "routing-ledger.jsonl"
+    entries, errors = [], []
+    if not path.is_file():
+        return entries, errors
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError as exc:
+        return entries, [f"{path}: {exc}"]
+    for number, line in enumerate(lines, 1):
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+            if not isinstance(value, dict):
+                raise ValueError("line is not a JSON object")
+            entries.append(value)
+        except (json.JSONDecodeError, ValueError) as exc:
+            errors.append(f"{path}:{number}: {exc}")
+    return entries, errors
+
+
+def _model_effort_observation(entry: dict, attempt: dict) -> dict:
+    requested = attempt.get("requested_cell") or entry.get("first_cell") or "unknown"
+    parts = requested.split("-")
+    expected_model = parts[1] if len(parts) >= 3 and parts[0] == "worker" else None
+    expected_effort = parts[2] if len(parts) >= 3 and parts[0] == "worker" else None
+    actual_model = attempt.get("actual_model")
+    effort_evidence = attempt.get("effort_evidence")
+    model_match = None if not actual_model or not expected_model else expected_model in actual_model.lower()
+    effort_match = None if not effort_evidence or not expected_effort else expected_effort in effort_evidence.lower()
+    return {"ledger_id": entry.get("id"), "attempt_id": attempt.get("id"),
+            "requested_cell": requested, "actual_model": actual_model,
+            "effort_evidence": effort_evidence, "model_match": model_match,
+            "effort_match": effort_match}
+
+
+def _controller_budget_status(cwd: Path, entries: list[dict], detailed: bool) -> dict:
+    candidates = set((cwd / "runs").glob("*/budget-status.json")) if (cwd / "runs").is_dir() else set()
+    for entry in entries:
+        relative = entry.get("controller_run_dir")
+        if isinstance(relative, str) and relative:
+            candidate = (cwd / relative / "budget-status.json").resolve()
+            try:
+                candidate.relative_to(cwd.resolve())
+            except ValueError:
+                continue
+            candidates.add(candidate)
+    spent = reserved = 0.0
+    unknown, invalid, rows = [], [], []
+    for path in sorted(candidates):
+        if not path.is_file():
+            continue
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+            spent += float(value.get("spent_usd") or 0)
+            reserved += float(value.get("reserved_usd") or 0)
+            unresolved = value.get("unresolved") or []
+            unknown.extend(f"{path.parent.name}:{item}" for item in unresolved)
+            if detailed:
+                rows.append({"path": str(path.relative_to(cwd)), "spent_usd": value.get("spent_usd"),
+                             "reserved_usd": value.get("reserved_usd"), "unresolved": unresolved,
+                             "breached": value.get("breached")})
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            invalid.append(f"{path}: {exc}")
+    result = {"known_spent_usd": round(spent, 9), "reserved_usd": round(reserved, 9),
+              "unknown_invocations": len(unknown), "invalid_files": invalid}
+    if detailed:
+        result.update({"unknown_ids": unknown, "runs": rows})
+    return result
+
+
+def operational_diagnostics(cwd: Path, detailed: bool = False) -> dict:
+    """Return read-only routing, evidence, accounting, prior and Graft state."""
+    entries, ledger_errors = _routing_entries(cwd)
+    observations, unresolved = [], []
+    acceptance_counts: dict[str, int] = {}
+    acceptance_outstanding = []
+    known_spent = 0.0
+    unknown_costs = 0
+    for entry in entries:
+        acceptance = entry.get("acceptance") or {}
+        acceptance_status = acceptance.get("status") or "missing"
+        acceptance_counts[acceptance_status] = acceptance_counts.get(acceptance_status, 0) + 1
+        if acceptance_status not in ("pass", "fail"):
+            acceptance_outstanding.append({"ledger_id": entry.get("id"), "status": acceptance_status})
+        attempts = entry.get("attempts") or []
+        if attempts:
+            for attempt in attempts:
+                observations.append(_model_effort_observation(entry, attempt))
+                if attempt.get("outcome") == "unknown" or attempt.get("execution_status") in ("running", "interrupted"):
+                    unresolved.append(f"{entry.get('id')}:{attempt.get('id')}")
+                cost = (attempt.get("usage") or {}).get("cost_usd")
+                if isinstance(cost, (int, float)) and not isinstance(cost, bool):
+                    known_spent += cost
+                else:
+                    unknown_costs += 1
+        else:
+            cost = entry.get("cost_usd")
+            if isinstance(cost, (int, float)) and not isinstance(cost, bool):
+                known_spent += cost
+            else:
+                unknown_costs += 1
+            if entry.get("final_outcome") == "unknown":
+                unresolved.append(str(entry.get("id")))
+    mismatches = [row for row in observations if row["model_match"] is False or row["effort_match"] is False]
+    unobserved = [row for row in observations if row["model_match"] is None or row["effort_match"] is None]
+
+    priors_path = cwd / "src" / "routing_priors.json"
+    prior = {"path": str(priors_path.relative_to(cwd)), "generated_on": None, "age_days": None,
+             "stale": None, "stale_after_days": 90, "error": None}
+    if priors_path.is_file():
+        try:
+            generated = json.loads(priors_path.read_text(encoding="utf-8")).get("generated_on")
+            date = dt.date.fromisoformat(generated)
+            age = (dt.date.today() - date).days
+            prior.update(generated_on=generated, age_days=age, stale=age > prior["stale_after_days"])
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            prior["error"] = str(exc)
+    else:
+        prior["error"] = "routing priors are missing"
+
+    mcp_path = cwd / ".mcp.json"
+    claude_configured, graft_error = False, None
+    if mcp_path.is_file():
+        try:
+            claude_configured = isinstance(json.loads(mcp_path.read_text(encoding="utf-8"))
+                                           .get("mcpServers", {}).get("graft"), dict)
+        except (OSError, json.JSONDecodeError) as exc:
+            graft_error = str(exc)
+    codex_path = cwd / ".codex" / "config.toml"
+    codex_configured = False
+    if codex_path.is_file():
+        try:
+            codex_configured = "[mcp_servers.graft]" in codex_path.read_text(encoding="utf-8")
+        except OSError as exc:
+            graft_error = str(exc)
+    graft = {"configured_for_claude": claude_configured, "configured_for_codex": codex_configured,
+             "local_graph_present": (cwd / "graft").is_dir(),
+             "availability": "requires an in-session graft_check_freshness call", "error": graft_error}
+
+    routing = {"ledger_entries": len(entries), "attempts": len(observations),
+               "unresolved_attempts": len(unresolved), "model_or_effort_mismatches": len(mismatches),
+               "unobserved_actuals": len(unobserved), "ledger_errors": ledger_errors}
+    acceptance_result = {"counts": acceptance_counts, "outstanding": len(acceptance_outstanding)}
+    costs = {"routing_ledger": {"known_spent_usd": round(known_spent, 9),
+                                "unknown_attempts": unknown_costs},
+             "controller_runs": _controller_budget_status(cwd, entries, detailed),
+             "note": "Scopes are separate because a Controller charge may also appear in the routing ledger."}
+    if detailed:
+        routing.update({"execution_observations": observations, "mismatches": mismatches,
+                        "unresolved_ids": unresolved})
+        acceptance_result["outstanding_entries"] = acceptance_outstanding
+    return {"routing": routing, "acceptance": acceptance_result, "costs": costs,
+            "priors": prior, "graft": graft}
+
+
+def print_operational_status(value: dict, detailed: bool) -> None:
+    routing, acceptance, costs = value["routing"], value["acceptance"], value["costs"]
+    controller = costs["controller_runs"]
+    print("\nOperational status")
+    print(f"  Routing: {routing['ledger_entries']} entries, {routing['unresolved_attempts']} unresolved, "
+          f"{routing['model_or_effort_mismatches']} observed model/effort mismatches, "
+          f"{routing['unobserved_actuals']} without complete actual evidence")
+    print(f"  Acceptance: {acceptance['counts'] or {'none': 0}}; {acceptance['outstanding']} outstanding")
+    print(f"  Cost: routing known USD {costs['routing_ledger']['known_spent_usd']:.4f}, "
+          f"routing unknown {costs['routing_ledger']['unknown_attempts']}; controller known USD "
+          f"{controller['known_spent_usd']:.4f}, reserved USD {controller['reserved_usd']:.4f}, "
+          f"unknown {controller['unknown_invocations']}")
+    prior = value["priors"]
+    print(f"  Priors: {prior['generated_on'] or 'unknown'}, age {prior['age_days'] if prior['age_days'] is not None else '?'} "
+          f"days, stale={prior['stale']}")
+    graft = value["graft"]
+    print(f"  Graft: Claude configured={graft['configured_for_claude']}, "
+          f"Codex configured={graft['configured_for_codex']}, local graph={graft['local_graph_present']}; "
+          f"{graft['availability']}")
+    if detailed:
+        for row in routing.get("execution_observations", []):
+            print(f"    {row['ledger_id']} {row['attempt_id']}: requested {row['requested_cell']}; "
+                  f"actual {row['actual_model'] or 'unknown'}; effort {row['effort_evidence'] or 'unknown'}")
+        for row in acceptance.get("outstanding_entries", []):
+            print(f"    {row['ledger_id']}: acceptance {row['status']}")
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--status", action="store_true", help="show routing, evidence, cost, prior and Graft state")
+    ap.add_argument("--explain", action="store_true", help="include per-attempt and outstanding-evidence detail")
     ap.add_argument("--per-turn-tokens", type=int, default=8000,
                      help="assumed per-turn read size for the auto-compact headroom check "
                           "(docs/COMPACTION-DESIGN.md section 13.5); default 8,000, E30's read size")
@@ -441,13 +637,18 @@ def main(argv: list[str]) -> int:
 
     failed = sum(c["status"] == "FAIL" for c in checks)
     warned = sum(c["status"] == "WARN" for c in checks)
+    diagnostics = operational_diagnostics(cwd, detailed=args.explain)
 
     if args.json:
-        print(json.dumps({"result": "FAIL" if failed else "PASS", "checks": checks}, indent=2))
+        print(json.dumps({"schema_version": 2, "result": "FAIL" if failed else "PASS",
+                          "summary": {"failed": failed, "warned": warned, "checks": len(checks)},
+                          "checks": checks, "diagnostics": diagnostics}, indent=2))
     else:
         for c in checks:
             print(f"{c['status']:4}  {c['check']}\n      {c['detail']}")
         print(f"\n{'FAIL' if failed else 'PASS'}: {failed} failing, {warned} needing manual follow-up, of {len(checks)} checks")
+        if args.status or args.explain:
+            print_operational_status(diagnostics, args.explain)
     return 1 if failed else 0
 
 

@@ -4,6 +4,12 @@ description: Collated status of every worker agent in this session
 
 Report the state of all worker agents, running and finished.
 
+Run `python3 preflight.py --status --json` first. Use its routing,
+acceptance, cost, prior and Graft fields as the durable project view. Add
+`--explain` when actual-versus-requested model evidence, unresolved attempt
+IDs or individual acceptance records are needed. Session agent tools remain
+the live source for work that has not reached the ledger yet.
+
 Gather from these sources, in order:
 
 1. `ListAgents`, for every worker you can currently address by name in this

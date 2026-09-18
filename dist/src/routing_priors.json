@@ -1,7 +1,7 @@
 {
   "_comment": "Per-bucket priors for tools/route.py (docs/PLAN-2.md Stage 1.4, D64). A bucket is sensitivity/horizon/blast. 'floor' is a Beta prior on worker-sonnet-low passing; each rung entry is a Beta prior on that cell passing given every cheaper active rung failed (the benchmark staircase only climbed after failure, so its measured rates at higher cells are exactly that conditional). Means are Laplace ((passes+1)/(n+2)); effective sample sizes are capped (measured 10, bracketed 4, policy 3) so a consumer project's own ledger moves a bucket after a handful of its own outcomes. 'kind' says whether a number was measured, bracketed between measured neighbours, inherited across blast radius as policy, or a weakly held default. Every threshold named steering_* steers routing and may never be cited as evidence; the reporting bar is nine runs with a Wilson lower bound above 0.7 and lives in the harness, not here.",
   "version": 1,
-  "generated_on": "2026-09-16",
+  "generated_on": "2026-09-18",
   "generated_by": "docs/PLAN-2.md Stage 1.4; the aggregation and Laplace/n_eff arithmetic are in the commit that added this file",
   "cells": [
     "worker-sonnet-low",
@@ -20,6 +20,19 @@
     "worker-fable-xhigh",
     "worker-fable-max"
   ],
+  "qualified_default": {
+    "policy_id": "B0",
+    "first_cell": "worker-sonnet-low",
+    "repair_cell": "worker-sonnet-low",
+    "fallback_cell": "worker-opus-high",
+    "maximum_worker_attempts": 3,
+    "controller_allowed": false,
+    "adaptive_routing_enabled": false,
+    "evidence": "test/results/2026-09-18-realworld-reserved.json",
+    "evidence_sha256": "79624e2bf2c846531a4d2ebc746449a7c70c3e4310d0271cb9d0342ee5e47382",
+    "decision": "docs/DECISIONS.md D107",
+    "rollback": "restore adaptive_routing_enabled and the D106 source revision, rebuild dist, then apply the transactional installer rollback"
+  },
   "default_ladder": [
     "worker-sonnet-low",
     "worker-opus-high",

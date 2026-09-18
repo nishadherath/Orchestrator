@@ -1,0 +1,34 @@
+{
+  "checks": {
+    "authorisation_cannot_cross_profiles": true,
+    "development_arm_order_alternates": true,
+    "development_repetitions_are_predeclared": true,
+    "exact_authorisation_required": true,
+    "fixed_cost_ceilings": true,
+    "fixed_eighteen_episode_matrix": true,
+    "fixed_forty_eight_episode_matrix": true,
+    "fixed_six_episode_matrix": true,
+    "fixed_thirty_two_episode_matrix": true,
+    "offline_campaigns_complete_once": true,
+    "reserved_arm_order_alternates": true,
+    "reserved_tasks_repeat_exactly_twice": true,
+    "resume_does_not_repeat_completed_episodes": true
+  },
+  "evidence_sha256": "fa73cd8bae54ad0d5d3193a83a870f18ceb10a2a0e285788e03885ae0f13263f",
+  "host": "BOBS-X1",
+  "implementation_sha256": "852d134d035fdf64cae026e5ac582fc98dcd1c45c811d79356aefe6d86e99d8f",
+  "limits": [
+    "Qualification uses a fake runner and makes no provider calls.",
+    "The real launcher remains disabled until exact operator authorisation exists."
+  ],
+  "mode": "offline-paid-evaluation-preflight-v2",
+  "model_calls": 0,
+  "offline_only": true,
+  "recorded_at": "2026-09-18T10:23:44+10:00",
+  "report": {
+    "path": "test/results/2026-09-18-pilot-preflight.md",
+    "sha256": "7c722c9c247a6f978555beac5194a3b5b279fbd36b444c24ceb63eae040a57d9"
+  },
+  "result": "PASS",
+  "schema_version": 2
+}

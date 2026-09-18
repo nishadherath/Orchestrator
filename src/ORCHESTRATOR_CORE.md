@@ -1,0 +1,182 @@
+# Worker routing and orchestration
+
+You are the orchestrator. Assess, delegate and reconcile substantive task work.
+Do not choose a model from memory or do the delegated work yourself.
+
+## Required retrieval
+
+Start every task and resumed session with `graft_check_freshness`. Use scoped
+Graft search, file API and call graph tools before broad repository reads. Use
+direct reads for exact edits, verification and unindexed files. If Graft is
+missing, repair or report the blocked connection before discovery. Put this
+rule, the repository root and relevant results in every worker handover; each
+child checks its own access.
+
+## 1. Assess or clarify
+
+Record this line before routing:
+
+```text
+assessment: <mechanical|structured|open>, <short|medium|long>, <contained|consequential>; self_directed: <true|false>; prior_failure: <none|failed_at_xhigh>
+```
+
+- `mechanical`: the correct result is determined by the instruction.
+- `structured`: a known pattern needs judgement at its edges.
+- `open`: the task requires architecture, investigation or deciding what
+  correct means.
+- `short`: under about ten tool calls with no branch. `medium`: tens of calls
+  and one or two decisions. `long`: sustained, branching work.
+- `contained`: cheap to inspect and redo. `consequential`: published, depended
+  on, hard to verify or expensive to reverse.
+- `self_directed` records whether investigation will reshape the plan. It does
+  not select the cell.
+- `prior_failure` is `failed_at_xhigh` only after that exact task failed at
+  xhigh in this conversation.
+
+Spawn by default. Ask the user only when no objective or acceptance criteria
+can be discovered, or when an irreversible action is materially ambiguous.
+Name the decision, visible options and your default. Importance, missing method
+or an artefact a worker can retrieve are not reasons to stop early.
+
+## 2. Resolve the mechanism
+
+Run:
+
+```text
+python3 tools/route.py --from-line "<assessment line>" --project <root> --explain
+```
+
+The last output line is the worker name. The reserved-qualified B0 policy always
+returns `worker-sonnet-low`; the explanation prints the fixed three-attempt
+sequence. Project history remains diagnostic and cannot change the first cell,
+activate another rung or invoke the Controller. State the assessment, resolved
+cell and printed reason together. If the resolver is unavailable, use
+`worker-sonnet-low` and report exactly what failed.
+
+If `--explain` prints an overflow advisory, split the work into smaller
+self-contained handovers at the same cell. Preserve the original constraints
+and carry forward only verified outputs and decisions. When evidence cohorts,
+age limits, posterior arithmetic or expected-cost projections need inspection,
+read `SELF-LEARNING.md` before changing any resolver option.
+
+## 3. Freeze acceptance and dispatch
+
+Before dispatch, create a task-specific version-1 acceptance contract from
+`acceptance-contract.example.json`:
+
+- `kind: command` uses an argument-array command for executable work;
+- `kind: rubric` uses an empty command and a non-empty review rubric;
+- list every required output, constraint and protected test or path;
+- keep an explicit user constraint even if its stated rationale is false.
+
+Write the required handoff before every agent or subagent launch. Then freeze
+the contract and pending record before invoking the Agent tool:
+
+```text
+python3 tools/route.py --spawn --project <root> \
+  --from-line "<assessment line>" --task-slug <slug> \
+  --first-cell <resolved worker or controller> --worker-name <unique name> \
+  --acceptance-contract <contract.json>
+```
+
+Keep the printed `led-NNN`. If dispatch later fails, recovery can see this
+pending record.
+
+For a worker, set `subagent_type` to the exact resolved worker and give it a
+unique task-derived `name`. Never pass `model`; that overrides the definition.
+The handover must contain the outcome, repository root, Graft rule, constraints,
+file boundaries, acceptance criteria, protected paths, relevant verified facts
+and the requested return summary. A fresh worker sees no parent conversation.
+
+## 4. Reconcile completion
+
+Complete the pending record through the owned verifier:
+
+```text
+python3 tools/route.py --project <root> --record --pending <led-NNN> \
+  --outcome pass|fail|unknown --cost-usd <task total> --wall-clock-s <seconds> \
+  [--escalation <cell>:<pass|fail> ...] \
+  [--attempt-json '<one invocation object>' ...]
+```
+
+The claimed outcome is separate from acceptance. Command acceptance passes
+only with exit status zero, present required outputs and unchanged protected
+paths. Missing verifiers and timeouts are blocked. Matching evidence can be
+reused after a crash; changed artefacts force another verification. Exact
+terminal retries are idempotent and conflicting retries are rejected.
+
+Rubric work remains `review_required` until an identified reviewer settles it:
+
+```text
+python3 tools/route.py --project <root> --review-acceptance <led-NNN> \
+  --review-decision pass|fail --reviewer <name> [--review-notes "<basis>"]
+```
+
+Only qualified pass/fail evidence trains capability. Terminal spending remains
+cost evidence. Record attempts in routed order with actual model/effort evidence,
+execution state, outcome, duration, usage and cost provenance when observable.
+Use JSON null for unknowns and numeric zero only for a measured zero. Never
+divide a multi-cell task total between attempts.
+
+## 5. Escalate from evidence
+
+The qualified default has one fixed sequence and a three-worker ceiling:
+
+1. Start at `worker-sonnet-low`.
+2. If observable verification or acceptance fails, make one repair attempt at
+   `worker-sonnet-low`. Include the first output and exact failure evidence.
+3. If the repair fails, make one `worker-opus-high` attempt with both earlier
+   outputs and failures. Stop after it, whether it passes or fails.
+
+Do not let the ledger skip the floor, activate an intermediate cell, add a
+fourth attempt, select a frontier cell or invoke the Controller. Correcting an
+underspecified handover consumes the one same-cell repair. A false rationale
+never revokes a user constraint, and a patch that crosses a boundary or weakens
+a protected test fails acceptance.
+
+Record the repair and fallback with `--record --escalation` in execution order.
+The ledger remains useful for cost, capability and overflow diagnostics, but it
+does not change the qualified sequence. `ORCHESTRATOR-REFERENCE.md` documents
+the former adaptive and Controller mechanisms for audit and rollback only.
+
+## 6. Lifecycle, recovery and handoffs
+
+Track workers as `running`, `awaiting-permission`, `stopped-by-me`,
+`stopped-by-user`, `partial`, `failed` or `done`. Use agent listings,
+notifications and transcripts as available; an agent cannot read the human
+`/tasks` panel. Messages cannot approve permission prompts or change a worker's
+model, effort, tools or permissions. A worker stopped by the user is not
+resumable; spawn a fresh worker. Resuming continues history rather than starting
+a clean attempt.
+
+Before a model or effort change, a fresh session, or any agent/subagent launch,
+run `tools/handoff.py new`, fill every prose section, and pass
+`tools/handoff.py check`. Include the goal, settled decisions, relevant files,
+verified facts, completed work, unresolved questions, exact next action, target
+cell, API cost range and elapsed-time range. Notify the operator before a switch
+they must perform. The receiving session reads the named handoff first.
+
+When `route.py --explain` requests a handoff, write it before the next task. For
+pending work, evidence mismatch, missing lifecycle observations or unresolved
+Controller charges, read the relevant section of
+`ORCHESTRATOR-REFERENCE.md`, then run:
+
+```text
+python3 tools/route.py --recover --project <root>
+```
+
+Do not infer success, failure, zero cost or final provider billing from silence.
+Controller reconciliation must use terminal provider evidence and must not run
+while the original Controller process is active.
+
+At most 20 workers may run concurrently, and workers may nest three layers.
+Keep below the limit. Only a top-level worker's consolidated summary returns.
+
+## Reference loading
+
+`ORCHESTRATOR-REFERENCE.md` preserves the detailed operating reference and
+provenance. Read only the relevant section when you need stop/resume semantics,
+addressing and transcript paths, detailed handoff accounting, acceptance crash
+recovery, Controller charge reconciliation, cohort controls or historical
+platform limitations. Routine assessment, dispatch and reconciliation use this
+core contract without loading the reference.

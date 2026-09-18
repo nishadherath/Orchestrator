@@ -1,7 +1,15 @@
 {
   "_comment": "Merge these keys into the consumer project's .claude/settings.json (docs/PLAN-3.md Stage B, docs/COMPACTION-DESIGN.md section 7). Do not overwrite an existing statusLine, subagentStatusLine, permissions, autoCompactWindow or SessionStart hook wholesale; merge key by key, and if a statusLine or subagentStatusLine already exists, chain to it (run the existing command, then this one, or the reverse) rather than replacing it; if permissions.allow already exists, append this entry to the array rather than replacing it; if autoCompactWindow is already set, leave the existing value rather than overwriting it with this one. The 'compact' matcher carries two hooks (--recover, then --session-pointer); the 'startup' and 'resume' matchers each carry --session-pointer alone, since only a compaction needs the pending-worker recovery report (docs/COMPACTION-DESIGN.md section 13.4, D72). autoCompactWindow: project scope is confirmed to take effect, not only user scope (E31, docs/FINDINGS.md, Plan 4 Stage D); this file merges into project scope, so the key is real here, not documentation. statusLine.refreshInterval and promptCacheTtl are platform-documented keys (code.claude.com/docs/en/statusline, docs/en/prompt-caching) whose effect on this bundle's own behaviour is otherwise unverified (audit A32, docs/AUDIT-2026-09-16.md); preflight.py checks their presence, not their effect.",
   "permissions": {
-    "allow": ["Bash(python3 *)"]
+    "allow": [
+      "Bash(python3 *)",
+      "mcp__graft__graft_check_freshness",
+      "mcp__graft__graft_repo_map",
+      "mcp__graft__graft_find_code",
+      "mcp__graft__graft_find_all",
+      "mcp__graft__graft_file_api",
+      "mcp__graft__graft_trace_calls"
+    ]
   },
   "promptCacheTtl": "1h",
   "autoCompactWindow": 200000,

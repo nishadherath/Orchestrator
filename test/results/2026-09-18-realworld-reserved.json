@@ -1,0 +1,1137 @@
+{
+  "aggregate_usage": {
+    "attempts": 49,
+    "auxiliary_billed_models": [
+      "claude-haiku-4-5-20251001"
+    ],
+    "cache_creation_input_tokens": 106426,
+    "cache_read_input_tokens": 784560,
+    "input_tokens": 326,
+    "output_tokens": 41360,
+    "served_task_models": {
+      "claude-sonnet-5": 49
+    }
+  },
+  "authorisation_sha256": "37354e685a48392469cf46c0d70bb9eb3ec7f657d55ab1002056cc78283e4ae6",
+  "budget": {
+    "authorised_ceiling_usd": 200.0,
+    "known_spend_usd": 1.053580005,
+    "unused_authorised_ceiling_usd": 198.946419995
+  },
+  "campaign": "realworld-v1-reserved-forty-eight",
+  "campaign_state_sha256": "b90ae174efdf594787d02b5f5bbe531e1b663972cbdfcc5e933d16227770c7f5",
+  "candidate_sha256": "99f6e7447b81054101c7ad57c4cd1bfd14b8d860aeec6f54f6f5a8d812e04fa4",
+  "checks": {
+    "accounting_complete": true,
+    "actor_boundaries_preserved": true,
+    "all_learning_eligible": true,
+    "authorisation_exact": true,
+    "campaign_completed": true,
+    "campaign_spend_reconciles": true,
+    "event_chains_valid": true,
+    "exact_episode_set": true,
+    "identities_valid": true,
+    "manifest_digest_valid": true,
+    "oracles_unchanged": true
+  },
+  "decision": {
+    "candidate_not_promoted": "B1",
+    "package_policy": "B0",
+    "paired_acceptance_wins": {
+      "B0": 2,
+      "B1": 0,
+      "ties": 22
+    },
+    "proceed_to_w09": true,
+    "qualified_default": "B0",
+    "reason": "B1 failed the predeclared reserved promotion gates: it accepted fewer episodes, increased false successes, cost more per accepted episode, completed only five ordinary task families twice and did not pass H11. B0 recorded two paired wins, no paired losses and slightly lower total spend. Package the simpler B0 policy as the qualified default without retuning on reserved outcomes."
+  },
+  "episodes": [
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.024427,
+      "episode_id": "evaluation-057-h01-b0-r1",
+      "false_success": true,
+      "ledger_sha256": "50b07e9fc0079227ad58f3d49bc1bfb01e1f3a52987f380856cde41a3f596177",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 57,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H01",
+      "wall_clock_seconds": 12.285033
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.016157,
+      "episode_id": "evaluation-058-h01-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "e4c3a1f4b68f2386745a0d8cc53da0e7d4e0dc91aa8a716526fccf8efa03113a",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 58,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H01",
+      "wall_clock_seconds": 10.758424
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.014921,
+      "episode_id": "evaluation-059-h02-b1-r1",
+      "false_success": false,
+      "ledger_sha256": "01e97b8d47b8646d9ef5e6235e5cabe4a6c6f9fccd9a08030bc1b22b1c723aeb",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 59,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H02",
+      "wall_clock_seconds": 7.444157
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0152318,
+      "episode_id": "evaluation-060-h02-b0-r1",
+      "false_success": false,
+      "ledger_sha256": "6e3a91b34e2291da88ddd4c8c36491d52329316a530d85244c7c22292b864b6f",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 60,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H02",
+      "wall_clock_seconds": 10.75816
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0198946,
+      "episode_id": "evaluation-061-h03-b0-r1",
+      "false_success": true,
+      "ledger_sha256": "d9ce6f2103475ac522bcfb47060c630a21dd9cc17c4a00c4ac243d9fe7e6c87a",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 61,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H03",
+      "wall_clock_seconds": 14.736864
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.021779,
+      "episode_id": "evaluation-062-h03-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "d3d592e93fb831e3530b99c02edd614defa1c75220e757259b11e37aa2b3075e",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 62,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H03",
+      "wall_clock_seconds": 16.59163
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0237756,
+      "episode_id": "evaluation-063-h04-b1-r1",
+      "false_success": false,
+      "ledger_sha256": "f4c4dabf2494fb076ce6497b0937e38c3931ead47bd194e5b14dbd4d8c94f111",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 63,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H04",
+      "wall_clock_seconds": 13.984589
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0236538,
+      "episode_id": "evaluation-064-h04-b0-r1",
+      "false_success": false,
+      "ledger_sha256": "74c439aac481ef173b9c8bdb1ae2ba02f4fbeca575776d3cd8eb3fcb59690a44",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 64,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H04",
+      "wall_clock_seconds": 15.404287
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0153156,
+      "episode_id": "evaluation-065-h05-b0-r1",
+      "false_success": false,
+      "ledger_sha256": "8847ba4d580e6f5cfbca2f8755288a5a54a508697be710fab73d8ffd634a8f1d",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 65,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H05",
+      "wall_clock_seconds": 10.104904
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0186924,
+      "episode_id": "evaluation-066-h05-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "fae43272e4e246926c75bf831c11b789e2cfc49dd7b691d52c4770e8aebaa90e",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 66,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H05",
+      "wall_clock_seconds": 10.796166
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.030333601,
+      "episode_id": "evaluation-067-h06-b1-r1",
+      "false_success": false,
+      "ledger_sha256": "6ae3fb8a5ed7a6a345f119c2999838f44084f063206d84192e3e1efae508b797",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 67,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H06",
+      "wall_clock_seconds": 19.634671
+    },
+    {
+      "accepted": true,
+      "attempts": 2,
+      "cost_usd": 0.0475312,
+      "episode_id": "evaluation-068-h06-b0-r1",
+      "false_success": false,
+      "ledger_sha256": "18837ddabf6cef4ede162603cd25d85ac3bd310ed780c112b4bbd77fd9b79d30",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 68,
+      "sequence_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low"
+      ],
+      "task_id": "H06",
+      "wall_clock_seconds": 26.16912
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0189252,
+      "episode_id": "evaluation-069-h07-b0-r1",
+      "false_success": false,
+      "ledger_sha256": "9753718fafc519e916abb55cb129a3750bf6e253de782db9abe6d7eaec073feb",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 69,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H07",
+      "wall_clock_seconds": 10.212838
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0173168,
+      "episode_id": "evaluation-070-h07-b1-r1",
+      "false_success": false,
+      "ledger_sha256": "7979b29efb1511e88a95b9dfa01cde8738ce2d585e902ed50f1e1e557e70dd6d",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 70,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H07",
+      "wall_clock_seconds": 12.107528
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0201138,
+      "episode_id": "evaluation-071-h08-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "24d67c3c095688e1820f690546fdb6b6edb01addffd632c9e8fcc92c7d23415e",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 71,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H08",
+      "wall_clock_seconds": 11.18216
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.020445201,
+      "episode_id": "evaluation-072-h08-b0-r1",
+      "false_success": true,
+      "ledger_sha256": "b08203d0594ef0f55233f514aa69d62803a55e7d18598eb2dc90cf6b5c9b5a85",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 72,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H08",
+      "wall_clock_seconds": 10.022497
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0250004,
+      "episode_id": "evaluation-073-h09-b0-r1",
+      "false_success": false,
+      "ledger_sha256": "90e61bc101f08ba4df21f966992de973586f74fa71b568211017b42902cc7db5",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 73,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H09",
+      "wall_clock_seconds": 14.131286
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.02483,
+      "episode_id": "evaluation-074-h09-b1-r1",
+      "false_success": false,
+      "ledger_sha256": "e7c8b9f743260ce1563550ca93eba6aca02cdcbe12b5e2018795d27587a90c4b",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 74,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H09",
+      "wall_clock_seconds": 11.678146
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0171784,
+      "episode_id": "evaluation-075-h10-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "94efd7b6ff79925047a98325c6737f6099f9424f4eb561385d9fa936cc5b88ee",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 75,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H10",
+      "wall_clock_seconds": 13.57237
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0170018,
+      "episode_id": "evaluation-076-h10-b0-r1",
+      "false_success": true,
+      "ledger_sha256": "28237a90d995ec4b4223ab1da93149d531c9a43132aa1f47a3acf72af842c532",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 76,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H10",
+      "wall_clock_seconds": 11.683333
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0252106,
+      "episode_id": "evaluation-077-h11-b0-r1",
+      "false_success": true,
+      "ledger_sha256": "64828fd9d75932e722243d6339616874b751eef1c20b05a3db059ce11c47a39f",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 77,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H11",
+      "wall_clock_seconds": 21.089217
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0427128,
+      "episode_id": "evaluation-078-h11-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "a14deeee837308eb2dcd937508e92ce1ba46782aa4423775aec96e020b34e699",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 78,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H11",
+      "wall_clock_seconds": 27.033578
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0219264,
+      "episode_id": "evaluation-079-h12-b1-r1",
+      "false_success": true,
+      "ledger_sha256": "140c94772ac34321ced2a2047438fd8a65836d5eef48828fc1e9a552c6687aa3",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 79,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H12",
+      "wall_clock_seconds": 14.19383
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0238742,
+      "episode_id": "evaluation-080-h12-b0-r1",
+      "false_success": true,
+      "ledger_sha256": "62d100fc83bc01dbcb5ecc766aa5a2aafa144ba3971063b412004752748fdbd5",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 80,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H12",
+      "wall_clock_seconds": 15.770814
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0160422,
+      "episode_id": "evaluation-081-h01-b0-r2",
+      "false_success": true,
+      "ledger_sha256": "fac66cbb972a3571b0104e604e3101ac3d6c3cc76a98e29397246e33ebbbe7b3",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 81,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H01",
+      "wall_clock_seconds": 11.070914
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.015721,
+      "episode_id": "evaluation-082-h01-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "18c10c108ab4162da2cd8fbefa3d9e9b31e6f0531229973182a5d7eefc4b8cad",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 82,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H01",
+      "wall_clock_seconds": 10.738091
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.014943601,
+      "episode_id": "evaluation-083-h02-b1-r2",
+      "false_success": false,
+      "ledger_sha256": "0323842c753db46c56fe84be819fcf94395074d6e0e9927bf74932f803c71387",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 83,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H02",
+      "wall_clock_seconds": 10.214084
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0151374,
+      "episode_id": "evaluation-084-h02-b0-r2",
+      "false_success": false,
+      "ledger_sha256": "ae5a0ec105e9c047c259c842fa0f854d0354417ee89ec549350221e0244c46d9",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 84,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H02",
+      "wall_clock_seconds": 10.541676
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.020031201,
+      "episode_id": "evaluation-085-h03-b0-r2",
+      "false_success": true,
+      "ledger_sha256": "960edaa5393d017efc3a736284ddd69e446d0667e102d27ae552ccff5b8a962d",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 85,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H03",
+      "wall_clock_seconds": 13.946465
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0207438,
+      "episode_id": "evaluation-086-h03-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "e947ae2e0a0d15ed741e8c83b4afc66166e4de170e67dfc7b3145cc98fb656c4",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 86,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H03",
+      "wall_clock_seconds": 11.413655
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0259908,
+      "episode_id": "evaluation-087-h04-b1-r2",
+      "false_success": false,
+      "ledger_sha256": "c1178c983ed49cffc13a636beb3e98d6aeec8c217ea059e9210e835d3150251e",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 87,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H04",
+      "wall_clock_seconds": 16.014412
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0240192,
+      "episode_id": "evaluation-088-h04-b0-r2",
+      "false_success": false,
+      "ledger_sha256": "1cae776156a003bea7a5498f032af925ec3c725e1ca6d0c749ef0a3706592726",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 88,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H04",
+      "wall_clock_seconds": 14.346408
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0180676,
+      "episode_id": "evaluation-089-h05-b0-r2",
+      "false_success": true,
+      "ledger_sha256": "bd35c40c3fd1afcb1a54a50e03f8cc9758b34a1f371367eb4b23c3772a836cec",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 89,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H05",
+      "wall_clock_seconds": 10.051344
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0235104,
+      "episode_id": "evaluation-090-h05-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "c584c55564b85f294f847214c3d1394aca164709e9a2248efbf63ef2dabe56c1",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 90,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H05",
+      "wall_clock_seconds": 16.238654
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.01853,
+      "episode_id": "evaluation-091-h06-b1-r2",
+      "false_success": false,
+      "ledger_sha256": "6dbe5de5d4632db3515887c5b362d9d410c0b1c8b05041907ec128bf07d3efa1",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 91,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H06",
+      "wall_clock_seconds": 13.0976
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0182706,
+      "episode_id": "evaluation-092-h06-b0-r2",
+      "false_success": false,
+      "ledger_sha256": "d3cb434f1117403bfbd9631af49ce951af46537e7416655d00337804768b517f",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 92,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H06",
+      "wall_clock_seconds": 11.147397
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0207568,
+      "episode_id": "evaluation-093-h07-b0-r2",
+      "false_success": false,
+      "ledger_sha256": "fdc678ff8b97a7212eab8ce123995d0a54277fe78562fd8a477ce6da534bf9f2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 93,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H07",
+      "wall_clock_seconds": 10.765032
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0172908,
+      "episode_id": "evaluation-094-h07-b1-r2",
+      "false_success": false,
+      "ledger_sha256": "2879c2ed907273ac7c4b4dd2d5975daf8e44789d2c3498867a8c804912467a0b",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 94,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H07",
+      "wall_clock_seconds": 11.434188
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.019935801,
+      "episode_id": "evaluation-095-h08-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "da9a424389938d0d2c81f18d883ad57e81da79ffbd80c87c2a9effc4de93f758",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 95,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H08",
+      "wall_clock_seconds": 9.594718
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0214758,
+      "episode_id": "evaluation-096-h08-b0-r2",
+      "false_success": false,
+      "ledger_sha256": "e7910edacc6616ce67d95a3269c155dabdafa31549b6d504fcee123819d59e7b",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 96,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H08",
+      "wall_clock_seconds": 10.069729
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.025081,
+      "episode_id": "evaluation-097-h09-b0-r2",
+      "false_success": false,
+      "ledger_sha256": "0ad73ffca153c0b41f5b4c5d0fc65bdf31acaa644a2a660e7480fdbc50d22c6a",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 97,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H09",
+      "wall_clock_seconds": 13.104085
+    },
+    {
+      "accepted": true,
+      "attempts": 1,
+      "cost_usd": 0.0250624,
+      "episode_id": "evaluation-098-h09-b1-r2",
+      "false_success": false,
+      "ledger_sha256": "230e64a2a44ecf0530ebdfd9187357514de5f90466d963fecc17b840482a8c83",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 98,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H09",
+      "wall_clock_seconds": 14.767253
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0168684,
+      "episode_id": "evaluation-099-h10-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "efd031a0acca10f7f8a3ba143135cd263ad0a91226b4c88752d851706c3de5fb",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 99,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H10",
+      "wall_clock_seconds": 10.654581
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0181712,
+      "episode_id": "evaluation-100-h10-b0-r2",
+      "false_success": true,
+      "ledger_sha256": "c342652a55f3f9b9fc9fde8a9d4b52e4bfb94234c68cd2e22049961498a54971",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 100,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H10",
+      "wall_clock_seconds": 9.474334
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0279846,
+      "episode_id": "evaluation-101-h11-b0-r2",
+      "false_success": true,
+      "ledger_sha256": "2f8d9c95dfb96dd06f466b4b125088477d6f911a45f66a62407c93ea33717470",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 101,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H11",
+      "wall_clock_seconds": 17.817708
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.037881,
+      "episode_id": "evaluation-102-h11-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "780e2267a04add987052ba699d313ce0a0667c0cc0071dc1d565e33029549232",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 102,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H11",
+      "wall_clock_seconds": 20.957076
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.0226982,
+      "episode_id": "evaluation-103-h12-b1-r2",
+      "false_success": true,
+      "ledger_sha256": "ee0f974fb95c1ed304c4d5aa2efca7a00d84440dd6e39c5e0acb7cb3176a1141",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 103,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H12",
+      "wall_clock_seconds": 13.058844
+    },
+    {
+      "accepted": false,
+      "attempts": 1,
+      "cost_usd": 0.023118,
+      "episode_id": "evaluation-104-h12-b0-r2",
+      "false_success": true,
+      "ledger_sha256": "47e0b4f6ac6b4c006a88e12f4f69d09da648cac07317ba83df6ab04d3137fa88",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 104,
+      "sequence_cells": [
+        "worker-sonnet-low"
+      ],
+      "task_id": "H12",
+      "wall_clock_seconds": 15.781747
+    }
+  ],
+  "evidence_sha256": "79624e2bf2c846531a4d2ebc746449a7c70c3e4310d0271cb9d0342ee5e47382",
+  "executed_revision": "53ff686",
+  "family_summary": [
+    {
+      "B0_accepted": 0,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H01"
+    },
+    {
+      "B0_accepted": 2,
+      "B0_both_repetitions": true,
+      "B1_accepted": 2,
+      "B1_both_repetitions": true,
+      "task_id": "H02"
+    },
+    {
+      "B0_accepted": 0,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H03"
+    },
+    {
+      "B0_accepted": 2,
+      "B0_both_repetitions": true,
+      "B1_accepted": 2,
+      "B1_both_repetitions": true,
+      "task_id": "H04"
+    },
+    {
+      "B0_accepted": 1,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H05"
+    },
+    {
+      "B0_accepted": 2,
+      "B0_both_repetitions": true,
+      "B1_accepted": 2,
+      "B1_both_repetitions": true,
+      "task_id": "H06"
+    },
+    {
+      "B0_accepted": 2,
+      "B0_both_repetitions": true,
+      "B1_accepted": 2,
+      "B1_both_repetitions": true,
+      "task_id": "H07"
+    },
+    {
+      "B0_accepted": 1,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H08"
+    },
+    {
+      "B0_accepted": 2,
+      "B0_both_repetitions": true,
+      "B1_accepted": 2,
+      "B1_both_repetitions": true,
+      "task_id": "H09"
+    },
+    {
+      "B0_accepted": 0,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H10"
+    },
+    {
+      "B0_accepted": 0,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H11"
+    },
+    {
+      "B0_accepted": 0,
+      "B0_both_repetitions": false,
+      "B1_accepted": 0,
+      "B1_both_repetitions": false,
+      "task_id": "H12"
+    }
+  ],
+  "implementation_sha256": "5297ad2c262e5d57911448b5faed7945395bcd44556d4c201589482b76d7d1c5",
+  "manifest_sha256": "a064865e0712bca2d8b9d32887a78dc383292884dfe35af27266c564f8e9dd86",
+  "model_calls": 0,
+  "offline_aggregation": true,
+  "paired_outcomes": [
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H01",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H01",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 1,
+      "task_id": "H02",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 2,
+      "task_id": "H02",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H03",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H03",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 1,
+      "task_id": "H04",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 2,
+      "task_id": "H04",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H05",
+      "winner": "B0"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H05",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 1,
+      "task_id": "H06",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 2,
+      "task_id": "H06",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 1,
+      "task_id": "H07",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 2,
+      "task_id": "H07",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H08",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H08",
+      "winner": "B0"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 1,
+      "task_id": "H09",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": true,
+      "B1_accepted": true,
+      "repetition": 2,
+      "task_id": "H09",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H10",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H10",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H11",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H11",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 1,
+      "task_id": "H12",
+      "winner": "tie"
+    },
+    {
+      "B0_accepted": false,
+      "B1_accepted": false,
+      "repetition": 2,
+      "task_id": "H12",
+      "winner": "tie"
+    }
+  ],
+  "policy_summary": [
+    {
+      "accepted": 12,
+      "attempts": 25,
+      "controller_dispatches": 0,
+      "cost_per_accepted_usd": 0.04372225,
+      "episode_latency_p50_seconds": 11.683333,
+      "episode_latency_p90_seconds": 17.817708,
+      "episodes": 24,
+      "false_successes": 12,
+      "operator_interventions": 0,
+      "opus_escalations": 0,
+      "policy_id": "B0",
+      "spend_usd": 0.524667002,
+      "wall_clock_seconds": 320.485192
+    },
+    {
+      "accepted": 10,
+      "attempts": 24,
+      "controller_dispatches": 0,
+      "cost_per_accepted_usd": 0.0528913,
+      "episode_latency_p50_seconds": 12.107528,
+      "episode_latency_p90_seconds": 19.634671,
+      "episodes": 24,
+      "false_successes": 14,
+      "operator_interventions": 0,
+      "opus_escalations": 0,
+      "policy_id": "B1",
+      "spend_usd": 0.528913003,
+      "wall_clock_seconds": 327.160405
+    }
+  ],
+  "promotion_gates": {
+    "H11_candidate_protocol_both_repetitions": false,
+    "candidate_cost_per_accepted_reduction_fraction": -0.209711303,
+    "candidate_ordinary_families_complete_both": 5,
+    "candidate_p90_latency_change_fraction": 0.101975125,
+    "cost_reduction_gate_met": false,
+    "false_success_not_increased": false,
+    "latency_gate_met": true,
+    "maximum_p90_latency_increase_fraction": 0.2,
+    "no_both-repetitions_family_regression": true,
+    "no_critical_contract_violation": true,
+    "operator_interventions_not_increased": true,
+    "ordinary_family_threshold_met": false,
+    "promotion_gate_passed": false,
+    "required_cost_reduction_fraction": 0.2,
+    "required_ordinary_families_complete_both": 10
+  },
+  "report": {
+    "path": "test/results/2026-09-18-realworld-reserved.md",
+    "sha256": "362f156dc806c84280a22ef9bdc1b5b3af17b09dcde7dcb00fcbf961ceef05d2"
+  },
+  "result": "PASS",
+  "schema_version": 1
+}

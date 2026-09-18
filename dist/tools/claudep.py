@@ -36,6 +36,7 @@ import sys
 import time
 from collections.abc import Sequence
 from pathlib import Path
+from unittest import mock
 
 # claude -p starts in Manual permission mode by default (docs/en/permission-modes),
 # which blocks Edit and Bash with nobody present to approve them. acceptEdits
@@ -69,19 +70,109 @@ class ClaudeCallResult:
     cmd_shown: str
 
 
+class ClaudeCallError(RuntimeError):
+    """A failed ``claude -p`` invocation with all recoverable telemetry.
+
+    This remains a ``RuntimeError`` subclass so existing callers keep their
+    current failure boundary.  New callers can inspect ``partial`` and record
+    cost, usage, duration, and the command even when the process times out,
+    exits non-zero, or returns an invalid response envelope.
+    """
+
+    def __init__(self, message: str, partial: ClaudeCallResult):
+        super().__init__(message)
+        self.partial = partial
+
+
+def _stream_text(value: str | bytes | None) -> str:
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return value or ""
+
+
+def _stream_envelope(text: str) -> tuple[dict, dict]:
+    """Return the terminal stream result plus attributable model evidence."""
+    final: dict = {}
+    root_models: set[str] = set()
+    child_models: set[str] = set()
+    invalid_lines = 0
+    event_count = 0
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            invalid_lines += 1
+            continue
+        if not isinstance(event, dict):
+            invalid_lines += 1
+            continue
+        event_count += 1
+        if event.get("type") == "assistant" and isinstance(event.get("message"), dict):
+            model = event["message"].get("model")
+            if isinstance(model, str) and model:
+                (child_models if event.get("parent_tool_use_id") else root_models).add(model)
+        if event.get("type") == "result":
+            final = event
+    billed = final.get("modelUsage", final.get("model_usage", {}))
+    billed_models = sorted(billed) if isinstance(billed, dict) else []
+    evidence = {
+        "event_count": event_count,
+        "invalid_line_count": invalid_lines,
+        "root_models": sorted(root_models),
+        "child_models": sorted(child_models),
+        "billed_models": billed_models,
+        "auxiliary_billed_models": sorted(
+            set(billed_models) - root_models - child_models),
+    }
+    return final, evidence
+
+
+def _result_from_stdout(stdout: str | bytes | None, elapsed_s: float,
+                        cmd_shown: str, *, stream_json: bool = False) -> ClaudeCallResult:
+    """Recover structured telemetry from stdout without masking a failure."""
+    text = _stream_text(stdout)
+    stream_evidence: dict = {}
+    if stream_json:
+        data, stream_evidence = _stream_envelope(text)
+    else:
+        try:
+            data = json.loads(text)
+        except (json.JSONDecodeError, TypeError):
+            data = {}
+    if not isinstance(data, dict):
+        data = {}
+    extras = {k: data.get(k) for k in ("usage", "duration_ms", "num_turns") if k in data}
+    extras.update(stream_evidence)
+    return ClaudeCallResult(
+        result=str(data.get("result", "")),
+        cost_usd=data.get("total_cost_usd"),
+        elapsed_s=elapsed_s,
+        extras=extras,
+        raw=data,
+        cmd_shown=cmd_shown,
+    )
+
+
 def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str | None = None,
                  permission_args: Sequence[str] = (), extra_args: Sequence[str] = (),
                  json_schema: dict | None = None, max_budget_usd: float | None = None,
-                 timeout: float = 300, dry_run: bool = False) -> ClaudeCallResult:
-    """Invoke `claude -p <prompt> --output-format json`, with `--model`,
+                 timeout: float = 300, dry_run: bool = False,
+                 max_output_tokens: int | None = None,
+                 stream_json: bool = False) -> ClaudeCallResult:
+    """Invoke `claude -p` with a terminal JSON or streamed JSON envelope.
+
+    Adds `--model`,
     `--effort`, `--json-schema`, `--max-budget-usd`, then any permission or
     extra flags, appended in that order.
 
-    Raises RuntimeError on a non-zero exit, carrying the last 400 characters
-    of stderr, matching what both prior call sites did; on a
+    Raises ``ClaudeCallError`` (a ``RuntimeError`` subclass) on a non-zero
+    exit, carrying the last 400 characters of stderr; on a
     `subprocess.TimeoutExpired`, carrying the elapsed time and the
     command shown; and on stdout that does not parse as JSON despite a
-    zero exit, carrying the stdout tail (audit A17,
+    zero exit, carrying the stdout tail. The exception's ``partial`` result
+    preserves every recoverable usage/cost field (audit A17,
     docs/AUDIT-2026-09-16.md: every caller used to catch
     `json.JSONDecodeError` and `subprocess.TimeoutExpired` itself around
     this call, three duplicated boundaries instead of one, and
@@ -105,7 +196,10 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
     # shorter prompts keep the exact argv every earlier run used. E26 is
     # the live check that stdin carries a prompt this long intact.
     via_stdin = len(prompt) > STDIN_PROMPT_THRESHOLD_CHARS
-    cmd = ["claude", "-p"] + ([] if via_stdin else [prompt]) + ["--output-format", "json"]
+    output_format = "stream-json" if stream_json else "json"
+    cmd = ["claude", "-p"] + ([] if via_stdin else [prompt]) + ["--output-format", output_format]
+    if stream_json:
+        cmd += ["--verbose"]
     if model:
         cmd += ["--model", model]
     if effort:
@@ -119,31 +213,56 @@ def call_claude(prompt: str, *, cwd: Path, model: str | None = None, effort: str
     cmd_shown = ("claude -p <prompt via stdin> " + " ".join(cmd[2:])) if via_stdin else (
         " ".join(cmd[:2]) + " <prompt> " + " ".join(cmd[3:]))
 
+    child_options = {}
+    if max_output_tokens is not None:
+        if type(max_output_tokens) is not int or max_output_tokens <= 0:
+            raise ValueError("max_output_tokens must be a positive integer")
+        # Child-only override; never race on global os.environ in a pool.
+        child_options["env"] = {**os.environ, "CLAUDE_CODE_MAX_OUTPUT_TOKENS": str(max_output_tokens)}
     if dry_run:
         return ClaudeCallResult(result="", cost_usd=None, elapsed_s=0.0, extras={}, raw={}, cmd_shown=cmd_shown)
-
     start = time.monotonic()
     try:
         proc = subprocess.run(cmd, input=prompt if via_stdin else None, capture_output=True, text=True,
-                              encoding="utf-8", cwd=cwd, timeout=timeout)
+                              encoding="utf-8", cwd=cwd, timeout=timeout, **child_options)
     except subprocess.TimeoutExpired as exc:
         elapsed = time.monotonic() - start
-        raise RuntimeError(f"claude -p timed out after {elapsed:.0f}s (limit {timeout:.0f}s): "
-                           f"{cmd_shown}") from exc
+        partial = _result_from_stdout(exc.stdout, elapsed, cmd_shown,
+                                      stream_json=stream_json)
+        raise ClaudeCallError(
+            f"claude -p timed out after {elapsed:.0f}s (limit {timeout:.0f}s): {cmd_shown}",
+            partial,
+        ) from exc
     elapsed = time.monotonic() - start
+    partial = _result_from_stdout(proc.stdout, elapsed, cmd_shown,
+                                  stream_json=stream_json)
     if proc.returncode != 0:
         # A budget abort (--max-budget-usd) reports on stdout as JSON with
         # an empty stderr; show whichever stream has the reason.
         detail = proc.stderr.strip()[-400:] or proc.stdout.strip()[-400:]
-        raise RuntimeError(f"claude exited {proc.returncode}: {detail}")
-    try:
-        data = json.loads(proc.stdout)
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(f"claude -p exited 0 but stdout was not JSON ({exc}); "
-                           f"stdout tail: {proc.stdout.strip()[-400:]!r}") from exc
-    extras = {k: data.get(k) for k in ("usage", "duration_ms", "num_turns") if k in data}
-    return ClaudeCallResult(result=str(data.get("result", "")), cost_usd=data.get("total_cost_usd"),
-                             elapsed_s=elapsed, extras=extras, raw=data, cmd_shown=cmd_shown)
+        raise ClaudeCallError(f"claude exited {proc.returncode}: {detail}", partial)
+    if stream_json:
+        data = partial.raw
+        parse_error = None
+    else:
+        try:
+            data = json.loads(proc.stdout)
+            parse_error = None
+        except json.JSONDecodeError as exc:
+            data = None
+            parse_error = exc
+    if parse_error is not None:
+        raise ClaudeCallError(
+            f"claude -p exited 0 but stdout was not JSON ({parse_error}); "
+            f"stdout tail: {proc.stdout.strip()[-400:]!r}",
+            partial,
+        ) from parse_error
+    if not isinstance(data, dict) or (stream_json and data.get("type") != "result"):
+        raise ClaudeCallError(
+            "claude -p exited 0 but no terminal result object was found",
+            partial,
+        )
+    return partial
 
 
 def bundle_tag(bundle: str) -> str:
@@ -299,8 +418,85 @@ def _probe_stdin(argv: list[str]) -> int:
     return 0 if ok else 1
 
 
+def _selftest() -> int:
+    """Exercise subprocess outcomes without invoking Claude or the network."""
+    success = {
+        "result": "ok",
+        "total_cost_usd": 0.125,
+        "usage": {"input_tokens": 10, "output_tokens": 2},
+        "duration_ms": 250,
+        "num_turns": 1,
+    }
+    with mock.patch.object(subprocess, "run", return_value=subprocess.CompletedProcess(
+            args=[], returncode=0, stdout=json.dumps(success), stderr="")):
+        result = call_claude("test", cwd=Path.cwd())
+    assert result.result == "ok"
+    assert result.cost_usd == 0.125
+    assert result.extras["usage"]["input_tokens"] == 10
+
+    failed = {
+        "result": "budget exceeded",
+        "total_cost_usd": 0.25,
+        "usage": {"input_tokens": 20, "output_tokens": 3},
+        "duration_ms": 500,
+        "num_turns": 2,
+    }
+    with mock.patch.object(subprocess, "run", return_value=subprocess.CompletedProcess(
+            args=[], returncode=1, stdout=json.dumps(failed), stderr="")):
+        try:
+            call_claude("test", cwd=Path.cwd())
+        except ClaudeCallError as exc:
+            assert isinstance(exc, RuntimeError)
+            assert exc.partial.cost_usd == 0.25
+            assert exc.partial.extras["usage"]["output_tokens"] == 3
+        else:
+            raise AssertionError("non-zero exit did not raise ClaudeCallError")
+
+    with mock.patch.object(subprocess, "run", return_value=subprocess.CompletedProcess(
+            args=[], returncode=0, stdout="not-json", stderr="")):
+        try:
+            call_claude("test", cwd=Path.cwd())
+        except ClaudeCallError as exc:
+            assert exc.partial.cost_usd is None
+            assert exc.partial.raw == {}
+        else:
+            raise AssertionError("non-JSON response did not raise ClaudeCallError")
+
+    timeout_payload = json.dumps({"total_cost_usd": 0.05, "usage": {"input_tokens": 5}}).encode()
+    timeout_error = subprocess.TimeoutExpired(cmd=["claude"], timeout=1, output=timeout_payload)
+    with mock.patch.object(subprocess, "run", side_effect=timeout_error):
+        try:
+            call_claude("test", cwd=Path.cwd(), timeout=1)
+        except ClaudeCallError as exc:
+            assert exc.partial.cost_usd == 0.05
+            assert exc.partial.extras["usage"]["input_tokens"] == 5
+            assert exc.partial.elapsed_s >= 0
+        else:
+            raise AssertionError("timeout did not raise ClaudeCallError")
+
+    stream = "\n".join(json.dumps(row) for row in (
+        {"type": "assistant", "parent_tool_use_id": None,
+         "message": {"model": "claude-sonnet-5"}},
+        {"type": "result", "subtype": "success", "result": "ok",
+         "total_cost_usd": 0.02, "usage": {"input_tokens": 7, "output_tokens": 1},
+         "modelUsage": {"claude-sonnet-5": {}, "claude-haiku-4-5-20251001": {}}},
+    )) + "\n"
+    with mock.patch.object(subprocess, "run", return_value=subprocess.CompletedProcess(
+            args=[], returncode=0, stdout=stream, stderr="")):
+        streamed = call_claude("test", cwd=Path.cwd(), stream_json=True)
+    assert streamed.raw["type"] == "result"
+    assert streamed.extras["root_models"] == ["claude-sonnet-5"]
+    assert streamed.extras["auxiliary_billed_models"] == ["claude-haiku-4-5-20251001"]
+    assert "--output-format stream-json --verbose" in streamed.cmd_shown
+
+    print("PASS: claudep selftest (5 scenarios; no claude -p calls)")
+    return 0
+
+
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["--selftest"]:
+        sys.exit(_selftest())
     if sys.argv[1:2] == ["--probe-stdin"]:
         sys.exit(_probe_stdin(sys.argv[2:]))
     print(__doc__.splitlines()[0])
-    print("usage: python3 tools/claudep.py --probe-stdin --project <dir>")
+    print("usage: python3 tools/claudep.py --selftest | --probe-stdin --project <dir>")

@@ -1,0 +1,5 @@
+{
+  "action": "repair",
+  "diagnosis": "The ownership.json record marks case_a/service/retention.py as authored and owned by the retention team, not generated.",
+  "changed": ["case_a/service/retention.py"]
+}

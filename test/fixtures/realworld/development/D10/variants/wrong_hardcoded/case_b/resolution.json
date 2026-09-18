@@ -1,0 +1,5 @@
+{
+  "action": "clarify",
+  "evidence": "ownership.json contradicts the premise but case_b/CONSTRAINT.md prohibits the edit.",
+  "question": "May case_b/service/retention.py be changed?"
+}

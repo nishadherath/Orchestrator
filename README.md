@@ -8,13 +8,18 @@ result file it rests on, and anything unverified says so in the same
 sentence. `docs/AUDIT-2026-09-16.md` is the audit this file was written
 after; where the two disagree, the audit is the record of what was checked.
 
+The project and redistributable are licensed under Apache-2.0. The W09
+candidate is mechanically release-ready; publication remains an explicit
+operator action.
+
 ## What it achieves
 
 The bundle in `dist/` installs into any Claude Code project and makes the
 top-level session an orchestrator: it assesses each task on a fixed rubric,
-resolves a worker cell in code from that assessment plus the project's own
-history, spawns exactly that cell, and records the outcome so the next
-resolution is better informed. Fifteen worker definitions cover three
+starts at `worker-sonnet-low`, permits one same-cell repair after observable
+failure, then permits one `worker-opus-high` fallback. It records outcomes for
+cost, capability and overflow diagnostics; history does not change this
+reserved-qualified default. Fifteen worker definitions cover three
 models (sonnet, opus, fable) at five effort levels (low to max), one
 definition per cell, generated from one persona (D3).
 
@@ -35,15 +40,23 @@ What has been measured, which is the part to hold on to:
   the floor and escalating on failure (`docs/PREMISES.md`, "Dissolution
   check"). The honest product claim is therefore insurance against an
   undetected wrong answer on consequential work, not money saved.
-- Because of the first two points, the shipped routing table has one row:
-  every task starts at `worker-sonnet-low` (D44, D45). Cells above it are
-  rungs on a ladder that a project's own recorded failures activate
-  (D64), plus two escalation triggers described below.
+- Because of the first two points, every task starts at `worker-sonnet-low`.
+  The real-world reserved comparison then selected the fixed B0 sequence over
+  the adaptive B1 policy: B0 accepted 12/24 episodes and B1 accepted 10/24,
+  with two B0 paired wins and no B1 wins. B1 also increased false successes
+  from 12 to 14 and cost 20.97 percent more per accepted result (D107). The
+  fixed sequence therefore allows one floor repair and one Opus-high fallback,
+  with no Controller.
+- The complete staged campaign executed 104 live episodes: 24 pilot, 32
+  development and 48 reserved. Identity, accounting, hash-chained event
+  records, actor boundaries and protected external graders were validated for
+  the recorded runs. The comparison qualified B0; it did not demonstrate that
+  either policy solves every task family (`docs/REAL-WORLD-EVALUATION-PLAN.md`).
 - A separate multi-role problem-solving system, the Controller, was built
   and measured against the floor on T10: right in every run that finished,
   six of nine finished, at 10.8 times the floor's cost per solved task
-  (D59). It ships and is invoked only on the one trigger where that
-  head-to-head evidence exists, by explicit choice (D63).
+  (D59). It remains available for historical audit and explicit rollback, but
+  the qualified default does not invoke it (D107).
 - A worker whose context compacts mid-task fails most of the time on the
   one task shape tested; the same task split into two sub-handovers before
   the compaction point failed never: 11 of 12 against 0 of 12,
@@ -53,9 +66,11 @@ What has been measured, which is the part to hold on to:
 ## How it works
 
 Everything the orchestrator does comes from `ORCHESTRATOR.md`, which
-`tools/build_dist.py` assembles from `src/ROUTING.md` and
-`src/LIFECYCLE.md` with the evidence stripped out, so the model making the
-assessment never sees which cells exist or how they have performed. That
+`tools/build_dist.py` assembles from the concise `src/ORCHESTRATOR_CORE.md`.
+Detailed routing and lifecycle material ships as
+`ORCHESTRATOR-REFERENCE.md` and is loaded only for named recovery or diagnostic
+triggers. Evidence remains stripped from that reference, so the model making
+the assessment never sees which cells exist or how they have performed. That
 stripping is the fix for a measured defect: an orchestrator that can see
 the destinations bends its assessment toward the one it prefers, on the
 same fixtures under the same rubric (D13, D44).
@@ -65,44 +80,50 @@ One task, end to end:
 1. **Assess.** The orchestrator writes one line: sensitivity
    (mechanical, structured, open), horizon (short, medium, long), blast
    radius (contained, consequential), plus `self_directed` and
-   `prior_failure`. Two of the five fields are recorded but not used to
-   choose a cell (D64).
+   `prior_failure`. Under B0 none of the five changes the first cell;
+   sensitivity, horizon and blast radius choose the diagnostic bucket,
+   `self_directed` is retained as evidence, and `prior_failure` is used only
+   by explicit historical adaptive replay (D108).
 2. **Resolve.** It runs `python3 tools/route.py --from-line "<line>"
-   --project . --explain` with the Bash tool. The script reads
-   `src/routing_priors.json` (a Beta prior per assessment bucket, seeded
-   from the benchmark with capped effective sample sizes of 3 to 10) and
-   the project's `.claude/routing-ledger.jsonl`, computes the posterior
-   pass probability of the floor and each active rung, decides whether the
-   Controller pre-empts, and prints the cell to spawn. With an empty
-   ledger the answer is the floor for every assessment except an open,
-   consequential one, where a labelled risk-appetite policy runs the
-   Controller first (D64; `routing_priors.json` `controller_rule`).
-3. **Spawn.** The Agent tool (also called the Task tool) with
+   --project . --explain` with the Bash tool. The script reads the project's
+   evidence and prints diagnostics, the fixed B0 sequence and the first cell.
+   Every assessment and ledger state resolves to `worker-sonnet-low`, including
+   open consequential work and historical frontier signals. Adaptive posterior
+   calculations remain inspectable but cannot change dispatch (D107).
+3. **Spawn.** Before dispatch, the orchestrator freezes a task-specific
+   acceptance contract containing the required outputs, constraints, protected
+   paths and an executable check or review rubric. It then uses the Agent tool
+   (also called the Task tool) with
    `subagent_type` set to the cell name and never a `model` parameter,
    because a per-invocation model silently overrides the definition
    (invariant 2, `CLAUDE.md`). The handover states objective, constraints,
    acceptance criteria and return contract; the worker has no other
    context.
-4. **Record.** `route.py --record` appends the outcome, cost and any
-   escalations to the ledger. A rung outside the default ladder activates
-   for a bucket after three recorded outcomes at that cell with a
-   posterior above 0.5; the project's own cost figures replace the shipped
-   table after five (`routing_priors.json` `steering`). A floor failure
+4. **Verify and record.** `route.py --record` owns verification and atomically
+   completes the pending ledger row. It stores evidence tied to the contract,
+   current artefacts, protected baseline and repository revision. Claimed
+   success, stale evidence and rubric work awaiting review cannot train the
+   router; measured cost remains reportable. The project's own cost figures
+   replace the shipped diagnostic table after five measured attempts, but no
+   posterior activates a dispatch cell under B0. A floor failure
    recorded with `--outcome fail` and no `--escalation` counts in the
    posterior the same as an escalated one (fixed 2026-09-16, audit A4,
-   docs/PLAN-6.md B.5).
+   docs/PLAN-6.md B.5). `src/SELF-LEARNING.md` is the full account of
+   what this mechanism learns, what it cannot, and its limitations.
 
-Escalation has two triggers beyond "the next rung on failure". A worker
-that reports it cannot meet its acceptance criteria without acting against
-a constraint whose stated reason it has checked and found false sends the
-task straight to the Controller, T10's shape (D63). And the resolver itself
-can name the Controller before any worker runs, on the policy dial above or
-on expected-cost arithmetic that fires nowhere on the shipped priors (D64).
-A Controller run is `tools/system_controller.py` in quick mode: a Python
-state machine that calls `claude -p` for six roles over a validated
-record ledger and writes `REPORT.md`; measured at USD 2.62 per run plus
-USD 0.36 to apply the answer through one floor worker
-(`src/cost_table.json`).
+The term self-learning therefore refers to local, deterministic evidence
+aggregation rather than model training. The ledger updates per-bucket
+capability posteriors, measured cost and wall-clock estimates, compatibility
+cohorts and the compaction advisory. Those values are visible through
+`route.py --explain` and `preflight.py --status --explain`; they cannot change
+the qualified B0 dispatch sequence. The earlier adaptive B1 policy is retained
+only for historical replay, diagnostics and the documented rollback (D108).
+
+Escalation is fixed: one `worker-sonnet-low` repair after observable failure,
+then one `worker-opus-high` fallback, then stop. The resolver cannot pre-empt
+this order or name the Controller. `tools/system_controller.py` and the former
+adaptive arithmetic remain in the bundle to interpret old records and support
+the documented rollback; they are outside the qualified default.
 
 Context is handled on disk, never in the model's memory. A status-line
 script writes the orchestrator's own context usage to
@@ -115,10 +136,8 @@ ten-heading file with computed cost and time lines) before the platform
 compacts. A `SessionStart` hook on the `compact` matcher prints the
 routing rule and the newest handoff after a compaction. The hook's
 pending-worker listing is fed by `route.py --spawn`, run immediately
-after the orchestrator's own Agent tool call (fixed 2026-09-16, audit
-B1, docs/PLAN-6.md B.4): before this fix the step that feeds the
-listing was not in `ORCHESTRATOR.md`, so the listing could never
-populate in a consumer project.
+before the orchestrator's own Agent tool call. This freezes the acceptance
+contract and pending ledger row before work can finish or fail (D88).
 
 Seven platform settings defeat all of this silently, each documented with
 its source in `docs/FINDINGS.md` and listed as an invariant in `CLAUDE.md`:
@@ -135,21 +154,16 @@ walkthrough for a new project and for one with an existing `CLAUDE.md`.
 The short form:
 
 ```bash
-CONSUMER=/path/to/your/project
-mkdir -p "$CONSUMER/.claude" "$CONSUMER/tools" "$CONSUMER/src/System" "$CONSUMER/handoffs"
-cp -r dist/.claude/. "$CONSUMER/.claude/"
-cp dist/ORCHESTRATOR.md dist/README.md dist/preflight.py "$CONSUMER/"
-cp dist/tools/*.py "$CONSUMER/tools/"
-cp dist/src/*.json "$CONSUMER/src/"
-cp -r dist/src/System/. "$CONSUMER/src/System/"
+python3 dist/install.py plan --target /path/to/your/project
+python3 dist/install.py apply --target /path/to/your/project
+python3 /path/to/your/project/preflight.py --status
 ```
 
-Then merge `dist/settings.fragment.json` into the project's
-`.claude/settings.json`, add the line `Read ORCHESTRATOR.md before
-delegating any task.` and the Handoffs section from
-`dist/CLAUDE.template.md` to the project's `CLAUDE.md`, run
-`python3 preflight.py` from the project root, and restart Claude Code if
-`.claude/agents/` did not exist before the session started (E11).
+The installer verifies `bundle-manifest.json`, merges only declared values,
+preserves unrelated configuration and records reversible backups. Use
+`install.py status`, `uninstall` and `rollback` for lifecycle operations.
+Restart Claude Code if `.claude/agents/` did not exist before the session
+started (E11).
 
 Verify by giving the orchestrator one small task and reading its routing
 line, which must state the assessment, the resolved cell and the reason.
@@ -169,19 +183,18 @@ the fix, if it does not resolve.
 
 ## How to work on it
 
-The repository is specification, verification and calibration; the only
-runtime is the Controller. `CLAUDE.md` is the charter and applies to every
-session here; `docs/PLAN.md` through `docs/PLAN-5.md` are the five
-completed plans that built the current state, read for how, not as
-instructions.
+The repository contains the runtime routing, acceptance, accounting,
+installation and diagnostic tools as well as their specification,
+verification and calibration evidence. `CLAUDE.md` is the charter and applies
+to every session here; completed plans are historical implementation records,
+read for provenance rather than as current instructions.
 
-- **Harness.** `python3 test/harness/check.py` runs 31 static checks:
+- **Harness.** `python3 test/harness/check.py` is the canonical check count:
   the fifteen definitions match the generator, the routing data
   resolves every fixture to its expected cell, priors and cost rows carry
   provenance, every script's selftest passes without a `claude -p` call,
   and every authored file is clean of em-dashes, US spellings and a short
-  banned-word list. A green run is 30 passes and one permanent skip
-  (invariant 7 needs a live session). Results are committed under
+  banned-word list. Results are committed under
   `test/results/` and `dist/` is rebuilt only from a green tree (D4).
 - **Generated files.** `src/agents/` comes from `tools/generate_workers.py`
   over `src/WORKER_PERSONA.md` and `src/routing_table.json`;
@@ -199,7 +212,7 @@ instructions.
   Controller against a task. All spend money and none is run by the
   harness. Two thresholds hold throughout: three runs steer, nine runs
   report, and a claim below nine is labelled steering (D37).
-- **Records.** `docs/DECISIONS.md` is append-only, eighty entries, each
+- **Records.** `docs/DECISIONS.md` is append-only; each entry carries
   with the condition that would reverse it. `docs/FINDINGS.md` separates
   what the platform is documented to do from what a live session showed
   it doing, by version. `docs/PREMISES.md` is the forty-row ledger of
@@ -211,12 +224,21 @@ instructions.
   consumer task (`CLAUDE.md`, "Handoffs and routing"). A session starts
   paid `claude -p` runs itself after stating the projected cost, and asks
   first only above USD 100 (D57).
+- **Graft.** Every project-development session starts with Graft freshness and
+  uses scoped graph retrieval before broad source reads. The graph itself is
+  gitignored. An authorised DeepSeek-backed semantic refresh uses
+  `tools/graft_deep_refresh.ps1`, which loads credentials from the Windows user
+  environment, applies the local forced-tool compatibility adapter without
+  logging content, resumes the cache and removes its temporary files. The
+  current graph covers 2,055 structural nodes and has no stale or pending
+  meanings (`docs/GRAFT.md`).
 
 ## Map
 
 | Path | What it is |
 | :--- | :--- |
 | `src/ROUTING.md`, `src/LIFECYCLE.md` | The orchestrator's instructions; rationale spans are stripped on build |
+| `src/SELF-LEARNING.md` | The per-project ledger mechanism: what it learns, what it cannot, capabilities and limitations |
 | `src/WORKER_PERSONA.md`, `src/agents/` | The worker persona and the fifteen generated definitions |
 | `src/routing_table.json`, `routing_priors.json`, `cost_table.json` | The two-rule table, the per-bucket priors, the measured unit costs |
 | `src/System/` | The Controller's problem-solving framework: roles, techniques, record schemas |
@@ -225,26 +247,32 @@ instructions.
 | `dist/` | The installable bundle, stamped with its source commit |
 | `test/harness/` | `check.py` and the paid measurement scripts |
 | `test/fixtures/` | 18 routing fixtures, 15 benchmark tasks, the schema examples |
-| `test/results/` | 176 dated result files (2026-09-16); no index yet (audit C5, Stage D.3) |
-| `docs/` | Decisions, findings, premises, cost, the design documents, the six plans, this audit |
-| `handoffs/` | Seven session handoffs, each passing `handoff.py check` |
+| `test/results/` | Dated benchmark, audit, live calibration and real-world evaluation evidence |
+| `docs/` | Decisions, findings, premises, costs, audits, design records and completed plans |
+| `handoffs/` | Checked session handoffs retained for model, effort and session transitions |
 | `graft/`, `dist-with-rationale/` | Gitignored local artefacts: a code index for one machine's tooling, and a bundle built with `--with-rationale` for comparison, rebuilt on demand |
 
 ## What is not known
 
-- Whether the ten-of-eleven floor result generalises past synthetic
-  tasks with plantable defects to real backlog work; the two real tasks
-  tried were both routed in ways the owner disagreed with (E13,
-  `docs/PREMISES.md` P19 and P34). Unverified.
+- Whether the benchmark and 24-task synthetic real-world corpus generalise to
+  independently sampled production backlogs. The corpus exercises realistic
+  software failure shapes and hidden grading, but it is not an uncontaminated
+  sample of external work. Unverified.
 - Whether the decomposition result (D80) holds on shapes other than the
   one measured. Unverified.
 - Whether the subagent status line ever reports a running worker's
   tokens: two interactive sessions, one lasting minutes with the panel
   open, saw the field stay empty (`docs/FINDINGS.md`, Plan 4 and Plan 5
   Stage D). Unverified; nothing in the bundle depends on it.
-- How often the escalation triggers fire in real use: the instrument
-  exists (`route.py --record --escalation`) and no consumer ledger has
-  been read yet. Unverified.
+- How often the fixed repair and Opus fallback are needed in an ordinary
+  consumer project. The evaluation campaign measured its frozen corpus, but no
+  independent consumer ledger has been aggregated. Unverified.
+- Whether a live Controller invocation can satisfy the complete qualified
+  episode contract. Its adapter and accounting paths pass offline tests, but
+  no paid campaign episode reached the Controller. Unverified.
+- Provider-side invoice caps, live token-ceiling enforcement and billed savings
+  from the reduced recurring context remain unverified. Local reservations and
+  static token reductions do not prove those external effects.
 - The fifteen cell-specific persona sections are all empty, so whether
   telling a worker its own cell helps or hurts has never been tested
   (`docs/PREMISES.md` P39). Unverified.

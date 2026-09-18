@@ -1,0 +1,135 @@
+{
+  "cases": {
+    "b0-repair": {
+      "dispatch_events": 2,
+      "episode_id": "b0-repair",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "ledger_sha256": "04dfe71faa0240ccdcb521769a1d45e9b2d9987c161afb3b271ba18950c9985b",
+      "policy_id": "B0",
+      "reserved_usd": 0.0,
+      "sequence": [
+        "worker-sonnet-low",
+        "worker-sonnet-low"
+      ],
+      "stage": "complete",
+      "stop_reason": "visible_acceptance_passed"
+    },
+    "b1-ladder": {
+      "dispatch_events": 2,
+      "episode_id": "b1-ladder",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "ledger_sha256": "ec101d78e914a610f6f334c94ac848e76010b7a2d2a713f3a52335a9145c2e16",
+      "policy_id": "B1",
+      "reserved_usd": 0.0,
+      "sequence": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "stage": "complete",
+      "stop_reason": "visible_acceptance_passed"
+    },
+    "b2-controller": {
+      "dispatch_events": 4,
+      "episode_id": "b2-controller",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "ledger_sha256": "ab06e7a4ef622c692753940348b5ac8ec0f4b6c5d5638ec1701064225bc12f54",
+      "policy_id": "B2",
+      "reserved_usd": 0.0,
+      "sequence": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "controller",
+        "worker-sonnet-low"
+      ],
+      "stage": "complete",
+      "stop_reason": "visible_acceptance_passed"
+    },
+    "crash_recovery": {
+      "dispatch_events": 1,
+      "episode_id": "crash-recovery",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": null,
+      "learning_eligible": false,
+      "ledger_sha256": null,
+      "policy_id": "B0",
+      "reserved_usd": 0.75,
+      "sequence": [],
+      "stage": "blocked",
+      "stop_reason": "in_flight_dispatch_requires_reconciliation"
+    },
+    "missing_cost": {
+      "dispatch_events": 1,
+      "episode_id": "missing-cost",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": null,
+      "learning_eligible": false,
+      "ledger_sha256": null,
+      "policy_id": "B0",
+      "reserved_usd": 0.75,
+      "sequence": [
+        "worker-sonnet-low"
+      ],
+      "stage": "blocked",
+      "stop_reason": "incomplete_provider_accounting"
+    }
+  },
+  "checks": {
+    "b0_repairs_once_at_floor": true,
+    "b1_uses_frozen_ladder": true,
+    "b2_requires_two_distinct_failures": true,
+    "controller_metadata_reaches_routing_ledger": true,
+    "dispatch_recovery_never_redispatches": true,
+    "event_chains_valid": true,
+    "hidden_grade_after_policy_stop": true,
+    "missing_cost_retains_allowance": true,
+    "policy_boundary_excludes_forbidden_inputs": true
+  },
+  "evidence_sha256": "bec8a4b8d33fcb0c0b1faefbf5c66bd8f9c6e75ebdcd479476c043fd71416e01",
+  "implementation_sha256": "589e66129c88a5e97f61aacce8e2dde0178b66c5e5d684666fc47feebae83dc5",
+  "limits": [
+    "Scripted adapters qualify policy ordering, external grading and recovery without model calls.",
+    "The live worker adapter is separately calibrated and qualified.",
+    "The live Controller adapter is qualified separately with injected provider-free accounting."
+  ],
+  "mode": "offline-scripted-adapters-v1",
+  "model_calls": 0,
+  "offline_only": true,
+  "report": {
+    "path": "test/results/2026-09-17-live-episode-integration.md",
+    "sha256": "dd0b3e7ff3979bcb912d6aa759e097a5bd13a2a89687134f4311111a83bfa96f"
+  },
+  "result": "PASS",
+  "schema_version": 1
+}

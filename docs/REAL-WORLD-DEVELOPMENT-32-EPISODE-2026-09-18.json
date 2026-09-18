@@ -1,0 +1,310 @@
+{
+  "bundle_version": "2026-09-18-de8cefc",
+  "campaign": "realworld-v1-development-thirty-two",
+  "candidate_sha256": "6f89533045ac2a6abe29e989f5a8ba69666a8f50bab6e58b334ab467a6638f28",
+  "cost": {
+    "basis": "32 fixed episode reservations plus separate calibration headroom",
+    "calibration_headroom_usd": 12.0,
+    "combined_authorisation_ceiling_usd": 140.0,
+    "currency": "USD",
+    "episode_count": 32,
+    "episode_total_cap_usd": 128.0,
+    "measured_projection": {
+      "limitation": "The pilot is small; neither extrapolation is a billing limit.",
+      "maximum_observed_pilot_episode_usd": 0.4100627,
+      "method": "pilot policy mean multiplied by the fixed W07 episode count",
+      "observed_max_extrapolation_usd": 13.1220064,
+      "pilot_policy_mean_usd": {
+        "B0": 0.084254512875,
+        "B1": 0.046036175375
+      },
+      "point_estimate_usd": 2.084651012,
+      "policy_episode_counts": {
+        "B0": 16,
+        "B1": 16
+      },
+      "source_evidence": [
+        {
+          "path": "test/results/2026-09-18-realworld-pilot-checkpoint.json",
+          "sha256": "0a9fd7924d7b9db0af47913201e8acf6cff2ef15b31877403e990d88f8191449"
+        },
+        {
+          "path": "test/results/2026-09-18-realworld-pilot-continuation.json",
+          "sha256": "83f65729d120afc304e1e7294b7576b561022e09257129045b891da58a13ca6f"
+        }
+      ]
+    },
+    "per_episode_cap_usd": 4.0
+  },
+  "episodes": [
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-025-d01-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 25,
+      "task_id": "D01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-026-d01-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 26,
+      "task_id": "D01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-027-d02-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 27,
+      "task_id": "D02"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-028-d02-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 28,
+      "task_id": "D02"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-029-d03-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 29,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-030-d03-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 30,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-031-d04-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 31,
+      "task_id": "D04"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-032-d04-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 32,
+      "task_id": "D04"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-033-d05-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 33,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-034-d05-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 34,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-035-d06-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 35,
+      "task_id": "D06"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-036-d06-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 36,
+      "task_id": "D06"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-037-d07-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 37,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-038-d07-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 38,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-039-d08-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 39,
+      "task_id": "D08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-040-d08-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 40,
+      "task_id": "D08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-041-d09-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 41,
+      "task_id": "D09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-042-d09-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 42,
+      "task_id": "D09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-043-d10-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 43,
+      "task_id": "D10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-044-d10-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 44,
+      "task_id": "D10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-045-d11-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 45,
+      "task_id": "D11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-046-d11-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 46,
+      "task_id": "D11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-047-d12-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 47,
+      "task_id": "D12"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-048-d12-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 48,
+      "task_id": "D12"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-049-d03-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 49,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-050-d03-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 50,
+      "task_id": "D03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-051-d05-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 51,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-052-d05-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 52,
+      "task_id": "D05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-053-d07-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 53,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-054-d07-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 54,
+      "task_id": "D07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-055-d11-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 55,
+      "task_id": "D11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-056-d11-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 56,
+      "task_id": "D11"
+    }
+  ],
+  "isolation_evidence_sha256": "8ec774fe2dce94e66ae25fa77ddfc6abcc7517be176371936ed846b80cc20879",
+  "manifest_sha256": "b5e78aab46c13eba30fb8dd0a6a0bda71b68cada30c10269e5247b287ede15a8",
+  "profile": "development-thirty-two",
+  "review_after": "all 32 episodes complete, or immediately after the first stop condition",
+  "schema_version": 1,
+  "source_revision": "a48b5dfc1aa040e55fad22ebe0518003d1646934",
+  "stop_conditions": [
+    "candidate, bundle, isolation or authorisation does not validate",
+    "an episode stops with unresolved provider accounting",
+    "a served task model does not match the exact required model",
+    "the event chain, external grade or protected-oracle check is invalid",
+    "the fixed USD 128 episode envelope or USD 140 combined ceiling would be exceeded"
+  ]
+}

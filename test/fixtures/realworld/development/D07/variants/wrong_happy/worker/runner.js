@@ -1,0 +1,23 @@
+export class JobRunner {
+  constructor({concurrency = 2, createLimit}) {
+    this.limit = createLimit(concurrency);
+    this.closed = false;
+    this.promises = [];
+  }
+
+  submit(id, work) {
+    if (this.closed) {
+      return Promise.reject(new Error('runner is shut down'));
+    }
+    const promise = this.limit(async () => ({id, value: await work()}));
+    this.promises.push(promise);
+    return promise;
+  }
+
+  async shutdown() {
+    this.closed = true;
+    const running = this.promises.slice(0, this.limit.activeCount);
+    this.limit.clearQueue();
+    return Promise.allSettled(running);
+  }
+}

@@ -1,0 +1,1 @@
+"""Account-store migration fixture."""

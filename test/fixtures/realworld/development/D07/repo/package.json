@@ -1,0 +1,11 @@
+{
+  "name": "bounded-worker-fixture",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "p-limit": "7.3.2"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "attribution": {
+    "assistant_message_count": 3,
+    "auxiliary_billed_models": [
+      "claude-haiku-4-5-20251001"
+    ],
+    "billed_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-sonnet-5"
+    ],
+    "event_count": 11,
+    "forwarded_message_count": 1,
+    "invalid_line_count": 0,
+    "root_models": [
+      "claude-sonnet-5"
+    ],
+    "worker_models": [
+      "claude-sonnet-5"
+    ]
+  },
+  "budget": {
+    "available_usd": 0.0837958,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-17T10:45:03.141195+00:00",
+    "currency": "USD",
+    "invocations": {
+      "live-model-attribution": {
+        "allowance_units": 100000000,
+        "charged_units": 16204200,
+        "cost_usd": 0.0162042,
+        "metadata": {
+          "effort": "low",
+          "requested_root_model": "claude-sonnet-5",
+          "requested_worker_model": "claude-sonnet-5",
+          "timeout_s": 120
+        },
+        "reserved_at": "2026-09-17T10:45:03.152660+00:00",
+        "resolution": {
+          "cost_usd": 0.0162042,
+          "evidence": "terminal-stream-response",
+          "final": true,
+          "telemetry": {
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "returncode": 0,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "worker_models": [
+              "claude-sonnet-5"
+            ]
+          }
+        },
+        "started_at": "2026-09-17T10:45:03.161334+00:00",
+        "state": "settled",
+        "telemetry": {
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "returncode": 0,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "worker_models": [
+            "claude-sonnet-5"
+          ]
+        },
+        "updated_at": "2026-09-17T10:45:11.003640+00:00"
+      }
+    },
+    "limit_units": 100000000,
+    "limit_usd": 0.1,
+    "reserved_usd": 0.0,
+    "scope": "controller_run",
+    "spent_usd": 0.0162042,
+    "unresolved": [],
+    "version": 1
+  },
+  "call": {
+    "cost_usd": 0.0162042,
+    "elapsed_s": 7.828,
+    "model_usage": {
+      "claude-haiku-4-5-20251001": {
+        "cacheCreationInputTokens": 0,
+        "cacheReadInputTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "contextWindow": 200000,
+        "costBasis": "list",
+        "costUSD": 0.000999,
+        "inputTokens": 929,
+        "maxOutputTokens": 32000,
+        "outputTokens": 14,
+        "provider": "firstParty",
+        "thinkingTokens": 0,
+        "webSearchRequests": 0
+      },
+      "claude-sonnet-5": {
+        "cacheCreationInputTokens": 3583,
+        "cacheReadInputTokens": 11201,
+        "canonicalModel": "claude-sonnet-5",
+        "contextWindow": 1000000,
+        "costBasis": "list",
+        "costUSD": 0.015205199999999999,
+        "inputTokens": 6,
+        "maxOutputTokens": 64000,
+        "outputTokens": 157,
+        "provider": "firstParty",
+        "thinkingTokens": 0,
+        "webSearchRequests": 0
+      }
+    },
+    "result": "WORKER_OK",
+    "returncode": 0,
+    "session_id": "a7123b06-351a-4c89-8ea1-074f7e043601",
+    "subagent_stats": {
+      "by_type": {
+        "calibration-worker": 1
+      },
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "system": 0,
+        "user": 0
+      },
+      "max_depth": 1,
+      "refused": {
+        "budget": 0,
+        "concurrency_limit": 0,
+        "depth_limit": 0
+      },
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "spawned": 1,
+      "spawned_by_subagents": 0,
+      "started_in_background": 0
+    },
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1617,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 1617,
+      "cache_read_input_tokens": 7636,
+      "inference_geo": "not_available",
+      "input_tokens": 4,
+      "iterations": [
+        {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 335,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 335,
+          "cache_read_input_tokens": 4459,
+          "input_tokens": 2,
+          "output_tokens": 9,
+          "type": "message"
+        }
+      ],
+      "output_tokens": 148,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_fetch_requests": 0,
+        "web_search_requests": 0
+      },
+      "service_tier": "standard",
+      "speed": "standard"
+    }
+  },
+  "checks": {
+    "billing_telemetry_present": true,
+    "one_worker_completed": true,
+    "original_evidence_valid": true,
+    "root_model_attributed": true,
+    "stream_well_formed": true,
+    "terminal_result": true,
+    "worker_model_attributed": true
+  },
+  "claude_cli_version": "2.1.273 (Claude Code)",
+  "cost_ceiling_usd": 0.1,
+  "evidence_sha256": "134fda2249057859ba047d1b74d891f89a30f55b2fdfda7ed31983ce53c3a298",
+  "host": "BOBS-X1",
+  "implementation_sha256": "90a9e92c132d81523f881c552aa4b07b7cb5c673f3bbfaeb08bc6439e7d06367",
+  "interpretation": "modelUsage is an aggregate billing map. Per-message stream metadata is the identity source for root and forwarded worker task messages; billed models absent from those messages are recorded as auxiliary Claude Code overhead.",
+  "limits": [
+    "The rerun attributes emitted task messages; it cannot identify undocumented internal calls.",
+    "Reported cost is API-equivalent telemetry under the signed-in Claude subscription.",
+    "The original uncertain timeout allowance remains unresolved and reserved in its own ledger."
+  ],
+  "live": true,
+  "original": {
+    "evidence_sha256": "86ef0717533042aec697e44c95a6db7b714061608d50bdeaa055f52fcc2ce617",
+    "file_sha256": "71f4e89770c810d3d8ebcde8aed3c9ca8d5b3b665b3e60a4835364a16ff4cc62",
+    "path": "test/results/2026-09-17-live-calibration.json",
+    "reported_spend_usd": 0.031453,
+    "retained_timeout_allowance_usd": 0.05
+  },
+  "purpose": "per-message model identity adjudication",
+  "recorded_at": "2026-09-17T20:45:11+10:00",
+  "requested_models": {
+    "root": "claude-sonnet-5",
+    "worker": "claude-sonnet-5"
+  },
+  "result": "PASS",
+  "schema_version": 1
+}

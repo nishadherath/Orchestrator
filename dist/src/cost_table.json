@@ -55,6 +55,9 @@
     "wall_clock_s": 500, "wall_min_s": 367, "wall_max_s": 555,
     "calls_per_run": 12.7, "n": 6, "regime": "E27",
     "instantiation_usd": 0.3628, "instantiation_wall_s": 80,
+    "failed_runs_included": false,
+    "failure_retry_cost_usd": null,
+    "verification_cost_usd": null,
     "provenance": "test/results/2026-09-15-fleet-T10-batch2-checkpoint.jsonl, the six completed runs of the batch D58 recorded (Controller cost from budget.jsonl; instantiation is the worker-sonnet-low call that applies REPORT.md, D55); the three runs that died on budget spent about 2.8 each and are not in the mean",
     "method": "python over the checkpoint's result records: mean of controller.cost, controller.wall_clock, instantiate.cost, instantiate.wall_clock"
   },

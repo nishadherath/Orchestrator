@@ -1,11 +1,16 @@
 # Worker orchestration setup
 
+Licensed under the Apache License, Version 2.0. See `LICENSE` in the
+distribution root.
+
 This bundle installs a cost-routing layer for Claude Code subagents into a
 consumer project: fifteen worker definitions spanning three model classes
 (sonnet, opus, fable) at five effort levels each, and a routing document that
 tells your top-level session (the "orchestrator") which one to spawn for a
-given task, defaulting to the cheapest and escalating only on evidence. It is
-configuration and prose; there is no build step and no server to run.
+given task. The reserved-qualified B0 policy always starts at the cheapest cell,
+allows one same-cell repair, then one Opus-high fallback. It is
+configuration, prose and Python tools. Graft MCP is a required local retrieval
+dependency; register it in the consumer project before starting work.
 
 Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
 `.claude/ORCHESTRATOR_VERSION`; quote that version in any report.
@@ -15,6 +20,23 @@ document, and a bare decision number (`D<n>`), point at this bundle's
 source repository, not at files this bundle ships: they are provenance
 for a human who wants to check the reasoning behind a claim, not
 something you need on disk to install or use the bundle.
+
+## Required Graft MCP setup
+
+Register an installed Graft MCP server named `graft` against the consumer
+project's own root. Do not copy a server path or indexed root from another
+machine or repository. In Codex, configure it in `.codex/config.toml` with
+`enabled = true` and `required = true`; the latter prevents startup/resume
+without the server. In Claude Code, register it in project `.mcp.json` and
+merge the six Graft read-tool permissions from `settings.fragment.json`.
+Preserve other servers, permissions and hooks. Trust/approval requirements
+of the host still apply; a copied project cannot grant itself trust.
+
+Before using the bundle, verify that `graft_check_freshness` succeeds and a
+scoped query returns source from this checkout. The orchestrator, every
+generated worker and every Controller role carry the retrieval requirement.
+They must report missing tools instead of silently skipping Graft. Other
+machines need their own working Graft installation and configuration.
 
 ## Layout of the bundle
 
@@ -29,13 +51,12 @@ something you need on disk to install or use the bundle.
                                                      currently invoked automatically, kept
                                                      for manual use as a cheap alternative)
 tools/
-  route.py                                          (resolves an assessment to a worker
-                                                     cell or the Controller, reading the
-                                                     files below plus this project's own
-                                                     ledger; ORCHESTRATOR.md section 2 runs
-                                                     it on every task)
+  route.py                                          (records an assessment, prints
+                                                     diagnostic evidence and returns the
+                                                     fixed B0 first cell; ORCHESTRATOR.md
+                                                     section 2 runs it on every task)
   handoff.py                                        (writes and checks the handoff files
-                                                     LIFECYCLE.md's "Handoffs" section asks
+                                                     ORCHESTRATOR.md's handoff section asks
                                                      for on a model or effort change)
   context_probe.py                                  (the statusLine and subagentStatusLine
                                                      commands settings.fragment.json wires
@@ -44,19 +65,16 @@ tools/
                                                      each command owning its own file so the
                                                      two cannot race; route.py --explain's
                                                      context line reads context-main.json)
-  system_controller.py                              (the Controller: a quick-mode multi-
-                                                     role state machine ORCHESTRATOR.md
-                                                     section 4 invokes with the Bash tool
-                                                     on one scoped escalation trigger)
+  system_controller.py                              (the historical Controller: retained
+                                                     for audit and rollback, outside the
+                                                     qualified B0 default)
   claudep.py, system_prompts.py,
   validate_records.py                               (the Controller's own dependencies)
 src/
-  routing_priors.json                               (per-bucket Bayesian priors on each
-                                                     cell passing, seeded from this
-                                                     repository's benchmark; route.py
-                                                     updates its read of them from this
-                                                     project's own ledger, never the source
-                                                     file itself)
+  routing_priors.json                               (the qualified B0 policy plus retained
+                                                     per-bucket Bayesian diagnostics;
+                                                     project history cannot alter default
+                                                     dispatch)
   cost_table.json                                   (measured per-cell and Controller cost,
                                                      for route.py's arithmetic and
                                                      handoff.py's projections)
@@ -72,34 +90,152 @@ src/
                                                      Do not remove these if you keep
                                                      tools/system_controller.py or
                                                      tools/route.py)
-ORCHESTRATOR.md                                     (ROUTING.md + LIFECYCLE.md, rationale
-                                                     spans stripped: see "How routing
-                                                     works" below)
+ORCHESTRATOR.md                                     (the stable operating core generated from
+                                                     src/ORCHESTRATOR_CORE.md)
+ORCHESTRATOR-REFERENCE.md                           (detailed routing/lifecycle reference,
+                                                     loaded only for named triggers)
+SELF-LEARNING.md                                    (what the per-project ledger learns,
+                                                     what it does not, and how to tell
+                                                     the two apart)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
-                                                     handoff rule and the compact
-                                                     instructions section)
+                                                     handoff rule that survives platform
+                                                     compaction)
 settings.fragment.json                              (merge into .claude/settings.json:
                                                      the status line commands, the
                                                      one-hour cache TTL, and the
                                                      SessionStart(compact) recovery hook)
 README.md                                           (this file)
 preflight.py                                        (checks the settings below)
+install.py                                          (transactional plan/apply/status/
+                                                     uninstall/rollback command)
+bundle-manifest.json                                (owned file hashes, configuration
+                                                     keys and backup locations)
 ```
 
 This project's own `.claude/routing-ledger.jsonl` is not part of the bundle. `route.py`
 creates it on first use (`--record`) and it grows as the project runs; do not copy one
-from another project, since it is what makes the routing self-learning per project.
+from another project, since it is the project's local diagnostic learning record.
+`SELF-LEARNING.md` states exactly what that self-learning does and does not do, including
+its limits, not only the mechanics.
+
+Before dispatch, copy `acceptance-contract.example.json` to a task-specific
+contract and fill in its required outputs, constraints, protected paths and
+verification command or review rubric. `route.py --spawn` freezes that contract.
+Completion writes content-addressed evidence under `.claude/acceptance/`; only
+evidence that still matches the contract and current artefacts can affect
+capability learning. Cost records remain usable when acceptance is blocked or
+unverified.
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on
-anything else in this repository being present at install time. The
-Controller is the one exception to "nothing to run": `tools/` and
-`src/System/` must land at the project's root, in that same relative
-layout, or `python3 tools/system_controller.py` will not find its own
-dependencies when `ORCHESTRATOR.md` section 4 tries to invoke it.
+anything else in this repository being present at install time. The retained
+Controller is executable only when explicitly selected for historical replay,
+diagnostics or rollback. If kept, `tools/` and `src/System/` must land at the
+project's root in the same relative layout so
+`python3 tools/system_controller.py` can find its dependencies. Qualified B0
+dispatch never invokes it.
 
-## Install into a new project
+## Qualified default and local learning
+
+The shipping policy is B0, selected by the completed reserved evaluation. It
+always runs this bounded sequence:
+
+1. one `worker-sonnet-low` attempt;
+2. one `worker-sonnet-low` repair after observable failure;
+3. one `worker-opus-high` fallback after another observable failure;
+4. stop.
+
+No assessment, project history, posterior, frontier signal or Controller rule
+can skip the floor, add an attempt or alter that order. The 48-episode reserved
+comparison accepted 12 of 24 B0 episodes and 10 of 24 adaptive B1 episodes.
+B0 recorded two paired wins and no paired loss; B1 increased false successes
+and cost 20.97 percent more per accepted result. B1 failed the predeclared
+promotion gates, so its implementation remains only for reproducible history
+and explicit rollback (D107, D108).
+
+"Self-learning" does not mean model training. `route.py` recomputes local
+Bayesian capability estimates, measured cost and duration, evidence
+compatibility and the compaction advisory from
+`.claude/routing-ledger.jsonl`. These values explain the project's history and
+support future experiments, but do not control B0 dispatch. Inspect them with:
+
+```bash
+python3 tools/route.py --from-line "<assessment>" --project . --explain
+python3 preflight.py --status --explain
+```
+
+`route.py --record` verifies the frozen acceptance contract against current
+artefacts and protected paths before completing a version-2 row. A worker
+claim, stale evidence, failed command or unreviewed rubric cannot train
+capability. Measured cost remains useful even when acceptance is failed,
+blocked or unknown. `SELF-LEARNING.md` gives the full data model, thresholds,
+migration path and limitations.
+
+## Transactional install, update and removal
+
+Use the bundled installer for new installations and upgrades. It verifies
+every payload hash, shows its exact target, changes, conflicts and prospective
+backup directory before changing anything, and owns only the files and values
+listed in `bundle-manifest.json`.
+
+```bash
+python3 dist/install.py plan --target /path/to/project
+python3 dist/install.py apply --target /path/to/project
+python3 dist/install.py status --target /path/to/project
+```
+
+Use the same commands from an unpacked redistribution by replacing
+`dist/install.py` with `install.py`. Paths containing spaces are accepted.
+`apply` is idempotent: applying the same bundle to unchanged owned values is a
+no-op. An upgrade uses the same command and can replace an older file only
+when its current hash matches the previous installer state.
+
+The installer preserves unrelated settings, permissions, hooks, MCP servers
+and `CLAUDE.md` text. Existing scalar values such as `statusLine`, or existing
+files at bundle-owned paths, are reported as conflicts instead of being
+overwritten. Resolve the named conflict manually and rerun `plan`; malformed
+JSON is never replaced.
+
+Graft's executable is machine-specific, so it is not guessed. To let the
+installer own `mcpServers.graft`, supply the command and each argument:
+
+```bash
+python3 dist/install.py apply --target /path/to/project \
+  --graft-command /path/to/node --graft-arg /path/to/graft/cli.js \
+  --graft-arg mcp --graft-arg .
+```
+
+Omitting these flags leaves `.mcp.json` untouched. Configure Graft manually
+when another host owns that entry.
+
+Every mutation stores preimages and semantic configuration operations under
+`.claude/orchestrator-install/backups/<operation-id>/`. To remove the current
+bundle or reverse the last install or upgrade:
+
+```bash
+python3 dist/install.py uninstall --target /path/to/project
+python3 dist/install.py rollback --target /path/to/project
+python3 dist/install.py rollback --target /path/to/project --backup <operation-id>
+```
+
+Rollback restores bundle files and owned values while retaining unrelated
+configuration edits made later. It refuses the whole rollback when an owned
+file or value changed after the recorded operation. The conflict report names
+the path; the backup contains the exact preimage for manual recovery. The
+backup root installs a deny-by-default `.gitignore` because preimages can
+contain local settings or credentials. An
+uninstall keeps backups, project ledgers, acceptance evidence, run records and
+handoffs because those are project data rather than bundle payload.
+
+After application, run `python3 preflight.py --status`. Add `--explain` for
+per-attempt actual-versus-requested model evidence and outstanding acceptance
+records, or `--json` for the stable schema used by automation.
+
+## Manual install into a new project
+
+The steps below remain available for inspection or a host that cannot run the
+installer. They do not create ownership metadata or automatic rollback.
 
 A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 
@@ -110,7 +246,8 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    CONSUMER=/path/to/your/project
    mkdir -p "$CONSUMER/.claude" "$CONSUMER/tools" "$CONSUMER/src/System" "$CONSUMER/handoffs"
    cp -r dist/.claude/. "$CONSUMER/.claude/"
-   cp dist/ORCHESTRATOR.md dist/README.md dist/preflight.py "$CONSUMER/"
+   cp dist/ORCHESTRATOR.md dist/ORCHESTRATOR-REFERENCE.md dist/README.md dist/preflight.py \
+      dist/acceptance-contract.example.json "$CONSUMER/"
    cp dist/tools/*.py "$CONSUMER/tools/"
    cp dist/src/*.json "$CONSUMER/src/"
    cp -r dist/src/System/. "$CONSUMER/src/System/"
@@ -121,7 +258,7 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
    $Consumer = "C:\path\to\your\project"
    New-Item -ItemType Directory -Force "$Consumer\.claude","$Consumer\tools","$Consumer\src\System","$Consumer\handoffs" | Out-Null
    Copy-Item -Recurse -Force "dist\.claude\*" "$Consumer\.claude\"
-   Copy-Item -Force "dist\ORCHESTRATOR.md","dist\README.md","dist\preflight.py" "$Consumer\"
+   Copy-Item -Force "dist\ORCHESTRATOR.md","dist\ORCHESTRATOR-REFERENCE.md","dist\README.md","dist\preflight.py","dist\acceptance-contract.example.json" "$Consumer\"
    Copy-Item -Force "dist\tools\*.py" "$Consumer\tools\"
    Copy-Item -Force "dist\src\*.json" "$Consumer\src\"
    Copy-Item -Recurse -Force "dist\src\System\*" "$Consumer\src\System\"
@@ -129,8 +266,11 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 
    The `tools/` and `src/System/` copies are what let `ORCHESTRATOR.md`
    section 4 actually run the Controller when its trigger fires; skip them
-   only if you have deliberately decided not to use that trigger (see
-   "Known limits" below). The `src/*.json` copy and the `handoffs/`
+   only if you have deliberately decided not to use that trigger (see "Known
+   limits" below). `acceptance-contract.example.json` is operational
+   documentation: make one
+   task-specific copy and edit the copy before dispatch. The `src/*.json` copy
+   and the `handoffs/`
    directory are not optional the same way: `ORCHESTRATOR.md` section 2
    resolves every task through `tools/route.py`, which fails outright
    without `routing_priors.json`, `cost_table.json`, and
@@ -221,7 +361,7 @@ A project with no `CLAUDE.md` and no `.claude/agents/` yet.
 6. Verify the install (see "Verifying it works" below) before delegating real
    work through it.
 
-## Install into an existing project
+## Manual install into an existing project
 
 A project that already has a `CLAUDE.md`, and possibly its own
 `.claude/agents/` definitions.
@@ -362,14 +502,23 @@ one matters and is what the script's messages point back to.
 
 ## Upgrading to a newer bundle version
 
-Repeat the install steps for whichever case (new or existing project)
-matches how this bundle got there originally: copy the new `dist/.claude/`
-contents and `ORCHESTRATOR.md`/`preflight.py` over the old ones (they are
-meant to be overwritten wholesale, not diffed by hand), re-run
-`python3 preflight.py`, and restart only if `.claude/agents/` did not exist
-before the current session. Compare the old and new `ORCHESTRATOR_VERSION`
-values so you know what changed; the source repository's `docs/DECISIONS.md`
-explains why, keyed by the commit named in the version string.
+Run the new bundle's `install.py plan`, review the version, changes, conflicts
+and backup path, then run `apply`. Files from an installer-managed older
+version update only when their current hashes match its state. Configuration
+values update only when the values still match what that older version owned.
+This prevents an upgrade from erasing intervening operator edits.
+
+A project installed manually before ownership manifests were introduced has
+no safe provenance for same-name files. The installer reports those paths as
+conflicts rather than adopting and later deleting them. Back up the project,
+compare each named file with the old bundle, remove confirmed old payload
+files, and run `plan` again. Keep project data such as routing ledgers,
+acceptance evidence, run directories and handoffs.
+
+After `apply`, run `python3 preflight.py --status --explain`. Restart only if
+`.claude/agents/` did not exist before the current session. The source
+repository's `docs/DECISIONS.md` explains changes keyed by the commit in
+`ORCHESTRATOR_VERSION`.
 
 ## Known limits
 
@@ -388,22 +537,20 @@ explains why, keyed by the commit named in the version string.
   the orchestrator's next turn, not delivered mid-turn.
 - Routing is split into two parts, deliberately. The orchestrator's own
   judgement is limited to a one-line assessment on a fixed rubric
-  (sensitivity, horizon, blast radius), made with `ORCHESTRATOR.md`'s
-  rationale spans stripped so the model judging never sees which cell names
-  exist or how they have performed; a model that can see the destinations
+  (sensitivity, horizon, blast radius), made with a stable core that excludes
+  performance rationale. The conditional reference also strips rationale, so
+  the model judging does not learn how cells performed; a model that can see the destinations
   has been measured bending its assessment toward whichever one it prefers.
-  `tools/route.py` then resolves that assessment to a cell deterministically,
-  reading `routing_table.json`'s two rules (the floor, and the frontier
-  escalation) plus this project's own `.claude/routing-ledger.jsonl`, which
-  is what makes it self-learning per project rather than fixed at install
-  time.
+  `tools/route.py` records the assessment into its diagnostic bucket and
+  returns the fixed B0 first cell. The project ledger updates capability, cost
+  and overflow diagnostics, but does not change dispatch. Historical adaptive
+  resolution must be selected explicitly and is outside the qualified policy.
 - `routing_priors.json` seeds every bucket from this repository's own
-  benchmark, not yours. Until your project's ledger accumulates enough
-  outcomes of its own to move a bucket (`routing_priors.json`'s own
-  `steering` thresholds), routing behaves exactly as it does here: every
-  task starts at the floor (`worker-sonnet-low`), moving up the ladder only
-  on a recorded failure. Watch for a task class that fails there
-  repeatedly; that is the ledger doing its job, not a bug.
+  benchmark and contains the qualified B0 policy. Your project's evidence can
+  move diagnostic posterior and cost estimates after the documented sample
+  thresholds, but every task still starts at `worker-sonnet-low` and follows
+  the same two possible fallbacks. Repeated failure is evidence for review or a
+  future preregistered policy experiment, not an automatic route change.
 - A worker can decline its own compaction summary outright, treating the
   event as a suspected prompt injection rather than a legitimate system
   message, in words like "I'm not going to comply with that request" or
@@ -431,19 +578,30 @@ explains why, keyed by the commit named in the version string.
   explanation; the mechanism that should populate it is otherwise
   unverified. Do not build anything against this bundle that assumes a
   live per-worker token count is available from that file.
-- Two triggers can put a task on the Controller instead of a worker cell,
-  both in `src/ROUTING.md` section 4: a reactive one, a falsified-constraint
-  disposition measured on one specific task shape, and a proactive one,
-  either expected-cost arithmetic (fires nowhere on the shipped priors) or
-  an explicit risk-appetite policy on open, consequential tasks
-  (`routing_priors.json`'s `controller_rule.proactive_policy`). Either
-  costs about USD 2.99 per fire (`src/cost_table.json` `controller`: the
-  measured quick-mode mean plus one floor instantiation, ranging USD
-  2.35 to 3.29 across the runs on record), since the Controller is a
-  multi-role state machine running several `claude -p` calls rather than
-  one worker, and the orchestrator session pays for those calls directly
-  with the Bash tool; there is no separate approval gate on it beyond what
-  `ORCHESTRATOR.md` itself states. If you would rather neither trigger ever
-  spends without a human confirming first, edit `src/ROUTING.md` section 4
-  to ask before running the Controller, or remove that step and fall
-  straight through to `worker-opus-high`.
+- The Controller remains installed code, but B0 has
+  `controller_allowed: false`; ordinary routing cannot invoke it. An explicit
+  historical or rollback invocation is a multi-call operation with its own
+  budget, identity and recovery requirements. The paid evaluation campaign
+  never reached a live Controller episode, so its complete live episode path
+  remains unverified.
+
+
+## Controller spending and recovery
+
+This section applies only when an operator explicitly runs the retained
+Controller; it is not part of qualified B0 dispatch.
+
+The Controller's default USD 4 dispatch budget applies to one run. Roles,
+classifiers, retries and parallel generators reserve from that balance before
+launch. Later worker instantiation and other runs need separate allowances.
+Read `budget-status.json` beside `REPORT.md`: unknown charges retain reservations
+and a reported overrun blocks further work. This is local dispatch enforcement,
+not a verified provider invoice ceiling.
+
+To recover an interrupted run without repeating provider calls, run
+`python3 tools/system_controller.py --recover-run runs/<id>` and read the created
+`RECOVERY.md`. To stop new work in an active run, use `--cancel-run runs/<id>`.
+Already running calls may still incur charges. The lifecycle section in
+`ORCHESTRATOR.md` describes evidence-based reconciliation, per-request output
+settings and optional elapsed-time limits. Recovery restores accounting and
+reports; automatic pipeline continuation is not provided.

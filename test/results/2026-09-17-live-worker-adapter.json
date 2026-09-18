@@ -1,0 +1,242 @@
+{
+  "calibration": {
+    "derivation": "root stream shape reconstructed from recorded direct-call telemetry",
+    "evidence_sha256": "134fda2249057859ba047d1b74d891f89a30f55b2fdfda7ed31983ce53c3a298",
+    "file_sha256": "24ca29df956e8d627765cc69bffe9cdb6f0397482204a1a12f4b9a44f8a02923",
+    "original_evidence_sha256": "86ef0717533042aec697e44c95a6db7b714061608d50bdeaa055f52fcc2ce617",
+    "original_file_sha256": "71f4e89770c810d3d8ebcde8aed3c9ca8d5b3b665b3e60a4835364a16ff4cc62",
+    "original_path": "test/results/2026-09-17-live-calibration.json",
+    "path": "test/results/2026-09-17-live-calibration-adjudication.json"
+  },
+  "checks": {
+    "auxiliary_billing_retained": true,
+    "exact_model_attribution": true,
+    "missing_cost_nonterminal": true,
+    "model_mismatch_rejected": true,
+    "restricted_command": true,
+    "successful_edit_and_external_grade": true,
+    "timeout_cost_unknown": true
+  },
+  "evidence_sha256": "08cd22ccae5c3ad3bc06a25fcbb4011a6ac7ec9ccb3c1e32b95bc79ed87a300d",
+  "failure_paths": {
+    "identity_mismatch": {
+      "actual_model": "claude-opus-5",
+      "auxiliary_billed_models": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "billed_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5"
+      ],
+      "child_models": [],
+      "command_contract": {
+        "argv_sha256": "8dff52b6c17c0c6b6250a9997d26911d2286863e8c11190c5bc11d0cad31f7af",
+        "cwd": "<qualification>/mismatch-actor",
+        "no_session_persistence": true,
+        "permission_prompts_none": true,
+        "restricted": true,
+        "safe_mode": true,
+        "tools": "Read,Edit,Write,Glob,Grep"
+      },
+      "cost_usd": 0.002236,
+      "effort_evidence": "cli-argument:low",
+      "expected_model": "claude-sonnet-5",
+      "finished_at": "qualification-clock",
+      "identity_valid": false,
+      "requested_cell": "worker-sonnet-low",
+      "result": "repair complete",
+      "returncode": 0,
+      "root_models": [
+        "claude-opus-5"
+      ],
+      "started_at": "qualification-clock",
+      "status": "failed",
+      "stderr_tail": "",
+      "stream": {
+        "event_count": 2,
+        "invalid_line_count": 0
+      },
+      "terminal": true,
+      "timed_out": false,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cost_source": "provider_reported",
+        "cost_usd": 0.002236,
+        "currency": "USD",
+        "includes_descendants": false,
+        "input_tokens": 578,
+        "output_tokens": 12,
+        "price_snapshot": "test/fixtures/realworld/price-snapshot-2026-09-17.json"
+      },
+      "wall_clock_s": 0.0
+    },
+    "missing_cost": {
+      "actual_model": "claude-sonnet-5",
+      "auxiliary_billed_models": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "billed_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-sonnet-5"
+      ],
+      "child_models": [],
+      "command_contract": {
+        "argv_sha256": "8dff52b6c17c0c6b6250a9997d26911d2286863e8c11190c5bc11d0cad31f7af",
+        "cwd": "<qualification>/missing-cost-actor",
+        "no_session_persistence": true,
+        "permission_prompts_none": true,
+        "restricted": true,
+        "safe_mode": true,
+        "tools": "Read,Edit,Write,Glob,Grep"
+      },
+      "cost_usd": null,
+      "effort_evidence": "cli-argument:low",
+      "expected_model": "claude-sonnet-5",
+      "finished_at": "qualification-clock",
+      "identity_valid": true,
+      "requested_cell": "worker-sonnet-low",
+      "result": "repair complete",
+      "returncode": 0,
+      "root_models": [
+        "claude-sonnet-5"
+      ],
+      "started_at": "qualification-clock",
+      "status": "failed",
+      "stderr_tail": "",
+      "stream": {
+        "event_count": 2,
+        "invalid_line_count": 0
+      },
+      "terminal": false,
+      "timed_out": false,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cost_source": "unknown",
+        "cost_usd": null,
+        "currency": null,
+        "includes_descendants": null,
+        "input_tokens": 578,
+        "output_tokens": 12,
+        "price_snapshot": null
+      },
+      "wall_clock_s": 0.0
+    },
+    "timeout": {
+      "actual_model": null,
+      "auxiliary_billed_models": [],
+      "billed_models": [],
+      "child_models": [],
+      "command_contract": {
+        "argv_sha256": "8dff52b6c17c0c6b6250a9997d26911d2286863e8c11190c5bc11d0cad31f7af",
+        "cwd": "<qualification>/timeout-actor",
+        "no_session_persistence": true,
+        "permission_prompts_none": true,
+        "restricted": true,
+        "safe_mode": true,
+        "tools": "Read,Edit,Write,Glob,Grep"
+      },
+      "cost_usd": null,
+      "effort_evidence": "cli-argument:low",
+      "expected_model": "claude-sonnet-5",
+      "finished_at": "qualification-clock",
+      "identity_valid": false,
+      "requested_cell": "worker-sonnet-low",
+      "result": "",
+      "returncode": 124,
+      "root_models": [],
+      "started_at": "qualification-clock",
+      "status": "interrupted",
+      "stderr_tail": "",
+      "stream": {
+        "event_count": 0,
+        "invalid_line_count": 0
+      },
+      "terminal": false,
+      "timed_out": true,
+      "usage": {
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "cost_source": "unknown",
+        "cost_usd": null,
+        "currency": null,
+        "includes_descendants": null,
+        "input_tokens": null,
+        "output_tokens": null,
+        "price_snapshot": null
+      },
+      "wall_clock_s": 0.0
+    }
+  },
+  "host": "BOBS-X1",
+  "implementation_sha256": "02739a49eedcc185b3bc68892f38a5e554d385a941a04841b147f4e44a9add6c",
+  "limits": [
+    "Fake transport proves command, parsing and failure contracts without a model call.",
+    "This adapter does not implement policy sequencing or durable dispatch recovery.",
+    "The live calibration, not this qualification, is the source of model and billing observations."
+  ],
+  "mode": "offline-fake-transport-v1",
+  "model_calls": 0,
+  "offline_only": true,
+  "recorded_at": "2026-09-17T21:19:24+10:00",
+  "report": {
+    "path": "test/results/2026-09-17-live-worker-adapter.md",
+    "sha256": "37327a28f2b52fd8ba443811546101ef889aa667914270039ea276ce3010c912"
+  },
+  "result": "PASS",
+  "schema_version": 1,
+  "scope": "single live worker attempt adapter; policy sequencing remains external",
+  "success": {
+    "actual_model": "claude-sonnet-5",
+    "auxiliary_billed_models": [
+      "claude-haiku-4-5-20251001"
+    ],
+    "billed_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-sonnet-5"
+    ],
+    "child_models": [],
+    "command_contract": {
+      "argv_sha256": "8dff52b6c17c0c6b6250a9997d26911d2286863e8c11190c5bc11d0cad31f7af",
+      "cwd": "<qualification>/actor",
+      "no_session_persistence": true,
+      "permission_prompts_none": true,
+      "restricted": true,
+      "safe_mode": true,
+      "tools": "Read,Edit,Write,Glob,Grep"
+    },
+    "cost_usd": 0.002236,
+    "effort_evidence": "cli-argument:low",
+    "expected_model": "claude-sonnet-5",
+    "finished_at": "qualification-clock",
+    "identity_valid": true,
+    "requested_cell": "worker-sonnet-low",
+    "result": "repair complete",
+    "returncode": 0,
+    "root_models": [
+      "claude-sonnet-5"
+    ],
+    "started_at": "qualification-clock",
+    "status": "completed",
+    "stderr_tail": "",
+    "stream": {
+      "event_count": 2,
+      "invalid_line_count": 0
+    },
+    "terminal": true,
+    "timed_out": false,
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cost_source": "provider_reported",
+      "cost_usd": 0.002236,
+      "currency": "USD",
+      "includes_descendants": false,
+      "input_tokens": 578,
+      "output_tokens": 12,
+      "price_snapshot": "test/fixtures/realworld/price-snapshot-2026-09-17.json"
+    },
+    "wall_clock_s": 0.0
+  }
+}

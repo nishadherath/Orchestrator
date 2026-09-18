@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "kind": "command",
+  "criteria": [
+    "The requested behaviour is present and the relevant checks pass."
+  ],
+  "constraints": [
+    "Do not weaken or remove the protected acceptance tests."
+  ],
+  "required_outputs": [
+    "src"
+  ],
+  "protected_paths": [
+    "tests"
+  ],
+  "command": [
+    "python3",
+    "-m",
+    "pytest",
+    "-q"
+  ],
+  "rubric": [],
+  "timeout_s": 300
+}

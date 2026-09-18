@@ -1,0 +1,9 @@
+{
+  "approved_at": "YYYY-MM-DDTHH:MM:SS+TZ",
+  "approved_by": "operator name",
+  "candidate_sha256": "copy from the prepared pilot manifest",
+  "decision": "PENDING",
+  "manifest_sha256": "copy from the prepared pilot manifest",
+  "maximum_authorised_usd": 26.0,
+  "schema_version": 1
+}

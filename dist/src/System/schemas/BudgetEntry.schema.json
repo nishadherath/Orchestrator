@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://the-system/schemas/BudgetEntry.schema.json",
   "title": "BudgetEntry",
-  "description": "One model call's cost. The budget ledger is the sum of these per phase; per-phase caps are enforced against it. Single writer: Controller (every model call). Append-only; a correction is a new record referencing this one.",
+  "description": "Per-invocation reporting projection. dispatch-budget.json owns live Controller admission; this file is rebuilt after recovery. Unknown usage is null. Legacy numeric records remain readable.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -56,18 +56,46 @@
       "pattern": "^worker-(sonnet|opus|fable)-(low|medium|high|xhigh|max)$"
     },
     "cost_usd": {
-      "type": "number",
+      "type": [
+        "number",
+        "null"
+      ],
       "minimum": 0
     },
     "tokens_in": {
-      "type": "integer",
+      "type": [
+        "integer",
+        "null"
+      ],
       "minimum": 0
     },
     "tokens_out": {
-      "type": "integer",
+      "type": [
+        "integer",
+        "null"
+      ],
       "minimum": 0
     },
     "wall_clock_s": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "invocation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "accounting_status": {
+      "enum": [
+        "reserved",
+        "running",
+        "uncertain",
+        "settled"
+      ]
+    },
+    "reserved_usd": {
       "type": "number",
       "minimum": 0
     }

@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "campaign": "realworld-v1-remaining-eighteen",
+  "result": "COMPLETE",
+  "executed_revision": "7ad19c8",
+  "bundle_version": "2026-09-18-de8cefc",
+  "candidate_sha256": "ce6cf4467b0ec462202f5cf419c5845aac471d30a9956fe3382b620b60660bec",
+  "manifest_sha256": "537a21cbb46012923ac229d3a4f98a8dd7883cf60a67fc084e8a80c25d12b83c",
+  "authorisation_sha256": "13c02cecafcfcf53ad0e0a1eb3afc09919e837ceabe50521b05efdbad79b7b63",
+  "budget": {
+    "authorised_ceiling_usd": 74.0,
+    "episode_reservation_ceiling_usd": 72.0,
+    "calibration_headroom_usd": 2.0,
+    "calibration_headroom_used_usd": 0.0,
+    "known_spend_usd": 1.281458307,
+    "unused_authorised_ceiling_usd": 72.718541693,
+    "percent_of_authorised_ceiling": 1.731700415
+  },
+  "aggregate_usage": {
+    "attempts": 21,
+    "controller_dispatches": 0,
+    "opus_escalations": 1,
+    "input_tokens": 198,
+    "cache_creation_input_tokens": 115841,
+    "cache_read_input_tokens": 577949,
+    "output_tokens": 52069,
+    "wall_clock_seconds": 595.534142,
+    "cost_source": "provider_reported"
+  },
+  "integrity": {
+    "completed_episodes": 18,
+    "accepted_hidden_grades": 7,
+    "failed_hidden_grades": 11,
+    "valid_event_chains": 18,
+    "valid_model_identities": 18,
+    "complete_accounting": 18,
+    "preserved_actor_boundaries": 18,
+    "unchanged_oracles": 18,
+    "learning_eligible_episodes": 18
+  },
+  "observed_models": {
+    "requested_cells": [
+      "worker-sonnet-low",
+      "worker-opus-high"
+    ],
+    "served_task_models": {
+      "claude-sonnet-5": 20,
+      "claude-opus-5": 1
+    },
+    "auxiliary_billed_models": [
+      "claude-haiku-4-5-20251001"
+    ]
+  },
+  "policy_summary": [
+    {
+      "policy_id": "B0",
+      "accepted": 3,
+      "episodes": 6,
+      "attempts": 9,
+      "spend_usd": 0.621089703,
+      "mean_episode_cost_usd": 0.1035149505,
+      "wall_clock_seconds": 248.544226
+    },
+    {
+      "policy_id": "B1",
+      "accepted": 2,
+      "episodes": 6,
+      "attempts": 6,
+      "spend_usd": 0.329004403,
+      "mean_episode_cost_usd": 0.054834067,
+      "wall_clock_seconds": 190.562809
+    },
+    {
+      "policy_id": "B2",
+      "accepted": 2,
+      "episodes": 6,
+      "attempts": 6,
+      "spend_usd": 0.331364201,
+      "mean_episode_cost_usd": 0.055227367,
+      "wall_clock_seconds": 156.427107
+    }
+  ],
+  "episodes": [
+    {"episode_id":"pilot-07-d03-b0","task_id":"D03","policy_id":"B0","sequence":["worker-sonnet-low"],"cost_usd":0.0424792,"wall_clock_seconds":18.283,"accepted":false,"learning_eligible":true,"ledger_sha256":"6bc2ac360cac1b2e84cf890f1894f9d8a818401ac3fc5f9e1d930a6304c0692c"},
+    {"episode_id":"pilot-08-d03-b1","task_id":"D03","policy_id":"B1","sequence":["worker-sonnet-low"],"cost_usd":0.034024,"wall_clock_seconds":15.133,"accepted":false,"learning_eligible":true,"ledger_sha256":"b180369a14ea4d57836bb30401b4ba09a2f1493dd8a4531516b9115f89a8dd15"},
+    {"episode_id":"pilot-09-d03-b2","task_id":"D03","policy_id":"B2","sequence":["worker-sonnet-low"],"cost_usd":0.0321972,"wall_clock_seconds":17.36,"accepted":false,"learning_eligible":true,"ledger_sha256":"31c2bc4928b0609d7364ec77e063b1e0569fa56c784349d8a92e81059bd9cb0d"},
+    {"episode_id":"pilot-10-d05-b0","task_id":"D05","policy_id":"B0","sequence":["worker-sonnet-low"],"cost_usd":0.016269,"wall_clock_seconds":9.81,"accepted":true,"learning_eligible":true,"ledger_sha256":"d8c588a01fc7a59de7b0829e859e1f117eb4512dd2ae877198cab63180e8563a"},
+    {"episode_id":"pilot-11-d05-b1","task_id":"D05","policy_id":"B1","sequence":["worker-sonnet-low"],"cost_usd":0.021105601,"wall_clock_seconds":13.101,"accepted":true,"learning_eligible":true,"ledger_sha256":"7ad1943ec73c7c9623fa6053cd817c5dcb7f8935572fa07dbf1464beb4ee28b6"},
+    {"episode_id":"pilot-12-d05-b2","task_id":"D05","policy_id":"B2","sequence":["worker-sonnet-low"],"cost_usd":0.017759801,"wall_clock_seconds":7.728,"accepted":true,"learning_eligible":true,"ledger_sha256":"633d2ab3778af0f282d1ef99fbd431c9aefdd1140d3997d74cb42af0e7d6b0c4"},
+    {"episode_id":"pilot-13-d07-b0","task_id":"D07","policy_id":"B0","sequence":["worker-sonnet-low","worker-sonnet-low"],"cost_usd":0.051761001,"wall_clock_seconds":22.457,"accepted":true,"learning_eligible":true,"ledger_sha256":"4c9d1aa6def9941259f43d24cb55a6a94c10bae32bd656e487eb3f8e6433c153"},
+    {"episode_id":"pilot-14-d07-b1","task_id":"D07","policy_id":"B1","sequence":["worker-sonnet-low"],"cost_usd":0.073662,"wall_clock_seconds":62.171,"accepted":true,"learning_eligible":true,"ledger_sha256":"c9f9d220acbf3ef92022cc631bbdb40068b42044735aec0b304dd59c3f638cd9"},
+    {"episode_id":"pilot-15-d07-b2","task_id":"D07","policy_id":"B2","sequence":["worker-sonnet-low"],"cost_usd":0.0618848,"wall_clock_seconds":27.97,"accepted":true,"learning_eligible":true,"ledger_sha256":"749b21a5ae60d26f10db3f96e5877570e50ee2494eb65773dd118a67a45b4ac1"},
+    {"episode_id":"pilot-16-d08-b0","task_id":"D08","policy_id":"B0","sequence":["worker-sonnet-low","worker-sonnet-low","worker-opus-high"],"cost_usd":0.4100627,"wall_clock_seconds":140.291,"accepted":true,"learning_eligible":true,"ledger_sha256":"dceb8d3b757cf5eaf5da50a72eb2146d6d30b7703112968c137fd1beb81fd5a9"},
+    {"episode_id":"pilot-17-d08-b1","task_id":"D08","policy_id":"B1","sequence":["worker-sonnet-low"],"cost_usd":0.095758601,"wall_clock_seconds":50.536,"accepted":false,"learning_eligible":true,"ledger_sha256":"07ccb37a4d84d63d40a18784b2117a3c7376b3ebdd9e1cbafa9afc9204b01a4b"},
+    {"episode_id":"pilot-18-d08-b2","task_id":"D08","policy_id":"B2","sequence":["worker-sonnet-low"],"cost_usd":0.1130024,"wall_clock_seconds":60.672,"accepted":false,"learning_eligible":true,"ledger_sha256":"0ba929d7f554d09ff8137b9ba4065f31790167d8e0c1b290585e36dd83155253"},
+    {"episode_id":"pilot-19-d09-b0","task_id":"D09","policy_id":"B0","sequence":["worker-sonnet-low"],"cost_usd":0.053737001,"wall_clock_seconds":23.921,"accepted":false,"learning_eligible":true,"ledger_sha256":"c0d6d16f7052e7b54b3a427fd88d58c7d8935a797c04eeffac156d7d78942a0b"},
+    {"episode_id":"pilot-20-d09-b1","task_id":"D09","policy_id":"B1","sequence":["worker-sonnet-low"],"cost_usd":0.053385201,"wall_clock_seconds":22.633,"accepted":false,"learning_eligible":true,"ledger_sha256":"1c8a88c7c63f804e9f74538eba47bcd80dbfb95e1eeee56cafedc9765f5c7d2c"},
+    {"episode_id":"pilot-21-d09-b2","task_id":"D09","policy_id":"B2","sequence":["worker-sonnet-low"],"cost_usd":0.0617702,"wall_clock_seconds":24.193,"accepted":false,"learning_eligible":true,"ledger_sha256":"91c370d83a7998a774df8d28b13e6523a06e8d19070f4930e52b8ed37e2e3e19"},
+    {"episode_id":"pilot-22-d10-b0","task_id":"D10","policy_id":"B0","sequence":["worker-sonnet-low"],"cost_usd":0.046780801,"wall_clock_seconds":33.782,"accepted":false,"learning_eligible":true,"ledger_sha256":"7efc7aefdb298d55760f7dc8c1688db9128cfe51443083ad039d9e4c8f1961d6"},
+    {"episode_id":"pilot-23-d10-b1","task_id":"D10","policy_id":"B1","sequence":["worker-sonnet-low"],"cost_usd":0.051069,"wall_clock_seconds":26.988,"accepted":false,"learning_eligible":true,"ledger_sha256":"f97c4726564df774eac3a2980b2e672aff7de0b5cda362fc516fb5715582983e"},
+    {"episode_id":"pilot-24-d10-b2","task_id":"D10","policy_id":"B2","sequence":["worker-sonnet-low"],"cost_usd":0.0447498,"wall_clock_seconds":18.506,"accepted":false,"learning_eligible":true,"ledger_sha256":"6da578663c94913a832f805da7141b493f50017007614345772ade9e5d53a87c"}
+  ],
+  "pilot_decision": {
+    "complete_24_episode_spend_usd": 1.420694908,
+    "complete_24_episode_accepted": 13,
+    "adaptive_finalist": "B1",
+    "baseline_retained": "B0",
+    "proceed_to_w06": true,
+    "default_changed": false,
+    "reason": "Across all 24 pilot episodes B1 and B2 had identical observed paths and each accepted 4 of 8 tasks. B1 cost USD 0.010079999 less, so the incumbent B1 is the conservative adaptive finalist. B0 accepted 5 of 8 at 45 percent more spend than B1; its sole extra acceptance came from the only Opus fallback and one stochastic episode is insufficient to promote that path as a default. The measured B1 cost per accepted result was lower than B0, which satisfies the predeclared credible-cost-benefit condition for continuing to offline corpus completion."
+  }
+}

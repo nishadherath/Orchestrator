@@ -1,0 +1,432 @@
+{
+  "bundle_version": "2026-09-18-de8cefc",
+  "campaign": "realworld-v1-reserved-forty-eight",
+  "candidate_sha256": "99f6e7447b81054101c7ad57c4cd1bfd14b8d860aeec6f54f6f5a8d812e04fa4",
+  "cost": {
+    "basis": "48 fixed episode reservations plus separate calibration headroom",
+    "calibration_headroom_usd": 8.0,
+    "combined_authorisation_ceiling_usd": 200.0,
+    "currency": "USD",
+    "episode_count": 48,
+    "episode_total_cap_usd": 192.0,
+    "measured_projection": {
+      "development_policy_mean_usd": {
+        "B0": 0.03556041275,
+        "B1": 0.050449187625
+      },
+      "limitation": "Reserved tasks differ from development tasks; neither extrapolation is a billing limit.",
+      "maximum_observed_development_episode_usd": 0.1729559,
+      "method": "W07 policy mean multiplied by the fixed W08 episode count",
+      "observed_max_extrapolation_usd": 8.3018832,
+      "point_estimate_usd": 2.064230409,
+      "policy_episode_counts": {
+        "B0": 24,
+        "B1": 24
+      },
+      "source_evidence": {
+        "path": "test/results/2026-09-18-realworld-development.json",
+        "sha256": "dbfda3d2bc143da45aa638f9fce7902fdef82b19d35e96b54c05d7beb202eadc"
+      }
+    },
+    "per_episode_cap_usd": 4.0
+  },
+  "episodes": [
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-057-h01-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 57,
+      "task_id": "H01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-058-h01-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 58,
+      "task_id": "H01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-059-h02-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 59,
+      "task_id": "H02"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-060-h02-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 60,
+      "task_id": "H02"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-061-h03-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 61,
+      "task_id": "H03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-062-h03-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 62,
+      "task_id": "H03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-063-h04-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 63,
+      "task_id": "H04"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-064-h04-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 64,
+      "task_id": "H04"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-065-h05-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 65,
+      "task_id": "H05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-066-h05-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 66,
+      "task_id": "H05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-067-h06-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 67,
+      "task_id": "H06"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-068-h06-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 68,
+      "task_id": "H06"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-069-h07-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 69,
+      "task_id": "H07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-070-h07-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 70,
+      "task_id": "H07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-071-h08-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 71,
+      "task_id": "H08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-072-h08-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 72,
+      "task_id": "H08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-073-h09-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 73,
+      "task_id": "H09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-074-h09-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 74,
+      "task_id": "H09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-075-h10-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 75,
+      "task_id": "H10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-076-h10-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 76,
+      "task_id": "H10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-077-h11-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 77,
+      "task_id": "H11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-078-h11-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 78,
+      "task_id": "H11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-079-h12-b1-r1",
+      "policy_id": "B1",
+      "repetition": 1,
+      "sequence": 79,
+      "task_id": "H12"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-080-h12-b0-r1",
+      "policy_id": "B0",
+      "repetition": 1,
+      "sequence": 80,
+      "task_id": "H12"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-081-h01-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 81,
+      "task_id": "H01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-082-h01-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 82,
+      "task_id": "H01"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-083-h02-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 83,
+      "task_id": "H02"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-084-h02-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 84,
+      "task_id": "H02"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-085-h03-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 85,
+      "task_id": "H03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-086-h03-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 86,
+      "task_id": "H03"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-087-h04-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 87,
+      "task_id": "H04"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-088-h04-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 88,
+      "task_id": "H04"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-089-h05-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 89,
+      "task_id": "H05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-090-h05-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 90,
+      "task_id": "H05"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-091-h06-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 91,
+      "task_id": "H06"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-092-h06-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 92,
+      "task_id": "H06"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-093-h07-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 93,
+      "task_id": "H07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-094-h07-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 94,
+      "task_id": "H07"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-095-h08-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 95,
+      "task_id": "H08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-096-h08-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 96,
+      "task_id": "H08"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-097-h09-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 97,
+      "task_id": "H09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-098-h09-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 98,
+      "task_id": "H09"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-099-h10-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 99,
+      "task_id": "H10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-100-h10-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 100,
+      "task_id": "H10"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-101-h11-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 101,
+      "task_id": "H11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-102-h11-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 102,
+      "task_id": "H11"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-103-h12-b1-r2",
+      "policy_id": "B1",
+      "repetition": 2,
+      "sequence": 103,
+      "task_id": "H12"
+    },
+    {
+      "budget_usd": 4.0,
+      "episode_id": "evaluation-104-h12-b0-r2",
+      "policy_id": "B0",
+      "repetition": 2,
+      "sequence": 104,
+      "task_id": "H12"
+    }
+  ],
+  "isolation_evidence_sha256": "8ec774fe2dce94e66ae25fa77ddfc6abcc7517be176371936ed846b80cc20879",
+  "manifest_sha256": "a064865e0712bca2d8b9d32887a78dc383292884dfe35af27266c564f8e9dd86",
+  "profile": "reserved-forty-eight",
+  "review_after": "all 48 episodes complete, or immediately after the first stop condition",
+  "schema_version": 1,
+  "source_revision": "aa06ed4b3b4ab54cd96a5d7890fc48eabc0a9e1a",
+  "stop_conditions": [
+    "candidate, bundle, isolation or authorisation does not validate",
+    "an episode stops with unresolved provider accounting",
+    "a served task model does not match the exact required model",
+    "the event chain, external grade or protected-oracle check is invalid",
+    "the fixed USD 192 episode envelope or USD 200 combined ceiling would be exceeded"
+  ]
+}

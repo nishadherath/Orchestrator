@@ -1,0 +1,5 @@
+{
+  "action": "repair",
+  "evidence": "ownership.json disproves the generated-file claim, so the constraint was ignored.",
+  "changed": ["case_b/service/retention.py"]
+}

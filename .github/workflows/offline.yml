@@ -1,0 +1,27 @@
+name: Offline qualification
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generated worker parity
+        run: python tools/generate_workers.py --check
+      - name: Offline harness
+        run: python test/harness/check.py
+      - name: Release-candidate safety report
+        run: python tools/release_check.py
