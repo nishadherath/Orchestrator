@@ -2,7 +2,7 @@
   "blockers": [],
   "bound_files": {
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-    "dist/bundle-manifest.json": "51123a85a3cac7d83764163d5486eea02a156a041defc93d4c5973e587fe2692",
+    "dist/bundle-manifest.json": "e60521b3e0de58f4afcdf97f944133431cbdb56fa610418e7783b5d0a5bb5a4a",
     "docs/REAL-WORLD-PILOT-AUTHORISATION-TEMPLATE.json": "2233221c56218ffa2e593bf1ba0e481b88e6af81e50b97f4feddb7ffea5ee1a3",
     "src/System/schemas/BudgetEntry.schema.json": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
     "src/System/schemas/RoutingLedgerEntry.schema.json": "04e2cc54f53e37adabbc69c692801321e3bac4e93b1ff2da546ee6dbfd40f1c9",
@@ -383,12 +383,12 @@
     "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1"
   },
   "bundle": {
-    "manifest_sha256": "51123a85a3cac7d83764163d5486eea02a156a041defc93d4c5973e587fe2692",
+    "manifest_sha256": "e60521b3e0de58f4afcdf97f944133431cbdb56fa610418e7783b5d0a5bb5a4a",
     "payload_files": 50,
-    "version": "2026-09-18-313a87b"
+    "version": "2026-09-18-05c046a"
   },
   "campaign": "realworld-v1",
-  "candidate_sha256": "5e019f58c76b27b9416af8f2f773b554527461e8d8d119c89985e8c74139c245",
+  "candidate_sha256": "b384d2ba6634526777a2d1ac021c5e02765a5c51d0fab727dc858d0ee2e03e31",
   "contracts": {
     "acceptance": "acceptance-v2",
     "active_model_timeout_seconds": 900,
@@ -436,7 +436,7 @@
     ],
     "task_count": 24
   },
-  "created_at": "2026-09-18T12:12:45+10:00",
+  "created_at": "2026-09-18T13:08:13+10:00",
   "development": {
     "decision": {
       "adaptive_candidate": "B1",
@@ -728,5 +728,5 @@
   },
   "schema_version": 1,
   "source_dirty": false,
-  "source_revision": "81d00bc19a8f91cd48899846c7665fe6f56cef13"
+  "source_revision": "bb5a7955ea9a9ba576f8971a3ff143ae2c06b6e1"
 }
