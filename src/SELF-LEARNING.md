@@ -16,8 +16,7 @@ There is no model training, no weights, no fine-tuning and no network call
 involved. Learning is deterministic Bayesian arithmetic over a local file,
 recomputed from scratch on every single invocation of `tools/route.py`. Since
 D107, these results are diagnostic and cannot change the reserved-qualified B0
-dispatch sequence. Two
-files hold everything:
+dispatch sequence. Two files hold the posterior inputs:
 
 - **`src/routing_priors.json`**, shipped identically in every install.
   A Beta-distribution prior per assessment bucket (eighteen
@@ -36,6 +35,33 @@ files hold everything:
   shared with another project, and never regenerates `routing_priors.json`.
   Learning is scoped to one deployment and starts over, from the shipped
   priors, in any other.
+
+Acceptance evidence lives separately under `.claude/acceptance/`. A ledger
+entry refers to that evidence rather than embedding mutable test output. The
+owned completion path rechecks its digest, contract, current artefacts,
+protected paths and repository identity before it marks an outcome eligible
+for capability learning.
+
+## Why learning no longer controls dispatch
+
+The project tested the adaptive B1 policy rather than removing it on theory
+alone. In the 32-episode development comparison, B1 accepted 12 of 16 episodes
+against B0's 11 of 16, but cost 42 percent more. That was enough to carry the
+unchanged candidate into the reserved comparison, not enough to change the
+default. In the 48-episode reserved comparison, B0 accepted 12 of 24 and B1
+accepted 10 of 24. B0 recorded two paired wins and no paired loss; B1 increased
+false successes from 12 to 14 and cost 20.97 percent more per accepted result.
+B1 also missed the predeclared correctness, recovery and family-completion
+gates (D107).
+
+D108 therefore made B0 the qualified policy: one floor attempt, one floor
+repair after observable failure, one Opus-high fallback, then stop. The
+Bayesian machinery remains because it still answers useful questions about a
+project's observed capability, cost and compaction history, and because it
+makes the rejected B1 experiment and rollback path reproducible. New evidence
+cannot silently turn that diagnostic machinery back into a dispatcher. A
+future adaptive policy needs a new hypothesis, frozen evaluation and explicit
+release decision.
 
 ## The per-task cycle that produces a ledger entry
 
@@ -61,8 +87,9 @@ files hold everything:
    [--attempt-json '{...}' ...]` completes the entry. Each attempt object is
    one invocation in routed order. If a multi-cell legacy-style command omits
    them, the task total remains known and per-cell costs remain unknown rather
-   than being guessed. Terminal attempts teach cost immediately. Version-2
-   the owned verifier runs before completion. Capability evidence is eligible
+   than being guessed. Terminal attempts teach cost immediately. For a
+   version-2 record, the owned verifier runs before completion. Capability
+   evidence is eligible
    only when `acceptance-v2` carries a digest-matched contract and command
    evidence, or an explicit named rubric review. A worker claim, a supplied
    `verified=true`, missing hook data and an unreviewed rubric stay ineligible.
@@ -84,8 +111,9 @@ alter B0 dispatch.
   prior because the benchmark did not measure that population.
 - **Conditional escalation capability, per cell and bucket.** Every elevated
   cell has a separate posterior conditioned on the preceding attempt failing.
-  This population drives later ladder rungs and activation and retains the
-  benchmark's conditional prior where one exists.
+  This population drives later ladder rungs and activation only in explicit
+  historical adaptive replay, and retains the benchmark's conditional prior
+  where one exists.
 - **The floor's own pass rate, per bucket.** `floor_pass`/`floor_fail` use
   Laplace smoothing, `(passes + 1) / (n + 2)`, against the prior's effective
   sample size (capped at 10 for a measured prior, 4 bracketed, 3
@@ -182,6 +210,13 @@ before it ships, the same discipline a table row once needed
 - Fully auditable: every number `--explain` prints traces to a ledger line
   or a `routing_priors.json` entry a human can open and read; nothing is
   opaque model state.
+- Acceptance-qualified by the owned path: `route.py --record` verifies the
+  frozen contract against current artefacts before completing a version-2
+  row. A stale result, changed protected path, failed command or unreviewed
+  rubric cannot become capability evidence. Measured spending is retained.
+- Operationally visible: `preflight.py --status --explain` reports unresolved
+  attempts, acceptance states, model or effort mismatches, known and unknown
+  cost, prior age and Graft configuration without mutating project state.
 - Safe under concurrent writers: ID allocation, append and completion use an
   operating-system lock over the complete transaction. Completion uses a
   unique temporary file and preserves unparseable rows instead of dropping them.
@@ -194,12 +229,12 @@ before it ships, the same discipline a table row once needed
 
 ## Limitations
 
-- **Skippable, and silently so.** Nothing enforces that a session actually
-  runs the `--record` completion step. `ROUTING.md` states the
-  consequence in prose, but no code path refuses to proceed, warns loudly
-  mid-session, or flags a stale ledger; `--explain` does print the current
-  pass/fail counts for the bucket, so `(ledger: 0 pass, 0 fail)` is visible
-  to a careful reader, but nothing calls that out as a problem.
+- **External completion is still skippable.** The owned `route.py --record`
+  path verifies evidence and reconciles the pending row, but the bundle cannot
+  force an external session to invoke that path after a worker exits. A skipped
+  completion remains pending rather than becoming a false success. Recovery
+  and `preflight.py --status --explain` expose it, but they cannot infer the
+  missing outcome or cost.
 - **No learned recency optimum.** The operator can impose an exact maximum
   capability-evidence age, but the project has no measured basis for choosing
   one and applies no decay by default. Cost means are not age-filtered.
@@ -223,22 +258,18 @@ before it ships, the same discipline a table row once needed
   developing" (`.claude/context-tasks.json`'s `tokenSamples`), so the
   overflow advisory should be read as evidence-based but not
   exhaustively verified across every Claude Code version.
-- **Two of five assessed fields are recorded but never used to resolve.**
-  `self_directed` and `prior_failure` aside, `self_directed` is kept in
-  every ledger entry for the record but, per `ROUTING.md` section 2's own
-  text, "not an input to resolution any more: no rule in the current
-  table names it in its conditions." Learning cannot happen on a
-  dimension resolution never reads.
-- **Bounded escalation, not open-ended optimisation.** The ladder can only
-  activate cells the shipped bundle already made reachable in principle;
-  it cannot discover or promote a cell absent from `COST_ORDER` (the six
-  cells `ROUTING.md` calls "not reachable by this resolver at all today"
-  stay unreachable no matter what the ledger records).
-- **Qualified version-2 evidence is not yet produced automatically.** The
-  posterior rejects `acceptance.status: unverified`, preventing a worker claim
-  from training capability. Stage 4 must verify evidence, reconcile incomplete
-  records and set `pass` or `fail`. Legacy rows remain usable as explicitly
-  labelled claimed evidence for benchmark compatibility.
+- **Assessment does not personalise B0 dispatch.** Sensitivity, horizon and
+  blast radius choose the diagnostic bucket and overflow history;
+  `self_directed` remains a recorded field with no current table rule;
+  `prior_failure` affects only historical adaptive replay. Under B0, none of
+  the five fields changes the three-step dispatch sequence.
+- **Bounded historical optimisation.** Explicit adaptive replay can activate
+  only cells already present in `COST_ORDER`; it cannot discover a new model or
+  worker definition. The qualified B0 path does not activate any learned rung.
+- **Rubric evidence still needs a person.** Command contracts are verified by
+  the owned completion path. A prose or judgement rubric stays `unverified`
+  until an explicitly named reviewer records a decision. Legacy rows remain
+  usable only as labelled claimed evidence for benchmark compatibility.
 - **Selection bias remains.** Conditional escalation results describe tasks
   that already defeated a cheaper worker. They cannot estimate direct starts;
   separate populations make the bias visible but cannot remove it.

@@ -8,6 +8,10 @@ result file it rests on, and anything unverified says so in the same
 sentence. `docs/AUDIT-2026-09-16.md` is the audit this file was written
 after; where the two disagree, the audit is the record of what was checked.
 
+The project and redistributable are licensed under Apache-2.0. The W09
+candidate is mechanically release-ready; publication remains an explicit
+operator action.
+
 ## What it achieves
 
 The bundle in `dist/` installs into any Claude Code project and makes the
@@ -39,8 +43,15 @@ What has been measured, which is the part to hold on to:
 - Because of the first two points, every task starts at `worker-sonnet-low`.
   The real-world reserved comparison then selected the fixed B0 sequence over
   the adaptive B1 policy: B0 accepted 12/24 episodes and B1 accepted 10/24,
-  with two B0 paired wins and no B1 wins (D107). The fixed sequence therefore
-  allows one floor repair and one Opus-high fallback, with no Controller.
+  with two B0 paired wins and no B1 wins. B1 also increased false successes
+  from 12 to 14 and cost 20.97 percent more per accepted result (D107). The
+  fixed sequence therefore allows one floor repair and one Opus-high fallback,
+  with no Controller.
+- The complete staged campaign executed 104 live episodes: 24 pilot, 32
+  development and 48 reserved. Identity, accounting, hash-chained event
+  records, actor boundaries and protected external graders were validated for
+  the recorded runs. The comparison qualified B0; it did not demonstrate that
+  either policy solves every task family (`docs/REAL-WORLD-EVALUATION-PLAN.md`).
 - A separate multi-role problem-solving system, the Controller, was built
   and measured against the floor on T10: right in every run that finished,
   six of nine finished, at 10.8 times the floor's cost per solved task
@@ -69,8 +80,10 @@ One task, end to end:
 1. **Assess.** The orchestrator writes one line: sensitivity
    (mechanical, structured, open), horizon (short, medium, long), blast
    radius (contained, consequential), plus `self_directed` and
-   `prior_failure`. Two of the five fields are recorded but not used to
-   choose a cell (D64).
+   `prior_failure`. Under B0 none of the five changes the first cell;
+   sensitivity, horizon and blast radius choose the diagnostic bucket,
+   `self_directed` is retained as evidence, and `prior_failure` is used only
+   by explicit historical adaptive replay (D108).
 2. **Resolve.** It runs `python3 tools/route.py --from-line "<line>"
    --project . --explain` with the Bash tool. The script reads the project's
    evidence and prints diagnostics, the fixed B0 sequence and the first cell.
@@ -97,6 +110,14 @@ One task, end to end:
    posterior the same as an escalated one (fixed 2026-09-16, audit A4,
    docs/PLAN-6.md B.5). `src/SELF-LEARNING.md` is the full account of
    what this mechanism learns, what it cannot, and its limitations.
+
+The term self-learning therefore refers to local, deterministic evidence
+aggregation rather than model training. The ledger updates per-bucket
+capability posteriors, measured cost and wall-clock estimates, compatibility
+cohorts and the compaction advisory. Those values are visible through
+`route.py --explain` and `preflight.py --status --explain`; they cannot change
+the qualified B0 dispatch sequence. The earlier adaptive B1 policy is retained
+only for historical replay, diagnostics and the documented rollback (D108).
 
 Escalation is fixed: one `worker-sonnet-low` repair after observable failure,
 then one `worker-opus-high` fallback, then stop. The resolver cannot pre-empt
@@ -162,11 +183,11 @@ the fix, if it does not resolve.
 
 ## How to work on it
 
-The repository is specification, verification and calibration; the only
-runtime is the Controller. `CLAUDE.md` is the charter and applies to every
-session here; `docs/PLAN.md` through `docs/PLAN-5.md` are the five
-completed plans that built the current state, read for how, not as
-instructions.
+The repository contains the runtime routing, acceptance, accounting,
+installation and diagnostic tools as well as their specification,
+verification and calibration evidence. `CLAUDE.md` is the charter and applies
+to every session here; completed plans are historical implementation records,
+read for provenance rather than as current instructions.
 
 - **Harness.** `python3 test/harness/check.py` is the canonical check count:
   the fifteen definitions match the generator, the routing data
@@ -203,6 +224,14 @@ instructions.
   consumer task (`CLAUDE.md`, "Handoffs and routing"). A session starts
   paid `claude -p` runs itself after stating the projected cost, and asks
   first only above USD 100 (D57).
+- **Graft.** Every project-development session starts with Graft freshness and
+  uses scoped graph retrieval before broad source reads. The graph itself is
+  gitignored. An authorised DeepSeek-backed semantic refresh uses
+  `tools/graft_deep_refresh.ps1`, which loads credentials from the Windows user
+  environment, applies the local forced-tool compatibility adapter without
+  logging content, resumes the cache and removes its temporary files. The
+  current graph covers 2,055 structural nodes and has no stale or pending
+  meanings (`docs/GRAFT.md`).
 
 ## Map
 
@@ -218,26 +247,32 @@ instructions.
 | `dist/` | The installable bundle, stamped with its source commit |
 | `test/harness/` | `check.py` and the paid measurement scripts |
 | `test/fixtures/` | 18 routing fixtures, 15 benchmark tasks, the schema examples |
-| `test/results/` | 176 dated result files (2026-09-16); no index yet (audit C5, Stage D.3) |
-| `docs/` | Decisions, findings, premises, cost, the design documents, the six plans, this audit |
-| `handoffs/` | Seven session handoffs, each passing `handoff.py check` |
+| `test/results/` | Dated benchmark, audit, live calibration and real-world evaluation evidence |
+| `docs/` | Decisions, findings, premises, costs, audits, design records and completed plans |
+| `handoffs/` | Checked session handoffs retained for model, effort and session transitions |
 | `graft/`, `dist-with-rationale/` | Gitignored local artefacts: a code index for one machine's tooling, and a bundle built with `--with-rationale` for comparison, rebuilt on demand |
 
 ## What is not known
 
-- Whether the ten-of-eleven floor result generalises past synthetic
-  tasks with plantable defects to real backlog work; the two real tasks
-  tried were both routed in ways the owner disagreed with (E13,
-  `docs/PREMISES.md` P19 and P34). Unverified.
+- Whether the benchmark and 24-task synthetic real-world corpus generalise to
+  independently sampled production backlogs. The corpus exercises realistic
+  software failure shapes and hidden grading, but it is not an uncontaminated
+  sample of external work. Unverified.
 - Whether the decomposition result (D80) holds on shapes other than the
   one measured. Unverified.
 - Whether the subagent status line ever reports a running worker's
   tokens: two interactive sessions, one lasting minutes with the panel
   open, saw the field stay empty (`docs/FINDINGS.md`, Plan 4 and Plan 5
   Stage D). Unverified; nothing in the bundle depends on it.
-- How often the escalation triggers fire in real use: the instrument
-  exists (`route.py --record --escalation`) and no consumer ledger has
-  been read yet. Unverified.
+- How often the fixed repair and Opus fallback are needed in an ordinary
+  consumer project. The evaluation campaign measured its frozen corpus, but no
+  independent consumer ledger has been aggregated. Unverified.
+- Whether a live Controller invocation can satisfy the complete qualified
+  episode contract. Its adapter and accounting paths pass offline tests, but
+  no paid campaign episode reached the Controller. Unverified.
+- Provider-side invoice caps, live token-ceiling enforcement and billed savings
+  from the reduced recurring context remain unverified. Local reservations and
+  static token reductions do not prove those external effects.
 - The fifteen cell-specific persona sections are all empty, so whether
   telling a worker its own cell helps or hurts has never been tested
   (`docs/PREMISES.md` P39). Unverified.

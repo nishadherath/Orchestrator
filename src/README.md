@@ -99,8 +99,8 @@ SELF-LEARNING.md                                    (what the per-project ledger
                                                      the two apart)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
-                                                     handoff rule and the compact
-                                                     instructions section)
+                                                     handoff rule that survives platform
+                                                     compaction)
 settings.fragment.json                              (merge into .claude/settings.json:
                                                      the status line commands, the
                                                      one-hour cache TTL, and the
@@ -115,7 +115,7 @@ bundle-manifest.json                                (owned file hashes, configur
 
 This project's own `.claude/routing-ledger.jsonl` is not part of the bundle. `route.py`
 creates it on first use (`--record`) and it grows as the project runs; do not copy one
-from another project, since it is what makes the routing self-learning per project.
+from another project, since it is the project's local diagnostic learning record.
 `SELF-LEARNING.md` states exactly what that self-learning does and does not do, including
 its limits, not only the mechanics.
 
@@ -129,11 +129,48 @@ unverified.
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on
-anything else in this repository being present at install time. The
-Controller is the one exception to "nothing to run": `tools/` and
-`src/System/` must land at the project's root, in that same relative
-layout, or `python3 tools/system_controller.py` will not find its own
-dependencies when `ORCHESTRATOR.md` section 4 tries to invoke it.
+anything else in this repository being present at install time. The retained
+Controller is executable only when explicitly selected for historical replay,
+diagnostics or rollback. If kept, `tools/` and `src/System/` must land at the
+project's root in the same relative layout so
+`python3 tools/system_controller.py` can find its dependencies. Qualified B0
+dispatch never invokes it.
+
+## Qualified default and local learning
+
+The shipping policy is B0, selected by the completed reserved evaluation. It
+always runs this bounded sequence:
+
+1. one `worker-sonnet-low` attempt;
+2. one `worker-sonnet-low` repair after observable failure;
+3. one `worker-opus-high` fallback after another observable failure;
+4. stop.
+
+No assessment, project history, posterior, frontier signal or Controller rule
+can skip the floor, add an attempt or alter that order. The 48-episode reserved
+comparison accepted 12 of 24 B0 episodes and 10 of 24 adaptive B1 episodes.
+B0 recorded two paired wins and no paired loss; B1 increased false successes
+and cost 20.97 percent more per accepted result. B1 failed the predeclared
+promotion gates, so its implementation remains only for reproducible history
+and explicit rollback (D107, D108).
+
+"Self-learning" does not mean model training. `route.py` recomputes local
+Bayesian capability estimates, measured cost and duration, evidence
+compatibility and the compaction advisory from
+`.claude/routing-ledger.jsonl`. These values explain the project's history and
+support future experiments, but do not control B0 dispatch. Inspect them with:
+
+```bash
+python3 tools/route.py --from-line "<assessment>" --project . --explain
+python3 preflight.py --status --explain
+```
+
+`route.py --record` verifies the frozen acceptance contract against current
+artefacts and protected paths before completing a version-2 row. A worker
+claim, stale evidence, failed command or unreviewed rubric cannot train
+capability. Measured cost remains useful even when acceptance is failed,
+blocked or unknown. `SELF-LEARNING.md` gives the full data model, thresholds,
+migration path and limitations.
 
 ## Transactional install, update and removal
 
@@ -504,18 +541,16 @@ repository's `docs/DECISIONS.md` explains changes keyed by the commit in
   performance rationale. The conditional reference also strips rationale, so
   the model judging does not learn how cells performed; a model that can see the destinations
   has been measured bending its assessment toward whichever one it prefers.
-  `tools/route.py` then resolves that assessment to a cell deterministically,
-  reading `routing_table.json`'s two rules (the floor, and the frontier
-  escalation) plus this project's own `.claude/routing-ledger.jsonl`, which
-  is what makes it self-learning per project rather than fixed at install
-  time.
+  `tools/route.py` records the assessment into its diagnostic bucket and
+  returns the fixed B0 first cell. The project ledger updates capability, cost
+  and overflow diagnostics, but does not change dispatch. Historical adaptive
+  resolution must be selected explicitly and is outside the qualified policy.
 - `routing_priors.json` seeds every bucket from this repository's own
-  benchmark, not yours. Until your project's ledger accumulates enough
-  outcomes of its own to move a bucket (`routing_priors.json`'s own
-  `steering` thresholds), routing behaves exactly as it does here: every
-  task starts at the floor (`worker-sonnet-low`), moving up the ladder only
-  on a recorded failure. Watch for a task class that fails there
-  repeatedly; that is the ledger doing its job, not a bug.
+  benchmark and contains the qualified B0 policy. Your project's evidence can
+  move diagnostic posterior and cost estimates after the documented sample
+  thresholds, but every task still starts at `worker-sonnet-low` and follows
+  the same two possible fallbacks. Repeated failure is evidence for review or a
+  future preregistered policy experiment, not an automatic route change.
 - A worker can decline its own compaction summary outright, treating the
   event as a suspected prompt injection rather than a legitimate system
   message, in words like "I'm not going to comply with that request" or
@@ -543,25 +578,18 @@ repository's `docs/DECISIONS.md` explains changes keyed by the commit in
   explanation; the mechanism that should populate it is otherwise
   unverified. Do not build anything against this bundle that assumes a
   live per-worker token count is available from that file.
-- Two triggers can put a task on the Controller instead of a worker cell,
-  both in `src/ROUTING.md` section 4: a reactive one, a falsified-constraint
-  disposition measured on one specific task shape, and a proactive one,
-  either expected-cost arithmetic (fires nowhere on the shipped priors) or
-  an explicit risk-appetite policy on open, consequential tasks
-  (`routing_priors.json`'s `controller_rule.proactive_policy`). Either
-  costs about USD 2.99 per fire (`src/cost_table.json` `controller`: the
-  measured quick-mode mean plus one floor instantiation, ranging USD
-  2.35 to 3.29 across the runs on record), since the Controller is a
-  multi-role state machine running several `claude -p` calls rather than
-  one worker, and the orchestrator session pays for those calls directly
-  with the Bash tool; there is no separate approval gate on it beyond what
-  `ORCHESTRATOR.md` itself states. If you would rather neither trigger ever
-  spends without a human confirming first, edit `src/ROUTING.md` section 4
-  to ask before running the Controller, or remove that step and fall
-  straight through to `worker-opus-high`.
+- The Controller remains installed code, but B0 has
+  `controller_allowed: false`; ordinary routing cannot invoke it. An explicit
+  historical or rollback invocation is a multi-call operation with its own
+  budget, identity and recovery requirements. The paid evaluation campaign
+  never reached a live Controller episode, so its complete live episode path
+  remains unverified.
 
 
 ## Controller spending and recovery
+
+This section applies only when an operator explicitly runs the retained
+Controller; it is not part of qualified B0 dispatch.
 
 The Controller's default USD 4 dispatch budget applies to one run. Roles,
 classifiers, retries and parallel generators reserve from that balance before
