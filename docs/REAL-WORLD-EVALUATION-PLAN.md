@@ -542,7 +542,7 @@ Use the same operator handoff and Graft requirements for implementation work.
 | W06. Complete and seal corpus | W02 and W05 go decision | **Complete.** Remaining four D tasks and 12 H tasks; independent applications where specified; source and grader provenance. Strict author blinding is recorded as unprovable in the same session. | 2-4 days |
 | W07. Development and freeze | W05-W06 | **Complete.** 32 development episodes, B0 baseline retained, unchanged B1 candidate selected and reserved schedule predefined. | 2-6 execution hours plus review |
 | W08. Reserved comparison | W07 | **Complete.** 48 episodes and release-gate decision recorded; B1 rejected and B0 selected. | 3-8 execution hours plus review |
-| W09. Package qualified defaults | W08 decision | **In progress.** Package B0, update source/bundle, run offline smoke checks and clean install, preserve evidence notes and rollback path. | 0.5-1 day |
+| W09. Package qualified defaults | W08 decision | **Complete.** B0 is the source and bundle default; focused routing, source/bundle parity, clean install and semantic rollback checks pass. B1 and Controller paths remain historical audit and rollback mechanisms. | Completed 2026-09-18 |
 
 Current status: W01-W04, live instrumentation calibration, the live worker and
 Controller adapters, policy execution and restart-safe integration are complete.
@@ -662,3 +662,19 @@ not pass H11, so it failed the fixed promotion gates.
 Select B0 for W09 packaging. Do not retune B1 from reserved outcomes. W09 must
 make the fixed-fallback behaviour the shipped default, rebuild the bundle,
 verify source/bundle parity and clean installation, and document rollback.
+
+## W09 packaged default, 2026-09-18
+
+W09 is complete. The shipping policy is exactly B0: floor, one floor repair,
+one Opus-high fallback, then stop. The resolver exposes posterior and cost data
+for diagnostics but the ledger cannot change dispatch. Focused routing tests,
+source/bundle parity and all seven installer lifecycle cases pass. The rollback
+path restores the earlier adaptive source revision, rebuilds the bundle and
+uses the transactional installer to restore an installed prior version.
+
+The complete offline harness passes all 51 checks. The clean bundle stamp is
+completed during sealing; publication remains a separate operator action.
+
+This closes the planned real-world evaluation programme. B1 remains a rejected
+experimental record and was not retuned from reserved results. Further policy
+experiments require a new predeclared plan and separate budget boundary.

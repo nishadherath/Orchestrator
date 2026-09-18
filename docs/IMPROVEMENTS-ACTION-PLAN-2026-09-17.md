@@ -1,6 +1,6 @@
 # Improvements action plan
 
-Date: 2026-09-17. Status: Stages 0-2 complete; Stages 3-7 pending.
+Date: 2026-09-17. Status: Stages 0-7 complete.
 Owner: continued development sessions.
 
 This is the execution roadmap for the six recommendations in the
@@ -401,9 +401,9 @@ publication as explicit operator actions.
   work to W01 and relevant W02/W04/W09 parts; do not repeat or charge for it twice.
 - [x] **7.2** Re-estimate the remaining corpus/harness work and current API prices.
   Freeze bundle, model identities, policies, acceptance and accounting first.
-- [ ] **7.3** Follow that plan's offline qualification, eight-task pilot,
+- [x] **7.3** Follow that plan's offline qualification, eight-task pilot,
   development comparison and reserved evaluation, with its stop conditions.
-- [ ] **7.4** Promote only supported policy changes and aggregates; preserve a
+- [x] **7.4** Promote only supported policy changes and aggregates; preserve a
   simple fallback when the evidence is weak. Rebuild and requalify the bundle
   after any evaluation-driven change.
 
@@ -660,3 +660,24 @@ W08 execution is complete, but B1 failed the predeclared promotion gates. W09
 will package B0 as the qualified default, preserve B1 as a rejected experimental
 record, rebuild the distribution, verify a clean consumer installation and
 document rollback. No policy tuning may use the reserved outcomes.
+
+## W09 completion, 2026-09-18
+
+B0 is now the source and distributable default. Every assessment starts at
+`worker-sonnet-low`; an observable failure permits one same-cell repair, then
+one `worker-opus-high` fallback, then stops. Project history remains diagnostic
+and cannot skip the floor, activate another rung, invoke the Controller or add
+an attempt. The reserved result was not used to invent or tune a trigger.
+
+Source and bundle routing priors and router implementations match. Focused
+regressions cover every assessment bucket, hostile ledger history, prior-failure
+inputs and CLI resolution. The existing seven-case installer suite passed clean
+install, repeated install, upgrade, uninstall and semantic rollback, including
+preservation of unrelated configuration and refusal on owned drift. The former
+adaptive machinery and Controller remain in the package for historical replay
+and an explicit rollback; they are outside the qualified policy.
+
+The content-addressed freeze now verifies this configuration instead of carrying
+an unconditional W09 blocker, and the complete offline harness passes all 51
+checks. Stage 7 is complete. Future policy work requires a separately declared
+hypothesis and evaluation; it is not part of this release.

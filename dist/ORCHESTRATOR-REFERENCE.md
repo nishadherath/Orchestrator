@@ -111,16 +111,13 @@ python3 tools/route.py --from-line "<the assessment line>" --project <this proje
 
 Read the output. `--explain` prints, in order: the bucket; separate direct and
 conditional posteriors for every active rung; evidence exclusions and identity
-conflicts; the Controller's expected-cost
-arithmetic and its decision with a one-word reason (`policy`,
-`expected_cost`, or `none`); the projection; an overflow line, only when
-one fires (section 2's own overflow paragraph below); the context line;
-and, last, on its own line, the bare cell name. That final line is the
-value `plan()` returned as `first`, which `--explain`'s own printed
-lines make visible without parsing JSON: either a worker name
-(`worker-<model>-<effort>`) to spawn as section 3 describes, or the
-literal word `controller`, meaning invoke the Controller mechanism in
-section 4 directly, not a worker to spawn.
+conflicts; the qualified B0 sequence; the projection; an overflow line, only
+when one fires; the context line; and, last, `worker-sonnet-low` on its own line.
+The posterior remains visible for diagnostics, but it cannot change the
+qualified default. The fixed sequence is one `worker-sonnet-low` attempt, one
+same-cell repair after observable failure, then one `worker-opus-high`
+fallback. The Controller, frontier and ledger-activated cells are disabled in
+the shipping policy selected by W08 and D107.
 
 Version-2 capability updates require acceptance status `pass` or `fail`.
 Unverified records still contribute measured terminal costs. By default the
@@ -133,11 +130,9 @@ exclude old capability evidence with `--evidence-max-age-days N`. Use
 A projection marked incomplete names unmeasured Controller failure/retry,
 verification or frontier terms.
 
-State the assessment line, the resolved cell, and the reason, together, in
-the same routing line section 3 asks for. This is the record a wrong
-routing is diagnosed from, and the reason (a posterior mean, or the
-Controller's `policy`/`expected_cost` label) is what makes a surprising
-resolution legible rather than a black box.
+State the assessment line, B0 policy and resolved cell together in the routing
+line section 3 asks for. The posterior and cost projection explain the evidence
+record without changing dispatch.
 
 **If `--explain` also prints an overflow line** ("N of M attempts in this
 bucket compacted; split the task or trim the handover before spawning
@@ -210,9 +205,8 @@ to be learning.
 
 Use the Agent tool only after the pending record below exists. When you spawn:
 
-- Set `subagent_type` to the cell `route.py` resolved (section 2). If it
-  resolved to `controller`, this section does not apply; use section 4's
-  Controller mechanism instead.
+- Set `subagent_type` to the cell `route.py` resolved (section 2). Under the
+  qualified B0 default this is always `worker-sonnet-low` for the first attempt.
 - Set `name` to a short, stable, task-derived identifier, for example
   `auth-refactor` or `perf-triage`. The name is how you address the worker
   later. Names must be unique among live workers.
@@ -264,7 +258,27 @@ completion command needs it.
 Then state in one line the assessment, the resolved cell and reason
 (section 2), and the assigned name.
 
-## 4. Escalation and de-escalation
+## 4. Qualified default escalation
+
+Use exactly this sequence, stopping as soon as acceptance passes:
+
+1. Start at `worker-sonnet-low`.
+2. After observable verification or acceptance failure, retry once at
+   `worker-sonnet-low` with the first output and exact failure evidence.
+3. After a second failure, try `worker-opus-high` once with both earlier
+   outputs and failures. Stop after this attempt.
+
+Do not let project history skip the floor, activate a different cell or add an
+attempt. Do not invoke the Controller or frontier. A corrected underspecified
+handover consumes the same-cell repair. Record each repair or fallback with
+`--record --escalation` in the order run.
+
+### Historical adaptive mechanism, audit and rollback only
+
+The remainder of this section documents B1 and the Controller mechanism used by
+earlier releases and the completed evaluation. Do not execute it while
+`src/routing_priors.json` names B0 as `qualified_default`. It is retained so an
+operator can interpret old ledgers or perform the documented rollback.
 
 - **On failure, use the next active rung.** If a worker returns a result
   that fails its own acceptance criteria, do not re-run it at the same

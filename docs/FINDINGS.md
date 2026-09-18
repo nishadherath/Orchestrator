@@ -564,3 +564,21 @@ The execution evidence passes, but B1 fails the predeclared promotion gates.
 W09 must package B0 as the qualified default without adapting to the reserved
 outcomes. Evidence is `test/results/2026-09-18-realworld-reserved.json` with its
 neighbouring Markdown report.
+
+## W09 qualified-default packaging, 2026-09-18
+
+Observed offline with zero model calls: the source and generated distribution
+now resolve every assessment bucket to `worker-sonnet-low` and expose the exact
+B0 execution sequence of floor, floor repair and Opus-high fallback. Hostile
+project ledgers, prior xhigh failure and posterior frontier signals cannot change
+dispatch or invoke the Controller. The historical adaptive planner remains
+available only when an evaluation or rollback caller opts out explicitly.
+
+Source and bundle router and prior files match. The focused qualified-default
+regression passes every assessment, horizon and blast-radius combination. The
+seven installer lifecycle tests pass clean install, repeat install, upgrade,
+uninstall and rollback, preserve unrelated configuration, and refuse rollback
+over owned drift. The complete content-addressed corpus regression also passes.
+The complete offline harness passes all 51 checks. This closes W09 and the
+planned real-world evaluation programme; it does not claim that B0 met the
+failed absolute ten-family or H11 targets.

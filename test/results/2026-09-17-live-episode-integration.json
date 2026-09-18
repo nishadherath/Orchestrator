@@ -14,7 +14,7 @@
         "status": "pass"
       },
       "learning_eligible": true,
-      "ledger_sha256": "e82bd660bd33ba2938f0fedc3bd47c7974f9f2a178fc19f5a13f8f0dd4422530",
+      "ledger_sha256": "04dfe71faa0240ccdcb521769a1d45e9b2d9987c161afb3b271ba18950c9985b",
       "policy_id": "B0",
       "reserved_usd": 0.0,
       "sequence": [
@@ -38,7 +38,7 @@
         "status": "pass"
       },
       "learning_eligible": true,
-      "ledger_sha256": "29392042ca1c62a246997eb7831a0e4ebdea8d5222074bb6ac4b2e34f82d2a94",
+      "ledger_sha256": "ec101d78e914a610f6f334c94ac848e76010b7a2d2a713f3a52335a9145c2e16",
       "policy_id": "B1",
       "reserved_usd": 0.0,
       "sequence": [
@@ -62,7 +62,7 @@
         "status": "pass"
       },
       "learning_eligible": true,
-      "ledger_sha256": "6cee15fddf0fa70c06f78fbc0e21ab4b20792d3e62fb78ef9c00cc37a74510c2",
+      "ledger_sha256": "ab06e7a4ef622c692753940348b5ac8ec0f4b6c5d5638ec1701064225bc12f54",
       "policy_id": "B2",
       "reserved_usd": 0.0,
       "sequence": [
@@ -116,8 +116,8 @@
     "missing_cost_retains_allowance": true,
     "policy_boundary_excludes_forbidden_inputs": true
   },
-  "evidence_sha256": "44be45e9a80229c7c0d97c42bd995aad2cc6277d6c603dc571a709c7d331ac53",
-  "implementation_sha256": "588c008225559d9d46274ebfd6947f01d7f2f6d60f8326e8b6022a0390496eb6",
+  "evidence_sha256": "bec8a4b8d33fcb0c0b1faefbf5c66bd8f9c6e75ebdcd479476c043fd71416e01",
+  "implementation_sha256": "589e66129c88a5e97f61aacce8e2dde0178b66c5e5d684666fc47feebae83dc5",
   "limits": [
     "Scripted adapters qualify policy ordering, external grading and recovery without model calls.",
     "The live worker adapter is separately calibrated and qualified.",

@@ -14,7 +14,9 @@ need re-checking against the change in the same commit, the same discipline
 
 There is no model training, no weights, no fine-tuning and no network call
 involved. Learning is deterministic Bayesian arithmetic over a local file,
-recomputed from scratch on every single invocation of `tools/route.py`. Two
+recomputed from scratch on every single invocation of `tools/route.py`. Since
+D107, these results are diagnostic and cannot change the reserved-qualified B0
+dispatch sequence. Two
 files hold everything:
 
 - **`src/routing_priors.json`**, shipped identically in every install.
@@ -44,8 +46,9 @@ files hold everything:
    (D13, D44).
 2. **Resolve** (`src/ROUTING.md` section 2). `python3 tools/route.py
    --from-line "<line>" --project <root> --explain` combines the shipped
-   prior with this project's ledger and prints the cell to spawn, or the
-   literal word `controller`.
+   prior with this project's ledger for diagnostics, prints the fixed B0
+   sequence and returns `worker-sonnet-low`. It never returns `controller` in
+   the qualified default.
 3. **Spawn** (`src/ROUTING.md` section 3). The Agent tool spawns that cell;
    `route.py --spawn` immediately writes a *pending* ledger entry
    (`final_outcome: unknown`), before the worker finishes, so a mid-session
@@ -71,7 +74,9 @@ files hold everything:
 
 All of the following is recomputed by `posterior()` and `plan()`
 (`tools/route.py`) from the whole ledger file, fresh, every call. There is
-no cache and no incremental state beyond the file itself.
+no cache and no incremental state beyond the file itself. Capability and cost
+posteriors explain observed history and support audit or rollback; they do not
+alter B0 dispatch.
 
 - **Direct-start capability, per cell and bucket.** The floor and every
   elevated cell have a direct population. A cell tried first updates only its
@@ -91,18 +96,19 @@ no cache and no incremental state beyond the file itself.
   gives up or does the work itself still moves the posterior (this was a
   real bug until fixed, `docs/AUDIT-2026-09-16.md` A4, `docs/DECISIONS.md`
   D81, `docs/PLAN-6.md` B.5).
-- **Which cell is tried first.** `first` is the cheapest active rung whose
-  direct posterior pass mean clears `steering_first_rung_min_pass` (0.6 as
-  shipped); if none does, the floor is still tried by default.
-- **Whether a whole new rung becomes reachable for a bucket.** The main way
-  the ladder grows without a bundle change: a cell outside
+- **Historical adaptive first-cell calculation.** The retained B1 replay is the
+  cheapest active rung whose direct posterior clears
+  `steering_first_rung_min_pass`. B0 ignores this calculation and always starts
+  at `worker-sonnet-low`.
+- **Historical adaptive rung calculation.** In B1 replay, a cell outside
   `default_ladder` becomes an active rung for one bucket once that
   bucket's ledger holds at least `steering_rung_activation_min_n` (3)
   escalation outcomes at that cell with a conditional pass rate at or
   above `steering_rung_activation_min_pass` (0.5), inserted in cost order.
   It starts from an uninformative Beta(1,1) prior, mean 0.5, since no
   benchmark data exists for that cell in that bucket; it moves purely on
-  this project's own evidence from there.
+  this project's own evidence from there. It remains diagnostic under B0 and
+  cannot become reachable in the shipping sequence.
 - **Cost and wall-clock projections.** Once a cell has at least
   `ledger_overrides_after` (5) measured terminal attempts anywhere in the project,
   `ledger_cell_means()` replaces the generic figure in
@@ -112,7 +118,7 @@ no cache and no incremental state beyond the file itself.
   do not enter a per-cell mean. Terminal failed, cancelled and interrupted
   attempts do enter when measurements are known, even if the outer task
   remains unresolved: spending evidence is separate from success evidence.
-- **Whether the Controller pre-empts a task at all.**
+- **Historical Controller projection.**
   `expected_ladder_cost` and `controller_decision` recompute the expected
   cost from the selected first worker through only the later active rungs
   against the Controller's own cost, using
@@ -123,7 +129,8 @@ no cache and no incremental state beyond the file itself.
   selected worker is charged at reach probability 1.0. Output exposes the
   execution rungs, unpriced rungs and incomplete Controller terms; the shipped
   successful-run mean excludes failed runs, while retry and verification costs
-  remain unmeasured.
+  remain unmeasured. B0 sets `controller_allowed: false`, so no projection can
+  pre-empt a task.
 - **Evidence compatibility and age.** Version-2 capability and cost samples
   carry the exact served-model, bundle, policy and acceptance-contract tuple.
   One known tuple can be selected automatically; multiple incompatible known
@@ -147,9 +154,10 @@ no cache and no incremental state beyond the file itself.
 
 ## What never changes
 
-`src/routing_table.json`'s two static rules, the floor and the frontier
-(reached only via `prior_failure: failed_at_xhigh`), are fixed for the life
-of a bundle version; the ledger never rewrites them. The fifteen worker
+`src/routing_priors.json`'s `qualified_default` fixes the first floor attempt,
+one floor repair, one Opus-high fallback and a three-attempt maximum for the
+life of the bundle version. The ledger never rewrites them. The frontier and
+Controller are historical diagnostics and rollback mechanisms. The fifteen worker
 personas, the cell definitions, and `src/routing_priors.json` itself are
 likewise immutable from inside a consumer project. Any change to what the
 resolver can return at all (a new cell in `default_ladder`, a changed
@@ -160,16 +168,13 @@ before it ships, the same discipline a table row once needed
 
 ## Capabilities
 
-- Starts safe on day one: an empty ledger resolves purely on the shipped,
-  benchmark-seeded priors, which route almost everything to the cheapest
-  cell and only proactively invoke the Controller on the one labelled
-  risk-appetite dial (open, consequential work).
-- Moves fast on real evidence: the effective-sample-size caps mean a
-  bucket's posterior can shift meaningfully after single-digit outcomes,
-  not hundreds.
-- Learns three independent things per bucket, not just "which cell":
-  whether the floor still holds, whether a specific higher cell is worth
-  activating, and whether tasks in that bucket tend to overflow context.
+- Starts predictably on day one and day one thousand: every task begins at the
+  cheapest cell and has the same bounded fallback sequence.
+- Moves diagnostic estimates quickly on real evidence: effective-sample-size
+  caps let a bucket's posterior shift after single-digit outcomes without
+  changing dispatch.
+- Tracks three independent observations per bucket: floor capability,
+  conditional higher-cell capability and context overflow.
 - Degrades to a named, visible failure rather than a silent one: if
   `route.py` cannot run at all, `ROUTING.md` requires spawning the floor
   and saying so in the routing line, never substituting a remembered

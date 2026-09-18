@@ -873,6 +873,17 @@ def check_route_selftest(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+def check_qualified_default(r: Report) -> None:
+    """QUALIFIED-DEFAULT: every task follows the exact B0 sequence."""
+    script = REPO_ROOT / "test" / "harness" / "qualified_default_tests.py"
+    proc = subprocess.run(
+        [sys.executable, str(script)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    r.add("QUALIFIED-DEFAULT", "reserved-qualified B0 is the fixed shipping policy",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1600:])
+
+
 def check_claudep_selftest(r: Report) -> None:
     """CLAUDEP-SELFTEST: subprocess failures retain recoverable invocation
     cost and usage metadata without making a live ``claude -p`` call."""
@@ -1319,6 +1330,7 @@ def main(argv: list[str]) -> int:
     check_route_priors(report)
     check_cost_table(report)
     check_route_selftest(report)
+    check_qualified_default(report)
     check_claudep_selftest(report)
     check_dispatch_budget(report)
     check_acceptance_evidence(report)

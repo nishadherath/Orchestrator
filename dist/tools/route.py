@@ -1125,7 +1125,8 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
          priors: dict | None = None, ledger: list[dict] | None = None,
          costs: dict | None = None, *, evidence_identity: dict | None = None,
          max_evidence_age_days: int | None = None,
-         include_incompatible_evidence: bool = False) -> dict:
+         include_incompatible_evidence: bool = False,
+         use_qualified_default: bool = True) -> dict:
     """The one function an orchestrator calls (docs/ROUTING-2-DESIGN.md
     section 3): resolves an assessment plus a project's own ledger to the
     cell (or `"controller"`) to try first, the rest of the active ladder,
@@ -1142,12 +1143,24 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     docs/AUDIT-2026-09-16.md: this used to be true only of
     `tools/handoff.py`'s own projections, never of `--explain`'s). Capability
     evidence can be selected by exact identity and bounded by age; cost and
-    capability eligibility remain separate."""
+    capability eligibility remain separate.
+
+    The shipped W09 default is the reserved-qualified B0 policy. It always
+    starts at worker-sonnet-low, permits one same-cell repair, then one
+    worker-opus-high fallback, and never invokes the Controller. The adaptive
+    posterior remains available for diagnostics and historical B1 replay only;
+    it cannot alter a default dispatch while `qualified_default` is enabled."""
     priors = priors if priors is not None else load_priors()
     costs = costs if costs is not None else load_cost_table()
     ledger = ledger if ledger is not None else []
+    qualified = priors.get("qualified_default") or {}
+    fixed_default = bool(
+        use_qualified_default
+        and qualified.get("policy_id") == "B0"
+        and qualified.get("adaptive_routing_enabled") is False
+    )
 
-    if prior_failure == "failed_at_xhigh":
+    if prior_failure == "failed_at_xhigh" and not fixed_default:
         frontier = resolve(sensitivity, horizon, blast, self_directed, prior_failure, table=None)["worker"]
         return {"first": frontier, "bucket": None, "ladder": [], "controller": None, "posterior": None,
                 "overflow": None,
@@ -1166,6 +1179,48 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
     if ledger_means:
         effective_costs = dict(costs)
         effective_costs["cells"] = {**costs["cells"], **ledger_means}
+    if fixed_default:
+        first = qualified["first_cell"]
+        repair = qualified["repair_cell"]
+        fallback = qualified["fallback_cell"]
+        sequence = [first, repair, fallback]
+        floor_row = effective_costs["cells"].get(first, {})
+        fallback_row = effective_costs["cells"].get(fallback, {})
+        floor_cost = floor_row.get("cost_per_run_usd")
+        fallback_cost = fallback_row.get("cost_per_run_usd")
+        floor_wall = floor_row.get("wall_clock_s")
+        fallback_wall = fallback_row.get("wall_clock_s")
+        p_fail = 1 - post["floor_mean"]
+        expected_cost = None if floor_cost is None or fallback_cost is None else round(
+            floor_cost + p_fail * floor_cost + p_fail * p_fail * fallback_cost, 4)
+        expected_wall = None if floor_wall is None or fallback_wall is None else round(
+            floor_wall + p_fail * floor_wall + p_fail * p_fail * fallback_wall, 1)
+        steering = priors["steering"]
+        advisory = (post["overflow_mean"] >= steering["overflow_advisory_min_mean"]
+                    and post["overflow_n"] >= steering["overflow_advisory_min_n"])
+        overflow = {
+            "mean": round(post["overflow_mean"], 4),
+            "n": post["overflow_n"],
+            "advisory": advisory,
+            "text": (f"{post['overflow_compacted']} of {post['overflow_n']} attempts in this "
+                     f"bucket compacted; split the task or trim the handover before spawning {first}"
+                     if advisory else None),
+        }
+        return {
+            "first": first,
+            "bucket": bucket,
+            "policy": "B0",
+            "ladder": sequence,
+            "execution_ladder": sequence,
+            "controller": None,
+            "posterior": post,
+            "overflow": overflow,
+            "projection": {
+                "cost_usd_expected": expected_cost,
+                "wall_clock_s_expected": expected_wall,
+                "note": "B0 fixed fallback: floor, one floor repair, then opus-high",
+            },
+        }
     min_pass = priors["steering"]["steering_first_rung_min_pass"]
     selected_worker = next(
         (c for c in post["active_rungs"] if _rung_pass_mean(post, c, "direct") >= min_pass),
@@ -1192,7 +1247,8 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                          f"compacted; split the task or trim the handover before spawning {first}"
                          if advisory else None)}
 
-    return {"first": first, "bucket": bucket, "ladder": post["active_rungs"],
+    return {"first": first, "bucket": bucket, "policy": "adaptive",
+            "ladder": post["active_rungs"],
             "execution_ladder": decision["execution_rungs"], "controller": decision,
             "posterior": post, "overflow": overflow,
             "projection": {"cost_usd_expected": round(cost_expected, 4),
@@ -1704,18 +1760,21 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         check(post_c["active_rungs"].index("worker-sonnet-xhigh") < post_c["active_rungs"].index("worker-opus-high"),
               "(c) an activated cheaper rung should sort before a dearer one")
 
-    # (d) open/long/consequential returns the policy reason; disabling the
-    # dial falls through to the floor.
+    # (d) The reserved-qualified B0 default cannot be pre-empted by the
+    # historical Controller policy. The adaptive engine remains replayable
+    # only when a diagnostic caller opts out of the qualified default.
     p_policy = plan("open", "long", "consequential", priors=priors, ledger=[], costs=costs)
-    check(p_policy["first"] == "controller" and p_policy["controller"]["reason"] == "policy",
-          f"(d) open/long/consequential should pre-empt on policy, got {p_policy['first']!r} "
-          f"reason {p_policy['controller'].get('reason') if p_policy['controller'] else None!r}")
+    check(p_policy["first"] == "worker-sonnet-low" and p_policy["controller"] is None
+          and p_policy["execution_ladder"]
+          == ["worker-sonnet-low", "worker-sonnet-low", "worker-opus-high"],
+          f"(d) qualified B0 must use its fixed sequence, got {p_policy}")
     import copy
     priors_off = copy.deepcopy(priors)
-    priors_off["controller_rule"]["proactive_policy"]["enabled"] = False
-    p_policy_off = plan("open", "long", "consequential", priors=priors_off, ledger=[], costs=costs)
-    check(p_policy_off["first"] != "controller",
-          f"(d) with the dial disabled, open/long/consequential should not pre-empt, got {p_policy_off['first']!r}")
+    p_policy_legacy = plan("open", "long", "consequential", priors=priors_off,
+                           ledger=[], costs=costs, use_qualified_default=False)
+    check(p_policy_legacy["first"] == "controller"
+          and p_policy_legacy["controller"]["reason"] == "policy",
+          f"(d) historical adaptive replay should retain its policy result, got {p_policy_legacy}")
 
     # (e) enough opus-high failures push the expected-cost rule to fire. A
     # contained bucket cannot: its failure_cost is E_ladder itself, which
@@ -1730,7 +1789,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
     s, h, b = bucket.split("/")
     ledger_e = [{"bucket": bucket, "first_cell": "worker-sonnet-low",
                  "escalations": [{"cell": "worker-opus-high", "outcome": "fail"}], "final_outcome": "fail"}] * 8
-    p_e = plan(s, h, b, priors=priors, ledger=ledger_e, costs=costs)
+    p_e = plan(s, h, b, priors=priors, ledger=ledger_e, costs=costs,
+               use_qualified_default=False)
     check(p_e["controller"]["reason"] == "expected_cost",
           f"(e) repeated opus-high failure on a consequential bucket should fire the expected-cost rule, "
           f"got reason {p_e['controller']['reason']!r}, e_ladder={p_e['controller']['e_ladder_usd']}, "
@@ -1752,11 +1812,17 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
               f"(f) a malformed line should be skipped, not fatal; got {len(loaded)} entrie(s)")
         check(next_ledger_id(loaded) == "led-002", f"(f) next id should be led-002, got {next_ledger_id(loaded)!r}")
 
-    # (g) prior_failure=failed_at_xhigh returns the frontier rung regardless
-    # of the ledger.
+    # (g) The qualified default ignores the historical frontier signal and
+    # retains B0. Historical replay keeps the old frontier behaviour.
     p_g = plan("open", "long", "consequential", prior_failure="failed_at_xhigh",
                priors=priors, ledger=ledger_e, costs=costs)
-    check(p_g["first"] == "worker-opus-max", f"(g) failed_at_xhigh should return the frontier rung, got {p_g['first']!r}")
+    check(p_g["first"] == "worker-sonnet-low",
+          f"(g) qualified B0 should ignore frontier routing, got {p_g['first']!r}")
+    p_g_legacy = plan("open", "long", "consequential", prior_failure="failed_at_xhigh",
+                      priors=priors, ledger=ledger_e, costs=costs,
+                      use_qualified_default=False)
+    check(p_g_legacy["first"] == "worker-opus-max",
+          f"(g) historical replay should retain the frontier, got {p_g_legacy['first']!r}")
 
     # (h) --spawn writes a pending entry excluded from posterior() (its
     # final_outcome is "unknown"), --record --pending completes it in
@@ -2058,8 +2124,10 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
           and means_o.get("worker-opus-high") == {"cost_per_run_usd": 1.9, "wall_clock_s": 90.0,
                                                    "attempts_measured": 5},
           f"(o) ledger_cell_means should preserve USD 0.10 and USD 1.90 attempts, got {means_o}")
-    p_before_o = plan("open", "medium", "contained", priors=priors, ledger=[], costs=costs)
-    p_after_o = plan("open", "medium", "contained", priors=priors, ledger=ledger_o, costs=costs)
+    p_before_o = plan("open", "medium", "contained", priors=priors, ledger=[], costs=costs,
+                      use_qualified_default=False)
+    p_after_o = plan("open", "medium", "contained", priors=priors, ledger=ledger_o, costs=costs,
+                     use_qualified_default=False)
     check(p_after_o["controller"]["e_ladder_usd"] > p_before_o["controller"]["e_ladder_usd"],
           f"(o) plan()'s expected ladder cost should rise when the exact measured opus cost "
           f"exceeds cost_table.json's figure, got "
@@ -2592,7 +2660,11 @@ def main(argv: list[str]) -> int:
             if post:
                 print(f"floor posterior mean: {post['floor_mean']:.3f} "
                       f"(ledger: {post['floor_ledger_passes']} pass, {post['floor_ledger_fails']} fail)")
-                print(f"active rungs, cost order: {post['active_rungs']}")
+                if result.get("policy") == "B0":
+                    print(f"qualified default B0 sequence: {result['execution_ladder']}")
+                    print("adaptive posterior is diagnostic only; Controller disabled")
+                else:
+                    print(f"active rungs, cost order: {post['active_rungs']}")
                 for cell, m in sorted(post["rungs"].items()):
                     direct, conditional = m["direct"], m["conditional"]
                     print(f"  {cell}: direct {direct['mean']:.3f} "

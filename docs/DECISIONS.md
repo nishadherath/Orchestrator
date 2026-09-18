@@ -5528,3 +5528,27 @@ ordinary task families in both repetitions and did not pass H11 in either
 repetition. B1 therefore missed the fixed correctness, false-success, cost and
 recovery gates. B0's simpler fixed fallback is the evidence-supported outcome;
 retuning on H01-H12 would invalidate the reserved comparison.
+
+## D108. Ship the exact B0 sequence and retain adaptive code for rollback, 2026-09-18
+
+Decision: make the qualified redistributable policy exactly one
+`worker-sonnet-low` attempt, one same-cell repair after observable failure and
+one `worker-opus-high` fallback, followed by stop. Do not allow posterior state,
+project ledger history, a frontier cell or the Controller to alter that sequence.
+Keep the posterior and Controller implementations in the distribution for
+diagnostics, historical replay and explicit rollback. Historical evaluation
+code opts into the earlier adaptive planner explicitly so the recorded B1
+experiment remains reproducible.
+
+Bind the B0 configuration, its W08 evidence digest, source and bundle router and
+priors, focused behaviour regression and installer rollback regression into the
+evaluation freeze. Rollback restores the adaptive source revision identified by
+D106, rebuilds the distribution and applies the transactional installer rollback
+to each consumer installation.
+
+Why: D107 selected the already frozen B0 policy. A data-dependent trigger added
+after inspecting the reserved set would be post-hoc tuning. The fixed policy is
+also the smallest operational contract: three possible worker attempts, no
+Controller budget branch and no ledger-dependent dispatch. Retaining the older
+implementation preserves auditability and reversibility without exposing it as
+the qualified default.

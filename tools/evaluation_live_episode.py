@@ -15,6 +15,7 @@ import argparse
 import dataclasses
 import hashlib
 import importlib.util
+import inspect
 import json
 import os
 import shutil
@@ -108,8 +109,10 @@ def load_frozen_plan(spec: LiveEpisodeSpec) -> dict:
         finally:
             sys.dont_write_bytecode = prior_bytecode_setting
             sys.path.remove(str(tools_dir))
+    options = ({"use_qualified_default": False}
+               if "use_qualified_default" in inspect.signature(loaded.plan).parameters else {})
     return loaded.plan(spec.sensitivity, spec.horizon, spec.blast,
-                       spec.self_directed, ledger=[])
+                       spec.self_directed, ledger=[], **options)
 
 
 class PolicyExecutor:

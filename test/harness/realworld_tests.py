@@ -147,7 +147,22 @@ class RealWorldFoundationTests(unittest.TestCase):
             "W08 reserved comparison evidence is missing or invalid",
             first["blockers"],
         )
-        self.assertIn("W09 qualified-default packaging is incomplete", first["blockers"])
+        self.assertTrue(first["qualified_default"]["qualified"])
+        self.assertEqual(first["qualified_default"]["policy_id"], "B0")
+        self.assertEqual(
+            first["qualified_default"]["sequence"],
+            ["worker-sonnet-low", "worker-sonnet-low", "worker-opus-high"],
+        )
+        self.assertFalse(first["qualified_default"]["controller_allowed"])
+        self.assertFalse(first["qualified_default"]["adaptive_routing_enabled"])
+        self.assertTrue(all(first["qualified_default"]["checks"].values()))
+        self.assertNotIn(
+            "W09 qualified-default source or bundle is missing or invalid",
+            first["blockers"],
+        )
+        self.assertIn("tools/route.py", first["bound_files"])
+        self.assertIn("src/routing_priors.json", first["bound_files"])
+        self.assertIn("test/harness/qualified_default_tests.py", first["bound_files"])
         self.assertIn("tools/evaluation_reserved_result.py", first["bound_files"])
 
     def test_recorded_wsl_isolation_boundary(self):

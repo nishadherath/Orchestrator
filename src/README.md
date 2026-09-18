@@ -7,7 +7,8 @@ This bundle installs a cost-routing layer for Claude Code subagents into a
 consumer project: fifteen worker definitions spanning three model classes
 (sonnet, opus, fable) at five effort levels each, and a routing document that
 tells your top-level session (the "orchestrator") which one to spawn for a
-given task, defaulting to the cheapest and escalating only on evidence. It is
+given task. The reserved-qualified B0 policy always starts at the cheapest cell,
+allows one same-cell repair, then one Opus-high fallback. It is
 configuration, prose and Python tools. Graft MCP is a required local retrieval
 dependency; register it in the consumer project before starting work.
 
@@ -50,11 +51,10 @@ machines need their own working Graft installation and configuration.
                                                      currently invoked automatically, kept
                                                      for manual use as a cheap alternative)
 tools/
-  route.py                                          (resolves an assessment to a worker
-                                                     cell or the Controller, reading the
-                                                     files below plus this project's own
-                                                     ledger; ORCHESTRATOR.md section 2 runs
-                                                     it on every task)
+  route.py                                          (records an assessment, prints
+                                                     diagnostic evidence and returns the
+                                                     fixed B0 first cell; ORCHESTRATOR.md
+                                                     section 2 runs it on every task)
   handoff.py                                        (writes and checks the handoff files
                                                      ORCHESTRATOR.md's handoff section asks
                                                      for on a model or effort change)
@@ -65,19 +65,16 @@ tools/
                                                      each command owning its own file so the
                                                      two cannot race; route.py --explain's
                                                      context line reads context-main.json)
-  system_controller.py                              (the Controller: a quick-mode multi-
-                                                     role state machine ORCHESTRATOR.md
-                                                     section 4 invokes with the Bash tool
-                                                     on one scoped escalation trigger)
+  system_controller.py                              (the historical Controller: retained
+                                                     for audit and rollback, outside the
+                                                     qualified B0 default)
   claudep.py, system_prompts.py,
   validate_records.py                               (the Controller's own dependencies)
 src/
-  routing_priors.json                               (per-bucket Bayesian priors on each
-                                                     cell passing, seeded from this
-                                                     repository's benchmark; route.py
-                                                     updates its read of them from this
-                                                     project's own ledger, never the source
-                                                     file itself)
+  routing_priors.json                               (the qualified B0 policy plus retained
+                                                     per-bucket Bayesian diagnostics;
+                                                     project history cannot alter default
+                                                     dispatch)
   cost_table.json                                   (measured per-cell and Controller cost,
                                                      for route.py's arithmetic and
                                                      handoff.py's projections)

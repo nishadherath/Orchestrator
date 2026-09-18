@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026-09-18-de8cefc",
+  "bundle_version": "2026-09-18-e89421a-dirty",
   "configuration": {
     "backup_root": ".claude/orchestrator-install/backups",
     "claude_markers": [
@@ -22,7 +22,7 @@
   },
   "files": {
     ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-    ".claude/ORCHESTRATOR_VERSION": "a921e9f17b2c3739aa029bc7bc6175c65c5b9693120501ac34d909c1e5fb2e8a",
+    ".claude/ORCHESTRATOR_VERSION": "54fa794af67cf3b53241a46edca7090f95af7b58d744da459b62cd99957fdda2",
     ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
     ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
     ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -39,9 +39,9 @@
     ".claude/agents/WORKER_sonnet_medium.md": "af05747558e6735a57c87281650088bc42f5b998532f461e877215f7fe372fef",
     ".claude/agents/WORKER_sonnet_xhigh.md": "6cd3b1e10bf2b77905225d4f1da65786d4b1524f7ff963faccdb634f5b586f66",
     ".claude/commands/workers.md": "beb906eaaae4e298b74a3b6ddfa81aaf91b5400b2be87081f1f06ff652a07d9d",
-    "ORCHESTRATOR-REFERENCE.md": "3539b11c9630cad7f924c48a9df3726a22f5cd585acd129539842746f4b7e7c1",
-    "ORCHESTRATOR.md": "bd47fa35db1df546c7916a2de859a1799c4a2a70091eeca50098f7a575d70112",
-    "SELF-LEARNING.md": "257f583762ab5c5b4b3c4fc1db2f145153421ca7e01b426ec29ef03ccc8b53cf",
+    "ORCHESTRATOR-REFERENCE.md": "4d85d483acccffe16f5eb8f82abc819d1470a5153f0ac2a5979632c69ba20ff7",
+    "ORCHESTRATOR.md": "7a3a2e66262d9ca1d34a2313ad4f3ff1f629c28f21d4f1f848f19ebc7889b732",
+    "SELF-LEARNING.md": "d50266e5a854fbd61225fb208064487a449f870f69f48e193d12c1e26f0302f4",
     "acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
     "preflight.py": "2605e07bd1eef3cccee82c4fec15da3104ae921a05533756c04e376b2d820d22",
     "src/System/ROLES.md": "749255df28c862bddbdf302046fbce1a372c68d810f8c4db5053573fb726e751",
@@ -60,14 +60,14 @@
     "src/System/schemas/SelectionRecord.schema.json": "7c7bc5178d297d4ffbf9bcb3ffadacf27735145868be3012363c514f517f28c6",
     "src/System/schemas/SolutionRecord.schema.json": "6c40620df1102f08325c32e01024c92f6d7d1e23f7bef8bb281ea7f2eb246e82",
     "src/cost_table.json": "faf64bf87d0fac403aa4a6b86dbd28741bdf2e2f8ca556a176ec3f452300306b",
-    "src/routing_priors.json": "f5c73f272a147f719f7b23232b090be909f69616f0039906a0280630b6aa229c",
+    "src/routing_priors.json": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
     "src/routing_table.json": "7b4d0558ecc230d8f55c4f0ed786e292ecdb65c3dfc8aee6ddb3012091b07626",
     "tools/acceptance.py": "5e38ee32b3e8b119bc9f87a23226d7dec1e4486ff35d6689adaa436b2e28145a",
     "tools/claudep.py": "73f9ce62d8c9f7233acb5c588b2c57a4e915991050b3a78fc8461fd11d151420",
     "tools/context_probe.py": "6bbe5bb0bbb5b00cdc50e82a97065386b05f2a5c627335f49192ebdabac6e557",
     "tools/dispatch_budget.py": "7c08aef6bedbef8afa52cda093cf3e1c5c9a918ed0d43ab3eb7dd149c1e55381",
     "tools/handoff.py": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
-    "tools/route.py": "ff3092560e391468f15bcc314511d27b20aec902cbf6e4022183c78047307949",
+    "tools/route.py": "6dd79c63bbd2873aa70a075ff0185518dba440f9cb4687c6122a0b9b8c7226a0",
     "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1",
     "tools/system_prompts.py": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
     "tools/validate_records.py": "6cc7af156c2d034c83869b81d561c5650d3ffcdc18d17d0bac2291f3e871e1f3"

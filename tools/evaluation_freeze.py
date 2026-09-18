@@ -55,6 +55,10 @@ RESERVED_RESULT_TOOL = ROOT / "tools" / "evaluation_reserved_result.py"
 RESERVED_RESULT_TESTS = ROOT / "test" / "harness" / "evaluation_reserved_result_tests.py"
 RESERVED_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-realworld-reserved.json"
 RESERVED_REPORT = ROOT / "test" / "results" / "2026-09-18-realworld-reserved.md"
+ROUTER = ROOT / "tools" / "route.py"
+ROUTING_PRIORS = ROOT / "src" / "routing_priors.json"
+QUALIFIED_DEFAULT_TESTS = ROOT / "test" / "harness" / "qualified_default_tests.py"
+INSTALL_TESTS = ROOT / "test" / "harness" / "install_tests.py"
 
 
 def sha256(path: Path) -> str:
@@ -87,6 +91,10 @@ def bound_files() -> list[Path]:
         ROOT / "tools" / "evaluation_freeze.py",
         ROOT / "tools" / "realworld_isolation.py",
         ROOT / "tools" / "system_controller.py",
+        ROUTER,
+        ROUTING_PRIORS,
+        QUALIFIED_DEFAULT_TESTS,
+        INSTALL_TESTS,
         ROOT / "test" / "harness" / "realworld.py",
         ROOT / "test" / "harness" / "realworld_tests.py",
         ISOLATION,
@@ -109,6 +117,52 @@ def bound_files() -> list[Path]:
         RESERVED_RESULT_TOOL, RESERVED_RESULT_TESTS, RESERVED_EVIDENCE, RESERVED_REPORT,
     ) if path.is_file()]
     return sorted(set(fixed + fixture_files + oracle_files + runner_files + calibration_files))
+
+
+def valid_qualified_default() -> tuple[bool, dict]:
+    """Prove that source and bundle expose the W08-selected B0 policy."""
+    dist_router = ROOT / "dist" / "tools" / "route.py"
+    dist_priors = ROOT / "dist" / "src" / "routing_priors.json"
+    required = (ROUTER, ROUTING_PRIORS, QUALIFIED_DEFAULT_TESTS, INSTALL_TESTS,
+                dist_router, dist_priors)
+    if not all(path.is_file() for path in required):
+        return False, {"policy_id": "B0", "reason": "required source or bundle file is missing"}
+
+    source = json.loads(ROUTING_PRIORS.read_text(encoding="utf-8"))
+    bundled = json.loads(dist_priors.read_text(encoding="utf-8"))
+    policy = source.get("qualified_default") or {}
+    expected = {
+        "policy_id": "B0",
+        "first_cell": "worker-sonnet-low",
+        "repair_cell": "worker-sonnet-low",
+        "fallback_cell": "worker-opus-high",
+        "maximum_worker_attempts": 3,
+        "controller_allowed": False,
+        "adaptive_routing_enabled": False,
+        "evidence": "test/results/2026-09-18-realworld-reserved.json",
+        "evidence_sha256": "79624e2bf2c846531a4d2ebc746449a7c70c3e4310d0271cb9d0342ee5e47382",
+        "decision": "docs/DECISIONS.md D107",
+    }
+    checks = {
+        "configuration_exact": all(policy.get(key) == value for key, value in expected.items()),
+        "source_bundle_priors_equal": source == bundled,
+        "source_bundle_router_equal": ROUTER.read_bytes() == dist_router.read_bytes(),
+        "rollback_documented": bool(policy.get("rollback")),
+        "behavioural_regression_present": QUALIFIED_DEFAULT_TESTS.is_file(),
+        "install_rollback_regression_present": INSTALL_TESTS.is_file(),
+    }
+    return all(checks.values()), {
+        "policy_id": "B0",
+        "sequence": ["worker-sonnet-low", "worker-sonnet-low", "worker-opus-high"],
+        "maximum_worker_attempts": 3,
+        "controller_allowed": False,
+        "adaptive_routing_enabled": False,
+        "evidence": policy.get("evidence"),
+        "evidence_sha256": policy.get("evidence_sha256"),
+        "decision": policy.get("decision"),
+        "rollback": policy.get("rollback"),
+        "checks": checks,
+    }
 
 
 def valid_evidence(path: Path) -> tuple[bool, str | None, dict]:
@@ -348,6 +402,7 @@ def candidate() -> dict:
     corpus_valid, corpus_digest, corpus = valid_corpus_evidence()
     development_valid, development_digest, development = valid_development_evidence()
     reserved_valid, reserved_digest, reserved = valid_reserved_evidence()
+    qualified_default_valid, qualified_default = valid_qualified_default()
     blockers = []
     if remaining:
         blockers.append(f"pilot fixtures not ready: {', '.join(remaining)}")
@@ -375,7 +430,8 @@ def candidate() -> dict:
         blockers.append("W07 development comparison evidence is missing or invalid")
     if not reserved_valid:
         blockers.append("W08 reserved comparison evidence is missing or invalid")
-    blockers.append("W09 qualified-default packaging is incomplete")
+    if not qualified_default_valid:
+        blockers.append("W09 qualified-default source or bundle is missing or invalid")
     return {
         "schema_version": 1,
         "created_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -479,6 +535,10 @@ def candidate() -> dict:
             "policy_summary": reserved.get("policy_summary"),
             "promotion_gates": reserved.get("promotion_gates"),
             "decision": reserved.get("decision"),
+        },
+        "qualified_default": {
+            **qualified_default,
+            "qualified": qualified_default_valid,
         },
         "bound_files": files,
         "paid_launch_ready": not blockers,

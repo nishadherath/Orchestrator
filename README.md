@@ -12,9 +12,10 @@ after; where the two disagree, the audit is the record of what was checked.
 
 The bundle in `dist/` installs into any Claude Code project and makes the
 top-level session an orchestrator: it assesses each task on a fixed rubric,
-resolves a worker cell in code from that assessment plus the project's own
-history, spawns exactly that cell, and records the outcome so the next
-resolution is better informed. Fifteen worker definitions cover three
+starts at `worker-sonnet-low`, permits one same-cell repair after observable
+failure, then permits one `worker-opus-high` fallback. It records outcomes for
+cost, capability and overflow diagnostics; history does not change this
+reserved-qualified default. Fifteen worker definitions cover three
 models (sonnet, opus, fable) at five effort levels (low to max), one
 definition per cell, generated from one persona (D3).
 
@@ -35,15 +36,16 @@ What has been measured, which is the part to hold on to:
   the floor and escalating on failure (`docs/PREMISES.md`, "Dissolution
   check"). The honest product claim is therefore insurance against an
   undetected wrong answer on consequential work, not money saved.
-- Because of the first two points, the shipped routing table has one row:
-  every task starts at `worker-sonnet-low` (D44, D45). Cells above it are
-  rungs on a ladder that a project's own recorded failures activate
-  (D64), plus two escalation triggers described below.
+- Because of the first two points, every task starts at `worker-sonnet-low`.
+  The real-world reserved comparison then selected the fixed B0 sequence over
+  the adaptive B1 policy: B0 accepted 12/24 episodes and B1 accepted 10/24,
+  with two B0 paired wins and no B1 wins (D107). The fixed sequence therefore
+  allows one floor repair and one Opus-high fallback, with no Controller.
 - A separate multi-role problem-solving system, the Controller, was built
   and measured against the floor on T10: right in every run that finished,
   six of nine finished, at 10.8 times the floor's cost per solved task
-  (D59). It ships and is invoked only on the one trigger where that
-  head-to-head evidence exists, by explicit choice (D63).
+  (D59). It remains available for historical audit and explicit rollback, but
+  the qualified default does not invoke it (D107).
 - A worker whose context compacts mid-task fails most of the time on the
   one task shape tested; the same task split into two sub-handovers before
   the compaction point failed never: 11 of 12 against 0 of 12,
@@ -70,15 +72,11 @@ One task, end to end:
    `prior_failure`. Two of the five fields are recorded but not used to
    choose a cell (D64).
 2. **Resolve.** It runs `python3 tools/route.py --from-line "<line>"
-   --project . --explain` with the Bash tool. The script reads
-   `src/routing_priors.json` (a Beta prior per assessment bucket, seeded
-   from the benchmark with capped effective sample sizes of 3 to 10) and
-   the project's `.claude/routing-ledger.jsonl`, computes the posterior
-   pass probability of the floor and each active rung, decides whether the
-   Controller pre-empts, and prints the cell to spawn. With an empty
-   ledger the answer is the floor for every assessment except an open,
-   consequential one, where a labelled risk-appetite policy runs the
-   Controller first (D64; `routing_priors.json` `controller_rule`).
+   --project . --explain` with the Bash tool. The script reads the project's
+   evidence and prints diagnostics, the fixed B0 sequence and the first cell.
+   Every assessment and ledger state resolves to `worker-sonnet-low`, including
+   open consequential work and historical frontier signals. Adaptive posterior
+   calculations remain inspectable but cannot change dispatch (D107).
 3. **Spawn.** Before dispatch, the orchestrator freezes a task-specific
    acceptance contract containing the required outputs, constraints, protected
    paths and an executable check or review rubric. It then uses the Agent tool
@@ -92,26 +90,19 @@ One task, end to end:
    completes the pending ledger row. It stores evidence tied to the contract,
    current artefacts, protected baseline and repository revision. Claimed
    success, stale evidence and rubric work awaiting review cannot train the
-   router; measured cost remains reportable. A rung outside the default ladder activates
-   for a bucket after three recorded outcomes at that cell with a
-   posterior above 0.5; the project's own cost figures replace the shipped
-   table after five (`routing_priors.json` `steering`). A floor failure
+   router; measured cost remains reportable. The project's own cost figures
+   replace the shipped diagnostic table after five measured attempts, but no
+   posterior activates a dispatch cell under B0. A floor failure
    recorded with `--outcome fail` and no `--escalation` counts in the
    posterior the same as an escalated one (fixed 2026-09-16, audit A4,
    docs/PLAN-6.md B.5). `src/SELF-LEARNING.md` is the full account of
    what this mechanism learns, what it cannot, and its limitations.
 
-Escalation has two triggers beyond "the next rung on failure". A worker
-that reports it cannot meet its acceptance criteria without acting against
-a constraint whose stated reason it has checked and found false sends the
-task straight to the Controller, T10's shape (D63). And the resolver itself
-can name the Controller before any worker runs, on the policy dial above or
-on expected-cost arithmetic that fires nowhere on the shipped priors (D64).
-A Controller run is `tools/system_controller.py` in quick mode: a Python
-state machine that calls `claude -p` for six roles over a validated
-record ledger and writes `REPORT.md`; measured at USD 2.62 per run plus
-USD 0.36 to apply the answer through one floor worker
-(`src/cost_table.json`).
+Escalation is fixed: one `worker-sonnet-low` repair after observable failure,
+then one `worker-opus-high` fallback, then stop. The resolver cannot pre-empt
+this order or name the Controller. `tools/system_controller.py` and the former
+adaptive arithmetic remain in the bundle to interpret old records and support
+the documented rollback; they are outside the qualified default.
 
 Context is handled on disk, never in the model's memory. A status-line
 script writes the orchestrator's own context usage to

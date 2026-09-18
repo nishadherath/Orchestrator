@@ -46,10 +46,12 @@ Run:
 python3 tools/route.py --from-line "<assessment line>" --project <root> --explain
 ```
 
-The last output line is a worker name or `controller`. State the assessment,
-resolved mechanism and printed reason together. If the resolver is unavailable,
-use `worker-sonnet-low` and report exactly what failed; never substitute your
-own remembered table.
+The last output line is the worker name. The reserved-qualified B0 policy always
+returns `worker-sonnet-low`; the explanation prints the fixed three-attempt
+sequence. Project history remains diagnostic and cannot change the first cell,
+activate another rung or invoke the Controller. State the assessment, resolved
+cell and printed reason together. If the resolver is unavailable, use
+`worker-sonnet-low` and report exactly what failed.
 
 If `--explain` prints an overflow advisory, split the work into smaller
 self-contained handovers at the same cell. Preserve the original constraints
@@ -118,34 +120,24 @@ divide a multi-cell task total between attempts.
 
 ## 5. Escalate from evidence
 
-- When acceptance fails, use the next active rung printed by `--explain`.
-  Include the prior output and failure evidence. Do not repeat the same cell.
-- If a low or medium worker reports an underspecified handover, correct the
-  handover and retry that cell.
-- A false rationale never revokes a user constraint. A patch that crosses a
-  boundary or weakens a protected test fails acceptance.
-- Invoke the Controller when `route.py` resolves `controller`, when the active
-  ladder is exhausted, or when a worker verifies that a constraint's rationale
-  is false and meeting acceptance appears to require violating the constraint.
+The qualified default has one fixed sequence and a three-worker ceiling:
 
-Write the problem and relevant evidence to a file, state the projected cost,
-then run:
+1. Start at `worker-sonnet-low`.
+2. If observable verification or acceptance fails, make one repair attempt at
+   `worker-sonnet-low`. Include the first output and exact failure evidence.
+3. If the repair fails, make one `worker-opus-high` attempt with both earlier
+   outputs and failures. Stop after it, whether it passes or fails.
 
-```text
-python3 tools/system_controller.py --problem <file> --project <root> --mode quick
-```
+Do not let the ledger skip the floor, activate an intermediate cell, add a
+fourth attempt, select a frontier cell or invoke the Controller. Correcting an
+underspecified handover consumes the one same-cell repair. A false rationale
+never revokes a user constraint, and a patch that crosses a boundary or weakens
+a protected test fails acceptance.
 
-The Controller's default USD 4 allowance is local admission control, not a
-provider invoice ceiling. Each role, classifier and retry reserves before
-dispatch. Inspect `REPORT.md` and `budget-status.json`. Verify a `solution`
-against the task contract, then use `worker-sonnet-low` to apply it. If the
-outcome is `gap`, `dissolved` or an ordinary script error, use
-`worker-opus-high`. Stop instead after cancellation, `budget_spent`, a budget
-breach or unresolved charges; recover accounting before arranging new work.
-Never reset a run by repeating its command.
-
-Record Controller directory, trigger and outcome as an escalation. The later
-implementation or fallback worker needs its own allowance.
+Record the repair and fallback with `--record --escalation` in execution order.
+The ledger remains useful for cost, capability and overflow diagnostics, but it
+does not change the qualified sequence. `ORCHESTRATOR-REFERENCE.md` documents
+the former adaptive and Controller mechanisms for audit and rollback only.
 
 ## 6. Lifecycle, recovery and handoffs
 

@@ -250,3 +250,20 @@ The campaign evidence is valid, but B1 does not pass the fixed promotion gates.
 B0 is the qualified W09 packaging target. No reserved outcome will be used to
 retune B1. Release readiness remains blocked until B0 source and bundle parity,
 clean installation, rollback documentation and the complete harness pass.
+
+## Completed W09 packaging, 2026-09-18
+
+B0 is the qualified source and bundle default: one `worker-sonnet-low` attempt,
+one same-cell repair after observable failure, one `worker-opus-high` fallback,
+then stop. The Controller, frontier and adaptive first-cell selection remain
+available only for historical replay and the documented rollback. The W08
+reserved outcomes selected between the frozen policies; they did not tune a new
+trigger.
+
+Source and bundle parity, the qualified-default regression and all seven
+installer lifecycle cases pass. Rollback restores the earlier adaptive source
+revision, rebuilds the distribution and uses the transactional installer to
+restore the prior consumer bundle. The evaluation freeze verifies the exact B0
+configuration and no longer carries a W09 completion blocker. There is no
+remaining paid run in this evaluation programme. The complete offline harness
+passes all 51 checks.
