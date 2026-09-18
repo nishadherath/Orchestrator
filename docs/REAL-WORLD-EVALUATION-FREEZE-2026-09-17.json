@@ -1,6 +1,6 @@
 {
   "blockers": [
-    "paid W07 development comparison has not been authorised"
+    "paid W08 reserved comparison has not been authorised"
   ],
   "bound_files": {
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
@@ -311,14 +311,15 @@
     "test/fixtures/realworld/reserved/H12/variants/wrong_contract/adapter/codec.py": "63fd814208fc36eb26d653c661a4fc243516b869fb1cc2b5f390ffcc47004036",
     "test/fixtures/realworld/reserved/H12/variants/wrong_happy/adapter/codec.py": "a17c5bddfd0dd4f4a7679480c61bb6846d509a782d44b37258f2d68971c78dce",
     "test/fixtures/realworld/reserved/H12/variants/wrong_hardcoded/adapter/codec.py": "a31e6f84460423e59959b7fd62a0df36d717383befe4a87f0569bfeb269f4f9b",
+    "test/harness/evaluation_development_result_tests.py": "06bd64172a900cba56493780195407178850ce289d4da971058cb3826c7c9378",
     "test/harness/evaluation_live_controller_tests.py": "264e239fd74de07dfb0b238769f0f8e37ef401818ea2045f2a6ca535572778ba",
     "test/harness/evaluation_live_episode_tests.py": "18e5347ecda703358efc3083f622e295532b088b69bdc7bcb80f5df96f84729f",
     "test/harness/evaluation_live_worker_tests.py": "7fa1c9ef2a7fed0e0a37405db97228ffe16d5aeb05093851bf60d8613aa5c2cc",
-    "test/harness/evaluation_pilot_tests.py": "5e54269e70a0871c2b2a907051e1ea90b5f6ad4432d1aa737d9ebe308af7226c",
+    "test/harness/evaluation_pilot_tests.py": "b9dab665e1484d1c075d411bdd7142b8d110a949f2c2945868f982c8833db0e5",
     "test/harness/live_calibration_adjudication_tests.py": "c12b872a355d6ff776d06b40f7d32a00893c7db9a04489d97d8a7d564c5968a6",
     "test/harness/live_calibration_tests.py": "6f26b013b2241533ee1ca7a53b3e294651da87f3420d42b13e1d129f7b2b3452",
     "test/harness/realworld.py": "ab62f69de209184dead2a76222e8b1f348ebfac741b79961df2d092e6a9c3881",
-    "test/harness/realworld_tests.py": "62ae76719d1add45f06e4c33589d0f5b79dbb67b78261510914613da4b792b10",
+    "test/harness/realworld_tests.py": "6c4fb128b0751a87360bc2522d03d2d3331df5059f532a06f88369484d5a9f57",
     "test/oracles/realworld/D01/test_hidden.py": "b6ea024cfb5e878bf766a8910b03a30242454029e6ab75e1475c64f6100221f3",
     "test/oracles/realworld/D02/test_hidden.py": "12dc386285de8487f2f3d87c51bdfc88687639d3c8c9e89ae8abff45a67c4dcb",
     "test/oracles/realworld/D03/test_hidden.py": "2fea7ea11418e1e60794337251210440c3ed45d6eb10a7adec0f1271469ea0c5",
@@ -354,18 +355,21 @@
     "test/results/2026-09-17-realworld-runner.md": "90533a52c3605c0e4177cafb7fc85c714a5d367f4b84b40c9cd59706b93a0f43",
     "test/results/2026-09-18-live-controller-adapter.json": "0f4d8dc146ece6da68151b820ab0f08e3df7ba000bf0af67acd8ec45c0b3b4a5",
     "test/results/2026-09-18-live-controller-adapter.md": "02476b1a2ae683a9396bfc627f4cd04e472dbcc77503a4cbc26ed50ed95c3b24",
-    "test/results/2026-09-18-pilot-preflight.json": "68708281cff3fa11e35fae1d797c15c8ab8d72718179611ab2b6a6ef962a693f",
-    "test/results/2026-09-18-pilot-preflight.md": "1d0680aa93cee7a7650e690c256cca9593e4406aa5c1140ff2d7f54c2c074c6c",
+    "test/results/2026-09-18-pilot-preflight.json": "7631c5ccefa76de9b95721e1c95cfb0171ce93c353ca8fa2ba45aa92844e41e9",
+    "test/results/2026-09-18-pilot-preflight.md": "7c722c9c247a6f978555beac5194a3b5b279fbd36b444c24ceb63eae040a57d9",
     "test/results/2026-09-18-realworld-corpus.json": "5801a5d8125fb772890d7696f2b70a74b8135ea1d4416b61f927cd36501a8573",
     "test/results/2026-09-18-realworld-corpus.md": "913b0f7ecb537821458cb925d8fd1703dcc836624c6da0e73a0fff34848f2953",
+    "test/results/2026-09-18-realworld-development.json": "dbfda3d2bc143da45aa638f9fce7902fdef82b19d35e96b54c05d7beb202eadc",
+    "test/results/2026-09-18-realworld-development.md": "e4f3e7cd0ad3452f0ac4af3a3d888d2415a46050ca61686388dcc683cbe62135",
     "tools/acceptance.py": "5e38ee32b3e8b119bc9f87a23226d7dec1e4486ff35d6689adaa436b2e28145a",
     "tools/claudep.py": "73f9ce62d8c9f7233acb5c588b2c57a4e915991050b3a78fc8461fd11d151420",
     "tools/dispatch_budget.py": "7c08aef6bedbef8afa52cda093cf3e1c5c9a918ed0d43ab3eb7dd149c1e55381",
-    "tools/evaluation_freeze.py": "78cf3a9a70ae996dd0e0d4eb52fa5f15c1497e2233739be34680800194d3c0a4",
+    "tools/evaluation_development_result.py": "b70e4108da054d87b29c995efd806f5e8163718cb3a0a509109faad2024e728f",
+    "tools/evaluation_freeze.py": "0aa3fc30407e72a02e09a83b8d2e77f50348f98552503462091d81929e1f5d65",
     "tools/evaluation_live_controller.py": "c5cb5ab8b0226e86ded35c02c0a413586b024cd358d7cf4d9479145946c159e3",
     "tools/evaluation_live_episode.py": "588c008225559d9d46274ebfd6947f01d7f2f6d60f8326e8b6022a0390496eb6",
     "tools/evaluation_live_worker.py": "02739a49eedcc185b3bc68892f38a5e554d385a941a04841b147f4e44a9add6c",
-    "tools/evaluation_pilot.py": "56e06b0af542702708d4d4420eb01b8b3c0c3e22dab82f8546c40bea2e8a6ea8",
+    "tools/evaluation_pilot.py": "852d134d035fdf64cae026e5ac582fc98dcd1c45c811d79356aefe6d86e99d8f",
     "tools/evaluation_runner.py": "c00a42db9ed3cf6933083c9cfc46bd3078b24dd296451e5c9af0cb04ccb2fa99",
     "tools/live_calibration.py": "5ab6965bd7577cbc06d9e5e54b554c24443f1fa298ca90c7ad686654ba704472",
     "tools/live_calibration_adjudication.py": "90a9e92c132d81523f881c552aa4b07b7cb5c673f3bbfaeb08bc6439e7d06367",
@@ -378,7 +382,7 @@
     "version": "2026-09-18-de8cefc"
   },
   "campaign": "realworld-v1",
-  "candidate_sha256": "6f89533045ac2a6abe29e989f5a8ba69666a8f50bab6e58b334ab467a6638f28",
+  "candidate_sha256": "99f6e7447b81054101c7ad57c4cd1bfd14b8d860aeec6f54f6f5a8d812e04fa4",
   "contracts": {
     "acceptance": "acceptance-v2",
     "active_model_timeout_seconds": 900,
@@ -426,7 +430,55 @@
     ],
     "task_count": 24
   },
-  "created_at": "2026-09-18T09:47:27+10:00",
+  "created_at": "2026-09-18T10:35:47+10:00",
+  "development": {
+    "decision": {
+      "adaptive_candidate": "B1",
+      "baseline_retained": "B0",
+      "default_changed": false,
+      "paired_acceptance_wins": {
+        "B0": 0,
+        "B1": 1,
+        "ties": 15
+      },
+      "proceed_to_w08": true,
+      "reason": "B1 accepted one more episode with no paired acceptance loss, but spent more in total and per accepted episode. Retain B0 as baseline and freeze unchanged B1 as the adaptive candidate for independent reserved evaluation; do not change defaults."
+    },
+    "evidence": "test/results/2026-09-18-realworld-development.json",
+    "evidence_sha256": "eb5e3f1dc89bb6fe0460bd9961b466c883b0f828aefcc59b5958f499c9d017fe",
+    "known_spend_usd": 1.376153606,
+    "policy_summary": [
+      {
+        "accepted": 11,
+        "attempts": 18,
+        "controller_dispatches": 0,
+        "cost_per_accepted_usd": 0.051724237,
+        "episode_latency_p50_seconds": 15.926104,
+        "episode_latency_p90_seconds": 27.172534,
+        "episodes": 16,
+        "false_successes": 5,
+        "opus_escalations": 0,
+        "policy_id": "B0",
+        "spend_usd": 0.568966604,
+        "wall_clock_seconds": 296.623503
+      },
+      {
+        "accepted": 12,
+        "attempts": 18,
+        "controller_dispatches": 0,
+        "cost_per_accepted_usd": 0.067265584,
+        "episode_latency_p50_seconds": 15.55644,
+        "episode_latency_p90_seconds": 41.521885,
+        "episodes": 16,
+        "false_successes": 4,
+        "opus_escalations": 2,
+        "policy_id": "B1",
+        "spend_usd": 0.807187002,
+        "wall_clock_seconds": 334.954046
+      }
+    ],
+    "qualified": true
+  },
   "episode_runner": {
     "evidence": "test/results/2026-09-17-realworld-runner.json",
     "evidence_sha256": "febb5a22d2147239e6b4b36026eb55491502e51282f2d8d38442f544c555f24c",
@@ -471,7 +523,7 @@
     "integration_mode": "offline-scripted-adapters-v1",
     "note": "Worker and Controller execution, nested accounting, sequencing and at-most-once recovery qualify offline.",
     "pilot_preflight_evidence": "test/results/2026-09-18-pilot-preflight.json",
-    "pilot_preflight_evidence_sha256": "1da8391f56e07a0e588cb0d95016523bfbc0ad8b028ca206935ddbe3c50a5782",
+    "pilot_preflight_evidence_sha256": "fa73cd8bae54ad0d5d3193a83a870f18ceb10a2a0e285788e03885ae0f13263f",
     "pilot_preflight_mode": "offline-paid-evaluation-preflight-v2",
     "pilot_preflight_qualified": true,
     "policy_executor_implemented": true,
@@ -579,5 +631,5 @@
   },
   "schema_version": 1,
   "source_dirty": false,
-  "source_revision": "f2f639b4b2819223b328569e9953c15945eb667c"
+  "source_revision": "9cb87ca082072c0ed5e0a06a7a28d1411fb7a071"
 }
