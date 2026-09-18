@@ -26,8 +26,10 @@ from collections.abc import Callable
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "test" / "harness"))
 
+import model_registry  # noqa: E402
 import realworld  # noqa: E402
 
 CALIBRATION = ROOT / "test" / "results" / "2026-09-17-live-calibration-adjudication.json"
@@ -61,13 +63,8 @@ def safe_number(value: object) -> float | int | None:
 
 
 def cell_identity(cell: str) -> tuple[str, str]:
-    parts = cell.split("-")
-    if len(parts) != 3 or parts[0] != "worker":
-        raise ValueError(f"invalid worker cell: {cell}")
-    models = {"sonnet": "claude-sonnet-5", "opus": "claude-opus-5"}
-    if parts[1] not in models or parts[2] not in {"low", "medium", "high", "xhigh", "max"}:
-        raise ValueError(f"unsupported worker cell: {cell}")
-    return models[parts[1]], parts[2]
+    resolved = model_registry.resolve_cell(cell)
+    return resolved["cli_model"], resolved["effort"]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -189,7 +186,9 @@ class LiveWorkerAdapter:
         terminal = bool(not timed_out and final.get("type") == "result" and cost is not None)
         root_models = parsed["root_models"]
         actual_model = root_models[0] if len(root_models) == 1 else None
-        identity_valid = actual_model == expected_model and not parsed["child_models"]
+        identity_valid = model_registry.identity_matches(
+            request.requested_cell, actual_model, parsed["child_models"]
+        )
         successful = bool(
             terminal and proc.returncode == 0 and final.get("subtype") == "success"
             and identity_valid

@@ -83,12 +83,14 @@ def bound_files() -> list[Path]:
         CATALOGUE,
         PRICE,
         ROOT / "src" / "acceptance-contract.example.json",
+        ROOT / "src" / "model_registry.json",
         ROOT / "src" / "System" / "schemas" / "RoutingLedgerEntry.schema.json",
         ROOT / "src" / "System" / "schemas" / "BudgetEntry.schema.json",
         ROOT / "tools" / "acceptance.py",
         ROOT / "tools" / "claudep.py",
         ROOT / "tools" / "dispatch_budget.py",
         ROOT / "tools" / "evaluation_freeze.py",
+        ROOT / "tools" / "model_registry.py",
         ROOT / "tools" / "realworld_isolation.py",
         ROOT / "tools" / "system_controller.py",
         ROUTER,
@@ -97,6 +99,7 @@ def bound_files() -> list[Path]:
         INSTALL_TESTS,
         ROOT / "test" / "harness" / "realworld.py",
         ROOT / "test" / "harness" / "realworld_tests.py",
+        ROOT / "test" / "harness" / "model_registry_tests.py",
         ISOLATION,
     ]
     fixture_files = [path for path in (ROOT / "test" / "fixtures" / "realworld").rglob("*") if path.is_file()]

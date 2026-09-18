@@ -718,6 +718,73 @@ def check_system_controller(r: Report) -> None:
           proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 else (proc.stdout + proc.stderr).strip()[-800:])
 
 
+def check_controller_routing_r0(r: Report) -> None:
+    """CTRL-R0: future contracts are complete and inspected gaps remain
+    executable characterisations until their named implementation stage."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_routing_r0_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=90)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-R0", "Controller routing contracts and baseline gaps are pinned",
+          proc.returncode == 0,
+          detail.splitlines()[-1] if proc.returncode == 0 else detail[-1200:])
+
+
+def check_controller_integrity_r1(r: Report) -> None:
+    """CTRL-R1: integrity-v1 adversarial tests pass without provider calls."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_integrity_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=90)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-R1", "Controller integrity-v1 gates and evidence packets hold",
+          proc.returncode == 0,
+          detail.splitlines()[-1] if proc.returncode == 0 else detail[-1600:])
+
+
+def check_model_registry_r2(r: Report) -> None:
+    """CTRL-R2: all fifteen cells and role profiles resolve offline."""
+    tests = REPO_ROOT / "test" / "harness" / "model_registry_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=90)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-R2", "all 15 cells resolve with exact identity and unknown-cost handling",
+          proc.returncode == 0,
+          detail.splitlines()[-1] if proc.returncode == 0 else detail[-1600:])
+
+
+def check_controller_control_r3(r: Report) -> None:
+    """CTRL-R3: durable controls preserve precedence and process safety."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_control_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=90)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-R3", "durable auto/on/off controls are atomic, scoped and provider-free",
+          proc.returncode == 0,
+          detail.splitlines()[-1] if proc.returncode == 0 else detail[-1600:])
+
+
+def check_controller_routing_r4(r: Report) -> None:
+    """CTRL-R4: versioned policy and production dispatch boundaries hold."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_routing_r4_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=120)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-R4", "rigour-auto-v1 policy and crash-safe Controller dispatch hold",
+          proc.returncode == 0,
+          detail.splitlines()[-1] if proc.returncode == 0 else detail[-2000:])
+
+
+def check_controller_evaluation_r5(r: Report) -> None:
+    """CTRL-R5A: offline corpus, score and launch manifests remain frozen."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_evaluation_r5_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=120)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-R5A", "R5 corpus blueprints, scoring and paid launch manifests hold offline",
+          proc.returncode == 0,
+          detail.splitlines()[-1] if proc.returncode == 0 else detail[-2000:])
+
+
 ALLOWED_PRIOR_KINDS = {"measured", "bracketed", "policy-inherited", "policy-default"}
 
 
@@ -1327,6 +1394,12 @@ def main(argv: list[str]) -> int:
     check_fixtures(report, defs)
     check_schemas(report)
     check_system_controller(report)
+    check_controller_routing_r0(report)
+    check_controller_integrity_r1(report)
+    check_model_registry_r2(report)
+    check_controller_control_r3(report)
+    check_controller_routing_r4(report)
+    check_controller_evaluation_r5(report)
     check_route_priors(report)
     check_cost_table(report)
     check_route_selftest(report)

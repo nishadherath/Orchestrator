@@ -20,9 +20,11 @@ dashes, and plain declarative prose.
 
 ## Current work
 
-The active roadmap is `docs/IMPROVEMENTS-ACTION-PLAN-2026-09-17.md`. Stages
-0-6 are complete. Real-world evaluation remains last, in Stage 7. Earlier plans and
-handoffs are historical evidence, not active instructions.
+Stages 0-7 of `docs/IMPROVEMENTS-ACTION-PLAN-2026-09-17.md` are complete.
+The proposed next programme is `docs/CONTROLLER-ROUTING-PLAN.md`, with its
+companion evaluation protocol and Stage R0 handoff. It awaits operator review;
+the shipped B0 default remains unchanged. Earlier plans and handoffs are
+historical evidence, not active instructions.
 
 This repository builds a cost-routing bundle for Claude Code subagents: fifteen
 model/effort definitions, a ledger-aware resolver, acceptance verification,

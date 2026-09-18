@@ -46,6 +46,8 @@ machines need their own working Graft installation and configuration.
     WORKER_sonnet_low.md ... WORKER_fable_max.md   (the 15 worker definitions)
   commands/
     workers.md                                      (the /workers status command)
+    controller.md                                   (inspect or set task, session, or project
+                                                     Controller routing intent)
   ORCHESTRATOR_VERSION                              (date and source commit)
   B0_BRIEF.md                                       (a single-worker handover brief; not
                                                      currently invoked automatically, kept
@@ -65,9 +67,18 @@ tools/
                                                      each command owning its own file so the
                                                      two cannot race; route.py --explain's
                                                      context line reads context-main.json)
-  system_controller.py                              (the historical Controller: retained
-                                                     for audit and rollback, outside the
-                                                     qualified B0 default)
+  system_controller.py                              (the integrity-v1 Controller: retained
+                                                     outside the qualified B0 default;
+                                                     legacy-quick-v0 replays history)
+  controller_integrity.py                           (frozen acceptance, candidate eligibility
+                                                     and evidence-packet integrity)
+  controller_control.py                             (atomic auto/on/off intent, scoped precedence,
+                                                     stale-write protection; never dispatches work)
+  controller_policy.py                              (pure RigourAssessment to RoutingDecision policy)
+  controller_dispatch.py                            (crash-safe task budget, real Controller adapter,
+                                                     validated evidence and worker handoff)
+  model_registry.py                                (exact 15-cell identity, effort, role-profile
+                                                     and cost-evidence resolver)
   claudep.py, system_prompts.py,
   validate_records.py                               (the Controller's own dependencies)
 src/
@@ -82,9 +93,14 @@ src/
                                                      escalation rule; the two destinations
                                                      that exist above the ledger-driven
                                                      ladder)
+  model_registry.json                              (Sonnet, Opus and Fable provider identities,
+                                                     five efforts, availability, role eligibility,
+                                                     qualification and nullable pricing)
   System/
-    ROLES.md, TECHNIQUES.md, schemas/               (what the Controller reads at
-                                                     runtime; schemas/ also holds
+    SYSTEM.md, STEPS.md                              (Controller design and phase reference)
+    ROLES.md, TECHNIQUES.md, schemas/               (role, technique, record and Controller
+                                                     evidence-packet contracts;
+                                                     schemas/ also holds
                                                      RoutingLedgerEntry, the shape of one
                                                      line in .claude/routing-ledger.jsonl.
                                                      Do not remove these if you keep
@@ -97,6 +113,9 @@ ORCHESTRATOR-REFERENCE.md                           (detailed routing/lifecycle 
 SELF-LEARNING.md                                    (what the per-project ledger learns,
                                                      what it does not, and how to tell
                                                      the two apart)
+CONTROLLER.md                                       (maintained Controller function, phase,
+                                                     budget, recovery and qualification
+                                                     reference)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
                                                      handoff rule that survives platform
@@ -130,11 +149,33 @@ unverified.
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on
 anything else in this repository being present at install time. The retained
-Controller is executable only when explicitly selected for historical replay,
-diagnostics or rollback. If kept, `tools/` and `src/System/` must land at the
+Controller is executable only when explicitly selected for deliberate use,
+historical replay, diagnostics or rollback. Its direct-run default is
+`integrity-v1`; `legacy-quick-v0` exists for historical comparison. If kept,
+`tools/` and `src/System/` must land at the
 project's root in the same relative layout so
 `python3 tools/system_controller.py` can find its dependencies. Qualified B0
 dispatch never invokes it.
+
+The installed `/controller` command and `tools/controller_control.py` provide
+durable operator intent before automatic dispatch is introduced. Values may be
+`auto`, `on` or `off`, with precedence explicit request/CLI, task, session,
+project, then shipped default (`auto`). A narrower `auto` deliberately defeats
+a wider `on` or `off`. Session and task values survive compaction when their
+identifiers are retained; a fresh session inherits only the project value.
+Updates are atomic, reject stale revisions when requested and apply at the next
+safe dispatch boundary. They never start a worker or paid model call. R4's
+structured policy and dispatcher can consume the resolved snapshot explicitly;
+the qualified B0 sequence below remains the automatic runtime default until the
+candidate passes R5-R7 evaluation.
+
+```bash
+python3 tools/controller_control.py --project . status
+python3 tools/controller_control.py --project . set --scope project --mode auto
+python3 tools/controller_control.py --project . set --scope session --session-id "$CLAUDE_SESSION_ID" --mode on
+python3 tools/controller_control.py --project . set --scope task --task-revision "<revision>" --mode off
+python3 tools/controller_control.py --project . resolve --session-id "$CLAUDE_SESSION_ID" --task-revision "<revision>"
+```
 
 ## Qualified default and local learning
 
@@ -589,7 +630,17 @@ repository's `docs/DECISIONS.md` explains changes keyed by the commit in
 ## Controller spending and recovery
 
 This section applies only when an operator explicitly runs the retained
-Controller; it is not part of qualified B0 dispatch.
+Controller; it is not part of qualified B0 dispatch. Read
+[`CONTROLLER.md`](CONTROLLER.md) for the maintained description of its purpose,
+phase sequence, role system, appropriate task types, evidence, stop rules and
+current qualification status.
+
+Integrity-v1 validates and freezes an optional `--acceptance-contract`, stops
+on unstable premises, requires complete critique coverage, enforces Selector
+exclusions and writes `controller-evidence.json`. The packet binds the input
+revision, criteria, findings, uncertainty, artefact hashes, readiness and
+accounting. Without an external contract, the first Frame criteria are
+provisional and the packet cannot claim `verified-ready`.
 
 The Controller's default USD 4 dispatch budget applies to one run. Roles,
 classifiers, retries and parallel generators reserve from that balance before

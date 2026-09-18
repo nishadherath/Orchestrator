@@ -87,6 +87,18 @@ The 2026-09-18 deep refresh completed 115 concept nodes, 2,055 structural nodes,
 DeepSeek path reproduced the documented forced-tool incompatibility; the helper
 completed the cached retry with reasoning disabled and exact symbol IDs.
 
+The Controller-routing R4 refresh later on 2026-09-18 completed 2,209 nodes,
+4,531 edges and 426 file cards. It computed 78 meanings, reused 2,131 cached
+meanings and left zero stale or pending meanings. `graft check` reported both
+the semantic graph and wiring graph in sync with the final R4 source.
+
+The R5 offline-evaluation refresh on 2026-09-18 completed 2,284 nodes, 4,736
+edges and 431 file cards. It computed 89 meanings, reused 2,195 cached meanings
+and left zero stale or pending meanings. The semantic layer contains 130
+concept nodes and 281 links from 446 files; eight files required fresh reads
+and 438 reused cached content. `graft check` reported both graphs in sync with
+the final R5 source.
+
 `claude mcp get graft` connected successfully outside the restricted shell,
 selecting the pre-existing user-scoped server. Inside the restricted shell
 the same check returned `CONNECTION_CLOSED`; this was an environment limit,

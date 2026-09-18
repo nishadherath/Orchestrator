@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/RigourAssessment.schema.json",
+  "title": "RigourAssessment",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "assessment_version": {"const": 1},
+    "task_revision": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "consequence": {"enum": ["contained", "recoverable", "consequential", "irreversible"]},
+    "premise_uncertainty": {"enum": ["none", "specific-checkable", "contradictory", "unavailable"]},
+    "alternatives": {"enum": ["one-established", "several-material", "unknown"]},
+    "constraint_coupling": {"enum": ["local", "cross-module", "cross-system"]},
+    "verification_gap": {"enum": ["strong-existing-checks", "incomplete-checks", "rubric-only"]},
+    "observed_failure_cause": {"enum": ["none", "implementation", "premise-conflict", "no-new-evidence", "infrastructure", "context-overflow"]},
+    "required_output": {"enum": ["patch", "decision", "investigation", "clarification"]},
+    "evidence_availability": {"enum": ["available", "partial", "unavailable"]},
+    "deadline": {"type": ["string", "null"], "maxLength": 100},
+    "authorised_task_budget_usd": {"type": ["number", "null"], "minimum": 0},
+    "evidence": {"type": "array", "maxItems": 32, "items": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 80},
+        "provenance": {"enum": ["operator-fact", "repository-artefact", "model-inference"]},
+        "observed_at": {"type": "string", "minLength": 1, "maxLength": 100},
+        "scope": {"type": "string", "minLength": 1, "maxLength": 200},
+        "claim": {"type": "string", "minLength": 1, "maxLength": 600},
+        "material": {"type": "boolean"}
+      },
+      "required": ["id", "provenance", "observed_at", "scope", "claim", "material"]
+    }}
+  },
+  "required": ["assessment_version", "task_revision", "consequence", "premise_uncertainty", "alternatives", "constraint_coupling", "verification_gap", "observed_failure_cause", "required_output", "evidence_availability", "deadline", "authorised_task_budget_usd", "evidence"]
+}

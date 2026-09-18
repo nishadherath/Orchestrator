@@ -1,11 +1,27 @@
-# Record schemas
+# Record and evidence schemas
 
-Twelve JSON Schemas (draft 2020-12), one per record type the blackboard
-holds. `SYSTEM.md` section 4 lists nine, and sections 6 and 7 add
+Thirteen JSON Schemas (draft 2020-12) describe the record types the blackboard
+and routing ledger hold. Twelve belong to the Controller blackboard.
+`SYSTEM.md` section 4 lists nine, and sections 6 and 7 add
 PhaseDigest and BudgetEntry; FrameRecord is the twelfth, added because
 the Frame phase produces a goal ladder, a metric interrogation, a problem
 type, a dissolution verdict, acceptance criteria and B0, none of which
 are premises, and they need a single-writer home (D47).
+
+`RoutingLedgerEntry` is the thirteenth compatibility record described below.
+`ControllerEvidencePacket.schema.json` is a fourteenth schema but is not a
+blackboard record. Integrity-v1 writes one compact, transcript-free packet
+beside the ledger when a run closes. It binds the task, frozen acceptance,
+findings, rejected candidates, uncertainties, artefact hashes, readiness and
+accounting for a later worker. Code also verifies its digest, readiness rules
+and project-relative artefact paths.
+
+`RigourAssessment.schema.json` and `RoutingDecision.schema.json` are the
+fifteenth and sixteenth schemas. They are also outside the blackboard. The
+former freezes the evidence-only R4 classifier input; the latter freezes the
+router recommendation, effective operator-controlled action, identity/profile,
+budget and next checkpoint. `tools/controller_policy.py` enforces their
+cross-field rules and produces content-addressed decision IDs.
 
 Every record carries `type`, `id`, `ledger_version` and `references`.
 Every free-text field has a length cap. Every schema's description names

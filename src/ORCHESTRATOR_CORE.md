@@ -59,6 +59,16 @@ and carry forward only verified outputs and decisions. When evidence cohorts,
 age limits, posterior arithmetic or expected-cost projections need inspection,
 read `SELF-LEARNING.md` before changing any resolver option.
 
+The bundle also contains the provisional `rigour-auto-v1` candidate behind
+`route.py --rigour-assessment`, `controller_policy.py` and
+`controller_dispatch.py`. Use it only for an explicit operator-selected
+Controller run or a named evaluation protocol until its R5-R7 promotion gates
+pass. A control-setting change never dispatches work. The candidate freezes a
+versioned assessment and task budget, preserves its recommendation under an
+override, permits one Controller per task revision, validates the evidence
+packet and writes a structured worker handoff. It does not replace the
+qualified B0 automatic sequence in this document.
+
 ## 3. Freeze acceptance and dispatch
 
 Before dispatch, create a task-specific version-1 acceptance contract from

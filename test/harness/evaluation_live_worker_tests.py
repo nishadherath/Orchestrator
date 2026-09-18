@@ -48,6 +48,15 @@ class LiveWorkerTests(unittest.TestCase):
         self.assertNotIn("Task", cmd[cmd.index("--tools") + 1])
         self.assertNotIn("Bash", cmd[cmd.index("--tools") + 1])
 
+    def test_fable_command_uses_its_explicit_provider_identity(self):
+        with tempfile.TemporaryDirectory(prefix="live-worker-fable-") as folder:
+            request = dataclasses.replace(
+                self.request(Path(folder)), requested_cell="worker-fable-max"
+            )
+            cmd = self.subject.LiveWorkerAdapter.command(request)
+        self.assertEqual(cmd[cmd.index("--model") + 1], "claude-fable-5-1")
+        self.assertEqual(cmd[cmd.index("--effort") + 1], "max")
+
     def test_stream_keeps_auxiliary_billing_separate(self):
         rows = [
             {"type": "assistant", "parent_tool_use_id": None,

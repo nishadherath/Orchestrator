@@ -5552,3 +5552,208 @@ also the smallest operational contract: three possible worker attempts, no
 Controller budget branch and no ledger-dependent dispatch. Retaining the older
 implementation preserves auditability and reversibility without exposing it as
 the qualified default.
+
+## D109. Freeze Controller-aware routing contracts before runtime changes, 2026-09-18
+
+Decision: retain B0 unchanged while R0 records the current source hashes and
+adds executable characterisations for four inspected gaps: Fable is unsupported
+by the live worker adapter, the offline evaluator falls through to Sonnet for a
+Fable cell, Controller stability does not gate generation, and Selector output
+does not determine quick-mode selection. Treat these tests as pre-change
+evidence and revise them only in their named R1 or R2 implementation stage.
+
+Freeze version 1 of the proposed assessment, routing decision, operator control,
+evidence packet and acceptance-boundary contracts in
+`src/controller_routing_contracts.json`. Use `rigour-auto-v1` for new candidate
+evidence. Preserve B0's policy ID, source/bundle freeze and historical results.
+Automatic eligibility begins with material checkable premise contradictions,
+or consequential/irreversible work combining unresolved assumptions with
+material alternatives or coupled constraints. Operator control precedence is
+explicit request/CLI, task, session, project, then shipped default. A control
+change alone cannot launch paid work, and Controller roles cannot alter the
+operator's acceptance contract.
+
+Why: the earlier reserved campaign selected B0 but executed no live Controller
+episode. It cannot justify automatic Controller use. A stable contract and
+reproduced baseline let later stages change integrity, identity and dispatch
+one boundary at a time without relabelling historical evidence or confusing
+an intended design with behaviour the code already enforces.
+
+## D110. Make Controller integrity-v1 the direct-run default, 2026-09-18
+
+Decision: make `integrity-v1` the default for direct Controller CLI and Python
+invocations without changing the qualified B0 router. Freeze a caller-supplied
+acceptance-v2 contract before role calls; otherwise freeze the first valid
+Frame criteria as provisional. Stop before generation when stability is false,
+require exactly one critique per candidate, run the Selector before choosing a
+winner and permit only current, passing, non-derivable, premise-supported and
+non-excluded candidates. Apply the same material checks to B0. Return a gap
+when none qualifies.
+
+Persist a validated, digest-bound `controller-evidence.json` for every normal
+close. Keep outcome separate from readiness, and reserve `verified-ready` for
+external acceptance with no unresolved load-bearing premise. Preserve the
+earlier first-survivor and non-gating stability behaviour under the explicit
+`legacy-quick-v0` policy for historical replay.
+
+Why: R0 reproduced two integrity gaps and froze the boundary before runtime
+changes. A model-produced ranking is useful only after code has enforced
+acceptance immutability, critique completeness, premise support, ledger
+freshness and known exclusions. A valid gap can still carry findings to a
+later worker, but it must not be relabelled as a completed solution. Keeping
+B0 routing unchanged prevents this offline integrity change from bypassing
+the R5-R7 evaluation gates for automatic Controller use.
+
+## D111. Resolve all model and effort cells through one explicit registry, 2026-09-18
+
+Decision: make `src/model_registry.json` and `tools/model_registry.py` the
+executable identity contract for the complete Sonnet, Opus and Fable by
+low/medium/high/xhigh/max matrix. Derive the legacy `cells.py` axes and the
+Controller's standard role assignments from it. Use the same resolver in live
+worker commands, offline evaluator identity checks and preflight diagnostics.
+Require exact served identity and reject child-model substitution at the worker
+boundary.
+
+Record provider pricing as unknown until a bound price snapshot exists. Keep
+existing measured per-run projections in `cost_table.json`; a missing or null
+cell row remains unpriced. Mark all 15 cells as offline-wiring qualified while
+keeping live quality unqualified. Retain the standard Controller profile and
+add an unqualified frontier candidate that spans all three model families and
+all five effort levels. Do not make the frontier profile automatic or
+operator-selectable in R2.
+
+Why: implicit mappings previously rejected Fable in the live adapter and
+silently classified it as Sonnet in the evaluator. Separate mappings could
+also disagree about served identity, effort and pricing. A complete registry
+makes every cell reachable and auditable without pretending fake dispatch
+proves availability, quality or price. Delaying profile selection until R3-R5
+keeps this wiring change outside the qualified B0 policy and its historical
+results.
+
+## D112. Persist Controller intent without coupling it to dispatch, 2026-09-18
+
+Decision: store project, session and task `auto/on/off` values in
+`.claude/controller-control.json`, resolved after an explicit operator or CLI
+value and before the shipped `auto` default. Treat `auto` as an authoritative
+value at every scope. Use OS-level cross-process locking, atomic replacement,
+monotonic state revisions and optional optimistic revision checks. Resolve an
+immutable snapshot at each safe dispatch boundary so later changes affect only
+the next boundary. Clearing a value cancels that scope.
+
+Expose the boundary through `tools/controller_control.py`, the installed
+`/controller` command and read-only preflight status. Permit writes only from
+the operator-facing CLI; task or repository content cannot mutate control.
+Keep this module free of provider, Controller and live-dispatch imports, and
+make every command report that it started no paid work. Ship and installer-own
+the CLI and command now, but do not connect them to B0 until R4 implements the
+policy and dispatcher and the later evaluation stages qualify automatic use.
+
+Why: manual overrides must survive compaction and concurrent sessions without
+silently bleeding into a new task or changing work already in flight. Keeping
+intent separate from execution makes precedence and races testable offline,
+prevents a settings command from spending money, and leaves the evaluated B0
+runtime unchanged while the remaining automatic policy is built and measured.
+
+## D113. Add a provisional rigour policy behind a crash-safe task dispatcher, 2026-09-18
+
+Decision: implement `rigour-auto-v1` as a pure, versioned policy over a
+validated `RigourAssessment`. Recommend Controller work only for material
+checkable contradictions, new premise conflicts, or consequential or
+irreversible work combining unresolved assumptions with competing mechanisms
+or coupled constraints. Apply the R3 control snapshot afterwards and retain
+the hypothetical recommendation. Keep missing decisions as clarification and
+budget failure as an explicit blocked state. One task revision may start at
+most one Controller.
+
+Dispatch through a separate `task_dispatch` budget that persists reservation
+and start before the Controller adapter runs. Settle the nested Controller
+subtotal once into that parent and hold incomplete charges. Bind Controller
+evidence to the assessment's frozen input revision, reject changed source,
+invalid hashes and escaping artefacts, and forward only structured evidence to
+the next worker. Never forward raw report commands. Permit verified findings
+from a gap without calling the gap a solution; require independent
+confirmation for dissolution. Cancellation prevents new admissions while
+preserving uncertain billing.
+
+Why: the earlier B1/B2 evaluation executor mixed historical policy logic with
+campaign fixtures and never produced a live Controller episode. A pure policy
+and thin consumer adapter make the decision and side-effect boundaries
+independently testable, allow the exact same contract in the route CLI and
+future evaluation, and prevent public-pass, crash-replay or nested-accounting
+shortcuts from creating false assurance. R4 is offline qualification only;
+B0 remains the shipping default until R5-R7 provide promotion evidence.
+
+## D114. Allow only the exact stale-bundle freeze failure during a build, 2026-09-18
+
+Decision: keep the historical B0 freeze's source/bundle byte-parity assertion,
+but permit `build_dist.py` to pass its pre-build gate when DIST is stale and
+that exact assertion is the real-world suite's sole failure. Require every
+non-parity qualified-default check to pass and require the mismatch to be in
+the source/bundle router or priors comparison. Run the independent complete
+harness after generation, where no exception applies and all parity checks
+must pass.
+
+Why: changing the router makes the old bundle differ before the builder can
+replace it. Treating that expected mismatch as an ordinary source failure
+deadlocks the only supported repair path. A narrow, inspected exception keeps
+unrelated corpus, evidence and safety failures build-blocking while the final
+full harness proves the generated package closes the temporary mismatch.
+
+## D115. Freeze R5 structure before authoring graders or spending, 2026-09-18
+
+Decision: define the 12-family, 48-blueprint corpus shape, five-component
+partial-progress score, 60 routing vignettes, 15-cell calibration schedule and
+six-task B/S/A pilot before writing protected graders or enabling provider
+calls. Keep the matrix and pilot as separate content-addressed manifests with
+inactive authorisation templates and explicit blockers. Bind every control,
+policy, dispatcher, registry and schema input that can alter a result.
+
+The calibration calls one identity probe and three fixed reasoning tasks per
+cell. Rotate task order across effort-major model blocks and record observed
+cache state without assuming a saving. Preserve critical-error dominance,
+false-success counts and useful partial credit as separate measurements.
+
+Why: a runnable launcher built before the corpus and score are frozen invites
+post-result task selection, hidden retries and accidental spend. Labels alone
+would also let a changed policy or registry reuse an obsolete approval. This
+foundation makes the remaining corpus work reviewable and gives the paid
+boundary exact inputs while making no quality or availability claim.
+
+## D116. Use one synthetic corpus with a protected post-episode oracle, 2026-09-18
+
+Decision: generate 48 declarative tasks from the frozen 12-family contract and
+retain six labelled result variants per task: reference, valid alternative,
+useful partial, confident wrong, superficial public pass and dishonest
+completion. Materialise only public issue, task, observation and public-check
+files inside each actor root. Keep the oracle and variant fixtures outside the
+actor boundary and apply deterministic grading only after an episode.
+
+Why: separate handwritten actor repositories and graders would multiply code,
+drift and maintenance cost without improving the controlled causal question.
+One declarative source provides 288 mutation cases and exact split/mechanism
+coverage while making oracle leakage testable. Synthetic results qualify the
+evaluator and compare mechanisms under controlled conditions; they do not
+establish production generalisation.
+
+## D117. Separate live matrix and pilot with crash-safe, exact authorisation, 2026-09-18
+
+Decision: permit the 60-call model/effort matrix to become launch-ready before
+the pilot, with per-call caps of USD 0.25 for identity and USD 1 for each fixed
+microtask, an absolute USD 48.75 ceiling, no retries and stop on first failure.
+Bind the manifest to the corpus, registry, schemas and runtime implementations.
+Persist dispatch intent before every call and hold uncertain billing after an
+interruption. Record the requested effort flag separately because the provider
+stream exposes served model identity but no independent served-effort field.
+
+Keep the 18-episode pilot disabled until matrix identity, price and behavioural
+evidence is reviewed. Its B/S/A actors use isolated public packages and one
+protected post-episode grader. Arm A must traverse the production policy and
+dispatcher, propagate the selected standard or frontier role profile, and
+share one task budget across Controller and worker.
+
+Why: the inexpensive matrix can invalidate model names, effort support or cost
+assumptions before the higher-cost Controller pilot. Exact content-addressed
+authorisation prevents a reviewed budget from silently applying to changed
+code or fixtures. Durable admission and no replay preserve spend integrity
+across crashes, and separating requested from observed properties avoids
+claiming provider evidence the interface does not supply.

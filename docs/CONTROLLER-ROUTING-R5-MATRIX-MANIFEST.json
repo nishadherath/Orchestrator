@@ -1,0 +1,1009 @@
+{
+  "authorisation": "inactive-template-only",
+  "blockers": [
+    "operator authorisation is absent"
+  ],
+  "bound_files": {
+    "src/System/schemas/ControllerEvidencePacket.schema.json": "a1edcfe362d356738ba193a29b519b88466edaad5be220056468f30a15db5c60",
+    "src/System/schemas/RigourAssessment.schema.json": "b50bfb66d6c6e8447b2654ac0486add221b0b2c3d58947e538b5a501c23f3694",
+    "src/System/schemas/RoutingDecision.schema.json": "8c62f346ff8f869fa4e9194e0723d1c48f5a079de439c70504ab8c7376817497",
+    "src/controller_evaluation_contract.json": "5467edffcb916cbfda3049354368c6767c7001781fd39ec53dceb75cdefe2f06",
+    "src/model_registry.json": "b5b46800893db5c5d0cfd301fbef2a5e66e2a65a6c60e59b1eda9d55fa33a33f",
+    "test/fixtures/controller-routing-v1/corpus.json": "3a55bda7f595d868f29636c991a13dc287d11ef53635e2dd577461c1bedb8b5b",
+    "test/fixtures/controller-routing-v1/routing-vignettes.jsonl": "33f2067065de6fa2fc371c5df4b40a710e0071714286d04c3b1896b16354e537",
+    "tools/controller_control.py": "c8c99a0919d0bd660555109641d14c64450ab975c93fe78f50b67e34e204559d",
+    "tools/controller_corpus.py": "a2160ba0c7c999c92e4135892300a3207b3a9526f3a8310393283a91d1e1f0a0",
+    "tools/controller_dispatch.py": "50fa67c8a794d265b3ac41fe024bcfa6878b08c83b4221cf8cf174e9c8421f63",
+    "tools/controller_integrity.py": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
+    "tools/controller_matrix_runtime.py": "85058b797ac6d59ec51afe564ef72894331460c8339ebb6ec8cedd0b9f73d3af",
+    "tools/controller_pilot_runtime.py": "eda18e1c3ae6d1066f75bf26d9e0df122d958f0938b77da4cef2a3e686886172",
+    "tools/controller_policy.py": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+    "tools/model_registry.py": "8e54def2905ce7f864b129ada2e3c010b26a9f1662da31d721031b0371d7b0c0"
+  },
+  "campaign": "controller-routing-v1",
+  "episodes": [
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-low",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 1,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-low",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 2,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-low",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 3,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-medium",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 4,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-medium",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 5,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-medium",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 6,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-high",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 7,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-high",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 8,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-high",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 9,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-xhigh",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 10,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-xhigh",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 11,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-xhigh",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 12,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-max",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 13,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-max",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 14,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-max",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "order_block": 0,
+      "prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+      "sequence": 15,
+      "shape": null,
+      "timeout_seconds": 300
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 16,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 17,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 18,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 19,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 20,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 21,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 22,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 23,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 24,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 25,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 26,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 27,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 28,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 29,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 1,
+      "sequence": 30,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 31,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 32,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 33,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 34,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 35,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 36,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 37,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 38,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 39,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 40,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 41,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 42,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 43,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 44,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 2,
+      "sequence": 45,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 46,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 47,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 48,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 49,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 50,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 51,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 52,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 53,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 54,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 55,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 56,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 57,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-opus-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 58,
+      "shape": "causal-diagnosis",
+      "task": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": [
+          "mechanism",
+          "falsified",
+          "check"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-fable-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 59,
+      "shape": "constraint-decision",
+      "task": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": [
+          "choice",
+          "rejections",
+          "measurement"
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    {
+      "cache_state": "record-observed-no-assumption",
+      "cell": "worker-sonnet-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "order_block": 3,
+      "sequence": 60,
+      "shape": "bounded-implementation",
+      "task": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": [
+          "first-seen-order",
+          "commit-survives-abort",
+          "duplicate-commit-once"
+        ]
+      },
+      "timeout_seconds": 900
+    }
+  ],
+  "execution_enabled": true,
+  "launch_readiness": "authorisation-required",
+  "manifest_sha256": "a4254fe3d60f35cd86f347232c4f08a4a915ee84d308f87f76e620148a09850f",
+  "maximum_authorised_usd": 48.75,
+  "offline_prepared": true,
+  "retry_policy": "none-outside-a-new-manifest",
+  "schema_version": 1,
+  "stage": "matrix-calibration"
+}

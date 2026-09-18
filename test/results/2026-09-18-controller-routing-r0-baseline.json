@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "stage": "R0",
+  "recorded_on": "2026-09-18",
+  "branch": "v1.0-rc1",
+  "head": "1eb0fbe",
+  "runtime_changed": false,
+  "paid_provider_calls": 0,
+  "pre_r0_offline_harness": {
+    "result": "PASS",
+    "checks_passed": 51,
+    "checks_total": 51,
+    "note": "The sandboxed run passed 49/51. Both failures were child-process access effects and cleared in the full rerun without code changes."
+  },
+  "r0_offline_harness": {
+    "result": "PASS",
+    "checks_passed": 52,
+    "checks_total": 52,
+    "controller_routing_focused_tests_passed": 6,
+    "paid_provider_calls": 0
+  },
+  "qualified_default": {
+    "policy_id": "B0",
+    "sequence": [
+      "worker-sonnet-low",
+      "worker-sonnet-low",
+      "worker-opus-high"
+    ],
+    "controller_allowed": false,
+    "adaptive_routing_enabled": false
+  },
+  "source_sha256": {
+    "tools/route.py": "6dd79c63bbd2873aa70a075ff0185518dba440f9cb4687c6122a0b9b8c7226a0",
+    "tools/system_controller.py": "d2589e5160cfc3f597d8d1ce29d9a34a11f2511ee910407c189db505594436d1",
+    "tools/evaluation_live_worker.py": "02739a49eedcc185b3bc68892f38a5e554d385a941a04841b147f4e44a9add6c",
+    "tools/evaluation_runner.py": "c00a42db9ed3cf6933083c9cfc46bd3078b24dd296451e5c9af0cb04ccb2fa99",
+    "tools/evaluation_live_episode.py": "589e66129c88a5e97f61aacce8e2dde0178b66c5e5d684666fc47feebae83dc5",
+    "src/routing_priors.json": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
+    "test/results/2026-09-18-realworld-reserved.json": "2169492ff14198a539af2635bd177907d46e5d2aef1c06baa0214f55af455d39"
+  },
+  "observed_gaps": {
+    "live_worker_fable": "unsupported",
+    "evaluation_runner_fable_identity": "falls_through_to_sonnet",
+    "controller_stability_result": "recorded_but_not_a_generation_gate",
+    "selector_result": "recorded_after_code_selects_first_eligible_candidate"
+  },
+  "historical_evidence_boundary": {
+    "reserved_campaign_episodes": 104,
+    "live_controller_episodes": 0,
+    "controller_uplift_established": false
+  }
+}

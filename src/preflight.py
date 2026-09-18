@@ -11,9 +11,8 @@ Deliberately does not: install the bundle, spawn a worker, or check the
 routing table's correctness. That needs test/harness/score_routing.py, run
 from this repository against this project, not this script.
 
-Ships standalone in dist/, without the rest of this repository, so it does
-not import tools/cells.py; MODELS is declared here for that reason, not from
-missed deduplication.
+Ships in dist/ beside tools/model_registry.py and src/model_registry.json, so
+operational identity diagnostics use the same exact registry as dispatch.
 
 Usage:
     python3 preflight.py                run from the consumer project's root
@@ -33,7 +32,18 @@ import subprocess
 import sys
 from pathlib import Path
 
-MODELS = ("sonnet", "opus", "fable")
+HERE = Path(__file__).resolve().parent
+TOOLS = HERE.parent / "tools" if HERE.name == "src" else HERE / "tools"
+sys.path.insert(0, str(TOOLS))
+try:
+    import model_registry  # noqa: E402
+except ImportError:
+    model_registry = None
+
+try:
+    MODELS = model_registry.models() if model_registry else ("sonnet", "opus", "fable")
+except ValueError:
+    MODELS = ("sonnet", "opus", "fable")
 
 # The version FINDINGS.md names as the first to show effort on the /tasks
 # row (this repository's docs/FINDINGS.md, checked 2026-09-05 against the
@@ -140,14 +150,18 @@ def check_controller(cwd: Path) -> dict:
     fail mid-trigger, not at install time, so it is caught here instead),
     or absent (in which case the trigger falls through to worker-opus-high
     directly, per its own documented fallback)."""
-    required = [cwd / "tools" / "system_controller.py", cwd / "tools" / "claudep.py",
+    required = [cwd / "tools" / "system_controller.py", cwd / "tools" / "controller_integrity.py",
+                cwd / "tools" / "controller_control.py", cwd / ".claude" / "commands" / "controller.md",
+                cwd / "tools" / "controller_policy.py", cwd / "tools" / "controller_dispatch.py",
+                cwd / "tools" / "model_registry.py", cwd / "src" / "model_registry.json",
+                cwd / "tools" / "claudep.py",
                 cwd / "tools" / "acceptance.py",
                 cwd / "tools" / "system_prompts.py", cwd / "tools" / "validate_records.py",
                 cwd / "src" / "System" / "ROLES.md", cwd / "src" / "System" / "TECHNIQUES.md"]
     schemas_dir = cwd / "src" / "System" / "schemas"
     present = [p for p in required if p.is_file()]
     schema_count = len(list(schemas_dir.glob("*.schema.json"))) if schemas_dir.is_dir() else 0
-    if len(present) == len(required) and schema_count >= 13:
+    if len(present) == len(required) and schema_count >= 16:
         return {"check": "Controller installed", "status": "PASS",
                 "detail": f"all {len(required)} files and {schema_count} schemas found; "
                           "section 4's trigger can invoke tools/system_controller.py"}
@@ -156,8 +170,8 @@ def check_controller(cwd: Path) -> dict:
                 "detail": "not installed; section 4's falsified-constraint trigger will fall through to "
                           "worker-opus-high directly, its documented fallback (README.md)"}
     missing = [str(p.relative_to(cwd)) for p in required if not p.is_file()]
-    if schema_count < 13:
-        missing.append(f"src/System/schemas/ ({schema_count} of 13 schemas)")
+    if schema_count < 16:
+        missing.append(f"src/System/schemas/ ({schema_count} of 16 schemas)")
     return {"check": "Controller installed", "status": "FAIL",
             "detail": f"partially installed, missing: {missing}; a mid-trigger crash, not a clean fallback, "
                       "is what an incomplete install like this produces"}
@@ -453,13 +467,19 @@ def _routing_entries(cwd: Path) -> tuple[list[dict], list[str]]:
 
 def _model_effort_observation(entry: dict, attempt: dict) -> dict:
     requested = attempt.get("requested_cell") or entry.get("first_cell") or "unknown"
-    parts = requested.split("-")
-    expected_model = parts[1] if len(parts) >= 3 and parts[0] == "worker" else None
-    expected_effort = parts[2] if len(parts) >= 3 and parts[0] == "worker" else None
+    try:
+        if model_registry is None:
+            raise ValueError("model registry module is unavailable")
+        resolved = model_registry.resolve_cell(requested)
+        expected_model = resolved["expected_provider_model"]
+        expected_effort = resolved["effort"]
+    except ValueError:
+        expected_model = expected_effort = None
     actual_model = attempt.get("actual_model")
     effort_evidence = attempt.get("effort_evidence")
-    model_match = None if not actual_model or not expected_model else expected_model in actual_model.lower()
-    effort_match = None if not effort_evidence or not expected_effort else expected_effort in effort_evidence.lower()
+    model_match = None if not actual_model or not expected_model else actual_model == expected_model
+    effort_match = (None if not effort_evidence or not expected_effort
+                    else effort_evidence == f"cli-argument:{expected_effort}")
     return {"ledger_id": entry.get("id"), "attempt_id": attempt.get("id"),
             "requested_cell": requested, "actual_model": actual_model,
             "effort_evidence": effort_evidence, "model_match": model_match,
@@ -570,6 +590,23 @@ def operational_diagnostics(cwd: Path, detailed: bool = False) -> dict:
              "local_graph_present": (cwd / "graft").is_dir(),
              "availability": "requires an in-session graft_check_freshness call", "error": graft_error}
 
+    control_path = cwd / ".claude" / "controller-control.json"
+    control = {"path": control_path.relative_to(cwd).as_posix(), "state_revision": 0,
+               "project_mode": None, "session_overrides": 0, "task_overrides": 0,
+               "shipped_default": "auto", "error": None}
+    if control_path.is_file():
+        try:
+            state = json.loads(control_path.read_text(encoding="utf-8"))
+            if state.get("schema_version") != 1 or not isinstance(state.get("revision"), int):
+                raise ValueError("unsupported or invalid control state")
+            project_record = state.get("project")
+            control.update(state_revision=state["revision"],
+                           project_mode=project_record.get("mode") if isinstance(project_record, dict) else None,
+                           session_overrides=len(state.get("sessions") or {}),
+                           task_overrides=len(state.get("tasks") or {}))
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            control["error"] = str(exc)
+
     routing = {"ledger_entries": len(entries), "attempts": len(observations),
                "unresolved_attempts": len(unresolved), "model_or_effort_mismatches": len(mismatches),
                "unobserved_actuals": len(unobserved), "ledger_errors": ledger_errors}
@@ -582,7 +619,8 @@ def operational_diagnostics(cwd: Path, detailed: bool = False) -> dict:
         routing.update({"execution_observations": observations, "mismatches": mismatches,
                         "unresolved_ids": unresolved})
         acceptance_result["outstanding_entries"] = acceptance_outstanding
-    return {"routing": routing, "acceptance": acceptance_result, "costs": costs,
+    return {"routing": routing, "controller_control": control,
+            "acceptance": acceptance_result, "costs": costs,
             "priors": prior, "graft": graft}
 
 
@@ -605,6 +643,11 @@ def print_operational_status(value: dict, detailed: bool) -> None:
     print(f"  Graft: Claude configured={graft['configured_for_claude']}, "
           f"Codex configured={graft['configured_for_codex']}, local graph={graft['local_graph_present']}; "
           f"{graft['availability']}")
+    control = value["controller_control"]
+    print(f"  Controller control: revision {control['state_revision']}, "
+          f"project={control['project_mode'] or 'unset'}, sessions={control['session_overrides']}, "
+          f"tasks={control['task_overrides']}, shipped default={control['shipped_default']}" +
+          (f"; ERROR {control['error']}" if control['error'] else ""))
     if detailed:
         for row in routing.get("execution_observations", []):
             print(f"    {row['ledger_id']} {row['attempt_id']}: requested {row['requested_cell']}; "

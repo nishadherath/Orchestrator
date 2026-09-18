@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "status": "r0-contract",
+  "candidate_policy_id": "rigour-auto-v1",
+  "current_shipped_policy_id": "B0",
+  "workflow_values": [
+    "worker",
+    "controller"
+  ],
+  "controller_modes": [
+    "auto",
+    "on",
+    "off"
+  ],
+  "control_precedence_high_to_low": [
+    "explicit_operator_request_or_cli",
+    "task",
+    "session",
+    "project",
+    "shipped_default"
+  ],
+  "control_contract": {
+    "candidate_shipped_default": "auto",
+    "interactive_default_scope": "task",
+    "requires_explicit_scope_without_active_task": true,
+    "narrower_auto_overrides_wider_on_or_off": true,
+    "setting_change_dispatches_paid_work": false,
+    "untrusted_content_can_change_control": false,
+    "effective_at": "next_safe_dispatch_boundary",
+    "task_control_survives_worker_handoffs": true,
+    "fresh_session_inherits": [
+      "project"
+    ],
+    "compacted_session_retains": [
+      "project",
+      "session",
+      "task"
+    ]
+  },
+  "rigour_assessment": {
+    "required_fields": [
+      "assessment_version",
+      "task_revision",
+      "consequence",
+      "premise_uncertainty",
+      "alternatives",
+      "constraint_coupling",
+      "verification_gap",
+      "observed_failure_cause",
+      "required_output",
+      "evidence_availability",
+      "deadline",
+      "authorised_task_budget_usd",
+      "evidence"
+    ],
+    "enums": {
+      "consequence": ["contained", "recoverable", "consequential", "irreversible"],
+      "premise_uncertainty": ["none", "specific-checkable", "contradictory", "unavailable"],
+      "alternatives": ["one-established", "several-material", "unknown"],
+      "constraint_coupling": ["local", "cross-module", "cross-system"],
+      "verification_gap": ["strong-existing-checks", "incomplete-checks", "rubric-only"],
+      "observed_failure_cause": ["none", "implementation", "premise-conflict", "no-new-evidence", "infrastructure", "context-overflow"],
+      "required_output": ["patch", "decision", "investigation", "clarification"],
+      "evidence_provenance": ["operator-fact", "repository-artefact", "model-inference"]
+    },
+    "unknown_is_false": false
+  },
+  "automatic_policy": {
+    "proactive_controller_any": [
+      "material_checkable_contradiction",
+      "consequential_or_irreversible_and_unresolved_assumptions_and_material_alternatives_or_coupling"
+    ],
+    "reactive_controller_any": [
+      "new_material_premise_conflict",
+      "contradictory_attempts_about_problem_frame"
+    ],
+    "never_sufficient_alone": [
+      "task_length",
+      "file_count",
+      "token_count",
+      "self_confidence",
+      "complex_or_critical_wording",
+      "implementation_only_failure",
+      "infrastructure_failure",
+      "missing_permission_or_operator_decision"
+    ],
+    "missing_operator_decision_action": "clarify_or_block",
+    "budget_blocked_action": "report_recommended_and_blocked_separately",
+    "maximum_controller_invocations_per_task_revision": 1,
+    "maximum_worker_attempts_per_task_revision": 3
+  },
+  "routing_decision": {
+    "required_fields": [
+      "decision_id",
+      "task_revision",
+      "policy_id",
+      "assessment_digest",
+      "recommended_action",
+      "effective_action",
+      "selected_cell",
+      "controller_profile",
+      "override_mode",
+      "override_scope",
+      "override_revision",
+      "reason_codes",
+      "evidence_ids",
+      "qualification_status",
+      "cost_range",
+      "remaining_budget",
+      "next_checkpoint"
+    ],
+    "qualification_values": ["qualified", "provisional", "unavailable", "dominated", "budget-blocked"],
+    "records_hypothetical_recommendation_when_overridden": true,
+    "identity_mismatch_is_success": false
+  },
+  "controller_evidence_packet": {
+    "required_fields": [
+      "packet_version",
+      "task_revision",
+      "task_digest",
+      "acceptance_contract_digest",
+      "input_snapshot_digest",
+      "outcome",
+      "readiness",
+      "premise_ids",
+      "candidate_ids",
+      "verified_findings",
+      "rejected_hypotheses",
+      "remaining_uncertainties",
+      "safe_next_action",
+      "operator_question",
+      "artefacts",
+      "accounting"
+    ],
+    "outcome_values": ["solution", "gap", "dissolved", "blocked"],
+    "readiness_values": ["verified-ready", "provisional-guidance", "blocked"],
+    "raw_transcript_allowed": false,
+    "absolute_artefact_paths_allowed": false,
+    "artefact_hash_required": true,
+    "repository_revision_revalidation_required": true,
+    "gap_can_claim_completed_solution": false,
+    "dissolved_requires_independent_contract_check": true
+  },
+  "acceptance_boundary": {
+    "operator_constraints_mutable_by_controller": false,
+    "acceptance_contract_mutable_by_controller": false,
+    "controller_report_is_acceptance_evidence_by_itself": false,
+    "semantic_outcomes": [
+      "accepted-full",
+      "accepted-clarification",
+      "accepted-no-change",
+      "useful-partial",
+      "incomplete-no-useful-progress",
+      "wrong",
+      "critical-violation"
+    ],
+    "execution_status_is_separate": true,
+    "cost_and_latency_are_separate": true
+  }
+}

@@ -160,6 +160,11 @@ def _revision(project: Path) -> dict:
             "status_sha256": hashlib.sha256((status or "").encode("utf-8")).hexdigest() if status is not None else None}
 
 
+def revision(project: Path) -> dict:
+    """Return a content-bound project revision for cross-tool evidence."""
+    return _revision(project)
+
+
 def _evidence_path(project: Path, entry_id: str) -> Path:
     safe = "".join(ch for ch in entry_id if ch.isalnum() or ch in "-_")
     if not safe or safe != entry_id:

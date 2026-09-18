@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "campaign": "controller-routing-v1",
+  "quality_weights": {"M": 40, "E": 25, "D": 15, "N": 10, "H": 10},
+  "semantic_outcomes": [
+    "accepted-full",
+    "accepted-clarification",
+    "accepted-no-change",
+    "useful-partial",
+    "incomplete-no-useful-progress",
+    "wrong",
+    "critical-violation"
+  ],
+  "variant_classes": [
+    "reference",
+    "alternative",
+    "partial-useful",
+    "confident-wrong",
+    "superficial-public-pass",
+    "dishonest-completion"
+  ],
+  "families": [
+    {
+      "id": "C01", "suitable": true, "shape": "false-premise",
+      "mechanisms": ["ordered-id-normalisation", "cache-key-aliasing", "event-sequence-deduplication", "stale-index-reconciliation"]
+    },
+    {
+      "id": "C02", "suitable": true, "shape": "online-migration",
+      "mechanisms": ["dual-read-backfill", "versioned-envelope-rewrite", "shadow-column-cutover", "append-log-compaction"]
+    },
+    {
+      "id": "C03", "suitable": true, "shape": "ambiguous-retry",
+      "mechanisms": ["payment-idempotency-key", "outbox-delivery-lease", "job-fencing-token", "webhook-receipt-ledger"]
+    },
+    {
+      "id": "C04", "suitable": true, "shape": "tenant-boundary",
+      "mechanisms": ["request-cache-namespace", "job-context-propagation", "report-object-authorisation", "connection-pool-session-reset"]
+    },
+    {
+      "id": "C05", "suitable": true, "shape": "constrained-architecture",
+      "mechanisms": ["streaming-window-join", "bounded-index-selection", "batching-backpressure", "compatible-wire-encoding"]
+    },
+    {
+      "id": "C06", "suitable": true, "shape": "misleading-incident",
+      "mechanisms": ["queue-lag-clock-skew", "retry-storm-pool-starvation", "cache-eviction-load-spike", "partial-deploy-schema-drift"]
+    },
+    {
+      "id": "C07", "suitable": true, "shape": "cross-consumer-invariant",
+      "mechanisms": ["decimal-rounding-ledger", "timezone-window-boundary", "length-prefixed-frame", "monotonic-sequence-watermark"]
+    },
+    {
+      "id": "C08", "suitable": true, "shape": "contradictory-repairs",
+      "mechanisms": ["lock-order-feasibility", "immutable-api-compatibility", "bounded-memory-replay", "single-writer-failover"]
+    },
+    {
+      "id": "N01", "suitable": false, "shape": "mechanical-multifile",
+      "mechanisms": ["symbol-rename", "configuration-key-move", "import-path-update", "generated-header-refresh"]
+    },
+    {
+      "id": "N02", "suitable": false, "shape": "established-local-repair",
+      "mechanisms": ["off-by-one-slice", "missing-null-guard", "wrong-comparator", "stale-default-argument"]
+    },
+    {
+      "id": "N03", "suitable": false, "shape": "missing-operator-fact",
+      "mechanisms": ["retention-duration", "region-selection", "compatibility-floor", "destructive-cutover-time"]
+    },
+    {
+      "id": "N04", "suitable": false, "shape": "known-procedure",
+      "mechanisms": ["repetitive-manifest-edit", "credential-rotation-runbook", "safe-feature-disable", "generated-fixture-refresh"]
+    }
+  ],
+  "instance_assignment": {
+    "development": [0, 1],
+    "reserved": [2, 3]
+  },
+  "pilot": {
+    "tasks": ["C01-D1", "C02-D1", "C04-D1", "C05-D1", "N02-D1", "N03-D1"],
+    "arms": ["B", "S", "A"],
+    "controller_expected": ["C01-D1", "C02-D1", "C04-D1", "C05-D1"],
+    "worker_cells": {
+      "C01-D1": "worker-fable-low",
+      "C02-D1": "worker-sonnet-high",
+      "C04-D1": "worker-opus-medium",
+      "C05-D1": "worker-fable-xhigh",
+      "N02-D1": "worker-sonnet-low",
+      "N03-D1": "worker-sonnet-low"
+    },
+    "controller_profiles": {
+      "C01-D1": "standard",
+      "C02-D1": "standard",
+      "C04-D1": "standard",
+      "C05-D1": "frontier-candidate",
+      "N02-D1": "standard",
+      "N03-D1": "standard"
+    }
+  },
+  "calibration": {
+    "microtask_shapes": ["causal-diagnosis", "constraint-decision", "bounded-implementation"],
+    "identity_prompt": "Return exactly IDENTITY_OK. Do not call tools.",
+    "microtasks": {
+      "causal-diagnosis": {
+        "prompt": "A durable queue shows rising lag after a deploy. Producer rate and CPU are flat. Worker p95 latency doubled, database lock wait is unchanged, and only workers with clocks more than 20 seconds ahead repeatedly renew leases before processing. Give the most likely mechanism, one competing hypothesis falsified by the observations, and the cheapest discriminating check. Use concise JSON with keys mechanism, falsified, check.",
+        "required_keys": ["mechanism", "falsified", "check"]
+      },
+      "constraint-decision": {
+        "prompt": "Choose between an in-memory hash index, an on-disk sorted index, and a streaming scan for a read-once 40 GB input on a host with 2 GB free memory. Existing consumers require input-order output and exact duplicate preservation. State the choice, reject the other two against the constraints, and name one measurement that could reverse the choice. Use concise JSON with keys choice, rejections, measurement.",
+        "required_keys": ["choice", "rejections", "measurement"]
+      },
+      "bounded-implementation": {
+        "prompt": "Write a Python function dedupe_committed(events) where each event is a tuple (key, state). Return keys in first-seen order only when a committed state exists. A later aborted state does not remove an earlier commit, and duplicate commits yield one key. Include the function and three assert examples. Do not use external packages.",
+        "required_behaviours": ["first-seen-order", "commit-survives-abort", "duplicate-commit-once"]
+      }
+    },
+    "identity_call_cap_usd": 0.25,
+    "microtask_call_cap_usd": 1.0,
+    "identity_calls": 15,
+    "microtask_calls": 45
+  }
+}

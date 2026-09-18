@@ -9,18 +9,16 @@ harness first and refuses to build on a failure, which is the charter's
 Deliberately does not: install anything, touch src/, or offer a way past
 the harness. If the harness is wrong, fix the harness.
 
-Ships `tools/system_controller.py` and its dependency chain (`claudep.py`,
-`system_prompts.py`, `validate_records.py`, `src/System/ROLES.md`,
-`TECHNIQUES.md`, `schemas/*.schema.json`) since D63 wired the Controller
-into `ROUTING.md` section 4's falsified-constraint trigger as its default
-target (D59 measured it losing to the floor on cost across an unscoped
-comparison; D63 scopes it to the one shape with head-to-head evidence,
-where a consumer project needs the actual script to invoke, not only the
-routing instruction that names it). These are plain files, standard
-library only, no build step of their own; they are copied verbatim into
-the same `tools/` and `src/System/` layout their own `REPO_ROOT`-relative
-path resolution expects, so a consumer project that installs this bundle
-gets a working copy at `<project>/tools/system_controller.py`.
+Ships `tools/system_controller.py`, its dependency chain (`claudep.py`,
+`system_prompts.py`, `validate_records.py`), its maintained `CONTROLLER.md`
+reference and the supporting `src/System/` contracts (`SYSTEM.md`, `STEPS.md`,
+`ROLES.md`, `TECHNIQUES.md`, `schemas/*.schema.json`). The Controller is
+retained for explicit diagnostics, historical replay, experimentation and
+rollback analysis; the qualified B0 default does not invoke it. These are
+plain files with no build step of their own. They are copied into the same
+`tools/` and `src/System/` layout their `REPO_ROOT`-relative path resolution
+expects, so a consumer project that installs this bundle gets a working copy
+at `<project>/tools/system_controller.py` and its human-readable contracts.
 
 The one non-obvious thing: the version stamp names the source commit the
 bundle was built from, which is one commit before the commit that adds
@@ -56,6 +54,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import importlib.util
 import json
 import shutil
 import subprocess
@@ -169,17 +168,18 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     out: dict[Path, str] = {}
     for agent in sorted((SRC / "agents").glob("WORKER_*.md")):
         out[dist_dir / ".claude" / "agents" / agent.name] = agent.read_text(encoding="utf-8")
-    out[dist_dir / ".claude" / "commands" / "workers.md"] = (SRC / "commands" / "workers.md").read_text(encoding="utf-8")
+    for command in sorted((SRC / "commands").glob("*.md")):
+        out[dist_dir / ".claude" / "commands" / command.name] = command.read_text(encoding="utf-8")
     out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
     out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
-    for name in ("system_controller.py", "dispatch_budget.py", "acceptance.py", "claudep.py", "system_prompts.py", "validate_records.py",
+    for name in ("system_controller.py", "controller_integrity.py", "controller_control.py", "controller_policy.py", "controller_dispatch.py", "model_registry.py", "dispatch_budget.py", "acceptance.py", "claudep.py", "system_prompts.py", "validate_records.py",
                  "route.py", "handoff.py", "context_probe.py"):
         out[dist_dir / "tools" / name] = (REPO_ROOT / "tools" / name).read_text(encoding="utf-8")
-    for name in ("ROLES.md", "TECHNIQUES.md"):
+    for name in ("SYSTEM.md", "STEPS.md", "ROLES.md", "TECHNIQUES.md"):
         out[dist_dir / "src" / "System" / name] = (SRC / "System" / name).read_text(encoding="utf-8")
     for schema in sorted((SRC / "System" / "schemas").glob("*.schema.json")):
         out[dist_dir / "src" / "System" / "schemas" / schema.name] = schema.read_text(encoding="utf-8")
-    for name in ("routing_priors.json", "cost_table.json", "routing_table.json"):
+    for name in ("routing_priors.json", "cost_table.json", "routing_table.json", "model_registry.json"):
         out[dist_dir / "src" / name] = (SRC / name).read_text(encoding="utf-8")
     out[dist_dir / "acceptance-contract.example.json"] = (SRC / "acceptance-contract.example.json").read_text(encoding="utf-8")
     out[dist_dir / "settings.fragment.json"] = (SRC / "settings.fragment.json").read_text(encoding="utf-8")
@@ -195,6 +195,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     out[dist_dir / "README.md"] = (SRC / "README.md").read_text(encoding="utf-8")
     out[dist_dir / "LICENSE"] = (REPO_ROOT / "LICENSE").read_text(encoding="utf-8")
     out[dist_dir / "SELF-LEARNING.md"] = (SRC / "SELF-LEARNING.md").read_text(encoding="utf-8")
+    out[dist_dir / "CONTROLLER.md"] = (SRC / "CONTROLLER.md").read_text(encoding="utf-8")
     out[dist_dir / "CLAUDE.template.md"] = (SRC / "CLAUDE.template.md").read_text(encoding="utf-8")
     out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
     out[dist_dir / "install.py"] = (REPO_ROOT / "tools" / "install.py").read_text(encoding="utf-8")
@@ -234,6 +235,44 @@ def worker_half(brief_path: Path) -> str:
     return "\n".join(lines[lines.index("---") + 1:]).strip() + "\n"
 
 
+def stale_bundle_is_only_realworld_failure(checks: list[dict]) -> bool:
+    """Recognise the one expected pre-build REALWORLD failure.
+
+    The historical freeze proves that the qualified B0 source and bundle are
+    byte-identical.  A source change to ``route.py`` therefore makes both DIST
+    and that single freeze assertion fail until this builder replaces dist/.
+    Keep every other real-world assertion gating the build: this exception is
+    allowed only when the unittest report names exactly that one failure and
+    the freeze says every non-parity B0 check still passes.
+    """
+    by_id = {row.get("id"): row for row in checks}
+    dist = by_id.get("DIST") or {}
+    realworld = by_id.get("REALWORLD") or {}
+    detail = str(realworld.get("detail", ""))
+    if dist.get("status") != "FAIL" or realworld.get("status") != "FAIL":
+        return False
+    if ("FAIL: test_freeze_is_content_addressed_and_readiness_matches_blockers" not in detail
+            or "FAILED (failures=1)" not in detail
+            or "FAILED (failures=1, errors=" in detail):
+        return False
+
+    module_path = REPO_ROOT / "tools" / "evaluation_freeze.py"
+    spec = importlib.util.spec_from_file_location("evaluation_freeze_for_build", module_path)
+    if spec is None or spec.loader is None:
+        return False
+    evaluation_freeze = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(evaluation_freeze)
+    valid, result = evaluation_freeze.valid_qualified_default()
+    parity = {"source_bundle_priors_equal", "source_bundle_router_equal"}
+    freeze_checks = result.get("checks") or {}
+    return bool(
+        not valid
+        and freeze_checks
+        and any(not freeze_checks.get(name, False) for name in parity)
+        and all(value for name, value in freeze_checks.items() if name not in parity)
+    )
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="list what would be written; write nothing")
@@ -258,8 +297,13 @@ def main(argv: list[str]) -> int:
         return 1
     # DIST and RELEASE both compare the current bundle with planned output,
     # so stale generated files are expected immediately before this builder
-    # replaces them. Every source, installer and safety test still gates.
-    blocking_failures = [c for c in checks if c["status"] == "FAIL" and c["id"] not in ("DIST", "RELEASE")]
+    # replaces them. The real-world freeze has one deliberate source/bundle
+    # parity assertion with the same pre-build dependency. Every other source,
+    # installer, historical-evidence and safety test still gates.
+    ignored = {"DIST", "RELEASE"}
+    if stale_bundle_is_only_realworld_failure(checks):
+        ignored.add("REALWORLD")
+    blocking_failures = [c for c in checks if c["status"] == "FAIL" and c["id"] not in ignored]
     if blocking_failures:
         print("refusing to build: harness failed\n" +
               "\n".join(f"FAIL {c['id']}: {c['detail']}" for c in blocking_failures), file=sys.stderr)

@@ -1255,6 +1255,27 @@ def plan(sensitivity: Sensitivity, horizon: Horizon, blast: Blast,
                             "wall_clock_s_expected": round(wall_expected, 1)}}
 
 
+def plan_rigour(assessment: dict, project: Path, *, explicit_mode: str | None = None,
+                session_id: str | None = None, selected_cell: str = "worker-sonnet-low",
+                controller_profile: str = "standard", prior_controller_invocations: int = 0,
+                public_passed: bool = False) -> dict:
+    """Versioned R4 adapter; existing ``plan`` remains the qualified B0 API."""
+    import controller_control
+    import controller_policy
+
+    task_revision = assessment.get("task_revision") if isinstance(assessment, dict) else None
+    control = controller_control.resolve(
+        project, explicit_mode=explicit_mode, session_id=session_id,
+        task_revision=task_revision,
+    )
+    return controller_policy.decide(
+        assessment, control, selected_cell=selected_cell,
+        controller_profile=controller_profile,
+        prior_controller_invocations=prior_controller_invocations,
+        public_passed=public_passed,
+    )
+
+
 MAIN_USAGE_FILENAME = ".claude/context-main.json"
 TASKS_USAGE_FILENAME = ".claude/context-tasks.json"
 SESSION_POINTER_FILENAME = ".claude/session.json"
@@ -2417,6 +2438,19 @@ def main(argv: list[str]) -> int:
                      help="--record: from the Controller's SolutionRecord, if it ran and produced one")
     ap.add_argument("--notes", default="", help="--record/--spawn: free text, max 300 characters")
     ap.add_argument("--json", action="store_true", help="print the full matched rule or plan, not just the cell name")
+    ap.add_argument("--rigour-assessment", type=Path,
+                    help="R4: resolve a version-1 RigourAssessment without dispatching work")
+    ap.add_argument("--controller", choices=("auto", "on", "off"),
+                    help="R4 explicit per-invocation Controller mode; does not persist or dispatch")
+    ap.add_argument("--session-id", help="R4 control lookup for --rigour-assessment")
+    ap.add_argument("--worker-cell", default="worker-sonnet-low",
+                    help="R4 selected downstream worker cell")
+    ap.add_argument("--controller-profile", default="standard",
+                    help="R4 Controller role profile")
+    ap.add_argument("--prior-controller-invocations", type=int, default=0,
+                    help="R4 Controller count for this task revision")
+    ap.add_argument("--public-passed", action="store_true",
+                    help="R4 visible acceptance passed; unresolved consequential rigour still gates")
     ap.add_argument("--selftest", action="store_true", help="run the scripted ledger scenarios; no file I/O outside a temp directory")
     args = ap.parse_args(argv)
 
@@ -2429,6 +2463,25 @@ def main(argv: list[str]) -> int:
         for p in problems:
             print(f"  - {p}")
         return 1
+
+    if args.rigour_assessment:
+        incompatible = (args.record or args.spawn or args.recover or args.review_acceptance
+                        or args.migrate_ledger_v2 or args.restore_ledger_backup or args.session_pointer)
+        if incompatible:
+            ap.error("--rigour-assessment cannot be combined with ledger mutation or recovery modes")
+        try:
+            value = json.loads(args.rigour_assessment.read_text(encoding="utf-8"))
+            decision = plan_rigour(
+                value, args.project, explicit_mode=args.controller,
+                session_id=args.session_id, selected_cell=args.worker_cell,
+                controller_profile=args.controller_profile,
+                prior_controller_invocations=args.prior_controller_invocations,
+                public_passed=args.public_passed,
+            )
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            ap.error(f"rigour assessment failed: {exc}")
+        print(json.dumps(decision, indent=2, sort_keys=True))
+        return 0
 
     if args.session_pointer:
         try:

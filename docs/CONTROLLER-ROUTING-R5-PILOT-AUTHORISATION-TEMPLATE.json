@@ -1,0 +1,8 @@
+{
+  "approved_at": null,
+  "approved_by": null,
+  "decision": "NOT_AUTHORISED",
+  "manifest_sha256": "9a4f9d3efc1667871479a62c73dd1fb4ba8f0efbe6e1a2d25a02e89022a859a2",
+  "maximum_authorised_usd": 144.0,
+  "schema_version": 1
+}

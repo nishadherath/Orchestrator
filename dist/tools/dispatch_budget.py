@@ -54,8 +54,11 @@ class DispatchBudget:
     The OS lock is shared by all instances, threads and processes.
     """
 
-    def __init__(self, path: Path, limit_usd: float | None = None):
+    def __init__(self, path: Path, limit_usd: float | None = None, *, scope: str = "controller_run"):
+        if scope not in ("controller_run", "task_dispatch"):
+            raise BudgetError("budget scope must be controller_run or task_dispatch")
         self.path = path.resolve()
+        self.scope = scope
         with ledger_lock(self.path):
             if self.path.exists():
                 state = self._read()
@@ -64,7 +67,7 @@ class DispatchBudget:
             elif limit_usd is None:
                 raise BudgetError(f"No budget at {self.path}; legacy runs require explicit migration")
             else:
-                self._write({"version": 1, "currency": "USD", "scope": "controller_run",
+                self._write({"version": 1, "currency": "USD", "scope": scope,
                              "limit_units": units(limit_usd), "cancelled": False,
                              "created_at": utc_now(), "invocations": {}})
 
@@ -72,7 +75,7 @@ class DispatchBudget:
         try:
             state = json.loads(self.path.read_text(encoding="utf-8"))
             if (state["version"] != 1 or state["currency"] != "USD"
-                    or state["scope"] != "controller_run"
+                    or state["scope"] != self.scope
                     or type(state["limit_units"]) is not int or state["limit_units"] < 0
                     or type(state["cancelled"]) is not bool
                     or not isinstance(state["invocations"], dict)):

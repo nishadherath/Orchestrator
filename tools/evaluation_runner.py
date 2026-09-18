@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT / "test" / "harness"))
 
 import acceptance  # noqa: E402
 from dispatch_budget import DispatchBudget  # noqa: E402
+import model_registry  # noqa: E402
 import realworld  # noqa: E402
 from realworld_isolation import validate as validate_isolation  # noqa: E402
 import validate_records  # noqa: E402
@@ -392,7 +393,7 @@ class EpisodeRunner:
 
 
 def expected_model(cell: str) -> str:
-    return "claude-opus-5" if cell.startswith("worker-opus-") else "claude-sonnet-5"
+    return model_registry.resolve_cell(cell)["expected_provider_model"]
 
 
 def normalise_budget(snapshot: dict) -> dict:

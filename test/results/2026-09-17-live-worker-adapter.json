@@ -17,7 +17,7 @@
     "successful_edit_and_external_grade": true,
     "timeout_cost_unknown": true
   },
-  "evidence_sha256": "08cd22ccae5c3ad3bc06a25fcbb4011a6ac7ec9ccb3c1e32b95bc79ed87a300d",
+  "evidence_sha256": "6e65b00e0f038b9dfa941b74257cae0222655f23885783df19821496627a0c85",
   "failure_paths": {
     "identity_mismatch": {
       "actual_model": "claude-opus-5",
@@ -170,7 +170,7 @@
     }
   },
   "host": "BOBS-X1",
-  "implementation_sha256": "02739a49eedcc185b3bc68892f38a5e554d385a941a04841b147f4e44a9add6c",
+  "implementation_sha256": "60fc40f84b4747842c617d9c67138288cc4f1944583b946854bc0d1394d2dc1a",
   "limits": [
     "Fake transport proves command, parsing and failure contracts without a model call.",
     "This adapter does not implement policy sequencing or durable dispatch recovery.",
@@ -179,7 +179,7 @@
   "mode": "offline-fake-transport-v1",
   "model_calls": 0,
   "offline_only": true,
-  "recorded_at": "2026-09-17T21:19:24+10:00",
+  "recorded_at": "2026-09-18T15:46:20+10:00",
   "report": {
     "path": "test/results/2026-09-17-live-worker-adapter.md",
     "sha256": "37327a28f2b52fd8ba443811546101ef889aa667914270039ea276ce3010c912"

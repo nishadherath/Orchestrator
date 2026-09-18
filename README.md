@@ -12,6 +12,24 @@ The project and redistributable are licensed under Apache-2.0. The W09
 candidate is mechanically release-ready; publication remains an explicit
 operator action.
 
+The next development programme is
+[Controller-aware routing and full model utilisation](docs/CONTROLLER-ROUTING-PLAN.md),
+with an [evaluation protocol](docs/CONTROLLER-ROUTING-EVALUATION.md) that measures
+verified partial progress as well as completion. It covers automatic Controller
+selection, interactive overrides and all fifteen model/effort cells. Stages R0
+through R4 are complete, and R5's provider-free evaluation implementation is ready:
+the direct Controller now enforces integrity-v1 and
+emits validated evidence packets, while one registry resolves every Sonnet,
+Opus and Fable effort cell without implicit fall-through. Durable project,
+session and task `auto/on/off` controls now resolve with explicit precedence
+through the `/controller` command and provider-free CLI. The qualified router
+remains B0 until the evaluation stages pass. The provisional R4 path can plan
+and execute a Controller under explicit structured dispatch, but is not the
+automatic shipping default. R5 now includes a 48-task, 288-variant synthetic
+corpus with protected grading, a crash-safe 60-call all-cell matrix runtime and
+an 18-episode B/S/A pilot runtime. The paid matrix and pilot have not run, so
+live Fable/effort behaviour and Controller uplift remain unmeasured.
+
 ## What it achieves
 
 The bundle in `dist/` installs into any Claude Code project and makes the
@@ -56,7 +74,11 @@ What has been measured, which is the part to hold on to:
   and measured against the floor on T10: right in every run that finished,
   six of nine finished, at 10.8 times the floor's cost per solved task
   (D59). It remains available for historical audit and explicit rollback, but
-  the qualified default does not invoke it (D107).
+  the qualified default does not invoke it (D107). Its maintained functional
+  and operational reference is [`src/CONTROLLER.md`](src/CONTROLLER.md).
+  Its direct-run default now freezes acceptance, gates unstable ledgers,
+  enforces complete critiques and Selector exclusions, and writes a validated
+  `controller-evidence.json` handoff (D110). This does not change B0 routing.
 - A worker whose context compacts mid-task fails most of the time on the
   one task shape tested; the same task split into two sub-handovers before
   the compaction point failed never: 11 of 12 against 0 of 12,
@@ -230,7 +252,7 @@ read for provenance rather than as current instructions.
   `tools/graft_deep_refresh.ps1`, which loads credentials from the Windows user
   environment, applies the local forced-tool compatibility adapter without
   logging content, resumes the cache and removes its temporary files. The
-  current graph covers 2,055 structural nodes and has no stale or pending
+  current graph covers 2,284 structural nodes and has no stale or pending
   meanings (`docs/GRAFT.md`).
 
 ## Map
@@ -239,11 +261,12 @@ read for provenance rather than as current instructions.
 | :--- | :--- |
 | `src/ROUTING.md`, `src/LIFECYCLE.md` | The orchestrator's instructions; rationale spans are stripped on build |
 | `src/SELF-LEARNING.md` | The per-project ledger mechanism: what it learns, what it cannot, capabilities and limitations |
+| `src/CONTROLLER.md` | The maintained Controller role system, task-suitability, phase, budget, recovery and qualification reference |
 | `src/WORKER_PERSONA.md`, `src/agents/` | The worker persona and the fifteen generated definitions |
 | `src/routing_table.json`, `routing_priors.json`, `cost_table.json` | The two-rule table, the per-bucket priors, the measured unit costs |
 | `src/System/` | The Controller's problem-solving framework: roles, techniques, record schemas |
 | `src/README.md`, `preflight.py`, `settings.fragment.json`, `CLAUDE.template.md` | The consumer-facing install guide and its helpers |
-| `tools/` | `route.py`, `handoff.py`, `context_probe.py`, `system_controller.py` ship; the generators and `build_dist.py` do not |
+| `tools/` | `route.py`, `handoff.py`, `context_probe.py`, `controller_control.py`, `system_controller.py` ship; the generators and `build_dist.py` do not |
 | `dist/` | The installable bundle, stamped with its source commit |
 | `test/harness/` | `check.py` and the paid measurement scripts |
 | `test/fixtures/` | 18 routing fixtures, 15 benchmark tasks, the schema examples |

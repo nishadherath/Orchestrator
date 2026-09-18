@@ -10,7 +10,7 @@ line per problem on stderr.
 
 This is not a JSON Schema implementation. It implements exactly the subset
 the schemas use (type, const, enum, properties, required,
-additionalProperties, items, minItems, minLength, maxLength, pattern,
+additionalProperties, items, minItems, maxItems, minLength, maxLength, pattern,
 minimum, maximum) and raises on any other validating keyword, so a schema
 edit that reaches for something this file does not check fails loudly
 instead of passing silently. `docs/PLAN.md` task 9.3 allowed a hand-written
@@ -38,7 +38,7 @@ SCHEMA_DIR = REPO_ROOT / "src" / "System" / "schemas"
 # annotation is refused, see validate_node.
 ANNOTATION = {"$schema", "$id", "title", "description"}
 SUPPORTED = {"type", "const", "enum", "properties", "required", "additionalProperties",
-             "items", "minItems", "minLength", "maxLength", "pattern", "minimum", "maximum"}
+             "items", "minItems", "maxItems", "minLength", "maxLength", "pattern", "minimum", "maximum"}
 
 # Id-valued fields beyond `references` that must resolve within the input.
 REF_FIELDS = {
@@ -113,6 +113,8 @@ def validate_node(value, schema: dict, path: str, errors: list[str]) -> None:
     elif isinstance(value, list):
         if "minItems" in schema and len(value) < schema["minItems"]:
             errors.append(f"{path}: {len(value)} item(s), at least {schema['minItems']} required")
+        if "maxItems" in schema and len(value) > schema["maxItems"]:
+            errors.append(f"{path}: {len(value)} item(s), cap is {schema['maxItems']}")
         if "items" in schema:
             for i, item in enumerate(value):
                 validate_node(item, schema["items"], f"{path}[{i}]", errors)

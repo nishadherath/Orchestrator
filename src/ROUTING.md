@@ -128,6 +128,13 @@ same-cell repair after observable failure, then one `worker-opus-high`
 fallback. The Controller, frontier and ledger-activated cells are disabled in
 the shipping policy selected by W08 and D107.
 
+R4 adds a separate versioned candidate adapter:
+`route.py --rigour-assessment <assessment.json> [--controller auto|on|off]`.
+It resolves `rigour-auto-v1` and the durable task/session/project controls but
+does not dispatch. `controller_dispatch.py` consumes that structured decision
+under an explicit operator-selected run or named evaluation protocol. Until
+R5-R7 promotion, this candidate cannot replace the B0 automatic path above.
+
 Version-2 capability updates require acceptance status `pass` or `fail`.
 Unverified records still contribute measured terminal costs. By default the
 resolver uses one exact served-model/bundle/policy/acceptance-contract cohort

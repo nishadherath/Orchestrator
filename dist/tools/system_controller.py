@@ -54,6 +54,8 @@ SYSTEM = REPO_ROOT / "src" / "System"
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 import claudep  # noqa: E402
 import acceptance as acceptance_lib  # noqa: E402
+import controller_integrity as integrity  # noqa: E402
+import model_registry  # noqa: E402
 import validate_records  # noqa: E402
 from dispatch_budget import BudgetError, BudgetExhausted, DispatchBudget, units  # noqa: E402
 from route import _atomic_write_bytes, ledger_lock, LedgerLockTimeout  # noqa: E402
@@ -70,14 +72,11 @@ from system_prompts import OUTPUT_RULE, as_jsonl, role_section, schema_summary, 
 # same caveat role_probe.py's CELLS carries: these are priors, not
 # measurements (docs/PLAN.md Stage 9.7's E24 measured their cost; Stage 11
 # measures whether the fleet built from them beats B0).
+QUICK_ROLE_PROFILE = "standard"
+_STANDARD_PROFILE = model_registry.resolve_role_profile(QUICK_ROLE_PROFILE)
 QUICK_CELLS: dict[str, tuple[str, str]] = {
-    "framer": ("opus", "high"),
-    "verifier": ("sonnet", "medium"),
-    "generator": ("sonnet", "high"),
-    "critic": ("opus", "medium"),
-    "selector": ("sonnet", "medium"),
-    "librarian": ("sonnet", "medium"),
-    "controller": ("sonnet", "low"),
+    role: (cells[0]["model"], cells[0]["effort"])
+    for role, cells in _STANDARD_PROFILE["roles"].items()
 }
 
 TECHNIQUE_FAMILIES = ("subtract", "re-represent", "abduce")
@@ -154,6 +153,7 @@ class RunDirs:
         self.records = root / "records"
         self.rejections = root / "rejections.jsonl"
         self.report = root / "REPORT.md"
+        self.evidence_packet = root / "controller-evidence.json"
 
     def create(self) -> None:
         self.root.mkdir(parents=True, exist_ok=False)
@@ -361,7 +361,8 @@ class LiveRoleRunner:
                  budget: DispatchBudget | None = None, max_output_tokens: int | None = 8192,
                  permission_args: tuple[str, ...] | None = None,
                  extra_args: tuple[str, ...] = (), stream_json: bool = False,
-                 require_identity: bool = False):
+                 require_identity: bool = False,
+                 role_profile: str = QUICK_ROLE_PROFILE):
         self.project = project
         self.remaining_budget = remaining_budget
         self.budget = budget  # run_quick binds this before any live dispatch.
@@ -371,18 +372,22 @@ class LiveRoleRunner:
         self.extra_args = extra_args
         self.stream_json = stream_json
         self.require_identity = require_identity
+        profile = model_registry.resolve_role_profile(role_profile)
+        self.role_profile = role_profile
+        self.cells = {role: (cells[0]["model"], cells[0]["effort"])
+                      for role, cells in profile["roles"].items()}
         self.deadline: float | None = None
 
     @staticmethod
-    def _identity(model: str, result: claudep.ClaudeCallResult | None) -> dict:
-        expected = {"sonnet": "claude-sonnet-5", "opus": "claude-opus-5"}.get(model)
+    def _identity(cell: str, result: claudep.ClaudeCallResult | None) -> dict:
+        expected = model_registry.resolve_cell(cell)["expected_provider_model"]
         extras = result.extras if result else {}
         root_models = extras.get("root_models") if isinstance(extras.get("root_models"), list) else []
         child_models = extras.get("child_models") if isinstance(extras.get("child_models"), list) else []
         actual = root_models[0] if len(root_models) == 1 else None
         return {
             "expected_model": expected, "actual_model": actual,
-            "identity_valid": actual == expected and not child_models,
+            "identity_valid": model_registry.identity_matches(cell, actual, child_models),
             "root_models": root_models, "child_models": child_models,
             "billed_models": extras.get("billed_models", []),
             "auxiliary_billed_models": extras.get("auxiliary_billed_models", []),
@@ -400,7 +405,8 @@ class LiveRoleRunner:
             timeout = min(timeout, self.deadline - time.monotonic())
             if timeout <= 0:
                 raise BudgetExhausted("Elapsed run limit reached; no further call dispatched")
-        model, effort = QUICK_CELLS[role]
+        model, effort = self.cells[role]
+        cell = f"worker-{model}-{effort}"
         ident = uuid.uuid4().hex
         cap = min(0.10 if schema is not None else ROLE_CALL_CAP_USD, self.remaining_budget())
         minimum = 0.0 if schema is not None else ROLE_CALL_FLOOR_USD
@@ -436,11 +442,11 @@ class LiveRoleRunner:
                          and partial.cost_usd is not None
                          and not isinstance(exc.__cause__, subprocess.TimeoutExpired))
             self._account(ident, partial, final=final, status="failed", error=str(exc)[:500],
-                          identity=self._identity(model, partial))
+                          identity=self._identity(cell, partial))
             if isinstance(exc, (KeyboardInterrupt, SystemExit)):
                 raise
             raise RoleCallFailed(f"{role} invocation {ident} failed; usage recorded: {exc}") from exc
-        identity = self._identity(model, result)
+        identity = self._identity(cell, result)
         self._account(ident, result, final=result.cost_usd is not None, status="completed",
                       identity=identity)
         if self.require_identity and not identity["identity_valid"]:
@@ -832,7 +838,7 @@ def export_budget(budget: DispatchBudget, dirs: RunDirs) -> dict:
 def write_run_status(dirs: RunDirs, execution_status: str, outcome: str | None,
                      error: str | None = None) -> None:
     """Persist one diagnosable owned-exit record for every Controller run."""
-    names = ["REPORT.md", "ledger.jsonl", "budget-status.json"]
+    names = ["REPORT.md", "ledger.jsonl", "budget-status.json", "controller-evidence.json"]
     artefacts = acceptance_lib.snapshot(dirs.root, names)
     payload = {"version": 1, "execution_status": execution_status,
                "outcome": outcome, "error": error[:1000] if error else None,
@@ -881,12 +887,18 @@ def recover_run(run_dir: Path, *, invocation_id: str | None = None,
 
 def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: float,
               runner_factory: Callable[[Callable[[], float]], RoleRunner], run_id: str | None = None,
-              *, elapsed_limit_s: float | None = None) -> RunResult:
+              *, elapsed_limit_s: float | None = None,
+              integrity_policy: str = integrity.INTEGRITY_V1,
+              acceptance: dict | None = None,
+              input_revision_override: dict | None = None) -> RunResult:
     units(budget_usd)
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
     if elapsed_limit_s is not None and (not math.isfinite(elapsed_limit_s) or elapsed_limit_s <= 0):
         raise ValueError("elapsed_limit_s must be finite and positive")
+    if integrity_policy not in integrity.POLICIES:
+        raise ValueError(f"integrity_policy must be one of {integrity.POLICIES}")
+    frozen_acceptance = integrity.freeze_acceptance(acceptance)
     deadline = time.monotonic() + elapsed_limit_s if elapsed_limit_s is not None else None
     run_id = run_id or dt.datetime.now().strftime("%Y%m%dT%H%M%S") + "-" + uuid.uuid4().hex[:8]
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", run_id):
@@ -896,17 +908,23 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         raise BudgetError(f"Run {run_id!r} already exists; use --recover-run, never restart its paid work")
     dirs.create()
     with ledger_lock(dirs.root / "controller-owner", timeout_s=0):
-        return _run_quick(problem_text, project, budget_usd, timeout, runner_factory, dirs, deadline)
+        return _run_quick(problem_text, project, budget_usd, timeout, runner_factory, dirs, deadline,
+                          integrity_policy, frozen_acceptance, input_revision_override)
 
 
 def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: float,
                runner_factory: Callable[[Callable[[], float]], RoleRunner],
-               dirs: RunDirs, deadline: float | None) -> RunResult:
+               dirs: RunDirs, deadline: float | None, integrity_policy: str,
+               frozen_acceptance: dict | None,
+               input_revision_override: dict | None = None) -> RunResult:
     """Execute a fresh pipeline while holding exclusive ownership of its run."""
     scribe = Scribe(dirs)
     spent = {"usd": 0.0}
     calls = {"n": 0}
     dispatch_budget = None
+    acceptance_state = frozen_acceptance
+    input_revision = (json.loads(json.dumps(input_revision_override))
+                      if input_revision_override is not None else acceptance_lib.revision(project))
 
     def remaining() -> float:
         if dispatch_budget is not None:
@@ -914,6 +932,7 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
         return max(0.0, budget_usd - spent["usd"])
 
     def finish(outcome: str, record: dict) -> RunResult:
+        nonlocal acceptance_state
         status = export_budget(dispatch_budget, dirs) if dispatch_budget else None
         if status:
             spent["usd"], calls["n"] = status["spent_usd"], status["calls"]
@@ -925,6 +944,44 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                              f"Complete: {status['accounting_complete']}; breach: {status['breached']}.\n\n"
                              "Inspect budget-status.json and dispatch-budget.json. Reconcile unresolved "
                              "invocations with terminal provider evidence before reusing their allowance.\n")
+        if acceptance_state is None:
+            frame = scribe.latest("FrameRecord")
+            criteria = frame.get("acceptance_criteria", []) if frame else []
+            acceptance_state = integrity.freeze_provisional(
+                criteria or ["No acceptance criteria were produced."], []
+            )
+        premises = scribe.premises()
+        candidates = scribe.all_of("CandidateRecord")
+        critiques = scribe.all_of("CritiqueRecord")
+        unverified = [p for p in premises if p.get("class") == "unverified" and p.get("load_bearing")]
+        if outcome == "solution" and acceptance_state["source"] == "external" and not unverified:
+            readiness = "verified-ready"
+        elif outcome == "gap" and any(p.get("class") == "verified" for p in premises):
+            readiness = "provisional-guidance"
+        else:
+            readiness = "blocked" if outcome in ("gap", "blocked") else "provisional-guidance"
+        artefacts = acceptance_lib.snapshot(dirs.root, ["REPORT.md", "ledger.jsonl"])["files"]
+        accounting = {
+            "known_spend_usd": status["spent_usd"] if status else spent["usd"],
+            "reserved_usd": status["reserved_usd"] if status else 0.0,
+            "accounting_complete": status["accounting_complete"] if status else True,
+        }
+        packet = integrity.build_evidence_packet(
+            problem_text=problem_text, project_identity=integrity.digest(str(project.resolve())),
+            input_revision=input_revision,
+            acceptance=acceptance_state, outcome=outcome, readiness=readiness,
+            premises=premises, candidates=candidates, critiques=critiques,
+            record=record, artefacts=artefacts, accounting=accounting,
+        )
+        packet_errors: list[str] = []
+        validate_records.validate_node(
+            packet, scribe.schemas["ControllerEvidencePacket"], "$", packet_errors
+        )
+        packet_errors += integrity.validate_evidence_packet(packet)
+        if packet_errors:
+            raise RuntimeError(f"ControllerEvidencePacket rejected: {packet_errors}")
+        _atomic_write_bytes(dirs.evidence_packet,
+                            (json.dumps(packet, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
         write_run_status(dirs, "completed" if outcome in ("solution", "dissolved") else "blocked", outcome)
         return RunResult(outcome, record, dirs.root, spent["usd"], calls["n"],
                          status["reserved_usd"] if status else 0.0,
@@ -990,9 +1047,12 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
         return accepted
 
     def phases() -> RunResult:
+        nonlocal acceptance_state
         # ---- 1. Intake (code) ----
         problem_record = {"type": "ProblemRecord", "statement": problem_text, "context": "",
-                           "constraints": [], "budget_usd": budget_usd, "mode": "quick", "acceptance_criteria": [],
+                           "constraints": list(acceptance_state["constraints"]) if acceptance_state else [],
+                           "budget_usd": budget_usd, "mode": "quick",
+                           "acceptance_criteria": list(acceptance_state["criteria"]) if acceptance_state else [],
                            "ledger_version": 0, "references": []}
         accepted, rej = scribe.write([problem_record], writer_role="controller", expected_types={"ProblemRecord"})
         if not accepted or rej:
@@ -1010,6 +1070,16 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
         frame = _one_of(accepted, "FrameRecord", "Frame")
         b0 = _one_of([r for r in accepted if r["type"] == "CandidateRecord" and r.get("technique") == "b0"],
                      None, "Frame's B0 candidate", allow_type_check=False)
+        if acceptance_state is None:
+            acceptance_state = integrity.freeze_provisional(
+                frame["acceptance_criteria"], problem["constraints"]
+            )
+        if not integrity.frame_matches_acceptance(frame, acceptance_state):
+            gap = _gap_report(
+                scribe, "no_improvement", "Restore the frozen acceptance criteria before continuing.",
+                acceptance_state["criteria"],
+            )
+            return finish("gap", gap)
         write_digest(scribe, dirs, "frame", f"Ledger v1: {len(scribe.premises(1))} premises, problem type "
                      f"{frame.get('problem_type')!r}, dissolution {frame.get('dissolution_verdict')!r}."
                      f"{_premise_cap_note(frame)}", accepted)
@@ -1039,6 +1109,12 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                                          lambda rej: _retry_prompt(build_frame_prompt(problem, measurements, prior_ledger), rej))
             new_frame = _one_of(accepted, "FrameRecord", "Frame re-entry")
             frame = new_frame
+            if not integrity.frame_matches_acceptance(frame, acceptance_state):
+                gap = _gap_report(
+                    scribe, "no_improvement", "Restore the frozen acceptance criteria before continuing.",
+                    acceptance_state["criteria"],
+                )
+                return finish("gap", gap)
             write_digest(scribe, dirs, "verify", f"{len(measurements)} measurement(s); ledger v{frame['ledger_version']}, "
                          f"stable={frame['stable']}.{_premise_cap_note(frame)}", accepted + measurements)
             if frame["dissolution_verdict"] == "dissolved":
@@ -1056,6 +1132,11 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                      f"{stable['reasoning'][:200]}", [])
         if (r := check_budget("controller-stability")):
             return r
+        if integrity_policy == integrity.INTEGRITY_V1 and not stable["stable"]:
+            gap = _gap_report(
+                scribe, "no_improvement", stable["reasoning"], acceptance_state["criteria"]
+            )
+            return finish("gap", gap)
 
         # ---- Controller call 2: which technique families? (10.5) ----
         families = classify("controller-families", build_families_prompt(problem, frame), FAMILIES_SCHEMA,
@@ -1119,6 +1200,17 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
             if (r := check_budget("critique")):
                 return r
 
+            if integrity_policy == integrity.INTEGRITY_V1:
+                coverage = integrity.critique_coverage(candidates, critiques)
+                incomplete = [ident for ident, rows in coverage.items() if len(rows) != 1]
+                if incomplete:
+                    gap = _gap_report(
+                        scribe, "no_improvement",
+                        f"Critique coverage incomplete for: {', '.join(incomplete)}.",
+                        acceptance_state["criteria"],
+                    )
+                    return finish("gap", gap)
+
             falsified = [c for c in critiques if c.get("falsified_premise_claims")]
             if falsified:
                 reframes += 1
@@ -1143,6 +1235,12 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                 accepted = write_with_retry("frame", "framer", recs, {"PremiseRecord", "FrameRecord"},
                                              lambda rej: _retry_prompt(build_frame_prompt(problem, [], prior_ledger, falsified), rej))
                 frame = _one_of(accepted, "FrameRecord", "Frame re-entry (reframe)")
+                if not integrity.frame_matches_acceptance(frame, acceptance_state):
+                    gap = _gap_report(
+                        scribe, "no_improvement", "Reframe changed the frozen acceptance criteria.",
+                        acceptance_state["criteria"],
+                    )
+                    return finish("gap", gap)
                 write_digest(scribe, dirs, "reframe", f"Reframe {reframes}/{MAX_REFRAMES}: ledger v{frame['ledger_version']} "
                              f"after {len(falsified)} falsified-premise critique(s).{_premise_cap_note(frame)}", accepted)
                 if frame["dissolution_verdict"] == "dissolved":
@@ -1153,23 +1251,36 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                 continue
             break
 
-        accept_map = {c["candidate_id"]: c for c in critiques}
-        passing = [c for c in candidates if c["id"] == b0["id"] or accept_map.get(c["id"], {}).get("verdict") == "pass"]
-        # STEPS.md / task 10.4's quick-mode stop rule: the first candidate
-        # surviving critique with no unverified load-bearing premise it
-        # introduces, else B0.
-        winner = next((c for c in passing if c["id"] != b0["id"]
-                       and not any(p.get("class") == "unverified" for p in c.get("premises_introduced", []))), None)
-        winner = winner or b0
-
         sel_records = call("select", "selector", build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]))
         selections = write_with_retry(
             "select", "selector", sel_records, {"SelectionRecord"},
             lambda rej: _retry_prompt(build_select_prompt(candidates, critiques, frame["acceptance_criteria"], b0["id"]), rej))
-        write_digest(scribe, dirs, "select", f"Winner (code, per the quick-mode stop rule): {winner['id']} "
-                     f"({winner.get('technique')}).", selections)
+        selection = _one_of(selections, "SelectionRecord", "Selector")
         if (r := check_budget("select")):
             return r
+
+        if integrity_policy == integrity.LEGACY_QUICK_V0:
+            accept_map = {c["candidate_id"]: c for c in critiques}
+            passing = [c for c in candidates if c["id"] == b0["id"]
+                       or accept_map.get(c["id"], {}).get("verdict") == "pass"]
+            winner = next((c for c in passing if c["id"] != b0["id"] and not any(
+                p.get("class") == "unverified" for p in c.get("premises_introduced", [])
+            )), None) or b0
+            decision_detail = "legacy quick-mode stop rule"
+        else:
+            winner, eligibility = integrity.select_candidate(
+                candidates, critiques, selection, frame, b0["id"], scribe.premises()
+            )
+            decision_detail = json.dumps(eligibility, sort_keys=True)
+            if winner is None:
+                write_digest(scribe, dirs, "select", f"No candidate was eligible. {decision_detail}", selections)
+                gap = _gap_report(
+                    scribe, "no_improvement", "Verify or replace every ineligible candidate premise.",
+                    acceptance_state["criteria"],
+                )
+                return finish("gap", gap)
+        write_digest(scribe, dirs, "select", f"Winner: {winner['id']} ({winner.get('technique')}); "
+                     f"{decision_detail}.", selections)
 
         # ---- 8. Close (code writes the SolutionRecord; no Instantiate in quick mode) ----
         unverified_lb = [p["id"] for p in scribe.premises() if p["class"] == "unverified" and p.get("load_bearing")]
@@ -1246,7 +1357,8 @@ def _retry_prompt(original_prompt: str, rejected: list[ScribeRejection]) -> str:
             f"versions of only these:\n{lines}")
 
 
-def _gap_report(scribe: Scribe, termination: str, next_test: str = "") -> dict:
+def _gap_report(scribe: Scribe, termination: str, next_test: str = "",
+                unmet_criteria: list[str] | None = None) -> dict:
     """`next_test` is truncated to GapReport.next_cheapest_test's 300-character
     cap: a caller passing a FrameRecord's dissolution_reason (capped at 600)
     can overflow it, which is exactly what happened the first time this ran
@@ -1255,7 +1367,7 @@ def _gap_report(scribe: Scribe, termination: str, next_test: str = "") -> dict:
     accepted records masked the real cause; fixed by checking `rej` before
     unpacking, below, as well as by truncating)."""
     frame = scribe.latest("FrameRecord")
-    unmet = frame["acceptance_criteria"] if frame else []
+    unmet = list(unmet_criteria) if unmet_criteria is not None else (frame["acceptance_criteria"] if frame else [])
     unverified = [p["id"] for p in scribe.premises() if p["class"] == "unverified" and p.get("load_bearing")]
     record = {"type": "GapReport", "best_candidate_id": None, "unmet_criteria": unmet,
               "unverified_load_bearing": unverified, "next_cheapest_test": (next_test or "none")[:300],
@@ -1534,7 +1646,8 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
             return FakeRoleRunner(script6)
 
         result6 = run_quick("A problem whose candidates keep getting critiqued as false.", tmp_path,
-                             budget_usd=5.0, timeout=30, runner_factory=always_falsifies, run_id="s6")
+                             budget_usd=5.0, timeout=30, runner_factory=always_falsifies, run_id="s6",
+                             integrity_policy=integrity.LEGACY_QUICK_V0)
         check(result6.outcome == "solution" and result6.record.get("technique") == "b0",
               f"scenario 6: exceeding the reframe cap should fall back to B0, got {result6.outcome}/{result6.record.get('technique')}")
 
@@ -1676,6 +1789,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--elapsed-limit-s", type=float, help="run dispatch deadline; each call uses the smaller remaining timeout")
     ap.add_argument("--max-output-tokens", type=int, default=8192,
                     help="per-request Claude Code output setting (default 8192); not a total token or invoice cap")
+    ap.add_argument("--integrity-policy", choices=integrity.POLICIES, default=integrity.INTEGRITY_V1,
+                    help="Controller decision policy; legacy-quick-v0 is retained only for historical replay")
+    ap.add_argument("--acceptance-contract", type=Path,
+                    help="optional acceptance-v2 JSON contract, frozen before any Controller role runs")
     maintenance = ap.add_mutually_exclusive_group()
     maintenance.add_argument("--recover-run", type=Path, help="recover accounting/reporting only; never replay provider calls")
     maintenance.add_argument("--cancel-run", type=Path, help="persist cancellation; running calls retain their timeouts and allowances")
@@ -1717,6 +1834,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.dry_run:
         print(f"mode: {args.mode}")
+        print(f"integrity policy: {args.integrity_policy}")
+        print(f"acceptance: {'external ' + str(args.acceptance_contract) if args.acceptance_contract else 'first-frame provisional'}")
         print(f"budget: USD {args.budget_usd}")
         print("phases: intake (code) -> frame (opus/high) -> verify loop, ceiling one tool call "
               "(sonnet/medium) -> controller stability check (sonnet/low, --json-schema) -> "
@@ -1730,10 +1849,17 @@ def main(argv: list[str] | None = None) -> int:
         ap.error("--problem and --project are required unless --selftest or --dry-run is given")
 
     problem_text = args.problem.read_text(encoding="utf-8").strip()
+    acceptance = None
+    if args.acceptance_contract:
+        try:
+            acceptance = acceptance_lib.load_contract(args.project, args.acceptance_contract)
+        except acceptance_lib.AcceptanceError as exc:
+            ap.error(str(exc))
     runner_factory = lambda remaining: LiveRoleRunner(args.project, remaining, max_output_tokens=args.max_output_tokens)  # noqa: E731
     try:
         result = run_quick(problem_text, args.project, args.budget_usd, args.timeout, runner_factory,
-                           elapsed_limit_s=args.elapsed_limit_s)
+                           elapsed_limit_s=args.elapsed_limit_s, integrity_policy=args.integrity_policy,
+                           acceptance=acceptance)
     except (BudgetError, ValueError) as exc:
         ap.error(str(exc))
 

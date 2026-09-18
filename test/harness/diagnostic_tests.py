@@ -84,9 +84,28 @@ class DiagnosticTests(unittest.TestCase):
 
     def test_empty_project_has_stable_shape(self):
         value = preflight.operational_diagnostics(self.project)
-        self.assertEqual(set(value), {"routing", "acceptance", "costs", "priors", "graft"})
+        self.assertEqual(set(value), {"routing", "controller_control", "acceptance", "costs", "priors", "graft"})
         self.assertEqual(value["routing"]["ledger_entries"], 0)
         self.assertEqual(value["acceptance"]["counts"], {})
+        self.assertEqual(value["controller_control"], {
+            "path": ".claude/controller-control.json", "state_revision": 0,
+            "project_mode": None, "session_overrides": 0, "task_overrides": 0,
+            "shipped_default": "auto", "error": None,
+        })
+
+    def test_controller_control_status_is_read_only(self):
+        path = self.project / ".claude" / "controller-control.json"
+        path.write_text(json.dumps({
+            "schema_version": 1, "revision": 7,
+            "project": {"mode": "on", "revision": 3, "updated_at": "2026-09-18T00:00:00Z"},
+            "sessions": {"s": {"mode": "off", "revision": 4, "updated_at": "2026-09-18T00:00:00Z"}},
+            "tasks": {"t": {"mode": "auto", "revision": 7, "updated_at": "2026-09-18T00:00:00Z"}},
+        }), encoding="utf-8")
+        before = path.read_bytes()
+        value = preflight.operational_diagnostics(self.project)["controller_control"]
+        self.assertEqual((value["state_revision"], value["project_mode"],
+                          value["session_overrides"], value["task_overrides"]), (7, "on", 1, 1))
+        self.assertEqual(path.read_bytes(), before)
 
 
 if __name__ == "__main__":

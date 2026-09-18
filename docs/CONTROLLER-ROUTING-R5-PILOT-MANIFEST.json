@@ -1,0 +1,197 @@
+{
+  "authorisation": "inactive-template-only",
+  "blockers": [
+    "matrix identity, effort and price evidence is absent",
+    "operator authorisation is absent"
+  ],
+  "bound_files": {
+    "src/System/schemas/ControllerEvidencePacket.schema.json": "a1edcfe362d356738ba193a29b519b88466edaad5be220056468f30a15db5c60",
+    "src/System/schemas/RigourAssessment.schema.json": "b50bfb66d6c6e8447b2654ac0486add221b0b2c3d58947e538b5a501c23f3694",
+    "src/System/schemas/RoutingDecision.schema.json": "8c62f346ff8f869fa4e9194e0723d1c48f5a079de439c70504ab8c7376817497",
+    "src/controller_evaluation_contract.json": "5467edffcb916cbfda3049354368c6767c7001781fd39ec53dceb75cdefe2f06",
+    "src/model_registry.json": "b5b46800893db5c5d0cfd301fbef2a5e66e2a65a6c60e59b1eda9d55fa33a33f",
+    "test/fixtures/controller-routing-v1/corpus.json": "3a55bda7f595d868f29636c991a13dc287d11ef53635e2dd577461c1bedb8b5b",
+    "test/fixtures/controller-routing-v1/routing-vignettes.jsonl": "33f2067065de6fa2fc371c5df4b40a710e0071714286d04c3b1896b16354e537",
+    "tools/controller_control.py": "c8c99a0919d0bd660555109641d14c64450ab975c93fe78f50b67e34e204559d",
+    "tools/controller_corpus.py": "a2160ba0c7c999c92e4135892300a3207b3a9526f3a8310393283a91d1e1f0a0",
+    "tools/controller_dispatch.py": "50fa67c8a794d265b3ac41fe024bcfa6878b08c83b4221cf8cf174e9c8421f63",
+    "tools/controller_integrity.py": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
+    "tools/controller_matrix_runtime.py": "85058b797ac6d59ec51afe564ef72894331460c8339ebb6ec8cedd0b9f73d3af",
+    "tools/controller_pilot_runtime.py": "eda18e1c3ae6d1066f75bf26d9e0df122d958f0938b77da4cef2a3e686886172",
+    "tools/controller_policy.py": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+    "tools/model_registry.py": "8e54def2905ce7f864b129ada2e3c010b26a9f1662da31d721031b0371d7b0c0"
+  },
+  "campaign": "controller-routing-v1",
+  "episodes": [
+    {
+      "arm": "B",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-fable-low",
+      "sequence": 1,
+      "task_id": "C01-D1"
+    },
+    {
+      "arm": "S",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-fable-low",
+      "sequence": 2,
+      "task_id": "C01-D1"
+    },
+    {
+      "arm": "A",
+      "automatic_controller_expected": true,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-fable-low",
+      "sequence": 3,
+      "task_id": "C01-D1"
+    },
+    {
+      "arm": "A",
+      "automatic_controller_expected": true,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 4,
+      "task_id": "C02-D1"
+    },
+    {
+      "arm": "S",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 5,
+      "task_id": "C02-D1"
+    },
+    {
+      "arm": "B",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 6,
+      "task_id": "C02-D1"
+    },
+    {
+      "arm": "B",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-opus-medium",
+      "sequence": 7,
+      "task_id": "C04-D1"
+    },
+    {
+      "arm": "S",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-opus-medium",
+      "sequence": 8,
+      "task_id": "C04-D1"
+    },
+    {
+      "arm": "A",
+      "automatic_controller_expected": true,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-opus-medium",
+      "sequence": 9,
+      "task_id": "C04-D1"
+    },
+    {
+      "arm": "A",
+      "automatic_controller_expected": true,
+      "controller_profile": "frontier-candidate",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-fable-xhigh",
+      "sequence": 10,
+      "task_id": "C05-D1"
+    },
+    {
+      "arm": "S",
+      "automatic_controller_expected": false,
+      "controller_profile": "frontier-candidate",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-fable-xhigh",
+      "sequence": 11,
+      "task_id": "C05-D1"
+    },
+    {
+      "arm": "B",
+      "automatic_controller_expected": false,
+      "controller_profile": "frontier-candidate",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-fable-xhigh",
+      "sequence": 12,
+      "task_id": "C05-D1"
+    },
+    {
+      "arm": "B",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 13,
+      "task_id": "N02-D1"
+    },
+    {
+      "arm": "S",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 14,
+      "task_id": "N02-D1"
+    },
+    {
+      "arm": "A",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 15,
+      "task_id": "N02-D1"
+    },
+    {
+      "arm": "A",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 16,
+      "task_id": "N03-D1"
+    },
+    {
+      "arm": "S",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 17,
+      "task_id": "N03-D1"
+    },
+    {
+      "arm": "B",
+      "automatic_controller_expected": false,
+      "controller_profile": "standard",
+      "maximum_usd": 8.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 18,
+      "task_id": "N03-D1"
+    }
+  ],
+  "execution_enabled": false,
+  "launch_readiness": "blocked",
+  "manifest_sha256": "9a4f9d3efc1667871479a62c73dd1fb4ba8f0efbe6e1a2d25a02e89022a859a2",
+  "maximum_authorised_usd": 144.0,
+  "offline_prepared": true,
+  "retry_policy": "none-outside-a-new-manifest",
+  "schema_version": 1,
+  "stage": "instrumented-pilot"
+}
