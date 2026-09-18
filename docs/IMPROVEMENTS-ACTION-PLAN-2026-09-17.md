@@ -647,3 +647,16 @@ both policies in 48 serial episodes with alternating first-policy order. Its
 W07-mean projection is USD 2.064230409, its observed-maximum extrapolation is
 USD 8.3018832, and its binding authorisation ceiling is USD 200. W08 is ready
 for a clean freeze and exact approval; no reserved call has run.
+
+## W08 result and W09 decision, 2026-09-18
+
+All 48 reserved episodes completed with valid instrumentation for USD
+1.053580005. B0 accepted 12/24 and B1 accepted 10/24. B0 recorded two paired
+wins and no paired loss; B1 increased false successes and cost per accepted
+episode. Both policies completed five ordinary task families in both
+repetitions, below the required ten, and neither passed H11 twice.
+
+W08 execution is complete, but B1 failed the predeclared promotion gates. W09
+will package B0 as the qualified default, preserve B1 as a rejected experimental
+record, rebuild the distribution, verify a clean consumer installation and
+document rollback. No policy tuning may use the reserved outcomes.

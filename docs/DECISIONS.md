@@ -5511,3 +5511,20 @@ single added acceptance supports independent reserved testing, while the cost
 increase and small sample do not support changing the default. Repeating every
 reserved task provides paired stability evidence without selecting repetitions
 from favourable first-run outcomes.
+
+## D107. Reject B1 promotion and package B0, 2026-09-18
+
+Decision: treat W08 execution as valid but its B1 promotion gate as failed.
+Select B0 as the qualified default for W09 packaging. Do not revise B1 or add a
+new trigger from the reserved outcomes. Preserve the complete B0/B1 evidence,
+record B1 as not promoted, and make W09 a source-and-bundle simplification with
+a documented rollback path.
+
+Why: all 48 reserved episodes completed with valid integrity evidence for USD
+1.053580005. B0 accepted 12/24 and B1 accepted 10/24. B0 recorded two paired
+wins, B1 recorded none and 22 pairs tied. B1 increased false successes from 12
+to 14, cost 20.97 percent more per accepted episode, completed only 5 of the 11
+ordinary task families in both repetitions and did not pass H11 in either
+repetition. B1 therefore missed the fixed correctness, false-success, cost and
+recovery gates. B0's simpler fixed fallback is the evidence-supported outcome;
+retuning on H01-H12 would invalidate the reserved comparison.

@@ -237,3 +237,16 @@ mean-cost projection is USD 2.064230409 and the all-episodes-at-the-W07-maximum
 projection is USD 8.3018832. The exact exposure boundary remains USD 200. No
 reserved provider call may run before a clean candidate, matching manifest and
 new exact authorisation exist.
+
+## Executed W08 and release-gate decision, 2026-09-18
+
+All 48 reserved episodes completed for USD 1.053580005 with valid identity,
+accounting, event chains, actor boundaries and protected oracles. B0 accepted
+12/24 and B1 accepted 10/24. B0 had two paired wins, B1 had none, and 22 pairs
+tied. B1 increased false successes and cost per accepted episode, completed
+only five ordinary families twice and failed H11 in both repetitions.
+
+The campaign evidence is valid, but B1 does not pass the fixed promotion gates.
+B0 is the qualified W09 packaging target. No reserved outcome will be used to
+retune B1. Release readiness remains blocked until B0 source and bundle parity,
+clean installation, rollback documentation and the complete harness pass.

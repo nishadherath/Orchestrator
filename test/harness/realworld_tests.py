@@ -126,7 +126,6 @@ class RealWorldFoundationTests(unittest.TestCase):
         self.assertEqual(first["development"]["known_spend_usd"], 1.376153606)
         self.assertEqual(first["development"]["decision"]["baseline_retained"], "B0")
         self.assertEqual(first["development"]["decision"]["adaptive_candidate"], "B1")
-        self.assertIn("paid W08 reserved comparison has not been authorised", first["blockers"])
         self.assertNotIn(
             "W07 development comparison evidence is missing or invalid",
             first["blockers"],
@@ -136,6 +135,20 @@ class RealWorldFoundationTests(unittest.TestCase):
             "test/results/2026-09-18-realworld-development.json",
             first["bound_files"],
         )
+        self.assertTrue(first["reserved"]["qualified"])
+        self.assertEqual(first["reserved"]["known_spend_usd"], 1.053580005)
+        self.assertEqual(first["reserved"]["decision"]["qualified_default"], "B0")
+        self.assertFalse(first["reserved"]["promotion_gates"]["promotion_gate_passed"])
+        self.assertNotIn(
+            "paid W08 reserved comparison has not been authorised",
+            first["blockers"],
+        )
+        self.assertNotIn(
+            "W08 reserved comparison evidence is missing or invalid",
+            first["blockers"],
+        )
+        self.assertIn("W09 qualified-default packaging is incomplete", first["blockers"])
+        self.assertIn("tools/evaluation_reserved_result.py", first["bound_files"])
 
     def test_recorded_wsl_isolation_boundary(self):
         path = ROOT / "test" / "results" / "2026-09-17-realworld-isolation.json"

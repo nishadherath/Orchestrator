@@ -543,3 +543,24 @@ Applying the highest W07 episode cost to all 48 episodes projects USD
 8.3018832. Both are planning estimates; the binding limit is USD 192 of episode
 reservations plus USD 8 headroom. W08 requires a separate exact USD 200
 authorisation and has not started.
+
+## W08 reserved result, 2026-09-18
+
+Observed live: all 48 authorised reserved episodes completed with valid
+served-model identity, accounting, event chains, actor boundaries and protected
+oracles. Reconciled spend was USD 1.053580005 of the USD 200 ceiling. B0
+accepted 12/24 for USD 0.524667002 and B1 accepted 10/24 for USD 0.528913003.
+B0 recorded two paired wins, B1 recorded none and 22 pairs tied. H05-B0 and
+H08-B0 changed acceptance across repetitions; every other policy/task outcome
+was repeat-stable.
+
+B1 had 14 false successes against B0's 12 and cost USD 0.052891300 per accepted
+episode against B0's USD 0.043722250, a 20.97 percent increase. Its p90 latency
+was 10.20 percent higher. Both arms completed only five ordinary task families
+in both repetitions, below the required ten, and neither passed H11 in either
+repetition. No Opus or Controller path ran.
+
+The execution evidence passes, but B1 fails the predeclared promotion gates.
+W09 must package B0 as the qualified default without adapting to the reserved
+outcomes. Evidence is `test/results/2026-09-18-realworld-reserved.json` with its
+neighbouring Markdown report.

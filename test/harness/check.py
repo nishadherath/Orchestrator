@@ -1076,6 +1076,25 @@ def check_development_result(r: Report) -> None:
           passed, detail)
 
 
+def check_reserved_result(r: Report) -> None:
+    """W08-RESULT: reserved evidence and release-gate decision validate."""
+    tests = REPO_ROOT / "test" / "harness" / "evaluation_reserved_result_tests.py"
+    aggregator = REPO_ROOT / "tools" / "evaluation_reserved_result.py"
+    test_result = subprocess.run(
+        [sys.executable, str(tests)], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=90,
+    )
+    evidence_result = subprocess.run(
+        [sys.executable, str(aggregator), "--check"], cwd=REPO_ROOT,
+        capture_output=True, text=True, timeout=30,
+    )
+    passed = test_result.returncode == 0 and evidence_result.returncode == 0
+    detail = (test_result.stdout + test_result.stderr + "\n"
+              + evidence_result.stdout + evidence_result.stderr).strip()[-1800:]
+    r.add("W08-RESULT", "W08 evidence and release-gate decision validate offline",
+          passed, detail)
+
+
 def check_release_candidate(r: Report) -> None:
     """RELEASE: source parity and redistribution exclusions are executable."""
     script = REPO_ROOT / "tools" / "release_check.py"
@@ -1314,6 +1333,7 @@ def main(argv: list[str]) -> int:
     check_live_episode_integration(report)
     check_pilot_preflight(report)
     check_development_result(report)
+    check_reserved_result(report)
     check_release_candidate(report)
     check_improvement_regressions(report)
     check_replay(report)

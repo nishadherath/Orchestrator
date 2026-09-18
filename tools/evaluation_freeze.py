@@ -51,6 +51,10 @@ DEVELOPMENT_RESULT_TOOL = ROOT / "tools" / "evaluation_development_result.py"
 DEVELOPMENT_RESULT_TESTS = ROOT / "test" / "harness" / "evaluation_development_result_tests.py"
 DEVELOPMENT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-realworld-development.json"
 DEVELOPMENT_REPORT = ROOT / "test" / "results" / "2026-09-18-realworld-development.md"
+RESERVED_RESULT_TOOL = ROOT / "tools" / "evaluation_reserved_result.py"
+RESERVED_RESULT_TESTS = ROOT / "test" / "harness" / "evaluation_reserved_result_tests.py"
+RESERVED_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-realworld-reserved.json"
+RESERVED_REPORT = ROOT / "test" / "results" / "2026-09-18-realworld-reserved.md"
 
 
 def sha256(path: Path) -> str:
@@ -102,6 +106,7 @@ def bound_files() -> list[Path]:
         CORPUS_EVIDENCE, CORPUS_REPORT,
         DEVELOPMENT_RESULT_TOOL, DEVELOPMENT_RESULT_TESTS,
         DEVELOPMENT_EVIDENCE, DEVELOPMENT_REPORT,
+        RESERVED_RESULT_TOOL, RESERVED_RESULT_TESTS, RESERVED_EVIDENCE, RESERVED_REPORT,
     ) if path.is_file()]
     return sorted(set(fixed + fixture_files + oracle_files + runner_files + calibration_files))
 
@@ -292,6 +297,37 @@ def valid_development_evidence() -> tuple[bool, str | None, dict]:
     return valid, evidence_digest, value
 
 
+def valid_reserved_evidence() -> tuple[bool, str | None, dict]:
+    """Validate the completed W08 result and its release-gate decision."""
+    valid, evidence_digest, value = valid_evidence(RESERVED_EVIDENCE)
+    checks = value.get("checks") or {}
+    report = value.get("report") or {}
+    policies = {row.get("policy_id"): row for row in value.get("policy_summary") or []}
+    gates = value.get("promotion_gates") or {}
+    decision = value.get("decision") or {}
+    valid = bool(
+        valid and RESERVED_RESULT_TOOL.is_file() and RESERVED_REPORT.is_file()
+        and value.get("offline_aggregation") is True and value.get("model_calls") == 0
+        and value.get("implementation_sha256") == sha256(RESERVED_RESULT_TOOL)
+        and value.get("candidate_sha256")
+            == "99f6e7447b81054101c7ad57c4cd1bfd14b8d860aeec6f54f6f5a8d812e04fa4"
+        and value.get("manifest_sha256")
+            == "a064865e0712bca2d8b9d32887a78dc383292884dfe35af27266c564f8e9dd86"
+        and (value.get("budget") or {}).get("known_spend_usd") == 1.053580005
+        and policies.get("B0", {}).get("accepted") == 12
+        and policies.get("B1", {}).get("accepted") == 10
+        and gates.get("promotion_gate_passed") is False
+        and decision.get("qualified_default") == "B0"
+        and decision.get("candidate_not_promoted") == "B1"
+        and decision.get("package_policy") == "B0"
+        and decision.get("proceed_to_w09") is True
+        and len(checks) == 11 and all(checks.values())
+        and report.get("path") == RESERVED_REPORT.relative_to(ROOT).as_posix()
+        and report.get("sha256") == sha256(RESERVED_REPORT)
+    )
+    return valid, evidence_digest, value
+
+
 def candidate() -> dict:
     catalogue = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     ready = sorted(task["id"] for task in catalogue["tasks"] if task.get("readiness") == "ready")
@@ -311,6 +347,7 @@ def candidate() -> dict:
     pilot_valid, pilot_digest, pilot = valid_pilot_preflight_evidence()
     corpus_valid, corpus_digest, corpus = valid_corpus_evidence()
     development_valid, development_digest, development = valid_development_evidence()
+    reserved_valid, reserved_digest, reserved = valid_reserved_evidence()
     blockers = []
     if remaining:
         blockers.append(f"pilot fixtures not ready: {', '.join(remaining)}")
@@ -336,7 +373,9 @@ def candidate() -> dict:
         blockers.append("complete development and reserved corpus evidence is missing or invalid")
     if not development_valid:
         blockers.append("W07 development comparison evidence is missing or invalid")
-    blockers.append("paid W08 reserved comparison has not been authorised")
+    if not reserved_valid:
+        blockers.append("W08 reserved comparison evidence is missing or invalid")
+    blockers.append("W09 qualified-default packaging is incomplete")
     return {
         "schema_version": 1,
         "created_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -431,6 +470,15 @@ def candidate() -> dict:
             "known_spend_usd": (development.get("budget") or {}).get("known_spend_usd"),
             "policy_summary": development.get("policy_summary"),
             "decision": development.get("decision"),
+        },
+        "reserved": {
+            "qualified": reserved_valid,
+            "evidence": RESERVED_EVIDENCE.relative_to(ROOT).as_posix(),
+            "evidence_sha256": reserved_digest,
+            "known_spend_usd": (reserved.get("budget") or {}).get("known_spend_usd"),
+            "policy_summary": reserved.get("policy_summary"),
+            "promotion_gates": reserved.get("promotion_gates"),
+            "decision": reserved.get("decision"),
         },
         "bound_files": files,
         "paid_launch_ready": not blockers,
