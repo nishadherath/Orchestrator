@@ -51,11 +51,11 @@ class RealWorldFoundationTests(unittest.TestCase):
             self.assertTrue(all(not outcomes[name] for name in self.harness.WRONG))
             self.assertTrue(all(attack["rejected"] for attack in task["attacks"]))
 
-    def test_freeze_is_content_addressed_and_launch_closed(self):
+    def test_freeze_is_content_addressed_and_readiness_matches_blockers(self):
         first = self.freeze.candidate()
         second = self.freeze.candidate()
         self.assertEqual(first["candidate_sha256"], second["candidate_sha256"])
-        self.assertFalse(first["paid_launch_ready"])
+        self.assertEqual(first["paid_launch_ready"], not first["blockers"])
         self.assertEqual(first["pilot"]["planned_episodes"], 24)
         self.assertTrue(first["episode_runner"]["valid"])
         self.assertTrue(first["live_calibration"]["valid"])
