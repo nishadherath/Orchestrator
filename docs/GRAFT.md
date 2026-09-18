@@ -69,12 +69,23 @@ The installed Graft/OpenAI adapter currently needs a local compatibility
 wrapper for DeepSeek: disable reasoning on forced-tool summary calls and
 normalize expanded symbol IDs before recording them. Keep this workaround out
 of distributable source until upstream compatibility makes it unnecessary.
+Run `powershell -NoProfile -ExecutionPolicy Bypass -File
+tools/graft_deep_refresh.ps1` for an authenticated deep refresh. The helper
+loads the four `GRAFT_*` values from the Windows user environment without
+printing them, starts a no-logging loopback adapter in a hidden process, resumes
+Graft's cache and removes its temporary files when finished. Ordinary
+`graft build` and MCP retrieval remain local and do not need this helper.
 
 ## Evidence and sources
 
 Graft MCP was called successfully during this change: freshness reported both
 graphs in sync; scoped code queries and the file API returned repository
 source. No paid worker or Controller run is required to verify the configuration.
+
+The 2026-09-18 deep refresh completed 115 concept nodes, 2,055 structural nodes,
+4,111 edges and 416 file cards with zero stale or pending meanings. The direct
+DeepSeek path reproduced the documented forced-tool incompatibility; the helper
+completed the cached retry with reasoning disabled and exact symbol IDs.
 
 `claude mcp get graft` connected successfully outside the restricted shell,
 selecting the pre-existing user-scoped server. Inside the restricted shell
