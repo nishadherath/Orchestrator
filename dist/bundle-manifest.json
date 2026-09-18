@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026-09-18-e89421a-dirty",
+  "bundle_version": "2026-09-18-313a87b",
   "configuration": {
     "backup_root": ".claude/orchestrator-install/backups",
     "claude_markers": [
@@ -22,7 +22,7 @@
   },
   "files": {
     ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-    ".claude/ORCHESTRATOR_VERSION": "54fa794af67cf3b53241a46edca7090f95af7b58d744da459b62cd99957fdda2",
+    ".claude/ORCHESTRATOR_VERSION": "7b21c97a458c8d3c6f853b585aac0d3bd2d86a0244f30e9d81360055deb38fbb",
     ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
     ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
     ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -40,7 +40,7 @@
     ".claude/agents/WORKER_sonnet_xhigh.md": "6cd3b1e10bf2b77905225d4f1da65786d4b1524f7ff963faccdb634f5b586f66",
     ".claude/commands/workers.md": "beb906eaaae4e298b74a3b6ddfa81aaf91b5400b2be87081f1f06ff652a07d9d",
     "ORCHESTRATOR-REFERENCE.md": "4d85d483acccffe16f5eb8f82abc819d1470a5153f0ac2a5979632c69ba20ff7",
-    "ORCHESTRATOR.md": "7a3a2e66262d9ca1d34a2313ad4f3ff1f629c28f21d4f1f848f19ebc7889b732",
+    "ORCHESTRATOR.md": "deb96689ffd1c3f0d6ed85af6fcd677471cdddb037cd89529a74b14b8d0b7b1e",
     "SELF-LEARNING.md": "d50266e5a854fbd61225fb208064487a449f870f69f48e193d12c1e26f0302f4",
     "acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
     "preflight.py": "2605e07bd1eef3cccee82c4fec15da3104ae921a05533756c04e376b2d820d22",
