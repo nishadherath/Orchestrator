@@ -21,10 +21,15 @@ dashes, and plain declarative prose.
 ## Current work
 
 Stages 0-7 of `docs/IMPROVEMENTS-ACTION-PLAN-2026-09-17.md` are complete.
-The proposed next programme is `docs/CONTROLLER-ROUTING-PLAN.md`, with its
-companion evaluation protocol and Stage R0 handoff. It awaits operator review;
-the shipped B0 default remains unchanged. Earlier plans and handoffs are
-historical evidence, not active instructions.
+The next planned programme is `docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md`.
+Experimental Controller remediation is separately deferred in
+`docs/CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md`. Neither has started;
+the operator chooses the start and reviews every completed stage. Follow
+`docs/REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md` for stage and cost gates.
+The earlier Controller programme has R0-R4 records and R5 scaffolding, but its
+live evaluation remains paused pending the documented remediation. The shipped
+B0 default remains unchanged. Earlier plans and handoffs are historical
+evidence, not active instructions.
 
 This repository builds a cost-routing bundle for Claude Code subagents: fifteen
 model/effort definitions, a ledger-aware resolver, acceptance verification,

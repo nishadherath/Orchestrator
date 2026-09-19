@@ -12,13 +12,19 @@ The project and redistributable are licensed under Apache-2.0. The W09
 candidate is mechanically release-ready; publication remains an explicit
 operator action.
 
-The next development programme is
-[Controller-aware routing and full model utilisation](docs/CONTROLLER-ROUTING-PLAN.md),
-with an [evaluation protocol](docs/CONTROLLER-ROUTING-EVALUATION.md) that measures
-verified partial progress as well as completion. It covers automatic Controller
-selection, interactive overrides and all fifteen model/effort cells. Stages R0
-through R4 are complete, and R5's provider-free evaluation implementation is ready:
-the direct Controller now enforces integrity-v1 and
+The next planned development programme is
+[worker routing, execution and delegation remediation](docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md).
+[Experimental Controller remediation](docs/CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md)
+is a separate deferred programme. Both follow the
+[staged execution protocol](docs/REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md);
+neither starts until the operator directs it, and each stage stops for review.
+
+The earlier [Controller-aware routing programme](docs/CONTROLLER-ROUTING-PLAN.md)
+has completed R0-R4 records and R5 offline scaffolding. The 2026-09-19 review
+reopened R5 readiness: its current synthetic grader accepts public-label-only
+results, and campaign restart/dependency coverage needs repair. The deferred
+plan records the fixes and the replacement quality evaluation. The direct
+Controller enforces integrity-v1 and
 emits validated evidence packets, while one registry resolves every Sonnet,
 Opus and Fable effort cell without implicit fall-through. Durable project,
 session and task `auto/on/off` controls now resolve with explicit precedence
@@ -26,9 +32,11 @@ through the `/controller` command and provider-free CLI. The qualified router
 remains B0 until the evaluation stages pass. The provisional R4 path can plan
 and execute a Controller under explicit structured dispatch, but is not the
 automatic shipping default. R5 now includes a 48-task, 288-variant synthetic
-corpus with protected grading, a crash-safe 60-call all-cell matrix runtime and
-an 18-episode B/S/A pilot runtime. The paid matrix and pilot have not run, so
-live Fable/effort behaviour and Controller uplift remain unmeasured.
+corpus with a separate grading area, a 60-call all-cell matrix runtime and
+an 18-episode B/S/A pilot runtime. These are plumbing fixtures, not qualified
+task-quality evidence; campaign safety is limited by the restart defect above.
+The paid matrix and pilot remain paused and have not run, so live
+Fable/effort behaviour and Controller uplift remain unmeasured.
 
 ## What it achieves
 

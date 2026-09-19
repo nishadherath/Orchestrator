@@ -1,11 +1,17 @@
 # Controller-aware routing and full model utilisation
 
-Date: 2026-09-18. Status: proposed for operator review; no new runtime policy
-has been implemented or promoted by this document. Owner: staged development
-sessions using GPT-5.6 Sol, high reasoning. Start with the checked
-[Stage R0 handoff](../handoffs/2026-09-18-controller-routing-stage-0.md).
+Date: 2026-09-18. Status updated 2026-09-19: historical programme; R0-R4 have
+completion records, R5 has offline scaffolding, and live evaluation is paused.
+No automatic Controller default has been promoted. Do not restart from the
+original R0 handoff below.
 
-This is the next programme after the completed
+The next planned work is the [worker remediation plan](WORKER-ROUTING-ACTION-PLAN-2026-09-19.md).
+The [deferred Controller remediation plan](CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md)
+supersedes unexecuted R5-R8 gap work. Both require an operator-directed start
+and stop for review at each stage. Earlier stage records remain historical
+evidence. The original plan follows for context.
+
+This programme followed the completed
 [improvements roadmap](IMPROVEMENTS-ACTION-PLAN-2026-09-17.md).
 The detailed [evaluation protocol](CONTROLLER-ROUTING-EVALUATION.md) is part of
 this plan. Neither document replaces the historical evaluation results.

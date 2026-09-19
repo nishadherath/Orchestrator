@@ -3,11 +3,13 @@
 Date: 2026-09-17. Status: Stages 0-7 complete.
 Owner: continued development sessions.
 
-Proposed successor: [Controller-aware routing and full model utilisation](CONTROLLER-ROUTING-PLAN.md),
-including its [evaluation protocol](CONTROLLER-ROUTING-EVALUATION.md) and
-[Stage R0 handoff](../handoffs/2026-09-18-controller-routing-stage-0.md).
-The successor is pending operator review; this completed roadmap remains the
-record of the earlier programme.
+Successor status updated 2026-09-19: the
+[Controller-aware routing programme](CONTROLLER-ROUTING-PLAN.md) has R0-R4
+records and paused R5 scaffolding. The next planned work is
+[worker remediation](WORKER-ROUTING-ACTION-PLAN-2026-09-19.md), followed later
+by separately requested [Controller remediation](CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md).
+Neither new programme has started. This completed roadmap remains the record
+of the earlier programme.
 
 This is the execution roadmap for the six recommendations in the
 [audit summary](AUDIT-SUMMARY-2026-09-17.md). The operator has directed that

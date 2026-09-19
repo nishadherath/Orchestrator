@@ -1,7 +1,15 @@
 # Controller-aware routing R5: evaluation implementation
 
-Date: 2026-09-18. Status: **offline implementation complete; live calibration
-and pilot pending**.
+Date: 2026-09-18. Status updated 2026-09-19: **offline scaffolding exists;
+readiness reopened by review; live calibration and pilot paused**.
+
+The review reproduced acceptance of a public-label-only result without an
+implementation and admission of another call after a terminal matrix failure.
+Manifest dependency coverage and pilot fairness also need remediation.
+The [deferred action plan](CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md)
+owns these fixes. Passing offline checks establish only the properties they
+tested. Descriptions below are the original implementation record, not evidence
+that the corpus measures real task quality or that launch safety is complete.
 
 R5 now has a provider-free, content-addressed evaluation system. It freezes the
 corpus, score, model/effort screen and pilot before any paid call. This record
