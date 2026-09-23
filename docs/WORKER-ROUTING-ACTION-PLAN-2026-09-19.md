@@ -1,6 +1,8 @@
 # Worker routing and delegation: staged action plan
 
-Date: 2026-09-19. Status: **planned, not started; operator chooses the start**.
+Date: 2026-09-19. Status updated 2026-09-21: **N0 complete for operator review;
+N1 has not started**. See the [N0 result](stage-results/worker-n0.md) and frozen
+[worker execution contract](WORKER-EXECUTION-CONTRACT.md).
 
 This is the next programme requested after the twelve-gap review. It repairs
 ordinary worker routing, execution and delegation. Experimental Controller
@@ -306,7 +308,7 @@ are not inferred from OpenAI rates. No spend is approved by this table.
 
 ## 5. Completion register
 
-- [ ] N0 baseline/contracts accepted.
+- [x] N0 baseline/contracts complete; operator acceptance pending.
 - [ ] N1 worker executor qualified offline.
 - [ ] N2 delegation qualified offline.
 - [ ] N3 selector and assessment qualified offline.

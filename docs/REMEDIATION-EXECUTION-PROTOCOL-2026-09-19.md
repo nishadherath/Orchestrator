@@ -1,11 +1,14 @@
 # Routing remediation: execution protocol and estimates
 
-Date: 2026-09-19. Status: planning only; execution awaits the operator.
+Date: 2026-09-19. Status updated 2026-09-21: worker Stage N0 is complete for
+operator review; N1 has not started. Controller execution remains deferred.
 
 Applies to the [worker plan](WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) and
 [deferred Controller plan](CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md).
-The operator chooses when either programme starts. Neither this document nor
-its handoffs authorises a model switch, agent launch, experiment or promotion.
+The operator chose to start worker N0. Further stages and the Controller
+programme still require the operator's direction. This document and its
+handoffs do not independently authorise a model switch, agent launch,
+experiment or promotion.
 
 ## Stage contract
 

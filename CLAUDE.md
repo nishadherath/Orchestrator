@@ -21,7 +21,10 @@ dashes, and plain declarative prose.
 ## Current work
 
 Stages 0-7 of `docs/IMPROVEMENTS-ACTION-PLAN-2026-09-17.md` are complete.
-The next planned programme is `docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md`.
+The active programme is `docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md`.
+Stage N0 is complete for operator review; N1 has not started. Its frozen design
+contract is `docs/WORKER-EXECUTION-CONTRACT.md` and its evidence record is
+`docs/stage-results/worker-n0.md`.
 Experimental Controller remediation is separately deferred in
 `docs/CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md`. Neither has started;
 the operator chooses the start and reviews every completed stage. Follow
