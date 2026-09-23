@@ -1,0 +1,134 @@
+{
+  "cases": {
+    "b0-repair": {
+      "dispatch_events": 2,
+      "episode_id": "b0-repair",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "ledger_sha256": "e82bd660bd33ba2938f0fedc3bd47c7974f9f2a178fc19f5a13f8f0dd4422530",
+      "policy_id": "B0",
+      "reserved_usd": 0.0,
+      "sequence": [
+        "worker-sonnet-low",
+        "worker-sonnet-low"
+      ],
+      "stage": "complete",
+      "stop_reason": "visible_acceptance_passed"
+    },
+    "b1-ladder": {
+      "dispatch_events": 2,
+      "episode_id": "b1-ladder",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "ledger_sha256": "29392042ca1c62a246997eb7831a0e4ebdea8d5222074bb6ac4b2e34f82d2a94",
+      "policy_id": "B1",
+      "reserved_usd": 0.0,
+      "sequence": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "stage": "complete",
+      "stop_reason": "visible_acceptance_passed"
+    },
+    "b2-controller": {
+      "dispatch_events": 4,
+      "episode_id": "b2-controller",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "ledger_sha256": "e89f257b1ac5d085e04a91ef5ab0628a2ac270441b8355bd82336ccd7b960962",
+      "policy_id": "B2",
+      "reserved_usd": 0.0,
+      "sequence": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "controller",
+        "worker-sonnet-low"
+      ],
+      "stage": "complete",
+      "stop_reason": "visible_acceptance_passed"
+    },
+    "crash_recovery": {
+      "dispatch_events": 1,
+      "episode_id": "crash-recovery",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": null,
+      "learning_eligible": false,
+      "ledger_sha256": null,
+      "policy_id": "B0",
+      "reserved_usd": 0.75,
+      "sequence": [],
+      "stage": "blocked",
+      "stop_reason": "in_flight_dispatch_requires_reconciliation"
+    },
+    "missing_cost": {
+      "dispatch_events": 1,
+      "episode_id": "missing-cost",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "grade": null,
+      "learning_eligible": false,
+      "ledger_sha256": null,
+      "policy_id": "B0",
+      "reserved_usd": 0.75,
+      "sequence": [
+        "worker-sonnet-low"
+      ],
+      "stage": "blocked",
+      "stop_reason": "incomplete_provider_accounting"
+    }
+  },
+  "checks": {
+    "b0_repairs_once_at_floor": true,
+    "b1_uses_frozen_ladder": true,
+    "b2_requires_two_distinct_failures": true,
+    "dispatch_recovery_never_redispatches": true,
+    "event_chains_valid": true,
+    "hidden_grade_after_policy_stop": true,
+    "missing_cost_retains_allowance": true,
+    "policy_boundary_excludes_forbidden_inputs": true
+  },
+  "evidence_sha256": "591d9d45123a4ee1efc49e2c911ea6192b862aa8fd845f2bb1d015fa39d15522",
+  "implementation_sha256": "069642d3a5e85ea34d22a119414862cc0d25d95d6b09c735d6036a46c2ce024c",
+  "limits": [
+    "Scripted adapters qualify policy ordering, external grading and recovery without model calls.",
+    "The live worker adapter is separately calibrated and qualified.",
+    "A live Controller adapter is not implemented; Controller escalation remains launch-blocking."
+  ],
+  "mode": "offline-scripted-adapters-v1",
+  "model_calls": 0,
+  "offline_only": true,
+  "report": {
+    "path": "test/results/2026-09-17-live-episode-integration.md",
+    "sha256": "ec5b5fbcf898522af2dd3dc2c0234d59c1e43fc67fc37c55ad0f09b90994afa8"
+  },
+  "result": "PASS",
+  "schema_version": 1
+}

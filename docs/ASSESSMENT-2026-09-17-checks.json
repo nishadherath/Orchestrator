@@ -1,0 +1,204 @@
+{
+  "result": "PASS",
+  "git": "4fb4682",
+  "checks": [
+    {
+      "id": "DEF",
+      "covers": "15 definitions parse and match the 3x5 matrix",
+      "status": "PASS",
+      "detail": "15 files"
+    },
+    {
+      "id": "INV5",
+      "covers": "Invariant 5: no haiku cell",
+      "status": "PASS",
+      "detail": "no definition sets model: haiku. The original justification (haiku lacks effort levels) was disproved empirically 2026-09-05 (FINDINGS.md); the exclusion itself is a decision, not a gap (DECISIONS.md D5, 2026-09-05)."
+    },
+    {
+      "id": "GEN",
+      "covers": "src/agents/ matches the generator output",
+      "status": "PASS",
+      "detail": "no drift"
+    },
+    {
+      "id": "ROUTE",
+      "covers": "every worker named in src/routing_table.json has a definition",
+      "status": "PASS",
+      "detail": "3 names resolve"
+    },
+    {
+      "id": "ROUTE-DESC",
+      "covers": "unrouted cells say so in their description",
+      "status": "PASS",
+      "detail": "12 unrouted cells labelled"
+    },
+    {
+      "id": "INV2",
+      "covers": "Invariant 2: orchestrator never passes model on spawn",
+      "status": "PASS",
+      "detail": "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py"
+    },
+    {
+      "id": "ROUTE-MODES",
+      "covers": "every route.py flag the fragment wires up is named in the shipped prose",
+      "status": "PASS",
+      "detail": "3 flag(s) checked, all named"
+    },
+    {
+      "id": "ROUTE-TOTAL",
+      "covers": "every (sensitivity, horizon, blast) triple resolves to one worker, with self_directed disambiguating rather than conflicting",
+      "status": "PASS",
+      "detail": "18 triples, 0 documented gap(s), 0 documented overlap(s)"
+    },
+    {
+      "id": "ROW-BACKED",
+      "covers": "every routing rule is justified by a fixture whose confirmed answer lands on it",
+      "status": "PASS",
+      "detail": "1 rules, 1 fixture-backed, 0 unbacked"
+    },
+    {
+      "id": "TABLE-DATA",
+      "covers": "every fixture's assessment resolves through route.py to its expected cell",
+      "status": "PASS",
+      "detail": "17 fixtures checked"
+    },
+    {
+      "id": "CLARIFY",
+      "covers": "the clarify rule is stated in ROUTING.md and at least one fixture exercises it",
+      "status": "PASS",
+      "detail": "rule present with both conditions, 1 clarify fixture"
+    },
+    {
+      "id": "INV1",
+      "covers": "Invariant 1: agent teams off so effort is per-worker",
+      "status": "PASS",
+      "detail": "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS unset"
+    },
+    {
+      "id": "INV3",
+      "covers": "Invariant 3: session effort override unset",
+      "status": "PASS",
+      "detail": "CLAUDE_CODE_EFFORT_LEVEL unset"
+    },
+    {
+      "id": "INV4",
+      "covers": "Invariant 4: subagent model force off",
+      "status": "PASS",
+      "detail": "CLAUDE_CODE_SUBAGENT_MODEL_FORCE unset; CLAUDE_CODE_SUBAGENT_MODEL unset"
+    },
+    {
+      "id": "INV6",
+      "covers": "Invariant 6: availableModels permits all three models",
+      "status": "PASS",
+      "detail": "no availableModels allowlist in ['C:\\\\Users\\\\Bob\\\\.claude\\\\settings.json']; substitution cannot occur from these files. Managed enterprise settings are not checked here"
+    },
+    {
+      "id": "INV7",
+      "covers": "Invariant 7: user-stopped worker is not resumable",
+      "status": "PASS",
+      "detail": "docs/FINDINGS.md, 2026-09-05 (Empirically verified, 2026-09-05)"
+    },
+    {
+      "id": "PROSE",
+      "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+      "status": "PASS",
+      "detail": "281 files clean"
+    },
+    {
+      "id": "PERSONA",
+      "covers": "generated persona files unchanged since manifest",
+      "status": "PASS",
+      "detail": "60 files match"
+    },
+    {
+      "id": "DIST",
+      "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+      "status": "PASS",
+      "detail": "49 files match at 2026-09-17-4fb4682-dirty"
+    },
+    {
+      "id": "FIX",
+      "covers": "routing fixtures are well-formed",
+      "status": "PASS",
+      "detail": "18 fixtures, 18 ids"
+    },
+    {
+      "id": "SCHEMA",
+      "covers": "record schemas validate the example ledgers",
+      "status": "PASS",
+      "detail": "13 schemas; valid.jsonl clean; broken.jsonl rejected on 12 documented lines"
+    },
+    {
+      "id": "SYSTEM",
+      "covers": "system_controller.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 12 scenarios"
+    },
+    {
+      "id": "ROUTE-PRIORS",
+      "covers": "priors match their generator and carry provenance",
+      "status": "PASS",
+      "detail": "18 buckets, generator matches"
+    },
+    {
+      "id": "COST-TABLE",
+      "covers": "every cost row carries provenance",
+      "status": "PASS",
+      "detail": "8 cells, controller, verdict and context rows carry provenance"
+    },
+    {
+      "id": "ROUTE-SELFTEST",
+      "covers": "route.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 15 scenarios"
+    },
+    {
+      "id": "REPLAY",
+      "covers": "replay_routing.py passes its own gate",
+      "status": "PASS",
+      "detail": "Gate result: PASS. Gating batch agreement 125/125 (100.0%) after excluding 27 policy-fired row(s). Controller-on-contained violations: 0."
+    },
+    {
+      "id": "BACKTEST",
+      "covers": "backtest_ledger.py passes its own pass conditions",
+      "status": "PASS",
+      "detail": "29 pass, 0 fail"
+    },
+    {
+      "id": "HANDOFF-SELFTEST",
+      "covers": "handoff.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 5 scenarios (a: clean file, b: corrupted sections named, c: missing front matter, d: a spawn handoff's cell/controller cost, e: --pending-workers)"
+    },
+    {
+      "id": "PROBE-SELFTEST",
+      "covers": "context_probe.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 6 scenarios"
+    },
+    {
+      "id": "COMPACT-BENCH-SELFTEST",
+      "covers": "compaction_bench.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 7 scenarios"
+    },
+    {
+      "id": "FIXTURE-CLEAN",
+      "covers": "no T12-T15 repo/ or task.md file self-references this repository",
+      "status": "PASS",
+      "detail": "clean"
+    },
+    {
+      "id": "INTERACTIVE-CHECKLIST-SELFTEST",
+      "covers": "interactive_checklist.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 6 scenarios"
+    },
+    {
+      "id": "HANDOFF",
+      "covers": "every handoffs/ file passes handoff.py check",
+      "status": "PASS",
+      "detail": "8 file(s) checked"
+    }
+  ]
+}

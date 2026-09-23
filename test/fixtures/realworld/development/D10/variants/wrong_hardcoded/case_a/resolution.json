@@ -1,0 +1,5 @@
+{
+  "action": "repair",
+  "diagnosis": "ownership.json identifies the file as authored.",
+  "changed": ["case_a/service/retention.py"]
+}

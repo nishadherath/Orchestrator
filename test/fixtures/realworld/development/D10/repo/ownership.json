@@ -1,0 +1,10 @@
+{
+  "case_a/service/retention.py": {
+    "kind": "authored",
+    "owner": "retention-team"
+  },
+  "case_b/service/retention.py": {
+    "kind": "authored",
+    "owner": "retention-team"
+  }
+}

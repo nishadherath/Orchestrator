@@ -12,9 +12,9 @@ Responsible for: `runs/<id>/` inside `--project`, holding `ledger.jsonl`
 for a human to open one directly), `budget.jsonl` (every `BudgetEntry`, kept
 separate from the content ledger since it is accounting, not problem-solving
 state), and `digests.md` (one rendered section per phase transition). The
-Scribe (below) validates every record against `src/System/schemas/` before
-any of this is written, and is the only thing that ever writes to these
-files.
+Scribe validates and writes content. DispatchBudget owns durable admission
+in dispatch-budget.json; budget.jsonl and budget-status.json are recoverable
+reporting projections. See --recover-run for recovery without replay.
 
 Deliberately does not: implement deep mode (task 10.4 is quick mode only;
 `--mode` has one choice), run Instantiate (quick mode's stop rule is
@@ -38,7 +38,12 @@ import argparse
 import dataclasses
 import datetime as dt
 import json
+import math
+import re
+import subprocess
 import sys
+import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, Protocol
@@ -48,7 +53,10 @@ SYSTEM = REPO_ROOT / "src" / "System"
 
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 import claudep  # noqa: E402
+import acceptance as acceptance_lib  # noqa: E402
 import validate_records  # noqa: E402
+from dispatch_budget import BudgetError, BudgetExhausted, DispatchBudget, units  # noqa: E402
+from route import _atomic_write_bytes, ledger_lock, LedgerLockTimeout  # noqa: E402
 from system_prompts import OUTPUT_RULE, as_jsonl, role_section, schema_summary, technique_brief  # noqa: E402
 
 # --------------------------------------------------------------------------
@@ -112,17 +120,11 @@ ROLE_CALL_FLOOR_USD = 0.50 # below this much budget left, no role is called:
                            # to 0.23 and the dearest (Framer, Critic) up to
                            # 0.9, so a call could not finish and would only
                            # spend the remainder on a partial reply (D58)
-ROLE_CALL_CAP_USD = 2.0    # --max-budget-usd on every role call: a backstop
-                           # against one runaway call, never the remaining
-                           # budget, since the flag's own accounting runs
-                           # over 2x a call's reported cost (E26) and
-                           # aborted three runs' last calls live (D58)
+ROLE_CALL_CAP_USD = 2.0    # Upper bound, clamped to the durable reservation.
 
 
-class BudgetExhausted(RuntimeError):
-    """The run's budget cannot cover another role call. run_quick turns this
-    into the gap report SYSTEM.md's termination rule names ("budget
-    spent"), instead of the crash it was in the first fleet batch."""
+class RoleCallFailed(RuntimeError):
+    """A provider call failed after its telemetry was durably accounted."""
 
 
 class RoleOutputMismatch(RuntimeError):
@@ -168,8 +170,8 @@ class ScribeRejection:
 class Scribe:
     """Owns id assignment, schema validation, single-writer enforcement and
     ledger-version freshness for one run. `write()` is the only way a phase
-    puts a record on the blackboard; nothing else opens `ledger.jsonl`,
-    `budget.jsonl` or `records/` for writing."""
+    puts a content record on the blackboard. Live budget records are a
+    separate projection owned by export_budget, with their own ID prefix."""
 
     def __init__(self, dirs: RunDirs):
         self.dirs = dirs
@@ -345,8 +347,8 @@ class RoleRunner(Protocol):
 
 class LiveRoleRunner:
     """Invokes `claude -p` for the named role at its quick-mode cell,
-    parses the reply as JSON Lines, and returns one BudgetEntry alongside
-    whatever records parsed. Does not validate against the schemas; the
+    durably accounts for each invocation and parses JSON Lines.
+    Does not validate content against the schemas; the
     Scribe does that on write().
 
     `classify()` is the two Controller calls (task 10.5): a
@@ -355,51 +357,107 @@ class LiveRoleRunner:
     rather than blocking the run over a classification the pipeline can
     proceed without."""
 
-    def __init__(self, project: Path, remaining_budget: Callable[[], float]):
+    def __init__(self, project: Path, remaining_budget: Callable[[], float], *,
+                 budget: DispatchBudget | None = None, max_output_tokens: int | None = 8192):
         self.project = project
         self.remaining_budget = remaining_budget
+        self.budget = budget  # run_quick binds this before any live dispatch.
+        self.max_output_tokens = max_output_tokens
+        self.deadline: float | None = None
+
+    def _invoke(self, phase: str, role: str, prompt: str, *, timeout: float,
+                schema: dict | None = None) -> tuple[claudep.ClaudeCallResult, str]:
+        if self.budget is None:
+            raise BudgetError("LiveRoleRunner needs a durable budget; use run_quick or pass budget=")
+        if not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("timeout must be finite and positive")
+        if self.max_output_tokens is not None and (type(self.max_output_tokens) is not int or self.max_output_tokens <= 0):
+            raise ValueError("max_output_tokens must be a positive integer")
+        if self.deadline is not None:
+            timeout = min(timeout, self.deadline - time.monotonic())
+            if timeout <= 0:
+                raise BudgetExhausted("Elapsed run limit reached; no further call dispatched")
+        model, effort = QUICK_CELLS[role]
+        ident = uuid.uuid4().hex
+        cap = min(0.10 if schema is not None else ROLE_CALL_CAP_USD, self.remaining_budget())
+        minimum = 0.0 if schema is not None else ROLE_CALL_FLOOR_USD
+        if cap <= 0 or cap < minimum:
+            raise BudgetExhausted(f"USD {max(0, cap):.4f} available; no {role} call dispatched")
+        allowance = self.budget.reserve(ident, cap, minimum, {
+            "phase": _PHASE_ALIASES.get(phase, phase), "role": role,
+            "cell": f"worker-{model}-{effort}", "timeout_s": timeout,
+            "max_output_tokens": self.max_output_tokens,
+        })
+        self.budget.start(ident)
+        # Admission may have waited for a competing writer. Recheck before
+        # launch; at this point zero cost is provable because no child exists.
+        if self.deadline is not None:
+            timeout = min(timeout, self.deadline - time.monotonic())
+            if timeout <= 0:
+                self.budget.settle(ident, 0.0, final=True, telemetry={"status": "not_launched"},
+                                   evidence="elapsed-deadline-before-subprocess")
+                raise BudgetExhausted("Elapsed run limit reached before launch; unused allowance released")
+        try:
+            result = claudep.call_claude(
+                prompt, cwd=self.project, model=model, effort=effort,
+                permission_args=claudep.FORWARDER_PERMISSION_ARGS if schema is None else (),
+                json_schema=schema, max_budget_usd=allowance, timeout=timeout,
+                max_output_tokens=self.max_output_tokens)
+        except BaseException as exc:
+            partial = exc.partial if isinstance(exc, claudep.ClaudeCallError) else None
+            # A timeout, cancellation or malformed/lost response is not proof
+            # of final billing. Keep the remaining allowance even with a known
+            # partial charge. Only a terminal result envelope can release it.
+            final = bool(partial and partial.raw.get("type") == "result"
+                         and partial.cost_usd is not None
+                         and not isinstance(exc.__cause__, subprocess.TimeoutExpired))
+            self._account(ident, partial, final=final, status="failed", error=str(exc)[:500])
+            if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+                raise
+            raise RoleCallFailed(f"{role} invocation {ident} failed; usage recorded: {exc}") from exc
+        self._account(ident, result, final=result.cost_usd is not None, status="completed")
+        return result, ident
+
+    def _account(self, ident: str, result: claudep.ClaudeCallResult | None, *,
+                 final: bool, status: str, error: str = "") -> None:
+        cost = result.cost_usd if result else None
+        try:
+            if cost is not None:
+                units(cost, ceiling=True)
+        except BudgetError:
+            cost, final = None, False
+            error = "Invalid provider cost; reconcile from final evidence"
+        # Provider metadata is untrusted. A malformed token count must not
+        # prevent a known cost from reaching the durable accounting record.
+        raw_usage = result.extras.get("usage") if result else None
+        usage = {key: value if type(value) is int and value >= 0 else None
+                 for key, value in raw_usage.items()} if isinstance(raw_usage, dict) else None
+        elapsed = result.elapsed_s if result else None
+        if type(elapsed) not in (int, float) or not math.isfinite(elapsed) or elapsed < 0:
+            elapsed = None
+        telemetry = {"status": status, "error": error,
+                     "wall_clock_s": elapsed,
+                     "usage": usage,
+                     "result": result.result if result else None}
+        self.budget.settle(ident, cost, final=final, telemetry=telemetry,
+                           evidence="terminal-result" if final else "incomplete-usage")
 
     def __call__(self, phase: str, role: str, prompt: str, *, timeout: float) -> RoleReply:
-        model, effort = QUICK_CELLS[role]
-        remaining = self.remaining_budget()
-        if remaining < ROLE_CALL_FLOOR_USD:
-            raise BudgetExhausted(f"USD {remaining:.4f} left, under the USD {ROLE_CALL_FLOOR_USD:.2f} a role call needs")
-        try:
-            res = claudep.call_claude(prompt, cwd=self.project, model=model, effort=effort,
-                                       permission_args=claudep.FORWARDER_PERMISSION_ARGS,
-                                       max_budget_usd=ROLE_CALL_CAP_USD, timeout=timeout)
-        except RuntimeError as exc:
-            if "error_max_budget_usd" in str(exc):
-                raise BudgetExhausted(f"the platform cap of USD {ROLE_CALL_CAP_USD:.2f} aborted one {role} call") from exc
-            raise
-        records, unparsed = _parse_jsonl_reply(res.result)
-        usage = res.extras.get("usage", {}) or {}
-        entry = {"type": "BudgetEntry", "phase": phase, "role": role, "cell": f"worker-{model}-{effort}",
-                  "cost_usd": res.cost_usd or 0.0, "tokens_in": usage.get("input_tokens", 0),
-                  "tokens_out": usage.get("output_tokens", 0), "wall_clock_s": round(res.elapsed_s, 1),
-                  "ledger_version": 0, "references": []}
-        return RoleReply(records=records, budget_entry=entry, unparsed=unparsed)
+        result, ident = self._invoke(phase, role, prompt, timeout=timeout)
+        records, unparsed = _parse_jsonl_reply(result.result)
+        # BudgetEntry is projected from the durable snapshot at finish/recovery;
+        # returning another charge here would create a second cost owner.
+        return RoleReply(records=records, budget_entry=None, unparsed=unparsed)
 
     def classify(self, phase: str, prompt: str, schema: dict, default: dict) -> tuple[dict, dict | None]:
-        if self.remaining_budget() <= 0:
-            return default, None
-        model, effort = QUICK_CELLS["controller"]
         try:
-            res = claudep.call_claude(prompt, cwd=self.project, model=model, effort=effort,
-                                       json_schema=schema, max_budget_usd=min(0.10, self.remaining_budget()),
-                                       timeout=120)
-        except Exception:
+            result, ident = self._invoke(phase, "controller", prompt, timeout=120, schema=schema)
+        except (BudgetExhausted, RoleCallFailed):
             return default, None
         try:
-            result = _parse_schema_result(res, schema)
-        except Exception:
-            result = default
-        entry = {"type": "BudgetEntry", "phase": _PHASE_ALIASES.get(phase, phase), "role": "controller",
-                  "cell": f"worker-{model}-{effort}", "cost_usd": res.cost_usd or 0.0,
-                  "tokens_in": (res.extras.get("usage") or {}).get("input_tokens", 0),
-                  "tokens_out": (res.extras.get("usage") or {}).get("output_tokens", 0),
-                  "wall_clock_s": round(res.elapsed_s, 1), "ledger_version": 0, "references": []}
-        return result, entry
+            return _parse_schema_result(result, schema), None
+        except RuntimeError:
+            return default, None
 
 
 class FakeRoleRunner:
@@ -703,46 +761,163 @@ class RunResult:
     run_dir: Path
     total_cost_usd: float
     calls: int
+    reserved_usd: float = 0.0
+    accounting_complete: bool = True
+
+
+def export_budget(budget: DispatchBudget, dirs: RunDirs) -> dict:
+    """Rebuild reporting artefacts from the sole dispatch authority.
+
+    Atomic replacement makes recovery repeatable after a crash between the
+    accounting write and the reporting write. Null stays null; the report's
+    spent number is a known subtotal when any invocation is unresolved.
+    """
+    snapshot = budget.snapshot()
+    rows = []
+    for index, (ident, row) in enumerate(snapshot["invocations"].items(), 1):
+        meta, telemetry = row["metadata"], row.get("telemetry") or {}
+        usage = telemetry.get("usage") or {}
+        rows.append({"type": "BudgetEntry", "id": f"bud-{index:03d}",
+                     "ledger_version": 0, "references": [],
+                     "phase": meta["phase"], "role": meta["role"], "cell": meta["cell"],
+                     "cost_usd": row["cost_usd"], "tokens_in": usage.get("input_tokens"),
+                     "tokens_out": usage.get("output_tokens"),
+                     "wall_clock_s": telemetry.get("wall_clock_s"),
+                     "invocation_id": ident, "accounting_status": row["state"],
+                     "reserved_usd": max(0, row["allowance_units"] - row["charged_units"]) / 1e9
+                     if row["state"] != "settled" else 0.0})
+    for row in rows:
+        _atomic_write_bytes(dirs.records / f"{row['id']}.json", (json.dumps(row, indent=2) + "\n").encode("utf-8"))
+    _atomic_write_bytes(dirs.budget, "".join(json.dumps(row) + "\n" for row in rows).encode("utf-8"))
+    summary = {key: snapshot[key] for key in ("scope", "limit_usd", "spent_usd", "reserved_usd",
+                                             "available_usd", "breached", "cancelled", "unresolved")}
+    summary["accounting_complete"] = not snapshot["unresolved"]
+    summary["calls"] = len(rows)
+    _atomic_write_bytes(dirs.root / "budget-status.json", (json.dumps(summary, indent=2) + "\n").encode("utf-8"))
+    return summary
+
+
+def write_run_status(dirs: RunDirs, execution_status: str, outcome: str | None,
+                     error: str | None = None) -> None:
+    """Persist one diagnosable owned-exit record for every Controller run."""
+    names = ["REPORT.md", "ledger.jsonl", "budget-status.json"]
+    artefacts = acceptance_lib.snapshot(dirs.root, names)
+    payload = {"version": 1, "execution_status": execution_status,
+               "outcome": outcome, "error": error[:1000] if error else None,
+               "recorded_at": acceptance_lib.utc_now(), "artefacts": artefacts}
+    _atomic_write_bytes(dirs.root / "run-status.json",
+                        (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
+
+
+def recover_run(run_dir: Path, *, invocation_id: str | None = None,
+                final_cost_usd: float | None = None, evidence: str | None = None) -> dict:
+    """Recover accounting and paid output without replaying provider calls.
+
+    Exclusive run ownership excludes reconciliation during active dispatch.
+    OS locks disappear after a crash, but reservations do not. Evidence is an
+    operator-supplied terminal bill/result reference, never a timeout age.
+    """
+    dirs = RunDirs(run_dir.resolve())
+    if not (dirs.root / "dispatch-budget.json").is_file():
+        raise BudgetError("No durable budget found; legacy runs cannot be silently resumed")
+    if invocation_id is not None and (final_cost_usd is None or not evidence or not evidence.strip()):
+        raise BudgetError("Reconciliation requires --final-cost-usd and --evidence")
+    with ledger_lock(dirs.root / "controller-owner", timeout_s=0):
+        budget = DispatchBudget(dirs.root / "dispatch-budget.json")
+        if invocation_id is not None:
+            row = budget.snapshot()["invocations"].get(invocation_id)
+            if row is None:
+                raise BudgetError(f"Unknown invocation {invocation_id!r}")
+            budget.settle(invocation_id, final_cost_usd, final=True,
+                          telemetry=row.get("telemetry") or {}, evidence=evidence)
+        summary = export_budget(budget, dirs)
+        lines = ["# Controller recovery", "",
+                 "No provider calls were replayed. Content records and paid reply text remain intact.",
+                 "Accounting recovery does not automatically continue pipeline phases.", "",
+                 f"Known spend USD {summary['spent_usd']:.4f}; held USD {summary['reserved_usd']:.4f}.",
+                 f"Cancelled: {summary['cancelled']}; breached: {summary['breached']}.", "",
+                 "## Remaining work", "",
+                 "Inspect REPORT.md, digests.md and records/ for completed work. If the process died",
+                 "before a content write, dispatch-budget.json retains any received reply under telemetry.result.",
+                 "Resolve each invocation below from terminal provider evidence, then explicitly scope",
+                 "any follow-on run and its separate budget. Do not repeat completed side effects.", ""]
+        lines += [f"- `{ident}`: unresolved; retain its allowance until final usage is known."
+                  for ident in summary["unresolved"]] or ["No unresolved invocation charges."]
+        _atomic_write_bytes(dirs.root / "RECOVERY.md", ("\n".join(lines) + "\n").encode("utf-8"))
+        return summary
 
 
 def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: float,
-              runner_factory: Callable[[Callable[[], float]], RoleRunner], run_id: str | None = None) -> RunResult:
-    run_id = run_id or dt.datetime.now().strftime("%Y%m%dT%H%M%S")
+              runner_factory: Callable[[Callable[[], float]], RoleRunner], run_id: str | None = None,
+              *, elapsed_limit_s: float | None = None) -> RunResult:
+    units(budget_usd)
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise ValueError("timeout must be finite and positive")
+    if elapsed_limit_s is not None and (not math.isfinite(elapsed_limit_s) or elapsed_limit_s <= 0):
+        raise ValueError("elapsed_limit_s must be finite and positive")
+    deadline = time.monotonic() + elapsed_limit_s if elapsed_limit_s is not None else None
+    run_id = run_id or dt.datetime.now().strftime("%Y%m%dT%H%M%S") + "-" + uuid.uuid4().hex[:8]
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", run_id):
+        raise ValueError("run_id must be a simple directory name")
     dirs = RunDirs(project / "runs" / run_id)
-    n = 1
-    while dirs.root.exists():
-        n += 1
-        dirs = RunDirs(project / "runs" / f"{run_id}-{n}")
+    if dirs.root.exists():
+        raise BudgetError(f"Run {run_id!r} already exists; use --recover-run, never restart its paid work")
     dirs.create()
+    with ledger_lock(dirs.root / "controller-owner", timeout_s=0):
+        return _run_quick(problem_text, project, budget_usd, timeout, runner_factory, dirs, deadline)
+
+
+def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: float,
+               runner_factory: Callable[[Callable[[], float]], RoleRunner],
+               dirs: RunDirs, deadline: float | None) -> RunResult:
+    """Execute a fresh pipeline while holding exclusive ownership of its run."""
     scribe = Scribe(dirs)
     spent = {"usd": 0.0}
     calls = {"n": 0}
+    dispatch_budget = None
 
     def remaining() -> float:
+        if dispatch_budget is not None:
+            return dispatch_budget.remaining()
         return max(0.0, budget_usd - spent["usd"])
 
     def finish(outcome: str, record: dict) -> RunResult:
+        status = export_budget(dispatch_budget, dirs) if dispatch_budget else None
+        if status:
+            spent["usd"], calls["n"] = status["spent_usd"], status["calls"]
         write_report(dirs, scribe, outcome, record, spent["usd"], calls["n"])
-        return RunResult(outcome, record, dirs.root, spent["usd"], calls["n"])
+        if status:
+            with dirs.report.open("a", encoding="utf-8", newline="\n") as handle:
+                handle.write(f"\n## Dispatch accounting\n\nKnown spend USD {status['spent_usd']:.4f}; "
+                             f"held USD {status['reserved_usd']:.4f}; available USD {status['available_usd']:.4f}. "
+                             f"Complete: {status['accounting_complete']}; breach: {status['breached']}.\n\n"
+                             "Inspect budget-status.json and dispatch-budget.json. Reconcile unresolved "
+                             "invocations with terminal provider evidence before reusing their allowance.\n")
+        write_run_status(dirs, "completed" if outcome in ("solution", "dissolved") else "blocked", outcome)
+        return RunResult(outcome, record, dirs.root, spent["usd"], calls["n"],
+                         status["reserved_usd"] if status else 0.0,
+                         status["accounting_complete"] if status else True)
 
     def check_budget(phase: str) -> RunResult | None:
         if remaining() <= 0:
             gap = _gap_report(scribe, "budget_spent")
-            write_digest(scribe, dirs, phase, f"Budget exhausted (USD {spent['usd']:.4f} of {budget_usd:.4f}); stopping.", [])
+            write_digest(scribe, dirs, phase, "No dispatch allowance remains; inspect the report's accounting section.", [])
             return finish("gap", gap)
         return None
 
     runner = runner_factory(remaining)
+    if isinstance(runner, LiveRoleRunner):
+        dispatch_budget = DispatchBudget(dirs.root / "dispatch-budget.json", budget_usd)
+        runner.budget = dispatch_budget
+        runner.deadline = deadline
 
-    # `raw_call` only invokes the runner; it touches no shared state, so it
-    # is the one function this module calls from inside a ThreadPoolExecutor
-    # worker (the Generate phase, below). Every write to `scribe`, `spent`
-    # or `calls` happens back in this function's own thread, after
-    # `pool.map` has returned: the Scribe has exactly one writer, this
-    # thread, always (ROLES.md rule 2 applied to the Controller's own code,
-    # not only to the model roles it calls).
+    # Worker threads share only the locked dispatch budget. All content
+    # writes and ID assignment stay on this thread, after draining futures.
     def raw_call(phase: str, role: str, prompt: str) -> RoleReply:
-        return runner(phase, role, prompt, timeout=timeout)
+        call_timeout = timeout if deadline is None else min(timeout, deadline - time.monotonic())
+        if call_timeout <= 0:
+            raise BudgetExhausted("Elapsed run limit reached; no further call dispatched")
+        return runner(phase, role, prompt, timeout=call_timeout)
 
     def commit_reply(reply: RoleReply) -> list[dict]:
         calls["n"] += 1
@@ -864,25 +1039,42 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         while True:
             ledger_slice = [problem, frame, *scribe.premises(), b0]
 
-            # Only the subprocess call itself runs inside the pool's worker
-            # threads: raw_call touches no shared state. Writing each family's
-            # candidates to the Scribe happens back here, sequentially, once
-            # pool.map has returned every reply, so only this thread ever
-            # assigns an id or appends to the ledger (see raw_call's docstring).
+            # The budget serialises admissions; content writes remain here.
             def gen_one(family: str) -> RoleReply:
                 return raw_call("generate", "generator", build_generate_prompt(family, ledger_slice, []))
 
+            # Drain every future even if one fails. Its siblings have already
+            # spent money and their successful candidates must remain usable.
+            replies, failures = [], []
             with ThreadPoolExecutor(max_workers=max(1, len(chosen_families))) as pool:
-                replies = list(pool.map(gen_one, chosen_families))
+                futures = [pool.submit(gen_one, family) for family in chosen_families]
+                for family, future in zip(chosen_families, futures):
+                    try:
+                        replies.append((family, future.result()))
+                    except (BudgetExhausted, RoleCallFailed) as exc:
+                        failures.append(exc)
             generated: list[dict] = []
-            for family, reply in zip(chosen_families, replies):
+            pending_repairs = []
+            for family, reply in replies:
                 recs = commit_reply(reply)
-                generated += write_with_retry(
-                    "generate", "generator", recs, {"CandidateRecord"},
-                    lambda rej, family=family: _retry_prompt(build_generate_prompt(family, ledger_slice, []), rej))
+                accepted, rejected = scribe.write(recs, writer_role="generator", expected_types={"CandidateRecord"})
+                generated += accepted
+                if rejected:
+                    pending_repairs.append((family, rejected))
+            # Persist every usable sibling before a repair that may fail.
+            if not failures:
+                for family, rejected in pending_repairs:
+                    for _ in range(MAX_RECORD_RETRIES):
+                        if not rejected:
+                            break
+                        fixed = call("generate", "generator", _retry_prompt(build_generate_prompt(family, ledger_slice, []), rejected))
+                        accepted, rejected = scribe.write(fixed, writer_role="generator", expected_types={"CandidateRecord"})
+                        generated += accepted
             candidates = [b0] + generated
             write_digest(scribe, dirs, "generate", f"{len(candidates) - 1} candidate(s) from {chosen_families}, "
                          "plus B0.", candidates[1:])
+            if failures:
+                raise failures[0]
             if (r := check_budget("generate")):
                 return r
 
@@ -968,10 +1160,10 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         # report rather than a traceback. The first fleet batch lost three
         # runs to the traceback form (D58).
         gap = _gap_report(scribe, "budget_spent")
-        write_digest(scribe, dirs, "close", f"Budget exhausted after USD {spent['usd']:.4f} of {budget_usd:.4f}: "
-                     f"{exc}. Stopping with a gap report.", [gap])
+        write_digest(scribe, dirs, "close", f"Dispatch stopped: {exc}. Inspect the accounting summary; "
+                     "stopping with a gap report.", [gap])
         return finish("gap", gap)
-    except RoleOutputMismatch as exc:
+    except (RoleOutputMismatch, RoleCallFailed) as exc:
         # A role's reply never converged to the one record _one_of()
         # needed, after the scripted retry: close with a gap report and
         # REPORT.md written, the same shape as BudgetExhausted, rather
@@ -984,6 +1176,20 @@ def run_quick(problem_text: str, project: Path, budget_usd: float, timeout: floa
         write_digest(scribe, dirs, "close", f"A role's output could not be used: {exc}. "
                      "Stopping with a gap report.", [gap])
         return finish("gap", gap)
+    except KeyboardInterrupt:
+        if dispatch_budget:
+            dispatch_budget.cancel()
+        gap = _gap_report(scribe, "no_improvement", next_test="Cancelled; inspect unresolved invocation charges before continuing")
+        return finish("gap", gap)
+    except BaseException as exc:
+        # Defects remain loud, but recovery must not have to infer whether an
+        # owned Controller process vanished before writing a normal report.
+        write_run_status(dirs, "interrupted", None, f"{type(exc).__name__}: {exc}")
+        raise
+    finally:
+        # Even an internal invariant error must leave complete accounting.
+        if dispatch_budget:
+            export_budget(dispatch_budget, dirs)
 
 
 def _premise_cap_note(frame: dict) -> str:
@@ -1435,11 +1641,37 @@ def main(argv: list[str] | None = None) -> int:
                           "budget with about 3 percent headroom over that max (audit A14, "
                           "docs/AUDIT-2026-09-16.md); 4.0 leaves headroom over the measured max instead")
     ap.add_argument("--timeout", type=float, default=900)
+    ap.add_argument("--elapsed-limit-s", type=float, help="run dispatch deadline; each call uses the smaller remaining timeout")
+    ap.add_argument("--max-output-tokens", type=int, default=8192,
+                    help="per-request Claude Code output setting (default 8192); not a total token or invoice cap")
+    maintenance = ap.add_mutually_exclusive_group()
+    maintenance.add_argument("--recover-run", type=Path, help="recover accounting/reporting only; never replay provider calls")
+    maintenance.add_argument("--cancel-run", type=Path, help="persist cancellation; running calls retain their timeouts and allowances")
+    ap.add_argument("--reconcile-invocation", help="invocation ID within --recover-run, backed by terminal billing evidence")
+    ap.add_argument("--final-cost-usd", type=float)
+    ap.add_argument("--evidence", help="reference to terminal provider usage; never assume timeout means zero cost")
     ap.add_argument("--record", action="store_true", help="write test/results/<date>-system-controller-<run-id>.md")
     ap.add_argument("--dry-run", action="store_true", help="print the phase plan; make no claude -p calls")
     ap.add_argument("--selftest", action="store_true", help="run the canned-record self-test; no claude -p calls")
     ap.add_argument("--verbose", action="store_true")
     args = ap.parse_args(argv)
+
+    if args.reconcile_invocation is not None or args.final_cost_usd is not None or args.evidence is not None:
+        if not args.recover_run or not args.reconcile_invocation or args.final_cost_usd is None or not args.evidence:
+            ap.error("reconciliation requires --recover-run, --reconcile-invocation, --final-cost-usd and --evidence together")
+    if args.recover_run or args.cancel_run:
+        try:
+            if args.cancel_run:
+                budget = DispatchBudget(args.cancel_run / "dispatch-budget.json")
+                budget.cancel()
+                print("Cancellation saved. Running calls may finish and incur charges; allowances remain held.")
+            else:
+                status = recover_run(args.recover_run, invocation_id=args.reconcile_invocation,
+                                     final_cost_usd=args.final_cost_usd, evidence=args.evidence)
+                print(json.dumps(status, indent=2))
+            return 0
+        except (BudgetError, LedgerLockTimeout) as exc:
+            ap.error(str(exc))
 
     if args.selftest:
         ok, problems = selftest(verbose=args.verbose)
@@ -1466,12 +1698,17 @@ def main(argv: list[str] | None = None) -> int:
         ap.error("--problem and --project are required unless --selftest or --dry-run is given")
 
     problem_text = args.problem.read_text(encoding="utf-8").strip()
-    runner_factory = lambda remaining: LiveRoleRunner(args.project, remaining)  # noqa: E731
-    result = run_quick(problem_text, args.project, args.budget_usd, args.timeout, runner_factory)
+    runner_factory = lambda remaining: LiveRoleRunner(args.project, remaining, max_output_tokens=args.max_output_tokens)  # noqa: E731
+    try:
+        result = run_quick(problem_text, args.project, args.budget_usd, args.timeout, runner_factory,
+                           elapsed_limit_s=args.elapsed_limit_s)
+    except (BudgetError, ValueError) as exc:
+        ap.error(str(exc))
 
     print(f"outcome: {result.outcome}")
     print(f"run directory: {result.run_dir}")
-    print(f"calls: {result.calls}, cost: USD {result.total_cost_usd:.4f}")
+    print(f"calls: {result.calls}, known cost: USD {result.total_cost_usd:.4f}, "
+          f"reserved: USD {result.reserved_usd:.4f}, accounting complete: {result.accounting_complete}")
     if result.outcome == "solution":
         print(f"winner: {result.record['candidate_id']} ({result.record['technique']})")
     else:

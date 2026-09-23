@@ -53,9 +53,11 @@ What has been measured, which is the part to hold on to:
 ## How it works
 
 Everything the orchestrator does comes from `ORCHESTRATOR.md`, which
-`tools/build_dist.py` assembles from `src/ROUTING.md` and
-`src/LIFECYCLE.md` with the evidence stripped out, so the model making the
-assessment never sees which cells exist or how they have performed. That
+`tools/build_dist.py` assembles from the concise `src/ORCHESTRATOR_CORE.md`.
+Detailed routing and lifecycle material ships as
+`ORCHESTRATOR-REFERENCE.md` and is loaded only for named recovery or diagnostic
+triggers. Evidence remains stripped from that reference, so the model making
+the assessment never sees which cells exist or how they have performed. That
 stripping is the fix for a measured defect: an orchestrator that can see
 the destinations bends its assessment toward the one it prefers, on the
 same fixtures under the same rubric (D13, D44).
@@ -77,20 +79,27 @@ One task, end to end:
    ledger the answer is the floor for every assessment except an open,
    consequential one, where a labelled risk-appetite policy runs the
    Controller first (D64; `routing_priors.json` `controller_rule`).
-3. **Spawn.** The Agent tool (also called the Task tool) with
+3. **Spawn.** Before dispatch, the orchestrator freezes a task-specific
+   acceptance contract containing the required outputs, constraints, protected
+   paths and an executable check or review rubric. It then uses the Agent tool
+   (also called the Task tool) with
    `subagent_type` set to the cell name and never a `model` parameter,
    because a per-invocation model silently overrides the definition
    (invariant 2, `CLAUDE.md`). The handover states objective, constraints,
    acceptance criteria and return contract; the worker has no other
    context.
-4. **Record.** `route.py --record` appends the outcome, cost and any
-   escalations to the ledger. A rung outside the default ladder activates
+4. **Verify and record.** `route.py --record` owns verification and atomically
+   completes the pending ledger row. It stores evidence tied to the contract,
+   current artefacts, protected baseline and repository revision. Claimed
+   success, stale evidence and rubric work awaiting review cannot train the
+   router; measured cost remains reportable. A rung outside the default ladder activates
    for a bucket after three recorded outcomes at that cell with a
    posterior above 0.5; the project's own cost figures replace the shipped
    table after five (`routing_priors.json` `steering`). A floor failure
    recorded with `--outcome fail` and no `--escalation` counts in the
    posterior the same as an escalated one (fixed 2026-09-16, audit A4,
-   docs/PLAN-6.md B.5).
+   docs/PLAN-6.md B.5). `src/SELF-LEARNING.md` is the full account of
+   what this mechanism learns, what it cannot, and its limitations.
 
 Escalation has two triggers beyond "the next rung on failure". A worker
 that reports it cannot meet its acceptance criteria without acting against
@@ -115,10 +124,8 @@ ten-heading file with computed cost and time lines) before the platform
 compacts. A `SessionStart` hook on the `compact` matcher prints the
 routing rule and the newest handoff after a compaction. The hook's
 pending-worker listing is fed by `route.py --spawn`, run immediately
-after the orchestrator's own Agent tool call (fixed 2026-09-16, audit
-B1, docs/PLAN-6.md B.4): before this fix the step that feeds the
-listing was not in `ORCHESTRATOR.md`, so the listing could never
-populate in a consumer project.
+before the orchestrator's own Agent tool call. This freezes the acceptance
+contract and pending ledger row before work can finish or fail (D88).
 
 Seven platform settings defeat all of this silently, each documented with
 its source in `docs/FINDINGS.md` and listed as an invariant in `CLAUDE.md`:
@@ -135,21 +142,16 @@ walkthrough for a new project and for one with an existing `CLAUDE.md`.
 The short form:
 
 ```bash
-CONSUMER=/path/to/your/project
-mkdir -p "$CONSUMER/.claude" "$CONSUMER/tools" "$CONSUMER/src/System" "$CONSUMER/handoffs"
-cp -r dist/.claude/. "$CONSUMER/.claude/"
-cp dist/ORCHESTRATOR.md dist/README.md dist/preflight.py "$CONSUMER/"
-cp dist/tools/*.py "$CONSUMER/tools/"
-cp dist/src/*.json "$CONSUMER/src/"
-cp -r dist/src/System/. "$CONSUMER/src/System/"
+python3 dist/install.py plan --target /path/to/your/project
+python3 dist/install.py apply --target /path/to/your/project
+python3 /path/to/your/project/preflight.py --status
 ```
 
-Then merge `dist/settings.fragment.json` into the project's
-`.claude/settings.json`, add the line `Read ORCHESTRATOR.md before
-delegating any task.` and the Handoffs section from
-`dist/CLAUDE.template.md` to the project's `CLAUDE.md`, run
-`python3 preflight.py` from the project root, and restart Claude Code if
-`.claude/agents/` did not exist before the session started (E11).
+The installer verifies `bundle-manifest.json`, merges only declared values,
+preserves unrelated configuration and records reversible backups. Use
+`install.py status`, `uninstall` and `rollback` for lifecycle operations.
+Restart Claude Code if `.claude/agents/` did not exist before the session
+started (E11).
 
 Verify by giving the orchestrator one small task and reading its routing
 line, which must state the assessment, the resolved cell and the reason.
@@ -175,13 +177,12 @@ session here; `docs/PLAN.md` through `docs/PLAN-5.md` are the five
 completed plans that built the current state, read for how, not as
 instructions.
 
-- **Harness.** `python3 test/harness/check.py` runs 31 static checks:
+- **Harness.** `python3 test/harness/check.py` is the canonical check count:
   the fifteen definitions match the generator, the routing data
   resolves every fixture to its expected cell, priors and cost rows carry
   provenance, every script's selftest passes without a `claude -p` call,
   and every authored file is clean of em-dashes, US spellings and a short
-  banned-word list. A green run is 30 passes and one permanent skip
-  (invariant 7 needs a live session). Results are committed under
+  banned-word list. Results are committed under
   `test/results/` and `dist/` is rebuilt only from a green tree (D4).
 - **Generated files.** `src/agents/` comes from `tools/generate_workers.py`
   over `src/WORKER_PERSONA.md` and `src/routing_table.json`;
@@ -199,7 +200,7 @@ instructions.
   Controller against a task. All spend money and none is run by the
   harness. Two thresholds hold throughout: three runs steer, nine runs
   report, and a claim below nine is labelled steering (D37).
-- **Records.** `docs/DECISIONS.md` is append-only, eighty entries, each
+- **Records.** `docs/DECISIONS.md` is append-only; each entry carries
   with the condition that would reverse it. `docs/FINDINGS.md` separates
   what the platform is documented to do from what a live session showed
   it doing, by version. `docs/PREMISES.md` is the forty-row ledger of
@@ -217,6 +218,7 @@ instructions.
 | Path | What it is |
 | :--- | :--- |
 | `src/ROUTING.md`, `src/LIFECYCLE.md` | The orchestrator's instructions; rationale spans are stripped on build |
+| `src/SELF-LEARNING.md` | The per-project ledger mechanism: what it learns, what it cannot, capabilities and limitations |
 | `src/WORKER_PERSONA.md`, `src/agents/` | The worker persona and the fifteen generated definitions |
 | `src/routing_table.json`, `routing_priors.json`, `cost_table.json` | The two-rule table, the per-bucket priors, the measured unit costs |
 | `src/System/` | The Controller's problem-solving framework: roles, techniques, record schemas |

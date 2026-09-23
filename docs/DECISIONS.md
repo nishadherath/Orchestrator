@@ -5021,3 +5021,315 @@ re-verified, which the column makes visible rather than fixes.
 
 Reversal: none contemplated; this entry closes the plan, it does not
 open a question.
+
+## 2026-09-17 D84. Version 2 keeps JSONL and adds locked per-attempt accounting
+
+Decision: keep `.claude/routing-ledger.jsonl` as the canonical consumer artefact.
+Version 2 adds ordered attempts, explicit execution state and separate acceptance
+state. Every mutation holds an operating-system file lock for the whole
+transaction. Completion uses a unique temporary file and atomic replacement.
+Legacy history is migrated only by an explicit dry-runnable command with an
+exact byte backup and restore path.
+
+Why: audit findings R1, R4 and R6 show three distinct defects in the prior
+task-total design: pending zeroes can override measured cost, multi-cell totals
+are divided without evidence, and read/increment/rewrite is unsafe across
+sessions. SQLite would provide transactions, but the routing ledger is a user
+and script-facing audit artefact that this project requires to stay readable.
+Standard-library OS locks provide the necessary cross-process transaction
+boundary without adding a dependency or a second source of truth. Attempt
+records preserve unknown values rather than manufacturing attribution.
+
+The exact contract, ownership, migration and verified cases are in
+`docs/ATTEMPT-LEDGER-DESIGN.md`. This decision does not close R2, R3, R5 or R7.
+Learning populations, reservations, selected-path projections and qualified
+acceptance remain separate stages.
+
+Reversal: restore the exact `.pre-v2.bak` through `route.py`; retain the current
+version-2 ledger as `.pre-restore.bak`. A later storage engine must still export
+this documented JSONL contract and prove migration in both directions.
+
+## 2026-09-17 D85. Separate direct and conditional evidence and price the selected path
+
+Decision: maintain a direct-start capability posterior and a conditional
+post-failure posterior for each cell and bucket. Version-2 capability evidence
+is eligible only when acceptance is `pass` or `fail`; terminal cost evidence is
+retained independently. Automatic learning selects one exact tuple of served
+model, worker bundle, routing policy and acceptance-contract version. Multiple
+known tuples retain the prior unless the operator selects a tuple or explicitly
+pools incompatible evidence. An optional maximum age excludes old capability
+samples without claiming a measured decay rate.
+
+Expected-cost projections start at the worker the policy selected, charge that
+worker at reach probability one, and continue only through later active rungs.
+The Controller comparison exposes unpriced rungs and the currently unmeasured
+failed-run, retry and acceptance-verification terms. Successful-only Controller
+means are not presented as complete economics.
+
+Why: audit R2 showed direct elevated starts were ignored or blended with a
+different conditional population. R5 showed a selected elevated worker could
+be compared using a projection that still started at the floor. Pooling aliases
+and policy generations would make either estimate unstable. The conservative
+contract fixes those defects without changing thresholds, priors or routing
+rows before real-world evaluation.
+
+Compatibility: legacy rows remain a labelled unknown-identity claimed-evidence
+population so the historical backtest stays reproducible. New records default
+to unverified acceptance and cannot train capability until Stage 4 qualifies
+them. Reversal is code and documentation rollback; ledger history is retained
+because no observations were rewritten.
+
+
+## D86. Durable Controller dispatch allowances, 2026-09-17
+
+Stage 3 uses one atomic JSON snapshot per Controller run, reusing Stage 1's
+OS lock and replacement primitive. Reserve before every role, classifier or
+retry; parallel calls share one balance. Known charges plus unresolved holds
+block oversubscription at admission. A provider overrun remains recorded and
+blocks further dispatch rather than being clipped to the requested cap.
+
+`budget.jsonl` is a rebuildable projection, with nullable usage and stable
+invocation IDs. Partial and failed spend survives. Unknown terminal usage stays
+held until evidence reconciles it; repeated settlements are idempotent. Recovery
+owns the stopped run exclusively, regenerates reports and never replays calls.
+It deliberately does not promise automatic phase continuation. Reusing a run ID
+is an error; follow-on work needs an explicit separate scope and allowance.
+
+Cancellation, per-call output settings and optional elapsed limits preserve a
+partial report and successful parallel siblings. Dispatch admission is locally
+tested; provider invoice caps and live output-setting enforcement are unverified.
+This is per-run accounting, not a project-wide cap or optimal batch scheduler.
+No consumer ledger is migrated. See `docs/DISPATCH-BUDGET-DESIGN.md` for recovery,
+compatibility and the policy defaults. Rollback preserves snapshots for audit;
+an older bundle cannot safely continue a run created under this contract.
+
+## D87. Acceptance is an owned, artefact-bound reconciliation, 2026-09-17
+
+Decision: freeze an `acceptance-v2` contract before dispatch and make
+`route.py` own verification before it can complete a version-2 ledger row. A
+command contract records required outputs, protected-path baselines, constraints,
+argv and timeout. A rubric contract records the same boundary and remains
+`review_required` until an identified reviewer records pass or fail. Evidence
+is written before ledger completion and carries contract, artefact, protected
+path, revision and result digests. Exact retries are idempotent; changed inputs
+force verification again; conflicting terminal events are rejected.
+
+Why: a worker's claimed outcome, a caller-supplied boolean or an old successful
+test can all be false for the current artefact. Putting the verifier in the
+owned completion path closes that trust gap while retaining measured spending
+from failed, blocked and unverified work. The protected baseline also makes an
+explicit constraint durable: disproving its rationale does not authorise a
+worker to change it or weaken its test.
+
+Compatibility: legacy records remain readable and excluded from version-2
+capability learning unless they already carry qualified evidence. Command
+verification is local and shell-free. Prose work is reviewable but cannot
+become an automatic pass. Missing external hooks remain an unknown observation,
+not a fabricated outcome. Rollback can remove the verifier integration without
+rewriting history, but acceptance-v2 rows then remain audit records that an
+older runtime cannot use as qualified learning evidence.
+
+## D88. Ship a small operating core and retrieve detailed orchestration rules on demand, 2026-09-17
+
+Decision: generate `ORCHESTRATOR.md` from `src/ORCHESTRATOR_CORE.md`. Ship the
+stripped `ROUTING.md` plus `LIFECYCLE.md` detail separately as
+`ORCHESTRATOR-REFERENCE.md`, and name the conditions that require a relevant
+reference section. Keep Graft, routing, pre-dispatch acceptance, completion,
+permissions, budgets, recovery and handoff requirements in the core. Shorten
+the consumer template, worker persona and shared Controller role prefix while
+leaving technique briefs, routing data, TTLs, models and thresholds unchanged.
+
+Why: the Stage 4 installed template plus orchestrator contained 34,999
+characters, estimated at 8,750 tokens by the labelled characters-divided-by-four
+method. The new standing surface is 10,657 characters, estimated at 2,665
+tokens, a 69.5 per cent reduction. The detailed 32,201-character reference
+still ships for auditing and exceptional recovery. Repository-development
+standing text fell 71.7 per cent, one selected worker fell 30.1 per cent on
+average, and each Controller role prompt lost the same 378-token shared prefix.
+
+The reduction is guarded by an offline requirements map and six context tests.
+The prior hashes are retained in `docs/CONTEXT-BASELINE-2026-09-17.json`; exact
+method, results and limits are in `docs/CONTEXT-REDUCTION-DESIGN.md`. Static
+estimates are not provider token counts or evidence of monetary savings or
+unchanged behaviour. No paid compatibility run was made. Rollback restores the
+baseline prompt sources, regenerates workers and rebuilds the bundle.
+
+## D89. Install through an ownership manifest and semantic rollback, 2026-09-17
+
+Decision: ship a standard-library installer and a generated manifest that
+hashes every copied payload and names every owned configuration surface. Treat
+unowned same-name files and scalar values as conflicts. Merge exact permission
+and hook entries without replacing neighbouring values. Mark the owned
+`CLAUDE.md` block, and own `mcpServers.graft` only when the operator supplies a
+machine-specific command.
+
+Every apply, upgrade and uninstall writes preimages and a semantic reversal
+recipe before mutation. Rollback restores owned values while retaining later
+unrelated configuration edits, and refuses the whole operation if an owned
+post-operation value changed. Project ledgers, evidence, runs and handoffs are
+never payload and survive uninstall.
+
+Why: manual copy and merge instructions could overwrite unrelated project
+state, duplicated array entries on repeat installation and offered no safe
+upgrade or removal path. File hashes establish provenance; value-level JSON
+operations preserve the surrounding document. An old manual installation is
+not silently adopted because identical bytes do not prove ownership.
+
+Operational status now reads requested and observed execution, unresolved
+attempts, acceptance, separate cost scopes, prior age and Graft configuration
+without mutation. Release checks establish source parity and exclusion rules
+but leave licence choice and publication to the operator. Full ownership,
+recovery and qualification details are in
+`docs/INSTALLATION-AND-DIAGNOSTICS-DESIGN.md`.
+
+Reversal: use the recorded operation backup while owned values still match.
+Removing installer support from a later bundle must retain existing state and
+backups until every managed consumer has either rolled back or uninstalled.
+
+## D90. Freeze evaluation inputs and qualify graders before spending, 2026-09-17
+
+Decision: bind a real-world campaign candidate to content hashes for the bundle,
+three policy arms, catalogue, price snapshot, acceptance contract and ledger
+schemas. Keep paid launch closed while any pilot fixture, host isolation proof,
+actual model calibration, clean source state, licence decision or spending
+approval is missing.
+
+D01 and D11 are the first vertical slices. Their hidden checks live outside the
+copied actor repository. Each original defect and three adversarial repairs must
+fail, while two different correct repairs must pass. Hidden results never feed
+back into an episode. The full harness runs this qualification without a model
+call.
+
+Why: spending before grader and isolation qualification can turn an invalid
+experiment into apparently precise routing evidence. Content binding also
+prevents a policy, price or contract edit from being mixed into an in-progress
+campaign. The six-episode D01/D11 checkpoint limits initial exposure to USD 26
+including calibration headroom; it is an instrumentation gate, not a smaller
+post-hoc experiment.
+
+## D91. Use a WSL2 identity boundary for evaluation files, 2026-09-17
+
+Decision: run actors and evaluators under distinct Linux identities inside
+WSL2. The actor workspace is owned by the actor identity. Hidden checks and
+reference material are root-owned at mode `0700`; only the evaluator invokes
+them after episode termination. Bind a fresh host probe into the campaign
+freeze and refuse paid launch when it is missing or invalid.
+
+Why: placing hidden files elsewhere in the same readable Windows workspace is
+path separation, not access control. The executable probe demonstrates the
+required read denial while retaining actor workspace writes and evaluator
+access to final actor output. WSL2 is already installed on this host, avoiding
+another container runtime. The proof is host-specific and does not establish
+network policy or full episode execution.
+
+## D92. Model queue shutdown and schema migration as restart contracts, 2026-09-17
+
+Decision: qualify D07 against p-limit 7.3.2's explicit pending-promise
+semantics. A correct consumer must either request rejection when clearing the
+queue or settle queued submissions itself, while draining already running work
+and refusing later submissions. Qualify D08 against a populated SQLite
+database rather than generated SQL text. Its migration must commit resumable
+batches, roll back a failed batch, preserve IDs, support the old writer and
+finish with a non-null derived column.
+
+Why: a shutdown method can return while submitted promises remain pending, and
+a migration can appear correct on an empty database while losing IDs or
+breaking rolling deploys. Deterministic limit injection and in-memory SQLite
+make those lifecycle failures observable without a network service or paid
+model call. The upstream p-limit package is pinned by source revision and
+artifact hash; the fixture contains authored consumer code rather than copied
+package code.
+
+## D93. Grade authority separately from technical diagnosis, 2026-09-17
+
+Decision: complete the pilot corpus with D09's coordinated result-type migration
+and D10's matched authority cases. D09 requires a non-tuple immutable result to
+reach every consumer and package entry point. D10 presents the same false
+generated-file diagnosis twice: repository ownership evidence permits the Case
+A repair, while an explicit Case B no-edit instruction requires a specific
+clarification and leaves the protected file unchanged.
+
+Why: a technically false rationale does not erase an operator constraint, and
+a locally correct interface change can still break an untested consumer. D09
+grades integration rather than one updated call site. D10 combines behavioural
+grading, evidence-bearing resolution records and edit-boundary enforcement so
+the system cannot earn credit by silently expanding its authority.
+
+The candidate freeze must also require integrity-bound offline episode-runner
+evidence. Completing all fixtures is corpus readiness, not permission to start
+a campaign.
+
+## D94. Keep uncertain episode charges reserved across restart, 2026-09-17
+
+Decision: each evaluation episode owns one durable dispatch budget, one actor
+root, one Graft root and one hash-chained event journal. Persist dispatch before
+the worker side effect. On restart, resume from the last committed stage and
+never dispatch the same invocation ID again. Grade only after termination from
+the external evaluator path. A terminal response with missing usage stays
+uncertain, retains its unused allowance and cannot enter learning evidence.
+
+The offline qualification must cover success, rejected work, worker failure,
+timeout, cancellation, interruption and resume, actual-model mismatch, missing
+usage and evaluator failure across all three frozen policies. Its evidence and
+human-readable report bind the runner implementation and inputs by SHA-256.
+
+Why: a retry after a committed side effect can duplicate both work and cost.
+Treating unknown usage as zero can admit later calls beyond the campaign limit.
+Separating the final grade from worker-visible checks also prevents a hidden
+oracle from becoming an escalation signal.
+
+## D95. Attribute task models from streamed messages, not aggregate billing, 2026-09-17
+
+Decision: use each assistant message's model field as the identity evidence for
+the root task and forwarded subagent task. Explicitly pin both models during
+calibration. Keep `modelUsage` as the authoritative aggregate billing breakdown
+and record any billed model absent from attributed messages as auxiliary
+runtime overhead. Bind both the initially failed strict calibration and its
+streamed adjudication into the evaluation freeze.
+
+Why: Claude Code reported Haiku 4.5 billing in a no-tool direct Sonnet 5 call as
+well as in a spawned call. Requiring the aggregate billing keys to equal the
+requested task model therefore confuses internal CLI work with task execution.
+The streamed rerun directly observed Sonnet 5 on every root and worker message
+while retaining all Haiku costs. This rule prevents both false substitution
+claims and hidden-cost deletion.
+
+## D96. Keep the live worker adapter attempt-scoped and tool-minimal, 2026-09-17
+
+Decision: the live adapter owns exactly one Claude coding attempt. It receives
+an actor root, trusted issue text, allowed edit paths, requested worker cell,
+policy instruction, timeout and reserved allowance. It passes exact model and
+effort identifiers, uses restricted safe mode with strict MCP isolation, and
+permits only read, edit, write, glob and grep. Public checks and hidden grading
+run externally after termination. Streamed root messages establish task-model
+identity; aggregate model usage establishes billing and auxiliary overhead.
+
+Why: embedding policy loops, grading or reservation ownership inside the CLI
+adapter would create competing sources of truth and make crash recovery
+ambiguous. Excluding Bash, web and subagents reduces the live actor's authority
+and makes parent/child billing unnecessary for pilot worker attempts. The
+episode state machine must still persist dispatch intent before side effects,
+avoid automatic redispatch after uncertain interruption, sequence B0/B1/B2 and
+own final settlement.
+
+## D97. Make live episode dispatch at-most-once across process restart, 2026-09-17
+
+Decision: execute B0, B1 and B2 in a separate durable episode layer around the
+single-attempt worker adapter. Persist the unique reservation and dispatch event
+before invoking any worker or Controller. Only the process that performs that
+transition may make the corresponding adapter call. A later process that finds
+the action in flight records unknown accounting, retains the allowance and
+stops for reconciliation rather than guessing whether the provider ran.
+
+Policy decisions receive frozen route output and observable attempt history.
+They do not receive task IDs, source project names, hidden grades or reference
+solutions. Public verification is an external escalation signal; hidden grading
+runs once after policy termination. B2 requires two distinct failed actor
+snapshots or an observed cross-module conflict before invoking the Controller.
+
+Why: process death creates an ambiguity that an invocation ID alone cannot
+resolve. Automatic retry can duplicate edits and charges, while automatic refund
+can admit spending beyond the episode limit. A narrow observable policy boundary
+also prevents evaluation labels from becoming routing inputs. The Controller is
+an injected interface until its multi-call accounting can be reconciled with one
+outer episode reservation.

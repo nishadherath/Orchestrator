@@ -14,42 +14,26 @@ says which of the three it has.
 
 ## Rules that bind every role
 
-1. **Records in, records out.** A role receives its input slice as
-   records and returns records that validate against
-   `schemas/`. It never receives a transcript and never writes one.
-   Free text lives only in the schema's capped fields.
-2. **Single writer.** A role writes only the record types its brief
-   names. It never edits a record another role wrote, or one it wrote
-   earlier; a correction is a new record whose `references` (or
-   `supersedes`, `refines`) names the old one. The Controller alone
-   changes nothing either: status is derived from the records.
-3. **Cite the ledger version.** Every record carries the `ledger_version`
-   it was written against. The Scribe rejects a candidate against a stale
-   version before any model sees it.
-4. **No artefact, no measurement.** A `MeasurementRecord` or
-   `EvaluationRecord` without a non-empty `artefact` does not validate
-   and is not written. A role that could not take the measurement says so
-   in the digest, not in an invented number.
-5. **Say what is unverified.** Any role whose output rests on an
-   unverified premise names it. The Librarian's close record carries the
-   list in every mode, empty or not.
-6. **The cell is configuration, not a routing decision.** The fleet's
-   cells are not chosen through `ROUTING.md`'s table; that table routes
-   single-worker delegation by the orchestrator persona, and the cells
-   below are each role's own prior instead. Correction to this rule's
-   first draft (Stage 9.4): it originally said a role is "spawned by
-   `subagent_type`, never passing a `model` parameter", citing `CLAUDE.md`
-   invariant 2. That is invariant 2's rule for the persona's own Task-tool
-   delegation, and it does not describe how Stage 10 actually built the
-   Controller: `tools/system_controller.py` invokes `claude -p --model
-   <m> --effort <e>` directly, the same headless mechanism
-   `benchmark.py`'s forwarder and `score_routing.py`'s orchestrator calls
-   already use, with no `subagent_type` or Task tool involved at all,
-   because a headless `claude -p` call has no persona present to read a
-   worker definition file and no session to name one from. Passing
-   `--model` there is not a violation of invariant 2; it is the only way
-   a code-driven role invocation names a cell. See "Isolation" below for
-   how this mechanism relates to `LIFECYCLE.md`.
+Start every role task with `graft_check_freshness`. Use scoped Graft search,
+file API and call graphs for repository evidence. Direct reads are for exact
+verification and unindexed files. Report missing Graft through the role's
+existing record contract; never invent evidence or silently substitute a broad
+scan. Carry the rule and repository root into any child handover.
+
+1. **Records in, records out.** Consume only the supplied record slice. Return
+   schema-valid records, with free text confined to capped fields.
+2. **Single writer.** Write only the types this brief names. Corrections are new
+   records whose `references`, `supersedes` or `refines` fields name the old
+   record. Status is derived from accepted records.
+3. **Cite the ledger version.** Every record carries the version it used. The
+   Scribe rejects stale candidates.
+4. **No artefact, no measurement.** Measurement and Evaluation records require
+   a real artefact. If a check cannot run, return no invented number.
+5. **Name uncertainty.** State every unverified premise an output depends on.
+   Every close record includes `unverified_load_bearing`, even when empty.
+6. **Cells are Controller configuration.** `ROUTING.md` routes Agent-tool
+   workers. Controller roles are fresh `claude -p --model ... --effort ...`
+   processes configured by code, with no resumable Task-tool session.
 
 ## Isolation (task 10.7)
 
