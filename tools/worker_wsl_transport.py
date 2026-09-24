@@ -8,6 +8,7 @@ the staged actor untouched for manual reconciliation.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
@@ -15,6 +16,7 @@ import re
 import shlex
 import subprocess
 import threading
+import uuid
 from pathlib import Path
 
 from worker_adapter import CapabilityError, WorkerAdapter, WorkerRequest, digest
@@ -26,6 +28,7 @@ NODE = f"{RUNTIME}/bin/node"
 GRAFT = f"{RUNTIME}/lib/node_modules/@nanonets/graft/dist/cli.js"
 MATERIALIZE = f"{RUNTIME}/worker_wsl_materialize.py"
 COLLECT = f"{RUNTIME}/worker_wsl_collect.py"
+GRADE = f"{RUNTIME}/worker_wsl_grade.py"
 MCP = f"{RUNTIME}/actor-mcp.json"
 PUBLIC = ("app.py", "public_check.py", "ISSUE.md", "acceptance.json")
 GRAFT_TOOLS = {"mcp__graft__" + name for name in (
@@ -108,6 +111,54 @@ def _has_terminal_event(stdout: str) -> bool:
         if isinstance(value, dict) and value.get("type") == "result":
             return True
     return False
+
+
+def grade_isolated(source: Path, oracle: Path, expected_sha256: str,
+                   expected_app_sha256: str, root_state: str) -> dict:
+    """Grade a stopped Windows actor through a fresh, unprivileged WSL copy.
+
+    The caller must first verify current host attestation and a stopped worker.
+    Only the root-owned WSL grader reads the oracle and expected outputs.
+    """
+    if source.is_symlink() or oracle.is_symlink():
+        raise TransportError("actor and oracle must not be symlinks")
+    root = source.resolve()
+    _source_files(root)
+    if not oracle.is_file() or oracle.stat().st_size > 1_000_000:
+        raise TransportError("oracle is missing or too large")
+    if not all(re.fullmatch(r"[0-9a-f]{64}", value) for value in (
+            expected_sha256, expected_app_sha256)):
+        raise TransportError("frozen oracle and actor digests are required")
+    if hashlib.sha256(oracle.read_bytes()).hexdigest() != expected_sha256:
+        raise TransportError("oracle does not match its frozen digest")
+    if hashlib.sha256((root / "app.py").read_bytes()).hexdigest() != expected_app_sha256:
+        raise TransportError("actor app.py differs from the stopped-writer digest")
+    if root_state not in {"accepted", "partial", "failed"}:
+        raise TransportError("grade root state is invalid")
+    linux_source = _checked("wslpath", "-a", root.as_posix())
+    linux_oracle = _checked("wslpath", "-a", oracle.resolve().as_posix())
+    name = "inv-" + uuid.uuid4().hex
+    staged = json.loads(_checked("python3", MATERIALIZE, "--source", linux_source,
+                                 "--name", name))
+    if staged.get("actor_root") != f"/var/lib/orchestrator-worker-n4/actors/{name}":
+        raise TransportError("grade materializer returned an unexpected actor root")
+    if staged.get("public_sha256", {}).get("app.py") != expected_app_sha256:
+        raise TransportError("grade materializer copied a different app.py")
+    result = _checked("python3", GRADE, "--actor-name", name,
+                      "--oracle-source", linux_oracle,
+                      "--oracle-sha256", expected_sha256,
+                      "--root-state", root_state, timeout=600)
+    try:
+        grade = json.loads(result)
+    except json.JSONDecodeError as exc:
+        raise TransportError("WSL grader returned no JSON") from exc
+    if grade.get("oracle_sha256") != expected_sha256:
+        raise TransportError("WSL grade did not bind the expected oracle")
+    if grade.get("actor_app_sha256") != expected_app_sha256:
+        raise TransportError("WSL grade did not use the stopped actor app.py")
+    if hashlib.sha256((root / "app.py").read_bytes()).hexdigest() != expected_app_sha256:
+        raise TransportError("actor app.py changed while grading")
+    return grade
 
 
 class WslTransport:

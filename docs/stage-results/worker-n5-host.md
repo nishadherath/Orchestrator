@@ -1,6 +1,6 @@
-# N5 host preparation: WSL transport, no paid run
+# N5 host preparation: WSL transport and grader, no paid run
 
-Date: 2026-09-24. Status: **host transport qualified without provider
+Date: 2026-09-24. Status: **host transport and isolated grader qualified without provider
 credentials; N5 campaign gate remains closed**. The operator reported this
 development session as GPT-5.6 Sol / High; the host does not expose an
 independent setting check. No paid Claude worker call or reserved grade was
@@ -14,6 +14,8 @@ run. The shipping policy remains B0.
   scratch and Graft-index directories.
 - `worker_wsl_namespace.sh` removes Windows mounts and interop access inside
   private mount/PID namespaces before dropping to UID 65534.
+  It overlays the shared actor parent and binds back only the current actor;
+  the probe denied access to a known sibling actor path.
   The transport calls `worker_wsl_collect.py` only after a terminal event and
   wrapper exit. It accepts only an `app.py` edit. It
   rejects protected-file drift and a concurrent source change before copying
@@ -25,10 +27,15 @@ run. The shipping policy remains B0.
   `TaskExecutor`; the generic adapter remains unproven for this host.
   The WSL command validator now rejects any extra CLI flag, malformed budget
   or altered option layout, in addition to broader tools and MCP settings.
-- The manifest-bound WSL attestation passed 40 checks, including the actual
+- The manifest-bound WSL attestation passed 49 checks, including the actual
   Windows-to-WSL bridge, Claude MCP startup, six Graft tools, file/shell/search
   denial, allowed edit collection back to a Windows actor source, and
   protected/concurrent-change rejection.
+  The root-owned WSL grader also passed its Windows bridge, hidden-oracle,
+  partial-quality, no-edit, digest-rejection and bounded-output checks. It
+  runs each case from a fresh actor copy rather than executing candidate code
+  as the Windows evaluator user, and binds the stopped `app.py` digest before
+  and after grading.
   Its current record is `test/results/2026-09-24-worker-n4-wsl-host.json`.
   The separate adapter probe passed seven receipt checks: matched invocation,
   attestation digest, stopped writer, zero charge and unchanged source after

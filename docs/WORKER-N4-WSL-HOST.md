@@ -22,7 +22,9 @@ actor. Executor state and oracle files are never staged.
 `tools/worker_wsl_namespace.sh`
 starts a private mount and PID namespace, mounts a new `/proc`, removes the
 Windows C/D and WSL drivers mounts, covers WSL interop sockets and other host
-integration mounts, and replaces `/init` with `/dev/null`. It then clears the
+integration mounts, and replaces `/init` with `/dev/null`. It overlays the
+shared actor parent with a private tmpfs and binds back only the current
+actor directory, so a known sibling actor path is absent. It then clears the
 inherited environment and drops to UID/GID 65534 with no capabilities and
 `no_new_privs`. DNS is copied into a private mount so the eventual provider
 client can still connect. The actor cannot remount host drives.
@@ -64,13 +66,20 @@ The first command uses this checkout's current Windows path; on another
 checkout, translate its absolute path with `wslpath` and pass that path. The
 attestation computes the translated path automatically. It stages fresh
 random sentinels, launches the actor probe and unauthenticated Claude startup,
-then writes `test/results/2026-09-24-worker-n4-wsl-host.json`. The 40 checks
+then writes `test/results/2026-09-24-worker-n4-wsl-host.json`. The 49 checks
 include a Windows-to-WSL launch through `tools/worker_wsl_transport.py`, with
 Graft registered by Claude and a zero-token authentication failure. A second
 Windows actor round trip verifies that an allowed `app.py` edit is collected
 while the protected acceptance file remains unchanged.
-`--check`
-rejects a changed frozen N4 manifest, source file, runtime binary or evidence
+`tools/worker_wsl_grade.py` then evaluates a fresh isolated actor copy per
+case. The probe verifies oracle-path denial, the Windows grading bridge,
+partial credit, critical-error and no-edit scoring, digest rejection, and a
+kernel-enforced candidate output cap. The Windows bridge binds the exact
+stopped actor `app.py` digest before and after grading. These are local
+synthetic checks, including denial of a known sibling actor path. The paid
+campaign must still prove that every worker has
+stopped before grading. `--check` rejects a changed frozen N4 manifest, source
+file, runtime binary or evidence
 digest. Its checks are pure validation; N5 must rerun the full probe, not rely
 on a previously recorded pass.
 

@@ -582,3 +582,24 @@ over owned drift. The complete content-addressed corpus regression also passes.
 The complete offline harness passes all 51 checks. This closes W09 and the
 planned real-world evaluation programme; it does not claim that B0 met the
 failed absolute ten-family or H11 targets.
+
+## N5 WSL worker host and isolated grading, 2026-09-24
+
+Observed locally with zero provider calls: the 49-check WSL attestation starts
+native Claude with only the actor's six Graft retrieval tools, verifies a
+Windows actor edit round trip, and denies a known sibling actor path from a
+second actor namespace. The root-owned grader runs each case from a fresh
+actor copy. Its probes verify that the actor cannot read the Windows oracle
+path, that full, partial, critical-error and no-edit scores behave as declared,
+and that wrong oracle or stopped-actor digests fail closed. The candidate's
+output is capped by a Linux file-size limit while it runs.
+
+The prior mount layout left the shared actor parent visible, with actor
+directories mode 0755 and `app.py` owned by the common UID 65534. Permission
+inspection implied that a known sibling path was accessible; no pre-fix direct
+read probe was recorded. The private tmpfs overlay now exposes only the
+current actor path, and the post-fix direct-path probe denies the sibling.
+
+Unverified: authenticated provider behaviour, credential delivery, billing
+after a paid response, and the live campaign's stopped-writer-before-grading
+order. The attestation is not a paid-campaign authorisation.

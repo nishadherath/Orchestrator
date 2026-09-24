@@ -42,7 +42,7 @@ calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
   logon command did not run. The operator selected WSL instead. Native Linux
   Claude Code 2.1.273, Node 22.22.0 and Graft 0.18.0 now run from WSL ext4;
   the Windows-mounted executables are excluded from the actor namespace.
-- The fresh WSL host attestation passed 40 checks and is bound to the current
+- The fresh WSL host attestation passed 49 checks and is bound to the current
   frozen N4 manifest and runtime/source hashes in
   `test/results/2026-09-24-worker-n4-wsl-host.json`. The actor ran as UID
   65534 in private mount/PID namespaces. It could edit its own `app.py` and
@@ -50,7 +50,8 @@ calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
   recursive search or `/proc/1/root`; Windows C/D mounts and interop sockets
   were hidden. Native Graft built and served an actor-only index. The
   materializer copied only four public files; the actor could not alter
-  acceptance or create a new root-level file.
+  acceptance or create a new root-level file. Its private mount view hid a
+  known sibling actor directory even though both actors use UID 65534.
 - The actual unauthenticated Claude CLI started inside that boundary. Its
   startup event reported exactly one connected MCP server, Graft, and all six
   required tools; no command-running, web or delegation tool appeared. It
@@ -65,6 +66,12 @@ calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
   rejected protected-file drift. The actual adapter returned a matched,
   stopped-writer, zero-cost authentication-failure receipt with unchanged
   source. This is no paid worker run.
+- The root-owned WSL grader now executes each oracle case in a fresh actor
+  namespace. It matched synthetic full, partial and no-edit outcomes; the
+  actor could not read the Windows oracle path, a wrong digest was rejected,
+  the stopped actor digest was bound, and candidate output was capped during
+  execution. This is a provider-free host check, not evidence of grading after
+  a paid worker.
 - The full provider-free project harness passed 59 checks. Graft deep refresh
   completed and its freshness tool reported both semantic and wiring graphs
   in sync. A Windows temporary-log deletion race in the refresh helper was

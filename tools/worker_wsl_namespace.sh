@@ -38,10 +38,22 @@ if [[ ${1:-} == --inside ]]; then
     mount -t tmpfs -o mode=1777,nosuid,nodev tmpfs /tmp
     mount --bind /dev/null /init
 
+    # Keep this actor's original path while hiding every sibling invocation.
+    # Otherwise all actors share UID 65534 and could edit another actor's
+    # app.py if its directory name became known.
+    mkdir -m 700 /run/actor-bind
+    mount --bind "$actor" /run/actor-bind
+    mount -t tmpfs -o mode=711,nosuid,nodev tmpfs "$base"
+    mkdir -m 755 "$actor"
+    mount --bind /run/actor-bind "$actor"
+    umount /run/actor-bind
+    rmdir /run/actor-bind
+
     for path in /mnt/c /mnt/d /usr/lib/wsl/drivers; do
         ! mountpoint -q "$path" || { echo "Host mount remains visible: $path" >&2; exit 70; }
     done
     [[ ! -e /run/WSL ]] || exit 70
+    [[ $(find "$base" -mindepth 1 -maxdepth 1 -type d | wc -l) == 1 ]] || exit 70
     [[ -f /mnt/wsl/resolv.conf ]] || exit 70
     [[ $(stat -c %a /var/lib/orchestrator-worker-n4/evaluator) == 700 ]] || exit 70
 

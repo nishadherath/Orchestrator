@@ -30,13 +30,15 @@ RUNTIME = PurePosixPath("/opt/orchestrator-worker-runtime")
 ACTOR_BASE = "/var/lib/orchestrator-worker-n4/actors/"
 RUNTIME_FILES = (
     "bin/node", "bin/claude", "bin/worker-wsl-namespace", "actor-probe.py",
-    "worker_wsl_materialize.py", "worker_wsl_collect.py", "transport-probe.py",
+    "worker_wsl_materialize.py", "worker_wsl_collect.py", "worker_wsl_grade.py",
+    "transport-probe.py",
     "actor-mcp.json", "lib/node_modules/@nanonets/graft/dist/cli.js",
 )
 SOURCE_FILES = (
     "tools/setup_worker_wsl.sh", "tools/worker_wsl_stage.sh",
     "tools/worker_wsl_namespace.sh", "tools/worker_wsl_actor_probe.py",
     "tools/worker_wsl_materialize.py", "tools/worker_wsl_collect.py",
+    "tools/worker_wsl_grade.py",
     "tools/worker_wsl_transport_probe.py",
     "tools/worker_wsl_transport.py",
     "tools/worker_wsl_adapter_probe.py",
@@ -63,6 +65,11 @@ REQUIRED_CHECKS = {
     "windows_transport_path", "concurrent_source_change_rejected",
     "source_change_preserved", "windows_transport_edit_collected",
     "windows_transport_acceptance_untouched",
+    "isolated_grade_acceptance", "isolated_grade_oracle_hidden",
+    "isolated_grade_digest_rejected", "isolated_grade_output_capped",
+    "windows_isolated_grade_bridge", "isolated_grade_partial_score",
+    "isolated_grade_no_edit_rule", "isolated_grade_actor_digest_rejected",
+    "sibling_actor_hidden",
 }
 
 
@@ -303,6 +310,89 @@ def run() -> dict:
         bridge_checks["windows_transport_acceptance_untouched"] = (
             (source / "acceptance.json").read_text(encoding="utf-8")
             == '{"schema_version":1}\n')
+        # The paid screen must never execute candidate code as the Windows
+        # evaluator user. Grade two cases via fresh WSL actor namespaces.
+        (source / "app.py").write_text(
+            "import json, sys\n"
+            "for line in sys.stdin:\n"
+            "    print(json.dumps({'value': json.loads(line)['value'] * 2}))\n",
+            encoding="utf-8")
+        oracle = source / "oracle.json"
+        oracle.write_text(json.dumps({"schema_version": 1, "cases": [
+            {"input": {"value": 2}, "expected": {"value": 4}, "weight": 1,
+             "milestone": "first", "critical": False},
+            {"input": {"value": 3}, "expected": {"value": 6}, "weight": 1,
+             "milestone": "second", "critical": False}]}) + "\n", encoding="utf-8")
+        oracle_linux = checked("wslpath", "-a", oracle.as_posix())
+        grade_name = "inv-" + uuid.uuid4().hex
+        grade_actor = json.loads(checked(
+            "python3", str(RUNTIME / "worker_wsl_materialize.py"),
+            "--source", linux_source, "--name", grade_name))["actor_root"]
+        bridge_checks["sibling_actor_hidden"] = (
+            wsl(launcher, grade_actor, "--", "/usr/bin/test", "-e",
+                staged["actor_root"] + "/app.py", timeout=30).returncode != 0)
+        grade_args = ("python3", str(RUNTIME / "worker_wsl_grade.py"),
+                      "--actor-name", grade_name, "--oracle-source", oracle_linux,
+                      "--oracle-sha256", sha(oracle), "--root-state", "accepted")
+        grade = json.loads(checked(*grade_args, timeout=60))
+        bridge_checks["isolated_grade_acceptance"] = (
+            grade["acceptance"] is True and grade["quality"] == 100
+            and grade["case_count"] == 2 and grade["oracle_sha256"] == sha(oracle))
+        bridge_checks["isolated_grade_oracle_hidden"] = (
+            wsl(launcher, grade_actor, "--", "/usr/bin/test", "-r", oracle_linux,
+                timeout=30).returncode != 0)
+        from worker_wsl_transport import TransportError, grade_isolated
+        app_digest = sha(source / "app.py")
+        bridged_grade = grade_isolated(source, oracle, sha(oracle), app_digest,
+                                      "accepted")
+        bridge_checks["windows_isolated_grade_bridge"] = (
+            bridged_grade["acceptance"] is True
+            and bridged_grade["oracle_sha256"] == sha(oracle))
+        try:
+            grade_isolated(source, oracle, sha(oracle), "0" * 64, "accepted")
+        except TransportError:
+            bridge_checks["isolated_grade_actor_digest_rejected"] = True
+        else:
+            bridge_checks["isolated_grade_actor_digest_rejected"] = False
+        partial_oracle = source / "oracle_partial.json"
+        partial_oracle.write_text(json.dumps({"schema_version": 1, "cases": [
+            {"input": {"value": 2}, "expected": {"value": 4}, "weight": 1,
+             "milestone": "first", "critical": False},
+            {"input": {"value": 3}, "expected": {"value": 7}, "weight": 1,
+             "milestone": "second", "critical": True}]}) + "\n", encoding="utf-8")
+        partial = grade_isolated(source, partial_oracle, sha(partial_oracle),
+                                 app_digest, "accepted")
+        bridge_checks["isolated_grade_partial_score"] = (
+            partial["acceptance"] is False and partial["quality"] == 50
+            and partial["critical_error"] is True
+            and partial["false_success"] is True
+            and partial["milestones"] == ["first"])
+        no_edit_oracle = source / "oracle_no_edit.json"
+        no_edit_oracle.write_text(json.dumps({"schema_version": 1,
+            "cases": [{"input": {"value": 2}, "expected": {"value": 4},
+                       "weight": 1, "milestone": "first", "critical": False}],
+            "no_edit_baseline_sha256": "0" * 64}) + "\n", encoding="utf-8")
+        no_edit = grade_isolated(source, no_edit_oracle, sha(no_edit_oracle),
+                                 app_digest, "accepted")
+        bridge_checks["isolated_grade_no_edit_rule"] = (
+            no_edit["acceptance"] is False and no_edit["quality"] == 0
+            and no_edit["critical_error"] is True
+            and no_edit["false_success"] is True)
+        bad_grade = wsl(*grade_args[:-4], "--oracle-sha256", "0" * 64,
+                        "--root-state", "accepted", timeout=30)
+        bridge_checks["isolated_grade_digest_rejected"] = (
+            bad_grade.returncode != 0 and not bad_grade.stdout.strip())
+        (source / "app.py").write_text(
+            "import sys\nsys.stdout.write('x' * 70000)\n", encoding="utf-8")
+        noisy_name = "inv-" + uuid.uuid4().hex
+        checked("python3", str(RUNTIME / "worker_wsl_materialize.py"),
+                "--source", linux_source, "--name", noisy_name)
+        noisy = wsl("python3", str(RUNTIME / "worker_wsl_grade.py"),
+                    "--actor-name", noisy_name, "--oracle-source", oracle_linux,
+                    "--oracle-sha256", sha(oracle), "--root-state", "accepted",
+                    timeout=30)
+        bridge_checks["isolated_grade_output_capped"] = (
+            noisy.returncode != 0 and "output limit" in noisy.stderr)
     checks = {**report["checks"], **transport_report["checks"],
               **cli_checks, **bridge_checks}
     evidence = {

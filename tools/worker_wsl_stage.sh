@@ -12,6 +12,7 @@ install -m 755 "$source_root/worker_wsl_namespace.sh" "$runtime/bin/worker-wsl-n
 install -m 644 "$source_root/worker_wsl_actor_probe.py" "$runtime/actor-probe.py"
 install -m 644 "$source_root/worker_wsl_materialize.py" "$runtime/worker_wsl_materialize.py"
 install -m 644 "$source_root/worker_wsl_collect.py" "$runtime/worker_wsl_collect.py"
+install -m 644 "$source_root/worker_wsl_grade.py" "$runtime/worker_wsl_grade.py"
 install -m 644 "$source_root/worker_wsl_transport_probe.py" "$runtime/transport-probe.py"
 rm -f -- "$runtime/materialize.py" "$runtime/collect.py"
 cat > "$runtime/actor-mcp.json" <<'JSON'
@@ -20,7 +21,7 @@ JSON
 chmod 644 "$runtime/actor-mcp.json"
 chown root:root "$runtime/bin/claude" "$runtime/bin/worker-wsl-namespace" \
     "$runtime/actor-probe.py" "$runtime/worker_wsl_materialize.py" \
-    "$runtime/worker_wsl_collect.py" \
+    "$runtime/worker_wsl_collect.py" "$runtime/worker_wsl_grade.py" \
     "$runtime/transport-probe.py" \
     "$runtime/actor-mcp.json"
 

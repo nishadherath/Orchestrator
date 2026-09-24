@@ -64,7 +64,9 @@ authenticated edit or qualify the generic production adapter. A fake transport
 can exercise accounting and workflow, but cannot qualify live access control.
 Any unproved boundary blocks paid launch; a failed isolation check cannot be
 waived by authorisation. The authenticated credential path and N5 campaign
-runner are still unqualified.
+runner are still unqualified. A root-owned WSL grader now runs each candidate
+case in a fresh actor namespace, with the oracle read only by the evaluator.
+Its synthetic host probes do not prove the paid runner's stop and grading order.
 
 ## Campaign contract
 
