@@ -58,10 +58,13 @@ passed **58 tests**. `python3 tools/build_dist.py` passed its offline gate and
 produced a **73-file** bundle. The copied-bundle consumer smoke test passed B0
 and N2 fake tasks with no source-tree imports. The post-build full harness
 passed **57/57**, zero skips; its [JSON record](../../test/results/2026-09-24-worker-n2-harness.json)
-includes DIST parity, REALWORLD and RELEASE checks. At this pre-commit point,
-RELEASE reported no mechanical failures and two operator actions: a clean
-source stamp and publication. The source-stamped package build follows the
-source commit. No paid Claude worker or Controller call was made for N2.
+includes DIST parity, REALWORLD and RELEASE checks. Source and evidence were
+committed as `cb7ba14`, then the builder produced a clean
+`2026-09-24-cb7ba14` stamp. The copied-bundle test passed again. The final
+[post-build harness record](../../test/results/2026-09-24-worker-n2-final-harness.json)
+passed **57/57** with **73-file** parity. RELEASE reported no mechanical
+failures; publication is its only remaining operator action. No paid Claude
+worker or Controller call was made for N2.
 
 ## Limits and next gate
 

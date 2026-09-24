@@ -396,7 +396,7 @@ instructions; token-saving estimates are not measured API bill savings.
 
 ## Executor rollback boundary
 
-The installable N1 executor keeps its own task journal and root budget under
+The installable executor keeps its own task journal and root budget under
 `.claude/task-executor-v2/`. Before reverting to a legacy Task-tool or route
 path for work that may have used it, run
 `python3 tools/task_executor.py --audit --project .`. An open task or unsettled
@@ -404,6 +404,13 @@ hold blocks relaunch until the original writer and provider charge are
 reconciled. Keep those records during a bundle rollback. The executor is not
 yet an automatic interactive Task-tool interceptor; launches outside its
 admission API are unmanaged.
+An opt-in N2 child plan uses the same root journal and balance. It must be
+admitted through `managed_delegation.py` before root B0 dispatch. The parent
+cannot complete while a required child is incomplete or its accepted output
+has changed. Child calls with uncertain writer or charge evidence retain their
+holds; cancelling the parent signals active children and blocks new admissions.
+The live adapter currently rejects managed delegation until child isolation
+and scoped Graft are enforced. See `MANAGED-DELEGATION.md` for the contract.
 
 ## What you can and cannot do
 
