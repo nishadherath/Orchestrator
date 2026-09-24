@@ -23,6 +23,7 @@ import acceptance
 import dispatch_budget
 import model_registry
 import route
+import worker_selector
 from worker_adapter import WorkerRequest, digest
 
 
@@ -210,9 +211,55 @@ class TaskExecutor:
         return {**value, "budget": self._budget(root_id).snapshot()}
 
     def override_cell(self, root_id: str, *, cell: str, actor: str, reason: str) -> None:
-        """N3 owns selector overrides; N1 cannot silently mutate B0 identity."""
+        """B0 dispatch never silently changes identity; use shadow_select."""
         self.status(root_id)  # Validate the root before reporting an unsupported request.
-        raise ExecutorError("cell overrides are unsupported in N1; B0 remains pinned")
+        raise ExecutorError("cell overrides are unsupported in N1; use shadow_select for N3 candidates")
+
+    def shadow_select(self, root_id: str, assessment: dict,
+                      *, override: dict | None = None) -> dict:
+        """Journal a candidate for the next attempt without changing B0.
+
+        A decision made during a running invocation belongs to the following
+        attempt. It cannot relabel that invocation, amend a budget, or promote
+        the experimental selector to dispatch authority.
+        """
+        path = self._path(root_id)
+        with route.ledger_lock(path):
+            value = _read(path)
+            if value["state"] in TERMINAL or value["state"] in {"uncertain", "cancelled"}:
+                raise ExecutorError("shadow selection needs a live, certain root")
+            next_sequence = len(value["attempts"]) + 1
+            if next_sequence > len(value["ladder"]):
+                raise ExecutorError("no future attempt remains")
+            capability = self.adapter.capability(self.project)
+            if digest(capability) != value["admission"]["capability_digest"]:
+                raise ExecutorError("host capability changed since admission")
+            if override is not None:
+                authority = override.get("authority_id") if isinstance(override, dict) else None
+                if authority in {item.get("override", {}).get("authority_id")
+                                 for item in value.get("shadow_decisions", [])
+                                 if item.get("override") is not None}:
+                    raise ExecutorError("override authority already used")
+            budget = self._budget(root_id)
+            decision = worker_selector.select(
+                assessment,
+                supported_cells=set(capability.get("supported_cells", [])),
+                remaining_usd=budget.remaining(),
+                budget_enforced=capability.get("budget_enforced") is True,
+                override=override)
+            row = {"sequence": next_sequence, "decision": decision,
+                   "decision_digest": digest(decision),
+                   "b0_cell": value["ladder"][next_sequence - 1],
+                   "override": decision["override"],
+                   "recorded_at": acceptance.utc_now()}
+            value.setdefault("shadow_decisions", []).append(row)
+            _event(value, "shadow_selection", sequence=next_sequence,
+                   decision_digest=row["decision_digest"],
+                   selected_cell=decision["selected_cell"],
+                   b0_cell=row["b0_cell"], override_authority=(
+                       override.get("authority_id") if override else None))
+            _write(path, value)
+            return row
 
     def admit(self, *, goal: str, scope: list[str], permissions: list[str],
               acceptance_path: Path, budget_usd: float, authority_id: str,

@@ -79,6 +79,8 @@ tools/
                                                      validated evidence and worker handoff)
   model_registry.py                                (exact 15-cell identity, effort, role-profile
                                                      and cost-evidence resolver)
+  worker_selector.py                               (public-evidence N3 shadow selection over all
+                                                     cells; no automatic dispatch)
   task_executor.py                                 (durable B0 admission, recovery, independent
                                                      acceptance and read-only rollback audit)
   managed_delegation.py                            (opt-in, budgeted child DAG under one root)
@@ -122,6 +124,8 @@ SELF-LEARNING.md                                    (what the per-project ledger
 CONTROLLER.md                                       (maintained Controller function, phase,
                                                      budget, recovery and qualification
                                                      reference)
+WORKER-SELECTOR.md                                  (N3 assessment schema, overrides, stops,
+                                                     evidence limits and B0 isolation)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
                                                      handoff rule that survives platform
