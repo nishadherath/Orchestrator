@@ -1,8 +1,9 @@
 # N4 worker corpus and campaign boundary
 
-Status: offline corpus and fake campaign implemented. Live worker isolation is
-unproved and paid launch remains disabled. No paid run or reserved worker grade
-has occurred. Local reference and shortcut tests exercise evaluator-only
+Status: offline corpus and fake campaign implemented. WSL host isolation and
+unauthenticated Claude/Graft startup are attested, but the production adapter
+is not yet connected to that transport. Paid launch remains disabled. No paid
+run or reserved worker grade has occurred. Local reference and shortcut tests exercise evaluator-only
 oracles; their outputs cannot tune a candidate policy.
 This document implements the N4 scope in
 `WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md` and
@@ -53,14 +54,16 @@ only the materialised actor root; the evaluator alone receives catalogue
 metadata. Both still run as the same Windows user in these tests, so this is
 an interface check, not an OS proof.
 
-The WSL2 `realworld_isolation.py` test proves one local Unix-user filesystem
-boundary. A separate fresh `worker_graft_probe.py` MCP test proves that an
-actor-root Graft instance indexes only actor files and rejects parent-scoped
-queries. Neither proves Claude transport or an actual worker's full filesystem
-boundary. N4 must bind a fresh actual-host attestation to
-the campaign manifest. A fake transport can exercise accounting and workflow,
-but cannot qualify live access control. Any unproved boundary blocks paid
-launch; a failed isolation check must not be waived by authorisation.
+The initial `realworld_isolation.py` and `worker_graft_probe.py` tests proved
+their separate local boundaries. The later [WSL host attestation](WORKER-N4-WSL-HOST.md)
+ran a native actor behind private mount/PID namespaces, denied sentinel access
+through file/search/symlink/process paths, and confirmed the actual
+unauthenticated Claude CLI connected only the actor's six Graft tools. It is
+bound to the current N4 manifest and runtime hashes. It does not prove an
+authenticated edit or qualify the generic production adapter. A fake transport
+can exercise accounting and workflow, but cannot qualify live access control.
+Any unproved boundary blocks paid launch; a failed isolation check cannot be
+waived by authorisation.
 
 ## Campaign contract
 

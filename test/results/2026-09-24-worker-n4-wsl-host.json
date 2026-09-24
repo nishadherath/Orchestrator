@@ -1,0 +1,54 @@
+{
+  "actor_root": "/var/lib/orchestrator-worker-n4/actors/probe-fOVbSiv2",
+  "boundary": "WSL private mount+PID namespaces, uid 65534, Linux ext4 actor/evaluator",
+  "checks": {
+    "actor_read_write": true,
+    "actor_uid": true,
+    "claude_actor_cwd": true,
+    "claude_graft_connected": true,
+    "claude_graft_six_tools": true,
+    "claude_native_runs": true,
+    "claude_no_credentials": true,
+    "claude_no_execution_tools": true,
+    "claude_no_inherited_plugins": true,
+    "claude_no_paid_call": true,
+    "claude_only_expected_tools": true,
+    "evaluator_direct_denied": true,
+    "evaluator_symlink_denied": true,
+    "graft_actor_visible": true,
+    "graft_evaluator_absent": true,
+    "graft_parent_rejected": true,
+    "graft_six_tools": true,
+    "interop_socket_hidden": true,
+    "proc_root_no_escape": true,
+    "recursive_search_denied": true,
+    "sanitized_environment": true,
+    "windows_c_unmounted": true,
+    "windows_d_unmounted": true
+  },
+  "evidence_sha256": "6fbce7bdac246ff25f114766755de1b2bf37178bc633186374ccaa7fbe4989a9",
+  "limits": [
+    "No authenticated provider request or paid worker edit occurred.",
+    "N5 requires a fresh attestation, credential configuration and live runner."
+  ],
+  "manifest_sha256": "e858d1669c8e254a9c0cc111b3d47b9b19c9a2e9b6a1cc8d590815f39ae74f29",
+  "recorded_at": "2026-09-24T09:10:14+00:00",
+  "result": "PASS",
+  "runtime_hashes": {
+    "actor-mcp.json": "0bbc160e87078c0f0ead2b332020632bb08e9ce42329eaad13d2d92b78fad1bb",
+    "actor-probe.py": "6dcc40240c9edae5b0a4d546503212174a0e4b2f6471d0d54bbaac7f9fdb8fa8",
+    "bin/claude": "6c752e2cc7c110c9df15f26d8d134d438c5ae95dbd610efc1a308bf7f9c5f6c1",
+    "bin/node": "1bec56ef7cfa9a76f3e0b7c0a87f220eb73f23102b9c0b4c7529a3f7c3ce7c31",
+    "bin/worker-wsl-namespace": "bf4a0211c81b921ff8f21c371ceab60096b0d2fb6897edb7d09e52aec68b8d36",
+    "graft_package_tree": "3ad5dcb445a910a2c5e9ec6327fdb631aa5fa1ca02bfa49326c06643385e7dc4",
+    "lib/node_modules/@nanonets/graft/dist/cli.js": "f076683029cd82afd4fd32817f017b71e28570b390ece80b19c288bd5eb7ce9f"
+  },
+  "schema_version": 1,
+  "source_hashes": {
+    "tools/setup_worker_wsl.sh": "33fbbe9fbef7c34befd4f60c0215d9fabb93752f532014463ae949723e86eebc",
+    "tools/worker_wsl_actor_probe.py": "6dcc40240c9edae5b0a4d546503212174a0e4b2f6471d0d54bbaac7f9fdb8fa8",
+    "tools/worker_wsl_attestation.py": "9ef3f3754a8a6452b49e5ab0b1cba1bc4ff5631d0b19de3496bb42346d1741f7",
+    "tools/worker_wsl_namespace.sh": "bf4a0211c81b921ff8f21c371ceab60096b0d2fb6897edb7d09e52aec68b8d36",
+    "tools/worker_wsl_stage.sh": "b5a9240f8f1a294dd6c20374853c5d104d33edbb8f3b456a95a807d24ba2cec9"
+  }
+}

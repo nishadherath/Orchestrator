@@ -1,8 +1,8 @@
 # N4: worker corpus and campaign boundary
 
-Date: 2026-09-24. Gate: **offline implementation demonstrated; live protection
-not yet qualified**. No paid worker calls were made and N5 must not launch from
-the current runner. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
+Date: 2026-09-24. Gate: **offline implementation and WSL host startup attested;
+authenticated live work and the paid runner remain disabled**. No paid worker
+calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
 [sequencing plan](../WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md) and
 [worker plan](../WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) govern this result.
 
@@ -39,9 +39,24 @@ the current runner. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
   `test/results/2026-09-24-worker-n4-graft-probe.json`. This proves the scoped
   local index behaviour, not what a live Claude host actually loads.
 - A disposable Windows Sandbox viability probe started the binary but its
-  logon command did not run. The Sandbox optional-feature state requires
-  elevation to inspect on this host. WSL has no native Claude CLI, Node or
-  Graft runtime; its discovered Node/Graft executables are Windows-mounted.
+  logon command did not run. The operator selected WSL instead. Native Linux
+  Claude Code 2.1.273, Node 22.22.0 and Graft 0.18.0 now run from WSL ext4;
+  the Windows-mounted executables are excluded from the actor namespace.
+- The fresh WSL host attestation passed 23 checks and is bound to the current
+  frozen N4 manifest and runtime/source hashes in
+  `test/results/2026-09-24-worker-n4-wsl-host.json`. The actor ran as UID
+  65534 in private mount/PID namespaces. It could edit its own package and
+  could not read the root-owned evaluator through a direct path, symlink,
+  recursive search or `/proc/1/root`; Windows C/D mounts and interop sockets
+  were hidden. Native Graft built and served an actor-only index.
+- The actual unauthenticated Claude CLI started inside that boundary. Its
+  startup event reported exactly one connected MCP server, Graft, and all six
+  required tools; no command-running, web or delegation tool appeared. It
+  ended with a zero-token authentication failure. This verifies startup and
+  tool wiring, not an authenticated model's edit or a paid result.
+- The production adapter's CLI argument assembly was corrected to use
+  `--key=value` for variadic options; previously the MCP path could consume
+  subsequent options as file names. The fix passed focused regressions.
 - The full provider-free project harness passed 59 checks. Graft deep refresh
   completed and its freshness tool reported both semantic and wiring graphs
   in sync. A Windows temporary-log deletion race in the refresh helper was
@@ -68,20 +83,21 @@ multi-file repository edits, real dependency failures or actual concurrent
 execution. Treat any quality result on this corpus as limited to these
 synthetic mechanisms, not as evidence of general real-world readiness.
 
-The current production `WorkerAdapter.capability()` explicitly reports
-`enforcement_proven: false`. The fake campaign executes candidate code under
-the same Windows identity as its evaluator; it cannot prove that live actor
-reads, shell commands, recursive search, inherited instructions, symlinks and
-Graft retrieval cannot reach protected oracle material. No live adapter or
-paid campaign entry point has been enabled. A fresh actor-root-scoped Graft
-instance and real host transport attestation must be implemented and probed
-with a sentinel before this gate can be marked complete. Bind that attestation
-to the final campaign manifest; reject a changed host/configuration.
+The production `WorkerAdapter.capability()` still reports
+`enforcement_proven: false` because it does not yet launch through the WSL
+wrapper. The fake campaign uses the same Windows identity as its evaluator;
+only the separate WSL probe exercises OS isolation. The startup probe has no
+provider credentials and cannot prove an authenticated worker's behaviour or
+cost receipt. The attestation is a content-digested local record, not a
+cryptographic signature. It does not authorize paid calls or a reusable live
+campaign entry point.
 
-The next implementation action is a disposable live-capability probe that
-executes all read/search/Graft attacks as the actual worker identity and
-records a digest-bound result. The paid N5 campaign remains disabled until
-this is successful and the full offline harness is green.
+The next implementation action is to connect `TaskExecutor` to the attested
+WSL transport with per-task materialization, stopped-writer evidence,
+credential handling and restart-safe receipts, then repeat the probe against
+that exact transport and final N5 manifest. Keep the current fake-only runner
+closed until those checks and the full offline harness pass. See the
+[WSL host guide](../WORKER-N4-WSL-HOST.md).
 
 ## N5 authorised run inventory, contingent on that gate
 

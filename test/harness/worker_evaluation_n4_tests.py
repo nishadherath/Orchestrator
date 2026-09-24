@@ -2,6 +2,7 @@
 """Provider-free N4 miniature: freeze, replay, grading and fault paths."""
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import tempfile
@@ -13,6 +14,33 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_evaluation as campaign  # noqa: E402
+import worker_wsl_attestation as host_attestation  # noqa: E402
+
+
+class HostAttestationTests(unittest.TestCase):
+    def test_digest_manifest_source_and_check_tampering_fail_closed(self):
+        body = {"schema_version": 1, "result": "PASS",
+                "manifest_sha256": campaign.freeze(host_attestation.CORPUS)["manifest_sha256"],
+                "source_hashes": {name: host_attestation.sha(ROOT / name)
+                                  for name in host_attestation.SOURCE_FILES},
+                "runtime_hashes": {"fixture": "offline"},
+                "checks": {"actor_denied_evaluator": True}}
+
+        def sealed(value):
+            return {**value, "evidence_sha256": hashlib.sha256(
+                host_attestation.canonical(value)).hexdigest()}
+
+        good = sealed(body)
+        self.assertTrue(host_attestation.validate(good, check_host=False))
+        self.assertFalse(host_attestation.validate({**good, "result": "FAIL"},
+                                                   check_host=False))
+        self.assertFalse(host_attestation.validate(sealed({**body, "manifest_sha256": "0" * 64}),
+                                                   check_host=False))
+        self.assertFalse(host_attestation.validate(sealed({**body, "source_hashes": {}}),
+                                                   check_host=False))
+        self.assertFalse(host_attestation.validate(sealed({**body, "checks":
+                                                          {"actor_denied_evaluator": False}}),
+                                                   check_host=False))
 
 
 def _assessment():

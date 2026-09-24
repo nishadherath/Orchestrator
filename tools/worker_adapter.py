@@ -198,16 +198,20 @@ class WorkerAdapter:
         cell = model_registry.resolve_cell(request.requested_cell)
         if not cell["direct_worker"]:
             raise CapabilityError("cell is not available for direct worker dispatch")
-        return ["claude", "-p", self.prompt(request), "--output-format", "stream-json",
-                "--verbose", "--model", cell["cli_model"], "--effort", cell["effort"],
+        # Variadic CLI options consume following positional arguments. Use
+        # --key=value forms so the MCP path cannot swallow the remaining flags.
+        graft_tools = ("mcp__graft__graft_check_freshness",
+                       "mcp__graft__graft_repo_map", "mcp__graft__graft_find_code",
+                       "mcp__graft__graft_file_api", "mcp__graft__graft_trace_calls",
+                       "mcp__graft__graft_find_all")
+        return ["claude", "-p", self.prompt(request), "--output-format=stream-json",
+                "--verbose", "--model", cell["cli_model"],
+                "--effort", cell["effort"],
                 "--max-budget-usd", str(request.allowance_usd), "--restricted",
-                "--strict-mcp-config", "--mcp-config", str(self.mcp_config.resolve()),
-                "--no-session-persistence", "--permission-mode", "acceptEdits",
-                "--permission-prompts", "none", "--tools", "Read,Edit,Write,Glob,Grep",
-                "--allowedTools", "mcp__graft__graft_check_freshness",
-                "mcp__graft__graft_repo_map", "mcp__graft__graft_find_code",
-                "mcp__graft__graft_file_api", "mcp__graft__graft_trace_calls",
-                "mcp__graft__graft_find_all"]
+                "--strict-mcp-config", f"--mcp-config={self.mcp_config.resolve()}",
+                "--no-session-persistence", "--permission-mode=acceptEdits",
+                "--permission-prompts=none", "--tools=Read,Edit,Write,Glob,Grep",
+                "--allowedTools=" + ",".join(graft_tools)]
 
     def run(self, request: WorkerRequest) -> dict:
         cmd = self.command(request)

@@ -204,10 +204,10 @@ class ExecutorTests(unittest.TestCase):
                                  revision_id="revision", decision_digest="decision",
                                  intent_digest="intent")
         command = adapter.command(admitted)
-        self.assertIn("--mcp-config", command)
+        self.assertTrue(any(part.startswith("--mcp-config=") for part in command))
         self.assertIn("--restricted", command)
         self.assertNotIn("--safe-mode", command)
-        self.assertIn("mcp__graft__graft_find_code", command)
+        self.assertTrue(any("mcp__graft__graft_find_code" in part for part in command))
         config.write_text(json.dumps({"mcpServers": {"other": {"command": "node", "args": []}}}),
                           encoding="utf-8")
         with self.assertRaises(CapabilityError):
