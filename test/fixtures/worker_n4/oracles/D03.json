@@ -1,0 +1,65 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "attempts": [
+          503,
+          503,
+          200
+        ],
+        "final": 200
+      },
+      "input": {
+        "max_attempts": 3,
+        "method": "GET",
+        "statuses": [
+          503,
+          503,
+          200
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "attempts": [
+          503
+        ],
+        "final": 503
+      },
+      "input": {
+        "max_attempts": 3,
+        "method": "POST",
+        "statuses": [
+          503,
+          200
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "attempts": [
+          503
+        ],
+        "final": 503
+      },
+      "input": {
+        "max_attempts": 1,
+        "method": "GET",
+        "statuses": [
+          503,
+          200
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Simulate FIFO tasks on capacity fixed workers. A task starts on the earliest-free worker; shutdown rejects work that would start at or after shutdown_at. Report accepted work finished by drain_deadline and rejected IDs. Keep the JSON-line CLI working.

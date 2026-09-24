@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Resolve a POSIX-style relative request under root. Reject absolute paths and any parent component before normalization; return the normalized path or outside-root error. Keep the JSON-line CLI working.

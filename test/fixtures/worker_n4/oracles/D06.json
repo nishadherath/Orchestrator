@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "apply": [
+          "v2",
+          "v3"
+        ],
+        "complete": false
+      },
+      "input": {
+        "applied": [
+          "v1"
+        ],
+        "required": [
+          "v1",
+          "v2",
+          "v3"
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "apply": [],
+        "complete": true
+      },
+      "input": {
+        "applied": [
+          "v1",
+          "v2"
+        ],
+        "required": [
+          "v1",
+          "v2"
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "apply": [
+          "a",
+          "c"
+        ],
+        "complete": false
+      },
+      "input": {
+        "applied": [
+          "b"
+        ],
+        "required": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

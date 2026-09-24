@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "cache": {
+          "a": {
+            "value": "new",
+            "version": 2
+          }
+        }
+      },
+      "input": {
+        "completions": [
+          {
+            "key": "a",
+            "value": "new",
+            "version": 2
+          },
+          {
+            "key": "a",
+            "value": "stale",
+            "version": 1
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "cache": {
+          "a": {
+            "value": "a",
+            "version": 1
+          },
+          "b": {
+            "value": "b",
+            "version": 3
+          }
+        }
+      },
+      "input": {
+        "completions": [
+          {
+            "key": "a",
+            "value": "a",
+            "version": 1
+          },
+          {
+            "key": "b",
+            "value": "b",
+            "version": 3
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "cache": {}
+      },
+      "input": {
+        "completions": []
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

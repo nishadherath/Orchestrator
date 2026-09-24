@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Return status 304 with no body when If-None-Match exactly matches the resource ETag; otherwise return status 200 with body. Preserve the ETag in both responses. Keep the JSON-line CLI working.

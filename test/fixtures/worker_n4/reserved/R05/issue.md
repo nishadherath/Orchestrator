@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Recover a JSONL stream after a numeric checkpoint. Ignore old records and duplicate sequence numbers, emit remaining values in sequence order, and advance the checkpoint only to the highest emitted sequence. Keep the JSON-line CLI working.

@@ -1,0 +1,53 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "error": "invalid-port",
+        "ok": false
+      },
+      "input": {
+        "port": 0
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "ok": true,
+        "port": 65535
+      },
+      "input": {
+        "port": "65535"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "error": "invalid-port",
+        "ok": false
+      },
+      "input": {
+        "port": "abc"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "error": "invalid-port",
+        "ok": false
+      },
+      "input": {
+        "port": true
+      },
+      "milestone": "case-4",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

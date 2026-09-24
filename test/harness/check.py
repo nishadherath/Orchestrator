@@ -960,6 +960,26 @@ def check_worker_selector_n3(r: Report) -> None:
           proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1600:])
 
 
+def check_worker_n4(r: Report) -> None:
+    """N4: deterministic corpus, fake campaign and predeclared paired bounds."""
+    scripts = (("worker_corpus_n4_tests.py", 150),
+               ("worker_evaluation_n4_tests.py", 90),
+               ("worker_statistics_n4_tests.py", 30))
+    problems = []
+    for name, timeout in scripts:
+        proc = subprocess.run([sys.executable, str(REPO_ROOT / "test" / "harness" / name)],
+                              cwd=REPO_ROOT, capture_output=True, text=True, timeout=timeout)
+        if proc.returncode:
+            problems.append(f"{name}: {(proc.stdout + proc.stderr).strip()[-800:]}")
+    parity = subprocess.run([sys.executable, str(REPO_ROOT / "tools" / "worker_corpus.py"),
+                             "--check"], cwd=REPO_ROOT, capture_output=True, text=True,
+                            timeout=30)
+    if parity.returncode:
+        problems.append("corpus parity: " + (parity.stdout + parity.stderr).strip()[-800:])
+    r.add("WORKER-N4", "protected synthetic corpus and fake campaign pass offline",
+          not problems, "all four checks pass" if not problems else "; ".join(problems))
+
+
 def check_claudep_selftest(r: Report) -> None:
     """CLAUDEP-SELFTEST: subprocess failures retain recoverable invocation
     cost and usage metadata without making a live ``claude -p`` call."""
@@ -1415,6 +1435,7 @@ def main(argv: list[str]) -> int:
     check_route_selftest(report)
     check_qualified_default(report)
     check_worker_selector_n3(report)
+    check_worker_n4(report)
     check_claudep_selftest(report)
     check_dispatch_budget(report)
     check_acceptance_evidence(report)

@@ -1,0 +1,53 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "blocked_on": null,
+        "local_passed": 2,
+        "status": "complete"
+      },
+      "input": {
+        "external_key": "key",
+        "local_checks": [
+          true,
+          true
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "blocked_on": null,
+        "local_passed": 1,
+        "status": "partial"
+      },
+      "input": {
+        "external_key": "key",
+        "local_checks": [
+          true,
+          false
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "blocked_on": "external_key",
+        "local_passed": 0,
+        "status": "partial"
+      },
+      "input": {
+        "external_key": null,
+        "local_checks": []
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Page records in ascending stable ID order. Return IDs strictly after an optional cursor up to limit; emit a next_cursor only when more records remain. Keep the JSON-line CLI working.

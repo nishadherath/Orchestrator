@@ -1,0 +1,73 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "current": "b",
+        "reads": [
+          "b"
+        ]
+      },
+      "input": {
+        "events": [
+          {
+            "kind": "reload",
+            "secret": "b"
+          },
+          {
+            "kind": "read"
+          }
+        ],
+        "initial": "a"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "current": "y",
+        "reads": [
+          "x",
+          "y"
+        ]
+      },
+      "input": {
+        "events": [
+          {
+            "kind": "read"
+          },
+          {
+            "kind": "reload",
+            "secret": "y"
+          },
+          {
+            "kind": "read"
+          }
+        ],
+        "initial": "x"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "current": "new",
+        "reads": []
+      },
+      "input": {
+        "events": [
+          {
+            "kind": "reload",
+            "secret": "new"
+          }
+        ],
+        "initial": "old"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Implement a deterministic circuit breaker. Consecutive failures open it at threshold; open calls are denied. Each tick advances reset time; after reset_ticks, admit one half-open probe. A successful probe closes it; a failed probe reopens it. Keep the JSON-line CLI working.

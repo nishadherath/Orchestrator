@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "valid": false
+      },
+      "input": {
+        "body": "hello ",
+        "key": "k",
+        "signature": "406e4b43f87095aa86ca6299d25e875921fefa180f02043bb29bec5681c0c2d0"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "valid": false
+      },
+      "input": {
+        "body": "hello",
+        "key": "k",
+        "signature": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "valid": true
+      },
+      "input": {
+        "body": "x",
+        "key": "secret",
+        "signature": "117eca332f7e13ccb8e4574e4f33daa212a9231353670c2b8b4797df0bb77afa"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

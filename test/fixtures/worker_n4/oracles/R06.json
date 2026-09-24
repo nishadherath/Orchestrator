@@ -1,0 +1,51 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "balance": "0.00",
+        "ok": true
+      },
+      "input": {
+        "entries": [
+          "0.005"
+        ],
+        "start": "0.00"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "error": "overdraft",
+        "ok": false
+      },
+      "input": {
+        "entries": [
+          "-2.00"
+        ],
+        "start": "1.00"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "balance": "0.60",
+        "ok": true
+      },
+      "input": {
+        "entries": [
+          "0.20",
+          "0.30"
+        ],
+        "start": "0.10"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

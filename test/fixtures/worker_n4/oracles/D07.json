@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "reads": [
+          null
+        ]
+      },
+      "input": {
+        "operations": [
+          {
+            "key": "k",
+            "kind": "put",
+            "tenant": "a",
+            "value": 1
+          },
+          {
+            "key": "k",
+            "kind": "get",
+            "tenant": "b"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "reads": [
+          1,
+          2
+        ]
+      },
+      "input": {
+        "operations": [
+          {
+            "key": "k",
+            "kind": "put",
+            "tenant": "a",
+            "value": 1
+          },
+          {
+            "key": "k",
+            "kind": "put",
+            "tenant": "b",
+            "value": 2
+          },
+          {
+            "key": "k",
+            "kind": "get",
+            "tenant": "a"
+          },
+          {
+            "key": "k",
+            "kind": "get",
+            "tenant": "b"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "reads": [
+          null
+        ]
+      },
+      "input": {
+        "operations": [
+          {
+            "key": "none",
+            "kind": "get",
+            "tenant": "x"
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

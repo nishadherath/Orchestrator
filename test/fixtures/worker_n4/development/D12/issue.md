@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. A missing retention_days is an operator decision: request clarification and delete nothing. When supplied, return IDs whose age_days is strictly greater than the limit. Keep the JSON-line CLI working.

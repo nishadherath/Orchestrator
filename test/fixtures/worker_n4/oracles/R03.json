@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "admitted": [
+          true,
+          true,
+          false
+        ],
+        "state": "open"
+      },
+      "input": {
+        "events": [
+          "fail",
+          "fail",
+          "ok"
+        ],
+        "reset_ticks": 2,
+        "threshold": 2
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "admitted": [
+          true,
+          true,
+          true
+        ],
+        "state": "closed"
+      },
+      "input": {
+        "events": [
+          "fail",
+          "fail",
+          "tick",
+          "tick",
+          "ok"
+        ],
+        "reset_ticks": 2,
+        "threshold": 2
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "admitted": [
+          true,
+          true,
+          false
+        ],
+        "state": "open"
+      },
+      "input": {
+        "events": [
+          "fail",
+          "tick",
+          "fail",
+          "ok"
+        ],
+        "reset_ticks": 1,
+        "threshold": 1
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "active": [
+          "b"
+        ],
+        "cancelled": [],
+        "waiting": []
+      },
+      "input": {
+        "capacity": 1,
+        "events": [
+          {
+            "id": "a",
+            "kind": "acquire"
+          },
+          {
+            "id": "b",
+            "kind": "acquire"
+          },
+          {
+            "id": "a",
+            "kind": "release"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "active": [
+          "a"
+        ],
+        "cancelled": [
+          "b"
+        ],
+        "waiting": []
+      },
+      "input": {
+        "capacity": 1,
+        "events": [
+          {
+            "id": "a",
+            "kind": "acquire"
+          },
+          {
+            "id": "b",
+            "kind": "acquire"
+          },
+          {
+            "id": "b",
+            "kind": "cancel"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "active": [
+          "b",
+          "c"
+        ],
+        "cancelled": [
+          "a"
+        ],
+        "waiting": []
+      },
+      "input": {
+        "capacity": 2,
+        "events": [
+          {
+            "id": "a",
+            "kind": "acquire"
+          },
+          {
+            "id": "b",
+            "kind": "acquire"
+          },
+          {
+            "id": "c",
+            "kind": "acquire"
+          },
+          {
+            "id": "a",
+            "kind": "cancel"
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

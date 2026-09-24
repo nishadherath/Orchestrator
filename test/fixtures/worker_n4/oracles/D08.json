@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "executions": 1,
+        "results": [
+          "error",
+          "error"
+        ]
+      },
+      "input": {
+        "requests": [
+          {
+            "key": "a",
+            "outcome": "error"
+          },
+          {
+            "key": "a",
+            "outcome": "ok"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "executions": 2,
+        "results": [
+          "ok",
+          "error",
+          "ok"
+        ]
+      },
+      "input": {
+        "requests": [
+          {
+            "key": "a",
+            "outcome": "ok"
+          },
+          {
+            "key": "b",
+            "outcome": "error"
+          },
+          {
+            "key": "a",
+            "outcome": "error"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "executions": 0,
+        "results": []
+      },
+      "input": {
+        "requests": []
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

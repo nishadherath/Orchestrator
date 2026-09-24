@@ -1,0 +1,50 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "source": "environment",
+        "value": "green"
+      },
+      "input": {
+        "cli": null,
+        "default": "black",
+        "environment": "green",
+        "file": "red"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "source": "cli",
+        "value": ""
+      },
+      "input": {
+        "cli": "",
+        "default": "black",
+        "environment": "green",
+        "file": "red"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "source": "default",
+        "value": "black"
+      },
+      "input": {
+        "cli": null,
+        "default": "black",
+        "environment": null,
+        "file": null
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

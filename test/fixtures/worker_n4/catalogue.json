@@ -1,0 +1,773 @@
+{
+  "schema_version": 1,
+  "tasks": [
+    {
+      "acceptance": "development/D01/acceptance.json",
+      "actor": "development/D01/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "configuration",
+      "id": "D01",
+      "issue": "development/D01/issue.md",
+      "oracle": "oracles/D01.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "development/D02/acceptance.json",
+      "actor": "development/D02/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "configuration",
+      "id": "D02",
+      "issue": "development/D02/issue.md",
+      "oracle": "oracles/D02.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "reserved/R01/acceptance.json",
+      "actor": "reserved/R01/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "configuration",
+      "id": "R01",
+      "issue": "reserved/R01/issue.md",
+      "oracle": "oracles/R01.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "reserved/R02/acceptance.json",
+      "actor": "reserved/R02/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "configuration",
+      "id": "R02",
+      "issue": "reserved/R02/issue.md",
+      "oracle": "oracles/R02.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "development/D03/acceptance.json",
+      "actor": "development/D03/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "resilience",
+      "id": "D03",
+      "issue": "development/D03/issue.md",
+      "oracle": "oracles/D03.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "development/D04/acceptance.json",
+      "actor": "development/D04/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "resilience",
+      "id": "D04",
+      "issue": "development/D04/issue.md",
+      "oracle": "oracles/D04.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "reserved/R03/acceptance.json",
+      "actor": "reserved/R03/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "resilience",
+      "id": "R03",
+      "issue": "reserved/R03/issue.md",
+      "oracle": "oracles/R03.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "reserved/R04/acceptance.json",
+      "actor": "reserved/R04/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "resilience",
+      "id": "R04",
+      "issue": "reserved/R04/issue.md",
+      "oracle": "oracles/R04.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "development/D05/acceptance.json",
+      "actor": "development/D05/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "integrity",
+      "id": "D05",
+      "issue": "development/D05/issue.md",
+      "oracle": "oracles/D05.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "development/D06/acceptance.json",
+      "actor": "development/D06/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "integrity",
+      "id": "D06",
+      "issue": "development/D06/issue.md",
+      "oracle": "oracles/D06.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "reserved/R05/acceptance.json",
+      "actor": "reserved/R05/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "integrity",
+      "id": "R05",
+      "issue": "reserved/R05/issue.md",
+      "oracle": "oracles/R05.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "reserved/R06/acceptance.json",
+      "actor": "reserved/R06/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "integrity",
+      "id": "R06",
+      "issue": "reserved/R06/issue.md",
+      "oracle": "oracles/R06.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "development/D07/acceptance.json",
+      "actor": "development/D07/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "concurrency",
+      "id": "D07",
+      "issue": "development/D07/issue.md",
+      "oracle": "oracles/D07.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "development/D08/acceptance.json",
+      "actor": "development/D08/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "concurrency",
+      "id": "D08",
+      "issue": "development/D08/issue.md",
+      "oracle": "oracles/D08.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "reserved/R07/acceptance.json",
+      "actor": "reserved/R07/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "concurrency",
+      "id": "R07",
+      "issue": "reserved/R07/issue.md",
+      "oracle": "oracles/R07.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "reserved/R08/acceptance.json",
+      "actor": "reserved/R08/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "concurrency",
+      "id": "R08",
+      "issue": "reserved/R08/issue.md",
+      "oracle": "oracles/R08.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "development/D09/acceptance.json",
+      "actor": "development/D09/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "protocol",
+      "id": "D09",
+      "issue": "development/D09/issue.md",
+      "oracle": "oracles/D09.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "development/D10/acceptance.json",
+      "actor": "development/D10/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "protocol",
+      "id": "D10",
+      "issue": "development/D10/issue.md",
+      "oracle": "oracles/D10.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "reserved/R09/acceptance.json",
+      "actor": "reserved/R09/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "protocol",
+      "id": "R09",
+      "issue": "reserved/R09/issue.md",
+      "oracle": "oracles/R09.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "reserved/R10/acceptance.json",
+      "actor": "reserved/R10/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "family": "protocol",
+      "id": "R10",
+      "issue": "reserved/R10/issue.md",
+      "oracle": "oracles/R10.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "development/D11/acceptance.json",
+      "actor": "development/D11/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "investigation",
+        "verification": "executable"
+      },
+      "family": "diagnosis",
+      "id": "D11",
+      "issue": "development/D11/issue.md",
+      "oracle": "oracles/D11.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "development/D12/acceptance.json",
+      "actor": "development/D12/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "investigation",
+        "verification": "executable"
+      },
+      "family": "diagnosis",
+      "id": "D12",
+      "issue": "development/D12/issue.md",
+      "oracle": "oracles/D12.json",
+      "split": "development"
+    },
+    {
+      "acceptance": "reserved/R11/acceptance.json",
+      "actor": "reserved/R11/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "investigation",
+        "verification": "executable"
+      },
+      "family": "diagnosis",
+      "id": "R11",
+      "issue": "reserved/R11/issue.md",
+      "oracle": "oracles/R11.json",
+      "split": "reserved"
+    },
+    {
+      "acceptance": "reserved/R12/acceptance.json",
+      "actor": "reserved/R12/actor",
+      "allowed_edits": [
+        "app.py"
+      ],
+      "assessment": {
+        "complexity": "moderate",
+        "context_tokens": 5000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "implement stated behaviour",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "investigation",
+        "verification": "executable"
+      },
+      "family": "diagnosis",
+      "id": "R12",
+      "issue": "reserved/R12/issue.md",
+      "oracle": "oracles/R12.json",
+      "split": "reserved"
+    }
+  ]
+}

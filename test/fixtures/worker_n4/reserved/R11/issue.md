@@ -1,0 +1,1 @@
+Investigate this incident; preserve `app.py` when the code is correct. Compare observed and expected upstream configuration before editing code. On a mismatch, report no-code-change, upstream-config and the observed value; otherwise mark code investigation as unresolved. Keep the JSON-line CLI working.

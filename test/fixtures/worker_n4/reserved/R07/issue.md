@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Apply asynchronously completed cache refreshes. For each key, retain the highest version even if an older refresh finishes later; return version and value per key. Keep the JSON-line CLI working.

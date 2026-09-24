@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Return the first non-null value in CLI, environment, file, default order, with its source. Empty strings are values. Keep the JSON-line CLI working.

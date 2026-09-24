@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "action": "delete",
+        "ids": [
+          "a"
+        ]
+      },
+      "input": {
+        "records": [
+          {
+            "age_days": 31,
+            "id": "a"
+          },
+          {
+            "age_days": 30,
+            "id": "b"
+          }
+        ],
+        "retention_days": 30
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "action": "delete",
+        "ids": [
+          "b"
+        ]
+      },
+      "input": {
+        "records": [
+          {
+            "age_days": 0,
+            "id": "a"
+          },
+          {
+            "age_days": 1,
+            "id": "b"
+          }
+        ],
+        "retention_days": 0
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "action": "clarify",
+        "missing": "retention_days"
+      },
+      "input": {
+        "records": [],
+        "retention_days": null
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

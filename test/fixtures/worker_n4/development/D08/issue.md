@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Coalesce concurrent requests by key within one batch. Execute the first outcome for each distinct key once; fan that outcome, including errors, to all duplicate requesters in original order. Keep the JSON-line CLI working.

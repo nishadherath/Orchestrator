@@ -1,0 +1,53 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "frames": [
+          "a",
+          "b"
+        ],
+        "remainder_hex": ""
+      },
+      "input": {
+        "chunks_hex": [
+          "0001",
+          "61",
+          "000162"
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "frames": [],
+        "remainder_hex": "00036162"
+      },
+      "input": {
+        "chunks_hex": [
+          "0003",
+          "6162"
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "error": "invalid-utf8"
+      },
+      "input": {
+        "chunks_hex": [
+          "0000",
+          "0001ff"
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,48 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "action": "investigate-code",
+        "cause": "undetermined",
+        "observed": "west"
+      },
+      "input": {
+        "actual_upstream": "west",
+        "expected_upstream": "west"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "action": "no-code-change",
+        "cause": "upstream-config",
+        "observed": "disabled"
+      },
+      "input": {
+        "actual_upstream": "disabled",
+        "expected_upstream": "enabled"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "action": "no-code-change",
+        "cause": "upstream-config",
+        "observed": "a"
+      },
+      "input": {
+        "actual_upstream": "a",
+        "expected_upstream": "b"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "no_edit_baseline_sha256": "264cb85d4a9b68dc8c9e84a04d00d515df532f55586e99f90bcaee3646e3bd7e",
+  "schema_version": 1
+}

@@ -324,16 +324,18 @@ are not inferred from OpenAI rates. No spend is approved by this table.
 - [x] N0A v2 amendment complete; operator review pending.
 - [x] N1 worker executor qualified offline; see the
   [stage result](stage-results/worker-n1.md) for host limits.
-- [ ] N2 delegation qualified offline.
-- [ ] N3 selector and assessment qualified offline.
+- [x] N2 delegation qualified offline; see
+  [stage result](stage-results/worker-n2.md).
+- [x] N3 selector and assessment qualified offline; see
+  [stage result](stage-results/worker-n3.md).
 - [ ] N4 worker corpus, isolation and campaign integrity qualified.
+  The [N4 stage result](stage-results/worker-n4.md) records offline progress
+  and the open actual worker/Graft isolation gate.
 - [ ] N5 live screen and development evidence reconciled.
 - [ ] N6 reserved comparison complete, including inconclusive if appropriate.
 - [ ] N7 independent adjudication recorded.
 - [ ] N8 consumer release preparation complete.
 
-Exact next action: review N1, then on operator direction implement N2 managed
-delegation. The recommended host setting remains **GPT-5.6 Sol / High**;
-the N2 plan projects **4-8 engineering hours**. The sequencing plan's original
-cost baseline includes N0A and N1; subtract completed stages when estimating
-the remaining programme.
+Exact next action: close N4's live actor/Graft isolation gate and review its
+offline evidence before any N5 paid campaign. The recommended host setting for
+N4 remains **GPT-5.6 Sol / High**. N5 requires its own concrete spend notice.

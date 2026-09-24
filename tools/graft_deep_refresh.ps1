@@ -125,8 +125,18 @@ try {
 } finally {
     if ($proxyProcess -and -not $proxyProcess.HasExited) {
         Stop-Process -Id $proxyProcess.Id -Force
+        $proxyProcess.WaitForExit(5000) | Out-Null
     }
     foreach ($path in ($proxyScript, $proxyOut, $proxyErr)) {
-        if ([IO.File]::Exists($path)) { [IO.File]::Delete($path) }
+        for ($attempt = 0; $attempt -lt 20 -and [IO.File]::Exists($path); $attempt++) {
+            try {
+                [IO.File]::Delete($path)
+            } catch [IO.IOException] {
+                Start-Sleep -Milliseconds 100
+            }
+        }
+        if ([IO.File]::Exists($path)) {
+            Write-Warning "Could not remove temporary Graft proxy file: $path"
+        }
     }
 }

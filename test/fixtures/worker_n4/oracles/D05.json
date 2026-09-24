@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "committed": [],
+        "error": "duplicate-id"
+      },
+      "input": {
+        "rows": [
+          {
+            "amount": 1,
+            "id": "a"
+          },
+          {
+            "amount": 2,
+            "id": "a"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "committed": [],
+        "error": "negative-amount"
+      },
+      "input": {
+        "rows": [
+          {
+            "amount": -1,
+            "id": "a"
+          },
+          {
+            "amount": 2,
+            "id": "b"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "committed": [
+          "b",
+          "a"
+        ],
+        "error": null
+      },
+      "input": {
+        "rows": [
+          {
+            "amount": 0,
+            "id": "b"
+          },
+          {
+            "amount": 2,
+            "id": "a"
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

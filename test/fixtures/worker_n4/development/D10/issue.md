@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Validate the supplied lowercase hexadecimal HMAC-SHA256 signature over the exact UTF-8 body bytes with the provided key. Return only a boolean valid field; never normalize the body. Keep the JSON-line CLI working.

@@ -520,8 +520,10 @@ Source anchors checked in the dependency review; re-query Graft at execution:
 | Policy promotion separate from mechanical readiness | N7/N8 | X0 baseline; X7/X8 |
 | Controller auto/on/off and useful partial outcomes | Deferred X4-X7 | X8 consumer |
 
-Progress: N0 historical design complete; N0A amendment complete; N1 executor
-qualified offline for review; N2-N8 and all Controller stages pending.
+Progress: N0 historical design and N0A amendment complete. N1-N3 are
+qualified offline. N4 has a 24-task corpus, fake campaign and statistical
+preflight; its actual worker/Graft isolation gate remains open, as recorded in
+`stage-results/worker-n4.md`. N5-N8 and all Controller stages remain pending.
 Update each stage result and its gate here as work is reviewed. Do not mark a
 gap closed merely because a schema, module or passing legacy test exists.
 

@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Model a bounded HTTP call. Retry only status 503 for GET, PUT or DELETE, never POST; stop on another status or max_attempts. Return statuses actually attempted and final status. Keep the JSON-line CLI working.

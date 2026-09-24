@@ -1,0 +1,86 @@
+# N4: worker corpus and campaign boundary
+
+Date: 2026-09-24. Gate: **offline implementation demonstrated; live protection
+not yet qualified**. No paid worker calls were made and N5 must not launch from
+the current runner. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
+[sequencing plan](../WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md) and
+[worker plan](../WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) govern this result.
+
+## Delivered and observed
+
+- `tools/worker_corpus.py` deterministically generated 24 synthetic consumer
+  tasks in six families, two development and two newly reserved mechanisms per
+  family. Each has an actor package, shallow public acceptance and a data-only
+  evaluator oracle. R11 begins with correct code and rewards no edit; D12 and
+  R12 include clarification and useful partial semantics.
+- `tools/worker_evaluation.py` freezes source, registry, distribution manifest,
+  task inventory and oracle hashes. Its fake-only campaign uses `TaskExecutor`
+  and `worker_selector` shadow decisions. Actor adapters receive only the
+  materialised actor root, not catalogue labels or oracle paths. It persists
+  checkpoint and root records; an ambiguous receipt blocks replay.
+- The 24-task fake campaign completed with one call per task, resumed with zero
+  extra calls, and copied no oracle files to actor output. Public-answer copies
+  passed operational checks but failed protected grading. Correct reference
+  proxies passed all 23 implementation oracles; an independently written
+  alternative passed one task in each family. R11's untouched implementation
+  passed; an unnecessary edit became a critical error.
+- The two-task fault miniature passed freeze/tamper, independent false-success,
+  ambiguous receipt and concurrent-start checks. These are fake-transport
+  tests and establish no provider or host isolation property.
+- The local WSL2 actor/evaluator filesystem probe passed and wrote
+  `test/results/2026-09-24-worker-n4-isolation.json`. Its first cold-start
+  attempt timed out; a repeat passed. It proves only a local Linux user/mode
+  boundary, not that the Claude process, inherited instructions or Graft MCP
+  runs behind that boundary.
+- The full provider-free project harness passed 59 checks. Graft deep refresh
+  completed and its freshness tool reported both semantic and wiring graphs
+  in sync. A Windows temporary-log deletion race in the refresh helper was
+  corrected and the helper reran successfully.
+
+## Statistical preflight
+
+`tools/worker_statistics.py` implements the v2 contract's task-level
+Clopper-Pearson acceptance and Hoeffding quality lower bounds. Its fixed-seed
+1,000-trial illustration at 12 independent tasks has a 78.41-point quality
+penalty. Equal, +10 and +35 assumed quality gains cleared both floors in 0%
+of simulated trials; an extreme +80 gain with 90% candidate-only wins cleared
+in 99.7%. The assumed quality is deterministic within each scenario, so these
+figures are illustrations, not measured statistical power. Two repetitions on
+one task never count as independent samples. With the frozen gate, a 12-task
+N6 is exploratory for modest effects. B0 stays the default absent stronger
+independent evidence and operator promotion.
+
+## Remaining N4 gate
+
+The current production `WorkerAdapter.capability()` explicitly reports
+`enforcement_proven: false`. The fake campaign executes candidate code under
+the same Windows identity as its evaluator; it cannot prove that live actor
+reads, shell commands, recursive search, inherited instructions, symlinks and
+Graft retrieval cannot reach protected oracle material. No live adapter or
+paid campaign entry point has been enabled. A fresh actor-root-scoped Graft
+instance and real host transport attestation must be implemented and probed
+with a sentinel before this gate can be marked complete. Bind that attestation
+to the final campaign manifest; reject a changed host/configuration.
+
+The next implementation action is a disposable live-capability probe that
+executes all read/search/Graft attacks as the actual worker identity and
+records a digest-bound result. The paid N5 campaign remains disabled until
+this is successful and the full offline harness is green.
+
+## N5 authorised run inventory, contingent on that gate
+
+1. Screen exactly 15 registry model/effort cells: one identity call capped at
+   USD 0.25 and three fixed microtasks capped at USD 1 each per cell. At most
+   60 calls and USD 48.75 local admission allocation; unsupported identities
+   stop their tranche without substitution.
+2. Use only D01-D12 for at most one B0, one candidate and one predeclared
+   alternative episode per task: at most 36 episodes, USD 3 total per episode,
+   USD 108 local allocation. Assessment, attempts, verification and unknown
+   charges share the episode cap. Do not buy a dominated arm automatically.
+3. Total N5 ceiling under this inventory: USD 156.75 in local admission
+   allocations, not a predicted bill. Reprice and issue the plan's concrete
+   spend notice before any live calls. N6 reserved tasks and grades are excluded.
+
+N5's development work can reassess statistical feasibility using its own
+unprotected evidence. It cannot change the reserved N6 gate after viewing
+reserved outcomes. N4 does not change the Controller or shipping B0 policy.

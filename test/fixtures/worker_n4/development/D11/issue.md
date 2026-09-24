@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Measure total stage cost as count times milliseconds each. Name the largest total as bottleneck and state whether it contradicts the named hotspot; do not optimise the named hotspot by assumption. Keep the JSON-line CLI working.

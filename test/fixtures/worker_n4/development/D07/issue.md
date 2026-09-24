@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Replay cache put/get operations. Keys are scoped by both tenant and key; a miss returns null. Return get results in order. Keep the JSON-line CLI working.

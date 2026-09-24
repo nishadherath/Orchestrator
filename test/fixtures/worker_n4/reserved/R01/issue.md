@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Replay read and reload events for a rotating secret. Each read sees the latest completed reload; return all read values and the current secret. Keep the JSON-line CLI working.

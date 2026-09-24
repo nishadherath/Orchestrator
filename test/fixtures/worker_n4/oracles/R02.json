@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "error": "outside-root",
+        "ok": false
+      },
+      "input": {
+        "requested": "../secret",
+        "root": "/srv/data"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "error": "outside-root",
+        "ok": false
+      },
+      "input": {
+        "requested": "/etc/passwd",
+        "root": "/srv/data"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "ok": true,
+        "path": "/srv/data/a/b"
+      },
+      "input": {
+        "requested": "a/./b",
+        "root": "/srv/data"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

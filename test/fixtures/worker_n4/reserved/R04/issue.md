@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Track a bounded permit pool. Acquire fills active slots then FIFO waiters. Release or cancel removes that ID and promotes waiting work; cancelled IDs are reported. Keep the JSON-line CLI working.

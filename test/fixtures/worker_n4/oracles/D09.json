@@ -1,0 +1,50 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "body": null,
+        "etag": "v1",
+        "status": 304
+      },
+      "input": {
+        "body": "hello",
+        "etag": "v1",
+        "if_none_match": "v1"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "body": "new",
+        "etag": "v2",
+        "status": 200
+      },
+      "input": {
+        "body": "new",
+        "etag": "v2",
+        "if_none_match": "v1"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "body": "case",
+        "etag": "abc",
+        "status": 200
+      },
+      "input": {
+        "body": "case",
+        "etag": "abc",
+        "if_none_match": "ABC"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

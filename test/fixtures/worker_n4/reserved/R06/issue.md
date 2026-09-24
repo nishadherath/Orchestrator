@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Sum decimal ledger entries exactly, round half-even to cents once at the end, and reject a negative final balance as overdraft. Return a two-decimal string. Keep the JSON-line CLI working.

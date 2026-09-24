@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Plan a resumable ordered migration. Return required steps not already applied, preserving required order, and whether migration is already complete. Keep the JSON-line CLI working.

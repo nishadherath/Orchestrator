@@ -1,0 +1,77 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "bottleneck": "write",
+        "rejected_premise": true
+      },
+      "input": {
+        "measurements": [
+          {
+            "count": 1,
+            "ms_each": 20,
+            "stage": "parse"
+          },
+          {
+            "count": 100,
+            "ms_each": 2,
+            "stage": "write"
+          }
+        ],
+        "named_hotspot": "parse"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "bottleneck": "db",
+        "rejected_premise": true
+      },
+      "input": {
+        "measurements": [
+          {
+            "count": 2,
+            "ms_each": 5,
+            "stage": "network"
+          },
+          {
+            "count": 4,
+            "ms_each": 3,
+            "stage": "db"
+          }
+        ],
+        "named_hotspot": "network"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "bottleneck": "db",
+        "rejected_premise": false
+      },
+      "input": {
+        "measurements": [
+          {
+            "count": 3,
+            "ms_each": 4,
+            "stage": "db"
+          },
+          {
+            "count": 2,
+            "ms_each": 2,
+            "stage": "parse"
+          }
+        ],
+        "named_hotspot": "db"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

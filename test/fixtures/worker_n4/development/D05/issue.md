@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Import a batch atomically. Duplicate IDs or negative amounts reject the entire batch; otherwise return committed IDs in input order and null error. Keep the JSON-line CLI working.

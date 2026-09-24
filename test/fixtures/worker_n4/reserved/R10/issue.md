@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Decode two-byte big-endian length-prefixed UTF-8 frames from hex chunks. Emit complete frames, preserve an incomplete suffix as lowercase hex, and reject malformed UTF-8 with invalid-utf8 error. Keep the JSON-line CLI working.

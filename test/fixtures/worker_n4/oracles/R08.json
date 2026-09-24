@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "completed": [
+          "a"
+        ],
+        "rejected": [
+          "b"
+        ]
+      },
+      "input": {
+        "capacity": 1,
+        "drain_deadline": 5,
+        "shutdown_at": 3,
+        "tasks": [
+          {
+            "duration": 3,
+            "id": "a"
+          },
+          {
+            "duration": 2,
+            "id": "b"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "completed": [
+          "a",
+          "b",
+          "c"
+        ],
+        "rejected": []
+      },
+      "input": {
+        "capacity": 2,
+        "drain_deadline": 5,
+        "shutdown_at": 2,
+        "tasks": [
+          {
+            "duration": 4,
+            "id": "a"
+          },
+          {
+            "duration": 1,
+            "id": "b"
+          },
+          {
+            "duration": 2,
+            "id": "c"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "completed": [],
+        "rejected": [
+          "b"
+        ]
+      },
+      "input": {
+        "capacity": 1,
+        "drain_deadline": 2,
+        "shutdown_at": 1,
+        "tasks": [
+          {
+            "duration": 5,
+            "id": "a"
+          },
+          {
+            "duration": 1,
+            "id": "b"
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,55 @@
+{
+  "cases": [
+    {
+      "critical": false,
+      "expected": {
+        "completed_hops": 1,
+        "elapsed_ms": 60,
+        "timed_out": true
+      },
+      "input": {
+        "budget_ms": 100,
+        "hops_ms": [
+          60,
+          60
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "completed_hops": 2,
+        "elapsed_ms": 100,
+        "timed_out": false
+      },
+      "input": {
+        "budget_ms": 100,
+        "hops_ms": [
+          40,
+          60
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "completed_hops": 0,
+        "elapsed_ms": 0,
+        "timed_out": true
+      },
+      "input": {
+        "budget_ms": 5,
+        "hops_ms": [
+          10
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

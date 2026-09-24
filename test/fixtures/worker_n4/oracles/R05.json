@@ -1,0 +1,76 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "checkpoint": 3,
+        "values": [
+          "c"
+        ]
+      },
+      "input": {
+        "checkpoint": 2,
+        "records": [
+          {
+            "seq": 1,
+            "value": "a"
+          },
+          {
+            "seq": 3,
+            "value": "c"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "checkpoint": 3,
+        "values": [
+          "a",
+          "c"
+        ]
+      },
+      "input": {
+        "checkpoint": 0,
+        "records": [
+          {
+            "seq": 3,
+            "value": "c"
+          },
+          {
+            "seq": 1,
+            "value": "a"
+          },
+          {
+            "seq": 3,
+            "value": "wrong"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "checkpoint": 5,
+        "values": []
+      },
+      "input": {
+        "checkpoint": 5,
+        "records": [
+          {
+            "seq": 4,
+            "value": "old"
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

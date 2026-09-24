@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Validate a service port in 1..65535. Accept a decimal integer or decimal string; reject booleans, other text and out-of-range values without silently choosing a default. Keep the JSON-line CLI working.

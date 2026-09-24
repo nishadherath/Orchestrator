@@ -1,0 +1,73 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "ids": [
+          "b"
+        ],
+        "next_cursor": "b"
+      },
+      "input": {
+        "cursor": "a",
+        "limit": 1,
+        "records": [
+          {
+            "id": "c"
+          },
+          {
+            "id": "a"
+          },
+          {
+            "id": "b"
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "ids": [
+          "a",
+          "b"
+        ],
+        "next_cursor": null
+      },
+      "input": {
+        "cursor": null,
+        "limit": 2,
+        "records": [
+          {
+            "id": "b"
+          },
+          {
+            "id": "a"
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "ids": [],
+        "next_cursor": null
+      },
+      "input": {
+        "cursor": "z",
+        "limit": 2,
+        "records": [
+          {
+            "id": "a"
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

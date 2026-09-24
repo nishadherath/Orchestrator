@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for this service behaviour. Apply one end-to-end millisecond budget across sequential hops. A hop completes only if its cumulative finish is within the budget. Return completed count, elapsed completed time and timeout flag. Keep the JSON-line CLI working.
