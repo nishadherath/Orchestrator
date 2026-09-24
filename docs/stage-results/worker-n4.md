@@ -52,6 +52,12 @@ independent evidence and operator promotion.
 
 ## Remaining N4 gate
 
+The current corpus consists of small single-file JSON-line exercises. It
+tests the mechanics of orchestration and grading, but does not yet reproduce
+multi-file repository edits, real dependency failures or actual concurrent
+execution. Treat any quality result on this corpus as limited to these
+synthetic mechanisms, not as evidence of general real-world readiness.
+
 The current production `WorkerAdapter.capability()` explicitly reports
 `enforcement_proven: false`. The fake campaign executes candidate code under
 the same Windows identity as its evaluator; it cannot prove that live actor
