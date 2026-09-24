@@ -1,5 +1,5 @@
 {
-  "actor_root": "/var/lib/orchestrator-worker-n4/actors/probe-fOVbSiv2",
+  "actor_root": "/var/lib/orchestrator-worker-n4/actors/probe-nyVWyoMS",
   "boundary": "WSL private mount+PID namespaces, uid 65534, Linux ext4 actor/evaluator",
   "checks": {
     "actor_read_write": true,
@@ -26,13 +26,13 @@
     "windows_c_unmounted": true,
     "windows_d_unmounted": true
   },
-  "evidence_sha256": "6fbce7bdac246ff25f114766755de1b2bf37178bc633186374ccaa7fbe4989a9",
+  "evidence_sha256": "2f28a655bd9a4db3e5c38b98808fb75deac6c07c37e5b46d8492e0e1da99c7a9",
   "limits": [
     "No authenticated provider request or paid worker edit occurred.",
     "N5 requires a fresh attestation, credential configuration and live runner."
   ],
-  "manifest_sha256": "e858d1669c8e254a9c0cc111b3d47b9b19c9a2e9b6a1cc8d590815f39ae74f29",
-  "recorded_at": "2026-09-24T09:10:14+00:00",
+  "manifest_sha256": "881283962121ffdaae3688f988e8bf3788be2dc91f80f7e91aeceba030c8c23a",
+  "recorded_at": "2026-09-24T09:18:51+00:00",
   "result": "PASS",
   "runtime_hashes": {
     "actor-mcp.json": "0bbc160e87078c0f0ead2b332020632bb08e9ce42329eaad13d2d92b78fad1bb",
