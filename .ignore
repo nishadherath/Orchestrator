@@ -3,3 +3,6 @@
 !graft/
 graft/.cache/
 graft/.graph/
+
+# Keep local OAuth credentials out of ripgrep and Graft discovery.
+local-auth/

@@ -7,3 +7,6 @@ __pycache__/
 
 # Paid evaluation output is durable local evidence, never release payload.
 /pilot-runs/
+
+# Local Claude Code subscription login backup. Never commit or package it.
+/local-auth/

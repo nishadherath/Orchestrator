@@ -35,11 +35,13 @@ It records `unconfigured` credentials and no spend notice, so it is an
 inspection artefact and cannot authorise a paid call. Any fixture, planner,
 host or credential change requires a newly derived manifest.
 
-Before the first paid call, choose and safely configure either a project-scoped
-API key or subscription login, verify current pricing, create a dated direct
-API cost and elapsed-time projection, and freeze that spend notice into a new
-manifest. The live runner must persist intent before each call, use the
-attested WSL adapter, retain unknown charges without replay, stop a cell's
+For this host, the operator requires the Claude Code subscription login, not
+an API key. The [WSL login transfer](CLAUDE-CODE-WSL-AUTH.md) authenticates
+the default WSL user only; the isolated worker still needs qualified credential
+delivery. Before the first paid call, verify current pricing, create a dated
+direct API-equivalent cost and elapsed-time projection, and freeze that spend
+notice into a new manifest. The live runner must persist intent before each
+call, use the attested WSL adapter, retain unknown charges without replay, stop a cell's
 tranche on unsupported or mismatched identity, and use the isolated WSL grader
 only after the worker has stopped. It must record requested effort separately
 from any independently observed served effort, all usage and cache counters,

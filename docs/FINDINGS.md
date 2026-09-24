@@ -603,3 +603,17 @@ current actor path, and the post-fix direct-path probe denies the sibling.
 Unverified: authenticated provider behaviour, credential delivery, billing
 after a paid response, and the live campaign's stopped-writer-before-grading
 order. The attestation is not a paid-campaign authorisation.
+
+## Claude Code subscription login in WSL, 2026-09-25
+
+Observed locally with Claude Code 2.1.273 and no model request: the Windows
+installation reported a `claude.ai` Max subscription login and stored its
+OAuth credentials in `%USERPROFILE%\.claude\.credentials.json`. A byte-for-byte
+copy to the default `wsl` account's Kali WSL home, owned by `wsl` with mode
+`0600`, made WSL `claude auth status --json` report the same login method and
+subscription when API-key overrides were excluded. The operator procedure and
+git-ignored project backup are described in
+[CLAUDE-CODE-WSL-AUTH.md](CLAUDE-CODE-WSL-AUTH.md).
+
+Unverified: credential refresh in WSL, authenticated model requests and safe
+delivery of subscription credentials into the separate N5 actor namespace.
