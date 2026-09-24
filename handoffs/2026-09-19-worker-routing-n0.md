@@ -1,5 +1,10 @@
 # Handoff: worker-routing-n0
 
+Historical handoff: N0 and its N0A amendment subsequently completed. The next
+entry after operator review is [N1 v2](2026-09-24-worker-routing-n1-v2.md), under the
+[sequencing plan](../docs/WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md).
+The original snapshot below is preserved; do not restart N0 from it.
+
 <!-- handoff.py new --slug worker-routing-n0 --reason model-change --to-model gpt-5.6-sol --to-effort high --project . -->
 Written 2026-09-19 by the planning session. Reason: future operator model-change.
 Prepared only; no model change or stage execution has occurred.

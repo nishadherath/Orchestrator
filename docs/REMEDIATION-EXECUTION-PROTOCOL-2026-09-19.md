@@ -1,11 +1,18 @@
 # Routing remediation: execution protocol and estimates
 
-Date: 2026-09-19. Status updated 2026-09-21: worker Stage N0 is complete for
-operator review; N1 has not started. Controller execution remains deferred.
+Date: 2026-09-19. Status updated 2026-09-24: worker N0A and N1 are complete
+for offline review; N2 and Controller execution remain deferred.
+
+2026-09-24 sequencing amendment: follow the
+[worker-first plan](WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md).
+N0A and N1 are complete for review. The current design is
+[contract v2](WORKER-EXECUTION-CONTRACT-v2.md), with the
+[N1 result](stage-results/worker-n1.md). The sequencing plan supplies corrected
+dependencies and dated estimates without changing this protocol's review gates.
 
 Applies to the [worker plan](WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) and
 [deferred Controller plan](CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md).
-The operator chose to start worker N0. Further stages and the Controller
+The operator directed worker N0, N0A and N1. Further stages and the Controller
 programme still require the operator's direction. This document and its
 handoffs do not independently authorise a model switch, agent launch,
 experiment or promotion.

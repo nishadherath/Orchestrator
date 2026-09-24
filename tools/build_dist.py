@@ -172,7 +172,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
         out[dist_dir / ".claude" / "commands" / command.name] = command.read_text(encoding="utf-8")
     out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
     out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
-    for name in ("system_controller.py", "controller_integrity.py", "controller_control.py", "controller_policy.py", "controller_dispatch.py", "model_registry.py", "dispatch_budget.py", "acceptance.py", "claudep.py", "system_prompts.py", "validate_records.py",
+    for name in ("system_controller.py", "controller_integrity.py", "controller_control.py", "controller_policy.py", "controller_dispatch.py", "model_registry.py", "dispatch_budget.py", "acceptance.py", "task_executor.py", "worker_adapter.py", "claudep.py", "system_prompts.py", "validate_records.py",
                  "route.py", "handoff.py", "context_probe.py"):
         out[dist_dir / "tools" / name] = (REPO_ROOT / "tools" / name).read_text(encoding="utf-8")
     for name in ("SYSTEM.md", "STEPS.md", "ROLES.md", "TECHNIQUES.md"):

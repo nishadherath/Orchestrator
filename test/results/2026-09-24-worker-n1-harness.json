@@ -1,0 +1,348 @@
+{
+  "result": "PASS",
+  "git": "a70e311",
+  "checks": [
+    {
+      "id": "DEF",
+      "covers": "15 definitions parse and match the 3x5 matrix",
+      "status": "PASS",
+      "detail": "15 files"
+    },
+    {
+      "id": "INV5",
+      "covers": "Invariant 5: no haiku cell",
+      "status": "PASS",
+      "detail": "no definition sets model: haiku. The original justification (haiku lacks effort levels) was disproved empirically 2026-09-05 (FINDINGS.md); the exclusion itself is a decision, not a gap (DECISIONS.md D5, 2026-09-05)."
+    },
+    {
+      "id": "GEN",
+      "covers": "src/agents/ matches the generator output",
+      "status": "PASS",
+      "detail": "no drift"
+    },
+    {
+      "id": "ROUTE",
+      "covers": "every worker named in src/routing_table.json has a definition",
+      "status": "PASS",
+      "detail": "3 names resolve"
+    },
+    {
+      "id": "ROUTE-DESC",
+      "covers": "unrouted cells say so in their description",
+      "status": "PASS",
+      "detail": "12 unrouted cells labelled"
+    },
+    {
+      "id": "INV2",
+      "covers": "Invariant 2: orchestrator never passes model on spawn",
+      "status": "PASS",
+      "detail": "ROUTING.md section 3 states it and every description repeats it. Whether an orchestrator obeys is measured by score_routing.py"
+    },
+    {
+      "id": "ROUTE-MODES",
+      "covers": "every route.py flag the fragment wires up is named in the shipped prose",
+      "status": "PASS",
+      "detail": "3 flag(s) checked, all named"
+    },
+    {
+      "id": "ROUTE-TOTAL",
+      "covers": "every (sensitivity, horizon, blast) triple resolves to one worker, with self_directed disambiguating rather than conflicting",
+      "status": "PASS",
+      "detail": "18 triples, 0 documented gap(s), 0 documented overlap(s)"
+    },
+    {
+      "id": "ROW-BACKED",
+      "covers": "every routing rule is justified by a fixture whose confirmed answer lands on it",
+      "status": "PASS",
+      "detail": "1 rules, 1 fixture-backed, 0 unbacked"
+    },
+    {
+      "id": "TABLE-DATA",
+      "covers": "every fixture's assessment resolves through route.py to its expected cell",
+      "status": "PASS",
+      "detail": "17 fixtures checked"
+    },
+    {
+      "id": "CLARIFY",
+      "covers": "the clarify rule is stated in ROUTING.md and at least one fixture exercises it",
+      "status": "PASS",
+      "detail": "rule present with both conditions, 1 clarify fixture"
+    },
+    {
+      "id": "INV1",
+      "covers": "Invariant 1: agent teams off so effort is per-worker",
+      "status": "PASS",
+      "detail": "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS unset"
+    },
+    {
+      "id": "INV3",
+      "covers": "Invariant 3: session effort override unset",
+      "status": "PASS",
+      "detail": "CLAUDE_CODE_EFFORT_LEVEL unset"
+    },
+    {
+      "id": "INV4",
+      "covers": "Invariant 4: subagent model force off",
+      "status": "PASS",
+      "detail": "CLAUDE_CODE_SUBAGENT_MODEL_FORCE unset; CLAUDE_CODE_SUBAGENT_MODEL unset"
+    },
+    {
+      "id": "INV6",
+      "covers": "Invariant 6: availableModels permits all three models",
+      "status": "PASS",
+      "detail": "no availableModels allowlist in ['C:\\\\Users\\\\Bob\\\\.claude\\\\settings.json', 'C:\\\\Users\\\\Bob\\\\Desktop\\\\Code\\\\Claude\\\\Orchestrator\\\\.claude\\\\settings.json']; substitution cannot occur from these files. Managed enterprise settings are not checked here"
+    },
+    {
+      "id": "INV7",
+      "covers": "Invariant 7: user-stopped worker is not resumable",
+      "status": "PASS",
+      "detail": "docs/FINDINGS.md, 2026-09-05 (Empirically verified, 2026-09-05)"
+    },
+    {
+      "id": "PROSE",
+      "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+      "status": "PASS",
+      "detail": "420 files clean"
+    },
+    {
+      "id": "PERSONA",
+      "covers": "generated persona files unchanged since manifest",
+      "status": "PASS",
+      "detail": "60 files match"
+    },
+    {
+      "id": "DIST",
+      "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+      "status": "PASS",
+      "detail": "71 files match at 2026-09-24-a70e311-dirty"
+    },
+    {
+      "id": "FIX",
+      "covers": "routing fixtures are well-formed",
+      "status": "PASS",
+      "detail": "18 fixtures, 18 ids"
+    },
+    {
+      "id": "SCHEMA",
+      "covers": "record schemas validate the example ledgers",
+      "status": "PASS",
+      "detail": "16 schemas; valid.jsonl clean; broken.jsonl rejected on 12 documented lines"
+    },
+    {
+      "id": "SYSTEM",
+      "covers": "system_controller.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 12 scenarios"
+    },
+    {
+      "id": "CTRL-R0",
+      "covers": "Controller routing contracts and baseline gaps are pinned",
+      "status": "PASS",
+      "detail": "OK"
+    },
+    {
+      "id": "CTRL-R1",
+      "covers": "Controller integrity-v1 gates and evidence packets hold",
+      "status": "PASS",
+      "detail": "OK"
+    },
+    {
+      "id": "CTRL-R2",
+      "covers": "all 15 cells resolve with exact identity and unknown-cost handling",
+      "status": "PASS",
+      "detail": "OK"
+    },
+    {
+      "id": "CTRL-R3",
+      "covers": "durable auto/on/off controls are atomic, scoped and provider-free",
+      "status": "PASS",
+      "detail": "controller control R3: 14/14 passed"
+    },
+    {
+      "id": "CTRL-R4",
+      "covers": "rigour-auto-v1 policy and crash-safe Controller dispatch hold",
+      "status": "PASS",
+      "detail": "controller routing R4: 28/28 passed"
+    },
+    {
+      "id": "CTRL-R5A",
+      "covers": "R5 corpus blueprints, scoring and paid launch manifests hold offline",
+      "status": "PASS",
+      "detail": "controller evaluation R5 foundation: 33/33 passed"
+    },
+    {
+      "id": "ROUTE-PRIORS",
+      "covers": "priors match their generator and carry provenance",
+      "status": "PASS",
+      "detail": "18 buckets, generator matches"
+    },
+    {
+      "id": "COST-TABLE",
+      "covers": "every cost row carries provenance",
+      "status": "PASS",
+      "detail": "8 cells, controller, verdict and context rows carry provenance"
+    },
+    {
+      "id": "ROUTE-SELFTEST",
+      "covers": "route.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 23 scenarios"
+    },
+    {
+      "id": "QUALIFIED-DEFAULT",
+      "covers": "reserved-qualified B0 is the fixed shipping policy",
+      "status": "PASS",
+      "detail": "test_cli_reports_b0_and_never_controller (__main__.QualifiedDefaultTests.test_cli_reports_b0_and_never_controller) ... ok\ntest_every_assessment_uses_exact_b0_sequence (__main__.QualifiedDefaultTests.test_every_assessment_uses_exact_b0_sequence) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.388s\n\nOK"
+    },
+    {
+      "id": "CLAUDEP-SELFTEST",
+      "covers": "claudep.py --selftest passes",
+      "status": "PASS",
+      "detail": "PASS: claudep selftest (5 scenarios; no claude -p calls)"
+    },
+    {
+      "id": "DISPATCH-BUDGET",
+      "covers": "Controller budget races and recovery pass",
+      "status": "PASS",
+      "detail": ".............................\n----------------------------------------------------------------------\nRan 29 tests in 5.577s\n\nOK"
+    },
+    {
+      "id": "ACCEPTANCE",
+      "covers": "acceptance evidence and incomplete recovery pass",
+      "status": "PASS",
+      "detail": "led-001\ncontext: none\nled-001\ncontext: existing terminal event reused; verification was not rerun\n.....ledger entry 'led-001' is not pending (final_outcome already 'pass')\n.....\n----------------------------------------------------------------------\nRan 10 tests in 6.079s\n\nOK"
+    },
+    {
+      "id": "CONTEXT",
+      "covers": "prompt reduction preserves the operating contract",
+      "status": "PASS",
+      "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.062s\n\nOK"
+    },
+    {
+      "id": "INSTALL",
+      "covers": "transactional install, upgrade, uninstall and rollback pass",
+      "status": "PASS",
+      "detail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 20.329s\n\nOK"
+    },
+    {
+      "id": "DIAGNOSTICS",
+      "covers": "operational status and detailed explanation pass",
+      "status": "PASS",
+      "detail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.101s\n\nOK"
+    },
+    {
+      "id": "REALWORLD",
+      "covers": "24 real-world graders and candidate freeze pass offline",
+      "status": "PASS",
+      "detail": "test_catalogue_and_adversarial_graders (__main__.RealWorldFoundationTests.test_catalogue_and_adversarial_graders) ... ok\ntest_cli_reports_json (__main__.RealWorldFoundationTests.test_cli_reports_json) ... ok\ntest_freeze_is_content_addressed_and_readiness_matches_blockers (__main__.RealWorldFoundationTests.test_freeze_is_content_addressed_and_readiness_matches_blockers) ... ok\ntest_recorded_wsl_isolation_boundary (__main__.RealWorldFoundationTests.test_recorded_wsl_isolation_boundary) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 207.008s\n\nOK"
+    },
+    {
+      "id": "EPISODE",
+      "covers": "offline episode checkpoint and deterministic replay pass",
+      "status": "PASS",
+      "detail": "test_event_chain_rejects_tampering (__main__.EvaluationRunnerTests.test_event_chain_rejects_tampering) ... ok\ntest_evidence_digest_rejects_tampering (__main__.EvaluationRunnerTests.test_evidence_digest_rejects_tampering) ... ok\ntest_interruption_resumes_without_redispatch (__main__.EvaluationRunnerTests.test_interruption_resumes_without_redispatch) ... ok\ntest_qualification_covers_failure_and_accounting_paths (__main__.EvaluationRunnerTests.test_qualification_covers_failure_and_accounting_paths) ... ok\ntest_transition_journal_recovers_after_append_failure (__main__.EvaluationRunnerTests.test_transition_journal_recovers_after_append_failure) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 24.354s\n\nOK\n\nPASS: mode=offline-fake-worker-v1; digest=valid"
+    },
+    {
+      "id": "CALIBRATE",
+      "covers": "live identity, billing and timeout evidence validates offline",
+      "status": "PASS",
+      "detail": "test_evidence_validation_rejects_tampering (__main__.LiveCalibrationTests.test_evidence_validation_rejects_tampering) ... ok\ntest_rollup_detects_descendant_usage (__main__.LiveCalibrationTests.test_rollup_detects_descendant_usage) ... ok\ntest_unknown_usage_stays_unknown (__main__.LiveCalibrationTests.test_unknown_usage_stays_unknown) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.251s\n\nOK\n\ntest_invalid_stream_line_is_counted (__main__.AdjudicationTests.test_invalid_stream_line_is_counted) ... ok\ntest_stream_attributes_root_worker_and_auxiliary_billing (__main__.AdjudicationTests.test_stream_attributes_root_worker_and_auxiliary_billing) ... ok\ntest_validation_rejects_tampering (__main__.AdjudicationTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.080s\n\nOK\n\nPASS: digest=valid; result=PASS"
+    },
+    {
+      "id": "LIVE-WORKER",
+      "covers": "live attempt adapter qualifies without model calls",
+      "status": "PASS",
+      "detail": "test_command_is_exact_model_restricted_and_tool_minimal (__main__.LiveWorkerTests.test_command_is_exact_model_restricted_and_tool_minimal) ... ok\ntest_fable_command_uses_its_explicit_provider_identity (__main__.LiveWorkerTests.test_fable_command_uses_its_explicit_provider_identity) ... ok\ntest_qualification_passes_without_model_calls (__main__.LiveWorkerTests.test_qualification_passes_without_model_calls) ... ok\ntest_stream_keeps_auxiliary_billing_separate (__main__.LiveWorkerTests.test_stream_keeps_auxiliary_billing_separate) ... ok\ntest_timeout_never_becomes_zero_cost (__main__.LiveWorkerTests.test_timeout_never_becomes_zero_cost) ... ok\ntest_validation_rejects_tampering (__main__.LiveWorkerTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.857s\n\nOK\n\nPASS: mode=offline-fake-transport-v1; digest=valid"
+    },
+    {
+      "id": "LIVE-CONTROLLER",
+      "covers": "live Controller adapter qualifies without model calls",
+      "status": "PASS",
+      "detail": "test_duplicate_workspace_refuses_redispatch (__main__.LiveControllerTests.test_duplicate_workspace_refuses_redispatch) ... ok\ntest_qualification_covers_nested_accounting_without_model_calls (__main__.LiveControllerTests.test_qualification_covers_nested_accounting_without_model_calls) ... ok\ntest_validation_rejects_tampering (__main__.LiveControllerTests.test_validation_rejects_tampering) ... ok\ntest_workspace_cannot_be_nested_in_actor (__main__.LiveControllerTests.test_workspace_cannot_be_nested_in_actor) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 1.026s\n\nOK\n\nPASS: mode=offline-injected-controller-v1; digest=valid"
+    },
+    {
+      "id": "LIVE-EPISODE",
+      "covers": "live policy and restart safety qualify without model calls",
+      "status": "PASS",
+      "detail": "test_b0_has_fixed_three_worker_ceiling_and_no_controller (__main__.LiveEpisodeTests.test_b0_has_fixed_three_worker_ceiling_and_no_controller) ... ok\ntest_b2_same_hypothesis_does_not_trigger_controller (__main__.LiveEpisodeTests.test_b2_same_hypothesis_does_not_trigger_controller) ... ok\ntest_controller_absence_blocks_before_dispatch (__main__.LiveEpisodeTests.test_controller_absence_blocks_before_dispatch) ... ok\ntest_controller_identity_mismatch_blocks_after_cost_reconciliation (__main__.LiveEpisodeTests.test_controller_identity_mismatch_blocks_after_cost_reconciliation) ... ok\ntest_crash_after_budget_start_before_dispatch_event_never_redispatches (__main__.LiveEpisodeTests.test_crash_after_budget_start_before_dispatch_event_never_redispatches) ... ok\ntest_crash_recovery_retains_allowance_and_never_redispatches (__main__.LiveEpisodeTests.test_crash_recovery_retains_allowance_and_never_redispatches) ... ok\ntest_missing_cost_blocks_before_hidden_grade (__main__.LiveEpisodeTests.test_missing_cost_blocks_before_hidden_grade) ... ok\ntest_policy_executor_has_no_hidden_or_task_inputs (__main__.LiveEpisodeTests.test_policy_executor_has_no_hidden_or_task_inputs) ... ok\ntest_qualification_passes_without_model_calls (__main__.LiveEpisodeTests.test_qualification_passes_without_model_calls) ... ok\ntest_validation_rejects_tampering (__main__.LiveEpisodeTests.test_validation_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 7.906s\n\nOK\n\nPASS: mode=offline-scripted-adapters-v1; digest=valid"
+    },
+    {
+      "id": "PILOT-PREFLIGHT",
+      "covers": "paid pilot envelope qualifies without model calls",
+      "status": "PASS",
+      "detail": "test_authorisation_template_is_deliberately_inactive (__main__.PilotTests.test_authorisation_template_is_deliberately_inactive) ... ok\ntest_offline_qualification (__main__.PilotTests.test_offline_qualification) ... ok\ntest_profiles_are_fixed_complete_and_separately_authorised (__main__.PilotTests.test_profiles_are_fixed_complete_and_separately_authorised) ... ok\ntest_recorded_evidence_rejects_tampering (__main__.PilotTests.test_recorded_evidence_rejects_tampering) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 15.076s\n\nOK\n\nPASS: mode=offline-paid-evaluation-preflight-v2; digest=valid"
+    },
+    {
+      "id": "W07-RESULT",
+      "covers": "W07 paid evidence reconciles and validates offline",
+      "status": "PASS",
+      "detail": "test_aggregate_reconciles_policy_and_decision (__main__.DevelopmentResultTests.test_aggregate_reconciles_policy_and_decision) ... ok\ntest_recorded_evidence_validates (__main__.DevelopmentResultTests.test_recorded_evidence_validates) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.386s\n\nOK\n\nPASS: W07 evidence digest=valid"
+    },
+    {
+      "id": "W08-RESULT",
+      "covers": "W08 evidence and release-gate decision validate offline",
+      "status": "PASS",
+      "detail": "test_recorded_evidence_validates (__main__.ReservedResultTests.test_recorded_evidence_validates) ... ok\ntest_release_gate_rejects_b1_and_selects_b0 (__main__.ReservedResultTests.test_release_gate_rejects_b1_and_selects_b0) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.429s\n\nOK\n\nPASS: W08 evidence digest=valid"
+    },
+    {
+      "id": "RELEASE",
+      "covers": "release-candidate parity and redistribution checks run",
+      "status": "PASS",
+      "detail": "mechanical failures=[]; operator actions=['clean_build_stamp', 'publication']"
+    },
+    {
+      "id": "AUDIT-REGRESSIONS",
+      "covers": "audit desired-behaviour regressions run",
+      "status": "PASS",
+      "detail": "PASS: improvement regressions (4 closed, 0 explicitly open; no claude -p calls)"
+    },
+    {
+      "id": "REPLAY",
+      "covers": "replay_routing.py passes its own gate",
+      "status": "PASS",
+      "detail": "Gate result: PASS. Gating batch agreement 143/152 (94.1%) after excluding 0 policy-fired row(s). Controller-on-contained violations: 0."
+    },
+    {
+      "id": "BACKTEST",
+      "covers": "backtest_ledger.py passes its own pass conditions",
+      "status": "PASS",
+      "detail": "29 pass, 0 fail"
+    },
+    {
+      "id": "HANDOFF-SELFTEST",
+      "covers": "handoff.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 5 scenarios (a: clean file, b: corrupted sections named, c: missing front matter, d: a spawn handoff's cell/controller cost, e: --pending-workers)"
+    },
+    {
+      "id": "PROBE-SELFTEST",
+      "covers": "context_probe.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 6 scenarios"
+    },
+    {
+      "id": "COMPACT-BENCH-SELFTEST",
+      "covers": "compaction_bench.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 7 scenarios"
+    },
+    {
+      "id": "FIXTURE-CLEAN",
+      "covers": "no T12-T15 repo/ or task.md file self-references this repository",
+      "status": "PASS",
+      "detail": "clean"
+    },
+    {
+      "id": "INTERACTIVE-CHECKLIST-SELFTEST",
+      "covers": "interactive_checklist.py --selftest passes",
+      "status": "PASS",
+      "detail": "selftest: PASS, 6 scenarios"
+    },
+    {
+      "id": "HANDOFF",
+      "covers": "every handoffs/ file passes handoff.py check",
+      "status": "PASS",
+      "detail": "17 file(s) checked"
+    }
+  ]
+}

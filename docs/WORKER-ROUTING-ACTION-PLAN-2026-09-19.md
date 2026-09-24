@@ -1,14 +1,19 @@
 # Worker routing and delegation: staged action plan
 
-Date: 2026-09-19. Status updated 2026-09-21: **N0 complete for operator review;
-N1 has not started**. See the [N0 result](stage-results/worker-n0.md) and frozen
-[worker execution contract](WORKER-EXECUTION-CONTRACT.md).
+Date: 2026-09-19. Status updated 2026-09-24: **N0A and N1 complete for offline
+review; N2 pending**. See the [N0A result](stage-results/worker-n0a.md),
+[contract v2](WORKER-EXECUTION-CONTRACT-v2.md) and
+[N1 result](stage-results/worker-n1.md). N0 remains historical evidence.
 
 This is the next programme requested after the twelve-gap review. It repairs
 ordinary worker routing, execution and delegation. Experimental Controller
 changes belong to the separate [deferred plan](CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md).
 Both use the [execution protocol and cost basis](REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md).
-Start only when directed, using the [N0 handoff](../handoffs/2026-09-19-worker-routing-n0.md).
+2026-09-24 amendment: the [worker-first sequencing plan](WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md)
+adds N0A before N1 and governs its shared-contract and test-compatibility changes.
+N1 was executed on operator direction using the
+[v2 handoff](../handoffs/2026-09-24-worker-routing-n1-v2.md).
+Do not implement the superseded v1 transition table or statistical gate.
 
 ## 1. Scope and ownership of all twelve gaps
 
@@ -34,7 +39,10 @@ later. Do not modify `controller_policy.py`, `controller_dispatch.py`,
 `controller_matrix_runtime.py`, `controller_pilot_runtime.py` or Controller
 role assignments during this programme. Shared modules may receive necessary
 backward-compatible worker changes with existing Controller regressions run.
-Do not refresh the frozen R5 manifests or execute them.
+Do not refresh the frozen R5 manifests or execute their live campaigns.
+N1/N3 may change offline test fixtures/helpers to separate historical integrity
+from current-code fake runs as specified in contract v2 section 9. Historical
+hashes and Controller runtime algorithms remain untouched.
 
 Deliverable: a consumer-installable worker execution path with explainable
 cell selection, durable task accounting, independent acceptance and bounded
@@ -47,7 +55,8 @@ all N-series execution and evaluation paths, including failure fallbacks.
 | Stage | Deliverable | Dependencies | Model / effort | Engineering time | API unit |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | N0 | Baseline, boundaries, versioned contracts and exit criteria | Operator start | GPT-5.6 Sol / High | 2-3 h | B |
-| N1 | Durable worker task executor and host adapter | N0 | GPT-5.6 Sol / High | 5-9 h | I |
+| N0A | Shared-contract amendment, complete for review | N0 | GPT-6 Astra / High | 2-4 h | R |
+| N1 | Durable worker task executor and host adapter | Accepted N0A | GPT-5.6 Sol / High | 5-9 h | I |
 | N2 | Bounded delegation, dependencies and shared budgets | N1 | GPT-5.6 Sol / High | 4-8 h | I |
 | N3 | Public-evidence assessment and explicit cell selector | N0-N2 | GPT-5.6 Sol / High | 4-8 h | I |
 | N4 | Executable worker corpus and trusted campaign runner | N1-N3 | GPT-5.6 Sol / High | 6-12 h | I |
@@ -56,7 +65,7 @@ all N-series execution and evaluation paths, including failure fallbacks.
 | N7 | Independent evaluation and promotion adjudication | N6 | GPT-6 Astra / High | 2-4 h | R |
 | N8 | Consumer wiring, packaging, installation and handover | N7 decision | GPT-5.6 Sol / High | 3-5 h | I |
 
-Stop after every stage and report its gate. Keep Sol High across N0-N6 when
+Stop after every stage and report its gate. Keep Sol High across N1-N6 when
 the same session remains suitable; a stage boundary is not a reason to discard
 useful context. Before N7 and N8, write and validate a fresh transition handoff
 and wait for the operator to set the model. N7 is an adversarial review of
@@ -235,11 +244,13 @@ candidate x two repetitions: 48 episodes, treating task as the paired unit,
 not repetitions as independent tasks. Balance order and record cache effects.
 No tuning, substituted tasks or undeclared retries after inspecting results.
 
-Predeclare N0's proposed promotion gates, finalised before N5 spend: no observed
-new critical violation; no increase in false-success count; lower 95 percent
-paired bounds above -5 percentage points for acceptance and -5/100 for quality;
+Use contract v2 section 10 for the task aggregation, interval method and
+multiplicity handling, validated by N4 before N5 spend. The thresholds remain:
+no observed candidate critical violation; no increase in false-success count;
+simultaneous lower bounds with at least 95 percent joint coverage above
+-5 percentage points for acceptance and -5/100 for quality;
 plus either at least 10 percent lower observed total cost at those quality
-floors, or a lower 95 percent paired quality-uplift bound above +5/100 within
+floors, or the same paired quality-uplift lower bound above +5/100 within
 1.25x baseline total cost. Report family outcomes and budget censoring. These
 are policy thresholds, not established economic facts. Document the exact
 interval method and multiplicity handling before results exist.
@@ -308,8 +319,10 @@ are not inferred from OpenAI rates. No spend is approved by this table.
 
 ## 5. Completion register
 
-- [x] N0 baseline/contracts complete; operator acceptance pending.
-- [ ] N1 worker executor qualified offline.
+- [x] N0 historical baseline/design complete; superseded contracts retained.
+- [x] N0A v2 amendment complete; operator review pending.
+- [x] N1 worker executor qualified offline; see the
+  [stage result](stage-results/worker-n1.md) for host limits.
 - [ ] N2 delegation qualified offline.
 - [ ] N3 selector and assessment qualified offline.
 - [ ] N4 worker corpus, isolation and campaign integrity qualified.
@@ -318,6 +331,8 @@ are not inferred from OpenAI rates. No spend is approved by this table.
 - [ ] N7 independent adjudication recorded.
 - [ ] N8 consumer release preparation complete.
 
-Exact initial action: when the operator chooses to begin, set **GPT-5.6 Sol,
-High**, read the N0 handoff and execute N0 only. First-stage projection:
-**USD 1.25-6.50 API-equivalent; 2-3 hours; no Claude experiment spend**.
+Exact next action: review N1, then on operator direction implement N2 managed
+delegation. The recommended host setting remains **GPT-5.6 Sol / High**;
+the N2 plan projects **4-8 engineering hours**. The sequencing plan's original
+cost baseline includes N0A and N1; subtract completed stages when estimating
+the remaining programme.

@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026-09-18-1eb0fbe-dirty",
+  "bundle_version": "2026-09-24-a70e311-dirty",
   "configuration": {
     "backup_root": ".claude/orchestrator-install/backups",
     "claude_markers": [
@@ -22,7 +22,7 @@
   },
   "files": {
     ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-    ".claude/ORCHESTRATOR_VERSION": "37b6265d43e625dfa615ae6b0df4b90d47dcdd0a43645e4c474150b368515e11",
+    ".claude/ORCHESTRATOR_VERSION": "fffe6bbc80a3fa00838f187198b75551ea56a922134f67d6547a2d2fe41b7998",
     ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
     ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
     ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -41,8 +41,8 @@
     ".claude/commands/controller.md": "f879b0cc9d23007de50a401a3462f92e58e45409a3276dd9878dac56126e2a7c",
     ".claude/commands/workers.md": "beb906eaaae4e298b74a3b6ddfa81aaf91b5400b2be87081f1f06ff652a07d9d",
     "CONTROLLER.md": "a73095e866759da4565a0140f091b222d79e9ab46c194c3b5aa044856f231ad3",
-    "ORCHESTRATOR-REFERENCE.md": "b608e04c4076be61ca49d6a04859914a9344d544381d166ad20dd85300bc0f10",
-    "ORCHESTRATOR.md": "c142872ab68a8339fa4bdac2f10d40d9241a86eb85e3a283d9c2c7e966dcf50e",
+    "ORCHESTRATOR-REFERENCE.md": "0b2cea4c4f9bf81e19a3ff9cb4114a79bbcac32fea157496b081f497a743b4dc",
+    "ORCHESTRATOR.md": "6d6bae51f87482bc9c2ce95f53b9db8d8928a34d0804d4986191f4be61812473",
     "SELF-LEARNING.md": "99dbd9c862d8363e4371edb7bb15f0ccdac21240f626b9774e6819da996d8f03",
     "acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
     "preflight.py": "3129d57e9fa6df17d2676b2222ae9994309ae1890e3eff4a2e6f90e1fc3ba1b4",
@@ -77,13 +77,15 @@
     "tools/controller_dispatch.py": "50fa67c8a794d265b3ac41fe024bcfa6878b08c83b4221cf8cf174e9c8421f63",
     "tools/controller_integrity.py": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
     "tools/controller_policy.py": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
-    "tools/dispatch_budget.py": "6682836ac81db607eba91bc5abbe96b69d4aa40bcde8dbcf4c5568c2e819da25",
+    "tools/dispatch_budget.py": "132ec13a50f75b561a17ace6a4d7220f3cfd9532630da5315bedf077ff1ac41e",
     "tools/handoff.py": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
     "tools/model_registry.py": "8e54def2905ce7f864b129ada2e3c010b26a9f1662da31d721031b0371d7b0c0",
     "tools/route.py": "38781853708428a65da197c2ad7bda8b1b643c5ee69526bdb43e15182eb489b4",
     "tools/system_controller.py": "a7a91d16a293528103752da47efda58050f173c53083b5e7ad900972b1660b26",
     "tools/system_prompts.py": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
-    "tools/validate_records.py": "beca6a70a948a9cf5b9d12193c09c2663125d86171169b9fdb4c9f509fe9b8a3"
+    "tools/task_executor.py": "f479e1f77bb9c7b9c053f5607eec909d303d8e2746922b9061025c2a7b3b6a85",
+    "tools/validate_records.py": "beca6a70a948a9cf5b9d12193c09c2663125d86171169b9fdb4c9f509fe9b8a3",
+    "tools/worker_adapter.py": "a5154a6bad19a72279fffcc54a8cb6c4d2177211d273b885cacc5eea6daa7f13"
   },
   "licence": {
     "file": "LICENSE",

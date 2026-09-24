@@ -12,6 +12,15 @@ documents. If Graft is unavailable, repair or report the connection before
 repository discovery. Put this rule and the repository root in every handover;
 each child verifies its own access. The bundle README describes installation.
 
+## Managed worker records
+
+Before using a legacy routing or worker launch path after a bundle rollback,
+run `python3 tools/task_executor.py --audit --project .` while that tool is
+installed. An open or unsettled `.claude/task-executor-v2/` root blocks another
+launch of the same work. Preserve its journal and budget, reconcile the writer
+and charge, then use the authorised continuation path. If the older bundle no
+longer has the audit tool, inspect those records before any relaunch.
+
 ## Handoffs
 
 Before changing model or effort, starting a fresh session, or launching any

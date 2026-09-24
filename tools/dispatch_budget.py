@@ -68,7 +68,8 @@ class DispatchBudget:
                 raise BudgetError(f"No budget at {self.path}; legacy runs require explicit migration")
             else:
                 self._write({"version": 1, "currency": "USD", "scope": scope,
-                             "limit_units": units(limit_usd), "cancelled": False,
+                             "limit_units": units(limit_usd), "baseline_limit_units": units(limit_usd),
+                             "cancelled": False,
                              "created_at": utc_now(), "invocations": {}})
 
     def _read(self) -> dict:
@@ -92,6 +93,35 @@ class DispatchBudget:
                         or (row["cost_usd"] is not None and units(row["cost_usd"], ceiling=True) != row["charged_units"])
                         or (row["state"] == "settled" and row["cost_usd"] is None)):
                     raise ValueError(f"invalid invocation {ident!r}")
+            if "baseline_limit_units" in state:
+                baseline = state["baseline_limit_units"]
+                if type(baseline) is not int or baseline < 0:
+                    raise ValueError("invalid baseline limit")
+                prior_limit = baseline
+                amendments = state.get("amendments", [])
+                if not isinstance(amendments, list):
+                    raise ValueError("invalid amendment ledger")
+                seen: set[str] = set()
+                for generation, amendment in enumerate(amendments):
+                    if (not isinstance(amendment, dict)
+                            or type(amendment.get("previous_limit_units")) is not int
+                            or amendment["previous_limit_units"] != prior_limit
+                            or type(amendment.get("new_limit_units")) is not int
+                            or amendment["new_limit_units"] <= prior_limit
+                            or amendment.get("expected_generation") != generation
+                            or not isinstance(amendment.get("authority_id"), str)
+                            or not amendment["authority_id"]
+                            or amendment["authority_id"] in seen):
+                        raise ValueError("invalid amendment history")
+                    seen.add(amendment["authority_id"])
+                    prior_limit = amendment["new_limit_units"]
+                if prior_limit != state["limit_units"] or state.get("generation", 0) != len(amendments):
+                    raise ValueError("limit differs from amendment history")
+            continuations = state.get("continuations", [])
+            if (not isinstance(continuations, list)
+                    or state.get("execution_generation", 0) != len(continuations)
+                    or len({row.get("authority_id") for row in continuations if isinstance(row, dict)}) != len(continuations)):
+                raise ValueError("invalid continuation history")
             return state
         except (OSError, ValueError, KeyError, TypeError) as exc:
             raise BudgetError(f"Unreadable budget {self.path}: {exc}; preserve it and reconcile from evidence") from exc
@@ -190,3 +220,63 @@ class DispatchBudget:
             state = self._read()
             state["cancelled"] = True
             self._write(state)
+
+    def amend_limit(self, new_limit_usd: float, *, actor: str, authority_id: str,
+                    reason: str, expected_generation: int) -> dict:
+        """Increase a root limit with an idempotent, generation-fenced grant.
+
+        The amendment ledger lives beside the original v1 fields so existing
+        Controller readers retain their accounting and cancellation semantics.
+        """
+        proposed = units(new_limit_usd)
+        if not all(isinstance(x, str) and x.strip() for x in (actor, authority_id, reason)):
+            raise BudgetError("amendment requires actor, authority id and reason")
+        if type(expected_generation) is not int or expected_generation < 0:
+            raise BudgetError("invalid expected budget generation")
+        with ledger_lock(self.path):
+            state = self._read()
+            amendments = state.setdefault("amendments", [])
+            prior = next((row for row in amendments if row["authority_id"] == authority_id), None)
+            request = {"new_limit_units": proposed, "actor": actor,
+                       "authority_id": authority_id, "reason": reason,
+                       "expected_generation": expected_generation}
+            if prior:
+                if all(prior.get(k) == v for k, v in request.items()):
+                    return prior
+                raise BudgetError("conflicting reuse of amendment authority")
+            if expected_generation != state.get("generation", 0):
+                raise BudgetError("stale budget generation")
+            if proposed <= state["limit_units"]:
+                raise BudgetError("budget amendments must increase the limit")
+            row = {**request, "previous_limit_units": state["limit_units"],
+                   "recorded_at": utc_now()}
+            amendments.append(row)
+            state["limit_units"] = proposed
+            state["generation"] = expected_generation + 1
+            self._write(state)
+            return row
+
+    def continue_generation(self, *, actor: str, authority_id: str,
+                            predecessor_terminal: bool, writers_stopped: bool) -> dict:
+        """Reopen cancellation only after all holds settle and writers stop."""
+        if not actor or not authority_id or not predecessor_terminal or not writers_stopped:
+            raise BudgetError("continuation needs authority, terminal predecessor and stopped writers")
+        with ledger_lock(self.path):
+            state = self._read()
+            continuations = state.setdefault("continuations", [])
+            prior = next((row for row in continuations if row["authority_id"] == authority_id), None)
+            if prior:
+                if (prior["actor"] == actor and not state["cancelled"]
+                        and state.get("execution_generation", 0) == prior["generation"]):
+                    return prior
+                raise BudgetError("conflicting continuation authority")
+            if not state["cancelled"] or any(row["state"] != "settled" for row in state["invocations"].values()):
+                raise BudgetError("cancelled root has unresolved holds or is not cancelled")
+            row = {"actor": actor, "authority_id": authority_id,
+                   "generation": state.get("execution_generation", 0) + 1,
+                   "recorded_at": utc_now()}
+            continuations.append(row)
+            state["execution_generation"] = row["generation"]
+            state["cancelled"] = False
+            self._write(state)
+            return row

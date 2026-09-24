@@ -1,5 +1,10 @@
 # Handoff: controller-remediation-x0
 
+Deferred historical snapshot: refresh this handoff against completed worker
+results before X0. Follow the corrected dependencies and N8 entry gate in the
+[2026-09-24 sequencing plan](../docs/WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md).
+The original planning snapshot below is preserved.
+
 <!-- handoff.py new --slug controller-remediation-x0 --reason model-change --to-model gpt-6-astra --to-effort high --project . -->
 Written 2026-09-19 by the planning session. Reason: future operator model-change.
 Deferred handoff only; no model change or stage execution has occurred.

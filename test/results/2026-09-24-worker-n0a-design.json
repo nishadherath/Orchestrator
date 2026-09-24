@@ -1,0 +1,240 @@
+{
+  "kind": "design-only-not-runtime-qualification",
+  "result": "PASS",
+  "contract_version": "worker-execution-contract-v2",
+  "contract_sha256": "ad25514aefabc165d91a8e2bdf822ceceb84669fcbcc4bf9eec6b7a36ed0149f",
+  "archive_sha256": "893f02eb1f3249c321a842e9c8239ac848faa1c8738a84084d7a18009b3d8724",
+  "archive_matches_HEAD": true,
+  "states": {
+    "prepared": [
+      "ready",
+      "blocked",
+      "cancelled"
+    ],
+    "ready": [
+      "admitted",
+      "blocked",
+      "cancelled"
+    ],
+    "admitted": [
+      "running",
+      "blocked",
+      "uncertain",
+      "cancelled"
+    ],
+    "running": [
+      "verifying",
+      "blocked",
+      "uncertain",
+      "cancelled"
+    ],
+    "verifying": [
+      "ready",
+      "awaiting_review",
+      "accepted",
+      "failed",
+      "partial",
+      "blocked",
+      "uncertain",
+      "cancelled"
+    ],
+    "awaiting_review": [
+      "verifying",
+      "blocked",
+      "cancelled"
+    ],
+    "blocked": [
+      "ready",
+      "verifying",
+      "awaiting_review",
+      "uncertain",
+      "failed",
+      "partial",
+      "cancelled"
+    ],
+    "uncertain": [
+      "verifying",
+      "blocked",
+      "cancelled"
+    ],
+    "accepted": [],
+    "failed": [],
+    "partial": [],
+    "cancelled": []
+  },
+  "terminal_states": [
+    "accepted",
+    "cancelled",
+    "failed",
+    "partial"
+  ],
+  "witnesses": {
+    "first_success": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "accepted"
+    ],
+    "second_success": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "accepted"
+    ],
+    "third_success": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "accepted"
+    ],
+    "exhausted": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "failed"
+    ],
+    "review_pass": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "awaiting_review",
+      "verifying",
+      "accepted"
+    ],
+    "review_fail_repair": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "awaiting_review",
+      "verifying",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "accepted"
+    ],
+    "capability_resume": [
+      "prepared",
+      "blocked",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "accepted"
+    ],
+    "verifier_resume": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "blocked",
+      "verifying",
+      "accepted"
+    ],
+    "uncertain_receipt": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "uncertain",
+      "verifying",
+      "accepted"
+    ],
+    "start_intent_gap": [
+      "prepared",
+      "ready",
+      "admitted",
+      "uncertain",
+      "blocked",
+      "failed"
+    ],
+    "known_protocol_fault": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "blocked",
+      "failed"
+    ],
+    "running_cancel": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "cancelled"
+    ],
+    "review_cancel": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "awaiting_review",
+      "cancelled"
+    ],
+    "useful_partial": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "verifying",
+      "partial"
+    ],
+    "uncertain_cancel": [
+      "prepared",
+      "ready",
+      "admitted",
+      "running",
+      "uncertain",
+      "cancelled"
+    ]
+  },
+  "witness_count": 15,
+  "explicit_forbidden_edge_count": 9,
+  "v1_cannot_express_same_revision_repair": true,
+  "statistical_edge_cases": {
+    "zero_gross_losses_n12_95_upper": 0.22092219194555585,
+    "zero_gross_losses_n59_95_upper": 0.049507609888227,
+    "n12_all_wins_acceptance_lower": 0.3881588410545791,
+    "n12_all_100_quality_gains_lower": 21.58997243003145,
+    "n12_no_discordance_acceptance_lower": -0.30592057947271045
+  },
+  "limitations": [
+    "No production executor tests",
+    "Guards reviewed in the contract, not runtime verified",
+    "No power simulation or paid calls"
+  ]
+}

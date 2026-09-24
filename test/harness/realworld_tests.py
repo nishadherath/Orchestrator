@@ -176,7 +176,9 @@ class RealWorldFoundationTests(unittest.TestCase):
             cwd=ROOT,
             capture_output=True,
             text=True,
-            timeout=120,
+            # The CLI repeats the full fixture and adversarial-grader campaign.
+            # On Windows hosts this can exceed two minutes without any failure.
+            timeout=600,
         )
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(json.loads(completed.stdout)["result"], "PASS")

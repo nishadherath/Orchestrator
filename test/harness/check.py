@@ -1008,9 +1008,10 @@ def check_realworld_foundation(r: Report) -> None:
     """REALWORLD: isolated external graders reject adversarial repairs offline."""
     script = REPO_ROOT / "test" / "harness" / "realworld_tests.py"
     # The complete 24-task corpus runs 144 states plus protected-boundary
-    # attacks twice (direct API and CLI regression paths). Leave headroom for
-    # loaded Windows hosts without changing any per-task execution timeout.
-    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=300)
+    # attacks twice (direct API and CLI regression paths). The direct run
+    # exceeded five minutes on this Windows host; keep both full passes and
+    # leave headroom without changing any per-task execution timeout.
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=900)
     r.add("REALWORLD", "24 real-world graders and candidate freeze pass offline", proc.returncode == 0,
           (proc.stdout + proc.stderr).strip()[-1800:])
 

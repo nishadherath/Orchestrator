@@ -9,6 +9,11 @@ Use the shared [execution protocol](REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md
 and the prepared [X0 handoff](../handoffs/2026-09-19-controller-remediation-x0.md)
 when this programme is explicitly resumed.
 
+2026-09-24 amendment: the [worker-first sequencing plan](WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md)
+governs cross-programme dependencies: X1 requires N4; X3 requires N3/N4;
+X4 owns complete Controller integration before X5 live comparisons. Worker N0A
+precedes N1. Refresh the historical X0 handoff against completed N8 evidence.
+
 ## 1. Scope and dependencies
 
 Own gaps 1-5, 8 and 9 in full for the existing experimental Controller, and
@@ -37,12 +42,12 @@ code is present, `/controller auto` is stored, or tests pass with fake adapters.
 
 | Stage | Deliverable | Dependencies | Model / effort | Engineering time | API unit |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| X0 | Revalidate review findings and freeze integration/evaluation contracts | Explicit later start; N results | GPT-6 Astra / High | 2-4 h | R |
-| X1 | R5 terminal stop, complete manifests and accounting recovery | X0 | GPT-5.6 Sol / High | 3-6 h | I |
+| X0 | Revalidate review findings and freeze integration/evaluation contracts | Explicit later start; N8 and N0A results | GPT-6 Astra / High | 2-4 h | R |
+| X1 | R5 terminal stop, complete manifests and accounting recovery | X0; N4 | GPT-5.6 Sol / High | 3-6 h | I |
 | X2 | Real Generator assignments and durable task-wide Controller admission | X1; N1 | GPT-5.6 Sol / High | 4-8 h | I |
-| X3 | Executable Controller corpus and unbiased assessment/scoring | X0-X2; N4 | GPT-5.6 Sol / High | 6-12 h | I |
+| X3 | Executable Controller corpus and unbiased assessment/scoring | X0-X2; N3/N4 | GPT-5.6 Sol / High | 6-12 h | I |
 | X4 | Production workflow, worker handoff, profiles and interactive controls | X2-X3; N1-N3 | GPT-5.6 Sol / High | 5-10 h | I |
-| X5 | Identity deltas, instrumented pilot and development comparisons | X1-X4; spend check | GPT-5.6 Sol / High | 3-6 h plus 3-8 h live | B |
+| X5 | Identity deltas, instrumented pilot and development comparisons | X1-X4; compatible N5 evidence; spend check | GPT-5.6 Sol / High | 3-6 h plus 3-8 h live | B |
 | X6 | Candidate freeze and unseen comparison | X5; spend check | GPT-5.6 Sol / High | 2-4 h plus 6-16 h live | B |
 | X7 | Independent Controller-uplift and release adjudication | X6 | GPT-6 Astra / High | 2-4 h | R |
 | X8 | Qualified integration, consumer smoke and rollback | X7 decision | GPT-5.6 Sol / High | 3-5 h | I |
@@ -165,7 +170,9 @@ inherited instructions and Graft, using the established isolated runtime.
 Exit: reference and equivalent solutions pass; label copiers, confident false
 completion and concealed harmful edits fail; verified incomplete work scores
 above no progress without being called complete. Tiny paired fake campaigns
-use the exact production assessor/executor, and neither arm sees family labels,
+use the available N3/N1 production assessor/executor with controlled boundary
+adapters. Complete Controller integration is the X4 exit gate, before X5 live
+comparisons. Neither arm sees family labels,
 expected Controller decisions or protected oracle content.
 
 ### X4: complete Controller integration

@@ -79,6 +79,11 @@ tools/
                                                      validated evidence and worker handoff)
   model_registry.py                                (exact 15-cell identity, effort, role-profile
                                                      and cost-evidence resolver)
+  task_executor.py                                 (durable B0 admission, recovery, independent
+                                                     acceptance and read-only rollback audit)
+  worker_adapter.py                                (one restricted Claude CLI call with explicit
+                                                     actor-scoped Graft MCP configuration)
+  dispatch_budget.py, acceptance.py                (root monetary balance and frozen acceptance)
   claudep.py, system_prompts.py,
   validate_records.py                               (the Controller's own dependencies)
 src/
@@ -145,6 +150,23 @@ Completion writes content-addressed evidence under `.claude/acceptance/`; only
 evidence that still matches the contract and current artefacts can affect
 capability learning. Cost records remain usable when acceptance is blocked or
 unverified.
+
+The N1 worker executor is an installable Python API for a single B0 root task.
+It journals admissions and receipts, holds one root budget across repairs and
+linked continuations, verifies a frozen acceptance contract, and retains each
+attempt's output. The production adapter needs an explicit MCP configuration
+containing only an actor-scoped Graft server. Its command requests restricted
+Claude tools and the six Graft retrieval tools; it does not use `--safe-mode`,
+which disables MCP. The offline fake tests cover execution and recovery. Live
+host enforcement and interactive Agent-tool interception have not been
+qualified, so the normal interactive routing flow does not call this executor
+automatically yet. That integration belongs to later stages.
+
+Before rolling back an installation that has used the executor, run
+`python3 tools/task_executor.py --audit --project .`. A nonzero result means
+an open task or unresolved hold requires reconciliation before another launch.
+Keep `.claude/task-executor-v2/` and its budget and journal files during a
+rollback; an older bundle cannot safely infer that an uncertain call was free.
 
 The shared worker persona is inlined into every definition, so the consumer
 project needs no separate persona file. Nothing in this bundle depends on

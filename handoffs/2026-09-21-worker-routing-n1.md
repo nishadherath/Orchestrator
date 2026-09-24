@@ -1,5 +1,10 @@
 # Handoff: worker-routing-n1
 
+Superseded entry instructions, 2026-09-24: N0A completed for operator review.
+Use the [fresh N1 v2 handoff](2026-09-24-worker-routing-n1-v2.md) against the
+amended contract. The original snapshot below is
+historical and must not be executed as the current starting point.
+
 <!-- handoff.py new --slug worker-routing-n1 --reason model-change --to-model gpt-5.6-sol --to-effort high --project . -->
 Written 2026-09-21 by the N0 execution session. Reason: future operator
 model-change after N0 review. N1 has not started.

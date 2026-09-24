@@ -2,6 +2,12 @@
 
 Date: 2026-09-21. Result: **complete for operator review; N1 not started**.
 
+Historical record retained. On 2026-09-24 [N0A](worker-n0a.md) superseded the
+state machine, identity boundary and statistical gate below with
+[contract v2](../WORKER-EXECUTION-CONTRACT-v2.md). In particular, the original
+59-task claim is specific to a gross-regression bound, not a universal paired
+non-inferiority minimum. Read N0A and its new handoff before N1.
+
 ## Scope
 
 N0 records the actual baseline and freezes the task/execution boundaries,
@@ -10,7 +16,7 @@ evidence gates. It makes no runtime, source, bundle or Controller change and
 makes no paid model call.
 
 The implementation contract is
-[`WORKER-EXECUTION-CONTRACT.md`](../WORKER-EXECUTION-CONTRACT.md). The programme
+[the archived v1 contract](../history/WORKER-EXECUTION-CONTRACT-v1.md). The programme
 remains governed by
 [`WORKER-ROUTING-ACTION-PLAN-2026-09-19.md`](../WORKER-ROUTING-ACTION-PLAN-2026-09-19.md)
 and the [shared protocol](../REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md).
