@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run fake B0 and N2 child tasks from a copied distribution in isolation."""
+"""Run fake B0, N2 and N3 paths from a copied distribution in isolation."""
 from __future__ import annotations
 
 import json
@@ -20,12 +20,15 @@ project = Path(sys.argv[2]).resolve()
 sys.path.insert(0, str(bundle / "tools"))
 from task_executor import TaskExecutor
 from managed_delegation import ManagedDelegation
+from worker_selector import assess
 from worker_adapter import WorkerAdapter
 class Fake:
     def __init__(self): self.calls = 0
     def capability(self, root):
         return {"configured": True, "actor_root": str(root.resolve()),
                 "graft_only": True, "managed_delegation_enforced": True,
+                "supported_cells": ["worker-sonnet-low", "worker-opus-high"],
+                "budget_enforced": True,
                 "cancellation_supported": True, "max_child_depth": 1,
                 "max_child_concurrency": 1, "enforcement_proven": True}
     def run(self, request):
@@ -48,6 +51,16 @@ executor = TaskExecutor(project, fake)
 root = executor.admit(goal="Create output", scope=["output.txt"], permissions=["read", "edit"],
                       acceptance_path=project / "acceptance.json", budget_usd=1.0,
                       authority_id="isolated_grant", actor="operator")
+assessment = assess({"task_kind": "implementation", "complexity": "routine",
+    "verification": "executable", "context_tokens": 1000, "deadline_seconds": None,
+    "failure_cause": "none", "prior_local_repairs": 0, "frame_confidence": "clear",
+    "required_artefacts": ["output.txt"],
+    "evidence": [{"source": "operator", "reference": "task", "claim": "create output"}]})
+shadow = executor.shadow_select(root, assessment, override={"cell": "worker-opus-high",
+    "actor": "operator", "authority_id": "consumer_override", "reason": "inspect candidate",
+    "max_cost_usd": 1.0})
+assert shadow["decision"]["selected_cell"] == "worker-opus-high"
+assert shadow["b0_cell"] == "worker-sonnet-low"
 audit = [sys.executable, str(bundle / "tools" / "task_executor.py"),
          "--audit", "--project", str(project)]
 assert subprocess.run(audit, capture_output=True).returncode == 2
@@ -56,6 +69,7 @@ assert result["state"] == "accepted", result["state"]
 assert result["budget"]["spent_usd"] == 0.02
 assert result["budget"]["unresolved"] == []
 assert fake.calls == 1
+assert result["attempts"][0]["requested_cell"] == "worker-sonnet-low"
 assert subprocess.run(audit, capture_output=True).returncode == 0
 assert WorkerAdapter.__module__ == "worker_adapter"
 child_contract = {**contract, "required_outputs": ["child.txt"],
@@ -78,7 +92,7 @@ assert executor.run(second)["state"] == "accepted"
 assert executor.status(second)["budget"]["spent_usd"] == 0.04
 assert fake.calls == 3
 assert subprocess.run(audit, capture_output=True).returncode == 0
-print("PASS: isolated bundle import, B0 and managed child execution")
+print("PASS: isolated bundle import, B0, managed child and shadow selector")
 '''
 
 
