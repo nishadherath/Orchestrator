@@ -26,6 +26,15 @@ def denied(path: Path) -> bool:
     return False
 
 
+def write_denied(path: Path) -> bool:
+    try:
+        with path.open("ab") as stream:
+            stream.write(b"probe\n")
+    except (FileNotFoundError, PermissionError, NotADirectoryError):
+        return True
+    return False
+
+
 def rpc(process: subprocess.Popen, ident: int, method: str, params: dict) -> dict:
     assert process.stdin and process.stdout
     process.stdin.write(json.dumps({"jsonrpc": "2.0", "id": ident,
@@ -83,16 +92,20 @@ def graft_checks() -> dict[str, bool]:
 
 
 def main() -> int:
-    target = ACTOR / "escape-link"
+    target = ACTOR / ".scratch" / "escape-link"
     target.symlink_to(HIDDEN)
     search = subprocess.run(["find", "/var/lib/orchestrator-worker-n4", "-name",
                              "oracle.py", "-print"], capture_output=True, text=True,
                             timeout=10)
     version = subprocess.run(["/opt/orchestrator-worker-runtime/bin/claude", "--version"],
                              capture_output=True, text=True, timeout=20)
+    with (ACTOR / "app.py").open("a", encoding="utf-8") as stream:
+        editable = stream.write("# actor-write-probe\n") > 0
     checks = {
         "actor_uid": os.getuid() == 65534,
-        "actor_read_write": (ACTOR / "probe-output.txt").write_text("actor-output\n") > 0,
+        "actor_read_write": editable,
+        "actor_root_creation_denied": write_denied(ACTOR / "forbidden.txt"),
+        "acceptance_write_denied": write_denied(ACTOR / "acceptance.json"),
         "evaluator_direct_denied": denied(HIDDEN),
         "evaluator_symlink_denied": denied(target),
         "recursive_search_denied": "oracle.py" not in search.stdout,

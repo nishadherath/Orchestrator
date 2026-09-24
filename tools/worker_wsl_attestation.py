@@ -9,12 +9,17 @@ still needs a separately authorised live campaign runner.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import datetime as dt
 import hashlib
 import json
 import shlex
+import shutil
 import subprocess
 import sys
+import tempfile
+import time
+import uuid
 from pathlib import Path, PurePosixPath
 
 from worker_evaluation import ROOT, freeze
@@ -25,16 +30,40 @@ RUNTIME = PurePosixPath("/opt/orchestrator-worker-runtime")
 ACTOR_BASE = "/var/lib/orchestrator-worker-n4/actors/"
 RUNTIME_FILES = (
     "bin/node", "bin/claude", "bin/worker-wsl-namespace", "actor-probe.py",
+    "worker_wsl_materialize.py", "worker_wsl_collect.py", "transport-probe.py",
     "actor-mcp.json", "lib/node_modules/@nanonets/graft/dist/cli.js",
 )
 SOURCE_FILES = (
     "tools/setup_worker_wsl.sh", "tools/worker_wsl_stage.sh",
     "tools/worker_wsl_namespace.sh", "tools/worker_wsl_actor_probe.py",
+    "tools/worker_wsl_materialize.py", "tools/worker_wsl_collect.py",
+    "tools/worker_wsl_transport_probe.py",
+    "tools/worker_wsl_transport.py",
+    "tools/worker_wsl_adapter_probe.py",
     "tools/worker_wsl_attestation.py",
 )
 GRAFT_TOOLS = {"mcp__graft__" + name for name in (
     "graft_check_freshness", "graft_repo_map", "graft_find_code",
     "graft_file_api", "graft_trace_calls", "graft_find_all")}
+REQUIRED_CHECKS = {
+    "acceptance_write_denied", "actor_edit_observed", "actor_read_write",
+    "actor_root_creation_denied", "actor_uid", "allowed_edit_collected",
+    "claude_actor_cwd", "claude_graft_connected", "claude_graft_six_tools",
+    "claude_native_runs", "claude_no_credentials", "claude_no_execution_tools",
+    "claude_no_inherited_plugins", "claude_no_paid_call",
+    "claude_only_expected_tools", "evaluator_direct_denied",
+    "evaluator_symlink_denied", "graft_actor_visible", "graft_evaluator_absent",
+    "graft_parent_rejected", "graft_six_tools", "interop_socket_hidden",
+    "namespace_process_stopped", "proc_root_no_escape",
+    "protected_actor_change_rejected", "protected_source_untouched",
+    "recursive_search_denied", "rejected_collection_did_not_write",
+    "sanitized_environment", "windows_c_unmounted", "windows_d_unmounted",
+    "windows_transport_graft_connected", "windows_transport_six_tools",
+    "windows_transport_zero_charge", "windows_transport_source_unchanged",
+    "windows_transport_path", "concurrent_source_change_rejected",
+    "source_change_preserved", "windows_transport_edit_collected",
+    "windows_transport_acceptance_untouched",
+}
 
 
 class AttestationError(RuntimeError):
@@ -50,6 +79,31 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+@contextlib.contextmanager
+def temporary_actor(prefix: str):
+    """Retry a Windows/WSL handle-release race without leaving probe inputs."""
+    parent = ROOT / "test" / "results"
+    parent.mkdir(parents=True, exist_ok=True)
+    source = Path(tempfile.mkdtemp(prefix=prefix, dir=parent)).resolve()
+    if source.is_symlink() or not source.is_relative_to(parent.resolve()):
+        raise AttestationError("temporary probe escaped results directory")
+    try:
+        yield source
+    finally:
+        for attempt in range(12):
+            if source.is_symlink() or not source.resolve().is_relative_to(parent.resolve()):
+                raise AttestationError("temporary probe cleanup target changed")
+            try:
+                shutil.rmtree(source)
+                break
+            except FileNotFoundError:
+                break
+            except OSError as exc:
+                if attempt == 11:
+                    raise AttestationError("temporary bridge cleanup failed") from exc
+                time.sleep(0.25)
+
+
 def wsl(*args: str, timeout: int = 120) -> subprocess.CompletedProcess:
     try:
         return subprocess.run(["wsl.exe", "-u", "root", "--", "bash", "-lc",
@@ -63,7 +117,8 @@ def wsl(*args: str, timeout: int = 120) -> subprocess.CompletedProcess:
 def checked(*args: str, timeout: int = 120) -> str:
     result = wsl(*args, timeout=timeout)
     if result.returncode:
-        raise AttestationError("WSL check failed: " + result.stderr[-300:])
+        raise AttestationError(f"WSL {args[0]} exited {result.returncode}: "
+                               + (result.stderr or result.stdout)[-300:])
     return result.stdout.strip()
 
 
@@ -116,7 +171,8 @@ def validate(value: dict, *, check_host: bool) -> bool:
     if value.get("manifest_sha256") != freeze(CORPUS)["manifest_sha256"]:
         return False
     checks = value.get("checks")
-    if not isinstance(checks, dict) or not checks or not all(v is True for v in checks.values()):
+    if (not isinstance(checks, dict) or set(checks) != REQUIRED_CHECKS
+            or not all(v is True for v in checks.values())):
         return False
     if value.get("source_hashes") != {name: sha(ROOT / name) for name in SOURCE_FILES}:
         return False
@@ -143,6 +199,16 @@ def run() -> dict:
         raise AttestationError("actor probe returned no JSON: " + probe.stderr[-300:]) from exc
     if probe.returncode or report.get("result") != "PASS":
         raise AttestationError("actor boundary probe failed: " + json.dumps(report)[:400])
+
+    transport_probe = wsl("python3", str(RUNTIME / "transport-probe.py"), timeout=60)
+    try:
+        transport_report = json.loads(transport_probe.stdout.strip())
+    except json.JSONDecodeError as exc:
+        raise AttestationError("transport probe returned no JSON: "
+                               + transport_probe.stderr[-300:]) from exc
+    if transport_probe.returncode or transport_report.get("result") != "PASS":
+        raise AttestationError("materialize/collect probe failed: "
+                               + json.dumps(transport_report)[:400])
 
     # Use the same non-greedy option syntax as WorkerAdapter.command(). The
     # unauthenticated actor can initialize tools but cannot make a paid call.
@@ -179,7 +245,66 @@ def run() -> dict:
                                and result.get("usage", {}).get("input_tokens") == 0
                                and result.get("usage", {}).get("output_tokens") == 0),
     }
-    checks = {**report["checks"], **cli_checks}
+    # This invokes the same Windows bridge and WSL namespace path that the
+    # later TaskExecutor adapter will use. Its temporary actor has no secret.
+    from worker_adapter import WorkerAdapter, WorkerRequest
+    from worker_wsl_transport import WslTransport
+
+    with temporary_actor("worker-n5-bridge-") as source:
+        (source / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
+        (source / "public_check.py").write_text("assert True\n", encoding="utf-8")
+        (source / "ISSUE.md").write_text("Probe host startup.\n", encoding="utf-8")
+        (source / "acceptance.json").write_text('{"schema_version":1}\n', encoding="utf-8")
+        request = WorkerRequest(source, "Probe host startup", ("app.py",),
+                                "worker-sonnet-low", 0.01, "N5 host probe",
+                                timeout_s=30, admission_token="probe",
+                                invocation_id=uuid.uuid4().hex, revision_id="probe",
+                                decision_digest="probe", intent_digest="probe")
+        command = WorkerAdapter(ROOT / ".mcp.json").command(request)
+        bridge = WslTransport().invoke(invocation_id=request.invocation_id,
+                                       command=command, source=source, timeout=30)
+        try:
+            bridge_events = [json.loads(line) for line in bridge.stdout.splitlines()
+                             if line.strip()]
+            bridge_init = next(row for row in bridge_events if row.get("type") == "system"
+                               and row.get("subtype") == "init")
+            bridge_result = next(row for row in reversed(bridge_events)
+                                 if row.get("type") == "result")
+        except (ValueError, StopIteration) as exc:
+            raise AttestationError("Windows-to-WSL bridge emitted no terminal startup") from exc
+        bridge_checks = {
+            "windows_transport_graft_connected": bridge_init.get("mcp_servers") == [
+                {"name": "graft", "status": "connected"}],
+            "windows_transport_six_tools": GRAFT_TOOLS <= set(bridge_init.get("tools", [])),
+            "windows_transport_zero_charge": bridge_result.get("total_cost_usd") == 0
+            and bridge_result.get("usage", {}).get("input_tokens") == 0,
+            "windows_transport_source_unchanged": (source / "app.py").read_text(
+                encoding="utf-8") == "VALUE = 1\n",
+        }
+        bridge_checks["windows_transport_path"] = all(bridge_checks.values())
+        if not bridge_checks["windows_transport_six_tools"]:
+            raise AttestationError("bridge startup tools: "
+                                   + ",".join(sorted(bridge_init.get("tools", []))))
+        # The live evaluator works on a Windows actor directory. Exercise the
+        # same collector across the 9p boundary with a local actor edit.
+        edit_name = "inv-" + uuid.uuid4().hex
+        linux_source = checked("wslpath", "-a", source.as_posix())
+        staged = json.loads(checked("python3", str(RUNTIME / "worker_wsl_materialize.py"),
+                                   "--source", linux_source, "--name", edit_name))
+        edited = wsl(launcher, staged["actor_root"], "--", "/usr/bin/python3", "-c",
+                     "from pathlib import Path; Path('app.py').write_text('VALUE = 2\\n')",
+                     timeout=30)
+        if edited.returncode:
+            raise AttestationError("Windows actor edit probe failed: " + edited.stderr[-200:])
+        collection = json.loads(checked("python3", str(RUNTIME / "worker_wsl_collect.py"),
+                                        "--name", edit_name, "--source", linux_source))
+        bridge_checks["windows_transport_edit_collected"] = collection["changed"] and (
+            source / "app.py").read_text(encoding="utf-8") == "VALUE = 2\n"
+        bridge_checks["windows_transport_acceptance_untouched"] = (
+            (source / "acceptance.json").read_text(encoding="utf-8")
+            == '{"schema_version":1}\n')
+    checks = {**report["checks"], **transport_report["checks"],
+              **cli_checks, **bridge_checks}
     evidence = {
         "schema_version": 1,
         "recorded_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),

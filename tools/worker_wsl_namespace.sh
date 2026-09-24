@@ -59,7 +59,9 @@ shift
 [[ $1 == -- ]]
 shift
 [[ $actor == "$base/"* && -d $actor && ! -L $actor ]] || exit 64
-[[ $(stat -c %u "$actor") == 65534 ]] || exit 64
+[[ $(stat -c %u:%a "$actor") == 0:755 ]] || exit 64
+[[ $(stat -c %u "$actor/app.py") == 65534 ]] || exit 64
+[[ $(stat -c %u "$actor/acceptance.json") == 0 ]] || exit 64
 [[ -d /var/lib/orchestrator-worker-n4/evaluator ]] || exit 64
 [[ -x $runtime/bin/claude && -x $runtime/bin/node ]] || exit 69
 

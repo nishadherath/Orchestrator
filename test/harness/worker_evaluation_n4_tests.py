@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_evaluation as campaign  # noqa: E402
 import worker_wsl_attestation as host_attestation  # noqa: E402
+import worker_wsl_transport as wsl_transport  # noqa: E402
 
 
 class HostAttestationTests(unittest.TestCase):
@@ -24,7 +25,7 @@ class HostAttestationTests(unittest.TestCase):
                 "source_hashes": {name: host_attestation.sha(ROOT / name)
                                   for name in host_attestation.SOURCE_FILES},
                 "runtime_hashes": {"fixture": "offline"},
-                "checks": {"actor_denied_evaluator": True}}
+                "checks": {name: True for name in host_attestation.REQUIRED_CHECKS}}
 
         def sealed(value):
             return {**value, "evidence_sha256": hashlib.sha256(
@@ -39,8 +40,24 @@ class HostAttestationTests(unittest.TestCase):
         self.assertFalse(host_attestation.validate(sealed({**body, "source_hashes": {}}),
                                                    check_host=False))
         self.assertFalse(host_attestation.validate(sealed({**body, "checks":
-                                                          {"actor_denied_evaluator": False}}),
+                                                          {**body["checks"],
+                                                           "evaluator_direct_denied": False}}),
                                                    check_host=False))
+        self.assertFalse(host_attestation.validate(sealed({**body, "checks":
+                                                          {"actor_uid": True}}),
+                                                   check_host=False))
+
+    def test_transport_command_rejects_broader_tool_contract(self):
+        command = ["claude", "-p", "task", "--restricted", "--strict-mcp-config",
+                   "--mcp-config=actor.json", "--tools=Read,Edit,Write,Glob,Grep",
+                   "--allowedTools=" + ",".join(sorted(wsl_transport.GRAFT_TOOLS))]
+        converted = wsl_transport._linux_command(command)
+        self.assertEqual(wsl_transport.CLAUDE, converted[0])
+        self.assertIn(f"--mcp-config={wsl_transport.MCP}", converted)
+        with self.assertRaises(wsl_transport.TransportError):
+            wsl_transport._linux_command(command + ["--tools=Bash"])
+        with self.assertRaises(wsl_transport.TransportError):
+            wsl_transport._linux_command(command + ["--mcp-config=second.json"])
 
 
 def _assessment():

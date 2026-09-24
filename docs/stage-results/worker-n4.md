@@ -42,13 +42,15 @@ calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
   logon command did not run. The operator selected WSL instead. Native Linux
   Claude Code 2.1.273, Node 22.22.0 and Graft 0.18.0 now run from WSL ext4;
   the Windows-mounted executables are excluded from the actor namespace.
-- The fresh WSL host attestation passed 23 checks and is bound to the current
+- The fresh WSL host attestation passed 40 checks and is bound to the current
   frozen N4 manifest and runtime/source hashes in
   `test/results/2026-09-24-worker-n4-wsl-host.json`. The actor ran as UID
-  65534 in private mount/PID namespaces. It could edit its own package and
+  65534 in private mount/PID namespaces. It could edit its own `app.py` and
   could not read the root-owned evaluator through a direct path, symlink,
   recursive search or `/proc/1/root`; Windows C/D mounts and interop sockets
-  were hidden. Native Graft built and served an actor-only index.
+  were hidden. Native Graft built and served an actor-only index. The
+  materializer copied only four public files; the actor could not alter
+  acceptance or create a new root-level file.
 - The actual unauthenticated Claude CLI started inside that boundary. Its
   startup event reported exactly one connected MCP server, Graft, and all six
   required tools; no command-running, web or delegation tool appeared. It
@@ -57,6 +59,12 @@ calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
 - The production adapter's CLI argument assembly was corrected to use
   `--key=value` for variadic options; previously the MCP path could consume
   subsequent options as file names. The fix passed focused regressions.
+- A project-side `WslWorkerAdapter` now stages a single admitted invocation,
+  runs Claude in the attested namespace and collects only an allowed `app.py`
+  edit after a terminal event. A transport probe accepted an allowed edit and
+  rejected protected-file drift. The actual adapter returned a matched,
+  stopped-writer, zero-cost authentication-failure receipt with unchanged
+  source. This is no paid worker run.
 - The full provider-free project harness passed 59 checks. Graft deep refresh
   completed and its freshness tool reported both semantic and wiring graphs
   in sync. A Windows temporary-log deletion race in the refresh helper was
@@ -83,19 +91,19 @@ multi-file repository edits, real dependency failures or actual concurrent
 execution. Treat any quality result on this corpus as limited to these
 synthetic mechanisms, not as evidence of general real-world readiness.
 
-The production `WorkerAdapter.capability()` still reports
-`enforcement_proven: false` because it does not yet launch through the WSL
-wrapper. The fake campaign uses the same Windows identity as its evaluator;
-only the separate WSL probe exercises OS isolation. The startup probe has no
+The generic `WorkerAdapter.capability()` still reports
+`enforcement_proven: false`; the attested WSL adapter is project-side. The fake
+campaign uses the same Windows identity as its evaluator; only the WSL probe
+exercises OS isolation. The startup probe has no
 provider credentials and cannot prove an authenticated worker's behaviour or
 cost receipt. The attestation is a content-digested local record, not a
 cryptographic signature. It does not authorize paid calls or a reusable live
 campaign entry point.
 
-The next N5 implementation action is to connect `TaskExecutor` to the attested
-WSL transport with per-task materialization, stopped-writer evidence,
-credential handling and restart-safe receipts, then repeat the probe against
-that exact transport and final N5 manifest. Keep the current fake-only runner
+The next N5 implementation action is a campaign runner that passes the
+attested adapter to `TaskExecutor`, binds its manifest and authorisation,
+handles credentials and restart-safe receipts, and repeats the probe against
+that final launch path. Keep the current fake-only runner
 closed until those checks and the full offline harness pass. See the
 [WSL host guide](../WORKER-N4-WSL-HOST.md).
 
