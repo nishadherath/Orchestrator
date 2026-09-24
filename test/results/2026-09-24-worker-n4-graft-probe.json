@@ -1,0 +1,22 @@
+{
+  "boundary": "fresh actor-root Graft MCP index; same-user local probe",
+  "checks": {
+    "actor_marker_found": true,
+    "evaluator_marker_absent": true,
+    "file_escape_rejected": true,
+    "map_actor_only": true,
+    "parent_scope_rejected": true,
+    "semantic_actor_only": true,
+    "tools_present": true
+  },
+  "evidence_sha256": "b5e0af2e1b9dc63908577b251f4bc05839fa23f4ae6e7479769b55ac986bf43f",
+  "graft_cli_sha256": "f076683029cd82afd4fd32817f017b71e28570b390ece80b19c288bd5eb7ce9f",
+  "launcher_sha256": "e921fe5307e29bf6fd00000dd594356affd3a7b044e52720c7f10decbdc305b9",
+  "limits": [
+    "Does not prove live worker filesystem or shell isolation.",
+    "Does not prove the actual Claude host loaded only this MCP instance."
+  ],
+  "recorded_at": "2026-09-24T17:53:43+10:00",
+  "result": "PASS",
+  "schema_version": 1
+}

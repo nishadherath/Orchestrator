@@ -53,9 +53,11 @@ only the materialised actor root; the evaluator alone receives catalogue
 metadata. Both still run as the same Windows user in these tests, so this is
 an interface check, not an OS proof.
 
-The existing WSL2 `realworld_isolation.py` test proves one local Unix-user
-filesystem boundary, but it does not prove Claude transport, MCP root scoping
-or this corpus. N4 must add those checks and bind a fresh host attestation to
+The WSL2 `realworld_isolation.py` test proves one local Unix-user filesystem
+boundary. A separate fresh `worker_graft_probe.py` MCP test proves that an
+actor-root Graft instance indexes only actor files and rejects parent-scoped
+queries. Neither proves Claude transport or an actual worker's full filesystem
+boundary. N4 must bind a fresh actual-host attestation to
 the campaign manifest. A fake transport can exercise accounting and workflow,
 but cannot qualify live access control. Any unproved boundary blocks paid
 launch; a failed isolation check must not be waived by authorisation.

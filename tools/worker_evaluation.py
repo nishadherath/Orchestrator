@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BOUND_SOURCE = (
     "tools/worker_evaluation.py", "tools/worker_corpus.py",
     "tools/worker_oracles.py", "tools/worker_statistics.py",
+    "tools/worker_graft_probe.py",
     "tools/task_executor.py",
     "tools/worker_selector.py", "tools/worker_adapter.py",
     "tools/managed_delegation.py", "tools/dispatch_budget.py",

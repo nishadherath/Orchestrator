@@ -976,8 +976,14 @@ def check_worker_n4(r: Report) -> None:
                             timeout=30)
     if parity.returncode:
         problems.append("corpus parity: " + (parity.stdout + parity.stderr).strip()[-800:])
+    recorded = subprocess.run([sys.executable, str(REPO_ROOT / "tools" / "worker_graft_probe.py"),
+                               "--check"], cwd=REPO_ROOT, capture_output=True, text=True,
+                              timeout=15)
+    if recorded.returncode:
+        problems.append("recorded actor-root Graft probe: " +
+                        (recorded.stdout + recorded.stderr).strip()[-800:])
     r.add("WORKER-N4", "protected synthetic corpus and fake campaign pass offline",
-          not problems, "all four checks pass" if not problems else "; ".join(problems))
+          not problems, "all five checks pass" if not problems else "; ".join(problems))
 
 
 def check_claudep_selftest(r: Report) -> None:

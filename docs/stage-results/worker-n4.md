@@ -32,6 +32,16 @@ the current runner. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
   attempt timed out; a repeat passed. It proves only a local Linux user/mode
   boundary, not that the Claude process, inherited instructions or Graft MCP
   runs behind that boundary.
+- A separate fresh actor-root Graft MCP probe passed all seven checks. Its
+  six-tool server found an actor marker, found no sibling evaluator marker,
+  rejected parent-scoped search and file API requests, and exposed no
+  evaluator path in map or semantic search. The digest-bound evidence is
+  `test/results/2026-09-24-worker-n4-graft-probe.json`. This proves the scoped
+  local index behaviour, not what a live Claude host actually loads.
+- A disposable Windows Sandbox viability probe started the binary but its
+  logon command did not run. The Sandbox optional-feature state requires
+  elevation to inspect on this host. WSL has no native Claude CLI, Node or
+  Graft runtime; its discovered Node/Graft executables are Windows-mounted.
 - The full provider-free project harness passed 59 checks. Graft deep refresh
   completed and its freshness tool reported both semantic and wiring graphs
   in sync. A Windows temporary-log deletion race in the refresh helper was
