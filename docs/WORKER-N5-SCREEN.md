@@ -15,6 +15,9 @@ three separate microtasks cover configuration parsing, atomic inventory
 changes and a correct implementation that should be left untouched. Their
 oracles are outside the public actor directories. None of the twelve D-series
 development tasks or twelve R-series reserved tasks is part of this screen.
+The [dated pricing snapshot](WORKER-N5-PRICING-SNAPSHOT-2026-09-24.md) gives
+API-equivalent token scenarios and the current Opus version caveat; it is not
+the manifest-bound spend notice.
 
 The manifest binds every screen file, the complete N4 frozen corpus digest,
 the registry ID, the WSL attestation digest, the screen planner and driver sources, the
