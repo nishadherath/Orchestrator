@@ -18,7 +18,7 @@ The next planned development programme is
 is a separate deferred programme. Both follow the
 [staged execution protocol](docs/REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md);
 the worker programme started on operator direction. N0 is the historical
-contract baseline; N0A and N1 are complete for offline review. The Controller
+contract baseline; N0A through N2 are complete for offline review. The Controller
 programme remains deferred. Each stage stops for review. The N0 outputs are the
 [worker execution contract](docs/WORKER-EXECUTION-CONTRACT.md) and
 [stage record](docs/stage-results/worker-n0.md).
@@ -26,12 +26,15 @@ programme remains deferred. Each stage stops for review. The N0 outputs are the
 The [worker-first sequencing plan](docs/WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md)
 adds N0A before N1 to correct shared contracts and test dependencies. It is the
 current planning entry point and includes model/effort choices, acceptance
-gates and costs. N0A and N1 are complete for offline review: see the
+gates and costs. N0A through N2 are complete for offline review: see the
 [v2 contract](docs/WORKER-EXECUTION-CONTRACT-v2.md),
 [N1 acceptance matrix](docs/WORKER-N1-ACCEPTANCE-v2.md) and
-[N1 stage result](docs/stage-results/worker-n1.md). N1 adds a durable B0
-executor and installable worker adapter, with fake-transport and consumer
-checks; automatic interactive dispatch still follows the existing route.
+[N1 stage result](docs/stage-results/worker-n1.md) and
+[N2 stage result](docs/stage-results/worker-n2.md). N1 adds a durable B0
+executor and installable worker adapter. N2 adds an opt-in managed child graph
+under one root and budget, tested with fake transports. The real adapter rejects
+managed delegation until host isolation is proven; automatic interactive
+dispatch still follows the existing route.
 Controller work remains deferred.
 
 The earlier [Controller-aware routing programme](docs/CONTROLLER-ROUTING-PLAN.md)

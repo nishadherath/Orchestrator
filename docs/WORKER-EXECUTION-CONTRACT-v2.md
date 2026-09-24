@@ -1,7 +1,7 @@
 # Worker execution contract v2
 
 Version: `worker-execution-contract-v2`, amended by N0A on 2026-09-24.
-Status: **N1 implemented and qualified offline; N2-N4 extensions pending**.
+Status: **N1 and N2 implemented and qualified offline; N3-N4 extensions pending**.
 This replaces [v1](history/WORKER-EXECUTION-CONTRACT-v1.md) for N1 onward.
 The [N0A record](stage-results/worker-n0a.md) explains the changes and evidence.
 The [acceptance matrix](WORKER-N1-ACCEPTANCE-v2.md) and

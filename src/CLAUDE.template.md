@@ -20,6 +20,9 @@ installed. An open or unsettled `.claude/task-executor-v2/` root blocks another
 launch of the same work. Preserve its journal and budget, reconcile the writer
 and charge, then use the authorised continuation path. If the older bundle no
 longer has the audit tool, inspect those records before any relaunch.
+The optional managed child plan shares this root balance. Consult
+`MANAGED-DELEGATION.md` before using it; the current live adapter reports child
+isolation as unproven and rejects managed delegation.
 
 ## Handoffs
 

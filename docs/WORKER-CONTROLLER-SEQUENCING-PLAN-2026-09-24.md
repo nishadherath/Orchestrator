@@ -1,9 +1,10 @@
 # Worker-first remediation: dependency corrections and execution plan
 
-Date: 2026-09-24. Status: **N0A and N1 complete for offline review; N2 pending**.
+Date: 2026-09-24. Status: **N0A through N2 complete for offline review; N3 pending**.
 See [N0A evidence](stage-results/worker-n0a.md),
 [contract v2](WORKER-EXECUTION-CONTRACT-v2.md) and the
-[N1 result](stage-results/worker-n1.md).
+[N1 result](stage-results/worker-n1.md) and
+[N2 result](stage-results/worker-n2.md).
 Planning baseline: HEAD `a70e311`; tracked worktree clean before this planning
 change. N0 produced a contract and stage record; N1 has now implemented its
 offline executor while all X stages remain unstarted. The preceding dependency

@@ -28,9 +28,11 @@ Stage N0 is complete. Its historical design contract is
 N0A's design amendment is recorded in
 `docs/WORKER-EXECUTION-CONTRACT-v2.md`, with the implementation matrix in
 `docs/WORKER-N1-ACCEPTANCE-v2.md` and evidence in `docs/stage-results/worker-n0a.md`.
-N1's offline executor and installable adapter are complete for review in
-`docs/stage-results/worker-n1.md`. The operator has directed N2 managed
-delegation next; its scope is in
+N1's offline executor and installable adapter are recorded in
+`docs/stage-results/worker-n1.md`. N2's opt-in managed child DAG is complete
+for offline review in `docs/stage-results/worker-n2.md`. The real adapter
+rejects live managed delegation until host child isolation is proven. N3 is
+next only on operator direction; its scope is in
 `docs/WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md`.
 Experimental Controller remediation is separately deferred in
 `docs/CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md`; no X stage has started.

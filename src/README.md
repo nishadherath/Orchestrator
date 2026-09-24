@@ -81,6 +81,7 @@ tools/
                                                      and cost-evidence resolver)
   task_executor.py                                 (durable B0 admission, recovery, independent
                                                      acceptance and read-only rollback audit)
+  managed_delegation.py                            (opt-in, budgeted child DAG under one root)
   worker_adapter.py                                (one restricted Claude CLI call with explicit
                                                      actor-scoped Graft MCP configuration)
   dispatch_budget.py, acceptance.py                (root monetary balance and frozen acceptance)
@@ -161,6 +162,16 @@ which disables MCP. The offline fake tests cover execution and recovery. Live
 host enforcement and interactive Agent-tool interception have not been
 qualified, so the normal interactive routing flow does not call this executor
 automatically yet. That integration belongs to later stages.
+
+N2 adds explicit managed child plans through `tools/managed_delegation.py`.
+The operator approves a bounded graph with dependencies, read/write scope,
+one cell and allowance per child, nested envelopes and independent acceptance.
+The executor admits each child under the same root budget and stops parent
+completion if required child evidence is missing or stale. Ordinary B0 tasks
+remain single-worker. See [`MANAGED-DELEGATION.md`](MANAGED-DELEGATION.md) for
+the proposal schema, API and recovery rules. The current production adapter
+reports that child isolation is unproven and rejects live managed delegation;
+the full execution path has been exercised with fake hosts only.
 
 Before rolling back an installation that has used the executor, run
 `python3 tools/task_executor.py --audit --project .`. A nonzero result means

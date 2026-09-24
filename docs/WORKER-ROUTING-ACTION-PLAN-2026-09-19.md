@@ -1,9 +1,10 @@
 # Worker routing and delegation: staged action plan
 
-Date: 2026-09-19. Status updated 2026-09-24: **N0A and N1 complete for offline
-review; N2 pending**. See the [N0A result](stage-results/worker-n0a.md),
+Date: 2026-09-19. Status updated 2026-09-24: **N0A through N2 complete for offline
+review; N3 pending**. See the [N0A result](stage-results/worker-n0a.md),
 [contract v2](WORKER-EXECUTION-CONTRACT-v2.md) and
-[N1 result](stage-results/worker-n1.md). N0 remains historical evidence.
+[N1 result](stage-results/worker-n1.md) and [N2 result](stage-results/worker-n2.md).
+N0 remains historical evidence.
 
 This is the next programme requested after the twelve-gap review. It repairs
 ordinary worker routing, execution and delegation. Experimental Controller

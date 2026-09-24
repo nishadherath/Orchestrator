@@ -170,7 +170,9 @@ class WorkerAdapter:
             if Path(item).is_absolute() and not Path(item).exists():
                 raise CapabilityError(f"Graft MCP argument path is unavailable: {item}")
         return {"configured": True, "graft_only": True, "actor_root": str(root),
-                "config_digest": digest(config), "enforcement_proven": False}
+                "config_digest": digest(config), "enforcement_proven": False,
+                "managed_delegation_enforced": False, "cancellation_supported": True,
+                "max_child_depth": 0, "max_child_concurrency": 0}
 
     @staticmethod
     def prompt(request: WorkerRequest) -> str:

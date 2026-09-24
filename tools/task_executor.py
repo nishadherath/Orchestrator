@@ -4,7 +4,8 @@
 All changes to a root record are atomic under an OS lock. The journal inside
 that record is authoritative; the current-state fields are its checked
 projection. Budget operations use stable invocation ids so cross-file crashes
-can be reconciled without repeating a provider side effect. N2 will add DAGs.
+    can be reconciled without repeating a provider side effect. Explicit N2
+    delegation remains a child of this root, never a second root scheduler.
 """
 from __future__ import annotations
 
@@ -72,6 +73,11 @@ def _read(path: Path) -> dict:
                     or event["digest"] != digest({k: v for k, v in event.items() if k != "digest"})):
                 raise ValueError(f"invalid journal event {n}")
             previous = event["digest"]
+        delegation = value.get("delegation")
+        if delegation is not None and (delegation.get("version") != 1
+                or delegation.get("plan_digest") != digest(delegation.get("plan"))
+                or delegation["plan"].get("root_revision_id") != revision["revision_id"]):
+            raise ValueError("delegation plan digest or revision mismatch")
         return value
     except (OSError, ValueError, KeyError, TypeError) as exc:
         raise ExecutorError(f"Unreadable task record {path}: {exc}; preserve and reconcile") from exc
@@ -158,6 +164,27 @@ def _settle_persisted_receipt(value: dict, budget: dispatch_budget.DispatchBudge
                       evidence=f"receipt:{attempt['receipt_digest']}")
         attempt["process_state"] = "terminal"
         _event(value, "settled_before_cancel", invocation_id=attempt["invocation_id"])
+
+
+def _children_intact(project: Path, delegation: dict | None) -> bool:
+    """A root pass cannot silently invalidate a required accepted child."""
+    if delegation is None:
+        return True
+    if delegation["state"] != "complete":
+        return False
+    for ident, child in delegation["children"].items():
+        item = delegation["plan"]["items"][ident]
+        result = child.get("verification")
+        if child["state"] != "accepted" or not acceptance.qualified(result):
+            return False
+        evidence = result["evidence"]
+        contract = item["acceptance_definition"]["contract"]
+        if (acceptance.snapshot(project, contract["required_outputs"])["digest"]
+                != evidence["artefacts"]["digest"]
+                or acceptance.snapshot(project, contract["protected_paths"])["digest"]
+                != item["acceptance_definition"]["protected_baseline"]["digest"]):
+            return False
+    return True
 
 
 class TaskExecutor:
@@ -298,6 +325,8 @@ class TaskExecutor:
                 value = _read(path)
                 if value["state"] in TERMINAL:
                     return self.status(root_id)
+                if value.get("delegation") and value["delegation"]["state"] != "complete":
+                    raise ExecutorError("managed children must be reconciled before root B0 dispatch")
                 deadline_at = value["admission"].get("deadline_at")
                 if deadline_at and dt.datetime.now(dt.timezone.utc) >= dt.datetime.fromisoformat(deadline_at.replace("Z", "+00:00")):
                     _settle_persisted_receipt(value, budget)
@@ -626,7 +655,12 @@ class TaskExecutor:
             attempt["artefact_snapshot"] = artefact_copy
             _event(value, "verified", entry_id=entry_id, status=result["status"])
             if result["status"] == "pass" and acceptance.qualified(result):
-                transition(value, "accepted")
+                if _children_intact(self.project, value.get("delegation")):
+                    transition(value, "accepted")
+                else:
+                    value["block"] = {"reason": "required child output changed before root acceptance",
+                                      "resume_phase": "verifying"}
+                    transition(value, "blocked", reason=value["block"]["reason"])
             elif result["status"] == "review_required":
                 transition(value, "awaiting_review")
             elif result["status"] == "blocked":
@@ -688,7 +722,12 @@ class TaskExecutor:
             _event(value, "human_review", entry_id=entry_id, status=resolved["status"], reviewer=reviewer)
             transition(value, "verifying")
             if resolved["status"] == "pass" and acceptance.qualified(resolved):
-                transition(value, "accepted")
+                if _children_intact(self.project, value.get("delegation")):
+                    transition(value, "accepted")
+                else:
+                    value["block"] = {"reason": "required child output changed before root review",
+                                      "resume_phase": "verifying"}
+                    transition(value, "blocked", reason=value["block"]["reason"])
             elif resolved["review"]["protected"]["digest"] != resolved["protected_baseline"]["digest"]:
                 value["block"] = {"reason": "protected path changed during review", "resume_phase": "verifying"}
                 transition(value, "blocked", reason=value["block"]["reason"])
@@ -706,18 +745,25 @@ class TaskExecutor:
         if not isinstance(actor, str) or not actor.strip() or not isinstance(reason, str) or not reason.strip():
             raise ExecutorError("cancellation requires actor and reason")
         path = self._path(root_id)
+        child_signals: list[str] = []
         with route.ledger_lock(path):
             value = _read(path)
             if value["state"] in TERMINAL:
                 return self.status(root_id)
             _settle_persisted_receipt(value, self._budget(root_id))
+            if value.get("delegation") and value["delegation"]["state"] != "complete":
+                from managed_delegation import cancel_locked
+                child_signals = cancel_locked(self, value, self._budget(root_id), actor, reason)
             value["owner_generation"] += 1
             _event(value, "cancel_requested", actor=actor, reason=reason)
             transition(value, "cancelled", reason=reason)
             self._budget(root_id).cancel()
             _write(path, value)
+        signal = getattr(self.adapter, "cancel", None)
+        if callable(signal):
+            for invocation_id in child_signals:
+                signal(invocation_id)
         if value["attempts"] and value["attempts"][-1]["process_state"] == "intent_committed":
-            signal = getattr(self.adapter, "cancel", None)
             if callable(signal):
                 signal(value["attempts"][-1]["invocation_id"])
         return self.status(root_id)
@@ -742,6 +788,7 @@ class TaskExecutor:
             value.setdefault("revision_history", []).append({
                 "revision": previous, "definition": value["definition"],
                 "terminal_state": value["state"], "attempts": value["attempts"],
+                "delegation": value.get("delegation"),
                 "terminal_journal_digest": value["journal"][-1]["digest"]})
             definition = dict(value["definition"])
             inputs = definition["input_revision"]["input_paths"]
@@ -761,6 +808,7 @@ class TaskExecutor:
             revision["revision_id"] = digest({**revision, "task_id": value["task_id"]})
             value["revision"] = revision
             value["attempts"] = []
+            value.pop("delegation", None)
             value["state"] = "prepared"
             value["block"] = None
             value["owner_generation"] += 1
