@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "no_edit_baseline_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+  "cases": [
+    {"input": {"stages": {"parse": {"count": 1, "ms": 10}, "write": {"count": 5, "ms": 3}}, "suspect": "parse"}, "expected": {"bottleneck": "write", "contradicts_suspect": true}, "weight": 1, "milestone": "total not unit cost", "critical": true},
+    {"input": {"stages": {"alpha": {"count": 2, "ms": 5}, "beta": {"count": 1, "ms": 10}}, "suspect": "beta"}, "expected": {"bottleneck": "alpha", "contradicts_suspect": true}, "weight": 1, "milestone": "stable tie", "critical": false},
+    {"input": {"stages": {"parse": {"count": 3, "ms": 4}, "write": {"count": 2, "ms": 3}}, "suspect": "parse"}, "expected": {"bottleneck": "parse", "contradicts_suspect": false}, "weight": 1, "milestone": "suspect confirmed", "critical": false}
+  ]
+}

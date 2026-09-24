@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"input": {"stock": {"a": 2}, "changes": [{"id": "x", "sku": "a", "delta": -1}, {"id": "y", "sku": "b", "delta": 3}]}, "expected": {"stock": {"a": 1, "b": 3}, "error": null}, "weight": 1, "milestone": "ordered commit", "critical": false},
+    {"input": {"stock": {"a": 2}, "changes": [{"id": "x", "sku": "a", "delta": -1}, {"id": "x", "sku": "a", "delta": 1}]}, "expected": {"stock": {"a": 2}, "error": "duplicate_id"}, "weight": 1, "milestone": "duplicate rollback", "critical": true},
+    {"input": {"stock": {"a": 2}, "changes": [{"id": "x", "sku": "a", "delta": -3}]}, "expected": {"stock": {"a": 2}, "error": "negative_stock"}, "weight": 1, "milestone": "negative rollback", "critical": true},
+    {"input": {"stock": {"a": 2}, "changes": [{"id": "x", "sku": "a", "delta": true}]}, "expected": {"stock": {"a": 2}, "error": "invalid_delta"}, "weight": 1, "milestone": "boolean rejected", "critical": false}
+  ]
+}

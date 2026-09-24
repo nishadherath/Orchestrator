@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"input": {"port": " 8080 "}, "expected": {"port": 8080, "error": null}, "weight": 1, "milestone": "trimmed decimal", "critical": false},
+    {"input": {"port": 65535}, "expected": {"port": 65535, "error": null}, "weight": 1, "milestone": "upper boundary", "critical": false},
+    {"input": {"port": true}, "expected": {"port": null, "error": "invalid_port"}, "weight": 1, "milestone": "boolean rejected", "critical": true},
+    {"input": {"port": 0}, "expected": {"port": null, "error": "invalid_port"}, "weight": 1, "milestone": "range enforced", "critical": true},
+    {"input": {}, "expected": {"port": null, "error": "invalid_port"}, "weight": 1, "milestone": "missing rejected", "critical": false}
+  ]
+}

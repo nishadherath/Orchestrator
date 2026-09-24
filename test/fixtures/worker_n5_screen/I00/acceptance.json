@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "kind": "command",
+  "criteria": ["public check passes without an edit"],
+  "constraints": ["Do not edit any file"],
+  "required_outputs": ["app.py"],
+  "protected_paths": ["public_check.py", "ISSUE.md", "acceptance.json"],
+  "command": ["python3", "public_check.py"],
+  "timeout_s": 10
+}

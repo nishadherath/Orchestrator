@@ -986,6 +986,15 @@ def check_worker_n4(r: Report) -> None:
           not problems, "all five checks pass" if not problems else "; ".join(problems))
 
 
+def check_worker_n5_screen(r: Report) -> None:
+    """WORKER-N5-SCREEN: frozen 15-cell inventory and approval gate are offline safe."""
+    script = REPO_ROOT / "test" / "harness" / "worker_n5_screen_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=60)
+    r.add("WORKER-N5-SCREEN", "screen inventory and exact approval pass offline",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
 def check_claudep_selftest(r: Report) -> None:
     """CLAUDEP-SELFTEST: subprocess failures retain recoverable invocation
     cost and usage metadata without making a live ``claude -p`` call."""
@@ -1442,6 +1451,7 @@ def main(argv: list[str]) -> int:
     check_qualified_default(report)
     check_worker_selector_n3(report)
     check_worker_n4(report)
+    check_worker_n5_screen(report)
     check_claudep_selftest(report)
     check_dispatch_budget(report)
     check_acceptance_evidence(report)

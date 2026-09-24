@@ -1,0 +1,525 @@
+{
+  "authorisation": "separate-exact-approval-required",
+  "cost": {
+    "basis": "15 x USD 0.25 plus 45 x USD 1 local allocations",
+    "currency": "USD",
+    "identity_calls": 15,
+    "maximum_usd": 48.75,
+    "microtask_calls": 45
+  },
+  "credential_method": "unconfigured",
+  "host_attestation_sha256": "327408eac976a48c9c3ffe1e1258f90322536e06f422856df00950977aab39d0",
+  "manifest_sha256": "3ed3d3ab7ec732bd33fe5d4d107c8ee0926aa01832bb49226ffdd5f15c5d2b6f",
+  "n4_manifest_sha256": "ea63ecd1580f57da07aba96b5c1a1cf2aed044e835723a88bbf87719f67e54eb",
+  "profile": "worker-n5-cell-screen",
+  "registry_id": "claude-cells-v1",
+  "reserved_tasks_allowed": false,
+  "retry_policy": "no-automatic-provider-replay",
+  "rows": [
+    {
+      "cell": "worker-sonnet-low",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 1,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-sonnet-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 2,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 3,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 4,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-medium",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 5,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-sonnet-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 6,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 7,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 8,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-high",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 9,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-sonnet-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 10,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 11,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 12,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-xhigh",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 13,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-sonnet-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 14,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 15,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 16,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-max",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 17,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-sonnet-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 18,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 19,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-sonnet-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 20,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-low",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 21,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-opus-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 22,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 23,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 24,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-medium",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 25,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-opus-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 26,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 27,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 28,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-high",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 29,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-opus-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 30,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 31,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 32,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-xhigh",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 33,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-opus-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 34,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 35,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 36,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-max",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 37,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-opus-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 38,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 39,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-opus-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 40,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-low",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 41,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-fable-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 42,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 43,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-low",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 44,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-medium",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 45,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-fable-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 46,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 47,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-medium",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 48,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-high",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 49,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-fable-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 50,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 51,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-high",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 52,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-xhigh",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 53,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-fable-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 54,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 55,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-xhigh",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 56,
+      "task": "S03",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-max",
+      "kind": "identity",
+      "maximum_usd": 0.25,
+      "sequence": 57,
+      "task": "I00",
+      "timeout_seconds": 300
+    },
+    {
+      "cell": "worker-fable-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 58,
+      "task": "S01",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 59,
+      "task": "S02",
+      "timeout_seconds": 900
+    },
+    {
+      "cell": "worker-fable-max",
+      "kind": "microtask",
+      "maximum_usd": 1.0,
+      "sequence": 60,
+      "task": "S03",
+      "timeout_seconds": 900
+    }
+  ],
+  "schema_version": 1,
+  "screen_files": {
+    "I00/ISSUE.md": "049b40baaad4c62d1293e0917d87cc895d3805fd8160fb526343b464d0208007",
+    "I00/acceptance.json": "68662e8fac2b2792b07ed84dc297acd4d31027b1ecf47b9277f1553d891374de",
+    "I00/app.py": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+    "I00/public_check.py": "379a51ea6fc65be818f5737a10c32d033d743564077a50a561a72c7d80bb0a9b",
+    "S01/ISSUE.md": "fd62da934919a7f4a538abb234eab57e9c960a79407cdc0f360ebd9aebe2f5b7",
+    "S01/acceptance.json": "508e32493eb4686b414f3f2278c49d1dd421114431146f99150dedce0f4e4d3c",
+    "S01/app.py": "c909fcd02dcbf6b12e4a25a836fadfe590af421fe902fab439db055879b0e1de",
+    "S01/public_check.py": "5fc01b546905646126fc30e603df03450ab57f549dc7685fce758f2363b776e4",
+    "S02/ISSUE.md": "c478f961311a11344861cf74a8567c3a55768ccf7468034e782d12d21778975e",
+    "S02/acceptance.json": "508e32493eb4686b414f3f2278c49d1dd421114431146f99150dedce0f4e4d3c",
+    "S02/app.py": "d04d1278a1f69785a995347333a84768b32913ddd4e5d56981b17fe908321d1c",
+    "S02/public_check.py": "2fe637b43411d3d621bcc91606a3c3268466017ee3a287b1260e44c72b3755ca",
+    "S03/ISSUE.md": "1917000ba348871dc9dc315613a4554a36a3b5539b859c8499ae790b7636d234",
+    "S03/acceptance.json": "508e32493eb4686b414f3f2278c49d1dd421114431146f99150dedce0f4e4d3c",
+    "S03/app.py": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+    "S03/public_check.py": "632dbdec1ced15ba74ab6c9218befb469bd7d441fed84e422a1821f090fd3b2e",
+    "catalogue.json": "dc2cea8a0fcbe0dab8221734b868dad32b0457a3b05acca20a984cd716f4100c",
+    "oracles/S01.json": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+    "oracles/S02.json": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+    "oracles/S03.json": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea"
+  },
+  "screen_source_sha256": "7b1678021bf4e9e6128428faa73b7651542c05d454768266683df2464f2d552d",
+  "spend_notice_sha256": null
+}

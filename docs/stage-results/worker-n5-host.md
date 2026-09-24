@@ -27,6 +27,14 @@ run. The shipping policy remains B0.
   `TaskExecutor`; the generic adapter remains unproven for this host.
   The WSL command validator now rejects any extra CLI flag, malformed budget
   or altered option layout, in addition to broader tools and MCP settings.
+- `worker_n5_screen.py` freezes a provider-free 60-call inventory across all
+  fifteen cells using separate I00/S01-S03 fixtures, with USD 48.75 in local
+  allocations. Its default manifest has no credential or spend notice, so an
+  approval cannot validate. The five focused screen tests pass. The
+  [screen contract](../WORKER-N5-SCREEN.md) records the live runner requirements.
+  The saved provisional manifest is
+  `test/results/2026-09-24-worker-n5-screen-plan.json`, digest
+  `3ed3d3ab7ec732bd33fe5d4d107c8ee0926aa01832bb49226ffdd5f15c5d2b6f`.
 - The manifest-bound WSL attestation passed 49 checks, including the actual
   Windows-to-WSL bridge, Claude MCP startup, six Graft tools, file/shell/search
   denial, allowed edit collection back to a Windows actor source, and
@@ -41,9 +49,9 @@ run. The shipping policy remains B0.
   attestation digest, stopped writer, zero charge and unchanged source after
   the expected unauthenticated failure.
 - Focused worker campaign/executor/selector tests passed 51/51. The full
-  provider-free harness passed 59/59. `release_check.py` found all 75 bundled
-  files source-equivalent with no mechanical failures. Graft semantic and
-  wiring graphs reported in sync.
+  provider-free harness passed 60/60 after the screen addition.
+  `release_check.py` found all 75 bundled files source-equivalent with no
+  mechanical failures. Graft semantic and wiring graphs reported in sync.
 
 ## Remaining gate
 

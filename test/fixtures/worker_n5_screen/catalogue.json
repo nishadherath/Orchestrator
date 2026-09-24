@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "identity": "I00",
+  "microtasks": ["S01", "S02", "S03"],
+  "allowed_edits": ["app.py"]
+}
