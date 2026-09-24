@@ -23,6 +23,8 @@ run. The shipping policy remains B0.
   tool contract, and records an ambiguous timeout/cancellation without copying
   output or replaying. `WslWorkerAdapter` exposes the attested capability to
   `TaskExecutor`; the generic adapter remains unproven for this host.
+  The WSL command validator now rejects any extra CLI flag, malformed budget
+  or altered option layout, in addition to broader tools and MCP settings.
 - The manifest-bound WSL attestation passed 40 checks, including the actual
   Windows-to-WSL bridge, Claude MCP startup, six Graft tools, file/shell/search
   denial, allowed edit collection back to a Windows actor source, and

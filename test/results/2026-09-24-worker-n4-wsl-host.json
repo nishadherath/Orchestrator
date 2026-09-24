@@ -1,5 +1,5 @@
 {
-  "actor_root": "/var/lib/orchestrator-worker-n4/actors/probe-37ad6545",
+  "actor_root": "/var/lib/orchestrator-worker-n4/actors/probe-824a96ad",
   "boundary": "WSL private mount+PID namespaces, uid 65534, Linux ext4 actor/evaluator",
   "checks": {
     "acceptance_write_denied": true,
@@ -43,13 +43,13 @@
     "windows_transport_source_unchanged": true,
     "windows_transport_zero_charge": true
   },
-  "evidence_sha256": "f85f63b8402b45f05e0c6e375f29751a8aa421014ddf37a3199927baea708614",
+  "evidence_sha256": "32d8936d95e53f0e83d9a430f1ae39208d0503edd7580a7794f6aa171736c8f0",
   "limits": [
     "No authenticated provider request or paid worker edit occurred.",
     "N5 requires a fresh attestation, credential configuration and live runner."
   ],
-  "manifest_sha256": "3030531757f25a355a75dfe0d448922155c4f5c614ecbcf17b9511c51f02198b",
-  "recorded_at": "2026-09-24T10:12:51+00:00",
+  "manifest_sha256": "624832669bfb9b3b963c12b848e97d4b989bdf33eb29d0ab03737bea0e45ec78",
+  "recorded_at": "2026-09-24T10:31:58+00:00",
   "result": "PASS",
   "runtime_hashes": {
     "actor-mcp.json": "0bbc160e87078c0f0ead2b332020632bb08e9ce42329eaad13d2d92b78fad1bb",
@@ -73,7 +73,7 @@
     "tools/worker_wsl_materialize.py": "3537742c46948dab397973752ee9921ca571c4995e22b69aa9ec5629beac32fb",
     "tools/worker_wsl_namespace.sh": "45fe29d7d49d074b7af80f66ba4e5c4a171994bc4ffde85a51ee315811875d7c",
     "tools/worker_wsl_stage.sh": "01dde4acea525f2d356b9d49f511d371139ae5a04bb485949aa9bb2f02119285",
-    "tools/worker_wsl_transport.py": "adcb718c6aebdc3702418f37a116488093106e60b5122566aea58457c269b21b",
+    "tools/worker_wsl_transport.py": "8a2366f093875f1bf544e2e56d5447d3105d4a9a2b515e09987590afe54d708b",
     "tools/worker_wsl_transport_probe.py": "d076b1df8ecab421c4a40fcb0d6c4accb643307fc7a7e5226890b528154c0505"
   }
 }

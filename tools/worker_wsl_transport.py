@@ -9,6 +9,7 @@ the staged actor untouched for manual reconciliation.
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import shlex
@@ -69,24 +70,33 @@ def _source_files(root: Path) -> None:
 
 
 def _linux_command(command: list[str]) -> list[str]:
-    if not command or command[0] != "claude":
-        raise TransportError("worker command must be produced by WorkerAdapter")
-    if "--restricted" not in command or "--strict-mcp-config" not in command:
-        raise TransportError("restricted strict MCP launch is required")
-    if sum(value.startswith("--mcp-config=") for value in command) != 1:
+    # Match the adapter's entire argv layout. An unexpected flag must not be
+    # able to widen file access, tool access or provider spending in WSL.
+    fixed = {0: "claude", 1: "-p", 3: "--output-format=stream-json",
+             4: "--verbose", 5: "--model", 7: "--effort",
+             9: "--max-budget-usd", 11: "--restricted",
+             12: "--strict-mcp-config", 14: "--no-session-persistence",
+             15: "--permission-mode=acceptEdits", 16: "--permission-prompts=none",
+             17: "--tools=Read,Edit,Write,Glob,Grep"}
+    if len(command) != 19 or any(command[index] != value for index, value in fixed.items()):
+        raise TransportError("worker command differs from the fixed adapter layout")
+    if not command[2] or any(not command[index] or command[index].startswith("-")
+                             for index in (6, 8)):
+        raise TransportError("worker prompt, model and effort are required")
+    try:
+        allowance = float(command[10])
+    except ValueError as exc:
+        raise TransportError("worker allowance is not numeric") from exc
+    if not math.isfinite(allowance) or allowance <= 0:
+        raise TransportError("worker allowance must be finite and positive")
+    if not command[13].startswith("--mcp-config=") or command[13] == "--mcp-config=":
         raise TransportError("one explicit Graft MCP configuration is required")
-    if [value for value in command if value.startswith("--tools=")] != [
-            "--tools=Read,Edit,Write,Glob,Grep"]:
-        raise TransportError("unexpected built-in tool contract")
-    allowlists = [value.removeprefix("--allowedTools=") for value in command
-                  if value.startswith("--allowedTools=")]
-    if len(allowlists) != 1 or set(allowlists[0].split(",")) != GRAFT_TOOLS:
+    allowlist = command[18]
+    tools = allowlist.removeprefix("--allowedTools=").split(",")
+    if not allowlist.startswith("--allowedTools=") or len(tools) != len(GRAFT_TOOLS) or (
+            set(tools) != GRAFT_TOOLS):
         raise TransportError("exactly six Graft retrieval tools are required")
-    if any(value.startswith(("--add-dir", "--settings", "--plugin-dir",
-                             "--dangerously-skip-permissions")) for value in command):
-        raise TransportError("worker command broadens host access")
-    return [CLAUDE, *(f"--mcp-config={MCP}" if value.startswith("--mcp-config=")
-                      else value for value in command[1:])]
+    return [CLAUDE, *command[1:13], f"--mcp-config={MCP}", *command[14:]]
 
 
 def _has_terminal_event(stdout: str) -> bool:

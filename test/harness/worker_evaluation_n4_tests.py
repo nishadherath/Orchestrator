@@ -48,8 +48,12 @@ class HostAttestationTests(unittest.TestCase):
                                                    check_host=False))
 
     def test_transport_command_rejects_broader_tool_contract(self):
-        command = ["claude", "-p", "task", "--restricted", "--strict-mcp-config",
-                   "--mcp-config=actor.json", "--tools=Read,Edit,Write,Glob,Grep",
+        command = ["claude", "-p", "task", "--output-format=stream-json",
+                   "--verbose", "--model", "claude-sonnet-5", "--effort", "high",
+                   "--max-budget-usd", "1", "--restricted", "--strict-mcp-config",
+                   "--mcp-config=actor.json", "--no-session-persistence",
+                   "--permission-mode=acceptEdits", "--permission-prompts=none",
+                   "--tools=Read,Edit,Write,Glob,Grep",
                    "--allowedTools=" + ",".join(sorted(wsl_transport.GRAFT_TOOLS))]
         converted = wsl_transport._linux_command(command)
         self.assertEqual(wsl_transport.CLAUDE, converted[0])
@@ -58,6 +62,10 @@ class HostAttestationTests(unittest.TestCase):
             wsl_transport._linux_command(command + ["--tools=Bash"])
         with self.assertRaises(wsl_transport.TransportError):
             wsl_transport._linux_command(command + ["--mcp-config=second.json"])
+        with self.assertRaises(wsl_transport.TransportError):
+            wsl_transport._linux_command(command + ["--system-prompt=override"])
+        with self.assertRaises(wsl_transport.TransportError):
+            wsl_transport._linux_command([*command[:10], "nan", *command[11:]])
 
 
 def _assessment():

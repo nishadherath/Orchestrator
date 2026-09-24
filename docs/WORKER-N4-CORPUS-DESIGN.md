@@ -1,8 +1,8 @@
 # N4 worker corpus and campaign boundary
 
 Status: offline corpus and fake campaign implemented. WSL host isolation and
-unauthenticated Claude/Graft startup are attested, but the production adapter
-is not yet connected to that transport. Paid launch remains disabled. No paid
+unauthenticated Claude/Graft startup are attested, and the project-side
+`WslWorkerAdapter` uses that transport. Paid launch remains disabled. No paid
 run or reserved worker grade has occurred. Local reference and shortcut tests exercise evaluator-only
 oracles; their outputs cannot tune a candidate policy.
 This document implements the N4 scope in
@@ -63,7 +63,8 @@ bound to the current N4 manifest and runtime hashes. It does not prove an
 authenticated edit or qualify the generic production adapter. A fake transport
 can exercise accounting and workflow, but cannot qualify live access control.
 Any unproved boundary blocks paid launch; a failed isolation check cannot be
-waived by authorisation.
+waived by authorisation. The authenticated credential path and N5 campaign
+runner are still unqualified.
 
 ## Campaign contract
 
