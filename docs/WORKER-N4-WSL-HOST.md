@@ -99,8 +99,10 @@ payment was incurred or enabled by this work.
 
 Before paid N5 execution, finish the campaign runner and its spend gate, choose
 and configure the provider credential method without copying host secrets into
-the actor package, and freeze the final N5 manifest. The runner must use
-`TaskExecutor`, reconcile cancellation and unknown charges without replay, and
-grade only after a stopped writer. Repeat the sentinel probe through that
+the actor package, and freeze the final N5 manifest. Development episodes must
+use `TaskExecutor`; the separate 15-cell capability screen needs a one-call
+driver because `TaskExecutor` owns B0's fixed ladder. Both paths must
+reconcile cancellation and unknown charges without replay, and grade only
+after a stopped writer. Repeat the sentinel probe through that
 final launch path and require its attestation at dispatch time. Authentication
 or budget authorisation cannot waive a failed host check.

@@ -34,7 +34,13 @@ run. The shipping policy remains B0.
   [screen contract](../WORKER-N5-SCREEN.md) records the live runner requirements.
   The saved provisional manifest is
   `test/results/2026-09-24-worker-n5-screen-plan.json`, digest
-  `3ed3d3ab7ec732bd33fe5d4d107c8ee0926aa01832bb49226ffdd5f15c5d2b6f`.
+  `a7f25d1cd839d4a4c84acde7890f599b8cffa0bc55a4b72d6593b2e45412e089`.
+- `worker_n5_live_screen.py` provides a provider-free, at-most-once screen
+  driver over the budget ledger and isolated WSL grading bridge. Eight
+  fake-adapter tests cover complete order, identity mismatch, ambiguous
+  provider stop, receipt recovery without replay, protected-file tampering,
+  and budget breach. The production constructor remains closed until WSL
+  credential delivery is qualified; no paid call ran.
 - The manifest-bound WSL attestation passed 49 checks, including the actual
   Windows-to-WSL bridge, Claude MCP startup, six Graft tools, file/shell/search
   denial, allowed edit collection back to a Windows actor source, and
@@ -49,7 +55,7 @@ run. The shipping policy remains B0.
   attestation digest, stopped writer, zero charge and unchanged source after
   the expected unauthenticated failure.
 - Focused worker campaign/executor/selector tests passed 51/51. The full
-  provider-free harness passed 60/60 after the screen addition.
+  provider-free harness passed 61/61 after the screen driver addition.
   `release_check.py` found all 75 bundled files source-equivalent with no
   mechanical failures. Graft semantic and wiring graphs reported in sync.
 

@@ -9,7 +9,7 @@
   },
   "credential_method": "unconfigured",
   "host_attestation_sha256": "327408eac976a48c9c3ffe1e1258f90322536e06f422856df00950977aab39d0",
-  "manifest_sha256": "3ed3d3ab7ec732bd33fe5d4d107c8ee0926aa01832bb49226ffdd5f15c5d2b6f",
+  "manifest_sha256": "a7f25d1cd839d4a4c84acde7890f599b8cffa0bc55a4b72d6593b2e45412e089",
   "n4_manifest_sha256": "ea63ecd1580f57da07aba96b5c1a1cf2aed044e835723a88bbf87719f67e54eb",
   "profile": "worker-n5-cell-screen",
   "registry_id": "claude-cells-v1",
@@ -497,6 +497,7 @@
       "timeout_seconds": 900
     }
   ],
+  "runner_source_sha256": "ada320bc4a5fff6b27a556012ca9cfd105fada2f08d4620d53f37b52ed5cd074",
   "schema_version": 1,
   "screen_files": {
     "I00/ISSUE.md": "049b40baaad4c62d1293e0917d87cc895d3805fd8160fb526343b464d0208007",
@@ -520,6 +521,6 @@
     "oracles/S02.json": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
     "oracles/S03.json": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea"
   },
-  "screen_source_sha256": "7b1678021bf4e9e6128428faa73b7651542c05d454768266683df2464f2d552d",
+  "screen_source_sha256": "79f2aa7a35a666d0c342c583e7e5ac00873750c93eb3afa75c5b461e0565ba0f",
   "spend_notice_sha256": null
 }
