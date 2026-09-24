@@ -1,7 +1,7 @@
 # N4: worker corpus and campaign boundary
 
-Date: 2026-09-24. Gate: **offline implementation and WSL host startup attested;
-authenticated live work and the paid runner remain disabled**. No paid worker
+Date: 2026-09-24. Gate: **N4 provider-free exit met; WSL host startup attested;
+authenticated N5 work and the paid runner remain disabled**. No paid worker
 calls were made. The [corpus design](../WORKER-N4-CORPUS-DESIGN.md),
 [sequencing plan](../WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md) and
 [worker plan](../WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) govern this result.
@@ -92,7 +92,7 @@ cost receipt. The attestation is a content-digested local record, not a
 cryptographic signature. It does not authorize paid calls or a reusable live
 campaign entry point.
 
-The next implementation action is to connect `TaskExecutor` to the attested
+The next N5 implementation action is to connect `TaskExecutor` to the attested
 WSL transport with per-task materialization, stopped-writer evidence,
 credential handling and restart-safe receipts, then repeat the probe against
 that exact transport and final N5 manifest. Keep the current fake-only runner

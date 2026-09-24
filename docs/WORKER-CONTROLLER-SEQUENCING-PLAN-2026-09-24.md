@@ -521,9 +521,10 @@ Source anchors checked in the dependency review; re-query Graft at execution:
 | Controller auto/on/off and useful partial outcomes | Deferred X4-X7 | X8 consumer |
 
 Progress: N0 historical design and N0A amendment complete. N1-N3 are
-qualified offline. N4 has a 24-task corpus, fake campaign and statistical
-preflight; its actual worker/Graft isolation gate remains open, as recorded in
-`stage-results/worker-n4.md`. N5-N8 and all Controller stages remain pending.
+qualified offline. N4's 24-task corpus, fake campaign, statistical preflight
+and WSL actor/Graft isolation probe meet its provider-free exit. Authenticated
+worker execution and the protected paid campaign remain N5 gates, as recorded
+in `stage-results/worker-n4.md`. N5-N8 and all Controller stages remain pending.
 Update each stage result and its gate here as work is reviewed. Do not mark a
 gap closed merely because a schema, module or passing legacy test exists.
 
