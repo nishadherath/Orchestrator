@@ -112,9 +112,11 @@ if [[ $subscription == 1 ]]; then
            ${19} == --tools=Read,Edit,Write,Glob,Grep &&
            ${20} == --allowedTools=mcp__graft__graft_check_freshness,mcp__graft__graft_repo_map,mcp__graft__graft_find_code,mcp__graft__graft_file_api,mcp__graft__graft_trace_calls,mcp__graft__graft_find_all &&
            ${21} == "--json-schema=$expected_schema" ]] || exit 64
-        [[ ( $7 == claude-sonnet-5 && $9 == low ) ||
-           ( $7 == claude-sonnet-5 && $9 == medium ) ||
-           ( $7 == claude-opus-5 && $9 == high ) ]] || exit 64
+        [[ $7 =~ ^claude-(sonnet|opus)-[0-9]+(-[0-9]+)*$ ]] || exit 64
+        model_class=${BASH_REMATCH[1]}
+        [[ ( $model_class == sonnet && $9 == low ) ||
+           ( $model_class == sonnet && $9 == medium ) ||
+           ( $model_class == opus && $9 == high ) ]] || exit 64
         python3 -c 'import math,sys; x=float(sys.argv[1]); assert math.isfinite(x) and 0 < x <= 4' "${11}" || exit 64
     fi
     [[ $(stat -c %u:%a "$runtime/actor-settings.json") == 0:644 ]] || exit 70

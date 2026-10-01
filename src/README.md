@@ -4,13 +4,21 @@ Licensed under the Apache License, Version 2.0. See `LICENSE` in the
 distribution root.
 
 This bundle installs a cost-routing layer for Claude Code subagents into a
-consumer project: fifteen worker definitions spanning three model classes
-(sonnet, opus, fable) at five effort levels each, and a routing document that
+consumer project: registry-defined worker definitions spanning the sonnet,
+opus and fable classes at five effort levels, plus a Haiku provider-default
+route, and a routing document that
 tells your top-level session (the "orchestrator") which one to spawn for a
 given task. The reserved-qualified B0 policy always starts at the cheapest cell,
 allows one same-cell repair, then one Opus-high fallback. It is
 configuration, prose and Python tools. Graft MCP is a required local retrieval
 dependency; register it in the consumer project before starting work.
+
+The model registry is the sole source for current Anthropic model IDs and
+routes by class. Sonnet 5.5, Opus 5.5, Fable 5.1 and Haiku 4.5 were checked
+against Anthropic's published model list on 2026-10-01. Effort-controlled
+classes pass the selected effort. The Haiku default route omits `--effort`.
+Published identity verification does not verify that this account serves the
+configured ID; live account identity and model quality remain unqualified.
 
 Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
 `.claude/ORCHESTRATOR_VERSION`; quote that version in any report.
@@ -90,7 +98,7 @@ tools/
   controller_policy.py                              (pure RigourAssessment to RoutingDecision policy)
   controller_dispatch.py                            (crash-safe task budget, real Controller adapter,
                                                      validated evidence and worker handoff)
-  model_registry.py                                (exact 15-cell identity, effort, role-profile
+  model_registry.py                                (registry-defined identity, effort, role-profile
                                                      and cost-evidence resolver)
   worker_selector.py                               (public-evidence N3 shadow selection over all
                                                      cells; no automatic dispatch)
@@ -115,9 +123,9 @@ src/
                                                      escalation rule; the two destinations
                                                      that exist above the ledger-driven
                                                      ladder)
-  model_registry.json                              (Sonnet, Opus and Fable provider identities,
-                                                     five efforts, availability, role eligibility,
-                                                     qualification and nullable pricing)
+  model_registry.json                              (current provider IDs, model classes, effort
+                                                     modes, role eligibility, qualification
+                                                     and nullable pricing)
   System/
     SYSTEM.md, STEPS.md                              (Controller design and phase reference)
     ROLES.md, TECHNIQUES.md, schemas/               (role, technique, record and Controller

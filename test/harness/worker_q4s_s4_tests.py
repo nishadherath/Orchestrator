@@ -95,7 +95,8 @@ class Q4SS4Tests(unittest.TestCase):
         self.assertEqual("settled episode allocation overrun",
                          live.validate_receipt(row, overrun, self.parent, self.stage))
         wrong = self.episode(row)
-        wrong["attempts"][0]["actual_model"] = "claude-opus-5"
+        wrong["attempts"][0]["actual_model"] = live.model_registry.resolve_cell(
+            "worker-opus-high")["cli_model"]
         self.assertEqual("settled model identity mismatch",
                          live.validate_receipt(row, wrong, self.parent, self.stage))
         unknown = self.episode(row)

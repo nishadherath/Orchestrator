@@ -47,6 +47,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "tools"))
+import model_registry  # noqa: E402
+sys.path.insert(0, str(REPO_ROOT / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import benchmark  # noqa: E402
@@ -199,9 +201,12 @@ def check(project: Path, autocompact_readback: str | None, task_id: str = DEFAUL
         print(f"Present, written_at {main_data.get('written_at')!r}.")
         window_note = (f"configured autoCompactWindow: {window}" if window is not None
                         else "autoCompactWindow left unset on purpose")
+        main_model_class = model_registry.model_class_for_provider_id(main.get("model")) if main.get("model") else None
+        model_windows = json.loads((REPO_ROOT / "src" / "cost_table.json").read_text(encoding="utf-8"))
+        native_window = model_windows.get("context", {}).get("model_windows", {}).get(main_model_class)
         print(f"main.context_window_size: {main.get('context_window_size')!r} "
-              f"({window_note}; model's native window per "
-              f"src/cost_table.json's context.model_windows: check against main.model {main.get('model')!r})")
+              f"({window_note}; registry class {main_model_class!r}, native window {native_window!r}; "
+              f"model ID {main.get('model')!r} is normalized through src/model_registry.json)")
         print(f"main.used_percentage: {main.get('used_percentage')!r}")
         print()
 
@@ -324,7 +329,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         main_path = project / MAIN_USAGE_REL
         main_path.parent.mkdir(parents=True, exist_ok=True)
         main_path.write_text(json.dumps({
-            "main": {"context_window_size": 130000, "used_percentage": 12, "model": "claude-sonnet-5"},
+                "main": {"context_window_size": 130000, "used_percentage": 12,
+                         "model": model_registry.historical_provider_id("sonnet")},
         }), encoding="utf-8")
         tasks_path = project / TASKS_USAGE_REL
         tasks_path.write_text(json.dumps({

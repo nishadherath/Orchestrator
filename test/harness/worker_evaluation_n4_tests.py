@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_evaluation as campaign  # noqa: E402
+import model_registry  # noqa: E402
 import worker_wsl_attestation as host_attestation  # noqa: E402
 import worker_wsl_transport as wsl_transport  # noqa: E402
 
@@ -49,7 +50,8 @@ class HostAttestationTests(unittest.TestCase):
 
     def test_transport_command_rejects_broader_tool_contract(self):
         command = ["claude", "-p", "task", "--output-format=stream-json",
-                   "--verbose", "--model", "claude-sonnet-5", "--effort", "high",
+                   "--verbose", "--model", model_registry.resolve_cell(
+                       "worker-sonnet-low")["cli_model"], "--effort", "low",
                    "--max-budget-usd", "1", "--restricted", "--strict-mcp-config",
                    "--mcp-config=actor.json", "--no-session-persistence",
                    "--permission-mode=acceptEdits", "--permission-prompts=none",
@@ -132,8 +134,8 @@ class FakeAdapter:
                    "decision_digest": request.decision_digest,
                    "intent_digest": request.intent_digest,
                    "requested_cell": request.requested_cell,
-                   "actual_model": ("claude-opus-5" if request.requested_cell == "worker-opus-high"
-                                    else "claude-sonnet-5"),
+                   "actual_model": model_registry.resolve_cell(
+                       request.requested_cell)["cli_model"],
                    "identity_valid": True, "child_models": [],
                    "effort_evidence": ("cli-argument:high" if request.requested_cell == "worker-opus-high"
                                        else "cli-argument:low"),

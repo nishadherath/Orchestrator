@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_corpus  # noqa: E402
 import worker_evaluation as evaluation  # noqa: E402
+import model_registry  # noqa: E402
 from task_executor import TaskExecutor  # noqa: E402
 
 ALTERNATIVES = {
@@ -78,8 +79,7 @@ class PublicOnlyFake:
                 "if __name__ == '__main__':\n"
                 "    print(json.dumps(solve(json.loads(sys.stdin.readline()))))\n",
                 encoding="utf-8")
-        model = ("claude-opus-5" if request.requested_cell == "worker-opus-high"
-                 else "claude-sonnet-5")
+        model = model_registry.resolve_cell(request.requested_cell)["cli_model"]
         return {"admission_token": request.admission_token,
                 "invocation_id": request.invocation_id, "revision_id": request.revision_id,
                 "decision_digest": request.decision_digest,

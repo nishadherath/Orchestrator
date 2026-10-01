@@ -17,6 +17,7 @@ import controller_campaign_manifest
 import controller_dispatch
 import controller_evaluation
 import controller_workflow
+import model_registry
 import controller_x5_h02_grade as grader
 import controller_x5_v6_screen as screen
 import controller_x5_v7_pilot as v7
@@ -86,7 +87,8 @@ def producer_snapshot() -> dict:
             or receipt.get("terminal") is not True
             or receipt.get("writer_stopped") is not True
             or receipt.get("identity_valid") is not True
-            or receipt.get("actual_model") != "claude-sonnet-5"
+            or model_registry.model_class_for_provider_id(
+                receipt.get("actual_model")) != "sonnet"
             or receipt.get("cost_usd") != state["budget"]["spent_usd"]
             or verification.get("status") != "fail"):
         raise PairStop("H02c public attempt or identity is not eligible")

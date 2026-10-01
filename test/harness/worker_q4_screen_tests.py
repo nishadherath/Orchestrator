@@ -23,20 +23,28 @@ class Q4ScreenTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # These are historical screen-shape and analysis tests. The saved Q4
-        # evidence still validates against its source, but its installed WSL
-        # launcher is no longer the current one. Keep the live gate strict.
+        # host attestation binds an older source snapshot. Use that frozen
+        # source hash only inside these offline manifest-shape tests; the
+        # production live gate continues to validate current source and host.
+        host = json.loads(screen.HOST.read_text(encoding="utf-8"))
         host_validate = screen.q4_host.validate
-        with patch.object(screen.q4_host, "validate",
-                          side_effect=lambda value, check_host: host_validate(
-                              value, check_host=False)):
+        with (patch.object(screen.q4_host, "source_hashes",
+                           return_value=host["source_sha256"]),
+              patch.object(screen.q4_host, "validate",
+                           side_effect=lambda value, check_host: host_validate(
+                               value, check_host=False))):
             cls.manifest = screen.build_manifest(
                 dt.datetime.now(dt.timezone.utc).date().isoformat(),
                 sha(screen.NOTICE))
 
     def test_stale_host_cannot_launch_a_new_q4_screen(self):
         host = json.loads(screen.HOST.read_text(encoding="utf-8"))
-        self.assertTrue(screen.q4_host.validate(host, check_host=False))
-        with patch.object(screen.q4_host, "runtime_hash", return_value="0" * 64):
+        with patch.object(screen.q4_host, "source_hashes",
+                          return_value=host["source_sha256"]):
+            self.assertTrue(screen.q4_host.validate(host, check_host=False))
+        with (patch.object(screen.q4_host, "source_hashes",
+                           return_value=host["source_sha256"]),
+              patch.object(screen.q4_host, "runtime_hash", return_value="0" * 64)):
             self.assertFalse(screen.q4_host.validate(host, check_host=True))
             with self.assertRaisesRegex(screen.ScreenError, "host evidence is stale"):
                 screen.build_manifest(dt.datetime.now(dt.timezone.utc).date().isoformat(),
@@ -105,10 +113,8 @@ class Q4ScreenTests(unittest.TestCase):
 
     def test_continuation_preserves_failure_and_original_envelope(self):
         # The predecessor is sealed historical evidence, not current launch
-        # authority. Current code must reject its source drift. Only this
-        # read-only continuation-arithmetic test substitutes the frozen
-        # predecessor for the source re-derivation; production validation is
-        # unchanged and a new paid dispatch remains closed.
+        # authority. This arithmetic check supplies only its frozen host source
+        # hash and clock; production validation remains bound to today's inputs.
         predecessor = json.loads(screen.MANIFEST.read_text(encoding="utf-8"))
         frozen_date = dt.date.fromisoformat(predecessor["date_utc"])
 
@@ -120,8 +126,11 @@ class Q4ScreenTests(unittest.TestCase):
 
         historical_dt = SimpleNamespace(date=dt.date, datetime=FrozenClock,
                                         timezone=dt.timezone)
+        host = json.loads(screen.HOST.read_text(encoding="utf-8"))
         host_validate = screen.q4_host.validate
         with (patch.object(screen, "dt", historical_dt),
+              patch.object(screen.q4_host, "source_hashes",
+                           return_value=host["source_sha256"]),
               patch.object(screen.q4_host, "validate",
                            side_effect=lambda value, check_host: host_validate(
                                value, check_host=False))):

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import datetime as dt
 import json
 import shutil
 import subprocess
@@ -9,12 +10,14 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from worker_adapter import digest  # noqa: E402
+import model_registry  # noqa: E402
 from worker_q4r_structured import report_schema  # noqa: E402
 from worker_q4t_screen import MANIFEST as PARENT_MANIFEST, live_rubric  # noqa: E402
 from worker_q4t_screen_evidence import (  # noqa: E402
@@ -22,7 +25,7 @@ from worker_q4t_screen_evidence import (  # noqa: E402
 )
 from worker_q4t_screen_live import (  # noqa: E402
     MANIFEST, adjudicate_episode, analyse, build_manifest, run_campaign, stop_campaign,
-    validate_approval,
+    validate_approval, LiveScreenError,
 )
 from worker_q4t_public import actor_root, build, oracle_root  # noqa: E402
 from worker_quality_v2 import grade, report_evidence  # noqa: E402
@@ -74,13 +77,14 @@ class Q4TS3Tests(unittest.TestCase):
                         root_state="failed" if invalid_report else "accepted",
                         execution_checks={"python3 -B public_check.py": True},
                         expected_binding=binding)
+        current_model = model_registry.resolve_cell(row["first_cell"])["cli_model"]
         attempt = {"sequence": 1, "invocation_id": invocation,
                    "revision_id": revision, "receipt_digest": "f" * 64,
                    "requested_cell": row["first_cell"],
                    "requested_effort": "medium", "served_effort": None,
                    "status": "failed" if invalid_report else "completed",
-                   "actual_model": "claude-sonnet-5",
-                   "root_models": ["claude-sonnet-5"],
+                   "actual_model": current_model,
+                   "root_models": [current_model],
                    "identity_valid": True, "terminal": True,
                    "writer_stopped": True, "cost_usd": 0.2,
                    "usage": {}, "wall_clock_s": 10,
@@ -100,7 +104,7 @@ class Q4TS3Tests(unittest.TestCase):
                    "q4t_diagnostics": {
                        "result_subtype": ("error_max_structured_output_retries"
                                           if invalid_report else "success"),
-                       "real_root_models": ["claude-sonnet-5"],
+                   "real_root_models": [current_model],
                        "invalid_line_count": 0,
                        "returncode": 1 if invalid_report else 0}}
         snapshot = {"schema_version": 1, "sequence": row["sequence"],
@@ -131,12 +135,15 @@ class Q4TS3Tests(unittest.TestCase):
         return episode
 
     def test_exact_manifest_approval_and_successful_episode(self):
-        self.assertEqual(self.stage, build_manifest(self.stage["date_utc"]))
+        with self.assertRaisesRegex(LiveScreenError, "S2 design differs"):
+            build_manifest(self.stage["date_utc"])
         validate_approval(self.stage)
         episode = self.episode()
         validate_episode(self.row, episode, self.parent, self.stage)
         self.assertIsNone(adjudicate_episode(self.row, episode, self.parent, self.stage))
-        episode["attempts"][0]["root_models"] = ["<synthetic>", "claude-sonnet-5"]
+        episode["attempts"][0]["root_models"] = [
+            "<synthetic>", model_registry.resolve_cell(
+                self.row["first_cell"])["cli_model"]]
         episode["evidence_sha256"] = digest({
             key: value for key, value in episode.items() if key != "evidence_sha256"})
         validate_episode(self.row, episode, self.parent, self.stage)
@@ -156,7 +163,8 @@ class Q4TS3Tests(unittest.TestCase):
             lambda x: x["snapshot"]["files"].update({self.row["editable_paths"][0]: "0" * 64}),
             lambda x: x["protected_sha256"].update({"ISSUE.md": "0" * 64}),
             lambda x: x["attempts"][0]["q4t_diagnostics"].update(
-                real_root_models=["claude-opus-5"]),
+                                      real_root_models=[model_registry.resolve_cell(
+                                          "worker-opus-high")["cli_model"]]),
         ]
         for mutate in mutators:
             with self.subTest(mutate=repr(mutate)):
@@ -230,7 +238,7 @@ class Q4TS3Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             with mock.patch("worker_q4t_screen_live.RUN", Path(temporary)):
                 with mock.patch("worker_q4t_screen_live.linux_root") as root:
-                    with self.assertRaisesRegex(RuntimeError, "already exists"):
+                    with self.assertRaisesRegex(LiveScreenError, "S2 design differs"):
                         run_campaign()
                     root.assert_not_called()
 
@@ -247,6 +255,7 @@ class Q4TS3Tests(unittest.TestCase):
                     "total_provider_calls": 0})
 
             with (mock.patch("worker_q4t_screen_live.RUN", run_dir),
+                  mock.patch("worker_q4t_screen_live.dt", self._historical_clock()),
                   mock.patch("worker_q4t_screen_live.validate_manifest",
                              return_value=(self.parent, self.stage)),
                   mock.patch("worker_q4t_screen_live.validate_approval"),
@@ -261,6 +270,18 @@ class Q4TS3Tests(unittest.TestCase):
             self.assertEqual("blocked", state["status"])
             self.assertEqual([], state["rows"])
             intent.assert_not_called()
+
+    def _historical_clock(self):
+        frozen_date = dt.date.fromisoformat(self.stage["date_utc"])
+
+        class FrozenClock:
+            @staticmethod
+            def now(timezone):
+                return dt.datetime.combine(frozen_date, dt.time.min,
+                                           tzinfo=timezone)
+
+        return SimpleNamespace(date=dt.date, datetime=FrozenClock,
+                               timezone=dt.timezone)
 
     def test_stopped_screen_preserves_partial_quality_and_cost(self):
         episode = self.episode(invalid_report=True)

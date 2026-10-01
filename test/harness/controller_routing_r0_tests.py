@@ -15,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+import model_registry
 
 
 def load(path: Path, name: str):
@@ -66,13 +67,13 @@ class ControllerRoutingR0Tests(unittest.TestCase):
     def test_r2_live_adapter_resolves_fable_explicitly(self):
         self.assertEqual(
             self.worker.cell_identity("worker-fable-low"),
-            ("claude-fable-5-1", "low"),
+            (model_registry.resolve_cell("worker-fable-low")["cli_model"], "low"),
         )
 
     def test_r2_evaluator_resolves_fable_explicitly(self):
         self.assertEqual(
             self.runner.expected_model("worker-fable-xhigh"),
-            "claude-fable-5-1",
+            model_registry.resolve_cell("worker-fable-xhigh")["cli_model"],
         )
 
     def test_legacy_unstable_classifier_does_not_gate_generation(self):

@@ -136,7 +136,8 @@ class LiveEpisodeTests(unittest.TestCase):
             def run(inner_self, request):
                 outcome = super().run(request)
                 outcome["identity_valid"] = False
-                outcome["served_models"] = ["claude-haiku-4-5"]
+                outcome["served_models"] = [self.subject.evaluation_live_controller.model_registry
+                                             .resolve_cell("worker-haiku-default")["cli_model"]]
                 return outcome
 
         route_plan = {"first": "controller", "execution_ladder": []}

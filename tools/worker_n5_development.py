@@ -121,7 +121,8 @@ def supported_cells(registry: dict) -> list[str]:
     for name in registry["cells"]:
         cell = model_registry.resolve_cell(name, registry)
         if (cell["direct_worker"] and
-                (cell["availability"]["status"] == "observed" or name in screen_cells)):
+                (cell["availability"]["status"] in {"configured", "observed"}
+                 or name in screen_cells)):
             names.append(name)
     return sorted(names)
 

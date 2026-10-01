@@ -13,6 +13,7 @@ import controller_dispatch
 import controller_policy
 import controller_public_assessment
 import task_executor
+import model_registry
 import worker_selector
 from test.harness.controller_routing_r4_tests import FakeAdapter as FakeController
 
@@ -47,7 +48,8 @@ class AssessmentTests(unittest.TestCase):
             def interpreter(packet):
                 response = interpret_public(packet)
                 response["telemetry"] = {"provider_calls": 1,
-                                         "model": "claude-sonnet-5", "cost_usd": .04,
+                                         "model": model_registry.resolve_cell(
+                                             "worker-sonnet-low")["cli_model"], "cost_usd": .04,
                                          "input_tokens": 100, "output_tokens": 20}
                 return response
 
@@ -137,7 +139,8 @@ class AssessmentTests(unittest.TestCase):
                 response = interpret_public(packet)
                 response["interpretation"]["classifications"]["task_kind"] = "unsupported"
                 response["telemetry"] = {"provider_calls": 1,
-                                         "model": "claude-sonnet-5", "cost_usd": .04,
+                                         "model": model_registry.resolve_cell(
+                                             "worker-sonnet-low")["cli_model"], "cost_usd": .04,
                                          "input_tokens": 100, "output_tokens": 20}
                 return response
 
@@ -194,7 +197,8 @@ class AssessmentTests(unittest.TestCase):
             def overrun(packet):
                 response = interpret_public(packet)
                 response["telemetry"] = {"provider_calls": 1,
-                                         "model": "claude-sonnet-5", "cost_usd": .75,
+                                         "model": model_registry.resolve_cell(
+                                             "worker-sonnet-low")["cli_model"], "cost_usd": .75,
                                          "input_tokens": 100, "output_tokens": 20}
                 return response
 

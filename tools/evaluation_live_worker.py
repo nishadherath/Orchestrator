@@ -34,8 +34,8 @@ import realworld  # noqa: E402
 
 CALIBRATION = ROOT / "test" / "results" / "2026-09-17-live-calibration-adjudication.json"
 ORIGINAL_CALIBRATION = ROOT / "test" / "results" / "2026-09-17-live-calibration.json"
-DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.json"
-DEFAULT_REPORT = ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.md"
+DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-10-01-live-worker-adapter.json"
+DEFAULT_REPORT = ROOT / "test" / "results" / "2026-10-01-live-worker-adapter.md"
 USAGE_FIELDS = (
     "input_tokens", "cache_creation_input_tokens",
     "cache_read_input_tokens", "output_tokens",
@@ -62,7 +62,7 @@ def safe_number(value: object) -> float | int | None:
     return value if math.isfinite(value) and value >= 0 else None
 
 
-def cell_identity(cell: str) -> tuple[str, str]:
+def cell_identity(cell: str) -> tuple[str, str | None]:
     resolved = model_registry.resolve_cell(cell)
     return resolved["cli_model"], resolved["effort"]
 
@@ -140,10 +140,10 @@ class LiveWorkerAdapter:
     @staticmethod
     def command(request: WorkerRequest) -> list[str]:
         model, effort = cell_identity(request.requested_cell)
-        return [
+        command = [
             "claude", "-p", LiveWorkerAdapter.prompt(request),
             "--output-format", "stream-json", "--verbose",
-            "--model", model, "--effort", effort,
+            "--model", model,
             "--max-budget-usd", str(request.allowance_usd),
             "--restricted", "--safe-mode", "--strict-mcp-config",
             "--no-session-persistence", "--permission-mode", "acceptEdits",
@@ -152,6 +152,11 @@ class LiveWorkerAdapter:
             "Repair the supplied repository task exactly. Keep explanations concise.",
             "--tools", "Read,Edit,Write,Glob,Grep",
         ]
+        if effort:
+            command[command.index("--max-budget-usd"):command.index("--max-budget-usd")] = [
+                "--effort", effort,
+            ]
+        return command
 
     def run(self, request: WorkerRequest) -> dict:
         actor = request.actor_root.resolve()
@@ -208,7 +213,7 @@ class LiveWorkerAdapter:
             "result": str(final.get("result", "")), "returncode": proc.returncode,
             "requested_cell": request.requested_cell, "expected_model": expected_model,
             "actual_model": actual_model, "identity_valid": identity_valid,
-            "effort_evidence": f"cli-argument:{effort}",
+            "effort_evidence": f"cli-argument:{effort}" if effort else "provider-default",
             "usage": usage, "cost_usd": cost,
             "root_models": root_models, "child_models": parsed["child_models"],
             "billed_models": parsed["billed_models"],
@@ -233,8 +238,12 @@ class LiveWorkerAdapter:
 def _stream(model: str, call: dict, *, cost: object = "recorded") -> str:
     final_cost = call["cost_usd"] if cost == "recorded" else cost
     model_usage = json.loads(json.dumps(call["model_usage"]))
-    if model != "claude-sonnet-5":
-        model_usage[model] = model_usage.pop("claude-sonnet-5")
+    registry = model_registry.load()
+    prior_sonnet_id = next((model_id for model_id, model_class in
+                            registry["historical_model_ids"].items()
+                            if model_class == "sonnet" and model_id in model_usage), None)
+    if prior_sonnet_id and model != prior_sonnet_id:
+        model_usage[model] = model_usage.pop(prior_sonnet_id)
         model_usage[model]["canonicalModel"] = model
     rows = [
         {"type": "assistant", "parent_tool_use_id": None,
@@ -254,6 +263,8 @@ def run_qualification(work: Path) -> dict:
         "cost_usd": direct["cost_usd"], "usage": direct["raw"]["usage"],
         "model_usage": direct["raw"]["modelUsage"],
     }
+    current_sonnet = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
+    current_opus = model_registry.resolve_cell("worker-opus-high")["cli_model"]
     actor = work / "actor"
     shutil.copytree(realworld.FIXTURES / "development" / "D01" / "repo", actor)
     issue = (realworld.FIXTURES / "development" / "D01" / "issue.md").read_text(encoding="utf-8")
@@ -263,7 +274,7 @@ def run_qualification(work: Path) -> dict:
                           timeout: float) -> subprocess.CompletedProcess:
         observed.update({"cmd": cmd, "cwd": cwd, "env": env, "timeout": timeout})
         realworld.overlay(realworld.FIXTURES / "development" / "D01" / "variants" / "reference", cwd)
-        return subprocess.CompletedProcess(cmd, 0, _stream("claude-sonnet-5", direct_call), "")
+        return subprocess.CompletedProcess(cmd, 0, _stream(current_sonnet, direct_call), "")
 
     request = WorkerRequest(
         actor_root=actor, issue=issue, allowed_edits=("consumer/config.py",),
@@ -276,7 +287,7 @@ def run_qualification(work: Path) -> dict:
     command = observed["cmd"]
     command_ok = all((
         observed["cwd"] == actor.resolve(), command[0] == "claude",
-        command[command.index("--model") + 1] == "claude-sonnet-5",
+        command[command.index("--model") + 1] == current_sonnet,
         command[command.index("--effort") + 1] == "low",
         command[command.index("--max-budget-usd") + 1] == "4.0",
         command[command.index("--tools") + 1] == "Read,Edit,Write,Glob,Grep",
@@ -296,13 +307,13 @@ def run_qualification(work: Path) -> dict:
     mismatch_actor = work / "mismatch-actor"
     shutil.copytree(realworld.FIXTURES / "development" / "D01" / "repo", mismatch_actor)
     mismatch = LiveWorkerAdapter(lambda cmd, cwd, env, timeout: subprocess.CompletedProcess(
-        cmd, 0, _stream("claude-opus-5", direct_call), ""
+        cmd, 0, _stream(current_opus, direct_call), ""
     )).run(dataclasses.replace(request, actor_root=mismatch_actor))
 
     missing_actor = work / "missing-cost-actor"
     shutil.copytree(realworld.FIXTURES / "development" / "D01" / "repo", missing_actor)
     missing = LiveWorkerAdapter(lambda cmd, cwd, env, timeout: subprocess.CompletedProcess(
-        cmd, 0, _stream("claude-sonnet-5", direct_call, cost=None), ""
+        cmd, 0, _stream(current_sonnet, direct_call, cost=None), ""
     )).run(dataclasses.replace(request, actor_root=missing_actor))
 
     checks = {
@@ -310,8 +321,8 @@ def run_qualification(work: Path) -> dict:
         "successful_edit_and_external_grade": success["status"] == "completed"
         and public["passed"] and hidden["passed"],
         "exact_model_attribution": success["identity_valid"] is True
-        and success["actual_model"] == "claude-sonnet-5",
-        "auxiliary_billing_retained": "claude-haiku-4-5-20251001"
+        and success["actual_model"] == current_sonnet,
+        "auxiliary_billing_retained": model_registry.historical_provider_id("haiku")
         in success["auxiliary_billed_models"],
         "timeout_cost_unknown": timeout["status"] == "interrupted"
         and timeout["terminal"] is False and timeout["cost_usd"] is None,

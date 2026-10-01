@@ -38,12 +38,14 @@ class LiveCalibrationTests(unittest.TestCase):
                     "cache_read_input_tokens": 4, "output_tokens": 5,
                 }],
             },
-            "modelUsage": {"claude-sonnet-5": {"costUSD": 0.04}},
+                    "modelUsage": {self.calibration.model_registry.historical_provider_id(
+                        "sonnet"): {"costUSD": 0.04}},
         }
         evidence = self.calibration.rollup_evidence(raw)
         self.assertTrue(evidence["descendant_usage_present"])
         self.assertTrue(evidence["model_cost_matches_total"])
-        self.assertEqual(self.calibration.actual_models(raw), ["claude-sonnet-5"])
+        self.assertEqual(self.calibration.actual_models(raw), [
+            self.calibration.model_registry.historical_provider_id("sonnet")])
 
     def test_unknown_usage_stays_unknown(self):
         self.assertEqual(

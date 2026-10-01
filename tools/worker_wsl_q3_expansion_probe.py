@@ -10,6 +10,7 @@ import uuid
 from pathlib import Path
 
 from worker_adapter import WorkerRequest, digest
+import model_registry
 from worker_q3_public_catalogue import FIXTURES, ROOT, build, sha
 from worker_wsl_q1 import SEEDS
 from worker_wsl_q3_adapter import LAUNCHER, Q3WslAdapter
@@ -18,6 +19,7 @@ from worker_wsl_q3_adapter import LAUNCHER, Q3WslAdapter
 def run() -> dict:
     task = build("P03")
     frozen = json.loads((FIXTURES / "P03/task.json").read_text(encoding="utf-8"))
+    model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
     if task != frozen:
         raise RuntimeError("P03 task differs from its freeze")
 
@@ -26,7 +28,7 @@ def run() -> dict:
             edits = repr(task["editable_paths"])
             code = ("import json; from pathlib import Path; "
                     f"[p.write_bytes(p.read_bytes()+b'\\n# fake four-file edit\\n') for p in map(Path,{edits})]; "
-                    "print(json.dumps({'type':'assistant','message':{'model':'claude-sonnet-5'}})); "
+                    f"print(json.dumps({{'type':'assistant','message':{{'model':'{model}'}}}})); "
                     "print(json.dumps({'type':'result','subtype':'success',"
                     "'total_cost_usd':0.0,'usage':{'input_tokens':0,'output_tokens':0}}))")
             return subprocess.run([str(LAUNCHER), str(actor), "--",
@@ -54,7 +56,8 @@ def run() -> dict:
         boundary = receipt.get("command_contract", {}).get("q3_boundary", {})
         checks = {
             "fake_provider_only": receipt.get("cost_usd") == 0.0,
-            "model_identity": receipt.get("actual_model") == "claude-sonnet-5"
+            "model_identity": model_registry.model_class_for_provider_id(
+                receipt.get("actual_model")) == "sonnet"
                               and receipt.get("identity_valid") is True,
             "writer_stopped": receipt.get("terminal") is True
                               and receipt.get("writer_stopped") is True,

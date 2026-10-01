@@ -125,7 +125,9 @@ def build_manifest(*, credential_method: str = "unconfigured",
     registry = model_registry.load()
     cells = [f"worker-{model}-{effort}" for model in registry["model_order"]
              for effort in registry["effort_order"]]
-    if len(cells) != 15 or set(cells) != set(registry["cells"]):
+    if len(cells) != 15 or set(cells) != {
+            name for name, cell in registry["cells"].items()
+            if cell["effort"] is not None}:
         raise ScreenError("registry does not contain the fixed fifteen-cell screen")
     rows = []
     for cell in cells:

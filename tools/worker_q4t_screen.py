@@ -105,10 +105,12 @@ def build_manifest(date_utc: str) -> dict:
             or {row["task_id"] for row in prior_calibration["rows"]}
                < set(UPSTREAM)):
         raise ScreenError("prior freeze, canary or T07 calibration differs")
-    for cell, expected in (("worker-sonnet-low", "claude-sonnet-5"),
-                           ("worker-sonnet-medium", "claude-sonnet-5"),
-                           ("worker-opus-high", "claude-opus-5")):
-        if model_registry.resolve_cell(cell)["cli_model"] != expected:
+    for cell, expected_class in (("worker-sonnet-low", "sonnet"),
+                                 ("worker-sonnet-medium", "sonnet"),
+                                 ("worker-opus-high", "opus")):
+        actual_class = model_registry.model_class_for_provider_id(
+            model_registry.resolve_cell(cell)["cli_model"])
+        if actual_class != expected_class:
             raise ScreenError(f"model registry mapping changed for {cell}")
     rows = screen_rows()
     value = {

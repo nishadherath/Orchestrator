@@ -165,11 +165,13 @@ Framer, Selector, Verifier, Framer's B0 output and Controller gate points.
 
 ### Model and effort profiles
 
-`src/model_registry.json` is the single executable identity contract for all
-15 Sonnet, Opus and Fable cells at low, medium, high, xhigh and max effort.
-`tools/model_registry.py` rejects unknown cells, resolves exact expected served
-identities, preserves unknown prices as null and validates role eligibility.
-An alias or substituted served model is an identity failure.
+`src/model_registry.json` is the single source of current provider IDs and the
+executable identity contract for every model class. Sonnet, Opus and Fable
+have low, medium, high, xhigh and max cells. Haiku has one provider-default
+cell and omits the effort argument. `tools/model_registry.py` rejects unknown
+cells, resolves exact expected served identities, preserves unknown prices as
+null and validates role eligibility. An alias or substituted served model is
+an identity failure.
 
 The executable quick Controller currently uses the registry's `standard`
 profile: Sonnet-low Controller classification, Opus-high Framer,
@@ -530,7 +532,7 @@ or served effort. B0 remains the default.
 | `src/System/ROLES.md` | Role contracts and isolation rules |
 | `src/System/TECHNIQUES.md` | Generator technique families |
 | `src/System/schemas/` | Structured record contracts |
-| `src/model_registry.json` | All 15 cells, exact identities, five efforts, availability, pricing state and Controller role profiles |
+| `src/model_registry.json` | Current provider IDs and model classes, 15 selected-effort cells plus Haiku's provider-default cell, separate vendor/account identity status, pricing state and Controller role profiles |
 | `tools/evaluation_live_controller.py` | Project-only isolated real-world evaluation adapter; not shipped in the bundle |
 
 ## Current limitations

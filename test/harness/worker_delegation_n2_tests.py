@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 import managed_delegation  # noqa: E402
+import model_registry  # noqa: E402
 from managed_delegation import DelegationError, ManagedDelegation  # noqa: E402
 from task_executor import TaskExecutor, ExecutorError, _read, _write, audit  # noqa: E402
 from dispatch_budget import DispatchBudget  # noqa: E402
@@ -60,7 +61,7 @@ class ChildAdapter:
                 raise RuntimeError("test adapter never released")
         for output in request.allowed_edits:
             (request.actor_root / output).write_text("accepted", encoding="utf-8")
-        model = "claude-sonnet-5" if "sonnet" in request.requested_cell else "claude-opus-5"
+        model = model_registry.resolve_cell(request.requested_cell)["cli_model"]
         effort = request.requested_cell.split("-")[-1]
         cost = None if self.unknown_cost else 0.1
         return {"admission_token": request.admission_token,
@@ -71,7 +72,8 @@ class ChildAdapter:
                 "requested_cell": request.requested_cell,
                 "actual_model": "wrong-model" if self.bad_identity else model,
                 "identity_valid": not self.bad_identity,
-                "child_models": ["claude-opus-5"] if self.child_model else [],
+                "child_models": [model_registry.resolve_cell(
+                    "worker-opus-high")["cli_model"]] if self.child_model else [],
                 "status": "completed", "terminal": cost is not None,
                 "writer_stopped": cost is not None, "cost_usd": cost,
                 "usage": {"cost_usd": cost, "cost_source": "provider_reported"},

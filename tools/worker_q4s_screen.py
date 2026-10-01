@@ -171,10 +171,12 @@ def build_manifest(date_utc: str) -> dict:
                 or row["grades"][-1]["executable_score"] != 100):
             raise ScreenError("Q4S calibration no longer binds its task")
     registry = model_registry.load()
-    for cell, model in (("worker-sonnet-low", "claude-sonnet-5"),
-                        ("worker-sonnet-medium", "claude-sonnet-5"),
-                        ("worker-opus-high", "claude-opus-5")):
-        if model_registry.resolve_cell(cell, registry)["cli_model"] != model:
+    for cell, expected_class in (("worker-sonnet-low", "sonnet"),
+                                 ("worker-sonnet-medium", "sonnet"),
+                                 ("worker-opus-high", "opus")):
+        actual_class = model_registry.model_class_for_provider_id(
+            model_registry.resolve_cell(cell, registry)["cli_model"], registry)
+        if actual_class != expected_class:
             raise ScreenError("Q4S model mapping changed")
     rows = screen_rows()
     ordered = [row["task_id"] for row in rows if row["latin_position"] == 1]

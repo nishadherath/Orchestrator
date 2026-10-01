@@ -49,7 +49,7 @@ class SelectorTests(unittest.TestCase):
         for name in sorted(self.cells):
             with self.subTest(cell=name):
                 decision = self.choose(override=override(name))
-                self.assertEqual(15, len(decision["cells"]))
+                self.assertEqual(16, len(decision["cells"]))
                 self.assertEqual(name, decision["selected_cell"])
                 self.assertEqual(1, sum(row["eligible"] for row in decision["cells"]))
                 self.assertEqual("unqualified", next(row for row in decision["cells"]
@@ -83,7 +83,9 @@ class SelectorTests(unittest.TestCase):
         self.assertEqual("unresolved_frame", self.choose(facts(frame_confidence="uncertain"))["stop"])
         self.assertEqual("repair_exhausted", self.choose(facts(failure_cause="local_failure",
                                                                prior_local_repairs=1))["stop"])
-        self.assertEqual("worker-sonnet-low", self.choose(facts(failure_cause="local_failure"))["selected_cell"])
+        candidate = self.choose(facts(failure_cause="local_failure"))
+        self.assertEqual("worker-sonnet-low", candidate["selected_cell"])
+        self.assertIsNone(candidate["stop"])
 
     def test_budget_host_uncertainty_and_invalid_override(self):
         decision = self.choose(override=override("worker-fable-max", max_cost_usd=None))
@@ -100,6 +102,8 @@ class SelectorTests(unittest.TestCase):
                                          remaining_usd=0.01, budget_enforced=True)
         self.assertIsNone(decision["selected_cell"])
         self.assertEqual("no_qualified_candidate", decision["stop"])
+        haiku = self.choose(override=override("worker-haiku-default"))
+        self.assertEqual("worker-haiku-default", haiku["selected_cell"])
         with self.assertRaises(worker_selector.AssessmentError):
             self.choose(override=override("worker-haiku-low"))
         self.assertEqual("override_rejected",
@@ -107,7 +111,12 @@ class SelectorTests(unittest.TestCase):
         with self.assertRaises(worker_selector.AssessmentError):
             self.choose(facts(deadline_seconds=float("nan")))
         self.assertEqual("unknown_not_discounted", self.choose()["cache_reuse"])
-        self.assertIn("worker-sonnet-medium", self.choose()["eligible_alternatives"])
+        configured = self.choose()
+        sonnet = next(row for row in configured["cells"]
+                      if row["cell"] == "worker-sonnet-medium")
+        self.assertEqual("configured", sonnet["availability"]["status"])
+        self.assertEqual("unverified", model_registry.resolve_cell(
+            "worker-sonnet-medium")["account_identity"]["status"])
         self.assertEqual("historical_task_mean_not_current_quote",
                          next(row for row in self.choose()["cells"]
                               if row["cell"] == "worker-sonnet-low")["cost_uncertainty"])
@@ -127,7 +136,10 @@ class SelectorTests(unittest.TestCase):
                                         decision_digest="d", intent_digest="t")
                 command = adapter.command(request)
                 self.assertEqual(row["cli_model"], command[command.index("--model") + 1])
-                self.assertEqual(row["effort"], command[command.index("--effort") + 1])
+                if row["effort"]:
+                    self.assertEqual(row["effort"], command[command.index("--effort") + 1])
+                else:
+                    self.assertNotIn("--effort", command)
                 self.assertNotIn("--model-fallback", command)
 
 

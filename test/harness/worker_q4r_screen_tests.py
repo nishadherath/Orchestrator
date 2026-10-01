@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_q4r_screen as plan  # noqa: E402
 import worker_q4r_screen_live as live  # noqa: E402
+import model_registry  # noqa: E402
 from worker_adapter import digest  # noqa: E402
 from worker_q3_public_catalogue import sha  # noqa: E402
 
@@ -101,7 +102,8 @@ class Q4RScreenTests(unittest.TestCase):
         snapshot["snapshot_sha256"] = digest(snapshot)
         attempt = {"terminal": True, "writer_stopped": True,
                    "identity_valid": True, "requested_cell": row["first_cell"],
-                   "actual_model": "claude-sonnet-5",
+            "actual_model": model_registry.resolve_cell(
+                "worker-sonnet-high")["cli_model"],
                    "requested_effort": "low", "cost_usd": 0.1,
                    "q1_record_sha256": "a" * 64, "q1_spec_sha256": "b" * 64,
                    "evaluation_report": report,

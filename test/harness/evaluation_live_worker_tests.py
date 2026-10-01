@@ -40,7 +40,8 @@ class LiveWorkerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="live-worker-command-") as folder:
             request = self.request(Path(folder))
             cmd = self.subject.LiveWorkerAdapter.command(request)
-        self.assertEqual(cmd[cmd.index("--model") + 1], "claude-sonnet-5")
+        sonnet = self.subject.model_registry.resolve_cell("worker-sonnet-low")
+        self.assertEqual(cmd[cmd.index("--model") + 1], sonnet["cli_model"])
         self.assertEqual(cmd[cmd.index("--effort") + 1], "low")
         self.assertEqual(cmd[cmd.index("--tools") + 1], "Read,Edit,Write,Glob,Grep")
         self.assertIn("--restricted", cmd)
@@ -54,19 +55,36 @@ class LiveWorkerTests(unittest.TestCase):
                 self.request(Path(folder)), requested_cell="worker-fable-max"
             )
             cmd = self.subject.LiveWorkerAdapter.command(request)
-        self.assertEqual(cmd[cmd.index("--model") + 1], "claude-fable-5-1")
+        fable = self.subject.model_registry.resolve_cell("worker-fable-max")
+        self.assertEqual(cmd[cmd.index("--model") + 1], fable["cli_model"])
         self.assertEqual(cmd[cmd.index("--effort") + 1], "max")
 
+    def test_haiku_command_uses_registry_default_without_effort_flag(self):
+        with tempfile.TemporaryDirectory(prefix="live-worker-haiku-") as folder:
+            request = dataclasses.replace(
+                self.request(Path(folder)), requested_cell="worker-haiku-default"
+            )
+            cmd = self.subject.LiveWorkerAdapter.command(request)
+        haiku = self.subject.model_registry.resolve_cell("worker-haiku-default")
+        self.assertEqual(cmd[cmd.index("--model") + 1], haiku["cli_model"])
+        self.assertNotIn("--effort", cmd)
+
     def test_stream_keeps_auxiliary_billing_separate(self):
+        registry = self.subject.model_registry.load()
+        sonnet = self.subject.model_registry.resolve_cell("worker-sonnet-low", registry)["cli_model"]
+        historical_haiku = next(
+            model_id for model_id, model_class in registry["historical_model_ids"].items()
+            if model_class == "haiku"
+        )
         rows = [
             {"type": "assistant", "parent_tool_use_id": None,
-             "message": {"model": "claude-sonnet-5"}},
+             "message": {"model": sonnet}},
             {"type": "result", "modelUsage": {
-                "claude-sonnet-5": {}, "claude-haiku-4-5-20251001": {}}},
+                sonnet: {}, historical_haiku: {}}},
         ]
         parsed = self.subject.parse_stream("\n".join(json.dumps(row) for row in rows))
-        self.assertEqual(parsed["root_models"], ["claude-sonnet-5"])
-        self.assertEqual(parsed["auxiliary_billed_models"], ["claude-haiku-4-5-20251001"])
+        self.assertEqual(parsed["root_models"], [sonnet])
+        self.assertEqual(parsed["auxiliary_billed_models"], [historical_haiku])
 
     def test_timeout_never_becomes_zero_cost(self):
         def timeout(cmd, cwd, env, limit):

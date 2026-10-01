@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from worker_adapter import WorkerRequest, digest  # noqa: E402
+import model_registry  # noqa: E402
 from worker_q4s_admission import (Q4SAdmissionError, mark_intent,  # noqa: E402
                                   settle_episode, settle_stopped_patch,
                                   start_campaign)
@@ -33,9 +34,10 @@ def report() -> dict:
             "remaining": ["repair source"], "clarification": None}
 
 
-def stream(*, model: str = "claude-sonnet-5", structured: bool = True,
+def stream(*, model: str | None = None, structured: bool = True,
            subtype: str = "success", errors: list | None = None,
            malformed: bool = False) -> str:
+    model = model or model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
     final = {"type": "result", "subtype": subtype,
              "total_cost_usd": 0.25, "num_turns": 3,
              "result": "PRIVATE MODEL RESULT",
@@ -116,7 +118,7 @@ class Q4SS1Tests(unittest.TestCase):
         self.assertTrue(receipt["identity_valid"])
         self.assertEqual(["<synthetic>"], receipt["q4s_diagnostics"][
             "synthetic_root_markers"])
-        self.assertEqual(["claude-sonnet-5"], receipt["q4s_diagnostics"][
+        self.assertEqual([model_registry.resolve_cell("worker-sonnet-low")["cli_model"]], receipt["q4s_diagnostics"][
             "real_root_models"])
         self.assertFalse(receipt["q4s_diagnostics"][
             "structured_output_field_present"])
@@ -154,11 +156,13 @@ class Q4SS1Tests(unittest.TestCase):
             "settlement"]["charged_usd"])
 
     def test_substitution_and_malformed_stream_cannot_qualify(self):
-        substitute = self.receipt(stream(model="claude-opus-5"))
+        substitute = self.receipt(stream(
+            model=model_registry.resolve_cell("worker-opus-high")["cli_model"]))
         self.assertFalse(substitute["identity_valid"])
         self.assertEqual("failed", substitute["status"])
         child = json.dumps({"type": "assistant", "parent_tool_use_id": "child",
-                            "message": {"model": "claude-haiku-4-5",
+                            "message": {"model": model_registry.resolve_cell(
+                                "worker-haiku-default")["cli_model"],
                                         "content": []}}) + "\n"
         delegated = self.receipt(child + stream())
         self.assertFalse(delegated["identity_valid"])

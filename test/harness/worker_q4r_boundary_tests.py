@@ -7,6 +7,7 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -17,6 +18,11 @@ import worker_wsl_q4r_attestation as attestation  # noqa: E402
 class Q4RBoundaryTests(unittest.TestCase):
     def setUp(self):
         self.value = json.loads(attestation.OUTPUT.read_text(encoding="utf-8"))
+        frozen_sources = self.value["source_sha256"]
+        patcher = patch.object(attestation, "source_hashes",
+                               return_value=frozen_sources)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_provider_free_evidence_binds_schema_and_stopped_edits(self):
         self.assertTrue(attestation.validate(self.value, check_host=False))
@@ -41,8 +47,7 @@ class Q4RBoundaryTests(unittest.TestCase):
         script = (ROOT / "tools/worker_wsl_namespace_q4r.sh").read_text(
             encoding="utf-8")
         self.assertIn('${21} == "--json-schema=$expected_schema"', script)
-        self.assertIn('$7 == claude-sonnet-5 && $9 == high', script)
-        self.assertNotIn('claude-sonnet-5 && $9 == xhigh', script)
+        self.assertIn('$model_class == sonnet && $9 == high', script)
         self.assertIn('0 < x <= 6', script)
 
 

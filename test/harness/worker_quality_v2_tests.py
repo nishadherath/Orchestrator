@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
+import model_registry  # noqa: E402
 from worker_adapter import WorkerAdapter, WorkerRequest, digest  # noqa: E402
 from worker_q4_adapter import EvaluationWorkerAdapter  # noqa: E402
 from worker_quality_v2 import (QualityContractError, grade, parse_report,
@@ -173,12 +174,13 @@ class EvaluationAdapterTests(unittest.TestCase):
                                      intent_digest="intent")
 
     def stream(self, *, result_text=None, invalid=False):
+        model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
         rows = [{"type": "assistant", "parent_tool_use_id": None,
-                 "message": {"model": "claude-sonnet-5", "content": []}},
+                 "message": {"model": model, "content": []}},
                 {"type": "result", "subtype": "success", "result": result_text,
                  "total_cost_usd": 0.1,
                  "usage": {"input_tokens": 1, "output_tokens": 2},
-                 "modelUsage": {"claude-sonnet-5": {"costUSD": 0.1}}}]
+                 "modelUsage": {model: {"costUSD": 0.1}}}]
         prefix = "broken\n" if invalid else ""
         return prefix + "\n".join(json.dumps(row) for row in rows) + "\n"
 

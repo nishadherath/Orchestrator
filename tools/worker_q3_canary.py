@@ -134,9 +134,10 @@ def build_manifest(*, spend_notice_sha256: str, date_utc: str,
     catalogue, rows = _public()
     registry = model_registry.load()
     if (route.plan("structured", "medium", "contained")["execution_ladder"] != LADDER
-            or [model_registry.resolve_cell(cell)["cli_model"] for cell in
-                ("worker-sonnet-low", "worker-opus-high")]
-            != ["claude-sonnet-5", "claude-opus-5"]):
+            or [model_registry.model_class_for_provider_id(
+                    model_registry.resolve_cell(cell, registry)["cli_model"], registry)
+                for cell in ("worker-sonnet-low", "worker-opus-high")]
+            != ["sonnet", "opus"]):
         raise CanaryError("B0 ladder or pinned provider identities changed")
     value = {
         "schema_version": 1, "profile": "worker-q3-b0-two-task-canary",

@@ -77,6 +77,7 @@ from pathlib import Path
 from typing import Iterator, Literal, TypedDict
 
 import acceptance as acceptance_lib
+import model_registry
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TABLE_PATH = REPO_ROOT / "src" / "routing_table.json"
@@ -1428,9 +1429,10 @@ def _transcript_context_stats(project: Path, cell: str | None) -> dict | None:
     cache_read_input_tokens + cache_creation_input_tokens` (a missing
     field counts as 0 for that sum). `window` is the model's native
     context window, looked up by the first assistant message's
-    `message.model` in `src/cost_table.json`'s `context.model_windows`
-    table (`load_cost_table`); `None` if no assistant message is found or
-    its model id is not in that table, never a guess. A line that fails
+    `message.model`, normalized to a class through `src/model_registry.json`,
+    in `src/cost_table.json`'s `context.model_windows` table
+    (`load_cost_table`); `None` if no assistant message is found or its
+    model id is unknown to the registry, never a guess. A line that fails
     to parse as JSON is skipped, the same tolerance the meta-file reads
     already use."""
     transcript = _resolve_transcript(project, cell)
@@ -1471,7 +1473,8 @@ def _transcript_context_stats(project: Path, cell: str | None) -> dict | None:
             if first_model is None and message.get("model"):
                 first_model = message["model"]
 
-    window = model_windows.get(first_model) if first_model is not None else None
+    model_class = model_registry.model_class_for_provider_id(first_model) if first_model is not None else None
+    window = model_windows.get(model_class) if model_class is not None else None
     return {"compactions": compactions, "peak_tokens": peak_tokens, "window": window}
 
 
@@ -1631,7 +1634,8 @@ def context_explain_line(project: Path, priors: dict) -> str:
             stats = _orchestrator_transcript_stats(transcript_path)
             if stats and stats["last_total"] is not None:
                 model_windows = load_cost_table().get("context", {}).get("model_windows", {})
-                native_window = model_windows.get(stats["model"]) if stats["model"] else None
+                model_class = model_registry.model_class_for_provider_id(stats["model"]) if stats["model"] else None
+                native_window = model_windows.get(model_class) if model_class is not None else None
                 resolved, _source = _resolve_autocompact_window(project)
                 candidates = [w for w in (native_window, resolved) if w is not None]
                 effective_window = min(candidates) if candidates else None
@@ -1724,6 +1728,7 @@ def recover_report(project: Path) -> str:
 
 
 def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
+    historical_sonnet_id = model_registry.historical_provider_id("sonnet")
     """Scripted checks for the ledger-aware additions, no file I/O outside
     a temp directory (docs/ROUTING-2-DESIGN.md section 3, scenarios a-g;
     docs/COMPACTION-DESIGN.md adds scenario h, the spawn/record/recover
@@ -2033,8 +2038,8 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
             return meta_path
 
         with mock.patch.object(Path, "home", return_value=fake_home):
-            correct_meta = make_transcript("session-correct", "claude-sonnet-5", 50000, 80000)
-            decoy_meta = make_transcript("session-decoy", "claude-sonnet-5", 999000, 999000)
+            correct_meta = make_transcript("session-correct", historical_sonnet_id, 50000, 80000)
+            decoy_meta = make_transcript("session-decoy", historical_sonnet_id, 999000, 999000)
             now = time.time()
             for meta_path, mtime in ((correct_meta, now - 100), (decoy_meta, now)):
                 transcript_path = meta_path.with_name(meta_path.name[: -len(".meta.json")] + ".jsonl")
@@ -2076,12 +2081,12 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
         session_dir.mkdir(parents=True)
         transcript_path = session_dir / "session-main.jsonl"
         lines = [
-            json.dumps({"type": "assistant", "message": {"model": "claude-sonnet-5",
+            json.dumps({"type": "assistant", "message": {"model": historical_sonnet_id,
                         "usage": {"input_tokens": 60000, "cache_read_input_tokens": 40000,
                                   "cache_creation_input_tokens": 0}}}, separators=(",", ":")),
             # the LAST assistant message is what should be used, not the
             # first or the largest: 120000 + 8000 = 128000.
-            json.dumps({"type": "assistant", "message": {"model": "claude-sonnet-5",
+            json.dumps({"type": "assistant", "message": {"model": historical_sonnet_id,
                         "usage": {"input_tokens": 120000, "cache_read_input_tokens": 8000,
                                   "cache_creation_input_tokens": 0}}}, separators=(",", ":")),
         ]
@@ -2100,7 +2105,7 @@ def _selftest(verbose: bool = False) -> tuple[bool, list[str]]:
                 fallback_line = context_explain_line(project, priors)
             finally:
                 del os.environ["CLAUDE_CODE_AUTO_COMPACT_WINDOW"]
-            # effective window: min(1,000,000 native for claude-sonnet-5,
+            # effective window: min(1,000,000 native for the historical Sonnet ID,
             # 200,000 configured) = 200,000; 128,000 / 200,000 = 64%.
             check("64% of 200,000 effective" in fallback_line and "(transcript" in fallback_line,
                   f"(m) the transcript fallback should compute the last assistant message's total "

@@ -25,6 +25,7 @@ import controller_x5_public_risk_corpus as corpus
 import controller_x5_public_risk_review as review
 import controller_x5_v6_screen as screen
 import controller_x5_v7_pilot as v7
+import model_registry
 import dispatch_budget
 import task_executor
 from controller_wsl_interpreter import WslPublicInterpreter
@@ -609,7 +610,8 @@ def continuation(manifest: dict, notice: dict, arm: str) -> dict:
     attempts = state["attempts"]
     identities_valid = all(
         (attempt.get("receipt") or {}).get("identity_valid") is True
-        and (attempt.get("receipt") or {}).get("actual_model") == "claude-sonnet-5"
+        and model_registry.model_class_for_provider_id(
+            (attempt.get("receipt") or {}).get("actual_model")) == "sonnet"
         and (attempt.get("receipt") or {}).get("writer_stopped") is True
         for attempt in attempts)
     qualified = (error is None and len(attempts) == 1 and identities_valid

@@ -23,6 +23,7 @@ import controller_workflow
 import claudep
 import dispatch_budget
 import system_controller
+import model_registry
 import task_executor
 import worker_adapter
 
@@ -152,7 +153,8 @@ class WorkflowTests(unittest.TestCase):
              "mcp_servers": [{"name": "graft", "status": "connected"}],
              "tools": ["Read", *controller_dispatch.GRAFT_READ_TOOLS]},
             {"type": "assistant", "parent_tool_use_id": None,
-             "message": {"model": "claude-opus-5", "content": [
+             "message": {"model": model_registry.resolve_cell(
+                 "worker-opus-high")["cli_model"], "content": [
                  {"type": "tool_use", "name": "mcp__graft__graft_check_freshness",
                   "input": {"secret": "must-not-persist"}}]}},
             {"type": "result", "subtype": "success", "result": "done",

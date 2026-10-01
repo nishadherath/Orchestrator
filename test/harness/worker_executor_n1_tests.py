@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from dispatch_budget import BudgetError, DispatchBudget  # noqa: E402
+import model_registry  # noqa: E402
 from task_executor import TaskExecutor, ExecutorError, EDGES, _read, _write, audit, legacy_attempt, transition  # noqa: E402
 from worker_adapter import WorkerAdapter, WorkerRequest, CapabilityError, digest  # noqa: E402
 
@@ -38,8 +39,7 @@ class FakeAdapter:
                 "decision_digest": request.decision_digest,
                 "intent_digest": request.intent_digest,
                 "requested_cell": request.requested_cell,
-                "actual_model": ("claude-opus-5" if request.requested_cell == "worker-opus-high"
-                                 else "claude-sonnet-5"),
+                "actual_model": model_registry.resolve_cell(request.requested_cell)["cli_model"],
                 "identity_valid": True, "child_models": [], "status": "completed",
                 "terminal": True, "writer_stopped": True, "cost_usd": 0.1,
                 "usage": {"cost_usd": 0.1, "cost_source": "provider_reported",
@@ -322,15 +322,17 @@ class ExecutorTests(unittest.TestCase):
                      "total_cost_usd": 0.1, "usage": {"input_tokens": 10, "output_tokens": 4},
                      "modelUsage": {model: {"costUSD": 0.1}}}]
             return "\n".join(json.dumps(row) for row in rows) + "\n"
+        sonnet_id = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
+        opus_id = model_registry.resolve_cell("worker-opus-high")["cli_model"]
         good = WorkerAdapter(config, lambda cmd, cwd, env, timeout:
-                             subprocess.CompletedProcess(cmd, 0, stream("claude-sonnet-5"), ""))
+                             subprocess.CompletedProcess(cmd, 0, stream(sonnet_id), ""))
         result = good.run(request)
         self.assertEqual("completed", result["status"])
         self.assertEqual(0.1, result["cost_usd"])
         self.assertIsNone(result["served_effort"])
         self.assertEqual("cli-argument:low", result["effort_evidence"])
         wrong = WorkerAdapter(config, lambda cmd, cwd, env, timeout:
-                              subprocess.CompletedProcess(cmd, 0, stream("claude-opus-5"), ""))
+                              subprocess.CompletedProcess(cmd, 0, stream(opus_id), ""))
         self.assertEqual("failed", wrong.run(request)["status"])
         timed_out = WorkerAdapter(config, lambda cmd, cwd, env, timeout:
                                   (_ for _ in ()).throw(subprocess.TimeoutExpired(cmd, timeout)))
@@ -485,6 +487,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, sys.argv[1])
 from task_executor import TaskExecutor
+import model_registry
 class Fake:
     def capability(self, root):
         return {"configured": True, "actor_root": str(root.resolve()), "enforcement_proven": False}
@@ -494,7 +497,8 @@ class Fake:
         return {"admission_token": request.admission_token, "invocation_id": request.invocation_id,
                 "revision_id": request.revision_id, "decision_digest": request.decision_digest,
                 "intent_digest": request.intent_digest, "requested_cell": request.requested_cell,
-                "actual_model": "claude-sonnet-5", "identity_valid": True, "child_models": [],
+                "actual_model": model_registry.resolve_cell(
+                    request.requested_cell)["cli_model"], "identity_valid": True, "child_models": [],
                 "effort_evidence": "cli-argument:low",
                 "terminal": True, "writer_stopped": True, "status": "completed", "cost_usd": 0.1,
                 "usage": {"cost_usd": 0.1, "currency": "USD", "cost_source": "provider_reported"}}
@@ -559,7 +563,7 @@ except Exception as exc:
         class WrongModel(FakeAdapter):
             def run(self, request):
                 result = super().run(request)
-                result["actual_model"] = "claude-opus-5"
+                result["actual_model"] = model_registry.resolve_cell("worker-opus-high")["cli_model"]
                 return result
         adapter = WrongModel()
         executor = TaskExecutor(self.project, adapter)
@@ -655,7 +659,8 @@ except Exception as exc:
         class Inclusive(FakeAdapter):
             def run(self, request):
                 receipt = super().run(request)
-                receipt["billed_models"] = ["claude-sonnet-5", "auxiliary-provider-model"]
+                receipt["billed_models"] = [model_registry.resolve_cell(
+                    request.requested_cell)["cli_model"], "auxiliary-provider-model"]
                 receipt["usage"]["includes_descendants"] = True
                 return receipt
         adapter = Inclusive()
@@ -672,7 +677,8 @@ except Exception as exc:
         class Child(FakeAdapter):
             def run(self, request):
                 receipt = super().run(request)
-                receipt["child_models"] = ["claude-sonnet-5"]
+                receipt["child_models"] = [model_registry.resolve_cell(
+                    request.requested_cell)["cli_model"]]
                 return receipt
         adapter = Child()
         executor = TaskExecutor(self.project, adapter)

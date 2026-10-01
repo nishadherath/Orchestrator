@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 import claudep
 import system_controller as controller
+import model_registry
 from dispatch_budget import BudgetError, BudgetExhausted, DispatchBudget, InvocationAlreadyStarted
 
 
@@ -139,13 +140,15 @@ class BudgetTests(unittest.TestCase):
         return controller.LiveRoleRunner(self.root, budget.remaining, budget=budget)
 
     def test_stream_retains_all_root_assistant_text_not_only_terminal_reply(self):
+        opus_model = model_registry.resolve_cell("worker-opus-high")["cli_model"]
+        sonnet_model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
         events = [
-            {"type": "assistant", "message": {"id": "a1", "model": "claude-opus-5",
+            {"type": "assistant", "message": {"id": "a1", "model": opus_model,
              "content": [{"type": "text", "text": '{"type":"FrameRecord"}'}]}},
             {"type": "assistant", "parent_tool_use_id": "child",
-             "message": {"id": "c1", "model": "claude-sonnet-5",
+             "message": {"id": "c1", "model": sonnet_model,
                          "content": [{"type": "text", "text": "child text"}]}},
-            {"type": "assistant", "message": {"id": "a2", "model": "claude-opus-5",
+            {"type": "assistant", "message": {"id": "a2", "model": opus_model,
              "content": [{"type": "text", "text": '{"type":"PremiseRecord"}'}]}},
             {"type": "result", "result": '{"type":"PremiseRecord"}',
              "total_cost_usd": .03},
@@ -156,8 +159,8 @@ class BudgetTests(unittest.TestCase):
         self.assertEqual(parsed.extras["assistant_message_count"], 2)
         self.assertEqual(parsed.extras["assistant_text"],
                          '{"type":"FrameRecord"}\n{"type":"PremiseRecord"}')
-        self.assertEqual(parsed.extras["root_models"], ["claude-opus-5"])
-        self.assertEqual(parsed.extras["child_models"], ["claude-sonnet-5"])
+        self.assertEqual(parsed.extras["root_models"], [opus_model])
+        self.assertEqual(parsed.extras["child_models"], [sonnet_model])
 
     def test_live_role_parses_complete_stream_before_scribe_validation(self):
         budget = self.budget()

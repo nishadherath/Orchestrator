@@ -185,7 +185,8 @@ class PairedPathTests(unittest.TestCase):
                         public_packets[arm] = packet
                         response = interpret_public(packet)
                         response["telemetry"] = {
-                            "provider_calls": 1, "model": "claude-sonnet-5",
+                            "provider_calls": 1, "model": model_registry.resolve_cell(
+                                "worker-sonnet-low")["cli_model"],
                             "cost_usd": .04, "input_tokens": 100,
                             "output_tokens": 20}
                         return response

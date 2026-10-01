@@ -22,6 +22,7 @@ from task_executor import TaskExecutor
 from managed_delegation import ManagedDelegation
 from worker_selector import assess
 from worker_adapter import WorkerAdapter
+import model_registry
 class Fake:
     def __init__(self): self.calls = 0
     def capability(self, root):
@@ -38,7 +39,8 @@ class Fake:
         return {"admission_token": request.admission_token, "invocation_id": request.invocation_id,
                 "revision_id": request.revision_id, "decision_digest": request.decision_digest,
                 "intent_digest": request.intent_digest, "requested_cell": request.requested_cell,
-                "actual_model": "claude-sonnet-5", "identity_valid": True, "child_models": [],
+                "actual_model": model_registry.resolve_cell(
+                    request.requested_cell)["cli_model"], "identity_valid": True, "child_models": [],
                 "effort_evidence": "cli-argument:low",
                 "terminal": True, "writer_stopped": True, "status": "completed", "cost_usd": 0.02,
                 "usage": {"cost_usd": 0.02, "currency": "USD", "cost_source": "provider_reported"}}

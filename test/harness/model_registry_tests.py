@@ -34,11 +34,22 @@ class ModelRegistryTests(unittest.TestCase):
         cls.preflight = load_preflight()
 
     def test_registry_is_exact_complete_matrix(self):
-        self.assertEqual(len(self.registry["cells"]), 15)
+        self.assertEqual(len(self.registry["cells"]), 16)
         self.assertEqual(model_registry.models(self.registry), ("sonnet", "opus", "fable"))
+        self.assertEqual(model_registry.model_classes(self.registry),
+                         ("sonnet", "opus", "fable", "haiku"))
         self.assertEqual(model_registry.efforts(self.registry),
                          ("low", "medium", "high", "xhigh", "max"))
-        self.assertNotIn("haiku", self.registry["models"])
+        for model in ("sonnet", "opus"):
+            definition = self.registry["models"][model]
+            self.assertEqual(definition["vendor_identity"]["status"], "verified")
+            self.assertEqual(definition["account_identity"]["status"], "unverified")
+            self.assertEqual(definition["cli_model"], definition["expected_provider_model"])
+        haiku = model_registry.resolve_cell("worker-haiku-default", self.registry)
+        self.assertEqual(haiku["model"], "haiku")
+        self.assertIsNone(haiku["effort"])
+        self.assertEqual(haiku["effort_mode"], "provider-default")
+        self.assertEqual(self.registry["vendor_latest_check"]["checked_on"], "2026-10-01")
 
     def test_all_fifteen_cells_build_exact_fake_dispatch_commands(self):
         with tempfile.TemporaryDirectory(prefix="registry-commands-") as folder:
@@ -53,21 +64,29 @@ class ModelRegistryTests(unittest.TestCase):
                 )
                 command = live_worker.LiveWorkerAdapter.command(request)
                 self.assertEqual(command[command.index("--model") + 1], resolved["cli_model"])
-                self.assertEqual(command[command.index("--effort") + 1], resolved["effort"])
+                if resolved["effort"]:
+                    self.assertEqual(command[command.index("--effort") + 1], resolved["effort"])
+                else:
+                    self.assertNotIn("--effort", command)
 
     def test_fable_identity_is_explicit_and_silent_substitution_fails(self):
         name = "worker-fable-xhigh"
         resolved = model_registry.resolve_cell(name, self.registry)
-        self.assertEqual(resolved["expected_provider_model"], "claude-fable-5-1")
-        self.assertFalse(model_registry.identity_matches(name, "claude-sonnet-5", registry=self.registry))
-        self.assertTrue(model_registry.identity_matches(name, "claude-fable-5-1", registry=self.registry))
+        fable_id = resolved["expected_provider_model"]
+        sonnet_id = model_registry.resolve_cell("worker-sonnet-low", self.registry)["cli_model"]
+        self.assertFalse(model_registry.identity_matches(name, sonnet_id, registry=self.registry))
+        self.assertTrue(model_registry.identity_matches(name, fable_id, registry=self.registry))
         self.assertFalse(model_registry.identity_matches(
-            name, "claude-fable-5-1", ["claude-sonnet-5"], self.registry
+            name, fable_id, [sonnet_id], self.registry
         ))
 
         usage = {field: 1 for field in live_worker.USAGE_FIELDS}
+        legacy_sonnet_id = next(
+            model_id for model_id, model_class in self.registry["historical_model_ids"].items()
+            if model_class == "sonnet"
+        )
         call = {"cost_usd": 0.1, "usage": usage,
-                "model_usage": {"claude-sonnet-5": {"costUSD": 0.1}}}
+                "model_usage": {legacy_sonnet_id: {"costUSD": 0.1}}}
         with tempfile.TemporaryDirectory(prefix="registry-substitution-") as folder:
             root = Path(folder)
             request = live_worker.WorkerRequest(
@@ -76,13 +95,13 @@ class ModelRegistryTests(unittest.TestCase):
             )
             adapter = live_worker.LiveWorkerAdapter(
                 lambda cmd, cwd, env, timeout: subprocess.CompletedProcess(
-                    cmd, 0, live_worker._stream("claude-sonnet-5", call), ""
+                    cmd, 0, live_worker._stream(sonnet_id, call), ""
                 )
             )
             outcome = adapter.run(request)
         self.assertFalse(outcome["identity_valid"])
         self.assertEqual(outcome["status"], "failed")
-        self.assertEqual(outcome["expected_model"], "claude-fable-5-1")
+        self.assertEqual(outcome["expected_model"], fable_id)
 
     def test_evaluator_uses_registry_for_every_cell(self):
         for name in self.registry["cells"]:
@@ -117,17 +136,30 @@ class ModelRegistryTests(unittest.TestCase):
     def test_preflight_uses_exact_identity_and_effort(self):
         entry = {"id": "led-001", "first_cell": "worker-fable-low"}
         correct = self.preflight._model_effort_observation(entry, {
-            "id": "att-001", "actual_model": "claude-fable-5-1",
+            "id": "att-001", "actual_model": model_registry.resolve_cell(
+                "worker-fable-low", self.registry)["cli_model"],
             "effort_evidence": "cli-argument:low",
         })
         substituted = self.preflight._model_effort_observation(entry, {
-            "id": "att-002", "actual_model": "claude-sonnet-5",
+            "id": "att-002", "actual_model": model_registry.resolve_cell(
+                "worker-sonnet-low", self.registry)["cli_model"],
             "effort_evidence": "cli-argument:xhigh",
         })
         self.assertTrue(correct["model_match"] and correct["effort_match"])
         self.assertFalse(substituted["model_match"] or substituted["effort_match"])
 
-    def test_unsupported_cells_and_profiles_fail_visibly(self):
+    def test_default_effort_and_historical_identity_normalisation(self):
+        current_haiku = model_registry.resolve_cell("worker-haiku-default", self.registry)
+        self.assertTrue(model_registry.identity_matches(
+            "worker-haiku-default", current_haiku["expected_provider_model"],
+            registry=self.registry,
+        ))
+        for model_id, model_class in self.registry["historical_model_ids"].items():
+            self.assertEqual(model_registry.model_class_for_provider_id(
+                model_id, self.registry), model_class)
+        self.assertIsNone(model_registry.model_class_for_provider_id("unrecognised", self.registry))
+
+    def test_unknown_cells_and_profiles_fail_visibly(self):
         with self.assertRaisesRegex(model_registry.RegistryError, "unsupported worker cell"):
             model_registry.resolve_cell("worker-haiku-low", self.registry)
         with self.assertRaisesRegex(model_registry.RegistryError, "unsupported Controller role profile"):

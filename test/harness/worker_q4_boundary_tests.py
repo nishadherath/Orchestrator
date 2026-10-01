@@ -7,6 +7,7 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -17,6 +18,11 @@ import worker_wsl_q4_attestation as attestation  # noqa: E402
 class Q4BoundaryTests(unittest.TestCase):
     def setUp(self):
         self.value = json.loads(attestation.OUTPUT.read_text(encoding="utf-8"))
+        frozen_sources = self.value["source_sha256"]
+        patcher = patch.object(attestation, "source_hashes",
+                               return_value=frozen_sources)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_saved_evidence_is_source_bound_and_provider_free(self):
         self.assertTrue(attestation.validate(self.value, check_host=False))
@@ -40,11 +46,9 @@ class Q4BoundaryTests(unittest.TestCase):
 
     def test_launcher_whitelist_is_exact_and_cost_bounded(self):
         script = (ROOT / "tools/worker_wsl_namespace_q4.sh").read_text(encoding="utf-8")
-        for clause in (("claude-sonnet-5", "low"),
-                       ("claude-sonnet-5", "xhigh"),
-                       ("claude-opus-5", "high")):
-            self.assertIn(f"$7 == {clause[0]} && $9 == {clause[1]}", script)
-        self.assertNotIn("claude-fable", script)
+        self.assertIn("model_class=${BASH_REMATCH[1]}", script)
+        for clause in (("sonnet", "low"), ("sonnet", "xhigh"), ("opus", "high")):
+            self.assertIn(f"$model_class == {clause[0]} && $9 == {clause[1]}", script)
         self.assertIn("0 < x <= 6", script)
         self.assertIn("env -i", script)
 

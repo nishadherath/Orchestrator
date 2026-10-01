@@ -25,6 +25,7 @@ import controller_dispatch
 import controller_evaluation
 import controller_public_assessment
 import controller_workflow
+import model_registry
 import controller_x5_first_failure as checkpoint
 import controller_x5_first_failure_corpus as corpus
 import controller_x5_v6_screen as screen
@@ -529,7 +530,8 @@ def continuation(manifest: dict, notice: dict, arm: str) -> dict:
     attempts = state["attempts"]
     identities_valid = all(
         (attempt.get("receipt") or {}).get("identity_valid") is True
-        and (attempt.get("receipt") or {}).get("actual_model") == "claude-sonnet-5"
+        and model_registry.model_class_for_provider_id(
+            (attempt.get("receipt") or {}).get("actual_model")) == "sonnet"
         and (attempt.get("receipt") or {}).get("writer_stopped") is True
         for attempt in attempts)
     qualified = (error is None and grade_value is not None and len(attempts) == 1

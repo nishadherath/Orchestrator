@@ -237,7 +237,10 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
         "licence": {"status": "present", "spdx": "Apache-2.0", "file": "LICENSE"},
     }
     out[dist_dir / "bundle-manifest.json"] = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
-    assert len([p for p in out if p.parent.name == "agents"]) == 15, "expected fifteen worker definitions"
+    expected_workers = len(json.loads(
+        (SRC / "model_registry.json").read_text(encoding="utf-8"))["cells"])
+    assert len([p for p in out if p.parent.name == "agents"]) == expected_workers, (
+        f"expected {expected_workers} registry-defined worker definitions")
     return out
 
 

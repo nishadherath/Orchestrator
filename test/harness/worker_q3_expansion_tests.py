@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 import worker_q3_expansion as plan  # noqa: E402
 import worker_q3_expansion_live as live  # noqa: E402
+import model_registry  # noqa: E402
 from worker_adapter import digest  # noqa: E402
 
 
@@ -28,7 +29,7 @@ def sample():
     receipt = {"task_id": "P03", "root_state": "partial",
                "budget": {"unresolved": False, "spent_usd": 0.1},
                "attempts": [{"sequence": 1, "requested_cell": "worker-sonnet-low",
-                             "requested_effort": "low", "actual_model": "claude-sonnet-5",
+        "requested_effort": "low", "actual_model": model_registry.historical_provider_id("sonnet"),
                              "identity_valid": True, "terminal": True,
                              "writer_stopped": True, "cost_usd": 0.1,
                              "q1_record_sha256": "d" * 64,

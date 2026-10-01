@@ -24,10 +24,15 @@ The bounded release candidate verification completed on 2026-10-01. See
 `docs/stage-results/release-candidate-2026-10-01.md` for the result.
 Follow `docs/RELEASE-CANDIDATE-2026-10-01.md` and
 `handoffs/2026-10-01-bounded-rc.md`. The shipping review, corrected supported claims, frozen bundle, installed
-lifecycle checks and full offline gate passed. B0 remains default and Controller experimental.
-Controller uplift is an explicit unfinished qualification goal, deferred from
-this RC. Do not start further paid X5 screens as part of RC completion. The
-programme history below is evidence, not a direction to restart research.
+lifecycle checks and full offline gate passed. A 2026-10-02 supplement records
+exact Sonnet and Opus account-served IDs and a checked rebuild at
+`docs/stage-results/release-candidate-model-identity-2026-10-02.md`. That
+bundle passes build, full offline harness and install lifecycle checks, but has
+a dirty stamp; publication remains an operator action. B0 remains default and
+Controller experimental. Controller uplift and the separate real-world policy
+pilot remain deferred from this RC. Do not start further paid X5 screens as
+part of RC completion. The programme history below is evidence, not a direction
+to restart research.
 
 Stages 0-7 of `docs/IMPROVEMENTS-ACTION-PLAN-2026-09-17.md` are complete.
 The active programme is `docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md`.
@@ -341,7 +346,8 @@ the named cell. This is repository-development routing, not product dogfooding.
    `model`, which overrides worker frontmatter.
 3. `CLAUDE_CODE_EFFORT_LEVEL` overrides worker effort.
 4. `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` flattens the model dimension.
-5. Haiku remains excluded by decision D5, despite supporting effort levels.
+5. Haiku is available only through `worker-haiku-default`; omit the effort
+   argument because Haiku uses its provider default.
 6. An `availableModels` exclusion substitutes another model rather than failing.
 7. A user-stopped worker is not resumable; E4 is the empirical evidence.
 

@@ -133,6 +133,8 @@ def cell_rank(name: str | None) -> int | None:
     """Cost-order proxy: model-major, then effort. Any opus cell counts as dearer than any sonnet cell."""
     if not name:
         return None
+    if name == "worker-haiku-default":
+        return len(MODELS) * len(EFFORTS)
     m = re.fullmatch(r"worker-([a-z]+)-([a-z]+)", name)
     if not m or m.group(1) not in MODELS or m.group(2) not in EFFORTS:
         return None

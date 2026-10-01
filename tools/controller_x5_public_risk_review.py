@@ -16,6 +16,7 @@ from typing import Callable
 
 import acceptance
 import controller_evaluation
+import model_registry
 import controller_x5_first_failure as boundary
 
 
@@ -90,7 +91,8 @@ def qualify(actor: Path, names: set[str], state: dict, risk: dict,
             or receipt.get("terminal") is not True
             or receipt.get("writer_stopped") is not True
             or receipt.get("identity_valid") is not True
-            or receipt.get("actual_model") != "claude-sonnet-5"
+            or model_registry.model_class_for_provider_id(
+                receipt.get("actual_model")) != "sonnet"
             or type(receipt.get("cost_usd")) not in (int, float)
             or receipt["cost_usd"] <= 0
             or abs(receipt["cost_usd"] - budget["spent_usd"]) > 1e-8

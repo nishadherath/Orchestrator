@@ -29,12 +29,13 @@ sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "test" / "harness"))
 
 import evaluation_runner  # noqa: E402
+import model_registry  # noqa: E402
 import realworld  # noqa: E402
 import system_controller  # noqa: E402
 from dispatch_budget import DispatchBudget  # noqa: E402
 
-DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.json"
-DEFAULT_REPORT = ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.md"
+DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-10-01-live-controller-adapter.json"
+DEFAULT_REPORT = ROOT / "test" / "results" / "2026-10-01-live-controller-adapter.md"
 USAGE_FIELDS = (
     "input_tokens", "cache_creation_input_tokens",
     "cache_read_input_tokens", "output_tokens",
@@ -270,6 +271,12 @@ class LiveControllerAdapter:
 
 def _fake_run(outcome: str, *, mismatch: bool = False, incomplete: bool = False,
               fail_before_budget: bool = False, observed: dict | None = None) -> Callable:
+    registry = model_registry.load()
+    opus_id = model_registry.resolve_cell("worker-opus-high", registry)["cli_model"]
+    sonnet_id = model_registry.resolve_cell("worker-sonnet-medium", registry)["cli_model"]
+    haiku_id = model_registry.resolve_cell("worker-haiku-default", registry)["cli_model"]
+    historical_haiku_id = model_registry.historical_provider_id("haiku", registry)
+
     def run(problem_text: str, project: Path, budget_usd: float, timeout: float,
             runner_factory: Callable, run_id: str | None = None,
             *, elapsed_limit_s: float | None = None) -> system_controller.RunResult:
@@ -290,8 +297,8 @@ def _fake_run(outcome: str, *, mismatch: bool = False, incomplete: bool = False,
         run_dir.mkdir(parents=True)
         budget = DispatchBudget(run_dir / "dispatch-budget.json", budget_usd)
         rows = (
-            ("frame-001", 0.12, "claude-opus-5", 11),
-            ("verify-001", 0.08, "claude-sonnet-5", 7),
+            ("frame-001", 0.12, opus_id, 11),
+            ("verify-001", 0.08, sonnet_id, 7),
         )
         for index, (ident, cost, model, output_tokens) in enumerate(rows):
             budget.reserve(ident, 0.5, 0.01,
@@ -299,7 +306,7 @@ def _fake_run(outcome: str, *, mismatch: bool = False, incomplete: bool = False,
                             "role": "framer" if index == 0 else "verifier",
                             "cell": "worker-opus-high" if index == 0 else "worker-sonnet-medium"})
             budget.start(ident)
-            actual = "claude-haiku-4-5" if mismatch and index == 1 else model
+            actual = haiku_id if mismatch and index == 1 else model
             telemetry = {
                 "status": "completed",
                 "usage": {"input_tokens": 100 + index,
@@ -310,8 +317,8 @@ def _fake_run(outcome: str, *, mismatch: bool = False, incomplete: bool = False,
                     "expected_model": model, "actual_model": actual,
                     "identity_valid": actual == model,
                     "root_models": [actual], "child_models": [],
-                    "billed_models": [actual, "claude-haiku-4-5-20251001"],
-                    "auxiliary_billed_models": ["claude-haiku-4-5-20251001"],
+                    "billed_models": [actual, historical_haiku_id],
+                    "auxiliary_billed_models": [historical_haiku_id],
                 },
             }
             final = not (incomplete and index == 1)
@@ -361,8 +368,12 @@ def run_qualification(work: Path) -> dict:
         and success["usage"]["output_tokens"] == 18
         and success["usage"]["includes_descendants"] is True,
         "per_role_identity_proven": success["identity_valid"] is True
-        and success["served_models"] == ["claude-opus-5", "claude-sonnet-5"]
-        and "claude-haiku-4-5-20251001" in success["auxiliary_billed_models"],
+        and success["served_models"] == [
+            model_registry.resolve_cell("worker-opus-high")["cli_model"],
+            model_registry.resolve_cell("worker-sonnet-medium")["cli_model"],
+        ]
+        and model_registry.historical_provider_id("haiku")
+        in success["auxiliary_billed_models"],
         "report_guidance_and_technique_returned": "comparing with None" in success["guidance"]
         and success["winning_technique"] == "subtract",
         "mismatch_preserves_cost_and_rejects_identity": mismatch["terminal"] is True

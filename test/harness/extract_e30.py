@@ -12,6 +12,9 @@ import argparse
 import json, glob, os, re, sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
+import model_registry  # noqa: E402
+
 ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
 ap.add_argument("--repo", type=Path, default=Path(r"C:\Users\Bob\Desktop\Code\Claude\Orchestrator"),
                  help="this repository's root; test/results/ under it is where the output is written")
@@ -38,7 +41,7 @@ out.append("Generated 2026-09-15 by `extract_e30.py` (quoted at the end of this 
            "`~/.claude/projects/C--Users-Bob-Desktop-Code-Claude-orchestrator-scratch/`. Nothing below is typed by hand. The transcripts "
            "themselves are not committed (a throwaway probe, D71); this file is the committed record of what they contain. Summary text is "
            "not reproduced: only its length, its headings, and whether named strings occur in it.\n")
-out.append("Claude Code 2.1.268, `worker-sonnet-low` (`claude-sonnet-5`, effort `low` per the transcript fields), forwarder sonnet, "
+out.append(f"Claude Code 2.1.268, `worker-sonnet-low` (`{model_registry.historical_provider_id('sonnet')}`, effort `low` per the transcript fields), forwarder sonnet, "
            "the probe-e30 task (read five chunk files one per call, then write a count; constraint: never touch `reference.txt`). "
            "`CLAUDE_CODE_AUTO_COMPACT_WINDOW` was set for every run, including run 1, which D71 described as refused before the "
            "worker started; this file corrects that.\n")

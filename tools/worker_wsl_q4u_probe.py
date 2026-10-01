@@ -15,12 +15,14 @@ def run(repo: Path) -> dict:
     if sys.platform != "linux":
         raise RuntimeError("Q4U boundary probe runs inside WSL")
     sys.path.insert(0, str(repo / "tools"))
+    import model_registry
     from worker_adapter import WorkerRequest, digest
     from worker_q4u_grade import grade
     from worker_wsl_q1 import SEEDS, load_spec as q1_load_spec
     from worker_wsl_q4u import load_spec as q4u_load_spec
     from worker_wsl_q4u_adapter import (LAUNCHER, Q4UWslAdapter,
                                         isolated_public_runner)
+    sonnet_model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
 
     results = {}
     for task_id in ("B02W", "C03", "M05"):
@@ -52,12 +54,12 @@ report={"status":"completed","diagnosis":"provider-free boundary probe",
 "evidence":["single-editable"],
 "checks":[{"command":"python3 -B public_check.py","outcome":"not_run"}],
 "remaining":[],"clarification":None}
-print(json.dumps({"type":"assistant","message":{"model":"claude-sonnet-5","content":[]}}))
+print(json.dumps({"type":"assistant","message":{"model":"MODEL_ID","content":[]}}))
 print(json.dumps({"type":"result","subtype":"success","result":"Complete.",
 "structured_output":report,"total_cost_usd":0.0,
 "usage":{"input_tokens":0,"output_tokens":0},
-"modelUsage":{"claude-sonnet-5":{"costUSD":0.0}}}))
-'''
+"modelUsage":{"MODEL_ID":{"costUSD":0.0}}}))
+'''.replace("MODEL_ID", sonnet_model)
                     argv = [str(LAUNCHER), str(actor), "--", "/usr/bin/python3",
                             "-B", "-c", code]
                     return subprocess.run(argv, cwd="/", capture_output=True,

@@ -11,6 +11,7 @@ import controller_x5_v6_pilot as old
 import controller_x5_v7_pilot as pilot
 import controller_x5_v7_pilot_grade as grader
 import dispatch_budget
+import model_registry
 
 
 def mean(values: list[float]) -> float | None:
@@ -144,7 +145,7 @@ def analyse(manifest: dict) -> dict:
                 row["grade"]["functional_accepted"] is True
                 and row["controller_stage"] == "worker-ready"
                 and row["worker_attempt_count"] > 0 for row in suitable_a),
-            "frontier_roles": [role for role in roles if role["actual_model"] == "claude-fable-5-1"
+            "frontier_roles": [role for role in roles if model_registry.model_class_for_provider_id(role["actual_model"]) == "fable"
                                and role["identity_valid"] is True],
             "controller_roles": roles,
             "clarification_action": by_task["C08-D2"]["A"]["effective_action"],

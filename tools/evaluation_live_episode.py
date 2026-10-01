@@ -36,8 +36,8 @@ import realworld  # noqa: E402
 import validate_records  # noqa: E402
 from dispatch_budget import BudgetError, DispatchBudget  # noqa: E402
 
-DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-09-17-live-episode-integration.json"
-DEFAULT_REPORT = ROOT / "test" / "results" / "2026-09-17-live-episode-integration.md"
+DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-10-01-live-episode-integration.json"
+DEFAULT_REPORT = ROOT / "test" / "results" / "2026-10-01-live-episode-integration.md"
 EPISODE_BUDGET_USD = 4.0
 MAX_ACTIONS = 6
 LOGICAL_TIME = "2026-09-17T00:00:00+00:00"
@@ -668,8 +668,8 @@ class ScriptedController:
             "effort_evidence": "scripted-controller", "controller_outcome": outcome,
             "guidance": "Preserve explicit falsey values by testing against None.",
             "controller_run_dir": f"{request.invocation_id}/runs/controller",
-            "winning_technique": "subtract", "served_models": ["claude-sonnet-5"],
-            "billed_models": ["claude-sonnet-5"], "auxiliary_billed_models": [],
+            "winning_technique": "subtract", "served_models": ["sonnet"],
+            "billed_models": ["sonnet"], "auxiliary_billed_models": [],
             "inner_accounting": {"complete": True, "known_spend_usd": 0.10,
                                  "reserved_usd": 0.0, "unresolved": [], "calls": 1},
             "started_at": LOGICAL_TIME, "finished_at": LOGICAL_TIME, "wall_clock_s": 0.2,

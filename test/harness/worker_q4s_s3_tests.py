@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_q4s_admission as journal  # noqa: E402
 import worker_q4s_canary_live as canary  # noqa: E402
+import model_registry  # noqa: E402
 from worker_adapter import digest  # noqa: E402
 from worker_q4r_structured import report_schema  # noqa: E402
 
@@ -25,7 +26,7 @@ class Q4SS3Tests(unittest.TestCase):
 
     def episode(self, *, eligible: bool = True, amount: float = 0.5) -> dict:
         cell = canary.CELLS[0]
-        model = "claude-sonnet-5"
+        model = model_registry.resolve_cell(cell)["cli_model"]
         actor = self.parent["canary"]
         return {
             "task_id": "Q4S-CANARY", "episode_label": cell,
@@ -85,7 +86,8 @@ class Q4SS3Tests(unittest.TestCase):
         overrun = self.episode(eligible=False, amount=3.01)
         canary.validate_episode(overrun, canary.CELLS[0], self.parent, self.stage)
         forged = self.episode(eligible=True)
-        forged["receipt"]["root_models"] = ["claude-opus-5"]
+        forged["receipt"]["root_models"] = [model_registry.resolve_cell(
+            "worker-opus-high")["cli_model"]]
         with self.assertRaises(canary.CanaryError):
             canary.validate_episode(forged, canary.CELLS[0], self.parent,
                                     self.stage)

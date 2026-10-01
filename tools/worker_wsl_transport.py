@@ -398,15 +398,16 @@ class WslWorkerAdapter(WorkerAdapter):
                 "cancellation_supported": True, "max_child_depth": 0,
                 "max_child_concurrency": 0}
         # These are local admission claims, not a guarantee that provider
-        # billing cannot overrun one in-flight CLI call. Unverified registry
-        # cells remain unavailable to the automatic selector.
+        # billing cannot overrun one in-flight CLI call. Account-served model
+        # identity is tracked separately from a configured registry route.
         registry = model_registry.load()
         screen_cells, screen_sha = screen_observed_cells() if self.host.subscription else (set(), None)
         supported = []
         for name in registry["cells"]:
             cell = model_registry.resolve_cell(name, registry)
             if (cell["direct_worker"] and
-                    (cell["availability"]["status"] == "observed" or name in screen_cells)):
+                    (cell["availability"]["status"] in {"configured", "observed"}
+                     or name in screen_cells)):
                 supported.append(name)
         result["supported_cells"] = sorted(supported)
         result["budget_enforced"] = True

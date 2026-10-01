@@ -47,7 +47,7 @@ def check_workers() -> dict:
     except (json.JSONDecodeError, KeyError, TypeError):
         return {"status": "FAIL", "detail": f"worker generator failed: {(proc.stdout + proc.stderr)[-500:]}"}
     return {"status": "PASS" if not drift else "FAIL",
-            "detail": "15 generated definitions match" if not drift else f"drifted={drift}"}
+            "detail": "all registry-defined worker definitions match" if not drift else f"drifted={drift}"}
 
 
 def check_sensitive_material() -> dict:

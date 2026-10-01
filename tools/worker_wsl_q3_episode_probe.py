@@ -14,6 +14,7 @@ from pathlib import Path
 
 def run(repo: Path) -> dict:
     sys.path.insert(0, str(repo / "tools"))
+    import model_registry
     from task_executor import TaskExecutor
     from worker_adapter import WorkerRequest
     from worker_wsl_q3_adapter import LAUNCHER, Q3WslAdapter, isolated_public_runner, sha
@@ -32,10 +33,11 @@ def run(repo: Path) -> dict:
             # Only the provider-free test overrides the paid call. The clean
             # upstream bytes stand in for a worker's two-file repair.
             encoded = json.dumps(payload, sort_keys=True)
+            model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
             code = ("import base64,json; from pathlib import Path; "
                     f"data=json.loads({json.dumps(encoded)}); "
                     "[Path(p).write_bytes(base64.b64decode(v)) for p,v in data.items()]; "
-                    "print(json.dumps({'type':'assistant','message':{'model':'claude-sonnet-5'}})); "
+                    f"print(json.dumps({{'type':'assistant','message':{{'model':'{model}'}}}})); "
                     "print(json.dumps({'type':'result','subtype':'success',"
                     "'total_cost_usd':0.0,'usage':{'input_tokens':0,'output_tokens':0}}))")
             argv = [str(LAUNCHER), str(actor), "--", "/usr/bin/python3", "-B", "-c", code]

@@ -80,8 +80,9 @@ def validate_receipt(row: dict, receipt: dict) -> None:
                 or not attempt.get("q1_record_sha256")
                 or not attempt.get("q1_spec_sha256")
                 or attempt.get("requested_cell") != row["ladder"][index]
-                or attempt.get("actual_model") != model_registry.resolve_cell(
-                    row["ladder"][index])["cli_model"]
+                or model_registry.model_class_for_provider_id(
+                    attempt.get("actual_model")) != model_registry.resolve_cell(
+                        row["ladder"][index])["model"]
                 or attempt.get("requested_effort") !=
                     ("high" if index == 2 else "low")
                 or type(attempt.get("cost_usd")) not in (int, float)

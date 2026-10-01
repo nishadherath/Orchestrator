@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import controller_evaluation  # noqa: E402
 import controller_workflow  # noqa: E402
+import model_registry  # noqa: E402
 import controller_x3_manifest  # noqa: E402
 import evaluation_runner  # noqa: E402
 from test.harness.controller_routing_r4_tests import FakeAdapter as FakeController  # noqa: E402
@@ -46,7 +47,8 @@ def _episode(row: dict, run_root: Path, assessment_charge_usd: float) -> dict:
         packets.append(packet)
         response = interpret_public(packet)
         response["telemetry"] = {
-            "provider_calls": 1, "model": "claude-sonnet-5",
+            "provider_calls": 1, "model": model_registry.resolve_cell(
+                "worker-sonnet-low")["cli_model"],
             "cost_usd": assessment_charge_usd,
             "input_tokens": 100, "output_tokens": 20,
         }

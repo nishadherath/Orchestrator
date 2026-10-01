@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from worker_adapter import WorkerRequest  # noqa: E402
+import model_registry  # noqa: E402
 from worker_q4t_policy import settled_stop_reason  # noqa: E402
 from worker_q4t_structured import Q4TStructuredWorkerAdapter  # noqa: E402
 from worker_q4r_structured import schema_argument  # noqa: E402
@@ -43,7 +44,7 @@ class Q4TTransportTests(unittest.TestCase):
 
     def receipt(self, *, subtype: str, structured: dict | None,
                 returncode: int) -> dict:
-        model = "claude-sonnet-5"
+        model = model_registry.resolve_cell("worker-sonnet-medium")["cli_model"]
         final = {"type": "result", "subtype": subtype,
                  "total_cost_usd": 0.2, "num_turns": 14,
                  "usage": {"input_tokens": 10, "output_tokens": 20},

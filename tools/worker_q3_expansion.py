@@ -132,9 +132,10 @@ def build_manifest(date_utc: str, notice_sha256: str) -> dict:
     evidence = canary.current_evidence()
     if (route.plan("structured", "medium", "contained")["execution_ladder"]
             != canary.LADDER
-            or [model_registry.resolve_cell(cell)["cli_model"] for cell in
-                ("worker-sonnet-low", "worker-opus-high")]
-            != ["claude-sonnet-5", "claude-opus-5"]):
+            or [model_registry.model_class_for_provider_id(
+                    model_registry.resolve_cell(cell)["cli_model"])
+                for cell in ("worker-sonnet-low", "worker-opus-high")]
+            != ["sonnet", "opus"]):
         raise ExpansionError("B0 ladder or pinned model identities changed")
     value = {"schema_version": 1, "profile": "worker-q3-six-family-b0-expansion",
              "date_utc": date_utc,

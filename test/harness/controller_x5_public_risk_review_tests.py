@@ -16,6 +16,7 @@ import controller_evaluation  # noqa: E402
 import controller_public_assessment  # noqa: E402
 import controller_x5_first_failure as boundary  # noqa: E402
 import controller_x5_public_risk_review as review  # noqa: E402
+import model_registry  # noqa: E402
 from task_executor import TaskExecutor  # noqa: E402
 
 
@@ -40,7 +41,8 @@ class FakeWorker:
                 "decision_digest": request.decision_digest,
                 "intent_digest": request.intent_digest,
                 "requested_cell": request.requested_cell,
-                "actual_model": "claude-sonnet-5", "identity_valid": True,
+                "actual_model": model_registry.resolve_cell(
+                    request.requested_cell)["cli_model"], "identity_valid": True,
                 "child_models": [], "status": "completed", "terminal": True,
                 "writer_stopped": True, "cost_usd": 0.1,
                 "usage": {"cost_usd": 0.1, "cost_source": "provider_reported",

@@ -48,7 +48,7 @@ DIST = REPO_ROOT / "dist"
 
 # tools/ is put on sys.path so `cells` resolves when this file runs as a script.
 sys.path.insert(0, str(REPO_ROOT / "tools"))
-from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
+from cells import CELL_SPECS, EFFORTS, MODEL_CLASSES, MODELS  # noqa: E402 (path must be set first)
 from route import _atomic_write_bytes  # noqa: E402
 
 SENSITIVITY = ("mechanical", "structured", "open")
@@ -148,32 +148,37 @@ def check_definitions(r: Report) -> dict[str, dict[str, str]]:
         except (AssertionError, ValueError) as exc:
             problems.append(f"{path.name}: {exc}")
             continue
-        expected_name = f"worker-{fm.get('model')}-{fm.get('effort')}"
-        expected_file = f"WORKER_{fm.get('model')}_{fm.get('effort')}.md"
+        model = fm.get("model")
+        effort = fm.get("effort")
+        suffix = effort or "default"
+        expected_name = f"worker-{model}-{suffix}"
+        expected_file = f"WORKER_{model}_{suffix}.md"
         if fm.get("name") != expected_name:
             problems.append(f"{path.name}: name {fm.get('name')!r} != {expected_name!r}")
         if path.name != expected_file:
             problems.append(f"{path.name}: filename does not match {expected_file}")
-        if fm.get("model") not in MODELS:
-            problems.append(f"{path.name}: model {fm.get('model')!r} outside {MODELS}")
-        if fm.get("effort") not in EFFORTS:
-            problems.append(f"{path.name}: effort {fm.get('effort')!r} outside {EFFORTS}")
+        if model not in MODEL_CLASSES:
+            problems.append(f"{path.name}: model {model!r} outside {MODEL_CLASSES}")
+        if model in MODELS and effort not in EFFORTS:
+            problems.append(f"{path.name}: effort {effort!r} outside {EFFORTS}")
+        if model == "haiku" and effort is not None:
+            problems.append(f"{path.name}: Haiku must omit effort to use provider default")
         if not fm.get("description"):
             problems.append(f"{path.name}: empty description")
         defs[fm.get("name", path.name)] = fm
-    expected = {f"worker-{m}-{e}" for m in MODELS for e in EFFORTS}
+    expected = {name for name, _, _ in CELL_SPECS}
     missing = expected - set(defs)
     extra = set(defs) - expected
     if missing:
         problems.append(f"missing cells: {sorted(missing)}")
     if extra:
         problems.append(f"cells outside the matrix: {sorted(extra)}")
-    r.add("DEF", "15 definitions parse and match the 3x5 matrix", not problems,
+    r.add("DEF", "registry-defined worker cells parse and match their class/effort", not problems,
           f"{len(files)} files" if not problems else "; ".join(problems))
-    r.add("INV5", "Invariant 5: no haiku cell", all(d.get("model") != "haiku" for d in defs.values()),
-          "no definition sets model: haiku. The original justification (haiku lacks effort levels) was "
-          "disproved empirically 2026-09-05 (FINDINGS.md); the exclusion itself is a decision, not a gap "
-          "(DECISIONS.md D5, 2026-09-05).")
+    haiku = defs.get("worker-haiku-default", {})
+    r.add("INV5", "Haiku route omits effort and uses provider default",
+          haiku.get("model") == "haiku" and "effort" not in haiku,
+          "worker-haiku-default must select class haiku without an effort override")
     return defs
 
 
@@ -491,14 +496,14 @@ def check_available_models(r: Report) -> None:
             continue
         found.append(str(path))
         allow_text = json.dumps(allow).lower()
-        for model in MODELS:
+        for model in MODEL_CLASSES:
             if model not in allow_text:
                 blocked.append(f"{path}: availableModels does not mention {model}")
     if not found and not blocked:
-        r.add("INV6", "Invariant 6: availableModels permits all three models", True,
+        r.add("INV6", "Invariant 6: availableModels permits all four model classes", True,
               f"no availableModels allowlist in {[str(c) for c in candidates if c.exists()] or 'any checked settings file'}; substitution cannot occur from these files. Managed enterprise settings are not checked here")
     else:
-        r.add("INV6", "Invariant 6: availableModels permits all three models", not blocked,
+        r.add("INV6", "Invariant 6: availableModels permits all four model classes", not blocked,
               f"allowlist in {found}" if not blocked else "; ".join(blocked))
 
 
@@ -752,12 +757,12 @@ def check_controller_integrity_r1(r: Report) -> None:
 
 
 def check_model_registry_r2(r: Report) -> None:
-    """CTRL-R2: all fifteen cells and role profiles resolve offline."""
+    """CTRL-R2: registry cells and role profiles resolve offline."""
     tests = REPO_ROOT / "test" / "harness" / "model_registry_tests.py"
     proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
                           capture_output=True, text=True, timeout=90)
     detail = (proc.stdout + proc.stderr).strip()
-    r.add("CTRL-R2", "all 15 cells resolve with exact identity and unknown-cost handling",
+    r.add("CTRL-R2", "all 16 cells resolve with exact identity and unknown-cost handling",
           proc.returncode == 0,
           detail.splitlines()[-1] if proc.returncode == 0 else detail[-1600:])
 
@@ -1350,7 +1355,7 @@ def check_realworld_foundation(r: Report) -> None:
 def check_evaluation_runner(r: Report) -> None:
     """EPISODE: checkpoint, replay, accounting and failure-path regression."""
     tests = REPO_ROOT / "test" / "harness" / "evaluation_runner_tests.py"
-    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-realworld-runner.json"
+    evidence = REPO_ROOT / "test" / "results" / "2026-10-01-realworld-runner.json"
     runner = REPO_ROOT / "tools" / "evaluation_runner.py"
     test_proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
                                capture_output=True, text=True, timeout=90)
@@ -1390,7 +1395,7 @@ def check_live_calibration(r: Report) -> None:
 def check_live_worker_adapter(r: Report) -> None:
     """LIVE-WORKER: restricted command, attribution and failure paths pass."""
     tests = REPO_ROOT / "test" / "harness" / "evaluation_live_worker_tests.py"
-    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.json"
+    evidence = REPO_ROOT / "test" / "results" / "2026-10-01-live-worker-adapter.json"
     adapter = REPO_ROOT / "tools" / "evaluation_live_worker.py"
     test_result = subprocess.run(
         [sys.executable, str(tests)], cwd=REPO_ROOT,
@@ -1409,7 +1414,7 @@ def check_live_worker_adapter(r: Report) -> None:
 def check_live_controller_adapter(r: Report) -> None:
     """LIVE-CONTROLLER: nested accounting, identity and isolation pass."""
     tests = REPO_ROOT / "test" / "harness" / "evaluation_live_controller_tests.py"
-    evidence = REPO_ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.json"
+    evidence = REPO_ROOT / "test" / "results" / "2026-10-01-live-controller-adapter.json"
     adapter = REPO_ROOT / "tools" / "evaluation_live_controller.py"
     test_result = subprocess.run(
         [sys.executable, str(tests)], cwd=REPO_ROOT,
@@ -1429,7 +1434,7 @@ def check_live_controller_adapter(r: Report) -> None:
 def check_live_episode_integration(r: Report) -> None:
     """LIVE-EPISODE: policy ordering and at-most-once recovery pass."""
     tests = REPO_ROOT / "test" / "harness" / "evaluation_live_episode_tests.py"
-    evidence = REPO_ROOT / "test" / "results" / "2026-09-17-live-episode-integration.json"
+    evidence = REPO_ROOT / "test" / "results" / "2026-10-01-live-episode-integration.json"
     runner = REPO_ROOT / "tools" / "evaluation_live_episode.py"
     test_result = subprocess.run(
         [sys.executable, str(tests)], cwd=REPO_ROOT,

@@ -28,6 +28,7 @@ import controller_workflow
 import controller_x5_h03_risk
 import controller_x5_v6_screen as screen
 import controller_x5_v7_pilot as v7
+import model_registry
 import controller_x5_public_risk_review as review
 import dispatch_budget
 import task_executor
@@ -362,7 +363,8 @@ def accepted_producer(state: dict) -> bool:
             and receipt.get("terminal") is True
             and receipt.get("writer_stopped") is True
             and receipt.get("identity_valid") is True
-            and receipt.get("actual_model") == "claude-sonnet-5"
+            and model_registry.model_class_for_provider_id(
+                receipt.get("actual_model")) == "sonnet"
             and receipt.get("cost_usd") == state["budget"]["spent_usd"]
             and verification.get("status") == "pass")
 
@@ -556,7 +558,8 @@ def settled_result(row: dict, arm: str, state: dict, grade: dict | None,
         (attempt.get("receipt") or {}).get("identity_valid") is True
         and (attempt.get("receipt") or {}).get("terminal") is True
         and (attempt.get("receipt") or {}).get("writer_stopped") is True
-        and (attempt.get("receipt") or {}).get("actual_model") == "claude-sonnet-5"
+        and model_registry.model_class_for_provider_id(
+            (attempt.get("receipt") or {}).get("actual_model")) == "sonnet"
         and (attempt.get("process_state") == "terminal")
         for attempt in attempts)
     protected_stable = all(

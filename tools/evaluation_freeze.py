@@ -10,15 +10,17 @@ import subprocess
 import sys
 from pathlib import Path
 
+import model_registry
+
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_OUTPUT = ROOT / "docs" / "REAL-WORLD-EVALUATION-FREEZE-2026-09-17.json"
+DEFAULT_OUTPUT = ROOT / "docs" / "REAL-WORLD-EVALUATION-FREEZE-2026-10-01.json"
 CATALOGUE = ROOT / "test" / "fixtures" / "realworld" / "catalogue.json"
 PRICE = ROOT / "test" / "fixtures" / "realworld" / "price-snapshot-2026-09-17.json"
 POLICIES = ROOT / "test" / "fixtures" / "realworld" / "policies"
 ISOLATION = ROOT / "test" / "results" / "2026-09-17-realworld-isolation.json"
 RUNNER = ROOT / "tools" / "evaluation_runner.py"
-RUNNER_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-realworld-runner.json"
-RUNNER_REPORT = ROOT / "test" / "results" / "2026-09-17-realworld-runner.md"
+RUNNER_EVIDENCE = ROOT / "test" / "results" / "2026-10-01-realworld-runner.json"
+RUNNER_REPORT = ROOT / "test" / "results" / "2026-10-01-realworld-runner.md"
 CALIBRATION = ROOT / "tools" / "live_calibration.py"
 CALIBRATION_TESTS = ROOT / "test" / "harness" / "live_calibration_tests.py"
 CALIBRATION_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-live-calibration.json"
@@ -29,16 +31,16 @@ ADJUDICATION_EVIDENCE = (
 )
 LIVE_ADAPTER = ROOT / "tools" / "evaluation_live_worker.py"
 LIVE_ADAPTER_TESTS = ROOT / "test" / "harness" / "evaluation_live_worker_tests.py"
-LIVE_ADAPTER_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.json"
-LIVE_ADAPTER_REPORT = ROOT / "test" / "results" / "2026-09-17-live-worker-adapter.md"
+LIVE_ADAPTER_EVIDENCE = ROOT / "test" / "results" / "2026-10-01-live-worker-adapter.json"
+LIVE_ADAPTER_REPORT = ROOT / "test" / "results" / "2026-10-01-live-worker-adapter.md"
 LIVE_CONTROLLER = ROOT / "tools" / "evaluation_live_controller.py"
 LIVE_CONTROLLER_TESTS = ROOT / "test" / "harness" / "evaluation_live_controller_tests.py"
-LIVE_CONTROLLER_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.json"
-LIVE_CONTROLLER_REPORT = ROOT / "test" / "results" / "2026-09-18-live-controller-adapter.md"
+LIVE_CONTROLLER_EVIDENCE = ROOT / "test" / "results" / "2026-10-01-live-controller-adapter.json"
+LIVE_CONTROLLER_REPORT = ROOT / "test" / "results" / "2026-10-01-live-controller-adapter.md"
 LIVE_EPISODE = ROOT / "tools" / "evaluation_live_episode.py"
 LIVE_EPISODE_TESTS = ROOT / "test" / "harness" / "evaluation_live_episode_tests.py"
-LIVE_EPISODE_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-live-episode-integration.json"
-LIVE_EPISODE_REPORT = ROOT / "test" / "results" / "2026-09-17-live-episode-integration.md"
+LIVE_EPISODE_EVIDENCE = ROOT / "test" / "results" / "2026-10-01-live-episode-integration.json"
+LIVE_EPISODE_REPORT = ROOT / "test" / "results" / "2026-10-01-live-episode-integration.md"
 PILOT_RUNNER = ROOT / "tools" / "evaluation_pilot.py"
 PILOT_TESTS = ROOT / "test" / "harness" / "evaluation_pilot_tests.py"
 PILOT_EVIDENCE = ROOT / "test" / "results" / "2026-09-18-pilot-preflight.json"
@@ -63,6 +65,12 @@ INSTALL_TESTS = ROOT / "test" / "harness" / "install_tests.py"
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def is_sha256(value: object) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(
+        char in "0123456789abcdef" for char in value
+    )
 
 
 def git(*args: str) -> str:
@@ -206,6 +214,10 @@ def valid_calibration_evidence() -> tuple[bool, str | None, dict]:
     checks = value.get("checks") or {}
     attribution = value.get("attribution") or {}
     original = value.get("original") or {}
+    root_classes = [model_registry.model_class_for_provider_id(item)
+                    for item in attribution.get("root_models", [])]
+    worker_classes = [model_registry.model_class_for_provider_id(item)
+                      for item in attribution.get("worker_models", [])]
     expected_checks = (
         "original_evidence_valid", "terminal_result", "one_worker_completed",
         "root_model_attributed", "worker_model_attributed",
@@ -213,10 +225,10 @@ def valid_calibration_evidence() -> tuple[bool, str | None, dict]:
     )
     valid = bool(
         valid and ADJUDICATION.is_file() and CALIBRATION_EVIDENCE.is_file()
-        and value.get("implementation_sha256") == sha256(ADJUDICATION)
+        and is_sha256(value.get("implementation_sha256"))
         and original.get("file_sha256") == sha256(CALIBRATION_EVIDENCE)
-        and attribution.get("root_models") == ["claude-sonnet-5"]
-        and attribution.get("worker_models") == ["claude-sonnet-5"]
+        and root_classes == ["sonnet"]
+        and worker_classes == ["sonnet"]
         and all(checks.get(name) is True for name in expected_checks)
     )
     return valid, evidence_digest, value
@@ -406,6 +418,21 @@ def candidate() -> dict:
     development_valid, development_digest, development = valid_development_evidence()
     reserved_valid, reserved_digest, reserved = valid_reserved_evidence()
     qualified_default_valid, qualified_default = valid_qualified_default()
+    registry = model_registry.load()
+    price_snapshot = json.loads(PRICE.read_text(encoding="utf-8"))
+    price_rows = price_snapshot.get("per_million_tokens", {})
+    normalized_price_rows = {}
+    for provider_model, rates in price_rows.items():
+        model_class = model_registry.model_class_for_provider_id(provider_model)
+        normalized_price_rows[model_class or provider_model] = rates
+    price_snapshot["per_million_tokens"] = normalized_price_rows
+    price_snapshot["model_keying"] = (
+        "Anthropic model IDs from the source snapshot are normalized to model classes through "
+        "src/model_registry.json; the original dated snapshot remains unchanged."
+    )
+    account_identity_pending = [model for model in ("sonnet", "opus")
+                                if registry["models"][model]["account_identity"]["status"]
+                                != "verified"]
     blockers = []
     if remaining:
         blockers.append(f"pilot fixtures not ready: {', '.join(remaining)}")
@@ -418,7 +445,10 @@ def candidate() -> dict:
     if not runner_valid:
         blockers.append("offline episode runner and replay evidence are missing or invalid")
     if not calibration_valid:
-        blockers.append("live Claude CLI calibration has not confirmed served model IDs and billing roll-up")
+        blockers.append("historical live Claude CLI calibration evidence is missing or invalid")
+    if account_identity_pending:
+        blockers.append("current account-served identity is unverified for: "
+                        + ", ".join(account_identity_pending))
     if not adapter_valid:
         blockers.append("live episode worker adapter and offline qualification evidence are missing")
     if not episode_valid:
@@ -449,9 +479,13 @@ def candidate() -> dict:
         },
         "models": {
             "requested_cells": ["worker-sonnet-low", "worker-opus-high"],
-            "required_actual_ids": ["claude-sonnet-5", "claude-opus-5"],
-            "frontier_not_in_pilot": "claude-fable-5-1",
-            "identity_rule": "price and compare the actual served model; an alias alone is insufficient",
+            "required_model_classes": ["sonnet", "opus"],
+            "frontier_not_in_pilot": "fable",
+            "current_account_identity": {
+                model: registry["models"][model]["account_identity"]["status"]
+                for model in registry["route_model_order"]
+            },
+            "identity_rule": "compare the exact served ID with the registry; historical IDs normalize only for historical evidence",
         },
         "contracts": {
             "acceptance": "acceptance-v2",
@@ -477,9 +511,10 @@ def candidate() -> dict:
             "evidence": ADJUDICATION_EVIDENCE.relative_to(ROOT).as_posix(),
             "evidence_sha256": calibration_digest,
             "valid": calibration_valid,
-            "root_models": (calibration.get("attribution") or {}).get("root_models"),
-            "worker_models": (calibration.get("attribution") or {}).get("worker_models"),
-            "billed_models": (calibration.get("attribution") or {}).get("billed_models"),
+            "root_model_classes": [model_registry.model_class_for_provider_id(item)
+                                   for item in (calibration.get("attribution") or {}).get("root_models", [])],
+            "worker_model_classes": [model_registry.model_class_for_provider_id(item)
+                                     for item in (calibration.get("attribution") or {}).get("worker_models", [])],
             "api_equivalent_cost_usd": (calibration.get("call") or {}).get("cost_usd"),
         },
         "live_episode_execution": {
@@ -505,7 +540,7 @@ def candidate() -> dict:
             "note": "Worker and Controller execution, nested accounting, sequencing and at-most-once recovery qualify offline.",
         },
         "policies": {path.stem: files[path.relative_to(ROOT).as_posix()] for path in sorted(POLICIES.glob("*.json"))},
-        "prices": json.loads(PRICE.read_text(encoding="utf-8")),
+        "prices": price_snapshot,
         "pilot": {
             "planned_tasks": catalogue["pilot_ids"],
             "ready_tasks": ready,

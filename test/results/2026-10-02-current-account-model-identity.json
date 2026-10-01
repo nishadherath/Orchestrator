@@ -1,0 +1,77 @@
+{
+  "account": {
+    "auth_method": "claude.ai",
+    "scope": "authenticated operator account on this host",
+    "subscription_type": "max"
+  },
+  "actual_invoice_cost_usd": null,
+  "api_equivalent_cost_usd": {
+    "failed_attempts": 0.001925,
+    "successful_probes": 2.109474,
+    "total_reported": 2.111399
+  },
+  "checked_on": "2026-10-02",
+  "claude_code_version": "2.1.287",
+  "cost_note": "Claude Code auth status reports Claude.ai Max, not API-key billing. total_cost_usd is reported API-equivalent usage; no invoice charge was returned. The earlier USD 0.20/call and USD 0.40 total planning cap was not enforceable by this subscription CLI and was exceeded. Unknown invoice cost is not zero.",
+  "decision": "Both exact provider IDs were observed in successful assistant.message.model stream metadata; account identity is verified for this account as of checked_on only.",
+  "initial_failed_attempts": [
+    {
+      "cli_version": "2.1.273",
+      "cost_usd_api_equivalent": 0.0,
+      "model_class": "sonnet",
+      "result": "synthetic transport error under sandbox; no provider usage"
+    },
+    {
+      "cli_version": "2.1.273",
+      "cost_usd_api_equivalent": 0.001925,
+      "model_class": "opus",
+      "result": "client rejected model; requires 2.1.280 or newer"
+    }
+  ],
+  "probe_contract": {
+    "input": "synthetic fixed-token probe only",
+    "project_data_sent": false,
+    "tools_enabled": false,
+    "turns": 1
+  },
+  "probes": [
+    {
+      "cost_usd_api_equivalent": 1.19727,
+      "effort": "low",
+      "identity_source": "assistant.message.model",
+      "model_class": "sonnet",
+      "requested_provider_id": "claude-sonnet-5-5",
+      "result": "success",
+      "served_provider_id": "claude-sonnet-5-5",
+      "usage": {
+        "cache_creation_input_tokens": 119612,
+        "cache_read_input_tokens": 0,
+        "ephemeral_1h_cache_creation_input_tokens": 119612,
+        "input_tokens": 2,
+        "output_tokens": 7
+      }
+    },
+    {
+      "cost_usd_api_equivalent": 0.912204,
+      "effort": "high",
+      "identity_source": "assistant.message.model",
+      "model_class": "opus",
+      "requested_provider_id": "claude-opus-5-5",
+      "result": "success",
+      "served_provider_id": "claude-opus-5-5",
+      "usage": {
+        "cache_creation_input_tokens": 114007,
+        "cache_read_input_tokens": 0,
+        "ephemeral_1h_cache_creation_input_tokens": 114007,
+        "input_tokens": 2,
+        "output_tokens": 7
+      }
+    }
+  ],
+  "schema_version": 1,
+  "vendor_identity_sources": {
+    "lifecycle": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+    "opus": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+    "sonnet": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview"
+  }
+}

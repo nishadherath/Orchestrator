@@ -5757,3 +5757,26 @@ authorisation prevents a reviewed budget from silently applying to changed
 code or fixtures. Durable admission and no replay preserve spend integrity
 across crashes, and separating requested from observed properties avoids
 claiming provider evidence the interface does not supply.
+## D118. Centralise current model identities and route Haiku at provider default, 2026-10-01
+
+Decision: `src/model_registry.json` is the sole source of current provider model
+IDs. Runtime routes, generated worker definitions, documentation and tests use
+model classes and registry cell names. The registry records published model
+identity verification separately from account-served identity; the latter
+remains unverified until a live response confirms it. Sonnet 5.5 and Opus 5.5
+are marked vendor-verified against Anthropic's published model list.
+
+The registry includes one explicit `worker-haiku-default` cell. Its CLI command
+omits `--effort`; the provider's default applies. This cell is not part of the
+automatic routing prior or any live-quality claim. This supersedes D5's
+permanent exclusion of Haiku from the worker matrix.
+
+Preserve historical receipts and their exact observed provider IDs. The
+registry maps historical IDs to model classes for derived comparisons; it must
+not rewrite the original evidence or its hashes. The offline checked build
+validates routing and bundle integrity without treating historical model
+qualification as proof of account-served identity for the current IDs.
+
+Why: a single registry prevents current IDs from drifting across call sites,
+while the separate account status and immutable receipts keep vendor
+documentation, live observation and historical evidence distinct.

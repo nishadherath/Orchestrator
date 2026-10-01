@@ -33,8 +33,8 @@ SCHEMA_VERSION = 1
 QUALIFICATION_MODE = "offline-fake-worker-v1"
 EPISODE_BUDGET_USD = 4.0
 ISOLATION = ROOT / "test" / "results" / "2026-09-17-realworld-isolation.json"
-DEFAULT_EVIDENCE = ROOT / "test" / "results" / "2026-09-17-realworld-runner.json"
-DEFAULT_REPORT = ROOT / "test" / "results" / "2026-09-17-realworld-runner.md"
+DEFAULT_EVIDENCE = ROOT / "test" / "results" / "2026-10-01-realworld-runner.json"
+DEFAULT_REPORT = ROOT / "test" / "results" / "2026-10-01-realworld-runner.md"
 LOGICAL_START = "2026-09-17T00:00:00+00:00"
 LOGICAL_FINISH = "2026-09-17T00:00:01+00:00"
 
@@ -141,25 +141,33 @@ UNKNOWN_USAGE = {
 
 SCENARIOS = (
     EpisodeSpec("offline-001", "D01", "B0", "success", "reference",
-                "worker-sonnet-low", "claude-sonnet-5", 0.20, known_usage(0.20)),
+                "worker-sonnet-low", model_registry.resolve_cell(
+                    "worker-sonnet-low")["cli_model"], 0.20, known_usage(0.20)),
     EpisodeSpec("offline-002", "D03", "B1", "worker_failure", None,
-                "worker-opus-high", "claude-opus-5", 0.30, known_usage(0.30), "failed"),
+                "worker-opus-high", model_registry.resolve_cell(
+                    "worker-opus-high")["cli_model"], 0.30, known_usage(0.30), "failed"),
     EpisodeSpec("offline-003", "D05", "B2", "timeout", None,
-                "worker-sonnet-low", "claude-sonnet-5", None, UNKNOWN_USAGE, "interrupted"),
+                "worker-sonnet-low", model_registry.resolve_cell(
+                    "worker-sonnet-low")["cli_model"], None, UNKNOWN_USAGE, "interrupted"),
     EpisodeSpec("offline-004", "D07", "B0", "cancellation", None,
-                "worker-sonnet-low", "claude-sonnet-5", 0.05, known_usage(0.05), "cancelled"),
+                "worker-sonnet-low", model_registry.resolve_cell(
+                    "worker-sonnet-low")["cli_model"], 0.05, known_usage(0.05), "cancelled"),
     EpisodeSpec("offline-005", "D11", "B1", "interruption_resume", "reference",
-                "worker-opus-high", "claude-opus-5", 0.25, known_usage(0.25),
+                "worker-opus-high", model_registry.resolve_cell(
+                    "worker-opus-high")["cli_model"], 0.25, known_usage(0.25),
                 interrupt_after_commit=True),
     EpisodeSpec("offline-006", "D09", "B2", "identity_mismatch", "alternative",
                 "worker-sonnet-low", "claude-sonnet-latest", 0.15, known_usage(0.15)),
     EpisodeSpec("offline-007", "D08", "B0", "missing_usage", "reference",
-                "worker-sonnet-low", "claude-sonnet-5", None, UNKNOWN_USAGE),
+                "worker-sonnet-low", model_registry.resolve_cell(
+                    "worker-sonnet-low")["cli_model"], None, UNKNOWN_USAGE),
     EpisodeSpec("offline-008", "D10", "B1", "grader_failure", "reference",
-                "worker-opus-high", "claude-opus-5", 0.25, known_usage(0.25),
+                "worker-opus-high", model_registry.resolve_cell(
+                    "worker-opus-high")["cli_model"], 0.25, known_usage(0.25),
                 grader_failure=True),
     EpisodeSpec("offline-009", "D03", "B2", "wrong_solution", "wrong_contract",
-                "worker-sonnet-low", "claude-sonnet-5", 0.20, known_usage(0.20)),
+                "worker-sonnet-low", model_registry.resolve_cell(
+                    "worker-sonnet-low")["cli_model"], 0.20, known_usage(0.20)),
 )
 
 

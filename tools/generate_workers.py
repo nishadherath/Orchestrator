@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the fifteen worker definitions in src/agents/ from two sources.
+"""Generate registry-defined worker definitions in src/agents/ from two sources.
 
 Responsible for: turning src/WORKER_PERSONA.md (shared persona plus one
 optional section per cell) and the routing table in src/routing_table.json
@@ -7,9 +7,8 @@ optional section per cell) and the routing table in src/routing_table.json
 one Claude Code subagent definition per cell, with the persona inlined so a
 worker needs no file read at startup and no file in the consumer project.
 
-Deliberately does not: decide which cells exist (the matrix below is fixed by
-CLAUDE.md), touch dist/, or validate the routing table beyond what it needs
-to write a description. The harness (test/harness/check.py) does validation.
+Deliberately does not decide which cells exist. The model registry owns that
+set; this tool renders one agent per cell and does not touch dist/.
 
 The one non-obvious thing: a cell whose model-specific section is empty gets
 no cell heading at all, so the worker is told nothing about its own cell.
@@ -35,7 +34,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 # tools/ is put on sys.path so `cells` resolves regardless of how this file is
 # invoked: as a script, or loaded via importlib.util as check.py does.
 sys.path.insert(0, str(REPO_ROOT / "tools"))
-from cells import MODELS, EFFORTS  # noqa: E402 (path must be set first)
+from cells import CELL_SPECS  # noqa: E402 (path must be set first)
 
 PERSONA_PATH = REPO_ROOT / "src" / "WORKER_PERSONA.md"
 ROUTING_TABLE_PATH = REPO_ROOT / "src" / "routing_table.json"
@@ -48,12 +47,12 @@ GENERATED_MARKER = (
 MAX_DESCRIPTION_CHARS = 200
 
 
-def worker_name(model: str, effort: str) -> str:
-    return f"worker-{model}-{effort}"
+def worker_name(model: str, effort: str | None) -> str:
+    return f"worker-{model}-{effort or 'default'}"
 
 
-def file_name(model: str, effort: str) -> str:
-    return f"WORKER_{model}_{effort}.md"
+def file_name(model: str, effort: str | None) -> str:
+    return f"WORKER_{model}_{effort or 'default'}.md"
 
 
 def split_persona(text: str) -> tuple[str, dict[str, str]]:
@@ -114,8 +113,9 @@ def routing_assessments(table: dict) -> dict[str, list[str]]:
     return out
 
 
-def description(model: str, effort: str, assessments: list[str]) -> str:
-    head = f"{model.capitalize()} at {effort} effort."
+def description(model: str, effort: str | None, assessments: list[str]) -> str:
+    head = (f"{model.capitalize()} at {effort} effort." if effort
+            else f"{model.capitalize()} using provider-default effort.")
     if assessments:
         routed = "; ".join(a[0].lower() + a[1:] for a in assessments)
         body = f"Routed for: {routed}."
@@ -127,18 +127,20 @@ def description(model: str, effort: str, assessments: list[str]) -> str:
     return text
 
 
-def render(model: str, effort: str, general: str, cell_section: str, assessments: list[str]) -> str:
+def render(model: str, effort: str | None, general: str, cell_section: str,
+           assessments: list[str]) -> str:
     parts = [
         "---",
         f"name: {worker_name(model, effort)}",
         f"description: {description(model, effort, assessments)}",
         f"model: {model}",
-        f"effort: {effort}",
         "---",
         GENERATED_MARKER,
         "",
         general,
     ]
+    if effort:
+        parts.insert(4, f"effort: {effort}")
     if cell_section:
         parts += ["", f"## Cell guidance ({model}, {effort})", "", cell_section]
     return "\n".join(parts) + "\n"
@@ -164,30 +166,30 @@ def main(argv: list[str]) -> int:
 
     general, sections = split_persona(PERSONA_PATH.read_text(encoding="utf-8"))
     routed = routing_assessments(load_routing_table())
-    expected_cells = {f"{m}-{e}" for m in MODELS for e in EFFORTS}
+    expected_cells = {f"{m}-{e or 'default'}" for _, m, e in CELL_SPECS}
     unknown = set(sections) - expected_cells
     assert not unknown, f"{PERSONA_PATH}: sections for cells outside the matrix: {sorted(unknown)}"
-    unknown_routed = set(routed) - {worker_name(m, e) for m in MODELS for e in EFFORTS}
+    known_workers = {name for name, _, _ in CELL_SPECS}
+    unknown_routed = set(routed) - known_workers
     assert not unknown_routed, f"{ROUTING_TABLE_PATH}: table names workers outside the matrix: {sorted(unknown_routed)}"
 
     AGENTS_DIR.mkdir(parents=True, exist_ok=True)
     report: list[dict[str, str]] = []
     drift = 0
-    for model in MODELS:
-        for effort in EFFORTS:
-            name = worker_name(model, effort)
-            content = render(model, effort, general, sections.get(f"{model}-{effort}", ""), routed.get(name, []))
-            path = AGENTS_DIR / file_name(model, effort)
-            existing = path.read_text(encoding="utf-8") if path.exists() else None
-            if existing == content:
-                status = "unchanged"
-            elif args.check:
-                status = "differs" if existing is not None else "missing"
-                drift += 1
-            else:
-                write_atomic(path, content)
-                status = "wrote"
-            report.append({"file": str(path.relative_to(REPO_ROOT)), "status": status})
+    for name, model, effort in CELL_SPECS:
+        content = render(model, effort, general,
+                         sections.get(f"{model}-{effort or 'default'}", ""), routed.get(name, []))
+        path = AGENTS_DIR / file_name(model, effort)
+        existing = path.read_text(encoding="utf-8") if path.exists() else None
+        if existing == content:
+            status = "unchanged"
+        elif args.check:
+            status = "differs" if existing is not None else "missing"
+            drift += 1
+        else:
+            write_atomic(path, content)
+            status = "wrote"
+        report.append({"file": str(path.relative_to(REPO_ROOT)), "status": status})
 
     if args.json:
         print(json.dumps({"drift": drift, "files": report}, indent=2))

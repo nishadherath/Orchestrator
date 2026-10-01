@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
+import model_registry  # noqa: E402
 from worker_adapter import WorkerRequest  # noqa: E402
 from worker_q4r_structured import (StructuredEvaluationWorkerAdapter,
                                    report_schema, schema_argument)  # noqa: E402
@@ -45,7 +46,7 @@ class Q4RStructuredTests(unittest.TestCase):
             intent_digest="intent")
 
     def run_with(self, final: dict) -> dict:
-        model = "claude-sonnet-5"
+        model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
         events = [
             {"type": "assistant", "message": {"model": model, "content": []}},
             {"type": "result", "subtype": "success", "total_cost_usd": 0.1,

@@ -39,7 +39,7 @@ targeted search. Do not report them as measured monetary savings.
 - `.claude/settings.json` enables that named project server and permits only
   its six retrieval tools. It does not broadly allow future tools or servers.
 - `AGENTS.md` and `CLAUDE.md` make the rule persistent for project sessions.
-- `src/WORKER_PERSONA.md` places the rule inside all fifteen generated worker
+- `src/WORKER_PERSONA.md` places the rule inside all sixteen generated worker
   definitions. `src/System/ROLES.md` supplies it to all Controller role briefs.
 - The consumer template, lifecycle and settings fragment carry the same
   requirement into `dist/`. A consumer must register its own Graft server

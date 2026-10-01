@@ -1,6 +1,7 @@
 """Provider-free C1 checks for the source-bound Q4T canary and settlement."""
 from __future__ import annotations
 
+import datetime as dt
 import json
 import subprocess
 import sys
@@ -16,6 +17,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import worker_q4s_admission as journal  # noqa: E402
 import worker_q4t_canary_live as canary  # noqa: E402
 from worker_adapter import digest  # noqa: E402
+import model_registry  # noqa: E402
 from worker_quality_v2 import report_evidence  # noqa: E402
 
 
@@ -55,6 +57,7 @@ class Q4TCanaryTests(unittest.TestCase):
         diagnostics = {"invalid_line_count": 0,
                        "result_subtype": ("success" if report_present else
                                           "error_max_structured_output_retries")}
+        current_model = model_registry.resolve_cell(cell)["cli_model"]
         item = {
             "task_id": "Q4T-CANARY", "episode_label": cell,
             "parent_manifest_sha256": self.parent["manifest_sha256"],
@@ -62,8 +65,8 @@ class Q4TCanaryTests(unittest.TestCase):
             "settlement": {"charged_usd": 0.2, "provider_calls": 1,
                            "writer_stopped": True, "cost_settled": True},
             "qualification_eligible": report_present,
-            "receipt": {"requested_cell": cell, "actual_model": "claude-sonnet-5",
-                        "root_models": ["claude-sonnet-5"],
+            "receipt": {"requested_cell": cell, "actual_model": current_model,
+                        "root_models": [current_model],
                         "status": "completed" if report_present else "failed",
                         "terminal": True, "writer_stopped": True,
                         "identity_valid": True,
@@ -139,7 +142,8 @@ class Q4TCanaryTests(unittest.TestCase):
             canary.validate_episode(altered, canary.CELLS[0], self.parent,
                                     self.stage)
         wrong = self.episode()
-        wrong["receipt"]["actual_model"] = "claude-opus-5"
+        wrong["receipt"]["actual_model"] = model_registry.resolve_cell(
+            "worker-opus-high")["cli_model"]
         wrong["evidence_sha256"] = digest({
             key: value for key, value in wrong.items() if key != "evidence_sha256"})
         with self.assertRaises(canary.CanaryError):
@@ -157,8 +161,20 @@ class Q4TCanaryTests(unittest.TestCase):
         proof["evidence_sha256"] = digest(proof)
         response = subprocess.CompletedProcess(
             [], 0, json.dumps({"result": "COMPLETE", "episode": failure}), "")
+
+        frozen_date = dt.date.fromisoformat(self.stage["date_utc"])
+
+        class FrozenClock:
+            @staticmethod
+            def now(timezone):
+                return dt.datetime.combine(frozen_date, dt.time.min,
+                                           tzinfo=timezone)
+
+        historical_clock = types.SimpleNamespace(date=dt.date, datetime=FrozenClock,
+                                                 timezone=dt.timezone)
         with tempfile.TemporaryDirectory() as raw, \
                 patch.object(canary, "RUN", Path(raw) / "campaign"), \
+                patch.object(canary, "dt", historical_clock), \
                 patch.object(canary, "validate_manifest",
                              return_value=(self.parent, self.stage)), \
                 patch.object(canary, "validate_approval"), \

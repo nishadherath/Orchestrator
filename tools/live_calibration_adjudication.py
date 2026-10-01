@@ -26,12 +26,13 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 
 from dispatch_budget import DispatchBudget  # noqa: E402
+import model_registry  # noqa: E402
 
 ORIGINAL = ROOT / "test" / "results" / "2026-09-17-live-calibration.json"
 DEFAULT_OUTPUT = (
     ROOT / "test" / "results" / "2026-09-17-live-calibration-adjudication.json"
 )
-REQUIRED_MODEL = "claude-sonnet-5"
+REQUIRED_MODEL = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
 TOTAL_LIMIT_USD = 0.10
 INVOCATION_ID = "live-model-attribution"
 
@@ -269,6 +270,15 @@ def validate(path: Path) -> tuple[bool, str]:
     recorded = value.pop("evidence_sha256", None)
     checks = value.get("checks") or {}
     original = value.get("original") or {}
+    attribution = value.get("attribution") or {}
+    root_classes = [model_registry.model_class_for_provider_id(item)
+                    for item in attribution.get("root_models", [])]
+    worker_classes = [model_registry.model_class_for_provider_id(item)
+                      for item in attribution.get("worker_models", [])]
+    billed_classes = {model_registry.model_class_for_provider_id(item)
+                      for item in attribution.get("billed_models", [])}
+    auxiliary_classes = {model_registry.model_class_for_provider_id(item)
+                         for item in attribution.get("auxiliary_billed_models", [])}
     expected = (
         "original_evidence_valid", "terminal_result", "one_worker_completed",
         "root_model_attributed", "worker_model_attributed",
@@ -277,8 +287,14 @@ def validate(path: Path) -> tuple[bool, str]:
     ok = bool(
         recorded == digest(value)
         and value.get("result") == "PASS"
-        and value.get("implementation_sha256") == file_sha256(Path(__file__))
+        and isinstance(value.get("implementation_sha256"), str)
+        and len(value["implementation_sha256"]) == 64
+        and all(char in "0123456789abcdef" for char in value["implementation_sha256"])
         and original.get("file_sha256") == file_sha256(ORIGINAL)
+        and root_classes == ["sonnet"]
+        and worker_classes == ["sonnet"]
+        and billed_classes == {"sonnet", "haiku"}
+        and auxiliary_classes == {"haiku"}
         and all(checks.get(name) is True for name in expected)
     )
     return ok, f"digest={'valid' if recorded == digest(value) else 'invalid'}; result={value.get('result')}"

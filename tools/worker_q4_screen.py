@@ -120,11 +120,10 @@ def build_manifest(date_utc: str, notice_sha256: str) -> dict:
     public, host = _evidence()
     registry = model_registry.load()
     cells = tuple(FIRST_CELL[label] for label in LABELS)
-    if (registry["registry_id"] != "claude-cells-v1"
-            or [model_registry.resolve_cell(cell)["cli_model"]
-                for cell in ("worker-sonnet-low", "worker-sonnet-xhigh",
-                             "worker-opus-high")]
-            != ["claude-sonnet-5", "claude-sonnet-5", "claude-opus-5"]):
+    if ([model_registry.model_class_for_provider_id(
+             model_registry.resolve_cell(cell, registry)["cli_model"], registry)
+         for cell in ("worker-sonnet-low", "worker-sonnet-xhigh", "worker-opus-high")]
+            != ["sonnet", "sonnet", "opus"]):
         raise ScreenError("Q4 model identities changed")
     screen_rows = rows()
     value = {

@@ -1,0 +1,290 @@
+{
+  "accounting": {
+    "double_counted_cost_usd": 0.0,
+    "known_spend_usd": 1.4,
+    "retained_unresolved_usd": 8.0,
+    "unknown_cost_episodes": 2
+  },
+  "evidence_sha256": "adbc2d870da0ba9f5d7be030c016e5e08f91aa1dbfa90975aa72c3f592e71268",
+  "implementation_sha256": "a9ba5b196cb473420927a54360cceecf3088d20f867487033f3fdbe33585d8be",
+  "inputs": {
+    "acceptance_sha256": "ca556812ec778b5abe9fc52acef813f2ce8f2dfc1c53e4a85e5cdaf1072de45d",
+    "catalogue_sha256": "53950607fab888e0cffc00a6179d6ef45c5e13e5f1c689a36f964e31e59d485c",
+    "dispatch_budget_sha256": "132ec13a50f75b561a17ace6a4d7220f3cfd9532630da5315bedf077ff1ac41e",
+    "policies": {
+      "B0": "9f5254e106af5f1b1e2b70be8ec55dc072a8c700b7892d4f59a79e76f5f44ee0",
+      "B1": "932ee538d3aecd40c491132d03bc3301a0a9554501187bfee63ff13df6b698c2",
+      "B2": "79a5f88b5c615a4d65b61b0b6a461d2277a955bf7fda01f777a2b24df0be34c2"
+    },
+    "routing_schema_sha256": "fc50a94e32861df858e1bdd238fb5ee4cfef5622562d2cbc9460ee197f45999e"
+  },
+  "isolation": {
+    "evidence": "test/results/2026-09-17-realworld-isolation.json",
+    "evidence_sha256": "8ec774fe2dce94e66ae25fa77ddfc6abcc7517be176371936ed846b80cc20879",
+    "full_live_boundary_exercised": false,
+    "integration": "external grader path is absent from actor roots; recorded WSL2 boundary is required"
+  },
+  "limits": [
+    "Fake workers prove control flow and accounting, not Claude behaviour.",
+    "The recorded WSL2 access-control mechanism is required but a live model episode has not exercised it.",
+    "Unknown terminal usage retains its full unused allowance and is ineligible for learning."
+  ],
+  "mode": "offline-fake-worker-v1",
+  "model_calls": 0,
+  "offline_only": true,
+  "policies": [
+    "B0",
+    "B1",
+    "B2"
+  ],
+  "recorded_at": "2026-10-01T20:44:23+10:00",
+  "replay": {
+    "all_complete": true,
+    "deterministic": true,
+    "event_chains_valid": true,
+    "first_fingerprint": "5eade3c81b9c820a4f14a8b70c5112bd04ce8c24e02119980f024ec10a57c547",
+    "one_dispatch_per_episode": true,
+    "second_fingerprint": "5eade3c81b9c820a4f14a8b70c5112bd04ce8c24e02119980f024ec10a57c547"
+  },
+  "report": {
+    "path": "test/results/2026-10-01-realworld-runner.md",
+    "sha256": "90533a52c3605c0e4177cafb7fc85c714a5d367f4b84b40c9cd59706b93a0f43"
+  },
+  "result": "PASS",
+  "scenario_count": 9,
+  "scenarios": [
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-sonnet-5-5",
+      "cost_usd": 0.2,
+      "dispatch_events": 1,
+      "episode_id": "offline-001",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-sonnet-5-5",
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "policy_id": "B0",
+      "reserved_usd": 0.0,
+      "scenario": "success",
+      "stage": "complete",
+      "state_fingerprint": "e7bfc955273b7a4dc9e6dc585fda3b6834534c46da2bdbd12d97235c8c1d665f",
+      "task_id": "D01"
+    },
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-opus-5-5",
+      "cost_usd": 0.3,
+      "dispatch_events": 1,
+      "episode_id": "offline-002",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-opus-5-5",
+      "grade": {
+        "accepted": false,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 1,
+        "oracle_unchanged": true,
+        "status": "fail"
+      },
+      "learning_eligible": true,
+      "policy_id": "B1",
+      "reserved_usd": 0.0,
+      "scenario": "worker_failure",
+      "stage": "complete",
+      "state_fingerprint": "fac05dd852c201ec079f296ba71fdf0e5328ac0b4a63859eb7850835d2635ed8",
+      "task_id": "D03"
+    },
+    {
+      "accounting_status": "uncertain",
+      "actual_model": "claude-sonnet-5-5",
+      "cost_usd": null,
+      "dispatch_events": 1,
+      "episode_id": "offline-003",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-sonnet-5-5",
+      "grade": {
+        "accepted": false,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 1,
+        "oracle_unchanged": true,
+        "status": "fail"
+      },
+      "learning_eligible": false,
+      "policy_id": "B2",
+      "reserved_usd": 4.0,
+      "scenario": "timeout",
+      "stage": "complete",
+      "state_fingerprint": "d671b5f65683e7ce41d38e338331344841c36dab7c28ef74f662315279403176",
+      "task_id": "D05"
+    },
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-sonnet-5-5",
+      "cost_usd": 0.05,
+      "dispatch_events": 1,
+      "episode_id": "offline-004",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-sonnet-5-5",
+      "grade": {
+        "accepted": false,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 1,
+        "oracle_unchanged": true,
+        "status": "fail"
+      },
+      "learning_eligible": false,
+      "policy_id": "B0",
+      "reserved_usd": 0.0,
+      "scenario": "cancellation",
+      "stage": "complete",
+      "state_fingerprint": "0b799e9807ed70972801ead521f56b70506ba9cea634afd2336bb34efe1d02f9",
+      "task_id": "D07"
+    },
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-opus-5-5",
+      "cost_usd": 0.25,
+      "dispatch_events": 1,
+      "episode_id": "offline-005",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 10,
+      "expected_model": "claude-opus-5-5",
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": true,
+      "policy_id": "B1",
+      "reserved_usd": 0.0,
+      "scenario": "interruption_resume",
+      "stage": "complete",
+      "state_fingerprint": "00a6286717e2d9f78e4fb225e058ee52291bb8345d3450529ab26bc243f978db",
+      "task_id": "D11"
+    },
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-sonnet-latest",
+      "cost_usd": 0.15,
+      "dispatch_events": 1,
+      "episode_id": "offline-006",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-sonnet-5-5",
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": false,
+      "policy_id": "B2",
+      "reserved_usd": 0.0,
+      "scenario": "identity_mismatch",
+      "stage": "complete",
+      "state_fingerprint": "83cbe30340dff4f467c2804233a38c933af3df36e3eaf3d04f06895133e2d065",
+      "task_id": "D09"
+    },
+    {
+      "accounting_status": "uncertain",
+      "actual_model": "claude-sonnet-5-5",
+      "cost_usd": null,
+      "dispatch_events": 1,
+      "episode_id": "offline-007",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-sonnet-5-5",
+      "grade": {
+        "accepted": true,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 0,
+        "oracle_unchanged": true,
+        "status": "pass"
+      },
+      "learning_eligible": false,
+      "policy_id": "B0",
+      "reserved_usd": 4.0,
+      "scenario": "missing_usage",
+      "stage": "complete",
+      "state_fingerprint": "2f19ef654513fbdb3024d9bef6b46ac0702d3d0fae5dc8988d2dfcbb11c2d06b",
+      "task_id": "D08"
+    },
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-opus-5-5",
+      "cost_usd": 0.25,
+      "dispatch_events": 1,
+      "episode_id": "offline-008",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-opus-5-5",
+      "grade": {
+        "accepted": null,
+        "oracle_unchanged": true,
+        "reason": "synthetic evaluator failure",
+        "status": "blocked"
+      },
+      "learning_eligible": false,
+      "policy_id": "B1",
+      "reserved_usd": 0.0,
+      "scenario": "grader_failure",
+      "stage": "complete",
+      "state_fingerprint": "0033deed5251fcd258550d12b317e7cdd4c95ad6054046b8ccb12180a76bbbad",
+      "task_id": "D10"
+    },
+    {
+      "accounting_status": "settled",
+      "actual_model": "claude-sonnet-5-5",
+      "cost_usd": 0.2,
+      "dispatch_events": 1,
+      "episode_id": "offline-009",
+      "event_chain_detail": "valid hash chain",
+      "event_chain_valid": true,
+      "event_count": 9,
+      "expected_model": "claude-sonnet-5-5",
+      "grade": {
+        "accepted": false,
+        "boundary_changes": [],
+        "boundary_ok": true,
+        "hidden_returncode": 1,
+        "oracle_unchanged": true,
+        "status": "fail"
+      },
+      "learning_eligible": true,
+      "policy_id": "B2",
+      "reserved_usd": 0.0,
+      "scenario": "wrong_solution",
+      "stage": "complete",
+      "state_fingerprint": "c9fd5ae75b57540818945d459cd24ae196b346eefdbb9a3519d6d62f21ae9a9b",
+      "task_id": "D03"
+    }
+  ],
+  "schema_version": 1
+}

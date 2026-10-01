@@ -79,8 +79,9 @@ class Q4ResultTests(unittest.TestCase):
             for index, attempt in enumerate(episode["attempts"]):
                 cell = expected["ladder"][index]
                 self.assertEqual(cell, attempt["requested_cell"])
-                self.assertEqual(model_registry.resolve_cell(cell)["cli_model"],
-                                 attempt["actual_model"])
+                self.assertEqual(model_registry.resolve_cell(cell)["model"],
+                                 model_registry.model_class_for_provider_id(
+                                     attempt["actual_model"]))
                 report = attempt["evaluation_report"]
                 self.assertEqual(digest(report),
                                  attempt["evaluation_report_digest"])

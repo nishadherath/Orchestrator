@@ -118,9 +118,9 @@ def build_manifest(date_utc: str, notice_sha256: str) -> dict:
     if not host_attestation.validate(host, check_host=True):
         raise ScreenError("Q4R WSL host evidence is stale")
     registry = model_registry.load()
-    if (registry["registry_id"] != "claude-cells-v1"
-            or model_registry.resolve_cell("worker-sonnet-high")["cli_model"]
-            != "claude-sonnet-5"):
+    if model_registry.model_class_for_provider_id(
+            model_registry.resolve_cell("worker-sonnet-high", registry)["cli_model"],
+            registry) != "sonnet":
         raise ScreenError("Q4R model identity changed")
     screen_rows = rows()
     if len(screen_rows) != 12 or sum(row["episode_maximum_usd"]

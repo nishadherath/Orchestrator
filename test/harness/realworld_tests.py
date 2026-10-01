@@ -64,11 +64,12 @@ class RealWorldFoundationTests(unittest.TestCase):
             first["blockers"],
         )
         self.assertNotIn(
-            "live Claude CLI calibration has not confirmed served model IDs and billing roll-up",
+            "historical live Claude CLI calibration evidence is missing or invalid",
             first["blockers"],
         )
-        self.assertEqual(first["live_calibration"]["root_models"], ["claude-sonnet-5"])
-        self.assertEqual(first["live_calibration"]["worker_models"], ["claude-sonnet-5"])
+        self.assertIn("current account-served identity is unverified", " ".join(first["blockers"]))
+        self.assertEqual(first["live_calibration"]["root_model_classes"], ["sonnet"])
+        self.assertEqual(first["live_calibration"]["worker_model_classes"], ["sonnet"])
         self.assertTrue(first["live_episode_execution"]["adapter_implemented"])
         self.assertTrue(first["live_episode_execution"]["adapter_qualified"])
         self.assertTrue(first["live_episode_execution"]["policy_executor_implemented"])
@@ -84,7 +85,7 @@ class RealWorldFoundationTests(unittest.TestCase):
             "live Controller escalation adapter and offline qualification evidence are missing or invalid",
             first["blockers"],
         )
-        self.assertIn("claude-sonnet-5", first["models"]["required_actual_ids"])
+        self.assertEqual(first["models"]["required_model_classes"], ["sonnet", "opus"])
         self.assertIn("test/oracles/realworld/D01/test_hidden.py", first["bound_files"])
         self.assertIn(
             "test/fixtures/realworld/development/D11/variants/alternative/importer/state.py",
@@ -107,16 +108,16 @@ class RealWorldFoundationTests(unittest.TestCase):
             first["bound_files"],
         )
         self.assertIn("tools/evaluation_runner.py", first["bound_files"])
-        self.assertIn("test/results/2026-09-17-realworld-runner.json", first["bound_files"])
+        self.assertIn("test/results/2026-10-01-realworld-runner.json", first["bound_files"])
         self.assertIn("tools/evaluation_live_episode.py", first["bound_files"])
         self.assertIn("tools/evaluation_live_controller.py", first["bound_files"])
         self.assertIn("tools/evaluation_pilot.py", first["bound_files"])
         self.assertIn(
-            "test/results/2026-09-18-live-controller-adapter.json",
+            "test/results/2026-10-01-live-controller-adapter.json",
             first["bound_files"],
         )
         self.assertIn(
-            "test/results/2026-09-17-live-episode-integration.json",
+            "test/results/2026-10-01-live-episode-integration.json",
             first["bound_files"],
         )
         self.assertIn("test/oracles/realworld/H12/test_hidden.py", first["bound_files"])

@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 
 import claudep  # noqa: E402
+import model_registry  # noqa: E402
 from dispatch_budget import DispatchBudget  # noqa: E402
 from realworld_isolation import validate as validate_isolation  # noqa: E402
 
@@ -26,7 +27,7 @@ DEFAULT_OUTPUT = ROOT / "test" / "results" / "2026-09-17-live-calibration.json"
 ISOLATION = ROOT / "test" / "results" / "2026-09-17-realworld-isolation.json"
 FREEZE = ROOT / "docs" / "REAL-WORLD-EVALUATION-FREEZE-2026-09-17.json"
 TOTAL_LIMIT_USD = 0.40
-REQUIRED_MODEL = "claude-sonnet-5"
+REQUIRED_MODEL = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
 USAGE_FIELDS = (
     "input_tokens", "cache_creation_input_tokens",
     "cache_read_input_tokens", "output_tokens",

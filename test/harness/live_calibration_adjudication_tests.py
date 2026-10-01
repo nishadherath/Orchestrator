@@ -26,19 +26,22 @@ class AdjudicationTests(unittest.TestCase):
         cls.subject = load_module()
 
     def test_stream_attributes_root_worker_and_auxiliary_billing(self):
+        registry = self.subject.model_registry.load()
+        sonnet_id = self.subject.model_registry.resolve_cell("worker-sonnet-low", registry)["cli_model"]
+        auxiliary_haiku_id = self.subject.model_registry.historical_provider_id("haiku", registry)
         rows = [
             {"type": "assistant", "parent_tool_use_id": None,
-             "message": {"model": "claude-sonnet-5"}},
+             "message": {"model": sonnet_id}},
             {"type": "assistant", "parent_tool_use_id": "toolu_worker",
-             "message": {"model": "claude-sonnet-5"}},
+             "message": {"model": sonnet_id}},
             {"type": "result", "result": "WORKER_OK", "modelUsage": {
-                "claude-sonnet-5": {}, "claude-haiku-4-5-20251001": {},
+                sonnet_id: {}, auxiliary_haiku_id: {},
             }},
         ]
         parsed = self.subject.parse_stream("\n".join(json.dumps(row) for row in rows))
-        self.assertEqual(parsed["root_models"], ["claude-sonnet-5"])
-        self.assertEqual(parsed["worker_models"], ["claude-sonnet-5"])
-        self.assertEqual(parsed["auxiliary_billed_models"], ["claude-haiku-4-5-20251001"])
+        self.assertEqual(parsed["root_models"], [sonnet_id])
+        self.assertEqual(parsed["worker_models"], [sonnet_id])
+        self.assertEqual(parsed["auxiliary_billed_models"], [auxiliary_haiku_id])
         self.assertEqual(parsed["invalid_line_count"], 0)
 
     def test_invalid_stream_line_is_counted(self):
@@ -48,6 +51,8 @@ class AdjudicationTests(unittest.TestCase):
 
     def test_validation_rejects_tampering(self):
         original_sha = self.subject.file_sha256(self.subject.ORIGINAL)
+        sonnet_id = self.subject.model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
+        haiku_id = self.subject.model_registry.resolve_cell("worker-haiku-default")["cli_model"]
         value = {
             "schema_version": 1,
             "result": "PASS",
@@ -57,6 +62,9 @@ class AdjudicationTests(unittest.TestCase):
                 "billing_telemetry_present", "stream_well_formed",
             )},
             "original": {"file_sha256": original_sha},
+            "attribution": {"root_models": [sonnet_id], "worker_models": [sonnet_id],
+                            "billed_models": [sonnet_id, haiku_id],
+                            "auxiliary_billed_models": [haiku_id]},
             "implementation_sha256": self.subject.file_sha256(
                 ROOT / "tools" / "live_calibration_adjudication.py"),
         }
@@ -68,6 +76,9 @@ class AdjudicationTests(unittest.TestCase):
             value["result"] = "FAIL"
             self.subject.atomic_json(path, value)
             self.assertFalse(self.subject.validate(path)[0])
+
+    def test_historical_receipt_validates_by_registry_class(self):
+        self.assertTrue(self.subject.validate(self.subject.DEFAULT_OUTPUT)[0])
 
 
 if __name__ == "__main__":

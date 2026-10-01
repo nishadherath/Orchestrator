@@ -13,6 +13,7 @@ from pathlib import Path
 
 def run(repo: Path) -> dict:
     sys.path.insert(0, str(repo / "tools"))
+    import model_registry
     from worker_adapter import WorkerRequest
     from worker_wsl_q1 import MANIFESTS, OUTPUTS
     from worker_wsl_q3_adapter import (LAUNCHER, Q3BoundaryError, Q3WslAdapter,
@@ -28,10 +29,11 @@ def run(repo: Path) -> dict:
                     request: WorkerRequest) -> subprocess.CompletedProcess:
             # This override cannot call Claude. It edits the two declared
             # files and emits a synthetic stream for receipt parsing.
+            model = model_registry.resolve_cell("worker-sonnet-low")["cli_model"]
             code = ("import json; from pathlib import Path; "
                     "[p.write_bytes(p.read_bytes()+b'\\n# q3 probe\\n') "
                     "for p in (Path('cachetools/func.py'),Path('cachetools/keys.py'))]; "
-                    "print(json.dumps({'type':'assistant','message':{'model':'claude-sonnet-5'}})); "
+                    f"print(json.dumps({{'type':'assistant','message':{{'model':'{model}'}}}})); "
                     "print(json.dumps({'type':'result','subtype':'success',"
                     "'total_cost_usd':0.0,'usage':{'input_tokens':0,'output_tokens':0}}))")
             argv = [str(LAUNCHER), str(actor), "--", "/usr/bin/python3", "-B", "-c", code]
@@ -92,7 +94,8 @@ def run(repo: Path) -> dict:
         checks = {
             "terminal_fake_receipt": receipt["terminal"] is True
                                      and receipt["status"] == "completed",
-            "exact_model_identity": receipt["actual_model"] == "claude-sonnet-5"
+            "exact_model_identity": model_registry.model_class_for_provider_id(
+                receipt["actual_model"]) == "sonnet"
                                     and receipt["identity_valid"] is True,
             "two_edits_collected": set(receipt["command_contract"].get(
                 "q3_boundary", {}).get("changed_paths", [])) == set(task["editable_paths"]),
