@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"milestone": "xdg-data-single", "input": {"kind": "xdg-data"}, "expected": ["/q3/first/demo", ["/q3/first/demo"]], "weight": 20, "critical": false},
+    {"milestone": "xdg-data-multipath", "input": {"kind": "xdg-multi"}, "expected": ["/q3/first/demo:/q3/second/demo", ["/q3/first/demo", "/q3/second/demo"]], "weight": 10, "critical": false},
+    {"milestone": "xdg-config-single", "input": {"kind": "xdg-config"}, "expected": ["/q3/config1/demo", ["/q3/config1/demo"]], "weight": 15, "critical": false},
+    {"milestone": "xdg-lazy-first", "input": {"kind": "xdg-iterator"}, "expected": ["/q3/first/demo", ["/q3/first/demo"]], "weight": 15, "critical": false},
+    {"milestone": "unix-site-path", "input": {"kind": "unix-path"}, "expected": ["/usr/local/share/demo", ["/usr/local/share/demo"]], "weight": 10, "critical": false},
+    {"milestone": "mac-cache-single", "input": {"kind": "mac-cache"}, "expected": ["/q3/var/cache/demo", ["/q3/var/cache/demo"]], "weight": 15, "critical": false},
+    {"milestone": "mac-cache-path", "input": {"kind": "mac-cache-path"}, "expected": ["/q3/var/cache/demo", ["/q3/var/cache/demo"]], "weight": 10, "critical": false},
+    {"milestone": "creation-disabled", "input": {"kind": "disabled"}, "expected": ["/q3/first/demo", []], "weight": 5, "critical": false}
+  ]
+}

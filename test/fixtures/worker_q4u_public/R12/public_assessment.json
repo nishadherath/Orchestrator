@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "ce8a7453051750fae6ef63cdfd60be94a491a4de907f2f44da31c0c268deac12",
+    "facts": {
+      "change_required": false,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773",
+              "line": 9,
+              "path": "public_check.py",
+              "text": "assert isinstance(value[\"missing_fields\"], list)"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check does not require an exchange-rate quote",
+          "id": "exchange_quote_required",
+          "issue_citation": {
+            "file_sha256": "83c29041cd3267a7ea0426348faa20010ce14830e997d30ca7de0f69fb00daef",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "the invoice amount and both currencies, but no exchange-rate quote and no"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773",
+              "line": 8,
+              "path": "public_check.py",
+              "text": "assert value[\"status\"] in {\"needs_input\", \"ready\"}"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check permits ready without a quote timestamp",
+          "id": "quote_timestamp_required",
+          "issue_citation": {
+            "file_sha256": "83c29041cd3267a7ea0426348faa20010ce14830e997d30ca7de0f69fb00daef",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "timestamp at which a quote should apply. `conversion.py` accepts an explicit"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "investigation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "83c29041cd3267a7ea0426348faa20010ce14830e997d30ca7de0f69fb00daef",
+      "public_check.py": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "R12",
+  "task_sha256": "4e22c8b4edece3751167db5fc8485041503642d986edf9ced42605ec7ab5e14f"
+}

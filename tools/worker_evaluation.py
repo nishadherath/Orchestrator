@@ -33,6 +33,7 @@ BOUND_SOURCE = (
     "tools/worker_wsl_materialize.py",
     "tools/worker_wsl_collect.py",
     "tools/worker_wsl_grade.py",
+    "tools/worker_wsl_public_verify.py",
     "tools/worker_wsl_transport_probe.py",
     "tools/worker_wsl_transport.py",
     "tools/worker_wsl_adapter_probe.py",

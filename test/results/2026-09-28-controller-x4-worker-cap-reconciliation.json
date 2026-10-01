@@ -1,0 +1,13 @@
+{
+  "controller_cost_usd": 0.272239,
+  "evidence": "x4-q3-launcher-cap-64:allowance-gt-6:pre-start:stopped-writer",
+  "provider_calls": "public assessment + Controller role calls only",
+  "public_assessment_cost_usd": 0.0210972,
+  "reserved_usd": 0.0,
+  "root_id": "x4-live-smoke-root-v2",
+  "root_state": "blocked",
+  "schema_version": 1,
+  "total_spent_usd": 0.2933362,
+  "unresolved": [],
+  "worker_cost_usd": 0.0
+}

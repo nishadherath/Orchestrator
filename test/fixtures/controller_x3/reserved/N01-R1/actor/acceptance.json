@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "public_command": ["python3", "-B", "public_check.py"],
+  "editable_paths": ["legacy_labels.py", "labels/format.py", "api_client.py", "batch_job.py", "report.json"]
+}

@@ -1,0 +1,10 @@
+{
+  "result": "ABORTED",
+  "stdout": "",
+  "execution": {
+    "exit_code": 1,
+    "elapsed_seconds": 807.67,
+    "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\harness\\check.py\", line 1735, in <module>\n    result = main(sys.argv[1:])\n             ^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\harness\\check.py\", line 1654, in main\n    check_worker_n5_live_screen(report)\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\harness\\check.py\", line 1028, in check_worker_n5_live_screen\n    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\subprocess.py\", line 550, in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\subprocess.py\", line 1209, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\subprocess.py\", line 1630, in _communicate\n    raise TimeoutExpired(self.args, orig_timeout)\nsubprocess.TimeoutExpired: Command '['C:\\\\Users\\\\Bob\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe', 'C:\\\\Users\\\\Bob\\\\Desktop\\\\Code\\\\Claude\\\\Orchestrator\\\\test\\\\harness\\\\worker_n5_live_screen_tests.py']' timed out after 420 seconds\n",
+    "provider_calls": 0
+  }
+}

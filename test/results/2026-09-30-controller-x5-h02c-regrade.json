@@ -1,0 +1,25 @@
+{
+  "candidate_plugin_sha256": "7e6e2eea6263ce6356e3b4909ebc7d144e9c4b9b6057365945ddc4e3fb3663ef",
+  "case": "H02c",
+  "corrected_grader_sha256": "6400094b68ee2b1e8688a9d03206766dc37c1d60511f876b09ad8e298cbab95e",
+  "grade": {
+    "accepted": false,
+    "boundary": "Q4U isolated actor uid 65534; evaluator-owned stdin oracle",
+    "candidate_edit_sha256": "7e6e2eea6263ce6356e3b4909ebc7d144e9c4b9b6057365945ddc4e3fb3663ef",
+    "case": "H02",
+    "catalogue_sha256": "5444b006deee658a2c57b5986fa866e23784b29dc9882e8a7ffe683e3454ac6c",
+    "checks": {
+      "forward": false,
+      "no_hook": true,
+      "public": false,
+      "reverse": false,
+      "upstream": true
+    },
+    "critical": false,
+    "quality": 30
+  },
+  "original_manifest_sha256": "7a936e07733470f2c7520d39e2a6f846ad257d406edd56a0c542ff3a2006a3fe",
+  "original_producer_result_sha256": "671d48f48b1d3f060a283b286cc5adbb09456bdc0c1ac04b23bda94cd41db090",
+  "provider_calls": 0,
+  "schema_version": 1
+}

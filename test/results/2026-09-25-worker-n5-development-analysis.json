@@ -1,0 +1,251 @@
+{
+  "analysis_sha256": "8bd4cf0b88f6bed37d780b5206826c757cad996fc832859222cba540d4f7ba14",
+  "budget_sha256": "93373dca896a7a13a033b2689dec34444eab7feaddd546b0fc42239497f2e560",
+  "by_arm": {
+    "B0": {
+      "accepted": 11,
+      "attempts": 19,
+      "cost_usd": 0.974192305,
+      "critical_errors": 0,
+      "episodes": 12,
+      "false_successes": 1,
+      "mean_quality": 97.2225
+    },
+    "alternative": {
+      "accepted": 12,
+      "attempts": 16,
+      "cost_usd": 1.463922603,
+      "critical_errors": 0,
+      "episodes": 12,
+      "false_successes": 0,
+      "mean_quality": 100.0
+    },
+    "candidate": {
+      "accepted": 12,
+      "attempts": 15,
+      "cost_usd": 0.923655502,
+      "critical_errors": 0,
+      "episodes": 12,
+      "false_successes": 0,
+      "mean_quality": 100.0
+    }
+  },
+  "by_complexity": {
+    "complex": {
+      "B0": {
+        "accepted": 4,
+        "attempts": 5,
+        "cost_usd": 0.198283802,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      },
+      "alternative": {
+        "accepted": 4,
+        "attempts": 4,
+        "cost_usd": 0.864403001,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      },
+      "candidate": {
+        "accepted": 4,
+        "attempts": 4,
+        "cost_usd": 0.4568685,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      }
+    },
+    "moderate": {
+      "B0": {
+        "accepted": 4,
+        "attempts": 4,
+        "cost_usd": 0.142471001,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      },
+      "alternative": {
+        "accepted": 4,
+        "attempts": 4,
+        "cost_usd": 0.230860401,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      },
+      "candidate": {
+        "accepted": 4,
+        "attempts": 4,
+        "cost_usd": 0.215742401,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      }
+    },
+    "routine": {
+      "B0": {
+        "accepted": 3,
+        "attempts": 10,
+        "cost_usd": 0.633437502,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 1,
+        "mean_quality": 91.6675
+      },
+      "alternative": {
+        "accepted": 4,
+        "attempts": 8,
+        "cost_usd": 0.368659201,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      },
+      "candidate": {
+        "accepted": 4,
+        "attempts": 7,
+        "cost_usd": 0.251044601,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "mean_quality": 100.0
+      }
+    }
+  },
+  "call_wall_time_s": 1305.298,
+  "campaign_sha256": "5d6f4aa58ad8af693e28088dd1e548608aa914a35bcc95225fb866a30fc6e957",
+  "episodes": 36,
+  "limits": [
+    "one run per task-arm",
+    "synthetic single-file tasks",
+    "served effort not independently reported",
+    "development data; reserved tasks not graded"
+  ],
+  "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+  "model_calls": {
+    "claude-fable-5-1": 4,
+    "claude-opus-5": 9,
+    "claude-sonnet-5": 37
+  },
+  "pairs": [
+    {
+      "alternative_minus_b0_cost_usd": -0.107636401,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": -0.150385001,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "routine",
+      "task_id": "D01"
+    },
+    {
+      "alternative_minus_b0_cost_usd": -0.168949701,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": -0.178723901,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "routine",
+      "task_id": "D02"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.159972,
+      "alternative_minus_b0_quality": 33.33,
+      "candidate_minus_b0_cost_usd": 0.128937,
+      "candidate_minus_b0_quality": 33.33,
+      "complexity": "routine",
+      "task_id": "D03"
+    },
+    {
+      "alternative_minus_b0_cost_usd": -0.148164199,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": -0.182220999,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "routine",
+      "task_id": "D04"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.046766801,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.040302,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "moderate",
+      "task_id": "D05"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.007456399,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.018156999,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "moderate",
+      "task_id": "D06"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.0068982,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": -0.001273999,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "moderate",
+      "task_id": "D07"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.027268,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.0160864,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "moderate",
+      "task_id": "D08"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.268672449,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.042555199,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "complex",
+      "task_id": "D09"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.157960899,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.075386899,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "complex",
+      "task_id": "D10"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.113242,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.0278465,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "complex",
+      "task_id": "D11"
+    },
+    {
+      "alternative_minus_b0_cost_usd": 0.126243851,
+      "alternative_minus_b0_quality": 0.0,
+      "candidate_minus_b0_cost_usd": 0.1127961,
+      "candidate_minus_b0_quality": 0.0,
+      "complexity": "complex",
+      "task_id": "D12"
+    }
+  ],
+  "provider_calls": 50,
+  "reported_api_equivalent_cost_usd": 3.36177041,
+  "requested_effort_evidence": {
+    "cli-argument:high": 17,
+    "cli-argument:low": 22,
+    "cli-argument:medium": 7,
+    "cli-argument:xhigh": 4
+  },
+  "schema_version": 1,
+  "status": "reconciled",
+  "usage": {
+    "cache_creation_input_tokens": 205416,
+    "cache_read_input_tokens": 1999183,
+    "input_tokens": 758,
+    "output_tokens": 69368
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "P08",
+  "name": "platformdirs returned-path side effects",
+  "source_url": "https://github.com/tox-dev/platformdirs",
+  "source_commit": "5118d32ca567aba27f0af81b7b5931e162e1b86b",
+  "fix_commit": "7d5c85d14e760688a2210c56148b4052e2355ba6",
+  "issue_origin": "upstream-fix",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+  "package_path": "platformdirs",
+  "generated_files": ["platformdirs/version.py"],
+  "editable_paths": [
+    "platformdirs/_xdg.py",
+    "platformdirs/api.py",
+    "platformdirs/macos.py",
+    "platformdirs/unix.py"
+  ],
+  "oracle_file": "P08.json",
+  "case_file": "P08_case.py"
+}

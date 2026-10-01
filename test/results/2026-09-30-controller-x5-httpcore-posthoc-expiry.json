@@ -1,0 +1,77 @@
+{
+  "qualified": true,
+  "rows": [
+    {
+      "observed": {
+        "async": {
+          "assigned_retained": false,
+          "initially_assigned": true
+        },
+        "ordinary_expiry": true,
+        "sync": {
+          "assigned_retained": false,
+          "initially_assigned": true
+        }
+      },
+      "variant": "baseline"
+    },
+    {
+      "observed": {
+        "async": {
+          "assigned_retained": false,
+          "initially_assigned": true
+        },
+        "ordinary_expiry": true,
+        "sync": {
+          "assigned_retained": false,
+          "initially_assigned": true
+        }
+      },
+      "variant": "partial"
+    },
+    {
+      "observed": {
+        "async": {
+          "assigned_retained": true,
+          "initially_assigned": true
+        },
+        "ordinary_expiry": true,
+        "sync": {
+          "assigned_retained": true,
+          "initially_assigned": true
+        }
+      },
+      "variant": "reference"
+    },
+    {
+      "observed": {
+        "async": {
+          "assigned_retained": true,
+          "initially_assigned": true
+        },
+        "ordinary_expiry": true,
+        "sync": {
+          "assigned_retained": true,
+          "initially_assigned": true
+        }
+      },
+      "variant": "alternative"
+    },
+    {
+      "observed": {
+        "async": {
+          "assigned_retained": false,
+          "initially_assigned": true
+        },
+        "ordinary_expiry": true,
+        "sync": {
+          "assigned_retained": false,
+          "initially_assigned": true
+        }
+      },
+      "variant": "settled_B0"
+    }
+  ],
+  "schema_version": 1,
+  "status": "post-hoc, outside frozen H01 acceptance"
+}

@@ -1,0 +1,24 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "unfenced-lease-owner-transfer",
+  "next_step": "replay-overlap-and-owner-transfer-before-rollout",
+  "probes": [
+    {"input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 10},
+       {"op": "claim", "worker": "B", "at": 5, "lease": 10}]},
+     "observed": {"results": [
+       {"status": "claimed", "token": 1},
+       {"status": "busy", "token": 1}],
+       "owner": "A", "token": 1, "committed": null}},
+    {"input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 5},
+       {"op": "claim", "worker": "B", "at": 5, "lease": 10},
+       {"op": "complete", "worker": "A", "token": 1, "at": 6,
+        "value": "old"}]},
+     "observed": {"results": [
+       {"status": "claimed", "token": 1},
+       {"status": "claimed", "token": 2},
+       {"status": "stale"}],
+       "owner": "B", "token": 2, "committed": null}}
+  ]
+}

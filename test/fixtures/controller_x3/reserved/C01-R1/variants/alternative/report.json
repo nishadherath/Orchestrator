@@ -1,0 +1,15 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "Sequence deduplication spans feeds rather than each feed and epoch.",
+  "next_step": "Replay cross-feed and new-epoch sequence reuse.",
+  "probes": [
+    {"input": {"events": [
+      {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"},
+      {"feed": "beta", "epoch": 1, "seq": 7, "record": "b7"}]},
+     "observed": {"emitted": ["a7", "b7"]}},
+    {"input": {"events": [
+      {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"},
+      {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"}]},
+     "observed": {"emitted": ["a7"]}}
+  ]
+}

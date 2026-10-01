@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "decision": "approved",
+  "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+  "maximum_authorised_usd": 40.0,
+  "maximum_provider_calls": 30,
+  "credential_method": "claude-code-wsl-subscription",
+  "authority": "operator-standing-paid-calls-approved",
+  "approved_at_utc": "2026-09-26T13:23:41Z"
+}

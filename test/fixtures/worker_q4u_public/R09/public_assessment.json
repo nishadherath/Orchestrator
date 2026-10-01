@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "317b6a117da5b3baca469db54dc542c529e3b41673eb6d2317737dd4d506f6fa",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "3a37718af56b0ce49a325d7d29acbe7f1b1df0c7823cabb88d0c10c617a45a5c",
+              "line": 5,
+              "path": "public_check.py",
+              "text": "assert frames([b\"first\\nsecond\"]) == [b\"first\", b\"second\"]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only a single complete chunk is checked",
+          "id": "cross_chunk_frame",
+          "issue_citation": {
+            "file_sha256": "142d675c6b2e9a608a5a7569a3c2eb27b1f297d2cd197c1d7003340bcedb7d1d",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "content across chunk boundaries before emitting a frame. A final nonempty"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "3a37718af56b0ce49a325d7d29acbe7f1b1df0c7823cabb88d0c10c617a45a5c",
+              "line": 5,
+              "path": "public_check.py",
+              "text": "assert frames([b\"first\\nsecond\"]) == [b\"first\", b\"second\"]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check has no final delimiter",
+          "id": "final_delimiter",
+          "issue_citation": {
+            "file_sha256": "142d675c6b2e9a608a5a7569a3c2eb27b1f297d2cd197c1d7003340bcedb7d1d",
+            "line": 6,
+            "path": "ISSUE.md",
+            "text": "unterminated fragment is one frame; a final delimiter must not invent an"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "142d675c6b2e9a608a5a7569a3c2eb27b1f297d2cd197c1d7003340bcedb7d1d",
+      "public_check.py": "3a37718af56b0ce49a325d7d29acbe7f1b1df0c7823cabb88d0c10c617a45a5c"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "R09",
+  "task_sha256": "ea695798fe5d77912ba9c61f05e55b48e2de8f8a62cd3eea24d24c0a9c69d41a"
+}

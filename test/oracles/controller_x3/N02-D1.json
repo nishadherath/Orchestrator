@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task_id": "N02-D1",
+  "diagnosis": "inclusive-slice-upper-bound",
+  "cases": [
+    {
+      "milestone": "zero selects nothing", "weight": 20, "critical": false,
+      "input": {"items": ["a", "b", "c"], "limit": 0},
+      "expected": {"selected": []}
+    },
+    {
+      "milestone": "one selects one", "weight": 20, "critical": false,
+      "input": {"items": ["a", "b", "c"], "limit": 1},
+      "expected": {"selected": ["a"]}
+    },
+    {
+      "milestone": "interior bound excludes the next row", "weight": 20,
+      "critical": false,
+      "input": {"items": ["a", "b", "c"], "limit": 2},
+      "expected": {"selected": ["a", "b"]}
+    },
+    {
+      "milestone": "exact length includes all rows", "weight": 20,
+      "critical": false,
+      "input": {"items": ["a", "b", "c"], "limit": 3},
+      "expected": {"selected": ["a", "b", "c"]}
+    },
+    {
+      "milestone": "oversized bound includes all available rows", "weight": 20,
+      "critical": false,
+      "input": {"items": ["a", "b", "c"], "limit": 8},
+      "expected": {"selected": ["a", "b", "c"]}
+    }
+  ]
+}

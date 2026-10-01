@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "command": "python -B test/harness/check.py --json",
+  "exit_code": 1,
+  "elapsed_seconds": 936.98,
+  "result": "ABORTED",
+  "provider_calls": 0,
+  "stdout": "",
+  "error": {
+    "type": "subprocess.TimeoutExpired",
+    "check": "check_worker_q4_screen",
+    "script": "test/harness/worker_q4_screen_tests.py",
+    "timeout_seconds": 90
+  },
+  "note": "The harness aborted before emitting its JSON report. This is not a passing full gate; earlier check results were not recovered."
+}

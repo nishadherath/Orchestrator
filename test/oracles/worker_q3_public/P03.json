@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"input": {"case": "single-command-suggestion"}, "expected": {"ok": true}, "weight": 25, "milestone": "single-command-suggestion", "critical": false},
+    {"input": {"case": "multiple-command-suggestions"}, "expected": {"ok": true}, "weight": 20, "milestone": "multiple-command-suggestions", "critical": false},
+    {"input": {"case": "single-option-suggestion"}, "expected": {"ok": true}, "weight": 20, "milestone": "single-option-suggestion", "critical": false},
+    {"input": {"case": "multiple-option-suggestions"}, "expected": {"ok": true}, "weight": 15, "milestone": "multiple-option-suggestions", "critical": false},
+    {"input": {"case": "unrelated-command"}, "expected": {"ok": true}, "weight": 10, "milestone": "unrelated-command", "critical": false},
+    {"input": {"case": "exception-contract"}, "expected": {"ok": true}, "weight": 10, "milestone": "exception-contract", "critical": false}
+  ]
+}

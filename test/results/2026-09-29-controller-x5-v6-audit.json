@@ -1,0 +1,119 @@
+{
+  "cases": [
+    {
+      "acceptance": {
+        "baseline": {
+          "cancel_release": false,
+          "carrier_retry": false,
+          "changed_order_conflict": false,
+          "oversold_last_units": false,
+          "tenant_boundary": false,
+          "unreserved_dispatch": true
+        },
+        "reference": {
+          "cancel_release": true,
+          "carrier_retry": true,
+          "changed_order_conflict": true,
+          "oversold_last_units": true,
+          "tenant_boundary": true,
+          "unreserved_dispatch": true
+        },
+        "wrong_repair": {
+          "cancel_release": true,
+          "carrier_retry": false,
+          "changed_order_conflict": true,
+          "oversold_last_units": true,
+          "tenant_boundary": true,
+          "unreserved_dispatch": true
+        }
+      },
+      "case": "shipment_commit",
+      "claim_gate": {
+        "label_only": false,
+        "partial_false_complete": false,
+        "reference": true
+      },
+      "protected_sha256": {
+        "acceptance.json": "e3c1b96e73b386116ae0c6ef84c487aa1e9a2a98e3395983bce1d865dee17086",
+        "shipments.py": "53a7a209acbe9b7bda20de7b35c2e4f1ad8fff42139bded437ffcb94f1b010d6"
+      },
+      "provider_calls": 0,
+      "public_checks": {
+        "baseline": true,
+        "reference": true,
+        "wrong_repair": true
+      },
+      "public_sha256": {
+        "acceptance.json": "6c820f32f579dbacf39cc3ef569952f5431c33d03132d293ad5c9325b5c681e2",
+        "app.py": "4cc1ab07c4e5a5cf64dcf6fcd18cfe3b8365885635e8bdebc4bb8c47bbf918f1",
+        "issue.md": "a68d9c8e0cf62913763e5704999861410f8b85243b7fe0f77ceed78393c97b4c",
+        "public_check.py": "45f68c2c12d3813e77a41b3363f90efe40e4e7b49544efd8b53b10fb99b6fd83",
+        "report.json": "b15e564009c6bc7b240fcc2ca69afe756548587e43feff88b4f8c6b6ebdbf3e8",
+        "shipments.py": "e5aff56ceedda7fd3326510a0f4318dd72de7d4490f59f85249d8876d1ac3c6d",
+        "trace.json": "1b6ce7e4ab53dda0958cd27ea56ea4c9251f91820f64c7f2c567fedba5933302"
+      },
+      "trace_reproduced": [
+        true
+      ]
+    },
+    {
+      "acceptance": {
+        "baseline": {
+          "newer_target_survives": false,
+          "normal_batch": true,
+          "restart_after_checkpoint": false,
+          "restart_mid_batch": false,
+          "tombstone_not_resurrected": false,
+          "unrelated_target": true
+        },
+        "reference": {
+          "newer_target_survives": true,
+          "normal_batch": true,
+          "restart_after_checkpoint": true,
+          "restart_mid_batch": true,
+          "tombstone_not_resurrected": true,
+          "unrelated_target": true
+        },
+        "wrong_repair": {
+          "newer_target_survives": false,
+          "normal_batch": true,
+          "restart_after_checkpoint": true,
+          "restart_mid_batch": true,
+          "tombstone_not_resurrected": false,
+          "unrelated_target": true
+        }
+      },
+      "case": "migration_restart",
+      "claim_gate": {
+        "label_only": false,
+        "partial_false_complete": false,
+        "reference": true
+      },
+      "protected_sha256": {
+        "acceptance.json": "bbfcb0a60723a0543ae84e45305354d9287396565cebeb229dadc1958d263e73",
+        "migration.py": "91dde278c6e4a0b15171f2bb2848e4734f53459c1defa6f667c0f3bbccd0c72b"
+      },
+      "provider_calls": 0,
+      "public_checks": {
+        "baseline": true,
+        "reference": true,
+        "wrong_repair": true
+      },
+      "public_sha256": {
+        "acceptance.json": "0cfb83cb749f97961acb98ddcb0861df335a7b24971240e22c790c57d3e56e01",
+        "app.py": "d8316a00be7219b27cefab5e887785dbdf58826befd60715a9f938cc1a6e397a",
+        "issue.md": "3550feffd985cb87e772191c36c800b105b1824c3902ec96615489d8e75be6e9",
+        "migration.py": "47cdaa0ffbcc112d035ea6191f31908426722ad36bec7b04a6c5797945a19062",
+        "public_check.py": "cf9599b86841840f7d07ae4da85f0d57d18012a50eedfd1a8605ebd84f3f977f",
+        "report.json": "b15e564009c6bc7b240fcc2ca69afe756548587e43feff88b4f8c6b6ebdbf3e8",
+        "trace.json": "ad1ea507dca26adf1aee61fd834f010fbca2f79656aa521f0d30047d2a419e76"
+      },
+      "trace_reproduced": [
+        true,
+        true
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "status": "provider-free-proposal"
+}

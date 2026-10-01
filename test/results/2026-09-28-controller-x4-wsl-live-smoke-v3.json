@@ -1,0 +1,146 @@
+{
+  "budget": {
+    "available_usd": 11.554242598,
+    "baseline_limit_units": 12000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-28T03:49:51.775742+00:00",
+    "currency": "USD",
+    "invocations": {
+      "0c34d1acef9a84f11d032b18ed17f7f0": {
+        "allowance_units": 6000000000,
+        "charged_units": 76987801,
+        "cost_usd": 0.07698780000000001,
+        "metadata": {
+          "decision_digest": "82bd1aa3943f2893f345301c3d0c794df66776276e6b27414c669e39ac834d9a",
+          "revision_id": "01dce0332949b51add71f90c826501162c0f528adeef9940119f27077cff3af3",
+          "root_id": "x4-live-smoke-root-v3"
+        },
+        "reserved_at": "2026-09-28T03:52:36.519640+00:00",
+        "resolution": {
+          "cost_usd": 0.07698780000000001,
+          "evidence": "receipt:7b25209225d1d6f66294333202544ba8c0760971c07e82553b4aa9ff49396633",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 14279,
+            "cache_read_input_tokens": 25049,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.07698780000000001,
+            "currency": "USD",
+            "input_tokens": 6,
+            "output_tokens": 1278
+          }
+        },
+        "started_at": "2026-09-28T03:52:36.533517+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 14279,
+          "cache_read_input_tokens": 25049,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.07698780000000001,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 1278
+        },
+        "updated_at": "2026-09-28T03:52:55.163707+00:00"
+      },
+      "controller-01dce0332949b51add71f90c": {
+        "allowance_units": 4000000000,
+        "charged_units": 353550001,
+        "cost_usd": 0.353550001,
+        "metadata": {
+          "allocation": "controller",
+          "decision_id": "rtd-c076771bd2eade20d30d28e7",
+          "revision_id": "01dce0332949b51add71f90c826501162c0f528adeef9940119f27077cff3af3"
+        },
+        "reserved_at": "2026-09-28T03:50:33.695953+00:00",
+        "resolution": {
+          "cost_usd": 0.353550001,
+          "evidence": "controller-adapter-result",
+          "final": true,
+          "telemetry": {
+            "accounting_complete": true,
+            "outcome": "gap"
+          }
+        },
+        "started_at": "2026-09-28T03:50:33.702319+00:00",
+        "state": "settled",
+        "telemetry": {
+          "accounting_complete": true,
+          "outcome": "gap"
+        },
+        "updated_at": "2026-09-28T03:52:36.433817+00:00"
+      },
+      "controller-follow-on-01dce0332949b51add71f90c": {
+        "allowance_units": 3500000000,
+        "charged_units": 0,
+        "cost_usd": 0.0,
+        "metadata": {
+          "allocation": "worker-verification-hold",
+          "revision_id": "01dce0332949b51add71f90c826501162c0f528adeef9940119f27077cff3af3"
+        },
+        "reserved_at": "2026-09-28T03:50:33.691679+00:00",
+        "resolution": {
+          "cost_usd": 0.0,
+          "evidence": "controller-validated-worker-handoff",
+          "final": true,
+          "telemetry": {}
+        },
+        "state": "settled",
+        "telemetry": {},
+        "updated_at": "2026-09-28T03:52:36.467627+00:00"
+      },
+      "public-assessment-01dce0332949b51add71f90c": {
+        "allowance_units": 500000000,
+        "charged_units": 15219600,
+        "cost_usd": 0.0152196,
+        "metadata": {
+          "allocation": "public-assessment",
+          "packet_sha256": "cc712cc2de97eebcce6cf6ffc2d9cbedb88941f11850a16a2959c88a8d3e49ba",
+          "revision_id": "01dce0332949b51add71f90c826501162c0f528adeef9940119f27077cff3af3"
+        },
+        "reserved_at": "2026-09-28T03:50:25.683324+00:00",
+        "resolution": {
+          "cost_usd": 0.0152196,
+          "evidence": "public-assessment:cc712cc2de97eebcce6cf6ffc2d9cbedb88941f11850a16a2959c88a8d3e49ba",
+          "final": true,
+          "telemetry": {
+            "cost_usd": 0.0152196,
+            "input_tokens": 2,
+            "model": "claude-sonnet-5",
+            "output_tokens": 481,
+            "provider_calls": 1
+          }
+        },
+        "started_at": "2026-09-28T03:50:25.689050+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cost_usd": 0.0152196,
+          "input_tokens": 2,
+          "model": "claude-sonnet-5",
+          "output_tokens": 481,
+          "provider_calls": 1
+        },
+        "updated_at": "2026-09-28T03:50:33.566964+00:00"
+      }
+    },
+    "limit_units": 12000000000,
+    "limit_usd": 12.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.445757402,
+    "unresolved": [],
+    "version": 1
+  },
+  "controller_stage": "worker-ready",
+  "credential_reconciled": true,
+  "effective_action": "controller",
+  "error": null,
+  "public_assessment_cost_usd": 0.0152196,
+  "public_assessment_status": "settled",
+  "root_id": "x4-live-smoke-root-v3",
+  "schema_version": 1,
+  "seed": "/var/lib/orchestrator-worker-n4/seed/controller-x4-huskdup3",
+  "status": "blocked",
+  "worker_attempt_count": 1
+}

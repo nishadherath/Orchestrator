@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "fake_provider_only": true,
+    "four_edits_collected": true,
+    "four_source_edits_visible": true,
+    "model_identity": true,
+    "protected_unchanged": true,
+    "q1_receipt_bound": true,
+    "writer_stopped": true
+  },
+  "evidence_sha256": "af4774ff4f032e901635957ac4ff27b0b04e5c5c41e52eb1cd305c7134589f64",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T11:07:08+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_wsl_q3_adapter.py": "b165ccca14f77472f96ca8d7ea9aa5812a89e1ae64f44b9ee9df04b71d25223a",
+    "tools/worker_wsl_q3_expansion_probe.py": "4818d49e880eed455e31d3b8f53a6596315aa7d2a5a19d71287de6f921117341"
+  },
+  "task_id": "P03",
+  "task_sha256": "4177a184f67a3f800ee75a88f5131ce919ea8c665d3112604efd5b62182c88c6"
+}

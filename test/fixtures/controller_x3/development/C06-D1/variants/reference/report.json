@@ -1,0 +1,17 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "worker-clock-used-for-lease-expiry",
+  "next_step": "compare-server-time-and-queue-lag-before-rollout",
+  "probes": [
+    {
+      "input": {"leases": [{"id": "probe-fast", "server_now": 20,
+                             "worker_now": 27, "expires_at": 25}]},
+      "observed": {"renewable": ["probe-fast"], "expired": []}
+    },
+    {
+      "input": {"leases": [{"id": "probe-slow", "server_now": 27,
+                             "worker_now": 20, "expires_at": 25}]},
+      "observed": {"renewable": [], "expired": ["probe-slow"]}
+    }
+  ]
+}

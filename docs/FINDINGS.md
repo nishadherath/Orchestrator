@@ -1,5 +1,89 @@
 # Findings: verified behaviour of Claude Code
 
+## WSL structured schema transport, 2026-09-28
+
+On the installed WSL Claude Code 2.1.273, a raw JSON `--json-schema` argument
+passed from Windows Python through `wsl.exe` was rewritten before the CLI saw
+it. Claude Code exited 1 with `--json-schema is not valid JSON` and empty
+stdout, before a provider result. A provider-free `printf` argv probe reproduced
+the rewriting; URL-safe base64 crossed intact. Decoding inside a WSL Python
+launcher and calling Claude Code with `os.execv` produced a terminal Sonnet 5
+assessment at USD 0.0345912 API-equivalent usage. Evidence:
+`test/results/2026-09-28-controller-x4-live-public-probe-b/` and
+`test/results/2026-09-28-controller-x4-live-public-probe-c/`. The first live
+probe lacked transport diagnostics, so its USD 0.50 reservation remains
+unresolved even though it likely encountered the same local parser error.
+
+## Public-assessor evidence sensitivity, 2026-09-28
+
+On Claude Code 2.1.273 with a served Sonnet 5 root, a fresh C03-D1 public
+assessment used 11 exact citations covering the payment retry requirements,
+the duplicate-charge code path and the smoke check's stated blind spot. It
+settled USD 0.0387786 API-equivalent usage with no unresolved reservation.
+The persisted interpretation selected `recoverable`, `none` premise
+uncertainty, `one-established` alternative and `local` coupling; under
+`rigour-auto-v1` those fields recommend a worker. The model cited the added
+lines, so the result is not explained by the earlier two-citation fixture
+alone. The probe script itself exited after settlement while trying to read a
+nonexistent `rigour.facts` field; the read-only
+`test/results/2026-09-28-controller-x4-live-public-probe-d/read_settled.py`
+recovered the validated classification from the N1 root without a second
+call. Evidence is in that probe directory. This one classification does not
+establish a false negative without an independently frozen suitability rubric;
+it does show that the deterministic fake's C03-D1 Controller choice cannot
+stand in for observed live routing. Keep automatic promotion unqualified.
+
+The next fresh-root development probe used the same 11 citations but added
+explicit, task-neutral enum definitions to the public-assessor prompt. It
+settled USD 0.0430122 API-equivalent usage and selected `consequential` impact
+and `implementation` failure, while retaining `none` premise uncertainty,
+`one-established` alternatives and `local` coupling. The deterministic policy
+therefore still chooses a worker. This is coherent with a financially important
+but explicitly specified one-module repair: consequence alone does not justify
+the Controller charge. Treat C03-D1 as a prospective negative control for
+automatic invocation, not as a demonstrated trigger-positive case. The prompt
+change is a candidate refinement, not qualified generalisation. Evidence:
+`test/results/2026-09-28-controller-x4-live-public-probe-e/`.
+
+## Live Controller Framer shape, 2026-09-28
+
+The WSL Claude Code 2.1.273 quick-mode host passed the Controller's
+provider-free 12-scenario self-test and launched a synthetic public problem
+under Claude.ai subscription auth. Two Opus High Framer calls settled a total
+USD 0.7297 API-equivalent usage with no held allocation, but the run correctly
+ended as a `no_improvement` gap before downstream roles: no `FrameRecord` or
+B0 candidate reached the Scribe. The first transcript contained 25
+`PremiseRecords` across two root assistant text messages; the retry contained
+one. No assistant text contained a FrameRecord or candidate, so transport
+aggregation alone cannot turn this attempt into success. The terminal JSON
+`result` retained only the last assistant message, hiding 23 of the first
+call's PremiseRecords from the runner. The original CLI path also used JSON
+output without served-model stream identity, so this attempt does not qualify
+live role identity. Evidence: `test/results/2026-09-28-controller-x4-role-probe/`
+and the corresponding local WSL synthetic-project transcripts.
+
+The candidate repair limits quick-mode Framer output to 12 material premises,
+requires FrameRecord and B0 before them, and aggregates all root assistant
+text in stream mode while excluding child text. Provider-free stream,
+forward-reference and budget tests passed 32/32; a fresh live role run is
+still required to validate the candidate under served-model evidence.
+
+The next fresh synthetic run validated the revised Framer path and recorded
+served identity for Opus High Framer, Sonnet Medium Verifier, Sonnet Low
+Controller checkpoints and Sonnet High Generator. It settled nine calls for
+USD 1.7035 API-equivalent usage with no held allowance. Its final state was
+`budget_spent` with USD 2.2965 available, because the standard profile
+launched Generators in parallel without a cohort plan: one reserved USD 2,
+the next reserved USD 0.76 and the third could not reserve its USD 0.50
+minimum before either sibling settled. The call outcomes cost about USD 0.24
+each, so final spend alone would have allowed the complete cohort. This is a
+concurrency admission defect, not evidence that the task actually exhausted
+USD 4. The candidate fix computes caps for every standard-profile Generator
+before launch, preserving USD 1 for later Critic and Selector calls.
+Provider-free concurrent-admission and adjacent budget tests passed 33/33;
+a fresh live run is required to qualify that fix. Evidence:
+`test/results/2026-09-28-controller-x4-role-probe-2/`.
+
 Every platform claim this repository depends on is listed here with the date it
 was checked, the source, and where the claim is used. "Documentation" means the
 pages under `code.claude.com/docs` as read on the date given. Documentation is
@@ -615,5 +699,596 @@ subscription when API-key overrides were excluded. The operator procedure and
 git-ignored project backup are described in
 [CLAUDE-CODE-WSL-AUTH.md](CLAUDE-CODE-WSL-AUTH.md).
 
-Unverified: credential refresh in WSL, authenticated model requests and safe
-delivery of subscription credentials into the separate N5 actor namespace.
+Unverified at that point: credential refresh in WSL and authenticated model
+requests. The later private-handoff check below established delivery into the
+separate actor namespace without a model request.
+
+## N5 private subscription handoff and expired-token failure, 2026-09-25
+
+Observed locally with Claude Code 2.1.273: the root-owned private credential
+store and mount namespace delivered the Claude.ai Max login to a UID 65534
+actor. The N4 host attestation passed 51 checks and the isolated subscription
+status attestation passed eight. These checks consumed no model tokens. The
+worker has no API key and the credential is neither in its public package nor
+in its inherited environment.
+
+The first bounded Sonnet-low Read-denial sentinel returned a Claude Code
+`<synthetic>` result with zero input and output tokens and USD 0 reported
+API-equivalent cost. No Read call or served model was observed. After the call,
+Claude Code had emptied the access and refresh fields in only its private
+invocation copy. The root store correctly refused to commit it. The WSL user
+copy and root master still contained both fields. Metadata inspection showed
+that their access tokens had expired while their refresh tokens had not. The
+failed private copy was verified empty and discarded without changing the
+master. This is consistent with a failed headless token refresh; the exact
+provider-side cause was not established.
+
+The handoff now rejects credentials with less than five minutes of stated
+access or refresh validity before launching an actor. Fresh WSL sign-in and a
+repeat of the bounded sentinel are required before N5 paid screen dispatch.
+The screen's 60 calls and reserved N6 tasks remain unrun.
+
+Observed later in the same sign-in flow: while `claude auth login --claudeai`
+waited for browser authorisation, the WSL user's credential file still had its
+Claude.ai metadata but both token fields were empty. The root master and
+git-ignored project backup retained their earlier credential bytes. The
+checked sync helper rejected the incomplete source before writing the backup.
+The WSL login must complete before that helper can promote a fresh token.
+Windows `claude auth status` still reported `loggedIn: true` and a Max
+subscription while the stored token was too close to expiry for the isolated
+worker; this status is not a freshness test. The WSL user's CLI reported
+`loggedIn: false` during the pending browser login.
+
+Observed after a new Claude.ai email login on 2026-09-25: WSL Claude Code
+reported a Max subscription; the checked sync helper promoted the fresh
+credential into the root master and refreshed the git-ignored backup without
+changing its ACL. A later digest comparison found the root master, WSL user
+copy and backup identical. The renewed subscription status attestation passed
+8/8 checks. The second, bounded Sonnet-low Read-denial sentinel passed 7/7:
+one Read attempt was denied at the private auth path, the served model was
+`claude-sonnet-5`, the actor stayed unchanged and Claude Code reported USD
+0.053081 API-equivalent cost. This supersedes the earlier zero-token sentinel
+as current N5 subscription evidence. The other fourteen cells remain untested
+until the approved screen runs.
+
+## N5 isolated public acceptance, 2026-09-25
+
+Observed locally without a provider call: a fresh WSL copy of a stopped actor
+ran `public_check.py` under UID 65534. The Windows bridge returned sealed
+acceptance evidence, with the host attestation and four public file hashes
+bound to the result. The 55-check host attestation passed the bridge, hidden
+evaluator read denial, source preservation and rejection of a self-modifying
+public check. Focused acceptance tests also rejected stale isolation proof and
+reuse of prior local verification evidence. The hidden oracle grader remains
+separate and is the objective quality measure. No live N5 development episode
+has been run.
+
+## Q1 multi-file WSL actor boundary, 2026-09-25
+
+Observed locally without a provider call: a separate Q1 namespace and
+manifest-bound package let UID 65534 edit two existing nested Python files
+while denying new and protected files. Actor Graft found both module markers
+but not the root-only evaluator marker; direct, symlink, parent and sibling
+paths were denied. Collection required the root-owned launcher stop record,
+returned a private snapshot of both edits, and rejected source races,
+protected-file drift and duplicate output. The attestation recorded 38 WSL
+checks and five root-budget checks; the legacy single-file transport still
+passed eight checks. Evidence and reproducible commands are in
+[worker-q1.md](stage-results/worker-q1.md).
+
+Unverified: authenticated Claude multi-file edits, paid charge telemetry,
+multi-file public acceptance and hidden grading. Q1 did not exercise these
+later gates or change the B0 default.
+
+## Q2 public multi-file calibration, 2026-09-25
+
+Observed without a provider call: two pinned, licensed upstream Python
+packages were packaged as authored two-file regressions within Q0's
+1,000-20,000 source-line stratum. Vendored upstream source and licence bytes
+matched the pinned local clones. Six fresh Q1-isolated baseline, partial and
+reference grades scored cachetools 10/55/100 and ItsDangerous 30/60/100.
+Both references passed public and hidden checks; both partials earned useful
+hidden quality but were not accepted. The actor's direct attempt to read each
+root-owned oracle was denied. The offline harness now checks the frozen
+catalogue, evidence and internally inconsistent rewritten result fields.
+The machine result and limits are in
+[worker-q2.md](stage-results/worker-q2.md).
+
+Source-inspection finding: the historical D/H fixture codebases contain only
+about 13-90 Python source lines, so they cannot support the proposed
+target-stratum pilot. These two public families are insufficient for Q0's
+eight-task B0 gate; a two-task canary would be diagnostic only. The concurrency
+case uses a short scheduling window and needs repeated calibration before a
+paid comparison. Unverified: paid Claude multi-file adapter, served model and
+effort identity, B0 task difficulty, routing quality, and population effect.
+
+## Q3 subscription multi-file static preflight, 2026-09-25
+
+Verified on the local WSL host without a model call: after fresh Claude.ai
+sign-in and checked credential sync, an isolated Q1-named actor running
+`claude --restricted auth status --json` reported a subscription login,
+produced a root-owned stop record and reconciled the private credential
+session. The Q3 attestation passed 28 provider-free checks across launcher
+rejection, fake two-file collection, a complete fake B0 TaskExecutor episode
+and fresh hidden-grader baseline/reference comparisons. A concurrent drift
+of protected `ISSUE.md` was rejected before root write-back. N4 and Q1 host
+attestations and Q2's six saved grades were refreshed or revalidated.
+
+The full offline harness passed 66/66 checks. The Q3 sentinel is frozen as a
+separate one-call paid gate and has not run. The two-task B0 canary is not
+approved or dispatched. Actual Claude multi-file behaviour, cancellation
+timing, served effort and API-equivalent cost remain unverified. See
+[worker-q3-static-preflight-2026-09-25.md](stage-results/worker-q3-static-preflight-2026-09-25.md).
+
+A later provider-free Q3 timeout probe used a fake adapter that raised before
+any Claude invocation. TaskExecutor retained the USD 6 unresolved hold and
+actor, returned `uncertain`, and did not replay when called a second time.
+This proves the local no-replay path for an absent terminal receipt; it does
+not prove cancellation timing or charge reconciliation for a real provider
+process.
+
+## Q3 subscription canary and grader stability, 2026-09-25
+
+Observed on the current WSL host: the exact one-call Sonnet-low Read-denial
+sentinel passed and reported USD 0.0530436 API-equivalent usage. Its actor
+could not read the private auth path. The subsequent two-task B0 canary
+completed without an uncertain receipt: P01 cachetools passed on one
+Sonnet-low call, and P02 ItsDangerous passed after one Sonnet-low repair.
+Both stopped actors passed their hidden oracles at 100/100 with no critical
+error or false success. Three provider calls reported USD 0.440517602
+API-equivalent usage in total; the served model was `claude-sonnet-5` on each.
+The provider did not independently report served effort, so only the
+requested low effort is known. The actor revisions changed only their two
+allowed source files. Ten provider-free repeat grades each of P01's baseline
+and candidate were stable at 10/100 and 100/100 respectively, with the
+actor unchanged. The full offline harness passed 66/66 checks. Exact evidence,
+patch review and limits are in
+[the Q3 canary result](stage-results/worker-q3-canary-2026-09-25.md).
+
+Inference and limit: these two examples reached full B0 acceptance, so they
+cannot demonstrate final-quality benefit from task-sensitive first-cell
+routing. Their small sample does not invoke Q0's eight-family ceiling rule.
+Six more distinct public families need their own issues, oracles and paid
+manifest; [candidate sources](WORKER-Q3-EXPANSION-INVENTORY-2026-09-25.md)
+have been pinned but are not yet completed tasks. No claim about a reserved
+population or a production routing change follows from this canary.
+
+## Q3 eight-family public B0 gate, 2026-09-25
+
+Observed: six additional independently pinned public source families passed
+provider-free source, licence, grader and isolation checks. Their six B0
+episodes used one Sonnet-low call each, all settled, and reported USD
+1.774540602 API-equivalent usage. Combined with P01/P02, B0 hidden acceptance
+was 3/8, mean hidden quality was 87.5/100, and five incomplete outcomes were
+public-pass/hidden-fail. Nine calls across the eight tasks reported USD
+2.215058204 API-equivalent. All reported `claude-sonnet-5`; served effort was
+not independently visible. The independent patch review and exact evidence
+are in [the Q3 result](stage-results/worker-q3-public-2026-09-25.md).
+
+Source-inspection finding: P07's two 5-point hidden misses require `TypeError`
+for malformed pickle states. The actor raised package-specific `ValueError`
+subclasses, which do reject malformed state. Since the public issue specified
+validation but no exception type, these misses are rubric-disputed; the frozen
+90-point grade remains unchanged. P08 made broad cross-platform edits, leaving
+untested regression risk outside its 90-point hidden grade.
+
+Inference: the 3/8 result is within Q0's public difficulty window of two
+through six acceptances. It justifies a bounded candidate screen, not a claim
+that task-sensitive routing beats B0 or a change to the shipping default.
+Run variation on the harder public tasks and the value of a more expensive
+first cell remain unverified. No Q4 reserved task has run.
+
+## Graft Q3 deep refresh, 2026-09-25
+
+Observed: the standing-approved `tools/graft_deep_refresh.ps1` updated the
+structural graph to 8,520 nodes, 18,064 edges and 817 cards. Its deep pass
+exited 1 with 4,822 computed, 2,963 cached, eight stale and 727 pending
+meanings. Five large source files returned truncated symbol summaries, and
+`tools/task_executor.py` returned an unparseable tool response. A subsequent
+Graft MCP freshness check said the graph was in sync with code but identified
+eight stale summaries under `tools/task_executor.py`. Installed Graft's
+per-symbol summary request caps output at 8,192 tokens. The DeepSeek usage and
+charge for this refresh were not exposed; neither is assumed to be zero.
+
+Inference: structural Graft retrieval is current, while semantic summaries
+are incomplete. Rerunning the same paid deep request without addressing the
+truncation and tool-response failures has low expected value. Scoped repair
+and a cached retry remain open.
+
+Later on 2026-09-25, the local DeepSeek proxy was changed to raise the
+`record_symbols` output cap from 8,192 to 32,768 only for configured
+`deepseek-flash` calls, and to report aggregate token usage without response
+content. A cached deep retry then resolved five of the six failed source
+files. It ended with 8,511/8,520 meanings covered, eight stale summaries and
+one pending file, all under `tools/task_executor.py`; that file again returned
+an unparseable tool response. Graft MCP confirmed that the structural graph
+remains in sync. The retry reported 12 calls, 146,478 input tokens including
+144,382 cache reads, and 85,667 output tokens, with no missing usage fields.
+At [DeepSeek Flash's published 2026-09-25 off-peak rates](https://api-docs.deepseek.com/quick_start/pricing/),
+this is about USD 0.05215 API-equivalent; peak-rate sensitivity is about USD
+0.10430. This is a price calculation from provider token counts, not a
+verified invoice. The first deep pass's charge remains unknown. A further
+identical paid retry is not justified; the remaining tool-response failure
+needs a separate parser or request-shaping diagnosis.
+
+## Q3 contract audit and first-cell attribution, 2026-09-25
+
+Observed in provider-free isolated WSL probes: P03's stopped patch returns
+the requested sorted command and option suggestions but omits a colon that
+the hidden grader requires. The public issue also never requests the exported
+exception class required for another ten points. P07 rejects malformed state
+using package-specific exceptions rather than the hidden oracle's unspecified
+`TypeError`. The [audit record](stage-results/worker-q3-contract-audit-2026-09-25.md)
+preserves exact outputs, original hashes and unchanged frozen grades.
+
+Inference: treating those disputed obligations as contract-equivalent changes
+the pilot sensitivity from 3/8 and 87.5 to 5/8 and 94.375. It leaves at most
+5.625 mean executable points of improvement on the tested cases. This is
+retrospective sensitivity, not a new grade, a model comparison or proof of
+correctness on untested behaviour.
+
+Source-verified: Q3 executable grading does not credit diagnosis or reporting;
+its `false_success` denotes a public/hidden acceptance gap, not an observed
+false statement. All P03-P08 critical flags are disabled. The experimental
+executor changes both the first and second cell, so a new common-tail version
+is required for first-cell attribution. These findings supersede the earlier
+inference that the pilot alone justifies an immediate paid candidate screen.
+The [implementation amendment](WORKER-Q4-MEASUREMENT-AND-FREEZE-2026-09-25.md)
+specifies the repairs before further screening. B0 and historical evidence
+remain unchanged; no Q4 reserved outcome exists.
+
+## Q4R missing structured output and Q4S screen, 2026-09-26
+
+Observed: Q4R's Sonnet-high P08 call settled at USD 0.6894318
+API-equivalent, returned a terminal `success` event without
+`structured_output`, and made no edit to the four permitted source files.
+The stopped patch passed two of eight executable cases. Both Sonnet-low B0
+repetitions returned valid reports and scored 85/100, which establishes that
+the schema was satisfiable on this task. The generic root-identity check also
+encountered a synthetic model marker; requested effort was not independently
+observed. The [investigation](stage-results/worker-q4s-transport-investigation-2026-09-26.md)
+records the receipt and instrumentation limits.
+
+Inference: a successful CLI terminal subtype alone cannot establish a valid
+report. Q4R correctly failed closed, but its compact receipt cannot explain
+why this report was absent, and its campaign needed manual reconciliation of
+a settled terminal failure. The absent report and absent edits are separate
+observations; their causal relationship is unknown.
+
+Unknown: the validation retry count, whether a single request reached its
+output ceiling, why the agent made no source edit, and whether any CLI or
+model behaviour caused the missing object. No historical score or budget was
+changed. The [prospective Q4S plan](WORKER-Q4S-PROSPECTIVE-CANDIDATE-SCREEN-2026-09-26.md)
+first strengthens evidence and settlement, then tests a predeclared
+Sonnet-medium trigger on six new upstream-backed families. B0 remains the
+default; Q5 remains gated.
+
+## Q4S provider-free admission and evidence, 2026-09-26
+
+Observed with Claude Code 2.1.273 and the separate Q4S WSL launcher: the
+source-bound authentication and actor probe passed 12 boundary checks with
+zero provider calls. Seven fake-stream regressions passed for missing
+structured output, terminal failure settlement, model identity and no replay.
+The [S1 record](stage-results/worker-q4s-s1.md) links the exact evidence.
+
+Inference: the Q4S-only receipt and journal can preserve and score a settled
+missing-report failure prospectively without changing the frozen Q4R result.
+The WSL probe verifies that the actor receives the 20-turn and two-retry
+environment controls. A live Claude run has not yet shown how those controls
+affect task completion. Q4S S2 must freeze the independent corpus before S3
+can test that question.
+
+## X4 live Controller checkpoint and uncertainty gate, 2026-09-28
+
+Observed in WSL Claude Code 2.1.273 with Claude.ai subscription auth: the
+third synthetic Controller run reached a Sonnet Low stability call that
+settled USD 0.1035346 but failed at its USD 0.10 per-call cap. The runtime
+silently substituted the Framer's `stable=True`. A source fix increased the
+classifier reservation ceiling to USD 0.25 and made failed live
+classifications terminate as accounted gaps. The provider-free budget suite
+passed 34/34 and the checked consumer build exited zero.
+
+Observed in a fresh fourth run: both Controller classifications returned
+structured results, all 17 role calls had matching served root-model
+identities, and the budget settled USD 3.227475305 with no hold. The run
+reached two Generator families, Critic and Selector. It ended as a
+`no_improvement` gap because five load-bearing premises remained unverified
+in a statement-only investigation task. The first Critic reply exceeded
+record field caps; its bounded retry produced valid critiques. No live
+Controller solution, worker handoff or quality uplift is claimed from this
+probe. The [X4 record](stage-results/controller-x4-progress-2026-09-28.md)
+contains the stage implications.
+
+Inference: the strict candidate gate usefully prevents an unconditional
+answer from passing on missing facts, but its generic gap text loses the
+specific conditional next step this task asks for. A partial-result path
+should preserve the uncertainty, candidate provenance and next discriminating
+measurement without labelling the task accepted. Whether this improves
+real-task quality is untested and belongs in X5 comparison.
+
+Provider-free follow-up: the no-eligible-candidate path now preserves its
+`gap` outcome and names the first unverified premise's proposed evidence check
+in `next_cheapest_test`. An end-to-end fake run verified the result stays
+unaccepted; the focused integrity and budget suites passed 45/45 together,
+and the checked bundle build passed. A live quality gain is not established.
+
+## X5 recovery R3/R4 headroom and settlement contract, 2026-09-30
+
+Observed on the installed WSL Claude.ai subscription host: a successful
+`claude auth login --claudeai` refreshed the unprivileged login, but the
+root-owned worker credential store remained expired until its guarded `sync`
+operation promoted that login. No task or provider call had started before
+the sync. The R3 R01 producer then settled one terminal, writer-stopped,
+identity-valid `claude-sonnet-5` receipt at USD 0.16955 API-equivalent. The
+host-run public check passed, while protected grading later found one
+critical replay miss, yielding 85/100. The frozen eligibility helper rejected
+the producer early because it expected Boolean `false` for
+`budget.unresolved`; the settled TaskExecutor value was an empty list. After
+a provider-free repair and test-fixture correction, the original stopped root
+reconciled to `no publicly observable unresolved work` without a new call.
+
+Observed in the separately approved R4 R02 case: the full prelaunch offline
+harness passed 83/83, the producer settled one valid `claude-sonnet-5` receipt
+at USD 0.1179006 API-equivalent, and both public and protected checks passed
+on its first attempt at 100/100. R3 and R4 together spent USD 0.2874506
+API-equivalent. Neither producer met the predeclared public recovery rule, so
+no matched Controller or direct-worker successor ran. The R3 and R4 result
+records are in `stage-results/`.
+
+Inference: this development case mix gives the proposed public-failure
+recovery route no entry opportunity. R01's protected miss cannot be used as
+a retrospective Controller trigger. Additional paid producers from the same
+easy-task pattern would not estimate Controller uplift.
+
+Unknown: whether a prospectively selected distribution with genuine public
+failures would let a Controller handoff improve over a direct second worker,
+and whether any selective public-success review trigger would outperform its
+cost. B0 remains the default; the X6 reserve was not accessed.
+
+## X5 P02 first-failure smoke, 2026-09-30
+
+Observed: P02's baseline public check failed and its reference passed in the
+isolated provider-free probe, with protected quality 30/100 and 100/100
+respectively. The frozen engineering smoke passed its 83/83 repository gate,
+manifest, host and credential preflight. One new Sonnet-low producer returned
+terminal, writer-stopped and identity-valid at USD 0.113327401 reported
+API-equivalent. It passed public and protected acceptance on the first
+attempt. The root had no unresolved charge or budget breach. Neither S nor A
+started. P02 had failed its first public check in the earlier Q3 canary.
+
+Inference: a historical first failure on P02 did not supply a reliable new
+Controller intervention point on this host. It cannot be replayed or counted
+as a prospective effect unit. R3, R4 and this P02 smoke together reported
+USD 0.400778001 API-equivalent and yielded zero matched Controller pairs.
+
+Unknown: the first-attempt public-failure rate on a new, independently
+predeclared upstream issue set, and whether a Controller investigation would
+improve one matched repair call once such a failure occurs. The result is in
+`stage-results/controller-x5-first-failure-p02-smoke-result-2026-09-30.md`.
+
+## X5 F01 fresh development case, 2026-09-30
+
+Observed: a new authored two-regression case on pinned `attrs` source failed
+all three public checks at baseline, with protected quality 2/6. A one-module
+partial repair still failed public and reached 4/6. The upstream reference
+and a distinct alternative repair both passed public and 6/6 protected. The
+final offline harness passed 83/83; the WSL packet and protected grader probe
+passed without provider calls. The single live producer settled one terminal,
+writer-stopped, identity-valid Sonnet-low receipt at USD 0.1270084 reported
+API-equivalent. It passed public and protected acceptance on its first call,
+scoring 100/100 with zero critical errors. No S or A successor started.
+
+Inference: stronger authored baseline defects alone did not yield a public
+first-failure checkpoint on this case. F01 cannot be replayed or counted as a
+matched Controller effect. R3, R4, P02 and F01 together reported USD
+0.527786401 API-equivalent and yielded zero matched Controller pairs.
+
+Unknown: the failure rate and Controller effect on a broader independently
+frozen issue set. The Controller's exact failed-report path remains untested
+in a paid continuation. The [F01 result](stage-results/controller-x5-first-failure-f01-result-2026-09-30.md)
+records the closed root. B0 remains the default; X6 remains sealed.
+
+## X5 F02 styled-help development case, 2026-09-30
+
+Observed: a new authored two-module Click regression on pinned source failed
+two of three public checks at baseline and passed 3/7 protected cases. A
+one-module partial repair still failed public and passed 6/7. The upstream
+reference and a separate explicit ANSI-stripping repair passed public and
+7/7. The full offline harness passed 83/83 and the WSL packet probe passed
+without provider calls. The single live producer settled a terminal,
+writer-stopped, identity-valid Sonnet-low receipt at USD 0.0695534 reported
+API-equivalent. It passed public and protected acceptance on its first call,
+scoring 100/100. No S or A successor started.
+
+Inference: the first-failure-only entry rule has yielded no eligible matched
+pair across five producer screens, totaling USD 0.597339801. Another similar
+synthetic screen would offer limited new evidence. F02 cannot be replayed.
+
+Unknown: whether realistic ambiguous issues create sufficient public-failure
+headroom, or whether a public-only risk signal after apparent success would
+identify useful Controller investigations. Neither hidden scores nor prior
+case outcomes may retrospectively select a trigger. See the
+[F02 result](stage-results/controller-x5-first-failure-f02-result-2026-09-30.md).
+B0 remains the default and X6 remains sealed.
+
+## X5 F03 cancellation development case, 2026-09-30
+
+Observed: a Tenacity case adapted from a public cancellation report and an
+authored second regression failed all three public checks at baseline and
+passed 4/9 protected cases. An async-only partial repair still failed public
+and passed 7/9. Two different complete repairs passed public and 9/9. The
+full offline harness passed 83/83; WSL packet and protected grading passed
+without provider calls. The live producer settled one terminal,
+writer-stopped, identity-valid Sonnet-low receipt at USD 0.2023272 reported
+API-equivalent. It passed public and protected acceptance on its first call,
+scoring 100/100. No S or A successor started.
+
+Inference: six first-call screens now total USD 0.799667001 and have yielded
+zero eligible matched Controller pairs. F03 cannot be replayed. The
+first-failure-only route should not consume more of the same task shape.
+
+Unknown: whether a distinct task distribution or a public-only post-success
+risk signal gives Controller useful headroom. Both require fresh prospective
+cases and a fair direct-worker control. See the
+[F03 result](stage-results/controller-x5-first-failure-f03-result-2026-09-30.md).
+B0 remains the default and X6 remains sealed.
+
+## X5 public-risk review mechanism, 2026-09-30
+
+Observed: a development-only accepted-root checkpoint now validates one
+settled, writer-stopped, identity-valid B0 public success, an independently
+rerun public check and a source-cited risk record bound to a frozen digest.
+It creates equal single-use S/A public actor snapshots. Fake-provider tests
+reject open charges, active writers, invalid identity, absent risk decisions,
+changed citations, public regression, extra actor files and replay. The full
+offline harness passed 83/83 with no provider calls for this mechanism.
+
+Inference: accepted roots can be safely compared on a new review task using
+fresh successor roots, if a public-only risk rule and fresh corpus justify
+the extra work. This does not establish a Controller benefit.
+
+Unknown: whether fresh public-risk cases retain a protected quality gap
+after a normal first worker call, whether A beats a direct worker review S,
+and whether its incremental cost is justified. The
+[design](stage-results/controller-x5-public-risk-review-design-2026-09-30.md)
+keeps the next paid campaign gated. B0 remains the default and X6 sealed.
+
+## X5 K01 public-risk review stop, 2026-09-30
+
+Observed: a fresh PyJWT-backed tenant rotation case and two negative rubric
+packets were frozen. Its baseline, narrow repair and two complete repairs
+calibrated as expected. The full offline harness passed 83/83 before the
+live producer and after the continuation repair. The producer accepted public
+behaviour for USD 0.0748108, and the direct S review accepted public behaviour
+for USD 0.1009298. A's public assessment and Controller investigation
+settled USD 0.044417801 and USD 0.854538 respectively. The Controller
+handoff cited source but gave a generic next action, not the predeclared
+issuer check. A's Q3 Graft build failed with `umount: /mnt/c: target is busy`
+before the worker provider invocation; the resulting uncertain worker hold
+was reconciled at USD 0 and the root blocked. The K01 settled subtotal is
+USD 1.074696401 reported API-equivalent. No protected oracle was read.
+
+Inference: running the worker build inside the Controller's private
+evaluation mount view may cause the nested unmount failure. The original
+rotation issue also framed Controller's investigation after public success,
+while the active task should have been the frozen residual-risk review.
+These hypotheses require provider-free boundary tests before another paid
+case. K01 supplies no matched quality effect and must not be replayed.
+
+Unknown: whether a distinct review goal and separated Controller/worker
+phases can produce a source-cited discriminating handoff, and whether that
+handoff improves protected outcomes over an identically informed direct
+worker. See the [K01 stop](stage-results/controller-x5-public-risk-k01-stop-2026-09-30.md).
+
+## X5 K02 public risk closure, 2026-09-30
+
+Observed: the provider-free phase split and equal review-goal checks passed;
+a Q3 Graft build succeeded after exiting the hidden Controller mount view.
+The checked `dist/` build completed and the final full offline harness passed
+83/83. A fresh Tenacity-backed payment case calibrated baseline, narrow and
+complete repairs. One B0 producer settled a public success for USD
+0.086191601 reported API-equivalent. It added a bounded retry with the
+payment ID as idempotency key. The predeclared public post-debit timeout
+check then showed one debit and stable receipt for repeated payment ID,
+with distinct IDs independent. S and A were admitted but used zero provider
+calls; the protected oracle was not executed.
+
+Inference: the ordinary producer resolved the observable duplicate-debit
+premise, so the post-success review no longer had eligible public risk.
+More self-contained authored regressions of this size are unlikely to
+establish a useful Controller headroom distribution. This is not a matched
+quality result or a proof that Controller cannot help harder tasks.
+
+Unknown: which real multi-system task distribution has a consequential
+publicly observable gap after an ordinary repair, whether Controller can
+produce a discriminating source-cited handoff on that distribution, and
+whether A beats the same direct worker review. See the
+[K02 result](stage-results/controller-x5-public-risk-k02-result-2026-09-30.md).
+
+## X5 external-validity audit, 2026-09-30
+
+Observed: primary upstream reports for urllib3, Requests, Go net/http and
+SQLAlchemy describe genuine multi-boundary failures, but the first three
+publish the repair or candidate fixes in their issue text. The SQLAlchemy
+case has an intermittent database-dependent reproducer and a suspected
+code location. None is currently a blind, deterministic X5 actor with an
+independently qualified acceptance oracle. No provider call was made in
+this audit.
+
+Inference: more short authored regressions or direct reuse of a public
+fix report are unlikely to measure incremental Controller value. A natural
+issue package needs a reproducible public symptom, a separately frozen
+public residual-risk check, protected safety checks and a prospectively
+planned sample before paid screening. A generic Controller handoff must
+count as a failure, not as recovered quality.
+
+Unknown: whether this host can source enough natural issue packages with
+observable post-repair risk, and whether Controller improves S at acceptable
+cost when such a package exists. See the
+[external-validity audit](stage-results/controller-x5-external-validity-audit-2026-09-30.md).
+B0 remains the default and X6 remains sealed.
+
+The first external preflight reproduced pytest-asyncio #1501 on the signed
+v1.4.0 source tag with pytest 9.1.1 on Windows and the actual WSL host:
+original test order gave one pass and one fixture error; reversed order and
+no-hook controls each passed two.
+The unchanged upstream loop-factory suite passed 40/40. An unmerged proposal
+applied to a separate v1.4.0 copy passed the issue repro and existing 40
+tests. A new two-factory check distinguished baseline collection (4 cases)
+from the proposed repair (5), while preserving one ordinary sync case.
+This is provider-free calibration of one candidate repair, not a frozen X5
+effect case; broader independent compatibility, an alternative repair and
+post-repair public-risk checks are still missing. See
+[E01 preflight](stage-results/controller-x5-external-e01-preflight-2026-09-30.md).
+
+## X5 opening-event retrieval and UTF-8 verification, 2026-09-30
+
+Verified on GitHub's public repository Events API and Windows Python 3.14:
+the first `pallets/werkzeug` event page had 18 adjacent timestamp inversions.
+Do not infer a complete creation-time window by stopping at the first older
+event. The frame E collector stopped without writing an invalid frame, then
+used an explicitly first-page cohort. [GitHub documents](https://docs.github.com/en/rest/activity/events)
+a 300-event, 30-day timeline and possible delivery latency; a first page is not an
+exhaustive time-window denominator. See the
+[frame E protocol](stage-results/controller-x5-opening-event-frame-e-protocol-2026-09-30.md).
+
+Verified on this Windows Python host: reading a UTF-8 JSON body snapshot
+with `Path.read_text()` without an encoding decoded a Unicode arrow through
+the default code page, producing a false hash mismatch. Reading with
+`encoding="utf-8"` matched all frozen title and body digests in frames E
+and F. The archived files themselves retained their recorded SHA-256 values.
+This is a verifier encoding issue, not evidence of source-body drift.
+
+## X5 authored httpcore pool schedule, 2026-09-30
+
+Verified on the copied httpcore 1.0.9 source on Windows Python 3.14 and the
+Kali WSL Python host: an idle connection assigned to a queued request can be
+selected for closure on a second pool pass in both sync and async pools. A
+sync-only one-path repair passed the competing-origin public check but failed
+the independent surplus-idle and async checks;
+two different complete repairs passed both checks and the normal reuse,
+removal, capacity and unassigned-expiry controls. The saved
+[calibration](stage-results/controller-x5-httpcore-authored-preflight-2026-09-30.md)
+is a deterministic state-window result using fake connections, not an
+observation of an actual network timeout or AI worker difficulty. The
+published issue and PR already reveal the mechanism, so this is an authored
+development case only.
+An unprivileged WSL namespace denied the protected oracle to all four actor
+variants. A separate evaluator-owned comparison scored baseline 25, partial
+50, two complete repairs 100, and both a changed protected issue file and a
+test-framework spoof as critical quality 0. These checks exercise the specific
+actor boundary and controls,
+not all adversarial ways to spoof child observations.
+
+The H01 B0 producer later settled one USD 0.214186 provider-reported
+API-equivalent call and scored 100/100 on the frozen four-check grader. Its
+first-pass stop left S/A unrun. A distinct post hoc Q1 isolated probe found
+that the settled repair still closes a connection assigned to a queued
+request when it becomes expired before the next pool pass, in both sync and
+async implementations. Two pre-existing complete calibration repairs retained
+assigned connections and still expired unassigned ones. This observation
+does not revise H01's frozen score. It shows that the grader omitted an
+important cleanup path, so H01 is retired from paid comparison and supplies
+no Controller uplift evidence. The fake-connection schedule does not establish
+a real network timeout. See
+[the settled result and post hoc audit](stage-results/controller-x5-h01-producer-result-2026-09-30.md).

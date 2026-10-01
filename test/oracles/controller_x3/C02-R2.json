@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "task_id": "C02-R2",
+  "diagnosis": "checkpoint-overlap-and-prefix-tombstone-resurrection",
+  "cases": [
+    {"milestone": "ordinary update checkpoints to the latest value", "weight": 20,
+     "critical": false,
+     "input": {"checkpoint": 2, "log": [
+       {"op": "put", "key": "a", "value": 2},
+       {"op": "put", "key": "a", "value": 5}]},
+     "expected": {"snapshot": {"a": 5}, "tail": [], "state": {"a": 5}}},
+    {"milestone": "a suffix deletion survives replay", "weight": 20,
+     "critical": false,
+     "input": {"checkpoint": 1, "log": [
+       {"op": "put", "key": "a", "value": 5},
+       {"op": "delete", "key": "a"}]},
+     "expected": {"snapshot": {"a": 5},
+                  "tail": [{"op": "delete", "key": "a"}], "state": {}}},
+    {"milestone": "an additive checkpoint event is replayed once", "weight": 30,
+     "critical": false,
+     "input": {"checkpoint": 2, "log": [
+       {"op": "put", "key": "a", "value": 10},
+       {"op": "add", "key": "a", "value": 3},
+       {"op": "add", "key": "a", "value": 2}]},
+     "expected": {"snapshot": {"a": 13},
+                  "tail": [{"op": "add", "key": "a", "value": 2}],
+                  "state": {"a": 15}}},
+    {"milestone": "a prefix tombstone cannot resurrect a deleted key", "weight": 30,
+     "critical": false,
+     "input": {"checkpoint": 2, "log": [
+       {"op": "put", "key": "a", "value": 7},
+       {"op": "delete", "key": "a"},
+       {"op": "put", "key": "b", "value": 4}]},
+     "expected": {"snapshot": {},
+                  "tail": [{"op": "put", "key": "b", "value": 4}],
+                  "state": {"b": 4}}}
+  ]
+}

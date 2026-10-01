@@ -1,8 +1,12 @@
 # N5 worker-cell screen contract
 
-Status, 2026-09-24: **provider-free inventory and driver validation only**.
-The live screen driver has not been enabled and no provider call has run. The
-shipping B0 policy remains unchanged. This contract implements the screen
+Status, 2026-09-25: **subscription screen complete; development comparison pending**.
+The WSL host and isolated subscription login passed provider-free attestations.
+After a fresh login, one bounded Sonnet-low sentinel observed the required
+Read denial and a served model at USD 0.053081 reported API-equivalent cost.
+The [completed screen record](stage-results/worker-n5-screen-2026-09-25.md)
+reconciles all 60 calls and USD 7.410898 of provider-reported API-equivalent
+usage. The shipping B0 policy remains unchanged. This contract implements the screen
 portion of the [worker plan](WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) and
 uses the [attested WSL host](WORKER-N4-WSL-HOST.md).
 
@@ -20,7 +24,8 @@ API-equivalent token scenarios and the current Opus version caveat; it is not
 the manifest-bound spend notice.
 
 The manifest binds every screen file, the complete N4 frozen corpus digest,
-the registry ID, the WSL attestation digest, the screen planner and driver sources, the
+the registry ID, the WSL and subscription attestation digests, the passing
+single-call Read sentinel digest, the screen planner and driver sources, the
 ordered calls, the credential method and the spend-notice digest. Its default
 credential method is `unconfigured` and its notice digest is absent, so it
 cannot pass the approval validator. `validate_authorisation` re-derives the
@@ -35,12 +40,19 @@ It records `unconfigured` credentials and no spend notice, so it is an
 inspection artefact and cannot authorise a paid call. Any fixture, planner,
 host or credential change requires a newly derived manifest.
 
+The [subscription manifest](../test/results/2026-09-25-worker-n5-screen-manifest.json)
+binds the passing sentinel and the [dated spend notice](stage-results/worker-n5-screen-spend-notice-2026-09-25.md).
+Its digest is `1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94`.
+The operator's [exact approval](../test/results/2026-09-25-worker-n5-screen-approval.json)
+validated against the live host. The [campaign checkpoint](../test/results/2026-09-25-worker-n5-screen-run/campaign.json)
+records the completed screen and needs no resume.
+
 For this host, the operator requires the Claude Code subscription login, not
-an API key. The [WSL login transfer](CLAUDE-CODE-WSL-AUTH.md) authenticates
-the default WSL user only; the isolated worker still needs qualified credential
-delivery. Before the first paid call, verify current pricing, create a dated
-direct API-equivalent cost and elapsed-time projection, and freeze that spend
-notice into a new manifest. The live runner must persist intent before each
+an API key. The [WSL login and private handoff](CLAUDE-CODE-WSL-AUTH.md)
+describe delivery to the isolated worker. Its provider-free status attestation
+does not establish token freshness or paid model behaviour on its own. The
+freshness check, access-control sentinel and current pricing check passed;
+the dated cost/time notice is frozen into the manifest. The live runner must persist intent before each
 call, use the attested WSL adapter, retain unknown charges without replay, stop a cell's
 tranche on unsupported or mismatched identity, and use the isolated WSL grader
 only after the worker has stopped. It must record requested effort separately
@@ -58,14 +70,32 @@ An identity mismatch skips the rest of that cell's tranche; a failed microtask
 with matching identity still gets an objective grade. Protected-file changes
 and row-cap overruns block the campaign. The driver uses the isolated WSL
 grader only after a terminal, stopped-writer receipt and checks the grade's
-oracle and actor digests. Its default production constructor rejects dispatch
-until credential delivery is qualified, even with an approval file. Eight
-driver tests inject a fake adapter and send no
-provider traffic.
+oracle and actor digests. Its production constructor selects the private WSL
+subscription adapter only after the current host, subscription and passing
+sentinel evidence and exact approval validate. An injected fake adapter is
+accepted only for offline tests. Eight driver tests send no provider traffic.
 
 The screen needs a separate one-call driver because `TaskExecutor` owns B0's
-fixed three-cell ladder. N5 development episodes still use `TaskExecutor` and
-remain to be implemented as a live campaign.
+fixed three-cell ladder. N5 development episodes use `TaskExecutor` through the
+[explicit experimental path](WORKER-N5-DEVELOPMENT.md).
+
+For those development episodes, `TaskExecutor` now accepts an injected
+acceptance command runner. The N5 host implementation only accepts the frozen
+`python3 public_check.py` command and executes it in a fresh WSL actor copy,
+under UID 65534 with no credential or hidden evaluator mount. Its sealed proof
+binds the host attestation, four public file hashes and the acceptance
+snapshots. Local command evidence cannot be reused as isolated evidence.
+The public check is a development feedback and acceptance signal; the
+independent hidden grader remains the objective quality measure. The live
+development driver now instantiates this runner and persists episode and
+grade records. It remains provider-free until its separate host, notice and
+exact manifest gate pass.
+
+`TaskExecutor.shadow_select()` remains observational on B0 roots. Its new,
+explicitly admitted experimental path dispatches the candidate or predeclared
+alternative cell and freezes the policy in each root and attempt. This has
+passed provider-free dispatch and uncertain-call tests. The shipping B0
+default remains unchanged.
 
 Provider-free inspection:
 

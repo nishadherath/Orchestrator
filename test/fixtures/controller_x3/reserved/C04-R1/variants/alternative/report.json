@@ -1,0 +1,80 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "object-id-lookup-missing-tenant-ownership",
+  "next_step": "replay foreign and owner archived lookups before rollout",
+  "probes": [
+    {
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-b"
+      },
+      "observed": null
+    },
+    {
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-c"
+      },
+      "observed": {
+        "id": "r-c",
+        "tenant": "acme",
+        "state": "archived",
+        "body": "C"
+      }
+    }
+  ]
+}

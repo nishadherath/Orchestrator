@@ -1,0 +1,3969 @@
+{
+  "evidence_sha256": "f750c590ddd8a25e47b8b95786f19abc5c46a19e1d3e0efc92914934b3acfb60",
+  "kind": "q4-public-quality-v2-calibration",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T14:08:50+00:00",
+  "rows": [
+    {
+      "licence": "MIT",
+      "licence_sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+      "oracle_read_denied": true,
+      "q4_task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+      "report_store_read_denied": true,
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-url-netloc",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-url-netloc",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-http-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-http-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-https-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-https-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "zero-proxy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-proxy",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-host-comparison",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-host-comparison",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "default-port-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by default-port-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "schema_version": 2,
+        "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+      },
+      "scenarios": [
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "39cc637a4bba5aecca7576bd2346b660317b1766d015344f04809638648fbcee",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": true,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": true,
+              "zero-https-pool": true,
+              "zero-proxy": true,
+              "zero-url-netloc": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "53517f541f5e0c47adbdba42a2e2f962a10f09afb946bf802d73b9c4ffae64cc",
+              "invocation_id": "943d185121832a66600890e6f393e897",
+              "prompt_sha256": "5bd99700a199203840c5f1ed86cdcefb053de69eba0f11d8184a6a8ca37e0fde",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "f5e2590097cba45969fef2fab7a6667a208daa0f7aaa00448761376d3c008807",
+              "stream_sha256": "6069ff560846701bfc6c681848bc7eba2cb2541452c6b5633aeb96cee2a6ffc4",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "da96655f40e624208ee2ac9d53040052837cff054438eb14ce37162843ea9db8",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Cause identified and repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified and repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "reference",
+          "source_grade_sha256": "9df265a71488e1830db73081d113e471a1ed6191fc91147f61778853853ce3b5",
+          "source_variant": "reference"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "39cc637a4bba5aecca7576bd2346b660317b1766d015344f04809638648fbcee",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": true,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": true,
+              "zero-https-pool": true,
+              "zero-proxy": true,
+              "zero-url-netloc": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "809b5270e25ea929c7973e900a34817a65b84754d8f67c7a5dea43778d24925d",
+              "invocation_id": "a472b5c095fbffd51ce2b597f070bbcd",
+              "prompt_sha256": "a6cb54e5b353b84b684e752628316f9ecd0808517d937096d38e75875b4b16a0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "bba45facb911f850869cc58c0acdfd324fb20f2f5c38d6f462ed2aa729224d5a",
+              "stream_sha256": "56ec3891af33a5196e2659fe7cbf3af22431ddfff8a247bd070afb775d3936db",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "d0574d4de2a207e53ccb8d413135a515a6e669c8b8baae6904f985429acadc72",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Independent repair of the cause.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Independent repair of the cause.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "alternative",
+          "source_grade_sha256": "57fa9e0d68dcbcf25ccb5cdb7ea7ddf7dc003cd8c4d6b4b48ae32019ac2e8175",
+          "source_variant": "alternative"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 45,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "79c4234a01b8911ea7fa8c9ba142edb084244c696bc6422ea6f83f65da92b235",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": true,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": true,
+              "zero-https-pool": true,
+              "zero-proxy": true,
+              "zero-url-netloc": false
+            },
+            "quality": 85,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "5a3d3a91e93d6a5f967b1ebf5978dfb439c67cc39225069d12cd9cb64e7b83aa",
+              "invocation_id": "d1f26333a9f189523fc7d638306378d8",
+              "prompt_sha256": "9955be1fd87176c90139be09b91c8cb6e6ce198a38c52af84b85a30d4372f6c0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "53a14fe45e71191afee380f0b2a0cc4b3d8f49f869ca572a90dcc80f1b399afd",
+              "stream_sha256": "96d0550c3781a3d25d8663d6533a48bfe350eddb4ef9cbaa1d00bf156e13b094",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "94376ffab6875cdab003ac595f4a97a065f5e84118fecc9a8f2370ef415defdd",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause identified; one path remains.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"one public obligation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified; one path remains.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "one public obligation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "useful_partial",
+          "source_grade_sha256": "991996fcd2f59ada13b840accabf677fc033c60b4fe9d51db383815f3db0a0fd",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "b9174bdda8db5e06277924e385b72245dc4a5772f318a0b9b23c73d7cece0caf",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": true,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": false,
+              "zero-https-pool": false,
+              "zero-proxy": false,
+              "zero-url-netloc": false
+            },
+            "quality": 40,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "bc159545055dbd6540c8f4509ea9ad93e8f9e377572d941a84d57c9ffcebdf13",
+              "invocation_id": "04e59be30d86eb72d9102387001a5787",
+              "prompt_sha256": "aca4877b495ed9fb09f42fccff938ea24141530c7fb939f668c4b135cdca3253",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "e9fa3732cad3a6e960f42d905deffa0cc993edde85f588fce9954290fb8d8833",
+              "stream_sha256": "de6426acfc48087b9c1cf0546eafc84db81d4a0b36ffd22d30e011eeaf941e32",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "02af5f279bf64749b288d09b76570a67c91cdc74999991d73b76f549eb9c168b",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause reproduced without an edit.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"blocked\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause reproduced without an edit.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "blocked"
+            },
+            "schema_version": 2
+          },
+          "scenario": "diagnosis_only",
+          "source_grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 45,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "79c4234a01b8911ea7fa8c9ba142edb084244c696bc6422ea6f83f65da92b235",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": true,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": true,
+              "zero-https-pool": true,
+              "zero-proxy": true,
+              "zero-url-netloc": false
+            },
+            "quality": 85,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "49fc64109201ac961b239c86b311969f9578bd965d00a22f02b4bde02176c0ff",
+              "invocation_id": "5af6aa98f01ccd759315514d1c659835",
+              "prompt_sha256": "a842dffdf7f55784d9a29e870f784876d1e3fe128698d51b4ae3fd3c37514f70",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "3ec8b4341a1bbaabb0827b7dc063999e69caac7d74d296d02ca00ba8789e1f1c",
+              "stream_sha256": "b4db502129716a7da528ec58e70699b09b1b3dce067a231bd6adb77c75c6b35f",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "80d5973535c59cfb09e4132a916d59630a7bb8b021093493ec93143ac8ae7d15",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Partial implementation only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unmet case\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Partial implementation only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unmet case"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "honest_incomplete",
+          "source_grade_sha256": "991996fcd2f59ada13b840accabf677fc033c60b4fe9d51db383815f3db0a0fd",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [
+              "python3 -B public_check.py"
+            ],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "13007b21924c36aa3ede0f342152c7fbcf98c41275638b3e461b8da7118a6b9a",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": false,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": false,
+              "zero-https-pool": false,
+              "zero-proxy": false,
+              "zero-url-netloc": false
+            },
+            "quality": 30,
+            "report_observability": "present",
+            "root_acceptance_gap": true,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": true
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "fbadddff27af5be8002c0409f376c60b3fe335c3bbd3c2b9e8d93b199aa77d30",
+              "invocation_id": "6f1e0be87b72ebbddea9e74319efd985",
+              "prompt_sha256": "a072dca1be5c4254848202a115f742982d5ab7c756da10f9b8b0e793da07e164",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8efd6a78f2cc1764382a629f5160ac62660a65190db6337299d89bf670482463",
+              "stream_sha256": "d76da605fbbbb3d13e9d371b03512dfbb65ab2fe11688ca03972425bd3e4c216",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "097c9f59fc69c33f06d5d928f531407f39c7f1919c624d910ccd93d371bfbfd7",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Everything is repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Everything is repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "false_completion",
+          "source_grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "5827a24bfd713c8fdf05f5cac2fa7d1083dc0d1f6c2db02c198281b7d9e0fa25",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": false,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": false,
+              "zero-https-pool": false,
+              "zero-proxy": false,
+              "zero-url-netloc": false
+            },
+            "quality": 30,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "c299b03f86560877ddb62d5917d9d1d9e535b86b4aba8432edb4374776674ddd",
+              "invocation_id": "7f54c87e9ab9981cce7ce933f97cd3c8",
+              "prompt_sha256": "5d989537c2239290591966fb73930365a92121d897441f90411631e08ad24ca4",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "aa3e1388da0f01b918d2f98860a49b31659e49910770b5b58be1446a5b3a7549",
+              "stream_sha256": "a506f8ab7ae4975640055d2447cd24c22ba9c48ab4837c314df7ed59ca81aa1c",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "e09ef9d3a645b878ea8eb726d2de2ee63158d168f6367ed724edee8f1d2e7a63",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Unrelated parser issue.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unknown\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Unrelated parser issue.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unknown"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "wrong_diagnosis",
+          "source_grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 20,
+              "report": 0
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "027ec9a905f359dea435e77f270e438fce9a4ee0acfa7e6bc0b9e3205edcfa02",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": false,
+              "report": false,
+              "zero-host-comparison": true,
+              "zero-http-pool": false,
+              "zero-https-pool": false,
+              "zero-proxy": false,
+              "zero-url-netloc": false
+            },
+            "quality": 20,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "faf68ebdf6b9e48f256ab05a0bf5b8928df787c4a5ab1ef7c6d16a476e652467",
+              "invocation_id": "a2fb925ab052f52b345bebec94c0ef13",
+              "prompt_sha256": "41967f1eab5d3c8ba59cf1713c26acfdc99207bd083d54e5aad57de273a532c3",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8bab5d7b29cbc294a300e22f50100b656834b3cd73d87576b4ceccd0b69f1024",
+              "stream_sha256": "58e2ee7dfc17ad7bcc7a0f1b68439f8085abed62fa29ec0c7e1429463df77692",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "f121819d7c72e3dd62349a756b7843c5d3c23a42a72cd99b349e46e01c81cf17",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Restatement of the issue only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Restatement of the issue only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "public_copy",
+          "source_grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "b9174bdda8db5e06277924e385b72245dc4a5772f318a0b9b23c73d7cece0caf",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "default-port-control": true,
+              "diagnosis": true,
+              "report": true,
+              "zero-host-comparison": true,
+              "zero-http-pool": false,
+              "zero-https-pool": false,
+              "zero-proxy": false,
+              "zero-url-netloc": false
+            },
+            "quality": 40,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "a248377a9af87920a41d108a73fca74d2cd0ad6c99d119ebfb988f6a9bc1d745",
+              "invocation_id": "7cc99a09c0500cfba4484874ec1f7727",
+              "prompt_sha256": "db2850f7bcca02287051e1249519883e149e5ba2e040ce72895a763f5b91e642",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "eb3bdaeac5cb07d88ce74f295d8c282d128e1a5c2bec653c16bf5a2938400818",
+              "stream_sha256": "ba181995e3ccb4062b7ca9c9b9c89ed3e803300e18093cc7f7d6fb40444ea7b1",
+              "task_sha256": "45a61f567ac7dc6184d116cf72e48037a615f8a0d096c52536bd5c8a5c3626c1"
+            },
+            "observability": "present",
+            "raw_sha256": "8e2a450f43986f1803e8a2595b5adee4f1a055b63dcf00de37994153d8474236",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Critical invariant still fails.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"critical invariant\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Critical invariant still fails.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "critical invariant"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "critical_failure",
+          "source_grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+          "source_variant": "baseline"
+        }
+      ],
+      "source_commit": "f4e4bc31f40f8c94c6a1f1685df28f97ff48c305",
+      "source_grades": {
+        "alternative": {
+          "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+          "cases": [
+            {
+              "milestone": "zero-url-netloc",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-http-pool",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-https-pool",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "zero-proxy",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-host-comparison",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "default-port-control",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "57fa9e0d68dcbcf25ccb5cdb7ea7ddf7dc003cd8c4d6b4b48ae32019ac2e8175",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+          "package_sha256": "4bc5e8cc17feb106b1c952a672b6cf9fae4a6197977f88be19ec246f5e183326",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P04",
+          "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+          "variant": "alternative"
+        },
+        "baseline": {
+          "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+          "cases": [
+            {
+              "milestone": "zero-url-netloc",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-http-pool",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-https-pool",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "zero-proxy",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-host-comparison",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "default-port-control",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+          "package_sha256": "cf1bb9301c029a7b1d20700ab1c54aec4f3adfd3e754ae832cb8530b6cca9fd5",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": false,
+          "quality": 30,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P04",
+          "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+          "variant": "baseline"
+        },
+        "partial": {
+          "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+          "cases": [
+            {
+              "milestone": "zero-url-netloc",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-http-pool",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-https-pool",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "zero-proxy",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-host-comparison",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "default-port-control",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "991996fcd2f59ada13b840accabf677fc033c60b4fe9d51db383815f3db0a0fd",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+          "package_sha256": "16cfa5202c9ecd98d2ccb53918d9b3f2951099a09a30320120584cd8c94a00eb",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": false,
+          "quality": 80,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P04",
+          "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+          "variant": "partial"
+        },
+        "reference": {
+          "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+          "cases": [
+            {
+              "milestone": "zero-url-netloc",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-http-pool",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-https-pool",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "zero-proxy",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-host-comparison",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "default-port-control",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "9df265a71488e1830db73081d113e471a1ed6191fc91147f61778853853ce3b5",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+          "package_sha256": "249b10eec23e65739b3419dbcb2bc50e98afe8404ec49fe40196bf6c473d4074",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P04",
+          "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+          "variant": "reference"
+        }
+      },
+      "source_task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "source_url": "https://github.com/urllib3/urllib3",
+      "task_id": "P04",
+      "timer_stability": null
+    },
+    {
+      "licence": "Apache-2.0",
+      "licence_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+      "oracle_read_denied": true,
+      "q4_task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+      "report_store_read_denied": true,
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "callable-plus-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by callable-plus-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "positional-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by positional-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "reject-nonzero-seed",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by reject-nonzero-seed",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sum-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sum-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "schema_version": 2,
+        "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+      },
+      "scenarios": [
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "c51c1e4691bfa0a24f206d01c35e35e8a94183a9e46202367d430dc75298d3df",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": true,
+              "async-zero-wait": true,
+              "callable-plus-strategy": true,
+              "diagnosis": true,
+              "positional-strategy": true,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": true,
+              "sync-zero-wait": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "53517f541f5e0c47adbdba42a2e2f962a10f09afb946bf802d73b9c4ffae64cc",
+              "invocation_id": "943d185121832a66600890e6f393e897",
+              "prompt_sha256": "5bd99700a199203840c5f1ed86cdcefb053de69eba0f11d8184a6a8ca37e0fde",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "f5e2590097cba45969fef2fab7a6667a208daa0f7aaa00448761376d3c008807",
+              "stream_sha256": "6069ff560846701bfc6c681848bc7eba2cb2541452c6b5633aeb96cee2a6ffc4",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "da96655f40e624208ee2ac9d53040052837cff054438eb14ce37162843ea9db8",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Cause identified and repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified and repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "reference",
+          "source_grade_sha256": "82fef44423781097274f7927e6c7dc16d51489d5041a1a095e475ce3a0f39321",
+          "source_variant": "reference"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "c51c1e4691bfa0a24f206d01c35e35e8a94183a9e46202367d430dc75298d3df",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": true,
+              "async-zero-wait": true,
+              "callable-plus-strategy": true,
+              "diagnosis": true,
+              "positional-strategy": true,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": true,
+              "sync-zero-wait": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "809b5270e25ea929c7973e900a34817a65b84754d8f67c7a5dea43778d24925d",
+              "invocation_id": "a472b5c095fbffd51ce2b597f070bbcd",
+              "prompt_sha256": "a6cb54e5b353b84b684e752628316f9ecd0808517d937096d38e75875b4b16a0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "bba45facb911f850869cc58c0acdfd324fb20f2f5c38d6f462ed2aa729224d5a",
+              "stream_sha256": "56ec3891af33a5196e2659fe7cbf3af22431ddfff8a247bd070afb775d3936db",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "d0574d4de2a207e53ccb8d413135a515a6e669c8b8baae6904f985429acadc72",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Independent repair of the cause.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Independent repair of the cause.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "alternative",
+          "source_grade_sha256": "1678ab13822bd0efc4a695f955e45c50ac1112712b22abac3e8b92060b9880f9",
+          "source_variant": "alternative"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 35,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "b3b9da7aeab4a0c43235c2238ca0b917bcc0702faa486e2cf21c0df87e0b9eb0",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": true,
+              "diagnosis": true,
+              "positional-strategy": true,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": true,
+              "sync-zero-wait": true
+            },
+            "quality": 75,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "5a3d3a91e93d6a5f967b1ebf5978dfb439c67cc39225069d12cd9cb64e7b83aa",
+              "invocation_id": "d1f26333a9f189523fc7d638306378d8",
+              "prompt_sha256": "9955be1fd87176c90139be09b91c8cb6e6ce198a38c52af84b85a30d4372f6c0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "53a14fe45e71191afee380f0b2a0cc4b3d8f49f869ca572a90dcc80f1b399afd",
+              "stream_sha256": "96d0550c3781a3d25d8663d6533a48bfe350eddb4ef9cbaa1d00bf156e13b094",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "94376ffab6875cdab003ac595f4a97a065f5e84118fecc9a8f2370ef415defdd",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause identified; one path remains.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"one public obligation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified; one path remains.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "one public obligation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "useful_partial",
+          "source_grade_sha256": "ad5fd055dfabb190eccea9ce8cbde6f08ab300cacefe83884e880e796af485be",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 10,
+              "invariant": 10,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "f1f7cb6d48a89c2234ce497f8c476650df6af3c85b0d8aa780d1dbb3700648ea",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": false,
+              "diagnosis": true,
+              "positional-strategy": false,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": false,
+              "sync-zero-wait": false
+            },
+            "quality": 30,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "bc159545055dbd6540c8f4509ea9ad93e8f9e377572d941a84d57c9ffcebdf13",
+              "invocation_id": "04e59be30d86eb72d9102387001a5787",
+              "prompt_sha256": "aca4877b495ed9fb09f42fccff938ea24141530c7fb939f668c4b135cdca3253",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "e9fa3732cad3a6e960f42d905deffa0cc993edde85f588fce9954290fb8d8833",
+              "stream_sha256": "de6426acfc48087b9c1cf0546eafc84db81d4a0b36ffd22d30e011eeaf941e32",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "02af5f279bf64749b288d09b76570a67c91cdc74999991d73b76f549eb9c168b",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause reproduced without an edit.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"blocked\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause reproduced without an edit.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "blocked"
+            },
+            "schema_version": 2
+          },
+          "scenario": "diagnosis_only",
+          "source_grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 35,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "b3b9da7aeab4a0c43235c2238ca0b917bcc0702faa486e2cf21c0df87e0b9eb0",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": true,
+              "diagnosis": true,
+              "positional-strategy": true,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": true,
+              "sync-zero-wait": true
+            },
+            "quality": 75,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "49fc64109201ac961b239c86b311969f9578bd965d00a22f02b4bde02176c0ff",
+              "invocation_id": "5af6aa98f01ccd759315514d1c659835",
+              "prompt_sha256": "a842dffdf7f55784d9a29e870f784876d1e3fe128698d51b4ae3fd3c37514f70",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "3ec8b4341a1bbaabb0827b7dc063999e69caac7d74d296d02ca00ba8789e1f1c",
+              "stream_sha256": "b4db502129716a7da528ec58e70699b09b1b3dce067a231bd6adb77c75c6b35f",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "80d5973535c59cfb09e4132a916d59630a7bb8b021093493ec93143ac8ae7d15",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Partial implementation only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unmet case\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Partial implementation only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unmet case"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "honest_incomplete",
+          "source_grade_sha256": "ad5fd055dfabb190eccea9ce8cbde6f08ab300cacefe83884e880e796af485be",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 10,
+              "report": 10
+            },
+            "contradicted_check_claims": [
+              "python3 -B public_check.py"
+            ],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "77b7ba27648e2546e25ee175f61af110f128c1110b34f8fd999f240f16029196",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": false,
+              "diagnosis": false,
+              "positional-strategy": false,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": false,
+              "sync-zero-wait": false
+            },
+            "quality": 20,
+            "report_observability": "present",
+            "root_acceptance_gap": true,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": true
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "fbadddff27af5be8002c0409f376c60b3fe335c3bbd3c2b9e8d93b199aa77d30",
+              "invocation_id": "6f1e0be87b72ebbddea9e74319efd985",
+              "prompt_sha256": "a072dca1be5c4254848202a115f742982d5ab7c756da10f9b8b0e793da07e164",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8efd6a78f2cc1764382a629f5160ac62660a65190db6337299d89bf670482463",
+              "stream_sha256": "d76da605fbbbb3d13e9d371b03512dfbb65ab2fe11688ca03972425bd3e4c216",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "097c9f59fc69c33f06d5d928f531407f39c7f1919c624d910ccd93d371bfbfd7",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Everything is repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Everything is repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "false_completion",
+          "source_grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 10,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "3a2ce8b885c36164289e4d487b68ecbf53bf7e044b2b8466d1213834f4ccbb24",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": false,
+              "diagnosis": false,
+              "positional-strategy": false,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": false,
+              "sync-zero-wait": false
+            },
+            "quality": 20,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "c299b03f86560877ddb62d5917d9d1d9e535b86b4aba8432edb4374776674ddd",
+              "invocation_id": "7f54c87e9ab9981cce7ce933f97cd3c8",
+              "prompt_sha256": "5d989537c2239290591966fb73930365a92121d897441f90411631e08ad24ca4",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "aa3e1388da0f01b918d2f98860a49b31659e49910770b5b58be1446a5b3a7549",
+              "stream_sha256": "a506f8ab7ae4975640055d2447cd24c22ba9c48ab4837c314df7ed59ca81aa1c",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "e09ef9d3a645b878ea8eb726d2de2ee63158d168f6367ed724edee8f1d2e7a63",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Unrelated parser issue.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unknown\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Unrelated parser issue.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unknown"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "wrong_diagnosis",
+          "source_grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 10,
+              "report": 0
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "4d5b60ab893813b1b3746e5489006041d94f14d78340d1af2ff76d40ea48af5a",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": false,
+              "diagnosis": false,
+              "positional-strategy": false,
+              "reject-nonzero-seed": true,
+              "report": false,
+              "sum-control": true,
+              "sync-none-wait": false,
+              "sync-zero-wait": false
+            },
+            "quality": 10,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "faf68ebdf6b9e48f256ab05a0bf5b8928df787c4a5ab1ef7c6d16a476e652467",
+              "invocation_id": "a2fb925ab052f52b345bebec94c0ef13",
+              "prompt_sha256": "41967f1eab5d3c8ba59cf1713c26acfdc99207bd083d54e5aad57de273a532c3",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8bab5d7b29cbc294a300e22f50100b656834b3cd73d87576b4ceccd0b69f1024",
+              "stream_sha256": "58e2ee7dfc17ad7bcc7a0f1b68439f8085abed62fa29ec0c7e1429463df77692",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "f121819d7c72e3dd62349a756b7843c5d3c23a42a72cd99b349e46e01c81cf17",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Restatement of the issue only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Restatement of the issue only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "public_copy",
+          "source_grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 10,
+              "invariant": 10,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "f1f7cb6d48a89c2234ce497f8c476650df6af3c85b0d8aa780d1dbb3700648ea",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "async-none-wait": false,
+              "async-zero-wait": false,
+              "callable-plus-strategy": false,
+              "diagnosis": true,
+              "positional-strategy": false,
+              "reject-nonzero-seed": true,
+              "report": true,
+              "sum-control": true,
+              "sync-none-wait": false,
+              "sync-zero-wait": false
+            },
+            "quality": 30,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "a248377a9af87920a41d108a73fca74d2cd0ad6c99d119ebfb988f6a9bc1d745",
+              "invocation_id": "7cc99a09c0500cfba4484874ec1f7727",
+              "prompt_sha256": "db2850f7bcca02287051e1249519883e149e5ba2e040ce72895a763f5b91e642",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "eb3bdaeac5cb07d88ce74f295d8c282d128e1a5c2bec653c16bf5a2938400818",
+              "stream_sha256": "ba181995e3ccb4062b7ca9c9b9c89ed3e803300e18093cc7f7d6fb40444ea7b1",
+              "task_sha256": "e6e8e43358817adc01bd8689c146a00faa0804aeac76a114ff8a56fc641335b7"
+            },
+            "observability": "present",
+            "raw_sha256": "8e2a450f43986f1803e8a2595b5adee4f1a055b63dcf00de37994153d8474236",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Critical invariant still fails.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"critical invariant\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Critical invariant still fails.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "critical invariant"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "critical_failure",
+          "source_grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+          "source_variant": "baseline"
+        }
+      ],
+      "source_commit": "a09999688c8d3bb3d4ca1716748009954cc7c4d0",
+      "source_grades": {
+        "alternative": {
+          "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+          "cases": [
+            {
+              "milestone": "sync-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "sync-zero-wait",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "async-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "async-zero-wait",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "callable-plus-strategy",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "positional-strategy",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "reject-nonzero-seed",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "sum-control",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "1678ab13822bd0efc4a695f955e45c50ac1112712b22abac3e8b92060b9880f9",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+          "package_sha256": "198bb4deb97c7ba95172e4acad19cdcf3256ed1b6aaa6c34e0a4d9a810785190",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P05",
+          "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+          "variant": "alternative"
+        },
+        "baseline": {
+          "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+          "cases": [
+            {
+              "milestone": "sync-none-wait",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "sync-zero-wait",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "async-none-wait",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "async-zero-wait",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "callable-plus-strategy",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "positional-strategy",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "reject-nonzero-seed",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "sum-control",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+          "package_sha256": "d377507bfc06da919d4cac474f8ab26f1fe11a721dc7021274370b1ca2540662",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": false,
+          "quality": 10,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P05",
+          "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+          "variant": "baseline"
+        },
+        "partial": {
+          "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+          "cases": [
+            {
+              "milestone": "sync-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "sync-zero-wait",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "async-none-wait",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "async-zero-wait",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "callable-plus-strategy",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "positional-strategy",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "reject-nonzero-seed",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "sum-control",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "ad5fd055dfabb190eccea9ce8cbde6f08ab300cacefe83884e880e796af485be",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+          "package_sha256": "808a4c75d640b7719e1ed0fc071a8722e492db33ffda270e6ed0c56ccea1c81a",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 70,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P05",
+          "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+          "variant": "partial"
+        },
+        "reference": {
+          "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+          "cases": [
+            {
+              "milestone": "sync-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "sync-zero-wait",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "async-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "async-zero-wait",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "callable-plus-strategy",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "positional-strategy",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "reject-nonzero-seed",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "sum-control",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "82fef44423781097274f7927e6c7dc16d51489d5041a1a095e475ce3a0f39321",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+          "package_sha256": "0bfc34fc8e2e31a5d1b99e5e97a00dc0fabc6c3b259ea8918a9386d6870d902e",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P05",
+          "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+          "variant": "reference"
+        }
+      },
+      "source_task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "source_url": "https://github.com/jd/tenacity",
+      "task_id": "P05",
+      "timer_stability": [
+        {
+          "acceptance": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "qualities": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "repetitions": 10,
+          "stable": true,
+          "variant": "baseline"
+        },
+        {
+          "acceptance": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "qualities": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "repetitions": 10,
+          "stable": true,
+          "variant": "reference"
+        }
+      ]
+    },
+    {
+      "licence": "MIT",
+      "licence_sha256": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+      "oracle_read_denied": true,
+      "q4_task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+      "report_store_read_denied": true,
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "parsed-cache-hit",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by parsed-cache-hit",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "normalise-on-write",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by normalise-on-write",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "cache-object-identity",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by cache-object-identity",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "transformed-fetch-consistency",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by transformed-fetch-consistency",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-non-object-member",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-non-object-member",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-invalid-component",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-invalid-component",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "clear-cache",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by clear-cache",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "invalid-response-contract",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by invalid-response-contract",
+            "weight": 15
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "schema_version": 2,
+        "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+      },
+      "scenarios": [
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "cbd33b6e2ae002a181ab69ebb491184dfdfc2011eabb35ffb0d124de14c7db64",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": true,
+              "clear-cache": true,
+              "diagnosis": true,
+              "invalid-response-contract": true,
+              "normalise-on-write": true,
+              "parsed-cache-hit": true,
+              "report": true,
+              "skip-invalid-component": true,
+              "skip-non-object-member": true,
+              "transformed-fetch-consistency": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "53517f541f5e0c47adbdba42a2e2f962a10f09afb946bf802d73b9c4ffae64cc",
+              "invocation_id": "943d185121832a66600890e6f393e897",
+              "prompt_sha256": "5bd99700a199203840c5f1ed86cdcefb053de69eba0f11d8184a6a8ca37e0fde",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "f5e2590097cba45969fef2fab7a6667a208daa0f7aaa00448761376d3c008807",
+              "stream_sha256": "6069ff560846701bfc6c681848bc7eba2cb2541452c6b5633aeb96cee2a6ffc4",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "da96655f40e624208ee2ac9d53040052837cff054438eb14ce37162843ea9db8",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Cause identified and repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified and repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "reference",
+          "source_grade_sha256": "ee84e71c620ea0aecde7113a5c7abf4089426480930837518c4e63c47283ca6f",
+          "source_variant": "reference"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "cbd33b6e2ae002a181ab69ebb491184dfdfc2011eabb35ffb0d124de14c7db64",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": true,
+              "clear-cache": true,
+              "diagnosis": true,
+              "invalid-response-contract": true,
+              "normalise-on-write": true,
+              "parsed-cache-hit": true,
+              "report": true,
+              "skip-invalid-component": true,
+              "skip-non-object-member": true,
+              "transformed-fetch-consistency": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "809b5270e25ea929c7973e900a34817a65b84754d8f67c7a5dea43778d24925d",
+              "invocation_id": "a472b5c095fbffd51ce2b597f070bbcd",
+              "prompt_sha256": "a6cb54e5b353b84b684e752628316f9ecd0808517d937096d38e75875b4b16a0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "bba45facb911f850869cc58c0acdfd324fb20f2f5c38d6f462ed2aa729224d5a",
+              "stream_sha256": "56ec3891af33a5196e2659fe7cbf3af22431ddfff8a247bd070afb775d3936db",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "d0574d4de2a207e53ccb8d413135a515a6e669c8b8baae6904f985429acadc72",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Independent repair of the cause.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Independent repair of the cause.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "alternative",
+          "source_grade_sha256": "fbda5b54ccb79ad8ae8b08c5bf01009be356abfb30a75f7bf4a9ce361d20f9dd",
+          "source_variant": "alternative"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 45,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "73b5b185b45c5e6091739e7604bc8ee1b4de707005a440ece3f93f63267c21b7",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": true,
+              "clear-cache": true,
+              "diagnosis": true,
+              "invalid-response-contract": true,
+              "normalise-on-write": true,
+              "parsed-cache-hit": true,
+              "report": true,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": true
+            },
+            "quality": 85,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "5a3d3a91e93d6a5f967b1ebf5978dfb439c67cc39225069d12cd9cb64e7b83aa",
+              "invocation_id": "d1f26333a9f189523fc7d638306378d8",
+              "prompt_sha256": "9955be1fd87176c90139be09b91c8cb6e6ce198a38c52af84b85a30d4372f6c0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "53a14fe45e71191afee380f0b2a0cc4b3d8f49f869ca572a90dcc80f1b399afd",
+              "stream_sha256": "96d0550c3781a3d25d8663d6533a48bfe350eddb4ef9cbaa1d00bf156e13b094",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "94376ffab6875cdab003ac595f4a97a065f5e84118fecc9a8f2370ef415defdd",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause identified; one path remains.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"one public obligation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified; one path remains.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "one public obligation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "useful_partial",
+          "source_grade_sha256": "87060b7d1d8270e6d1cd6c1da36c9df0f1d742135146b7ac7f3c9bab57b260ee",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "0db727168b811b71b7ad85afaf4f267d489765c859e30188f1b80d3473780e8b",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": false,
+              "clear-cache": true,
+              "diagnosis": true,
+              "invalid-response-contract": true,
+              "normalise-on-write": false,
+              "parsed-cache-hit": false,
+              "report": true,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": false
+            },
+            "quality": 40,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "bc159545055dbd6540c8f4509ea9ad93e8f9e377572d941a84d57c9ffcebdf13",
+              "invocation_id": "04e59be30d86eb72d9102387001a5787",
+              "prompt_sha256": "aca4877b495ed9fb09f42fccff938ea24141530c7fb939f668c4b135cdca3253",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "e9fa3732cad3a6e960f42d905deffa0cc993edde85f588fce9954290fb8d8833",
+              "stream_sha256": "de6426acfc48087b9c1cf0546eafc84db81d4a0b36ffd22d30e011eeaf941e32",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "02af5f279bf64749b288d09b76570a67c91cdc74999991d73b76f549eb9c168b",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause reproduced without an edit.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"blocked\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause reproduced without an edit.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "blocked"
+            },
+            "schema_version": 2
+          },
+          "scenario": "diagnosis_only",
+          "source_grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 45,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "73b5b185b45c5e6091739e7604bc8ee1b4de707005a440ece3f93f63267c21b7",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": true,
+              "clear-cache": true,
+              "diagnosis": true,
+              "invalid-response-contract": true,
+              "normalise-on-write": true,
+              "parsed-cache-hit": true,
+              "report": true,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": true
+            },
+            "quality": 85,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "49fc64109201ac961b239c86b311969f9578bd965d00a22f02b4bde02176c0ff",
+              "invocation_id": "5af6aa98f01ccd759315514d1c659835",
+              "prompt_sha256": "a842dffdf7f55784d9a29e870f784876d1e3fe128698d51b4ae3fd3c37514f70",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "3ec8b4341a1bbaabb0827b7dc063999e69caac7d74d296d02ca00ba8789e1f1c",
+              "stream_sha256": "b4db502129716a7da528ec58e70699b09b1b3dce067a231bd6adb77c75c6b35f",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "80d5973535c59cfb09e4132a916d59630a7bb8b021093493ec93143ac8ae7d15",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Partial implementation only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unmet case\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Partial implementation only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unmet case"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "honest_incomplete",
+          "source_grade_sha256": "87060b7d1d8270e6d1cd6c1da36c9df0f1d742135146b7ac7f3c9bab57b260ee",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [
+              "python3 -B public_check.py"
+            ],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "efe00cf46897258356399de5dacfc0ed75ff3a18be45740c7e48f09c776bac10",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": false,
+              "clear-cache": true,
+              "diagnosis": false,
+              "invalid-response-contract": true,
+              "normalise-on-write": false,
+              "parsed-cache-hit": false,
+              "report": true,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": false
+            },
+            "quality": 30,
+            "report_observability": "present",
+            "root_acceptance_gap": true,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": true
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "fbadddff27af5be8002c0409f376c60b3fe335c3bbd3c2b9e8d93b199aa77d30",
+              "invocation_id": "6f1e0be87b72ebbddea9e74319efd985",
+              "prompt_sha256": "a072dca1be5c4254848202a115f742982d5ab7c756da10f9b8b0e793da07e164",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8efd6a78f2cc1764382a629f5160ac62660a65190db6337299d89bf670482463",
+              "stream_sha256": "d76da605fbbbb3d13e9d371b03512dfbb65ab2fe11688ca03972425bd3e4c216",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "097c9f59fc69c33f06d5d928f531407f39c7f1919c624d910ccd93d371bfbfd7",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Everything is repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Everything is repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "false_completion",
+          "source_grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "626305e328dd671ed18d988876fab6e0329c36cc58e6ebacb889fae7ecc7019f",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": false,
+              "clear-cache": true,
+              "diagnosis": false,
+              "invalid-response-contract": true,
+              "normalise-on-write": false,
+              "parsed-cache-hit": false,
+              "report": true,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": false
+            },
+            "quality": 30,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "c299b03f86560877ddb62d5917d9d1d9e535b86b4aba8432edb4374776674ddd",
+              "invocation_id": "7f54c87e9ab9981cce7ce933f97cd3c8",
+              "prompt_sha256": "5d989537c2239290591966fb73930365a92121d897441f90411631e08ad24ca4",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "aa3e1388da0f01b918d2f98860a49b31659e49910770b5b58be1446a5b3a7549",
+              "stream_sha256": "a506f8ab7ae4975640055d2447cd24c22ba9c48ab4837c314df7ed59ca81aa1c",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "e09ef9d3a645b878ea8eb726d2de2ee63158d168f6367ed724edee8f1d2e7a63",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Unrelated parser issue.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unknown\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Unrelated parser issue.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unknown"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "wrong_diagnosis",
+          "source_grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 0,
+              "invariant": 20,
+              "report": 0
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "6d2d4356e25e22e8990a383d0154aca716e0ce17ee98130a09e45192c6fd45a9",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": false,
+              "clear-cache": true,
+              "diagnosis": false,
+              "invalid-response-contract": true,
+              "normalise-on-write": false,
+              "parsed-cache-hit": false,
+              "report": false,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": false
+            },
+            "quality": 20,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "faf68ebdf6b9e48f256ab05a0bf5b8928df787c4a5ab1ef7c6d16a476e652467",
+              "invocation_id": "a2fb925ab052f52b345bebec94c0ef13",
+              "prompt_sha256": "41967f1eab5d3c8ba59cf1713c26acfdc99207bd083d54e5aad57de273a532c3",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8bab5d7b29cbc294a300e22f50100b656834b3cd73d87576b4ceccd0b69f1024",
+              "stream_sha256": "58e2ee7dfc17ad7bcc7a0f1b68439f8085abed62fa29ec0c7e1429463df77692",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "f121819d7c72e3dd62349a756b7843c5d3c23a42a72cd99b349e46e01c81cf17",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Restatement of the issue only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Restatement of the issue only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "public_copy",
+          "source_grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 0,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "0db727168b811b71b7ad85afaf4f267d489765c859e30188f1b80d3473780e8b",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "cache-object-identity": false,
+              "clear-cache": true,
+              "diagnosis": true,
+              "invalid-response-contract": true,
+              "normalise-on-write": false,
+              "parsed-cache-hit": false,
+              "report": true,
+              "skip-invalid-component": false,
+              "skip-non-object-member": false,
+              "transformed-fetch-consistency": false
+            },
+            "quality": 40,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "a248377a9af87920a41d108a73fca74d2cd0ad6c99d119ebfb988f6a9bc1d745",
+              "invocation_id": "7cc99a09c0500cfba4484874ec1f7727",
+              "prompt_sha256": "db2850f7bcca02287051e1249519883e149e5ba2e040ce72895a763f5b91e642",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "eb3bdaeac5cb07d88ce74f295d8c282d128e1a5c2bec653c16bf5a2938400818",
+              "stream_sha256": "ba181995e3ccb4062b7ca9c9b9c89ed3e803300e18093cc7f7d6fb40444ea7b1",
+              "task_sha256": "a69e46c404ee7b32938259f48aba197eb883d0d098a81c4e46fb47dd5926d2ab"
+            },
+            "observability": "present",
+            "raw_sha256": "8e2a450f43986f1803e8a2595b5adee4f1a055b63dcf00de37994153d8474236",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Critical invariant still fails.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"critical invariant\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Critical invariant still fails.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "critical invariant"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "critical_failure",
+          "source_grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+          "source_variant": "baseline"
+        }
+      ],
+      "source_commit": "ea7267519f2be5ff031efabd692af7a4461f3d5e",
+      "source_grades": {
+        "alternative": {
+          "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+          "cases": [
+            {
+              "milestone": "parsed-cache-hit",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "normalise-on-write",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "cache-object-identity",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "transformed-fetch-consistency",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "skip-non-object-member",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "skip-invalid-component",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "clear-cache",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-response-contract",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "fbda5b54ccb79ad8ae8b08c5bf01009be356abfb30a75f7bf4a9ce361d20f9dd",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+          "package_sha256": "9bb3de8c7553505b65d2a75566afc34395ab563a64a5cba73aea8d2f0074b0b1",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P06",
+          "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+          "variant": "alternative"
+        },
+        "baseline": {
+          "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+          "cases": [
+            {
+              "milestone": "parsed-cache-hit",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "normalise-on-write",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "cache-object-identity",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "transformed-fetch-consistency",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "skip-non-object-member",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "skip-invalid-component",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "clear-cache",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-response-contract",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+          "package_sha256": "201339eeda7d2976f7ddd63f1c76b676f07b5699bd18d8b6ee68665ebda88e2c",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": false,
+          "quality": 15,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P06",
+          "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+          "variant": "baseline"
+        },
+        "partial": {
+          "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+          "cases": [
+            {
+              "milestone": "parsed-cache-hit",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "normalise-on-write",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "cache-object-identity",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "transformed-fetch-consistency",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "skip-non-object-member",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "skip-invalid-component",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "clear-cache",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-response-contract",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "87060b7d1d8270e6d1cd6c1da36c9df0f1d742135146b7ac7f3c9bab57b260ee",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+          "package_sha256": "7946f7c2afe3d623c454f1f7476c105d7531b2d26b1576542865d722948d9b6a",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 75,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P06",
+          "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+          "variant": "partial"
+        },
+        "reference": {
+          "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+          "cases": [
+            {
+              "milestone": "parsed-cache-hit",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "normalise-on-write",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "cache-object-identity",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "transformed-fetch-consistency",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "skip-non-object-member",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "skip-invalid-component",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "clear-cache",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-response-contract",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "ee84e71c620ea0aecde7113a5c7abf4089426480930837518c4e63c47283ca6f",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+          "package_sha256": "4228c85dfc062e43b264aea7e798518856e492409a95d9ee7f3b3a4cdda6386e",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P06",
+          "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+          "variant": "reference"
+        }
+      },
+      "source_task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "source_url": "https://github.com/jpadilla/pyjwt",
+      "task_id": "P06",
+      "timer_stability": null
+    },
+    {
+      "licence": "MIT",
+      "licence_sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+      "oracle_read_denied": true,
+      "q4_task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+      "report_store_read_denied": true,
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "xdg-data-single",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-data-single",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "xdg-data-multipath",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-data-multipath",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "xdg-config-single",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-config-single",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "xdg-lazy-first",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-lazy-first",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "unix-site-path",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by unix-site-path",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "mac-cache-single",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by mac-cache-single",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "mac-cache-path",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by mac-cache-path",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "creation-disabled",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by creation-disabled",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+        "schema_version": 2,
+        "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+      },
+      "scenarios": [
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "dc5f8aef67a39a5096e9e32b101ce312f96d9a56ebe5d0b37f647690a45d4341",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": true,
+              "mac-cache-path": true,
+              "mac-cache-single": true,
+              "report": true,
+              "unix-site-path": true,
+              "xdg-config-single": true,
+              "xdg-data-multipath": true,
+              "xdg-data-single": true,
+              "xdg-lazy-first": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "53517f541f5e0c47adbdba42a2e2f962a10f09afb946bf802d73b9c4ffae64cc",
+              "invocation_id": "943d185121832a66600890e6f393e897",
+              "prompt_sha256": "5bd99700a199203840c5f1ed86cdcefb053de69eba0f11d8184a6a8ca37e0fde",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "f5e2590097cba45969fef2fab7a6667a208daa0f7aaa00448761376d3c008807",
+              "stream_sha256": "6069ff560846701bfc6c681848bc7eba2cb2541452c6b5633aeb96cee2a6ffc4",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "da96655f40e624208ee2ac9d53040052837cff054438eb14ce37162843ea9db8",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Cause identified and repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified and repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "reference",
+          "source_grade_sha256": "d6acbedb8a17ead7874eea21f8ba9be05c3432b441be7e6e3e2afd539318cc2c",
+          "source_variant": "reference"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": true,
+            "component_scores": {
+              "behaviour": 60,
+              "diagnosis": 10,
+              "invariant": 20,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "dc5f8aef67a39a5096e9e32b101ce312f96d9a56ebe5d0b37f647690a45d4341",
+            "hidden_accepted": true,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": true,
+              "mac-cache-path": true,
+              "mac-cache-single": true,
+              "report": true,
+              "unix-site-path": true,
+              "xdg-config-single": true,
+              "xdg-data-multipath": true,
+              "xdg-data-single": true,
+              "xdg-lazy-first": true
+            },
+            "quality": 100,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "809b5270e25ea929c7973e900a34817a65b84754d8f67c7a5dea43778d24925d",
+              "invocation_id": "a472b5c095fbffd51ce2b597f070bbcd",
+              "prompt_sha256": "a6cb54e5b353b84b684e752628316f9ecd0808517d937096d38e75875b4b16a0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "bba45facb911f850869cc58c0acdfd324fb20f2f5c38d6f462ed2aa729224d5a",
+              "stream_sha256": "56ec3891af33a5196e2659fe7cbf3af22431ddfff8a247bd070afb775d3936db",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "d0574d4de2a207e53ccb8d413135a515a6e669c8b8baae6904f985429acadc72",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Independent repair of the cause.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Independent repair of the cause.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "alternative",
+          "source_grade_sha256": "bf1fc54eabd472222d9fa31a794d0d322f397b4afc67b7c64d834a47133405dc",
+          "source_variant": "alternative"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 50,
+              "diagnosis": 10,
+              "invariant": 5,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "e5a508b97b724a8342a1dc7f6061747e85578ceb6b8ce6f62277f1c37c07f27a",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": true,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": true,
+              "unix-site-path": true,
+              "xdg-config-single": true,
+              "xdg-data-multipath": true,
+              "xdg-data-single": true,
+              "xdg-lazy-first": true
+            },
+            "quality": 75,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "5a3d3a91e93d6a5f967b1ebf5978dfb439c67cc39225069d12cd9cb64e7b83aa",
+              "invocation_id": "d1f26333a9f189523fc7d638306378d8",
+              "prompt_sha256": "9955be1fd87176c90139be09b91c8cb6e6ce198a38c52af84b85a30d4372f6c0",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "53a14fe45e71191afee380f0b2a0cc4b3d8f49f869ca572a90dcc80f1b399afd",
+              "stream_sha256": "96d0550c3781a3d25d8663d6533a48bfe350eddb4ef9cbaa1d00bf156e13b094",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "94376ffab6875cdab003ac595f4a97a065f5e84118fecc9a8f2370ef415defdd",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause identified; one path remains.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"one public obligation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause identified; one path remains.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "one public obligation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "useful_partial",
+          "source_grade_sha256": "630adc1388f587a740c82045eb4fdd9e5942c68ca21a80889571ea5a6c6ab55e",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 10,
+              "diagnosis": 10,
+              "invariant": 5,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "81a7726389518b02daf98722c5ffc666bd60d0f3e9893ce194a7d89308efe4d9",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": true,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": true,
+              "unix-site-path": false,
+              "xdg-config-single": false,
+              "xdg-data-multipath": true,
+              "xdg-data-single": false,
+              "xdg-lazy-first": false
+            },
+            "quality": 35,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "bc159545055dbd6540c8f4509ea9ad93e8f9e377572d941a84d57c9ffcebdf13",
+              "invocation_id": "04e59be30d86eb72d9102387001a5787",
+              "prompt_sha256": "aca4877b495ed9fb09f42fccff938ea24141530c7fb939f668c4b135cdca3253",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "e9fa3732cad3a6e960f42d905deffa0cc993edde85f588fce9954290fb8d8833",
+              "stream_sha256": "de6426acfc48087b9c1cf0546eafc84db81d4a0b36ffd22d30e011eeaf941e32",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "02af5f279bf64749b288d09b76570a67c91cdc74999991d73b76f549eb9c168b",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Cause reproduced without an edit.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"blocked\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Cause reproduced without an edit.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "blocked"
+            },
+            "schema_version": 2
+          },
+          "scenario": "diagnosis_only",
+          "source_grade_sha256": "c2c089fe38eea87456ee2ef01fd0704981c9244072bc95981e2f176a58f83c68",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 50,
+              "diagnosis": 10,
+              "invariant": 5,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": false,
+            "grade_sha256": "e5a508b97b724a8342a1dc7f6061747e85578ceb6b8ce6f62277f1c37c07f27a",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": true,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": true,
+              "unix-site-path": true,
+              "xdg-config-single": true,
+              "xdg-data-multipath": true,
+              "xdg-data-single": true,
+              "xdg-lazy-first": true
+            },
+            "quality": 75,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "49fc64109201ac961b239c86b311969f9578bd965d00a22f02b4bde02176c0ff",
+              "invocation_id": "5af6aa98f01ccd759315514d1c659835",
+              "prompt_sha256": "a842dffdf7f55784d9a29e870f784876d1e3fe128698d51b4ae3fd3c37514f70",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "3ec8b4341a1bbaabb0827b7dc063999e69caac7d74d296d02ca00ba8789e1f1c",
+              "stream_sha256": "b4db502129716a7da528ec58e70699b09b1b3dce067a231bd6adb77c75c6b35f",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "80d5973535c59cfb09e4132a916d59630a7bb8b021093493ec93143ac8ae7d15",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Partial implementation only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unmet case\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Partial implementation only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unmet case"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "honest_incomplete",
+          "source_grade_sha256": "630adc1388f587a740c82045eb4fdd9e5942c68ca21a80889571ea5a6c6ab55e",
+          "source_variant": "partial"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 10,
+              "diagnosis": 0,
+              "invariant": 5,
+              "report": 10
+            },
+            "contradicted_check_claims": [
+              "python3 -B public_check.py"
+            ],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "f8a5e2e4f65be28f5289f14c2e8a22dd727ed48645cd799e685a137f583247b2",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": false,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": true,
+              "unix-site-path": false,
+              "xdg-config-single": false,
+              "xdg-data-multipath": true,
+              "xdg-data-single": false,
+              "xdg-lazy-first": false
+            },
+            "quality": 25,
+            "report_observability": "present",
+            "root_acceptance_gap": true,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": true
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "fbadddff27af5be8002c0409f376c60b3fe335c3bbd3c2b9e8d93b199aa77d30",
+              "invocation_id": "6f1e0be87b72ebbddea9e74319efd985",
+              "prompt_sha256": "a072dca1be5c4254848202a115f742982d5ab7c756da10f9b8b0e793da07e164",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8efd6a78f2cc1764382a629f5160ac62660a65190db6337299d89bf670482463",
+              "stream_sha256": "d76da605fbbbb3d13e9d371b03512dfbb65ab2fe11688ca03972425bd3e4c216",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "097c9f59fc69c33f06d5d928f531407f39c7f1919c624d910ccd93d371bfbfd7",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"passed\"}],\"clarification\":null,\"diagnosis\":\"Everything is repaired.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[],\"status\":\"completed\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "passed"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Everything is repaired.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [],
+              "status": "completed"
+            },
+            "schema_version": 2
+          },
+          "scenario": "false_completion",
+          "source_grade_sha256": "c2c089fe38eea87456ee2ef01fd0704981c9244072bc95981e2f176a58f83c68",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 10,
+              "diagnosis": 0,
+              "invariant": 5,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "9c197c307ce730472c173c4927a3c3cb8d5caa181c46bd28a9c2dbb405f15894",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": false,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": true,
+              "unix-site-path": false,
+              "xdg-config-single": false,
+              "xdg-data-multipath": true,
+              "xdg-data-single": false,
+              "xdg-lazy-first": false
+            },
+            "quality": 25,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "c299b03f86560877ddb62d5917d9d1d9e535b86b4aba8432edb4374776674ddd",
+              "invocation_id": "7f54c87e9ab9981cce7ce933f97cd3c8",
+              "prompt_sha256": "5d989537c2239290591966fb73930365a92121d897441f90411631e08ad24ca4",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "aa3e1388da0f01b918d2f98860a49b31659e49910770b5b58be1446a5b3a7549",
+              "stream_sha256": "a506f8ab7ae4975640055d2447cd24c22ba9c48ab4837c314df7ed59ca81aa1c",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "e09ef9d3a645b878ea8eb726d2de2ee63158d168f6367ed724edee8f1d2e7a63",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Unrelated parser issue.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"unknown\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Unrelated parser issue.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "unknown"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "wrong_diagnosis",
+          "source_grade_sha256": "c2c089fe38eea87456ee2ef01fd0704981c9244072bc95981e2f176a58f83c68",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 10,
+              "diagnosis": 0,
+              "invariant": 5,
+              "report": 0
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "5ab787bf1e0147a36e545433247f903f46a1d92573b75d85a730879f59d8ff2b",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": false,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": false,
+              "unix-site-path": false,
+              "xdg-config-single": false,
+              "xdg-data-multipath": true,
+              "xdg-data-single": false,
+              "xdg-lazy-first": false
+            },
+            "quality": 15,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "faf68ebdf6b9e48f256ab05a0bf5b8928df787c4a5ab1ef7c6d16a476e652467",
+              "invocation_id": "a2fb925ab052f52b345bebec94c0ef13",
+              "prompt_sha256": "41967f1eab5d3c8ba59cf1713c26acfdc99207bd083d54e5aad57de273a532c3",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "8bab5d7b29cbc294a300e22f50100b656834b3cd73d87576b4ceccd0b69f1024",
+              "stream_sha256": "58e2ee7dfc17ad7bcc7a0f1b68439f8085abed62fa29ec0c7e1429463df77692",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "f121819d7c72e3dd62349a756b7843c5d3c23a42a72cd99b349e46e01c81cf17",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Restatement of the issue only.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"implementation\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Restatement of the issue only.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "implementation"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "public_copy",
+          "source_grade_sha256": "c2c089fe38eea87456ee2ef01fd0704981c9244072bc95981e2f176a58f83c68",
+          "source_variant": "baseline"
+        },
+        {
+          "quality_v2": {
+            "behaviour_accepted": false,
+            "component_scores": {
+              "behaviour": 10,
+              "diagnosis": 10,
+              "invariant": 5,
+              "report": 10
+            },
+            "contradicted_check_claims": [],
+            "critical_coverage": true,
+            "critical_error": true,
+            "grade_sha256": "81a7726389518b02daf98722c5ffc666bd60d0f3e9893ce194a7d89308efe4d9",
+            "hidden_accepted": false,
+            "inconclusive": false,
+            "predicate_results": {
+              "creation-disabled": true,
+              "diagnosis": true,
+              "mac-cache-path": false,
+              "mac-cache-single": false,
+              "report": true,
+              "unix-site-path": false,
+              "xdg-config-single": false,
+              "xdg-data-multipath": true,
+              "xdg-data-single": false,
+              "xdg-lazy-first": false
+            },
+            "quality": 35,
+            "report_observability": "present",
+            "root_acceptance_gap": false,
+            "schema_version": 2,
+            "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492",
+            "unsupported_completion": false
+          },
+          "report_record": {
+            "binding": {
+              "final_revision_sha256": "a248377a9af87920a41d108a73fca74d2cd0ad6c99d119ebfb988f6a9bc1d745",
+              "invocation_id": "7cc99a09c0500cfba4484874ec1f7727",
+              "prompt_sha256": "db2850f7bcca02287051e1249519883e149e5ba2e040ce72895a763f5b91e642",
+              "requested_cell": "calibration-no-provider",
+              "revision_id": "eb3bdaeac5cb07d88ce74f295d8c282d128e1a5c2bec653c16bf5a2938400818",
+              "stream_sha256": "ba181995e3ccb4062b7ca9c9b9c89ed3e803300e18093cc7f7d6fb40444ea7b1",
+              "task_sha256": "4a641d1e49305f7f5dbc933ed9e54db1cb6a0c49ba5288be41153911b150e492"
+            },
+            "observability": "present",
+            "raw_sha256": "8e2a450f43986f1803e8a2595b5adee4f1a055b63dcf00de37994153d8474236",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Critical invariant still fails.\",\"evidence\":[\"public issue and isolated executable cases\"],\"remaining\":[\"critical invariant\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": null,
+              "diagnosis": "Critical invariant still fails.",
+              "evidence": [
+                "public issue and isolated executable cases"
+              ],
+              "remaining": [
+                "critical invariant"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "scenario": "critical_failure",
+          "source_grade_sha256": "c2c089fe38eea87456ee2ef01fd0704981c9244072bc95981e2f176a58f83c68",
+          "source_variant": "baseline"
+        }
+      ],
+      "source_commit": "5118d32ca567aba27f0af81b7b5931e162e1b86b",
+      "source_grades": {
+        "alternative": {
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "bf1fc54eabd472222d9fa31a794d0d322f397b4afc67b7c64d834a47133405dc",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "f43f1b1286c788f5d4459c5a7a22710b59754cde14f546d401a855ba2babf79c",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "alternative"
+        },
+        "baseline": {
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "c2c089fe38eea87456ee2ef01fd0704981c9244072bc95981e2f176a58f83c68",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": false,
+          "quality": 15,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "baseline"
+        },
+        "partial": {
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "630adc1388f587a740c82045eb4fdd9e5942c68ca21a80889571ea5a6c6ab55e",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "b9b7dcd3ea4f2e1d465e8a6d37c859fed30db7b180e8bf6a9e956868fe331e7f",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 75,
+          "root_state": "failed",
+          "schema_version": 1,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "partial"
+        },
+        "reference": {
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "d6acbedb8a17ead7874eea21f8ba9be05c3432b441be7e6e3e2afd539318cc2c",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "ab5e1ccd35fb204e74a23a837be4ef182b2b8578e72939dc814f4d15709cb5d5",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "reference"
+        }
+      },
+      "source_task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+      "source_url": "https://github.com/tox-dev/platformdirs",
+      "task_id": "P08",
+      "timer_stability": null
+    }
+  ],
+  "schema_version": 1,
+  "source_families": [
+    "P04",
+    "P05",
+    "P06",
+    "P08"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "incident": "shutdown-cancellation-retried",
+  "observations": [
+    {"path": "direct-async-default", "first_exception": "CancelledError", "attempts": 2, "returned": "second-attempt"},
+    {"path": "async-broad-retry", "first_exception": "CancelledError", "attempts": 2, "returned": "second-attempt"},
+    {"path": "sync-negative-policy", "first_exception": "KeyboardInterrupt", "attempts": 2, "returned": "second-attempt"}
+  ],
+  "desired_boundary": "control-flow interruption propagates after the first attempt"
+}

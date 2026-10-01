@@ -1,0 +1,6 @@
+{"schema_version":1,"cases":[
+  {"input":{"case":"list-reduce"},"expected":{"ok":true},"weight":25,"milestone":"list-reduce","critical":false},
+  {"input":{"case":"key-list-reduce"},"expected":{"ok":true},"weight":25,"milestone":"key-list-reduce","critical":false},
+  {"input":{"case":"dict-reduce"},"expected":{"ok":true},"weight":25,"milestone":"dict-reduce","critical":false},
+  {"input":{"case":"set-reduce"},"expected":{"ok":true},"weight":25,"milestone":"set-reduce","critical":false}
+]}

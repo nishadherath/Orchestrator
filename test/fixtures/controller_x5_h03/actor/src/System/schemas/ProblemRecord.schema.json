@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/ProblemRecord.schema.json",
+  "title": "ProblemRecord",
+  "description": "The problem as given, recorded as stated and not as true. Single writer: Controller (Intake). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "ProblemRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "description": "The problem statement verbatim or lightly trimmed."
+    },
+    "context": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 2000,
+      "description": "Context the requester supplied. Empty string if none."
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "description": "Constraints as stated by the requester. Classifying them is the Framer's job."
+    },
+    "budget_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "mode": {
+      "enum": [
+        "quick",
+        "deep"
+      ]
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "description": "Criteria the requester supplied. May be empty; the Framer then proposes them in the FrameRecord."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "statement",
+    "context",
+    "constraints",
+    "budget_usd",
+    "mode",
+    "acceptance_criteria"
+  ]
+}

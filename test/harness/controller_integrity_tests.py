@@ -118,12 +118,37 @@ class ControllerIntegrityTests(unittest.TestCase):
         self.assertEqual(result.outcome, "gap")
         self.assertEqual(result.record["termination"], "no_improvement")
 
+    def test_unverified_global_premise_yields_specific_partial_handoff(self):
+        canned = controller._canned()
+        measurement = copy.deepcopy(canned["measurement"])
+        measurement[0].update(result="The source was unavailable", artefact="probe.log",
+                              outcome="inconclusive")
+        reframe = copy.deepcopy(canned["frame_v2"])
+        reframe[0].update(text="Downstream behaviour remains unknown",
+                          **{"class": "unverified"},
+                          cheapest_verification="obtain downstream.py and inspect all callers")
+        scripted = controller._happy_path_script()
+        scripted[("verify", "verifier")] = [measurement]
+        scripted[("frame", "framer")] = [canned["frame_v1"], reframe]
+        fake = controller.FakeRoleRunner(scripted)
+        with tempfile.TemporaryDirectory(prefix="controller-r1-partial-") as folder:
+            result = controller.run_quick(
+                "Duplicate accounts from whitespace; downstream source is unavailable.",
+                Path(folder), 5.0, 30, lambda _remaining: fake, run_id="partial",
+            )
+            report = (result.run_dir / "REPORT.md").read_text(encoding="utf-8")
+        self.assertEqual(result.outcome, "gap")
+        self.assertIn("obtain downstream.py", result.record["next_cheapest_test"])
+        self.assertIn("prem-003", result.record["unverified_load_bearing"])
+        self.assertIn("Next cheapest test: Obtain evidence", report)
+        self.assertNotIn("## Answer", report)
+
     def test_external_acceptance_is_frozen_across_reframe(self):
         canned = controller._canned()
         changed = copy.deepcopy(canned["frame_v2"])
         changed[-1]["acceptance_criteria"] = ["quietly change the target"]
         scripted = controller._happy_path_script()
-        scripted[("frame", "framer")] = [canned["frame_v1"], changed]
+        scripted[("frame", "framer")] = [canned["frame_v1"], changed, changed]
         fake = controller.FakeRoleRunner(scripted)
         with tempfile.TemporaryDirectory(prefix="controller-r1-acceptance-") as folder:
             result = controller.run_quick(
@@ -132,10 +157,71 @@ class ControllerIntegrityTests(unittest.TestCase):
                 acceptance=external_acceptance(),
             )
             packet = json.loads((result.run_dir / "controller-evidence.json").read_text(encoding="utf-8"))
+            ledger = [json.loads(line) for line in
+                      (result.run_dir / "ledger.jsonl").read_text(encoding="utf-8").splitlines()]
         self.assertEqual(result.outcome, "gap")
         self.assertEqual(result.record["unmet_criteria"], ["fix the duplicate"])
         self.assertEqual(packet["acceptance_source"], "external")
         self.assertNotIn(("controller-stability", "controller"), fake.calls)
+        self.assertEqual(fake.calls.count(("frame", "framer")), 3)
+        self.assertEqual(
+            [row["acceptance_criteria"] for row in ledger if row["type"] == "FrameRecord"],
+            [["fix the duplicate"]],
+        )
+
+    def test_external_acceptance_echo_is_corrected_before_frame_commit(self):
+        canned = controller._canned()
+        changed = copy.deepcopy(canned["frame_v1"])
+        for record in changed:
+            if record["type"] == "FrameRecord":
+                record["acceptance_criteria"] = ["fix the duplicate", "new unapproved criterion"]
+        scripted = controller._happy_path_script()
+        scripted[("frame", "framer")] = [changed, canned["frame_v1"], canned["frame_v2"]]
+        fake = controller.FakeRoleRunner(scripted)
+        with tempfile.TemporaryDirectory(prefix="controller-r1-acceptance-retry-") as folder:
+            result = controller.run_quick(
+                "Duplicate accounts from whitespace; legacy_ids.py is frozen.",
+                Path(folder), 5.0, 30, lambda _remaining: fake, run_id="acceptance-retry",
+                acceptance=external_acceptance(),
+            )
+            ledger = [json.loads(line) for line in
+                      (result.run_dir / "ledger.jsonl").read_text(encoding="utf-8").splitlines()]
+            rejected = (result.run_dir / "rejections.jsonl").read_text(encoding="utf-8")
+        self.assertEqual(result.outcome, "solution")
+        self.assertEqual(fake.calls.count(("frame", "framer")), 3)
+        self.assertTrue(all(row["acceptance_criteria"] == ["fix the duplicate"]
+                            for row in ledger if row["type"] == "FrameRecord"))
+        self.assertIn("complete Framer batch was withheld", rejected)
+
+    def test_external_acceptance_is_frozen_across_critique_reframe(self):
+        canned = controller._canned()
+        frame_v3 = copy.deepcopy(canned["frame_v2"])
+        frame_v3[0].update(text="The Critic's premise was corrected", source="critique",
+                           supersedes="prem-001", ledger_version=3, references=["prem-001"])
+        frame_v3[1].update(ledger_version=3, references=["frame-002", "prem-004", "cand-001"])
+        changed = copy.deepcopy(frame_v3)
+        changed[1]["acceptance_criteria"] = ["an unapproved extra condition"]
+        critique = copy.deepcopy(canned["critique"])
+        critique[1]["falsified_premise_claims"] = [{"premise_id": "prem-001", "reason": "false"}]
+        scripted = controller._happy_path_script()
+        scripted[("frame", "framer")] = [canned["frame_v1"], canned["frame_v2"], changed, changed]
+        scripted[("critique", "critic")] = [critique]
+        fake = controller.FakeRoleRunner(scripted)
+        with tempfile.TemporaryDirectory(prefix="controller-r1-critique-acceptance-") as folder:
+            result = controller.run_quick(
+                "Duplicate accounts from whitespace; legacy_ids.py is frozen.",
+                Path(folder), 5.0, 30, lambda _remaining: fake, run_id="critique-acceptance",
+                acceptance=external_acceptance(),
+            )
+            ledger = [json.loads(line) for line in
+                      (result.run_dir / "ledger.jsonl").read_text(encoding="utf-8").splitlines()]
+        self.assertEqual(result.outcome, "gap")
+        self.assertEqual(result.record["unmet_criteria"], ["fix the duplicate"])
+        self.assertEqual(fake.calls.count(("frame", "framer")), 4)
+        self.assertEqual(
+            [row["acceptance_criteria"] for row in ledger if row["type"] == "FrameRecord"],
+            [["fix the duplicate"], ["fix the duplicate"]],
+        )
 
     def test_external_acceptance_can_produce_verified_ready_guidance(self):
         fake = controller.FakeRoleRunner(controller._happy_path_script())

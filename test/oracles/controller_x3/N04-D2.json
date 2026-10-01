@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "N04-D2",
+  "diagnosis": "staged-key-rotation-incomplete",
+  "cases": [
+    {"milestone": "old identifier remains valid during overlap", "weight": 20,
+     "critical": false, "input": {"action": "verify", "key_id": "blue"},
+     "expected": {"valid": true}},
+    {"milestone": "new identifier is accepted", "weight": 30,
+     "critical": false, "input": {"action": "verify", "key_id": "green"},
+     "expected": {"valid": true}},
+    {"milestone": "new signatures use the new identifier", "weight": 30,
+     "critical": false, "input": {"action": "sign"},
+     "expected": {"key_id": "green"}},
+    {"milestone": "unapproved identifier stays invalid", "weight": 20,
+     "critical": false, "input": {"action": "verify", "key_id": "amber"},
+     "expected": {"valid": false}}
+  ]
+}

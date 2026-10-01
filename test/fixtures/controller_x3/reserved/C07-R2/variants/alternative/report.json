@@ -1,0 +1,65 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "transport-sequence-watermark-overrides-state-revision",
+  "next_step": "replay stale-high and later-valid revision traces",
+  "probes": [
+    {
+      "input": {
+        "events": [
+          {
+            "sequence": 1,
+            "revision": 2,
+            "value": "A"
+          },
+          {
+            "sequence": 5,
+            "revision": 1,
+            "value": "old"
+          }
+        ]
+      },
+      "observed": {
+        "current": {
+          "revision": 2,
+          "value": "A"
+        },
+        "statuses": [
+          "applied",
+          "stale"
+        ]
+      }
+    },
+    {
+      "input": {
+        "events": [
+          {
+            "sequence": 1,
+            "revision": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 5,
+            "revision": 0,
+            "value": "old"
+          },
+          {
+            "sequence": 3,
+            "revision": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "observed": {
+        "current": {
+          "revision": 2,
+          "value": "B"
+        },
+        "statuses": [
+          "applied",
+          "stale",
+          "applied"
+        ]
+      }
+    }
+  ]
+}

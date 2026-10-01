@@ -1,0 +1,6 @@
+{"schema_version":1,"cases":[
+  {"input":{"case":"class-hook"},"expected":{"ok":true},"weight":30,"milestone":"class-hook","critical":false},
+  {"input":{"case":"field-hook"},"expected":{"ok":true},"weight":30,"milestone":"field-hook","critical":false},
+  {"input":{"case":"ordinary-hook"},"expected":{"ok":true},"weight":20,"milestone":"ordinary-hook","critical":false},
+  {"input":{"case":"double-yield"},"expected":{"ok":true},"weight":20,"milestone":"double-yield","critical":false}
+]}

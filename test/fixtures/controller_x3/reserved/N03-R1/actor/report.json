@@ -1,0 +1,10 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "modern client smoke passed",
+  "next_step": "require trace context now",
+  "question": {
+    "missing_field": "minimum_supported_client_version",
+    "prompt": ""
+  },
+  "probes": []
+}

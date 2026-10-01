@@ -16,10 +16,13 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 
 import controller_evaluation  # noqa: E402
+import controller_campaign_state  # noqa: E402
+import controller_campaign_manifest  # noqa: E402
 import evaluation_live_worker  # noqa: E402
 import evaluation_runner  # noqa: E402
 import model_registry  # noqa: E402
-from dispatch_budget import DispatchBudget  # noqa: E402
+import route  # noqa: E402
+from dispatch_budget import BudgetExhausted, DispatchBudget  # noqa: E402
 
 Transport = Callable[[list[str], Path, dict[str, str], float], subprocess.CompletedProcess]
 DEFAULT_AUTHORISATION = ROOT / "docs" / "CONTROLLER-ROUTING-R5-MATRIX-AUTHORISATION.json"
@@ -101,7 +104,9 @@ class MatrixAdapter:
         }
 
 
-def validate_manifest(value: dict) -> None:
+def validate_manifest(value: dict, *, require_materialised: bool = False) -> None:
+    if value.get("schema_version") != 2:
+        raise MatrixRuntimeError("archived R5 manifest is not runnable; freeze a new v2 package")
     recorded = value.get("manifest_sha256")
     unsigned = {key: item for key, item in value.items() if key != "manifest_sha256"}
     if recorded != controller_evaluation.digest(unsigned):
@@ -109,8 +114,35 @@ def validate_manifest(value: dict) -> None:
     if (value.get("stage") != "matrix-calibration" or value.get("execution_enabled") is not True
             or value.get("launch_readiness") != "authorisation-required"):
         raise MatrixRuntimeError("matrix manifest is not launch-ready")
-    if len(value.get("episodes", ())) != 60 or value.get("maximum_authorised_usd") != 48.75:
+    continuation = value.get("continuation")
+    count = len(value.get("episodes", ()))
+    ceiling = value.get("maximum_authorised_usd")
+    if ((continuation is None and (count != 60 or ceiling != 48.75))
+            or (continuation is not None and not (1 <= count < 60
+                                                  and type(ceiling) in (int, float)
+                                                  and 0 < ceiling <= 48.75))):
         raise MatrixRuntimeError("matrix schedule or ceiling is invalid")
+    rows = value["episodes"]
+    sequences = [row.get("sequence") for row in rows]
+    if ((continuation is None and sequences != list(range(1, 61)))
+            or (continuation is not None and (any(type(n) is not int or n < 1 or n > 60
+                                                  for n in sequences)
+                                              or sequences != sorted(set(sequences))))
+            or any(type(row.get("maximum_usd")) not in (int, float)
+                   or row["maximum_usd"] <= 0 for row in rows)
+            or sum(row["maximum_usd"] for row in rows) > ceiling + 1e-9):
+        raise MatrixRuntimeError("matrix sequence or per-call allocation is invalid")
+    package = value.get("runtime_package")
+    if not isinstance(package, dict) or value.get("bound_files") != package.get("files"):
+        raise MatrixRuntimeError("complete runtime inventory is absent")
+    try:
+        controller_campaign_manifest.verify_package(
+            ROOT, package, require_materialised=require_materialised)
+        controller_campaign_manifest.verify_host(
+            value.get("host_record"), require_live=require_materialised)
+        controller_campaign_manifest.verify_continuation(value)
+    except controller_campaign_manifest.CampaignManifestError as exc:
+        raise MatrixRuntimeError(str(exc)) from exc
     for relative, expected in value.get("bound_files", {}).items():
         path = (ROOT / relative).resolve()
         if not path.is_relative_to(ROOT.resolve()) or not path.is_file():
@@ -120,33 +152,62 @@ def validate_manifest(value: dict) -> None:
 
 
 def execute(manifest_path: Path, authorisation_path: Path, run_root: Path,
-            adapter: MatrixAdapter | None = None) -> dict:
+            adapter: MatrixAdapter | None = None, *,
+            driver_lock_timeout_s: float = 10.0) -> dict:
+    run_root.mkdir(parents=True, exist_ok=True)
+    with route.ledger_lock(run_root / "campaign-driver.json", driver_lock_timeout_s):
+        return _execute_owned(manifest_path, authorisation_path, run_root, adapter)
+
+
+def cancel(run_root: Path) -> dict:
+    return controller_campaign_state.cancel(run_root)
+
+
+def reconcile(run_root: Path, manifest_sha256: str) -> dict:
+    return controller_campaign_state.reconcile(
+        run_root, manifest_sha256, kind="matrix")
+
+
+def _execute_owned(manifest_path: Path, authorisation_path: Path, run_root: Path,
+                   adapter: MatrixAdapter | None) -> dict:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    validate_manifest(manifest)
+    live = adapter is None or (isinstance(adapter, MatrixAdapter)
+                               and adapter.transport is _default_transport)
+    validate_manifest(manifest, require_materialised=live)
+    controller_campaign_manifest.verify_continuation(manifest, run_root)
     authorisation = json.loads(authorisation_path.read_text(encoding="utf-8"))
     if not controller_evaluation.validate_authorisation(authorisation, manifest):
         raise MatrixRuntimeError("exact active authorisation is absent or invalid")
+    if manifest.get("continuation") and (authorisation.get("authority_id")
+            != manifest["continuation"]["authority_id"]
+            or authorisation.get("authority_sha256")
+            != manifest["continuation"]["authority_sha256"]):
+        raise MatrixRuntimeError("continuation authority differs from its grant")
     adapter = adapter or MatrixAdapter()
     run_root.mkdir(parents=True, exist_ok=True)
     state_path = run_root / "state.json"
     if state_path.is_file():
-        state = json.loads(state_path.read_text(encoding="utf-8"))
+        state = controller_campaign_state.load(state_path)
         if state.get("manifest_sha256") != manifest["manifest_sha256"]:
             raise MatrixRuntimeError("run root belongs to another manifest")
         current = state.get("current")
         if current and current.get("stage") != "complete":
             state["status"] = "stopped"
             state["stop_reason"] = "persisted dispatch may have billed; reconcile without replay"
-            evaluation_runner.atomic_json(state_path, state)
+            controller_campaign_state.save(state_path, state)
             return state
     else:
-        state = {"schema_version": 1, "manifest_sha256": manifest["manifest_sha256"],
+        state = {"schema_version": 2, "manifest_sha256": manifest["manifest_sha256"],
                  "status": "running", "episodes": {}, "current": None,
                  "known_spend_usd": 0.0}
-        evaluation_runner.atomic_json(state_path, state)
-    if state["status"] == "completed":
+        controller_campaign_state.save(state_path, state)
+    # A settled failure is terminal for this immutable schedule. Clearing
+    # current after settlement must never make ordinary execute a continuation.
+    if state["status"] != "running":
         return state
     for episode in manifest["episodes"]:
+        if controller_campaign_state.cancelled(state_path):
+            return controller_campaign_state.load(state_path)
         episode_id = f"matrix-{episode['sequence']:03d}-{episode['cell']}-{episode['kind']}"
         if episode_id in state["episodes"]:
             continue
@@ -157,11 +218,31 @@ def execute(manifest_path: Path, authorisation_path: Path, run_root: Path,
         allowance = budget.reserve(invocation_id, episode["maximum_usd"], 0.001,
                                    {"cell": episode["cell"], "kind": episode["kind"]})
         state["current"] = {"episode_id": episode_id, "invocation_id": invocation_id,
-                            "stage": "dispatch-intent", "allowance_usd": allowance}
-        evaluation_runner.atomic_json(state_path, state)
-        budget.start(invocation_id)
+                            "stage": "dispatch-intent", "allowance_usd": allowance,
+                            "intent_sha256": controller_evaluation.digest({
+                                "manifest": manifest["manifest_sha256"],
+                                "episode": episode, "invocation": invocation_id,
+                                "allowance_usd": allowance})}
+        controller_campaign_state.save(state_path, state)
+        try:
+            budget.start(invocation_id)
+        except BudgetExhausted:
+            budget.settle(invocation_id, 0.0, final=True,
+                          telemetry={"status": "not_launched"},
+                          evidence="matrix-admission-closed-before-adapter")
+            state["current"] = None
+            state["status"] = "stopped"
+            state["stop_reason"] = "budget or cancellation closed admission"
+            return controller_campaign_state.save(state_path, state)
         state["current"]["stage"] = "running"
-        evaluation_runner.atomic_json(state_path, state)
+        controller_campaign_state.save(state_path, state)
+        if controller_campaign_state.cancelled(state_path):
+            budget.settle(invocation_id, 0.0, final=True,
+                          telemetry={"status": "not_launched"},
+                          evidence="matrix-cancelled-before-adapter")
+            budget.cancel()
+            state["current"] = None
+            return controller_campaign_state.save(state_path, state)
         try:
             result = adapter.run(episode, episode_root)
         except Exception as exc:
@@ -170,7 +251,7 @@ def execute(manifest_path: Path, authorisation_path: Path, run_root: Path,
                           evidence="adapter exception; provider billing unknown")
             state["status"] = "stopped"
             state["stop_reason"] = f"{episode_id} adapter failed with uncertain billing"
-            evaluation_runner.atomic_json(state_path, state)
+            controller_campaign_state.save(state_path, state)
             return state
         final = bool(result["terminal"] and result["cost_usd"] is not None)
         budget.settle(invocation_id, result["cost_usd"], final=final,
@@ -186,12 +267,12 @@ def execute(manifest_path: Path, authorisation_path: Path, run_root: Path,
         if result["status"] != "completed":
             state["status"] = "stopped"
             state["stop_reason"] = f"{episode_id} failed; later calls were not admitted"
-            evaluation_runner.atomic_json(state_path, state)
+            controller_campaign_state.save(state_path, state)
             return state
-        evaluation_runner.atomic_json(state_path, state)
+        controller_campaign_state.save(state_path, state)
     state["status"] = "completed"
     state["stop_reason"] = None
-    evaluation_runner.atomic_json(state_path, state)
+    controller_campaign_state.save(state_path, state)
     return state
 
 

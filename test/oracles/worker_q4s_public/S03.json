@@ -1,0 +1,6 @@
+{"schema_version":1,"cases":[
+  {"input":{"case":"request-raw-case"},"expected":{"ok":true},"weight":25,"milestone":"request-raw-case","critical":false},
+  {"input":{"case":"host-first"},"expected":{"ok":true},"weight":25,"milestone":"host-first","critical":false},
+  {"input":{"case":"generated-framing"},"expected":{"ok":true},"weight":25,"milestone":"generated-framing","critical":false},
+  {"input":{"case":"header-replacement"},"expected":{"ok":true},"weight":25,"milestone":"header-replacement","critical":false}
+]}

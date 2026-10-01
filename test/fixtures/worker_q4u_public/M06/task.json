@@ -1,0 +1,24 @@
+{
+  "actor_files": {
+    "ISSUE.md": "9c227f574b6cadc7c497062ce4b2a384dbf7a356a998269192b8ada7957ffb2d",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "c356f056796672202786a52139c8209f1b6097dce1a807deed51e9ab4c9b8ed8",
+    "decision.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "migration.py": "cd7847f335470bc1e5722d6cff31a0394d7ef3f478ff860c5c4429ec4ab09536",
+    "public_check.py": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773"
+  },
+  "change_required": false,
+  "editable_paths": [
+    "decision.json"
+  ],
+  "evaluator_zip_sha256": "8a6642affc780f990a0798258c38ad41ccd95f216ba4a2dc0a84d2a8d144e1cb",
+  "id": "M06",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "naive-time-migration",
+  "origin": "authored-synthetic-missing-facts",
+  "schema_version": 1,
+  "split": "development",
+  "task_kind": "investigation",
+  "task_sha256": "867f7a3e0065b76e6e666a94dceafe8e8d5679b629c3c9f74ce88762eea45d8f"
+}

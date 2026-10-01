@@ -1,0 +1,500 @@
+{
+  "automatic_suitable_controller_admissions": 4,
+  "by_arm": {
+    "A": {
+      "accepted": 4,
+      "controller_invocations": 4,
+      "controller_role_calls": 7,
+      "critical_errors": 0,
+      "episodes": 6,
+      "false_successes": 2,
+      "functional_accepted": 4,
+      "historical_posthoc": 2,
+      "mean_components": {
+        "D": 0.666667,
+        "E": 0.666667,
+        "H": 0.666667,
+        "M": 1.0,
+        "N": 0.833333
+      },
+      "mean_cost_usd": 0.755115,
+      "mean_elapsed_s": 231.436667,
+      "mean_functional_score": 100.0,
+      "mean_quality": 81.666667,
+      "p95_elapsed_s": 450.85,
+      "total_cost_usd": 4.530687804,
+      "worker_attempts": 5
+    },
+    "B": {
+      "accepted": 4,
+      "controller_invocations": 0,
+      "controller_role_calls": 0,
+      "critical_errors": 0,
+      "episodes": 6,
+      "false_successes": 0,
+      "functional_accepted": 4,
+      "historical_posthoc": 2,
+      "mean_components": {
+        "D": 0.666667,
+        "E": 0.666667,
+        "H": 1.0,
+        "M": 1.0,
+        "N": 0.666667
+      },
+      "mean_cost_usd": 0.106076,
+      "mean_elapsed_s": 61.179167,
+      "mean_functional_score": 100.0,
+      "mean_quality": 83.333333,
+      "p95_elapsed_s": 87.644,
+      "total_cost_usd": 0.636455204,
+      "worker_attempts": 6
+    },
+    "S": {
+      "accepted": 4,
+      "controller_invocations": 0,
+      "controller_role_calls": 0,
+      "critical_errors": 0,
+      "episodes": 6,
+      "false_successes": 0,
+      "functional_accepted": 4,
+      "historical_posthoc": 2,
+      "mean_components": {
+        "D": 0.666667,
+        "E": 0.666667,
+        "H": 1.0,
+        "M": 1.0,
+        "N": 0.666667
+      },
+      "mean_cost_usd": 0.330488,
+      "mean_elapsed_s": 150.550833,
+      "mean_functional_score": 100.0,
+      "mean_quality": 83.333333,
+      "p95_elapsed_s": 252.604,
+      "total_cost_usd": 1.982929502,
+      "worker_attempts": 6
+    }
+  },
+  "by_family_and_arm": {
+    "missing-decision": {
+      "A": {
+        "accepted": 0,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 1,
+        "false_successes": 1,
+        "functional_accepted": 0,
+        "historical_posthoc": 0,
+        "mean_components": {
+          "D": 0.0,
+          "E": 0.0,
+          "H": 0.0,
+          "M": 1.0,
+          "N": 0.0
+        },
+        "mean_cost_usd": 0.036099,
+        "mean_elapsed_s": 13.483,
+        "mean_functional_score": null,
+        "mean_quality": 40.0,
+        "p95_elapsed_s": 13.483,
+        "total_cost_usd": 0.0360988,
+        "worker_attempts": 0
+      },
+      "B": {
+        "accepted": 0,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 1,
+        "false_successes": 0,
+        "functional_accepted": 0,
+        "historical_posthoc": 0,
+        "mean_components": {
+          "D": 0.0,
+          "E": 0.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 0.0
+        },
+        "mean_cost_usd": 0.041465,
+        "mean_elapsed_s": 28.67,
+        "mean_functional_score": null,
+        "mean_quality": 50.0,
+        "p95_elapsed_s": 28.67,
+        "total_cost_usd": 0.0414648,
+        "worker_attempts": 1
+      },
+      "S": {
+        "accepted": 0,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 1,
+        "false_successes": 0,
+        "functional_accepted": 0,
+        "historical_posthoc": 0,
+        "mean_components": {
+          "D": 0.0,
+          "E": 0.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 0.0
+        },
+        "mean_cost_usd": 0.119799,
+        "mean_elapsed_s": 62.672,
+        "mean_functional_score": null,
+        "mean_quality": 50.0,
+        "p95_elapsed_s": 62.672,
+        "total_cost_usd": 0.1197992,
+        "worker_attempts": 1
+      }
+    },
+    "ordinary-worker": {
+      "A": {
+        "accepted": 0,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 1,
+        "false_successes": 1,
+        "functional_accepted": 0,
+        "historical_posthoc": 0,
+        "mean_components": {
+          "D": 0.0,
+          "E": 0.0,
+          "H": 0.0,
+          "M": 1.0,
+          "N": 1.0
+        },
+        "mean_cost_usd": 0.080487,
+        "mean_elapsed_s": 47.756,
+        "mean_functional_score": null,
+        "mean_quality": 50.0,
+        "p95_elapsed_s": 47.756,
+        "total_cost_usd": 0.080487401,
+        "worker_attempts": 1
+      },
+      "B": {
+        "accepted": 0,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 1,
+        "false_successes": 0,
+        "functional_accepted": 0,
+        "historical_posthoc": 0,
+        "mean_components": {
+          "D": 0.0,
+          "E": 0.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 0.0
+        },
+        "mean_cost_usd": 0.057811,
+        "mean_elapsed_s": 40.847,
+        "mean_functional_score": null,
+        "mean_quality": 50.0,
+        "p95_elapsed_s": 40.847,
+        "total_cost_usd": 0.057810601,
+        "worker_attempts": 1
+      },
+      "S": {
+        "accepted": 0,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 1,
+        "false_successes": 0,
+        "functional_accepted": 0,
+        "historical_posthoc": 0,
+        "mean_components": {
+          "D": 0.0,
+          "E": 0.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 0.0
+        },
+        "mean_cost_usd": 0.207762,
+        "mean_elapsed_s": 118.962,
+        "mean_functional_score": null,
+        "mean_quality": 50.0,
+        "p95_elapsed_s": 118.962,
+        "total_cost_usd": 0.207761601,
+        "worker_attempts": 1
+      }
+    },
+    "proposed-suitable": {
+      "A": {
+        "accepted": 4,
+        "controller_invocations": 4,
+        "controller_role_calls": 7,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "functional_accepted": 4,
+        "historical_posthoc": 2,
+        "mean_components": {
+          "D": 1.0,
+          "E": 1.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 1.0
+        },
+        "mean_cost_usd": 1.103525,
+        "mean_elapsed_s": 331.84525,
+        "mean_functional_score": 100.0,
+        "mean_quality": 100.0,
+        "p95_elapsed_s": 450.85,
+        "total_cost_usd": 4.414101603,
+        "worker_attempts": 4
+      },
+      "B": {
+        "accepted": 4,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "functional_accepted": 4,
+        "historical_posthoc": 2,
+        "mean_components": {
+          "D": 1.0,
+          "E": 1.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 1.0
+        },
+        "mean_cost_usd": 0.134295,
+        "mean_elapsed_s": 74.3895,
+        "mean_functional_score": 100.0,
+        "mean_quality": 100.0,
+        "p95_elapsed_s": 87.644,
+        "total_cost_usd": 0.537179803,
+        "worker_attempts": 4
+      },
+      "S": {
+        "accepted": 4,
+        "controller_invocations": 0,
+        "controller_role_calls": 0,
+        "critical_errors": 0,
+        "episodes": 4,
+        "false_successes": 0,
+        "functional_accepted": 4,
+        "historical_posthoc": 2,
+        "mean_components": {
+          "D": 1.0,
+          "E": 1.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 1.0
+        },
+        "mean_cost_usd": 0.413842,
+        "mean_elapsed_s": 180.41775,
+        "mean_functional_score": 100.0,
+        "mean_quality": 100.0,
+        "p95_elapsed_s": 252.604,
+        "total_cost_usd": 1.655368701,
+        "worker_attempts": 4
+      }
+    }
+  },
+  "clarification_action": "clarify",
+  "combined_cost_usd": 7.15007251,
+  "controller_roles": [
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.31544900000000003,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-opus-high",
+      "role": "framer",
+      "status": "completed"
+    },
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.1471875,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-opus-high",
+      "role": "framer",
+      "status": "completed"
+    },
+    {
+      "actual_model": "claude-fable-5-1",
+      "cost_usd": 1.2258775000000002,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-fable-xhigh",
+      "role": "framer",
+      "status": "completed"
+    },
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.537958,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-opus-high",
+      "role": "framer",
+      "status": "completed"
+    },
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.079178,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-opus-high",
+      "role": "framer",
+      "status": "completed"
+    },
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.294565,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-opus-high",
+      "role": "framer",
+      "status": "completed"
+    },
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.15971449999999998,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-opus-high",
+      "role": "framer",
+      "status": "completed"
+    }
+  ],
+  "episodes": 18,
+  "frontier_roles": [
+    {
+      "actual_model": "claude-fable-5-1",
+      "cost_usd": 1.2258775000000002,
+      "identity_valid": true,
+      "phase": "frame",
+      "requested_cell": "worker-fable-xhigh",
+      "role": "framer",
+      "status": "completed"
+    }
+  ],
+  "historical_posthoc_episodes": 6,
+  "historical_v6_cost_usd": 4.129411806,
+  "host_verified_controller_worker_results": 4,
+  "interpretation": "Hybrid development evidence; six pairs were rescored post hoc and X6 remains unseen. No default promotion authority.",
+  "manifest_sha256": "ea3bc5f689d1b55c72137d5424e5e6d0672ef4b19e741a92207e5c8ad29ad8c7",
+  "ordinary_action": "worker",
+  "paired_deltas": [
+    {
+      "A_minus_S": {
+        "accepted": 0,
+        "cost_usd": 0.497651201,
+        "elapsed_s": 148.632,
+        "quality": 0.0
+      },
+      "S_minus_B": {
+        "accepted": 0,
+        "cost_usd": 0.3737844,
+        "elapsed_s": 80.757,
+        "quality": 0.0
+      },
+      "family": "proposed-suitable",
+      "provenance": "historical-posthoc",
+      "task_id": "X5-SHIP"
+    },
+    {
+      "A_minus_S": {
+        "accepted": 0,
+        "cost_usd": 1.318224201,
+        "elapsed_s": 288.285,
+        "quality": 0.0
+      },
+      "S_minus_B": {
+        "accepted": 0,
+        "cost_usd": 0.392447699,
+        "elapsed_s": 74.921,
+        "quality": 0.0
+      },
+      "family": "proposed-suitable",
+      "provenance": "historical-posthoc",
+      "task_id": "X5-MIGRATE"
+    },
+    {
+      "A_minus_S": {
+        "accepted": 0,
+        "cost_usd": 0.5294434,
+        "elapsed_s": 66.918,
+        "quality": 0.0
+      },
+      "S_minus_B": {
+        "accepted": 0,
+        "cost_usd": 0.197664399,
+        "elapsed_s": 170.093,
+        "quality": 0.0
+      },
+      "family": "proposed-suitable",
+      "provenance": "prospective-v7",
+      "task_id": "X5-PAY"
+    },
+    {
+      "A_minus_S": {
+        "accepted": 0,
+        "cost_usd": 0.4134141,
+        "elapsed_s": 101.875,
+        "quality": 0.0
+      },
+      "S_minus_B": {
+        "accepted": 0,
+        "cost_usd": 0.1542924,
+        "elapsed_s": 98.342,
+        "quality": 0.0
+      },
+      "family": "proposed-suitable",
+      "provenance": "prospective-v7",
+      "task_id": "X5-FEAT"
+    },
+    {
+      "A_minus_S": {
+        "accepted": 0,
+        "cost_usd": -0.1272742,
+        "elapsed_s": -71.206,
+        "quality": 0.0
+      },
+      "S_minus_B": {
+        "accepted": 0,
+        "cost_usd": 0.149951,
+        "elapsed_s": 78.115,
+        "quality": 0.0
+      },
+      "family": "ordinary-worker",
+      "provenance": "prospective-v7",
+      "task_id": "N01-D1"
+    },
+    {
+      "A_minus_S": {
+        "accepted": 0,
+        "cost_usd": -0.0837004,
+        "elapsed_s": -49.189,
+        "quality": -10.0
+      },
+      "S_minus_B": {
+        "accepted": 0,
+        "cost_usd": 0.0783344,
+        "elapsed_s": 34.002,
+        "quality": 0.0
+      },
+      "family": "missing-decision",
+      "provenance": "prospective-v7",
+      "task_id": "C08-D2"
+    }
+  ],
+  "prospective_v7_episodes": 12,
+  "schema_version": 1,
+  "stage": "controller-x5-v7-development-continuation",
+  "v7_cost_usd": 3.020660704,
+  "worker_identity_failures": 0,
+  "worker_models": [
+    "claude-opus-5",
+    "claude-sonnet-5"
+  ],
+  "worker_served_effort_unknown": 17
+}

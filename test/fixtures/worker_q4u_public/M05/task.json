@@ -1,0 +1,24 @@
+{
+  "actor_files": {
+    "ISSUE.md": "290f0b5f25b8e6eed948d3d9a4be2586c649bc2fa478b70bf43c211d2cc35a94",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "c356f056796672202786a52139c8209f1b6097dce1a807deed51e9ab4c9b8ed8",
+    "decision.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "policy.py": "18686103265302e9bbfbff585c88bd8e91a909d240385b1fcff2db22ff37c9ef",
+    "public_check.py": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773"
+  },
+  "change_required": false,
+  "editable_paths": [
+    "decision.json"
+  ],
+  "evaluator_zip_sha256": "fe75264d2bf1344e89f3ca57b77e881de91266bfcb7c7257289477ac14b83e39",
+  "id": "M05",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "retention-jurisdiction",
+  "origin": "authored-synthetic-missing-facts",
+  "schema_version": 1,
+  "split": "development",
+  "task_kind": "investigation",
+  "task_sha256": "b6abd18911867667a95c85b4fecd47645143511b6350c0e17f65ec9ba0e9dae6"
+}

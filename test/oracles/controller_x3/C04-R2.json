@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "task_id": "C04-R2",
+  "diagnosis": "pooled-tenant-session-state-survives-return",
+  "cases": [
+    {
+      "milestone": "one successful checkout leaves the slot clean",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": false
+          }
+        ]
+      },
+      "expected": {
+        "observed": [
+          {
+            "status": "ok",
+            "tenant_seen": "acme"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    },
+    {
+      "milestone": "same-tenant reuse leaves the slot clean",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": false
+          },
+          {
+            "tenant": "acme",
+            "fail": false
+          }
+        ]
+      },
+      "expected": {
+        "observed": [
+          {
+            "status": "ok",
+            "tenant_seen": "acme"
+          },
+          {
+            "status": "ok",
+            "tenant_seen": "acme"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    },
+    {
+      "milestone": "ordinary reuse cannot inherit another tenant",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": false
+          },
+          {
+            "tenant": "beta",
+            "fail": false
+          }
+        ]
+      },
+      "expected": {
+        "observed": [
+          {
+            "status": "ok",
+            "tenant_seen": "acme"
+          },
+          {
+            "status": "ok",
+            "tenant_seen": "beta"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    },
+    {
+      "milestone": "failure returns a clean reusable slot",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": true
+          }
+        ]
+      },
+      "expected": {
+        "observed": [
+          {
+            "status": "error"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    },
+    {
+      "milestone": "a later tenant recovers after the failure",
+      "weight": 25,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": true
+          },
+          {
+            "tenant": "beta",
+            "fail": false
+          }
+        ]
+      },
+      "expected": {
+        "observed": [
+          {
+            "status": "error"
+          },
+          {
+            "status": "ok",
+            "tenant_seen": "beta"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    }
+  ]
+}

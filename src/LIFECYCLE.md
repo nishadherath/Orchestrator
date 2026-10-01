@@ -30,6 +30,11 @@ instructions; token-saving estimates are not measured API bill savings.
 
 ## Executor rollback boundary
 
+`/worker-task` and `tools/worker_tasks.py` expose admission, status, execution,
+cancellation, review, reconciliation and linked continuation without embedding
+Python in an interactive session. Read `WORKER-TASKS.md` for the operation
+schemas. Only `run` dispatches; other commands do not restart a worker.
+
 The installable executor keeps its own task journal and root budget under
 `.claude/task-executor-v2/`. Before reverting to a legacy Task-tool or route
 path for work that may have used it, run

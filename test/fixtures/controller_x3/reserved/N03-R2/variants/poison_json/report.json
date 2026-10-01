@@ -1,0 +1,29 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "approved-destructive-cutover-time-absent",
+  "next_step": "await-approved-utc-cutover-time",
+  "question": {
+    "missing_field": "approved_cutover_time_utc",
+    "prompt": "What exact approved UTC timestamp authorises the destructive store cutover and archive deletion?"
+  },
+  "probes": [
+    {
+      "input": {
+        "action": "status"
+      },
+      "observed": {
+        "active": "primary",
+        "archive": "intact",
+        "cutover_at_utc": null
+      }
+    },
+    {
+      "input": {
+        "action": "recovery"
+      },
+      "observed": {
+        "rollback_available": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-25",
+  "purpose": "public Q2 pilot calibration only; excluded from reserved inference",
+  "schema_version": 1,
+  "selection_visibility": "issue and actor package only; never oracle, variant or family label",
+  "tasks": [
+    {
+      "actor_files": {
+        "ISSUE.md": "96853fd0afeebc9d882064e1043ef5ae31120472bed649cca21d1d88b4ffec80",
+        "LICENSE": "28c000b52b0ee27138a68ef778227e4057046e86b65f62f1cacb99b0cc49e0d2",
+        "acceptance.json": "80a96c340d960f548b1b83f5b18001b63b1e38b1c0a85688958f767827a2350e",
+        "cachetools/__init__.py": "525ba807fed4af10744f068b5f9b81710903b6f73ee897469d3bf615847e2bd0",
+        "cachetools/__init__.pyi": "ed9551103ba6c51b632604268e7104f649a7b0ec40c4c0a6802540e56e4b7c46",
+        "cachetools/_cached.py": "e4a75ee34a6d1b582ec8567080ca90eca9c330f0c8f878b7372a861dbc1e18f4",
+        "cachetools/_cachedmethod.py": "ad2e75ebb6d3131225f36ce63c6f281700e675aff79ce2d447f8e97132b4ecb4",
+        "cachetools/func.py": "61c1e5d97294bebc58fa9c1d12b4594db966c247b8ac1a58ddaec0fa5e837aee",
+        "cachetools/func.pyi": "b55c20d4122014165183e80b3078b402b9a5f1300c509143bd6ec861d5819af2",
+        "cachetools/keys.py": "4314460307e1b3e4d5718d1bac019e2e783f0961385f7a5aa2ca35969ac1276d",
+        "cachetools/keys.pyi": "594a1166a9c399a375b6095ee1b38408f44b7d7c8b7b57685caab85b4598a24c",
+        "cachetools/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public_check.py": "34df9fc8b7a8e2f388b792d505177e50413775628b559bdfe6d06279ea088192"
+      },
+      "actor_total_bytes": 64421,
+      "clean_upstream_source_sha256": {
+        "__init__.py": "525ba807fed4af10744f068b5f9b81710903b6f73ee897469d3bf615847e2bd0",
+        "__init__.pyi": "ed9551103ba6c51b632604268e7104f649a7b0ec40c4c0a6802540e56e4b7c46",
+        "_cached.py": "e4a75ee34a6d1b582ec8567080ca90eca9c330f0c8f878b7372a861dbc1e18f4",
+        "_cachedmethod.py": "ad2e75ebb6d3131225f36ce63c6f281700e675aff79ce2d447f8e97132b4ecb4",
+        "func.py": "87724e4fc82303fd5172cc9fd03c7aaf6a767c6c477f3cb74a245fc45ebf7816",
+        "func.pyi": "b55c20d4122014165183e80b3078b402b9a5f1300c509143bd6ec861d5819af2",
+        "keys.py": "9550bd6914744c2fc6fd211dfb83cdae2d6206b1a1bfcf052d017cb23b39b49e",
+        "keys.pyi": "594a1166a9c399a375b6095ee1b38408f44b7d7c8b7b57685caab85b4598a24c",
+        "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "dependency_lock": "Python 3.10+ standard library only",
+      "editable_paths": [
+        "cachetools/func.py",
+        "cachetools/keys.py"
+      ],
+      "id": "P01",
+      "issue_origin": "authored regression on pinned upstream source; not an upstream issue",
+      "licence": "MIT",
+      "licence_file": "LICENSE",
+      "oracle_cases": 5,
+      "oracle_sha256": "0a95cf202f46b5e6fd908719307f4175345ba18033853294bbc8be90a0e10f64",
+      "package": "cachetools",
+      "partial_files": {
+        "cachetools/func.py": "87724e4fc82303fd5172cc9fd03c7aaf6a767c6c477f3cb74a245fc45ebf7816",
+        "cachetools/keys.py": "4314460307e1b3e4d5718d1bac019e2e783f0961385f7a5aa2ca35969ac1276d"
+      },
+      "reference_files": {
+        "cachetools/func.py": "87724e4fc82303fd5172cc9fd03c7aaf6a767c6c477f3cb74a245fc45ebf7816",
+        "cachetools/keys.py": "9550bd6914744c2fc6fd211dfb83cdae2d6206b1a1bfcf052d017cb23b39b49e"
+      },
+      "source_files": 9,
+      "source_lines": 1647,
+      "stratum": "concurrent cold-key computation and typed-key invariant",
+      "upstream_commit": "3c082c654c2804b9354e4b62dbd2994f1aac464d",
+      "upstream_source": "src/cachetools",
+      "upstream_url": "https://github.com/tkem/cachetools"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "15166159ee4490ee79b5c5ec71fd9f1e6f32249c13c4428c9735d606aae5604b",
+        "LICENSE.txt": "63af09891b6be8ad1a4252ed43af0f4efba7fc948e228367bed7f3c5ae0b09d7",
+        "acceptance.json": "04785675c3cf775415bbece5a9421696bbb90b41a8db073effea446bfed6047a",
+        "itsdangerous/__init__.py": "cd4e17bf6c055e1d4e6fb30c5d51406365ccb0d5e2bb0f65b446a9208996a9a0",
+        "itsdangerous/_json.py": "c0f4069a07b6c99f77dbc107285ea069d19ec866022502b1b54fa22ca13a5270",
+        "itsdangerous/encoding.py": "c304f3e6aff7ccb71a01dba793afef4a84adc06a9859edf4ed997f53ceda4453",
+        "itsdangerous/exc.py": "46bddec68d0c44511c3d996dc1e7322b5e955756c4d8af7f175f9dfa58dc527e",
+        "itsdangerous/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "itsdangerous/serializer.py": "6d6f1687897c7e3ac6eeff5bfd6794df90e299feedcc6aae3faa0e53ffe925e8",
+        "itsdangerous/signer.py": "60ed0257b341bc703a8f9e3d4441c91548d4a23c36a47ab0714a509d4ef23584",
+        "itsdangerous/timed.py": "83c31b38465b92d15450dcc566774606b0bc37d40e5239e76ced193cf310b7ca",
+        "itsdangerous/url_safe.py": "9d894a832cc0b6b9ba17a8c88c5a09f51e16914a06394d1000cdc3272b32f5b2",
+        "public_check.py": "6c3236f20805609d159c9949b211b4b9b6482d95ab9706f27c0f34c91005d431"
+      },
+      "actor_total_bytes": 44997,
+      "clean_upstream_source_sha256": {
+        "__init__.py": "cd4e17bf6c055e1d4e6fb30c5d51406365ccb0d5e2bb0f65b446a9208996a9a0",
+        "_json.py": "c0f4069a07b6c99f77dbc107285ea069d19ec866022502b1b54fa22ca13a5270",
+        "encoding.py": "c304f3e6aff7ccb71a01dba793afef4a84adc06a9859edf4ed997f53ceda4453",
+        "exc.py": "46bddec68d0c44511c3d996dc1e7322b5e955756c4d8af7f175f9dfa58dc527e",
+        "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "serializer.py": "6d6f1687897c7e3ac6eeff5bfd6794df90e299feedcc6aae3faa0e53ffe925e8",
+        "signer.py": "60ed0257b341bc703a8f9e3d4441c91548d4a23c36a47ab0714a509d4ef23584",
+        "timed.py": "3afbf6050e8b73605931d1e516f374835456979e4319c098bfe5f284f120c6c5",
+        "url_safe.py": "6b3e1ee5f5e2fefb3e61b5a3f186709f8c2254a7de0fef8610a453e547aee0fe"
+      },
+      "dependency_lock": "Python 3.10+ standard library only",
+      "editable_paths": [
+        "itsdangerous/timed.py",
+        "itsdangerous/url_safe.py"
+      ],
+      "id": "P02",
+      "issue_origin": "authored regression on pinned upstream source; not an upstream issue",
+      "licence": "BSD-3-Clause",
+      "licence_file": "LICENSE.txt",
+      "oracle_cases": 6,
+      "oracle_sha256": "70e8cede910e69dc49ce91818d4fddb6224035f13404da8e5edb1efffe3c9d86",
+      "package": "itsdangerous",
+      "partial_files": {
+        "itsdangerous/timed.py": "83c31b38465b92d15450dcc566774606b0bc37d40e5239e76ced193cf310b7ca",
+        "itsdangerous/url_safe.py": "6b3e1ee5f5e2fefb3e61b5a3f186709f8c2254a7de0fef8610a453e547aee0fe"
+      },
+      "reference_files": {
+        "itsdangerous/timed.py": "3afbf6050e8b73605931d1e516f374835456979e4319c098bfe5f284f120c6c5",
+        "itsdangerous/url_safe.py": "6b3e1ee5f5e2fefb3e61b5a3f186709f8c2254a7de0fef8610a453e547aee0fe"
+      },
+      "source_files": 9,
+      "source_lines": 1176,
+      "stratum": "signed-token protocol and clock boundary",
+      "upstream_commit": "672971d66a2ef9f85151e53283113f33d642dabd",
+      "upstream_source": "src/itsdangerous",
+      "upstream_url": "https://github.com/pallets/itsdangerous"
+    }
+  ]
+}

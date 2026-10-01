@@ -1,0 +1,82 @@
+{
+  "samples": [
+    {
+      "batch_size": 2,
+      "checkpoint": 0,
+      "fail_after": 1,
+      "observed": {
+        "checkpoint": 2,
+        "events": [
+          {
+            "checkpoint": 2,
+            "phase": "crash"
+          },
+          {
+            "checkpoint": 2,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          }
+        ]
+      },
+      "source": [
+        {
+          "id": "a",
+          "tombstone": false,
+          "value": "A",
+          "version": 1
+        },
+        {
+          "id": "b",
+          "tombstone": false,
+          "value": "B",
+          "version": 1
+        }
+      ],
+      "target": []
+    },
+    {
+      "batch_size": 1,
+      "checkpoint": 0,
+      "observed": {
+        "checkpoint": 1,
+        "events": [
+          {
+            "checkpoint": 1,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "old",
+            "version": 2
+          }
+        ]
+      },
+      "source": [
+        {
+          "id": "a",
+          "tombstone": false,
+          "value": "old",
+          "version": 2
+        }
+      ],
+      "target": [
+        {
+          "id": "a",
+          "tombstone": false,
+          "value": "new",
+          "version": 3
+        }
+      ]
+    }
+  ]
+}

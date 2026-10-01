@@ -1,0 +1,11 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "operator-target-region-absent",
+  "next_step": "wait-for-approved-target-region",
+  "question": {"missing_field": "target_region",
+               "prompt": "What region should pilot use?"},
+  "probes": [
+    {"input": {"tenant": "pilot"},
+     "observed": {"tenant": "pilot", "region": "us-west-2"}}
+  ]
+}

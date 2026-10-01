@@ -1,0 +1,1 @@
+"""Public label formatting package."""

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "stage": "x5-recovery-development-feasibility",
+  "date": "2026-09-30 Australia/Sydney",
+  "approved": true,
+  "approval_source": "User message: approve all tests until all the planned work is done (2026-09-30 Australia/Sydney)",
+  "manifest_sha256": "12bcbc9ae48f016196867b46b298915dae7e29ea935c8e37a73f83ad59539b23",
+  "scope": "one X5 recovery producer and up to two matched development continuations",
+  "maximum_usd": 15.0,
+  "per_root_maximum_usd": 5.0,
+  "projected_api_equivalent_usd": {
+    "low": 0.2,
+    "high": 6.0,
+    "basis": "R3 R01 producer settled at USD 0.16955; earlier X5 v6 and v7 campaigns settled at USD 4.129411806 for six episodes and USD 3.020660704 for twelve episodes. A matched Controller continuation may cost more. No cache discount is presumed."
+  },
+  "provider_calls_at_notice": 0
+}

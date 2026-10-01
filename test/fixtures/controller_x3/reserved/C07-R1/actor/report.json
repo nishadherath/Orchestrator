@@ -1,0 +1,35 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "unicode-character-count-shifts-following-frame-boundary",
+  "next_step": "replay Unicode single and following-frame boundaries",
+  "probes": [
+    {
+      "input": {
+        "operation": "roundtrip",
+        "messages": [
+          "é"
+        ]
+      },
+      "observed": {
+        "messages": [
+          "é"
+        ]
+      }
+    },
+    {
+      "input": {
+        "operation": "roundtrip",
+        "messages": [
+          "é",
+          "ok"
+        ]
+      },
+      "observed": {
+        "messages": [
+          "é",
+          "ok"
+        ]
+      }
+    }
+  ]
+}

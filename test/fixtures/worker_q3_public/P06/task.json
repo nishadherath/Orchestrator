@@ -1,0 +1,61 @@
+{
+  "actor_bytes": 115681,
+  "actor_file_count": 17,
+  "actor_files": {
+    "ISSUE.md": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+    "LICENSE": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+    "acceptance.json": "c48cc906288bfb51a66eb76828316830ab3ead05fad9b6a00d15af50e88e9505",
+    "jwt/__init__.py": "0564795b435a412848db0d678100fd138aa3096075e8cce364751c7e427d60fd",
+    "jwt/algorithms.py": "31e174916a77d17f4ed9dbcd3b869e9264a146aaf8d97f02d9b43bf828fe0441",
+    "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+    "jwt/api_jws.py": "a0c578d4e09c823afe019ed3e0b06fb184c665ff34cfe404c68229ae3272269d",
+    "jwt/api_jwt.py": "e8283616669448b2b116b0184e6eed568d67b10a1ff8909f647cb43f44bce615",
+    "jwt/exceptions.py": "3540f48760343221d5e94f933edfc0af4a6b9c01f1c892748ba2c7216cddf154",
+    "jwt/help.py": "1c1dd9b2b2557254745d8fac0c7f8bbe5e4aeda7b9422746894e96c93027621b",
+    "jwt/jwk_set_cache.py": "037f79442909503c4a2e3fcce91654912e34e407837a9130ced538938c434a85",
+    "jwt/jwks_client.py": "00ba62de23c8c80d90fb1f73539a8fbf32c47a959d8d0fbaf51e46800c419ab7",
+    "jwt/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jwt/types.py": "478e81927a35574f1faaec6756bef502f5bab843e2947265aa4817e8e6d9167c",
+    "jwt/utils.py": "e4e3d4faf0b15c47a049940088e256434b6566920ec7163c172ce47684c29ac0",
+    "jwt/warnings.py": "8904ef3fe34f0d003eb6e84f86389f124611a8c520b5ef7d88e3cc25cfc32c99",
+    "public_check.py": "a0f259c76e6feafdbbff1262e8a429ee3b33ca8a74a923573b1b228a1f182bd1"
+  },
+  "alternative_files": {
+    "jwt/api_jwk.py": "ed5a1f0f48e3a56b92fc94707af7772bc932fb90181440cea1c6c6c4d51e6c47",
+    "jwt/jwk_set_cache.py": "64868576dc64be9b4411f9b9d485c123b4f9f68f136ea4a6055d935fec2a18f4",
+    "jwt/jwks_client.py": "7bba1373a36b510a6cd2e73be019a4af23c58804276085a29ef49159bea24fb2"
+  },
+  "case_file": "P06_case.py",
+  "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+  "editable_paths": [
+    "jwt/api_jwk.py",
+    "jwt/jwk_set_cache.py",
+    "jwt/jwks_client.py"
+  ],
+  "fix_commit": "384c945065ad1f1d7e5a0331c7377c7f278532f5",
+  "id": "P06",
+  "issue_origin": "upstream-fix",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+  "name": "PyJWT parsed key-set cache consistency",
+  "oracle_file": "P06.json",
+  "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+  "package_path": "jwt",
+  "partial_files": {
+    "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+    "jwt/jwk_set_cache.py": "64868576dc64be9b4411f9b9d485c123b4f9f68f136ea4a6055d935fec2a18f4",
+    "jwt/jwks_client.py": "8c6ad35008b7c698ee0b44ed94f997329fb530a2f400246df0a7916fabefa69b"
+  },
+  "provenance_sha256": "627cfeaeb480ffc853b170a0742116845553a7f29976c1337667b9c450d33f12",
+  "reference_files": {
+    "jwt/api_jwk.py": "ed5a1f0f48e3a56b92fc94707af7772bc932fb90181440cea1c6c6c4d51e6c47",
+    "jwt/jwk_set_cache.py": "64868576dc64be9b4411f9b9d485c123b4f9f68f136ea4a6055d935fec2a18f4",
+    "jwt/jwks_client.py": "8c6ad35008b7c698ee0b44ed94f997329fb530a2f400246df0a7916fabefa69b"
+  },
+  "schema_version": 1,
+  "source_commit": "ea7267519f2be5ff031efabd692af7a4461f3d5e",
+  "source_python_lines": 3197,
+  "source_url": "https://github.com/jpadilla/pyjwt",
+  "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e"
+}

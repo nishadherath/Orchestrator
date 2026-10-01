@@ -1,0 +1,10 @@
+{
+  "approved": true,
+  "authority": "CLAUDE.md standing approval for paid probes below USD 100",
+  "date_local": "2026-09-29",
+  "expected_api_equivalent_usd": [0.15, 1.2],
+  "manifest_sha256": "a6bc5d5b867750a1f9c880dd14851a78401870ef04cc8ca34e7642b52ecc273c",
+  "maximum_screen_usd": 3.0,
+  "per_task_allowance_usd": 0.5,
+  "scope": "Six sequential X5 v5 public assessments only"
+}

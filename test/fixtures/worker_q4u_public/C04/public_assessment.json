@@ -1,0 +1,66 @@
+{
+  "assessment": {
+    "assessment_sha256": "92eb8a5127f60d6e382ed21eff5f7acad62f018f4fdc1091f86f41f81407e317",
+    "facts": {
+      "change_required": false,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "23c028213ebac30f452011e3e25d38e9e626341fcc0bbaa9fbb87a53e655b1ac",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert normalise_label(\"Stra\u00dfe\") == \"strasse\""
+            },
+            {
+              "file_sha256": "23c028213ebac30f452011e3e25d38e9e626341fcc0bbaa9fbb87a53e655b1ac",
+              "line": 7,
+              "path": "public_check.py",
+              "text": "assert normalise_label(\"\uff21\uff22\uff23\") == \"abc\""
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "unicode_equivalence",
+          "issue_citation": {
+            "file_sha256": "0dfca77696596d9311bc243d81a8140e566bc78b00c9df778a2ebc938dae353d",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "Verify `normalise_label()` against the stated contract: apply Unicode NFKC"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "23c028213ebac30f452011e3e25d38e9e626341fcc0bbaa9fbb87a53e655b1ac",
+              "line": 5,
+              "path": "public_check.py",
+              "text": "assert normalise_label(\"  HELLO\\tworld  \") == \"hello world\""
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check passes only strings",
+          "id": "non_string_type",
+          "issue_citation": {
+            "file_sha256": "0dfca77696596d9311bc243d81a8140e566bc78b00c9df778a2ebc938dae353d",
+            "line": 7,
+            "path": "ISSUE.md",
+            "text": "The result must be deterministic for the same input and reject non-strings"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "investigation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "0dfca77696596d9311bc243d81a8140e566bc78b00c9df778a2ebc938dae353d",
+      "public_check.py": "23c028213ebac30f452011e3e25d38e9e626341fcc0bbaa9fbb87a53e655b1ac"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "C04",
+  "task_sha256": "527990779885a4e325b4e5e4f1bd621dd5c43f847efff4f502a812027a74351b"
+}

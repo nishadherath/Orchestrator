@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"milestone": "parser-node-roundtrip", "input": {"kind": "node"}, "expected": "python_version", "weight": 15, "critical": false},
+    {"milestone": "compound-marker-roundtrip", "input": {"kind": "marker", "text": "python_version >= \"3.8\" and os_name == \"posix\""}, "expected": ["python_version >= \"3.8\" and os_name == \"posix\"", true], "weight": 15, "critical": false},
+    {"milestone": "requirement-roundtrip", "input": {"kind": "requirement", "text": "sample>=2"}, "expected": ["sample>=2", true], "weight": 10, "critical": false},
+    {"milestone": "requirement-with-marker", "input": {"kind": "requirement", "text": "sample[feature]>=2; python_version >= \"3.8\""}, "expected": ["sample[feature]>=2; python_version >= \"3.8\"", true], "weight": 10, "critical": false},
+    {"milestone": "old-node-state", "input": {"kind": "node-legacy"}, "expected": "3.8", "weight": 10, "critical": false},
+    {"milestone": "old-marker-state", "input": {"kind": "marker-legacy"}, "expected": "python_version >= \"3.8\"", "weight": 10, "critical": false},
+    {"milestone": "old-requirement-state", "input": {"kind": "requirement-legacy"}, "expected": "sample>=2", "weight": 10, "critical": false},
+    {"milestone": "invalid-node-state", "input": {"kind": "invalid-node"}, "expected": "TypeError", "weight": 5, "critical": false},
+    {"milestone": "invalid-marker-state", "input": {"kind": "invalid-marker"}, "expected": "TypeError", "weight": 5, "critical": false},
+    {"milestone": "invalid-requirement-state", "input": {"kind": "invalid-requirement"}, "expected": "TypeError", "weight": 5, "critical": false},
+    {"milestone": "ordinary-parsing-control", "input": {"kind": "control"}, "expected": "sample>=2", "weight": 5, "critical": false}
+  ]
+}

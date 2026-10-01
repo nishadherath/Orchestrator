@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "scope": "post-correction prose and handoff checks only",
+  "checks": [
+    {
+      "id": "PROSE",
+      "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+      "status": "PASS",
+      "detail": "907 files clean"
+    },
+    {
+      "id": "HANDOFF",
+      "covers": "every handoffs/ file passes handoff.py check",
+      "status": "PASS",
+      "detail": "28 file(s) checked"
+    }
+  ]
+}

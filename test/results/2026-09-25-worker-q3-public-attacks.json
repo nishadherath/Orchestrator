@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "editable_hardlink_rejected": true,
+    "editable_symlink_rejected": true,
+    "false_completion_detected": true,
+    "protected_issue_edit_rejected": true,
+    "public_answer_edit_rejected": true,
+    "public_pass_hidden_fail_detected": true
+  },
+  "evidence_sha256": "70316abde906855ae1b1a279fde85594aa8fe9149f9730fb2524267ffad0ed1b",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T10:48:42+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_wsl_q3_public.py": "ee8255eeb45d5c27a0655759a32191a68fc958d1f88c42d031bfe57e8cbdebcb",
+    "tools/worker_wsl_q3_public_probe.py": "65392278c4d5be2560a608a81062dc34dd96196dd41b0ac33cdbff71ed57efc1"
+  },
+  "task_sha256": {
+    "P03": "4177a184f67a3f800ee75a88f5131ce919ea8c665d3112604efd5b62182c88c6",
+    "P04": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7"
+  }
+}

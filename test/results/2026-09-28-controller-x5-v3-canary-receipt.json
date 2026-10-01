@@ -1,0 +1,77 @@
+{
+  "actor": "/var/lib/orchestrator-worker-n4/seed/x5-high-canary-bf5c768724b2",
+  "actual_model": "claude-sonnet-5",
+  "budget": {
+    "available_usd": 0.727500599,
+    "baseline_limit_units": 1000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-28T08:33:16.188283+00:00",
+    "currency": "USD",
+    "invocations": {
+      "9cbb8f3abfe2954175f9c4eed0df147d": {
+        "allowance_units": 1000000000,
+        "charged_units": 272499401,
+        "cost_usd": 0.27249940000000006,
+        "metadata": {
+          "manifest_sha256": "bf5c768724b2207e6701190a69bb6264e3e0a2b721de59fb405ca01bf6192d72",
+          "requested_cell": "worker-sonnet-high",
+          "task_id": "C03-D1"
+        },
+        "reserved_at": "2026-09-28T08:33:16.196744+00:00",
+        "resolution": {
+          "cost_usd": 0.27249940000000006,
+          "evidence": "x5-canary-terminal-worker-receipt",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 27172,
+            "cache_read_input_tokens": 180302,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.27249940000000006,
+            "currency": "USD",
+            "input_tokens": 22,
+            "output_tokens": 12640
+          }
+        },
+        "started_at": "2026-09-28T08:33:16.202827+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 27172,
+          "cache_read_input_tokens": 180302,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.27249940000000006,
+          "currency": "USD",
+          "input_tokens": 22,
+          "output_tokens": 12640
+        },
+        "updated_at": "2026-09-28T08:35:17.838392+00:00"
+      }
+    },
+    "limit_units": 1000000000,
+    "limit_usd": 1.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.272499401,
+    "unresolved": [],
+    "version": 1
+  },
+  "child_models": [],
+  "cost_usd": 0.27249940000000006,
+  "isolation_evidence": {
+    "artefacts_digest": "439e1eb3ebef27bb359fb71d163502ddb934f5dde589f941c9ae1787d38395c0",
+    "boundary": "fresh Q1 WSL namespace, uid 65534, no credentials",
+    "manifest_sha256": "2e893fe76e96dbb619ab7d05a690e28773b7d9243426ff207e84955caf175067",
+    "protected_digest": "056ce1fe8adcab3ad2189365664963f03f828be09431548b4da422cda3a7b5c0",
+    "sha256": "4efc97c2019d5848b4c0e95ece9e9f7e3b157da57cec45d227c6652331a75a21"
+  },
+  "manifest_sha256": "bf5c768724b2207e6701190a69bb6264e3e0a2b721de59fb405ca01bf6192d72",
+  "provider_calls": 1,
+  "public_check_passed": true,
+  "public_check_status": "pass",
+  "requested_cell": "worker-sonnet-high",
+  "schema_version": 1,
+  "served_identity_valid": true,
+  "task_id": "C03-D1",
+  "terminal": true,
+  "worker_status": "completed"
+}

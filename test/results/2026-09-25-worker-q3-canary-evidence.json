@@ -1,0 +1,402 @@
+{
+  "created_at_utc": "2026-09-25T09:14:49+00:00",
+  "manifest_sha256": "ecdb71d90de67fbdef559d9e815c13935236bf446f378ddb98edb3867f9fd3b7",
+  "next_sequence": 3,
+  "rows": [
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "cachetools/func.py",
+              "cachetools/keys.py"
+            ],
+            "cost_usd": 0.08507959999999999,
+            "identity_valid": true,
+            "q1_record_sha256": "fb9fe12754c75619fca7640754342465ffb1605313bf679fa8138aeaf8ea2c14",
+            "q1_spec_sha256": "bc2584520ccb710baea3f3aef181ca1e3a2103c8a05325b4cffda5b91ce66f67",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 10024,
+              "cache_read_input_tokens": 101483,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.08507959999999999,
+              "currency": "USD",
+              "input_tokens": 14,
+              "output_tokens": 2345
+            },
+            "verification": "pass",
+            "wall_clock_s": 29.40521,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.9149204,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T09:15:55.177026+00:00",
+          "currency": "USD",
+          "invocations": {
+            "2671b8a3bacdc38fa9a38a05f250c5c6": {
+              "allowance_units": 6000000000,
+              "charged_units": 85079600,
+              "cost_usd": 0.08507959999999999,
+              "metadata": {
+                "decision_digest": "9b7c335f5faf9e0d913ace3dc66c8824053bc69a6620d2ff0afed46fc6ae1fbd",
+                "revision_id": "bef77c7310d2fa508b58797ff69fa32d1c811963a5a12e6011b0d922d47d2812",
+                "root_id": "58d86bf5dc28a8f96a6b0ca1"
+              },
+              "reserved_at": "2026-09-25T09:15:55.216294+00:00",
+              "resolution": {
+                "cost_usd": 0.08507959999999999,
+                "evidence": "receipt:dd786c63de915009778d34f4a734d4fc5991b8e11abee1e806fd9f894dad9d0d",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 10024,
+                  "cache_read_input_tokens": 101483,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.08507959999999999,
+                  "currency": "USD",
+                  "input_tokens": 14,
+                  "output_tokens": 2345
+                }
+              },
+              "started_at": "2026-09-25T09:15:55.230883+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 10024,
+                "cache_read_input_tokens": 101483,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.08507959999999999,
+                "currency": "USD",
+                "input_tokens": 14,
+                "output_tokens": 2345
+              },
+              "updated_at": "2026-09-25T09:16:24.686056+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.0850796,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "cachetools/func.py": "87724e4fc82303fd5172cc9fd03c7aaf6a767c6c477f3cb74a245fc45ebf7816",
+            "cachetools/keys.py": "14936626f3951aab47a2cd17603d3e154dc32a5dee8eb8a1544eb8ea622a16c6"
+          },
+          "cases": [
+            {
+              "milestone": "typed-bool",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "milestone": "typed-float",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "single-compute",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "milestone": "second-key",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "eviction-preserved",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "hidden_acceptance": true,
+          "milestones": [
+            "typed-bool",
+            "typed-float",
+            "single-compute",
+            "second-key",
+            "eviction-preserved"
+          ],
+          "oracle_direct_read_denied": true,
+          "oracle_sha256": "0a95cf202f46b5e6fd908719307f4175345ba18033853294bbc8be90a0e10f64",
+          "package_sha256": "c1e8d99f600125e404bda229ef8d6983bc0361024860d8fddd466750569dc187",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100.0,
+          "source_workspace_unchanged": true,
+          "task_id": "P01",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "96853fd0afeebc9d882064e1043ef5ae31120472bed649cca21d1d88b4ffec80",
+          "LICENSE": "28c000b52b0ee27138a68ef778227e4057046e86b65f62f1cacb99b0cc49e0d2",
+          "acceptance.json": "80a96c340d960f548b1b83f5b18001b63b1e38b1c0a85688958f767827a2350e",
+          "cachetools/__init__.py": "525ba807fed4af10744f068b5f9b81710903b6f73ee897469d3bf615847e2bd0",
+          "cachetools/__init__.pyi": "ed9551103ba6c51b632604268e7104f649a7b0ec40c4c0a6802540e56e4b7c46",
+          "cachetools/_cached.py": "e4a75ee34a6d1b582ec8567080ca90eca9c330f0c8f878b7372a861dbc1e18f4",
+          "cachetools/_cachedmethod.py": "ad2e75ebb6d3131225f36ce63c6f281700e675aff79ce2d447f8e97132b4ecb4",
+          "cachetools/func.pyi": "b55c20d4122014165183e80b3078b402b9a5f1300c509143bd6ec861d5819af2",
+          "cachetools/keys.pyi": "594a1166a9c399a375b6095ee1b38408f44b7d7c8b7b57685caab85b4598a24c",
+          "cachetools/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "public_check.py": "34df9fc8b7a8e2f388b792d505177e50413775628b559bdfe6d06279ea088192"
+        },
+        "root_id": "58d86bf5dc28a8f96a6b0ca1",
+        "root_state": "accepted",
+        "task_id": "P01",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-canary-ecdb71d90de67fbd-p01"
+      },
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "P01"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "itsdangerous/timed.py",
+              "itsdangerous/url_safe.py"
+            ],
+            "cost_usd": 0.07065940000000001,
+            "identity_valid": true,
+            "q1_record_sha256": "cc469856766680e26c7a7c2225178b6fdb603f37f21bbb226564714b48481d59",
+            "q1_spec_sha256": "972309ca30241eb0e77462fe7bb1e8e751e30533855d2039b58c47dd1583f982",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 8483,
+              "cache_read_input_tokens": 54152,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.07065940000000001,
+              "currency": "USD",
+              "input_tokens": 8,
+              "output_tokens": 2468
+            },
+            "verification": "fail",
+            "wall_clock_s": 31.467576,
+            "writer_stopped": true
+          },
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "itsdangerous/timed.py"
+            ],
+            "cost_usd": 0.28477860000000005,
+            "identity_valid": true,
+            "q1_record_sha256": "caecfe1c5e7894d263bc774610df8f9abff23ba2d3465dfe2f01a86eb23587d1",
+            "q1_spec_sha256": "439b729859f83c0b3b75735b97eeb87583aa1ecadd616f7d395fb3a329f29ee1",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 2,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 30440,
+              "cache_read_input_tokens": 212558,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.28477860000000005,
+              "currency": "USD",
+              "input_tokens": 18,
+              "output_tokens": 11927
+            },
+            "verification": "pass",
+            "wall_clock_s": 133.154558,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.644561998,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T09:17:47.779044+00:00",
+          "currency": "USD",
+          "invocations": {
+            "b367db3fb23299eeff914910e25dba49": {
+              "allowance_units": 5929340599,
+              "charged_units": 284778601,
+              "cost_usd": 0.28477860000000005,
+              "metadata": {
+                "decision_digest": "3f74e562fbaa800f57df3e15a2e5f0fbfce19ed516e2dc0ff52aa46616010a75",
+                "revision_id": "3b257c643b69d6003922145e974f9c12be9be4da500908c25dfd74ead19f9fc2",
+                "root_id": "9a96c094ca952bc1abe58474"
+              },
+              "reserved_at": "2026-09-25T09:18:20.341314+00:00",
+              "resolution": {
+                "cost_usd": 0.28477860000000005,
+                "evidence": "receipt:2af88073b3a9d985f9a903e27944d69d98b2ce1f92a8bc4768cc1afd3ad01138",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 30440,
+                  "cache_read_input_tokens": 212558,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.28477860000000005,
+                  "currency": "USD",
+                  "input_tokens": 18,
+                  "output_tokens": 11927
+                }
+              },
+              "started_at": "2026-09-25T09:18:20.354817+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 30440,
+                "cache_read_input_tokens": 212558,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.28477860000000005,
+                "currency": "USD",
+                "input_tokens": 18,
+                "output_tokens": 11927
+              },
+              "updated_at": "2026-09-25T09:20:33.548397+00:00"
+            },
+            "d8c8cd00e809c8f1e31b5903a4a728bf": {
+              "allowance_units": 6000000000,
+              "charged_units": 70659401,
+              "cost_usd": 0.07065940000000001,
+              "metadata": {
+                "decision_digest": "24c1a58bd02412e802f205dabcfd7f2af024233c55d17273550d6e112f599568",
+                "revision_id": "3b257c643b69d6003922145e974f9c12be9be4da500908c25dfd74ead19f9fc2",
+                "root_id": "9a96c094ca952bc1abe58474"
+              },
+              "reserved_at": "2026-09-25T09:17:47.822034+00:00",
+              "resolution": {
+                "cost_usd": 0.07065940000000001,
+                "evidence": "receipt:edb9e826ab3a98a03daa1fca4cb6a2022ece906ec73643b29baad0449c0dca9e",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 8483,
+                  "cache_read_input_tokens": 54152,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.07065940000000001,
+                  "currency": "USD",
+                  "input_tokens": 8,
+                  "output_tokens": 2468
+                }
+              },
+              "started_at": "2026-09-25T09:17:47.837748+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 8483,
+                "cache_read_input_tokens": 54152,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.07065940000000001,
+                "currency": "USD",
+                "input_tokens": 8,
+                "output_tokens": 2468
+              },
+              "updated_at": "2026-09-25T09:18:19.344718+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.355438002,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "itsdangerous/timed.py": "3afbf6050e8b73605931d1e516f374835456979e4319c098bfe5f284f120c6c5",
+            "itsdangerous/url_safe.py": "6b3e1ee5f5e2fefb3e61b5a3f186709f8c2254a7de0fef8610a453e547aee0fe"
+          },
+          "cases": [
+            {
+              "milestone": "compressed-load",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "milestone": "small-preserved",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "future-rejected",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "milestone": "small-skew-rejected",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "expired-rejected",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "tamper-rejected",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "hidden_acceptance": true,
+          "milestones": [
+            "compressed-load",
+            "small-preserved",
+            "future-rejected",
+            "small-skew-rejected",
+            "expired-rejected",
+            "tamper-rejected"
+          ],
+          "oracle_direct_read_denied": true,
+          "oracle_sha256": "70e8cede910e69dc49ce91818d4fddb6224035f13404da8e5edb1efffe3c9d86",
+          "package_sha256": "0dcdd4c94892f3f46432f85207ae9ced5d42cf80e327333bdf176913b9a2d06a",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100.0,
+          "source_workspace_unchanged": true,
+          "task_id": "P02",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "15166159ee4490ee79b5c5ec71fd9f1e6f32249c13c4428c9735d606aae5604b",
+          "LICENSE.txt": "63af09891b6be8ad1a4252ed43af0f4efba7fc948e228367bed7f3c5ae0b09d7",
+          "acceptance.json": "04785675c3cf775415bbece5a9421696bbb90b41a8db073effea446bfed6047a",
+          "itsdangerous/__init__.py": "cd4e17bf6c055e1d4e6fb30c5d51406365ccb0d5e2bb0f65b446a9208996a9a0",
+          "itsdangerous/_json.py": "c0f4069a07b6c99f77dbc107285ea069d19ec866022502b1b54fa22ca13a5270",
+          "itsdangerous/encoding.py": "c304f3e6aff7ccb71a01dba793afef4a84adc06a9859edf4ed997f53ceda4453",
+          "itsdangerous/exc.py": "46bddec68d0c44511c3d996dc1e7322b5e955756c4d8af7f175f9dfa58dc527e",
+          "itsdangerous/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "itsdangerous/serializer.py": "6d6f1687897c7e3ac6eeff5bfd6794df90e299feedcc6aae3faa0e53ffe925e8",
+          "itsdangerous/signer.py": "60ed0257b341bc703a8f9e3d4441c91548d4a23c36a47ab0714a509d4ef23584",
+          "public_check.py": "6c3236f20805609d159c9949b211b4b9b6482d95ab9706f27c0f34c91005d431"
+        },
+        "root_id": "9a96c094ca952bc1abe58474",
+        "root_state": "accepted",
+        "task_id": "P02",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-canary-ecdb71d90de67fbd-p02"
+      },
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "P02"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "33ea0511f2bbe15a44ce9dd693445460b9902741e820c8480684ecb9de7079a9",
+  "status": "complete"
+}

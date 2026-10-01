@@ -1,0 +1,47 @@
+{
+  "actor_file_count": 6,
+  "evaluator_zip_sha256": "dc07e72226d8f0b8e3c134a649a704522b00e6261837cebb54991badefe00fc4",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "correct_missing_fields": false,
+        "schema": false,
+        "stops_for_input": false
+      },
+      "public_pass": false,
+      "schema_version": 1,
+      "score": 0,
+      "source_intact": true,
+      "task_id": "R12"
+    },
+    "partial": {
+      "cases": {
+        "correct_missing_fields": false,
+        "schema": true,
+        "stops_for_input": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 40,
+      "source_intact": true,
+      "task_id": "R12"
+    },
+    "reference": {
+      "cases": {
+        "correct_missing_fields": true,
+        "schema": true,
+        "stops_for_input": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "source_intact": true,
+      "task_id": "R12"
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.12.14",
+  "schema_version": 1,
+  "task_id": "R12",
+  "task_sha256": "4e22c8b4edece3751167db5fc8485041503642d986edf9ced42605ec7ab5e14f"
+}

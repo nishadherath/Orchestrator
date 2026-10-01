@@ -1,0 +1,7 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "assumed-region",
+  "next_step": "deploy-now",
+  "question": {"missing_field": "target_region", "prompt": ""},
+  "probes": []
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-27",
+  "bundle_version": "2026-09-27-15ecf66-dirty",
+  "provider_calls": 0,
+  "built_bundle_consumer": {
+    "command": "python -B test/harness/worker_n8_consumer_tests.py --built-bundle",
+    "exit_code": 0,
+    "output": "PASS: clean install, upgrade, installed B0/N2/N3/CLI, rollback and retained task records\nbaseline=synthetic-prior-layout\ncandidate=built-dist\n"
+  },
+  "final_gate": {
+    "exit_code": 0,
+    "checks": [
+      {"id": "DIST", "status": "PASS", "detail": "78 files match at 2026-09-27-15ecf66-dirty"},
+      {"id": "RELEASE", "status": "PASS", "detail": "mechanical failures=[]; operator actions=['clean_build_stamp', 'publication']"},
+      {"id": "PROSE", "status": "PASS", "detail": "803 files clean before completion-record updates"}
+    ]
+  }
+}

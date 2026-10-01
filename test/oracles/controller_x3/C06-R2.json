@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "task_id": "C06-R2",
+  "diagnosis": "new-reader-old-row-fallback-and-new-writer-legacy-projection",
+  "cases": [
+    {
+      "milestone": "new writer and reader still roundtrip",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "operation": "roundtrip_new",
+        "value": 7
+      },
+      "expected": {
+        "value": 7
+      }
+    },
+    {
+      "milestone": "new reader retains historical rows",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "operation": "read_new",
+        "row": {
+          "value": 9
+        }
+      },
+      "expected": {
+        "value": 9
+      }
+    },
+    {
+      "milestone": "old reader can consume a new write",
+      "weight": 25,
+      "critical": false,
+      "input": {
+        "operation": "roundtrip_old",
+        "value": 11
+      },
+      "expected": {
+        "value": 11
+      }
+    },
+    {
+      "milestone": "new write carries both compatible fields",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "operation": "write_new",
+        "value": 5
+      },
+      "expected": {
+        "row": {
+          "value": 5,
+          "value_v2": 5
+        }
+      }
+    },
+    {
+      "milestone": "new reader prefers the current field when both exist",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "operation": "read_new",
+        "row": {
+          "value": 3,
+          "value_v2": 8
+        }
+      },
+      "expected": {
+        "value": 8
+      }
+    }
+  ]
+}

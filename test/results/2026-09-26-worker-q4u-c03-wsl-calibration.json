@@ -1,0 +1,56 @@
+{
+  "actor_file_count": 5,
+  "evaluator_zip_sha256": "d59fed72b422516850444c563b11c271a16fd554275a1c33a7b044b7c8b269df",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "boolean_weight": true,
+        "large_total": true,
+        "negative_total": true,
+        "unequal_remainders": true,
+        "zero_sum": true,
+        "zero_weight": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "task_id": "C03",
+      "unchanged": true
+    },
+    "partial": {
+      "cases": {
+        "boolean_weight": true,
+        "large_total": true,
+        "negative_total": true,
+        "unequal_remainders": true,
+        "zero_sum": true,
+        "zero_weight": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 0,
+      "task_id": "C03",
+      "unchanged": false
+    },
+    "reference": {
+      "cases": {
+        "boolean_weight": true,
+        "large_total": true,
+        "negative_total": true,
+        "unequal_remainders": true,
+        "zero_sum": true,
+        "zero_weight": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "task_id": "C03",
+      "unchanged": true
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.14.7",
+  "schema_version": 1,
+  "task_id": "C03",
+  "task_sha256": "3b12a1a5b5f8312533c335d86a43fde82115c19f7e4c04c71da426bb76d78663"
+}

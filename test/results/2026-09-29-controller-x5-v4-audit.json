@@ -1,0 +1,208 @@
+{
+  "cases": [
+    {
+      "acceptance": {
+        "baseline": {
+          "lost_response_replay": false,
+          "parallel_retry": false,
+          "payload_conflict": true,
+          "precommit_retry": true,
+          "tenant_boundary": false
+        },
+        "reference": {
+          "lost_response_replay": true,
+          "parallel_retry": true,
+          "payload_conflict": true,
+          "precommit_retry": true,
+          "tenant_boundary": true
+        },
+        "wrong_repair": {
+          "lost_response_replay": true,
+          "parallel_retry": false,
+          "payload_conflict": true,
+          "precommit_retry": true,
+          "tenant_boundary": false
+        }
+      },
+      "case": "payment_replay",
+      "claim_gate": {
+        "label_only": false,
+        "partial_false_complete": false,
+        "reference": true
+      },
+      "protected_sha256": {
+        "acceptance.json": "f8cb3581359ccdd4a3879ef4538152b23c1ce01cc86299de29e200f04ba7aeed",
+        "payments.py": "85376b8a821f39ee1009d8e225927b21d451e8cbbf70338915a0c424671b1542"
+      },
+      "provider_calls": 0,
+      "public_checks": {
+        "baseline": true,
+        "reference": true,
+        "wrong_repair": true
+      },
+      "public_sha256": {
+        "acceptance.json": "467d80ce78459958823766dfe5d52ad4393b86b809d40ee59a0e9c5f6e989b68",
+        "app.py": "77b0bd51e0bda6de90685ed493d214766a91cbe1219e0c56dfaf47a302e7d252",
+        "issue.md": "20c48030eb5d7b989bb8d662c4ad631149e789415de0c1b5eabc1ad2d6f18a2f",
+        "payments.py": "3ab62e7fb75d8043bda0a48cc692aada7e992d26bb7fff9f5da3e5ebf08a1f84",
+        "public_check.py": "2f028692961c28429ceaa2cd085041c038f8db93acb0dfe871fa644939ec4eff",
+        "report.json": "b15e564009c6bc7b240fcc2ca69afe756548587e43feff88b4f8c6b6ebdbf3e8",
+        "trace.json": "d8ef6cc368e00dd0403b26928385555fa2de88354a02accb072fb9a7dda9d80f"
+      },
+      "trace_reproduced": [
+        true
+      ]
+    },
+    {
+      "acceptance": {
+        "baseline": {
+          "feature_separation": true,
+          "tenant_boundary": false,
+          "update_invalidation": false
+        },
+        "reference": {
+          "feature_separation": true,
+          "tenant_boundary": true,
+          "update_invalidation": true
+        },
+        "wrong_repair": {
+          "feature_separation": true,
+          "tenant_boundary": true,
+          "update_invalidation": false
+        }
+      },
+      "case": "tenant_feature",
+      "claim_gate": {
+        "label_only": false,
+        "partial_false_complete": false,
+        "reference": true
+      },
+      "protected_sha256": {
+        "acceptance.json": "21e2cf8ea9c10b1b11e4f7162d96332ae4e60cb72916caabcb1205a1f3f2dfa3",
+        "features.py": "789ecd6a06bd88a8cb9906b7608adbdc9aafe0263ecc25687a31981a8fa5798e"
+      },
+      "provider_calls": 0,
+      "public_checks": {
+        "baseline": true,
+        "reference": true,
+        "wrong_repair": true
+      },
+      "public_sha256": {
+        "acceptance.json": "c909d139c76509b0acf7a8235733a99b8c6e7f084a15b9e612cd87799c233e17",
+        "app.py": "a4d14ed7b234b600a682aff9aaeb9b059b7baf0e2365570e4cd3d1b02ca6c6e9",
+        "features.py": "6ab2ce2fd059db195fcec82dfbd28297ef3c132cbf12f70184b6a1d7c2752bd7",
+        "issue.md": "ead422fe2f3d15bfd4db68dc0c3bf493b87812e21df02f5e92cc2ab9b0f8f8e5",
+        "public_check.py": "a598ea75b71ab0e902b34712cd72fda67a620a24430825ba10a42c1549816369",
+        "report.json": "88610dcfb899418be78b5ef68a7d51dcbe49ec959904656b222b6d80ecf3523c",
+        "trace.json": "53224f6a38c1e994cb679d94413f8e1902a9a33212bbf2132147f5e951db4e1f"
+      },
+      "trace_reproduced": [
+        true
+      ]
+    },
+    {
+      "acceptance": {
+        "baseline": {
+          "clock_ahead": false,
+          "expiry_boundary": false,
+          "ownership_order": true,
+          "stale_ack": false
+        },
+        "reference": {
+          "clock_ahead": true,
+          "expiry_boundary": true,
+          "ownership_order": true,
+          "stale_ack": true
+        },
+        "wrong_repair": {
+          "clock_ahead": true,
+          "expiry_boundary": true,
+          "ownership_order": true,
+          "stale_ack": false
+        }
+      },
+      "case": "lease_lag",
+      "claim_gate": {
+        "label_only": false,
+        "partial_false_complete": false,
+        "reference": true
+      },
+      "protected_sha256": {
+        "acceptance.json": "e1f4b397757f2982876f8d7e412320cfb6b9f5591c97f87dfaac9c8b2ef5a920",
+        "leases.py": "3d7be443cac449d33ad978bf3ef081f5d9d6f776cf28bf952bcfa07dfdf63442"
+      },
+      "provider_calls": 0,
+      "public_checks": {
+        "baseline": true,
+        "reference": true,
+        "wrong_repair": true
+      },
+      "public_sha256": {
+        "acceptance.json": "b3e097606830204e2852c76413dcdcc271e0956820995f238382aa81c6a50e78",
+        "app.py": "fbff170997734e4d24a4793bcbb7a21ebcfb156dd85daaccc3b5d70f26fb08d9",
+        "issue.md": "8c0452d9773044330adf1d27dfada17452597d9061bb59aeb57a71f6b131ad51",
+        "leases.py": "83a1771b1b5ad8765439b0a1fec7735fd126e149f01520ab899ba7b9ab0ebb03",
+        "public_check.py": "881d1bd37f58a92efc8f3498061852724f624fc70b460e1505f1de9b70604a30",
+        "report.json": "88610dcfb899418be78b5ef68a7d51dcbe49ec959904656b222b6d80ecf3523c",
+        "trace.json": "aac471c8148c4abb702092476e4dd4c6ee5ac9ac6989fe6e3aad96fcbe7099be"
+      },
+      "trace_reproduced": [
+        true
+      ]
+    },
+    {
+      "acceptance": {
+        "baseline": {
+          "binary_boundary": false,
+          "final_rounding": false,
+          "large_total": false,
+          "signed_refund": false
+        },
+        "reference": {
+          "binary_boundary": true,
+          "final_rounding": true,
+          "large_total": true,
+          "signed_refund": true
+        },
+        "wrong_repair": {
+          "binary_boundary": false,
+          "final_rounding": true,
+          "large_total": true,
+          "signed_refund": true
+        }
+      },
+      "case": "monetary_discrepancy",
+      "claim_gate": {
+        "label_only": false,
+        "partial_false_complete": false,
+        "reference": true
+      },
+      "protected_sha256": {
+        "acceptance.json": "6e219611e0b9d28ca349045ef70150cf047049137293a5c576c5373df10d5652",
+        "amounts.py": "665d3b3f21922e4ba4cef612228216ebe3fe2f2088bce7fdafe8f235109dee40"
+      },
+      "provider_calls": 0,
+      "public_checks": {
+        "baseline": true,
+        "reference": true,
+        "wrong_repair": true
+      },
+      "public_sha256": {
+        "acceptance.json": "fcf325ff5dfa5500ba23ff8f669d802d0d76b62cd1617799b89c1aba587186c3",
+        "amounts.py": "2a59d390369b6aff7ac042b8e75da69ace09af9deef38c6a1ab1e7a93be76c2b",
+        "app.py": "5094aaebbce10d7e59fa990a188f45c45b3e80f076bf73fd0a5581ce1492c5f5",
+        "issue.md": "b2e1e9afd990cafa20b54216e8f38ef8c0a54a05c7f305e3a725f666a91e6c14",
+        "public_check.py": "1f54d34120a58b871966302abf0ec65e12aac41de21bf87c1ede5dd6126fe0e9",
+        "report.json": "88610dcfb899418be78b5ef68a7d51dcbe49ec959904656b222b6d80ecf3523c",
+        "trace.json": "03cc453769294d95f90ee2ae42de0d6fc0b4d6b5e0dbcb5b1a258298c0f96dba"
+      },
+      "trace_reproduced": [
+        true,
+        true,
+        true
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "status": "provider-free-proposal"
+}

@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "editable_paths": ["httpcore/_sync/connection_pool.py", "httpcore/_async/connection_pool.py"],
+  "public_command": ["python3", "-B", "public_check.py"]
+}

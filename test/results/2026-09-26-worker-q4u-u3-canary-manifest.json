@@ -1,0 +1,353 @@
+{
+  "authorisation": "operator-standing-paid-calls-approved",
+  "date_utc": "2026-09-26",
+  "episode_allocation_usd": 4.0,
+  "episode_count": 10,
+  "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+  "maximum_allocation_usd": 40.0,
+  "maximum_provider_calls": 30,
+  "no_started_invocation_replay": true,
+  "profile": "worker-q4u-u3-verification-canary",
+  "public_assessment_api_equivalent_usd": 0,
+  "public_assessment_provider_calls": 0,
+  "qualification_authority": false,
+  "qualification_limit": "Four mechanisms and single repetitions are exploratory",
+  "reserve_sha256": "dbe805fdf4a7b3a9319aed496b265f720befd5a993b680a25e0448851f6cc6a4",
+  "rows": [
+    {
+      "actor_files": {
+        "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+        "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+        "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+        "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+        "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+        "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+        "src/dotenv/main.py": "27e9b390d4432c14b41a796d8e66415a01ca2ee2eeb331d447888d101f4b631e",
+        "src/dotenv/parser.py": "2dfc1a909cf8994ef87320952958256b9e19b91990cdcf07090061aaf7f6bb93",
+        "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+        "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+        "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+      },
+      "arm": "b0",
+      "contract_sha256": "ac311e1c054c551d7593422429711a3a7513c7f9ca5168f93835e3c26c591e50",
+      "editable_paths": [
+        "src/dotenv/main.py",
+        "src/dotenv/parser.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "mechanism": "dotenv-writer-parser-boundary",
+      "origin": "pinned-upstream-regression",
+      "public_assessment_sha256": "832f0294580decda60a2149cd613cd1c402b24b8263fe0660c2588782a96ad47",
+      "sequence": 1,
+      "task_id": "D01W",
+      "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+        "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+        "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+        "event_ref/decode.py": "c838b7e7b438c9dce70621872c527a6094806cc677b1b13a06eee2e36fb9a896",
+        "event_ref/encode.py": "be947aefb8b1daea3107c964de737a1ed37d70ad8423746f5bdcd7ca8bc25e62",
+        "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+      },
+      "arm": "cross_component_medium",
+      "contract_sha256": "6ca5837ff49b4f4118aa8a8637e12ebb27de25da2cde06105a1ac95ef2c36033",
+      "editable_paths": [
+        "event_ref/encode.py",
+        "event_ref/decode.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "mechanism": "event-reference-encoding",
+      "origin": "authored-synthetic-regression",
+      "public_assessment_sha256": "72bc52149645fa6e08521b728b3f43399a1ac5149f720b22012d04a1df08a91f",
+      "sequence": 2,
+      "task_id": "F07W",
+      "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+        "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+        "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+        "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+        "boltons/jsonutils.py": "f71876a97e818d3988b3296cf2a11788d0513cf251f269f8eb7fd42aab591094",
+        "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+      },
+      "arm": "coverage_repair",
+      "contract_sha256": "16d5ea58f8e78d6af031491c2f6b154d4c9789ea54c497d11aaf32bbb8552a64",
+      "editable_paths": [
+        "boltons/jsonutils.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "e997e6d9d34288a71279d6e89ff19476957ffeb04033fe7280e1cbafcc6da847",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "mechanism": "jsonl-eof-relative-seek",
+      "origin": "pinned-upstream-regression",
+      "public_assessment_sha256": "4d6f3f8be9643b36857ca93b06b9dbb6407839244bd7f8a20b13719dd0d461fb",
+      "sequence": 3,
+      "task_id": "B02W",
+      "task_sha256": "d2147f43b79e67546a49c0dc531b858d6a20dddcde7871a1dd9bc4dcacbb2004"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+        "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+        "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+        "reconcile.py": "bc958ad273929708bbc169157101df8ff116a23fa7a42c1bfef79ca0a7ef1055"
+      },
+      "arm": "b0",
+      "contract_sha256": "fa338963e85fc4b21801e0d596c83879a638bea8f0b395492d99d9e19d557acd",
+      "editable_paths": [
+        "reconcile.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "be47d926f1960a63c9f1d478ac7a2ff14edd3b1375a47e3c5ffd38f6d2092bdc",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "mechanism": "event-revision-tombstone",
+      "origin": "authored-synthetic-regression",
+      "public_assessment_sha256": "a3878fe0703bc0491be06e9e842cadd7f1ab40715fc67238f2460c0bc5627693",
+      "sequence": 4,
+      "task_id": "H08W",
+      "task_sha256": "7209c8c557afce8d48537e06cd9b0627b775745e130c1e9b99cd57aea83b8de6"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+        "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+        "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+        "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+        "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+        "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+        "src/dotenv/main.py": "27e9b390d4432c14b41a796d8e66415a01ca2ee2eeb331d447888d101f4b631e",
+        "src/dotenv/parser.py": "2dfc1a909cf8994ef87320952958256b9e19b91990cdcf07090061aaf7f6bb93",
+        "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+        "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+        "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+      },
+      "arm": "cross_component_medium",
+      "contract_sha256": "ac311e1c054c551d7593422429711a3a7513c7f9ca5168f93835e3c26c591e50",
+      "editable_paths": [
+        "src/dotenv/main.py",
+        "src/dotenv/parser.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "mechanism": "dotenv-writer-parser-boundary",
+      "origin": "pinned-upstream-regression",
+      "public_assessment_sha256": "832f0294580decda60a2149cd613cd1c402b24b8263fe0660c2588782a96ad47",
+      "sequence": 5,
+      "task_id": "D01W",
+      "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+        "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+        "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+        "event_ref/decode.py": "c838b7e7b438c9dce70621872c527a6094806cc677b1b13a06eee2e36fb9a896",
+        "event_ref/encode.py": "be947aefb8b1daea3107c964de737a1ed37d70ad8423746f5bdcd7ca8bc25e62",
+        "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+      },
+      "arm": "b0",
+      "contract_sha256": "6ca5837ff49b4f4118aa8a8637e12ebb27de25da2cde06105a1ac95ef2c36033",
+      "editable_paths": [
+        "event_ref/encode.py",
+        "event_ref/decode.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "mechanism": "event-reference-encoding",
+      "origin": "authored-synthetic-regression",
+      "public_assessment_sha256": "72bc52149645fa6e08521b728b3f43399a1ac5149f720b22012d04a1df08a91f",
+      "sequence": 6,
+      "task_id": "F07W",
+      "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+        "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+        "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+        "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+        "boltons/jsonutils.py": "f71876a97e818d3988b3296cf2a11788d0513cf251f269f8eb7fd42aab591094",
+        "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+      },
+      "arm": "b0",
+      "contract_sha256": "16d5ea58f8e78d6af031491c2f6b154d4c9789ea54c497d11aaf32bbb8552a64",
+      "editable_paths": [
+        "boltons/jsonutils.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "e997e6d9d34288a71279d6e89ff19476957ffeb04033fe7280e1cbafcc6da847",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "mechanism": "jsonl-eof-relative-seek",
+      "origin": "pinned-upstream-regression",
+      "public_assessment_sha256": "4d6f3f8be9643b36857ca93b06b9dbb6407839244bd7f8a20b13719dd0d461fb",
+      "sequence": 7,
+      "task_id": "B02W",
+      "task_sha256": "d2147f43b79e67546a49c0dc531b858d6a20dddcde7871a1dd9bc4dcacbb2004"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+        "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+        "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+        "reconcile.py": "bc958ad273929708bbc169157101df8ff116a23fa7a42c1bfef79ca0a7ef1055"
+      },
+      "arm": "coverage_repair",
+      "contract_sha256": "fa338963e85fc4b21801e0d596c83879a638bea8f0b395492d99d9e19d557acd",
+      "editable_paths": [
+        "reconcile.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "be47d926f1960a63c9f1d478ac7a2ff14edd3b1375a47e3c5ffd38f6d2092bdc",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "mechanism": "event-revision-tombstone",
+      "origin": "authored-synthetic-regression",
+      "public_assessment_sha256": "a3878fe0703bc0491be06e9e842cadd7f1ab40715fc67238f2460c0bc5627693",
+      "sequence": 8,
+      "task_id": "H08W",
+      "task_sha256": "7209c8c557afce8d48537e06cd9b0627b775745e130c1e9b99cd57aea83b8de6"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+        "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+        "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+        "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+        "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+        "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+        "src/dotenv/main.py": "27e9b390d4432c14b41a796d8e66415a01ca2ee2eeb331d447888d101f4b631e",
+        "src/dotenv/parser.py": "2dfc1a909cf8994ef87320952958256b9e19b91990cdcf07090061aaf7f6bb93",
+        "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+        "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+        "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+      },
+      "arm": "coverage_repair",
+      "contract_sha256": "ac311e1c054c551d7593422429711a3a7513c7f9ca5168f93835e3c26c591e50",
+      "editable_paths": [
+        "src/dotenv/main.py",
+        "src/dotenv/parser.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "mechanism": "dotenv-writer-parser-boundary",
+      "origin": "pinned-upstream-regression",
+      "public_assessment_sha256": "832f0294580decda60a2149cd613cd1c402b24b8263fe0660c2588782a96ad47",
+      "sequence": 9,
+      "task_id": "D01W",
+      "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+        "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+        "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+        "event_ref/decode.py": "c838b7e7b438c9dce70621872c527a6094806cc677b1b13a06eee2e36fb9a896",
+        "event_ref/encode.py": "be947aefb8b1daea3107c964de737a1ed37d70ad8423746f5bdcd7ca8bc25e62",
+        "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+      },
+      "arm": "coverage_repair",
+      "contract_sha256": "6ca5837ff49b4f4118aa8a8637e12ebb27de25da2cde06105a1ac95ef2c36033",
+      "editable_paths": [
+        "event_ref/encode.py",
+        "event_ref/decode.py"
+      ],
+      "episode_maximum_usd": 4.0,
+      "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "mechanism": "event-reference-encoding",
+      "origin": "authored-synthetic-regression",
+      "public_assessment_sha256": "72bc52149645fa6e08521b728b3f43399a1ac5149f720b22012d04a1df08a91f",
+      "sequence": 10,
+      "task_id": "F07W",
+      "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+    }
+  ],
+  "runtime_cli_sha256": "6c752e2cc7c110c9df15f26d8d134d438c5ae95dbd610efc1a308bf7f9c5f6c1",
+  "runtime_schema_sha256": "46038ff7e73b9b7348f3ced9afb4082938ee05d5d4c043ab980ecadedbc79768",
+  "schema_version": 1,
+  "selection_frozen_before_provider_outcomes": true,
+  "source_sha256": {
+    "tools/acceptance.py": "ca556812ec778b5abe9fc52acef813f2ce8f2dfc1c53e4a85e5cdaf1072de45d",
+    "tools/task_executor.py": "64cd58eafe128649f61dc865d875f3161f6f12cb3932ff487abbfd1c1450706c",
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_q4s_admission.py": "9b7b9ed2566a60d8783dfe20b01f8372af763f49e563b06ce4dab62425649741",
+    "tools/worker_q4u_assess_public.py": "5bc59364857784fce2eef87ae2ddca267d138f5f26bb6d5f8ef9ffb31a41bdaf",
+    "tools/worker_q4u_canary_live.py": "6601169eb96ca3453ba96154394ebb59c00a9ea35cc7518951b104bf10a46267",
+    "tools/worker_q4u_canary_manifest.py": "36f00cac21036be42bb9cfca2082bed326b5eeb460f23f1b0258e82338f4c2b7",
+    "tools/worker_q4u_contract.py": "bb5b2be014e4d5ce2405a8dbf0a1c297602b2f231208d3a71fbb503934942098",
+    "tools/worker_q4u_coverage.py": "e3567a6c991720c62a993733db0757f073352e60563230481b15912b53b251e5",
+    "tools/worker_q4u_executor.py": "3a970087bc96cae70d751febdf0f497be55885b7a86db3dce45bb63ff1246dad",
+    "tools/worker_q4u_grade.py": "0db434ed03b50ddcd601e4e0648300b22dd576d1ca2ed8386325ae77dc2995c6",
+    "tools/worker_wsl_namespace_q4u.sh": "9f017810c82c29f05874bd1e380079396c024398aa16dd1176c9cc6bd2fcc94f",
+    "tools/worker_wsl_q1.py": "33bd2985ac688680e90417db58c5b7e61e41748af284e3ce85b649e6b978b259",
+    "tools/worker_wsl_q4u.py": "1721441dcb0dbc717378b684529c11a9c39beecfa920e9ce49120dec70b83475",
+    "tools/worker_wsl_q4u_adapter.py": "fe857e81770f86956e72dec2db1c5366b8e66b534e390e27363cf2e32ac54848",
+    "tools/worker_wsl_q4u_auth_probe.py": "1310f79eb8a195100b0cbc54ab1907f7dae1e904c69de191735ebea95da420e7",
+    "tools/worker_wsl_q4u_install.sh": "a7c7767745f17d7dc30ec5d57dd5ffe39c05ff5f572dcae90400d4bcc6d72637",
+    "tools/worker_wsl_q4u_probe.py": "d974491e758ec7103be590e803a192a478388db1146d37229eb612b46b4e5c13"
+  },
+  "spend_notice_sha256": "0cabece0dbed5c9be74d6b9c53070200c974fa0e173c3f82125e77dbeee17f94",
+  "structured_retry_limit": 5,
+  "transport_mode": "claude-code-json-schema-v2"
+}

@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "476a29fe344405d6704e92bb6296af658c45cdc6ba2d3a5263dde83eb15c5169",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "b34527b50a7ddf5ea79fcba0a28761c847c8bf5bfb96a35d6b993948d213df1b",
+              "line": 8,
+              "path": "public_check.py",
+              "text": "assert apply_events({\"a\": (5, \"latest\")},"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "stale_revision_ignored",
+          "issue_citation": {
+            "file_sha256": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+            "line": 6,
+            "path": "ISSUE.md",
+            "text": "not strictly newer than the stored revision for that object. A delete must"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "b34527b50a7ddf5ea79fcba0a28761c847c8bf5bfb96a35d6b993948d213df1b",
+              "line": 11,
+              "path": "public_check.py",
+              "text": "                         (\"a\", 4, \"put\", \"stale\")]) == {\"a\": (5, None)}"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "tombstone_blocks_resurrection",
+          "issue_citation": {
+            "file_sha256": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+            "line": 7,
+            "path": "ISSUE.md",
+            "text": "retain its revision as a tombstone with `None` payload, so a later stale put"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+      "public_check.py": "b34527b50a7ddf5ea79fcba0a28761c847c8bf5bfb96a35d6b993948d213df1b"
+    },
+    "schema_version": 1,
+    "verification_coverage": "direct"
+  },
+  "schema_version": 1,
+  "task_id": "H08S",
+  "task_sha256": "8ab73f0b91b46b9ca3cc05c27e499ac2a317643f1509297bbf9aff0d4c484ee1"
+}

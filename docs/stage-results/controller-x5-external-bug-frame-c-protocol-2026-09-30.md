@@ -1,0 +1,17 @@
+# X5 external bug frame C: prospective collection protocol
+
+Frozen at 2026-09-30 01:27:54 UTC, before fetching the issue lists or reading any issue body. This is a provider-free **development** search for a natural, reproducible, consequential repair task with an independently checkable residual risk. It is not a reserved sample, a population estimate or permission to run a paid worker. B0 remains the shipping default and X6 remains sealed.
+
+## Fixed collection
+
+Query the public GitHub Issues API, in this order, for `pytest-dev/pytest`, `sqlalchemy/sqlalchemy`, `aio-libs/aiohttp`, `celery/celery`, `fastapi/fastapi`, `python-trio/trio` and `encode/uvicorn`. Request open issues ordered by creation descending, 100 per page. Continue pages until every fetched item is older than 2026-08-01 00:00:00 UTC or an empty page is reached. A full last page above the cutoff requires another page; failure to finish a repository marks the whole frame incomplete. Exclude PR entries and items created before the cutoff. Keep all remaining rows in the denominator. For the bug subset, accept a label whose lower-case name matches `(^|[^a-z])bug($|[^a-z])`; do not infer bug status from an attractive title.
+
+Freeze repository, URL, number, title, creation and update times, labels, and SHA-256 of the UTF-8 encoding of each decoded JSON body string for every included row. Preserve whether a body was JSON `null`; hash an empty string in that case. Record fetch time, response status, page counts and any redirects. Sort bug-labelled rows by SHA-256 of the UTF-8 string `x5-frame-c-2026-09-30-012754Z\n` plus the canonical issue URL. Screen the first 40 rows in that order, or all rows if fewer than 40 qualify. Do not replace an ineligible row or change the seed, repository set, cutoff, bug-label rule or screen size after seeing results. Save the exact natural issue body for each screened case and verify its hash before deciding.
+
+## Admission and stopping
+
+Record every screened row, including a rejection reason. A title alone can exclude a feature or documentation request, but a repair candidate requires reading the frozen body. Reject a blind repair when the issue or already-public linked material gives the fault path or fix, when reproduction needs unavailable services or an unsafe side effect, when the correct behaviour is an unsettled policy choice, or when the reported symptom has no consequential residual risk after the public check. Do not redact the natural issue to hide a disclosed solution.
+
+Before any paid producer, pin a source revision and dependencies, reproduce the issue on the WSL worker host, freeze a distinct public follow-up check, and independently author protected acceptance. Show that baseline fails, a plausible narrow repair passes the initial public check while failing the residual invariant, and two complete repairs satisfy both. Freeze a prospective matched S/A analysis, all screened counts and a dated manifest-bound spend notice. A public pass with no remaining gap closes the root before review. An eligible Controller comparison requires identical accepted public bytes, equal worker policy, settled receipts and blinded protected grading.
+
+Stop this frame after the fixed 40-row screen, whether or not it yields a candidate. A qualified development pair would be provisional; the action plan's powered reserved and independent-review gates remain necessary before a routing change. No case from an earlier X5 screen is silently added to this frame.

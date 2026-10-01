@@ -1,0 +1,188 @@
+{
+  "grading": [
+    {
+      "baseline": {
+        "accepted": false,
+        "false_success": false,
+        "quality": 0.0
+      },
+      "oracle_read_denied": true,
+      "provider_calls": 0,
+      "reference": {
+        "accepted": true,
+        "false_success": false,
+        "quality": 100.0
+      },
+      "result": "PASS",
+      "task": "X5-PAY",
+      "wrong_repair": {
+        "accepted": false,
+        "false_success": true,
+        "quality": 0.0
+      }
+    },
+    {
+      "baseline": {
+        "accepted": false,
+        "false_success": false,
+        "quality": 0.0
+      },
+      "oracle_read_denied": true,
+      "provider_calls": 0,
+      "reference": {
+        "accepted": true,
+        "false_success": false,
+        "quality": 100.0
+      },
+      "result": "PASS",
+      "task": "X5-FEAT",
+      "wrong_repair": {
+        "accepted": false,
+        "false_success": true,
+        "quality": 0.0
+      }
+    },
+    {
+      "baseline": {
+        "accepted": false,
+        "false_success": false,
+        "quality": 0.0
+      },
+      "oracle_read_denied": true,
+      "provider_calls": 0,
+      "reference": {
+        "accepted": true,
+        "false_success": false,
+        "quality": 100.0
+      },
+      "result": "PASS",
+      "task": "X5-LEASE",
+      "wrong_repair": {
+        "accepted": false,
+        "false_success": true,
+        "quality": 0.0
+      }
+    },
+    {
+      "baseline": {
+        "accepted": false,
+        "false_success": false,
+        "quality": 0.0
+      },
+      "oracle_read_denied": true,
+      "provider_calls": 0,
+      "reference": {
+        "accepted": true,
+        "false_success": false,
+        "quality": 100.0
+      },
+      "result": "PASS",
+      "task": "X5-MONEY",
+      "wrong_repair": {
+        "accepted": false,
+        "false_success": true,
+        "quality": 0.0
+      }
+    }
+  ],
+  "isolation": [
+    {
+      "case": "payment_replay",
+      "checks": {
+        "acceptance_write_denied": true,
+        "actor_uid": true,
+        "entrypoint_write_denied": true,
+        "graft_map_actor_only": true,
+        "graft_oracle_phrase_absent": true,
+        "graft_parent_escape_rejected": true,
+        "graft_public_actor_visible": true,
+        "graft_six_tools": true,
+        "no_inherited_instruction_file": true,
+        "oracle_direct_read_denied": true,
+        "provider_secrets_absent": true,
+        "public_check_write_denied": true,
+        "shell_search_oracle_denied": true,
+        "windows_mount_hidden": true
+      },
+      "diagnostic": null,
+      "oracle_sha256": "f8cb3581359ccdd4a3879ef4538152b23c1ce01cc86299de29e200f04ba7aeed",
+      "provider_calls": 0,
+      "result": "PASS",
+      "schema_version": 1
+    },
+    {
+      "case": "tenant_feature",
+      "checks": {
+        "acceptance_write_denied": true,
+        "actor_uid": true,
+        "entrypoint_write_denied": true,
+        "graft_map_actor_only": true,
+        "graft_oracle_phrase_absent": true,
+        "graft_parent_escape_rejected": true,
+        "graft_public_actor_visible": true,
+        "graft_six_tools": true,
+        "no_inherited_instruction_file": true,
+        "oracle_direct_read_denied": true,
+        "provider_secrets_absent": true,
+        "public_check_write_denied": true,
+        "shell_search_oracle_denied": true,
+        "windows_mount_hidden": true
+      },
+      "diagnostic": null,
+      "oracle_sha256": "21e2cf8ea9c10b1b11e4f7162d96332ae4e60cb72916caabcb1205a1f3f2dfa3",
+      "provider_calls": 0,
+      "result": "PASS",
+      "schema_version": 1
+    },
+    {
+      "case": "lease_lag",
+      "checks": {
+        "acceptance_write_denied": true,
+        "actor_uid": true,
+        "entrypoint_write_denied": true,
+        "graft_map_actor_only": true,
+        "graft_oracle_phrase_absent": true,
+        "graft_parent_escape_rejected": true,
+        "graft_public_actor_visible": true,
+        "graft_six_tools": true,
+        "no_inherited_instruction_file": true,
+        "oracle_direct_read_denied": true,
+        "provider_secrets_absent": true,
+        "public_check_write_denied": true,
+        "shell_search_oracle_denied": true,
+        "windows_mount_hidden": true
+      },
+      "diagnostic": null,
+      "oracle_sha256": "e1f4b397757f2982876f8d7e412320cfb6b9f5591c97f87dfaac9c8b2ef5a920",
+      "provider_calls": 0,
+      "result": "PASS",
+      "schema_version": 1
+    },
+    {
+      "case": "monetary_discrepancy",
+      "checks": {
+        "acceptance_write_denied": true,
+        "actor_uid": true,
+        "entrypoint_write_denied": true,
+        "graft_map_actor_only": true,
+        "graft_oracle_phrase_absent": true,
+        "graft_parent_escape_rejected": true,
+        "graft_public_actor_visible": true,
+        "graft_six_tools": true,
+        "no_inherited_instruction_file": true,
+        "oracle_direct_read_denied": true,
+        "provider_secrets_absent": true,
+        "public_check_write_denied": true,
+        "shell_search_oracle_denied": true,
+        "windows_mount_hidden": true
+      },
+      "diagnostic": null,
+      "oracle_sha256": "6e219611e0b9d28ca349045ef70150cf047049137293a5c576c5373df10d5652",
+      "provider_calls": 0,
+      "result": "PASS",
+      "schema_version": 1
+    }
+  ],
+  "provider_calls": 0,
+  "schema_version": 1
+}

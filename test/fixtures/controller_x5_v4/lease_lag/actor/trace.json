@@ -1,0 +1,48 @@
+{
+  "lease": {
+    "owner": "east",
+    "token": 1,
+    "until": 100
+  },
+  "observed": {
+    "lease": {
+      "owner": "east",
+      "token": 2,
+      "until": 121
+    },
+    "results": [
+      {
+        "status": "expired",
+        "token": 1
+      },
+      {
+        "status": "assigned",
+        "token": 2
+      },
+      {
+        "status": "acknowledged",
+        "token": 2
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "renew",
+      "owner": "east",
+      "server_now": 90,
+      "ttl": 20,
+      "worker_now": 105
+    },
+    {
+      "op": "assign",
+      "owner": "east",
+      "server_now": 101,
+      "ttl": 20
+    },
+    {
+      "op": "ack",
+      "owner": "east",
+      "token": 1
+    }
+  ]
+}

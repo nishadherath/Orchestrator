@@ -1,0 +1,48 @@
+{
+  "schema": "controller-x5-external-e01-preflight-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "provider_calls": 0,
+  "reported_api_equivalent_cost_usd": 0,
+  "source": {
+    "issue": "https://github.com/pytest-dev/pytest-asyncio/issues/1501",
+    "release_tag": "v1.4.0",
+    "release_commit": "6e14cd2af9292dca1fa2b027a06bbc40b0e0e425",
+    "plugin_sha256": "ba47c25a4a22b117891e9214940729c41af936d3dafbb18b4284de8a88ed3375",
+    "pytest_version": "9.1.1",
+    "pytest_asyncio_version": "1.4.0"
+  },
+  "baseline": {
+    "windows_python": "3.12",
+    "wsl_python": "3.14.7",
+    "original_order": "1 passed, 1 fixture setup error on both hosts",
+    "reverse_order": "2 passed on both hosts",
+    "no_hook": "2 passed on both hosts",
+    "upstream_loop_factory_suite": "40 passed on Windows",
+    "independent_two_factory_check": "4 passed on WSL; sync consumer unparametrised; each named factory created a distinct fixture loop, and both loops were set up and torn down"
+  },
+  "candidate_repair": {
+    "upstream_pull_request": "https://github.com/pytest-dev/pytest-asyncio/pull/1553",
+    "proposal_head": "d86d02c7154e1109052059c7114e7a8b6439a85c",
+    "patch_applied_to": "separate detached v1.4.0 checkout",
+    "plugin_only_patch_sha256": "449d91dfd0ef9e32ae96a3cd5045adaae084af97d78795cbc181eee914b649a4",
+    "candidate_plugin_sha256": "558f5ab0e7c357d253f26ccb34df3779a04f39db778a94188f843e316c8e6fd2",
+    "original_order": "2 passed on Windows and WSL",
+    "upstream_loop_factory_suite": "40 passed on Windows",
+    "independent_two_factory_check": "5 passed on WSL; both async and sync consumers had first/second variants; plain sync ran once; each named factory created a distinct fixture loop, and both loops were set up and torn down"
+  },
+  "public_coverage_condition": {
+    "environment": "X5_EXPECT_SYNC_VARIANTS=1",
+    "unchanged_release": "4 individual tests passed, but pytest exited 1: sync consumer had no factory variants",
+    "proposal": "5 tests passed, pytest exited 0: sync consumer had first and second variants",
+    "single_factory_negative_control": {
+      "origin": "disposable copy of proposal, modified to select the first factory only for sync consumers",
+      "plugin_sha256": "121696c4633991eeccc1284919031f732f8a285cf1bc6c0265637f9d30952513",
+      "original_issue": "2 passed on WSL, exit 0",
+      "coverage_condition": "4 individual tests passed, but pytest exited 1: sync consumer had only first variant",
+      "interpretation": "oracle discrimination only; not an independent repair or an observed worker choice"
+    }
+  },
+  "qualification_correction": "An earlier draft mapped first and second labels to the same factory callable; its lifecycle observations were discarded before this recorded result.",
+  "admission": "reject as blind paid X5 case: natural issue states the fix layer and links an open detailed repair proposal; independent protected acceptance and an alternative complete repair are also unqualified",
+  "full_offline_harness": "test/results/2026-09-30-controller-x5-external-e01-lifecycle-harness.json"
+}

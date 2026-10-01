@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "public_command": [
+    "python3",
+    "-B",
+    "public_check.py"
+  ],
+  "editable_paths": [
+    "attr/_compat.py",
+    "attr/_make.py",
+    "attr/_next_gen.py",
+    "attr/setters.py"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "retries-do-not-lose-context",
+  "next_step": "deploy",
+  "probes": []
+}

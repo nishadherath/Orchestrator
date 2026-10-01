@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "cache-has-no-bug",
+  "next_step": "deploy",
+  "probes": []
+}

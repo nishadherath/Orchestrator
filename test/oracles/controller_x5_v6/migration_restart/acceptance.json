@@ -1,0 +1,308 @@
+{
+  "case": "migration_restart",
+  "checks": [
+    {
+      "critical": true,
+      "expected": {
+        "checkpoint": 2,
+        "events": [
+          {
+            "checkpoint": 1,
+            "phase": "crash"
+          },
+          {
+            "checkpoint": 2,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "b",
+            "tombstone": false,
+            "value": "B",
+            "version": 1
+          }
+        ]
+      },
+      "input": {
+        "batch_size": 2,
+        "checkpoint": 0,
+        "fail_after": 1,
+        "source": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "b",
+            "tombstone": false,
+            "value": "B",
+            "version": 1
+          }
+        ],
+        "target": []
+      },
+      "name": "restart_mid_batch",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "checkpoint": 1,
+        "events": [
+          {
+            "checkpoint": 1,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "new",
+            "version": 3
+          }
+        ]
+      },
+      "input": {
+        "batch_size": 1,
+        "checkpoint": 0,
+        "source": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "old",
+            "version": 2
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "new",
+            "version": 3
+          }
+        ]
+      },
+      "name": "newer_target_survives",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "checkpoint": 1,
+        "events": [
+          {
+            "checkpoint": 1,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": true,
+            "value": "",
+            "version": 3
+          }
+        ]
+      },
+      "input": {
+        "batch_size": 1,
+        "checkpoint": 0,
+        "source": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "old",
+            "version": 2
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": true,
+            "value": "",
+            "version": 3
+          }
+        ]
+      },
+      "name": "tombstone_not_resurrected",
+      "weight": 15
+    },
+    {
+      "critical": true,
+      "expected": {
+        "checkpoint": 3,
+        "events": [
+          {
+            "checkpoint": 2,
+            "phase": "crash"
+          },
+          {
+            "checkpoint": 3,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "b",
+            "tombstone": false,
+            "value": "B",
+            "version": 1
+          },
+          {
+            "id": "c",
+            "tombstone": false,
+            "value": "C",
+            "version": 1
+          }
+        ]
+      },
+      "input": {
+        "batch_size": 2,
+        "checkpoint": 1,
+        "fail_after": 1,
+        "source": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "b",
+            "tombstone": false,
+            "value": "B",
+            "version": 1
+          },
+          {
+            "id": "c",
+            "tombstone": false,
+            "value": "C",
+            "version": 1
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          }
+        ]
+      },
+      "name": "restart_after_checkpoint",
+      "weight": 15
+    },
+    {
+      "critical": false,
+      "expected": {
+        "checkpoint": 2,
+        "events": [
+          {
+            "checkpoint": 2,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "b",
+            "tombstone": false,
+            "value": "B",
+            "version": 1
+          }
+        ]
+      },
+      "input": {
+        "batch_size": 2,
+        "checkpoint": 0,
+        "source": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "b",
+            "tombstone": false,
+            "value": "B",
+            "version": 1
+          }
+        ],
+        "target": []
+      },
+      "name": "normal_batch",
+      "weight": 10
+    },
+    {
+      "critical": false,
+      "expected": {
+        "checkpoint": 1,
+        "events": [
+          {
+            "checkpoint": 1,
+            "phase": "complete"
+          }
+        ],
+        "target": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          },
+          {
+            "id": "z",
+            "tombstone": false,
+            "value": "Z",
+            "version": 2
+          }
+        ]
+      },
+      "input": {
+        "batch_size": 1,
+        "checkpoint": 0,
+        "source": [
+          {
+            "id": "a",
+            "tombstone": false,
+            "value": "A",
+            "version": 1
+          }
+        ],
+        "target": [
+          {
+            "id": "z",
+            "tombstone": false,
+            "value": "Z",
+            "version": 2
+          }
+        ]
+      },
+      "name": "unrelated_target",
+      "weight": 10
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "task_id": "C04-D1",
+  "diagnosis": "tenant-omitted-from-feature-cache-key",
+  "cases": [
+    {
+      "milestone": "same-tenant feature lookup hits", "weight": 20,
+      "critical": false,
+      "input": {"events": [
+        {"op": "put", "tenant": "a", "feature": "beta", "value": true},
+        {"op": "get", "tenant": "a", "feature": "beta"}]},
+      "expected": {"results": [{"status": "stored"},
+                               {"status": "hit", "value": true}]}
+    },
+    {
+      "milestone": "other tenant cannot see warmed value", "weight": 20,
+      "critical": true,
+      "input": {"events": [
+        {"op": "put", "tenant": "a", "feature": "beta", "value": true},
+        {"op": "get", "tenant": "b", "feature": "beta"}]},
+      "expected": {"results": [{"status": "stored"}, {"status": "miss"}]}
+    },
+    {
+      "milestone": "two tenants retain independent values", "weight": 20,
+      "critical": true,
+      "input": {"events": [
+        {"op": "put", "tenant": "a", "feature": "beta", "value": true},
+        {"op": "put", "tenant": "b", "feature": "beta", "value": false},
+        {"op": "get", "tenant": "a", "feature": "beta"},
+        {"op": "get", "tenant": "b", "feature": "beta"}]},
+      "expected": {"results": [{"status": "stored"}, {"status": "stored"},
+                               {"status": "hit", "value": true},
+                               {"status": "hit", "value": false}]}
+    },
+    {
+      "milestone": "tenant update replaces older cached value", "weight": 20,
+      "critical": false,
+      "input": {"events": [
+        {"op": "put", "tenant": "a", "feature": "beta", "value": true},
+        {"op": "put", "tenant": "a", "feature": "beta", "value": false},
+        {"op": "get", "tenant": "a", "feature": "beta"}]},
+      "expected": {"results": [{"status": "stored"}, {"status": "stored"},
+                               {"status": "hit", "value": false}]}
+    },
+    {
+      "milestone": "different features remain distinct", "weight": 20,
+      "critical": false,
+      "input": {"events": [
+        {"op": "put", "tenant": "a", "feature": "beta", "value": true},
+        {"op": "get", "tenant": "a", "feature": "gamma"}]},
+      "expected": {"results": [{"status": "stored"}, {"status": "miss"}]}
+    }
+  ]
+}

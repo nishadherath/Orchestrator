@@ -1,0 +1,999 @@
+{
+  "schema": "controller-x5-external-frame-c-v1",
+  "protocol": "docs/stage-results/controller-x5-external-bug-frame-c-protocol-2026-09-30.md",
+  "fetched_at_utc": "2026-09-30T01:31:46+00:00",
+  "repositories": [
+    "pytest-dev/pytest",
+    "sqlalchemy/sqlalchemy",
+    "aio-libs/aiohttp",
+    "celery/celery",
+    "fastapi/fastapi",
+    "python-trio/trio",
+    "encode/uvicorn"
+  ],
+  "created_cutoff_utc": "2026-08-01T00:00:00Z",
+  "hash_seed": "x5-frame-c-2026-09-30-012754Z\n",
+  "bug_label_regex": "(^|[^a-z])bug($|[^a-z])",
+  "all_open_issue_count": 64,
+  "bug_labelled_count": 16,
+  "selected_count": 16,
+  "selected_urls": [
+    "https://github.com/celery/celery/issues/10576",
+    "https://github.com/pytest-dev/pytest/issues/15051",
+    "https://github.com/celery/celery/issues/10554",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+    "https://github.com/aio-libs/aiohttp/issues/13433",
+    "https://github.com/celery/celery/issues/10506",
+    "https://github.com/aio-libs/aiohttp/issues/13495",
+    "https://github.com/celery/celery/issues/10711",
+    "https://github.com/aio-libs/aiohttp/issues/13364",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13497",
+    "https://github.com/aio-libs/aiohttp/issues/13756",
+    "https://github.com/aio-libs/aiohttp/issues/13751",
+    "https://github.com/celery/celery/issues/10733",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13612",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13570",
+    "https://github.com/celery/celery/issues/10472"
+  ],
+  "repository_counts": [
+    {
+      "repository": "pytest-dev/pytest",
+      "included": 28,
+      "bug_labelled": 1
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "included": 12,
+      "bug_labelled": 4
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "included": 9,
+      "bug_labelled": 5
+    },
+    {
+      "repository": "celery/celery",
+      "included": 11,
+      "bug_labelled": 6
+    },
+    {
+      "repository": "fastapi/fastapi",
+      "included": 0,
+      "bug_labelled": 0
+    },
+    {
+      "repository": "python-trio/trio",
+      "included": 3,
+      "bug_labelled": 0
+    },
+    {
+      "repository": "encode/uvicorn",
+      "included": 1,
+      "bug_labelled": 0
+    }
+  ],
+  "pages": [
+    {
+      "requested_url": "https://api.github.com/repos/pytest-dev/pytest/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pytest-dev/pytest/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:39 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/pytest-dev/pytest/issues?state=open&sort=created&direction=desc&per_page=100&page=2",
+      "final_url": "https://api.github.com/repos/pytest-dev/pytest/issues?state=open&sort=created&direction=desc&per_page=100&page=2",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:40 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/sqlalchemy/sqlalchemy/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/sqlalchemy/sqlalchemy/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:41 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/aio-libs/aiohttp/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/aio-libs/aiohttp/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:41 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/celery/celery/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/celery/celery/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:42 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/fastapi/fastapi/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/fastapi/fastapi/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:43 GMT",
+      "items": 82
+    },
+    {
+      "requested_url": "https://api.github.com/repos/python-trio/trio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-trio/trio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:44 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/encode/uvicorn/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repositories/92946971/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:31:46 GMT",
+      "items": 100
+    }
+  ],
+  "rows": [
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15099",
+      "number": 15099,
+      "title": "monkeypatch.setattr fails to undo on objects with a custom __setattr__ (regression from #14969)",
+      "created_at": "2026-09-24T17:51:31Z",
+      "updated_at": "2026-09-24T17:51:31Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "fc50c7b6e8601eb6a902b2c17379f86579e103eae70ffd7f9d5d13e5f2622531",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15097",
+      "number": 15097,
+      "title": "`WarningsRecorder.pop()` returns the last match instead of the first when warning categories are unrelated",
+      "created_at": "2026-09-24T17:46:33Z",
+      "updated_at": "2026-09-24T17:46:33Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "01c8423d5dcb95dff5a6a51438a7f811811cd799e8f86157168edbde92332140",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15072",
+      "number": 15072,
+      "title": "Split ExceptionInfo and the Repr objects into capture, data model and renderers",
+      "created_at": "2026-09-21T11:54:12Z",
+      "updated_at": "2026-09-21T11:54:12Z",
+      "labels": [
+        "type: proposal",
+        "topic: reporting",
+        "topic: tracebacks"
+      ],
+      "body_was_null": false,
+      "body_sha256": "7e62294043d59cd95be547cde309dcb4a7fc916497b3d5b17b9b284cdcd0400f",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15067",
+      "number": 15067,
+      "title": "Fixture finalizers are skipped when setup is interrupted before `cached_result` is assigned",
+      "created_at": "2026-09-20T05:44:23Z",
+      "updated_at": "2026-09-20T05:45:20Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "fc4cf80f9ffaaba2466505ad71666f0d25038322c6a8a5ac24a0f0e0aa93fb7f",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15064",
+      "number": 15064,
+      "title": "Duplicate log capture when an initially non-propagating logger enables propagation",
+      "created_at": "2026-09-19T16:27:17Z",
+      "updated_at": "2026-09-23T04:41:57Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "3d442187551d0630bc9d5536b210f7ac4d56b763a1ee73400a8ecd6179446c9f",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15051",
+      "number": 15051,
+      "title": "fixtures: `--fixtures-per-test` crashes on fixture-using doctest",
+      "created_at": "2026-09-17T10:52:05Z",
+      "updated_at": "2026-09-19T09:06:21Z",
+      "labels": [
+        "type: bug",
+        "topic: fixtures"
+      ],
+      "body_was_null": false,
+      "body_sha256": "6d557e64ea07a732a86bb1a84fb1916173fffa8f1edbc795ac533884e8a2dad5",
+      "bug_label": true
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15049",
+      "number": 15049,
+      "title": "fixtures: `--fixtures`/`--fixtures-per-test` don't go through `pytest_collection`",
+      "created_at": "2026-09-17T10:42:15Z",
+      "updated_at": "2026-09-17T10:48:17Z",
+      "labels": [
+        "topic: collection",
+        "type: backward compatibility",
+        "topic: fixtures"
+      ],
+      "body_was_null": false,
+      "body_sha256": "026ceb3568c37983688fa01762a9eef4383d3709db3f003140e1318da22f1553",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15047",
+      "number": 15047,
+      "title": "`--fixtures` and `--fixtures-per-test` exit with code 0 on collection errors, internal errors and `pytest.exit()`",
+      "created_at": "2026-09-17T09:12:56Z",
+      "updated_at": "2026-09-20T01:14:07Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "13fd96a58cea6ff6783b272637511fd42893ce78ffb4424dd951b5b9a3e21bf3",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15045",
+      "number": 15045,
+      "title": "--last-failed can silently skip failing custom items with brackets in their names",
+      "created_at": "2026-09-17T08:06:15Z",
+      "updated_at": "2026-09-21T06:40:05Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "4ad7099f1d6e633b421cfdb97e7e942a1b7778c9faed0b94de38597ffe99909e",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15037",
+      "number": 15037,
+      "title": "Acces violation on Windows when importing some scipy modules",
+      "created_at": "2026-09-16T08:33:00Z",
+      "updated_at": "2026-09-16T12:25:52Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "6146b09ec54cedf42eaf377e0b707bdcdcea435a159f42511e5815149f77a58c",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15036",
+      "number": 15036,
+      "title": "Make deselection reasons part of pytest_deselected, not a side channel",
+      "created_at": "2026-09-16T07:16:10Z",
+      "updated_at": "2026-09-16T07:16:10Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "643d8e7a5e9bc721a1ee76d7fdbf25e030216ccbb9c155fa3989d56692aeb765",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15028",
+      "number": 15028,
+      "title": "Collection-error abort check lives in `pytest_runtestloop` instead of `pytest_collection`",
+      "created_at": "2026-09-15T03:52:23Z",
+      "updated_at": "2026-09-16T07:10:30Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "5582705001b00f5fb4dd4fae1aa166ee7f63793c9a025999f8111161c858ad4e",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15010",
+      "number": 15010,
+      "title": "pytest.approx Decimal repr omits or misstates the effective tolerance",
+      "created_at": "2026-09-13T08:05:42Z",
+      "updated_at": "2026-09-13T10:02:38Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "2e92cca72e152d4def4fd68274115cc5198469d59fd0a4d48cfda70833ff3c20",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/15009",
+      "number": 15009,
+      "title": "pytest.approx loses mismatch details for same-key mappings with unequal strings",
+      "created_at": "2026-09-13T08:03:53Z",
+      "updated_at": "2026-09-13T11:56:38Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "6fdf9d907c91e8b5d280db3813009509c7d93c50446e02a7e026843c05ae459f",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14998",
+      "number": 14998,
+      "title": "tmp_path_retention_policy=\"failed\" removes directories for setup and teardown errors",
+      "created_at": "2026-09-10T12:16:29Z",
+      "updated_at": "2026-09-10T12:16:29Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "dc9241046097f3adfea41ce43c444fa930a207fa9e1ec954aba0849207ab79e2",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14994",
+      "number": 14994,
+      "title": "Redundant `File ..., line N` block in SyntaxError output",
+      "created_at": "2026-09-09T14:07:32Z",
+      "updated_at": "2026-09-09T14:07:32Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "fc83349b91aecd0459c2a252fc1354699f76560a7b22f50e307f0a9c9c06dc82",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14991",
+      "number": 14991,
+      "title": "API to get a test's fixture definitions during parametrization",
+      "created_at": "2026-09-08T12:22:38Z",
+      "updated_at": "2026-09-15T00:47:07Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "36e27d77d4969f0379eb09b3fc4d0f0b49a633b854443fcb590680d390688de6",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14983",
+      "number": 14983,
+      "title": "Allow disabling aggregation of warnings by filename",
+      "created_at": "2026-09-07T10:14:31Z",
+      "updated_at": "2026-09-21T04:55:58Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "c595337c204f79f640abaa3f82b66864adb1e6f51bc49a4062dac03c3ac92fe0",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14958",
+      "number": 14958,
+      "title": "unittest.addModuleCleanup has no effect",
+      "created_at": "2026-09-01T16:31:27Z",
+      "updated_at": "2026-09-05T21:17:29Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "b39732acb48ab8b8c07ef39b650535d326f30da5b5ed86dd9b07b9acd0863702",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14940",
+      "number": 14940,
+      "title": "__tracebackhide__ can retain hidden frames sharing a source location in ExceptionGroup tracebacks",
+      "created_at": "2026-08-26T12:51:51Z",
+      "updated_at": "2026-08-26T12:51:51Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "1d1511e080eeede54d5b2bb9154a40b6aeea8c1ebc0ab7af39820f1e7af35beb",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14920",
+      "number": 14920,
+      "title": "Mark autouse fixtures in `--setup-show` (and friends) and `--fixtures-per-test`",
+      "created_at": "2026-08-21T13:36:24Z",
+      "updated_at": "2026-08-31T11:00:17Z",
+      "labels": [
+        "topic: reporting",
+        "topic: fixtures"
+      ],
+      "body_was_null": false,
+      "body_sha256": "5997c3afd6b91c15d9e9983fd88d8940e6dead8bbddc5d8fc3dc7b389981892c",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14912",
+      "number": 14912,
+      "title": "Shared `PytestWarning` instances in `deprecated.py` accumulate tracebacks under `-W error`",
+      "created_at": "2026-08-19T17:19:37Z",
+      "updated_at": "2026-08-19T18:10:16Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "8edc95f36db92fde8d6a9f2b93a4d4160e5db216beb69fb44029fa5f5dd4df95",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14902",
+      "number": 14902,
+      "title": "\"ERROR at\" test case name headings ambiguous if they use the same test case function name",
+      "created_at": "2026-08-18T13:26:33Z",
+      "updated_at": "2026-08-23T09:42:33Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "f4bd17b4ad1588916e93a9ff0e9ee1d7d024511da091f936069cbb7fd2db2524",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14877",
+      "number": 14877,
+      "title": "Fixture discovery scans every attribute of every registered plugin, on every Config",
+      "created_at": "2026-08-14T06:53:09Z",
+      "updated_at": "2026-08-14T07:02:18Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "1f0325faace7af570dcfb894f56e9717f7022308d96a3d9592a6579d43e4ad19",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14859",
+      "number": 14859,
+      "title": "use `expand=True` for `pformat(...)` in python 3.15+",
+      "created_at": "2026-08-11T21:45:13Z",
+      "updated_at": "2026-08-13T10:25:01Z",
+      "labels": [
+        "type: enhancement"
+      ],
+      "body_was_null": false,
+      "body_sha256": "6a1d0acb671cbdee102e72db4026fa7907017dd1b3839f3bee4ad0d3355d48ac",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14853",
+      "number": 14853,
+      "title": "Expose FixtureFunctionDefinition as part of the public API",
+      "created_at": "2026-08-11T08:36:34Z",
+      "updated_at": "2026-09-27T15:23:45Z",
+      "labels": [
+        "good first issue",
+        "topic: fixtures"
+      ],
+      "body_was_null": false,
+      "body_sha256": "4f89a67dd314129f8c1c2d621a5a4b6bc09ab1e38b93cea367065f32bb3dcbdd",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14841",
+      "number": 14841,
+      "title": "`pytester`'s `sys.modules` snapshotting causes improper shutdown of `multiprocessing.resource_tracker`",
+      "created_at": "2026-08-08T21:01:53Z",
+      "updated_at": "2026-08-10T08:43:45Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "11af8574a46692c55ed565a9205ed5f65973ca9b233ec4bea73d007afef7ddd8",
+      "bug_label": false
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest/issues/14839",
+      "number": 14839,
+      "title": "`pytest.mark.skipif` silently ignores extra keyword args",
+      "created_at": "2026-08-07T16:21:52Z",
+      "updated_at": "2026-08-08T15:42:00Z",
+      "labels": [
+        "topic: marks"
+      ],
+      "body_was_null": false,
+      "body_sha256": "2f79c7e286ad21630470b05ed5cb4bb72fed1b17f1b1cebb4462cd4a1e6d4c1e",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13619",
+      "number": 13619,
+      "title": "2.1: TypeError \"Expected tuple, got Row\" when DBAPI returns tuple subclasses (e.g. databricks-sql-connector)",
+      "created_at": "2026-09-29T20:20:50Z",
+      "updated_at": "2026-09-29T20:20:50Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "1b89fdd6f5a2ed5d14cbbda418b699e804dfbbaf818a8e50d8e9639e1d6a6c8b",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13617",
+      "number": 13617,
+      "title": "TypeDecorator.comparator_factory creates a new class with type() on every access",
+      "created_at": "2026-09-29T15:00:33Z",
+      "updated_at": "2026-09-29T15:00:33Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "dcce997b19009fea2f8b95910317147586ba475dd6e7fb84778a12702032587f",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+      "number": 13616,
+      "title": "tstring() string portions should not parse :param bind names or \\: escapes",
+      "created_at": "2026-09-29T14:18:09Z",
+      "updated_at": "2026-09-29T14:22:01Z",
+      "labels": [
+        "bug",
+        "sql"
+      ],
+      "body_was_null": false,
+      "body_sha256": "b13faf90be1529ca3705881725d1006a43b67aa0c5f8430c3b78fdef857d0512",
+      "bug_label": true
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13612",
+      "number": 13612,
+      "title": "`Query.statement` infers `Select[Unknown]` for a bare-`Column` query",
+      "created_at": "2026-09-26T14:45:38Z",
+      "updated_at": "2026-09-26T19:49:08Z",
+      "labels": [
+        "bug",
+        "typing"
+      ],
+      "body_was_null": false,
+      "body_sha256": "8d97755752bca680bdc0364c6e4e9a1987fe3ad8b8fb29f398d0d7130a2cb1c3",
+      "bug_label": true
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13603",
+      "number": 13603,
+      "title": "named_dollar paramstyle",
+      "created_at": "2026-09-24T01:28:49Z",
+      "updated_at": "2026-09-25T13:15:59Z",
+      "labels": [
+        "sql",
+        "use case",
+        "dialects"
+      ],
+      "body_was_null": false,
+      "body_sha256": "a6f8fae0add2910fef1a14cb37090410eb2bad0a60585824065f28b12ad347ab",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13594",
+      "number": 13594,
+      "title": "documentation bug",
+      "created_at": "2026-09-16T11:22:22Z",
+      "updated_at": "2026-09-27T12:23:47Z",
+      "labels": [
+        "requires triage"
+      ],
+      "body_was_null": false,
+      "body_sha256": "51603dec74291a34ec3c26d2a1b4bca244f7193b088c116226f1ae2032b461c8",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13575",
+      "number": 13575,
+      "title": "Support UPDATE..RETURNING on MariaDB 13.0.1+ when MDEV-41113 can be fixed",
+      "created_at": "2026-09-10T13:51:59Z",
+      "updated_at": "2026-09-13T16:34:08Z",
+      "labels": [
+        "use case",
+        "mariadb",
+        "code review in progress",
+        "dml"
+      ],
+      "body_was_null": false,
+      "body_sha256": "fc66783e06ac67987ef9c81095ac735615d9adf4e816e22cd2701eb8a1c67f3e",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13570",
+      "number": 13570,
+      "title": "we dont close on GC connections that were detached (and weren't closed).  should we?",
+      "created_at": "2026-09-07T17:50:45Z",
+      "updated_at": "2026-09-08T13:29:07Z",
+      "labels": [
+        "bug",
+        "connection pool"
+      ],
+      "body_was_null": false,
+      "body_sha256": "e89a137650fc36b31d277485170f46abfec8c8d6e596b4a0b68c0a1452ff9cd1",
+      "bug_label": true
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13517",
+      "number": 13517,
+      "title": "Add PostgreSQL row security DDL and reflection",
+      "created_at": "2026-08-17T05:43:26Z",
+      "updated_at": "2026-08-25T13:36:16Z",
+      "labels": [
+        "postgresql",
+        "schema",
+        "dialects",
+        "robots involved :robot:"
+      ],
+      "body_was_null": false,
+      "body_sha256": "43087535b482f55066b537ea620244c5b7f6cba0496a279a63361271a80ad489",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13501",
+      "number": 13501,
+      "title": "Investigate greenlet crash on T build",
+      "created_at": "2026-08-11T21:29:11Z",
+      "updated_at": "2026-09-15T13:13:07Z",
+      "labels": [
+        "setup",
+        "external library/application issues"
+      ],
+      "body_was_null": false,
+      "body_sha256": "371a5b11bfd64e9d716a617c0dc09a289a46768231bfa93b1b1845a3aaf6aadf",
+      "bug_label": false
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13497",
+      "number": 13497,
+      "title": "mssql reflection drops fractional-seconds precision for DATETIME2/DATETIMEOFFSET/TIME columns",
+      "created_at": "2026-08-11T01:17:36Z",
+      "updated_at": "2026-08-11T17:08:21Z",
+      "labels": [
+        "bug",
+        "SQL Server",
+        "reflection",
+        "code review in progress"
+      ],
+      "body_was_null": false,
+      "body_sha256": "6806c79e9f3180dc4d7884d91990d2ce1f19f504e3c97a897aee5b74e4aa598d",
+      "bug_label": true
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13480",
+      "number": 13480,
+      "title": "Consider including column constraints on the table",
+      "created_at": "2026-08-05T19:50:44Z",
+      "updated_at": "2026-08-10T08:43:52Z",
+      "labels": [
+        "schema",
+        "use case",
+        "NO pull requests please"
+      ],
+      "body_was_null": false,
+      "body_sha256": "fbb6c33582311c2f7b452ede18aaa489a02ae314c7241bdc7120c62536a6ce4e",
+      "bug_label": false
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13868",
+      "number": 13868,
+      "title": "HeadersDictProxy treats mixed-case duplicate headers as distinct keys",
+      "created_at": "2026-09-29T11:27:54Z",
+      "updated_at": "2026-09-29T11:27:54Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "149c3110d10e7c398265e1da99d045eb9528a42edd02683cf475abe15007a629",
+      "bug_label": false
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13835",
+      "number": 13835,
+      "title": "Request a 3.14 patch release with the merged correctness fixes",
+      "created_at": "2026-09-27T22:19:28Z",
+      "updated_at": "2026-09-27T22:59:44Z",
+      "labels": [
+        "ai-slop"
+      ],
+      "body_was_null": false,
+      "body_sha256": "9b27b181101a769054c61f01501c8576e1150d8167dcb0cf8eb46c653fa308f8",
+      "bug_label": false
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13756",
+      "number": 13756,
+      "title": "BaseConnector: keepalive_timeout=None crashes on connection reuse (TypeError comparing float and NoneType)",
+      "created_at": "2026-09-20T05:44:45Z",
+      "updated_at": "2026-09-21T10:38:32Z",
+      "labels": [
+        "bug"
+      ],
+      "body_was_null": false,
+      "body_sha256": "b87d01fc2f25436cef9c3f219aad739ebcab8c8645d67b78df73442a1e99cd52",
+      "bug_label": true
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13751",
+      "number": 13751,
+      "title": "Dependency graph action is failing",
+      "created_at": "2026-09-18T17:56:04Z",
+      "updated_at": "2026-09-18T19:18:06Z",
+      "labels": [
+        "bug",
+        "infra",
+        "waiting-for-upstream"
+      ],
+      "body_was_null": false,
+      "body_sha256": "870dd0ec959602fd3463f6577066225de4ac2c77851ffb686068e0d288eb8c77",
+      "bug_label": true
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13732",
+      "number": 13732,
+      "title": "Migrate to a less uptight Dependabot config",
+      "created_at": "2026-09-15T15:45:44Z",
+      "updated_at": "2026-09-17T13:50:02Z",
+      "labels": [
+        "infra",
+        "github_actions"
+      ],
+      "body_was_null": false,
+      "body_sha256": "24bfc2be93b1a11e129f29422ac295ba2eee3ec98f459dd3e01db9c3c38929f6",
+      "bug_label": false
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13495",
+      "number": 13495,
+      "title": "MultipartWriter.as_bytes() does not apply part Content-Encoding / Content-Transfer-Encoding, diverging from write()",
+      "created_at": "2026-08-19T05:37:06Z",
+      "updated_at": "2026-09-07T01:07:42Z",
+      "labels": [
+        "bug"
+      ],
+      "body_was_null": false,
+      "body_sha256": "cb5fdf98fd9de4deb8a711d9920a62cdd9b76e623292dae9fe524dee864a885b",
+      "bug_label": true
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13433",
+      "number": 13433,
+      "title": "Dynamic routes with percent-encodable fixed segments (space, non-ASCII) are unreachable and url_for() URLs 404",
+      "created_at": "2026-08-16T19:40:12Z",
+      "updated_at": "2026-08-17T06:10:04Z",
+      "labels": [
+        "bug"
+      ],
+      "body_was_null": false,
+      "body_sha256": "9094c50c1e3fb69ecba658655fa4f9ae239b7c54b23e0b5d9d777d5c206bd029",
+      "bug_label": true
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13364",
+      "number": 13364,
+      "title": "Content-Encoding with multiple codings is not decoded",
+      "created_at": "2026-08-10T08:53:47Z",
+      "updated_at": "2026-08-29T03:08:56Z",
+      "labels": [
+        "bug"
+      ],
+      "body_was_null": false,
+      "body_sha256": "8d6211c9ae76f40fc450f6813abdb18a61a2b4a07893af972253f1c0f2cce73f",
+      "bug_label": true
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13353",
+      "number": 13353,
+      "title": "Could we please get wheels for Python 3.15?",
+      "created_at": "2026-08-08T20:22:06Z",
+      "updated_at": "2026-08-17T19:38:09Z",
+      "labels": [
+        "enhancement",
+        "infra",
+        "meta"
+      ],
+      "body_was_null": false,
+      "body_sha256": "a35d6aebb8c2a06d152b27f02e682be5519167fdf74c0938b234388df5991933",
+      "bug_label": false
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10733",
+      "number": 10733,
+      "title": "Deferred consumer operations execute in reverse order in hub-less workers",
+      "created_at": "2026-09-29T13:56:02Z",
+      "updated_at": "2026-09-29T16:28:47Z",
+      "labels": [
+        "Issue Type: Bug Report",
+        "Worker",
+        "Component: Consumer"
+      ],
+      "body_was_null": false,
+      "body_sha256": "cfd640e4fea31b0f15cf1b74087bc32f8e3eecec24a247baab3ab36e32853672",
+      "bug_label": true
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10725",
+      "number": 10725,
+      "title": "A link the broker refuses after the task body ran records FAILURE and acks the message, so the link is never sent",
+      "created_at": "2026-09-28T20:34:31Z",
+      "updated_at": "2026-09-28T20:35:39Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "4f10f5463a61c3ba40d9cc8ceddf5ba448b5a833542eda0c6761f2ff6517f410",
+      "bug_label": false
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10724",
+      "number": 10724,
+      "title": "A task whose SUCCESS is stored still fires its error callback: a pool child lost after the store, or a raising on_success",
+      "created_at": "2026-09-28T20:34:25Z",
+      "updated_at": "2026-09-29T03:41:32Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "85fc00abf6d2c3200a925fff97ff449d1cf19a105a9e0c745ed214688255ac52",
+      "bug_label": false
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10711",
+      "number": 10711,
+      "title": "Docs give wrong default for interval_max in task_publish_retry_policy (says 0.2, actual default is 1)",
+      "created_at": "2026-09-26T16:37:17Z",
+      "updated_at": "2026-09-28T18:02:36Z",
+      "labels": [
+        "Issue Type: Bug Report",
+        "Category: Documentation"
+      ],
+      "body_was_null": false,
+      "body_sha256": "f293945eb3094f9ca8155a85f88c8c5063ba131f078f6eb9d69cd3d9c849a2e6",
+      "bug_label": true
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10633",
+      "number": 10633,
+      "title": "Celery v5.7.0 release",
+      "created_at": "2026-09-15T05:34:29Z",
+      "updated_at": "2026-09-22T09:21:21Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "bc3ca14c6f6b09d52946b1ba260da3910f38a949d42ba748d21035d3d5b57e01",
+      "bug_label": false
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10576",
+      "number": 10576,
+      "title": "Two callables sharing __name__ in one module collapse into one registered task, silently, and the two registration paths disagree about which survives",
+      "created_at": "2026-09-08T16:07:21Z",
+      "updated_at": "2026-09-27T10:19:12Z",
+      "labels": [
+        "Issue Type: Bug Report"
+      ],
+      "body_was_null": false,
+      "body_sha256": "6f2648816a36e3a4b0a0536dc89b4c4f4de2eac3c1832854705d7a161b0da2a3",
+      "bug_label": true
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10554",
+      "number": 10554,
+      "title": "Django connection pooling is closed at every task boundary",
+      "created_at": "2026-09-03T13:23:43Z",
+      "updated_at": "2026-09-03T13:23:43Z",
+      "labels": [
+        "Issue Type: Bug Report"
+      ],
+      "body_was_null": false,
+      "body_sha256": "b8b5a01ac418dd37532d0ca287837697007a1fc28d022641da633ed79f2e6197",
+      "bug_label": true
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10514",
+      "number": 10514,
+      "title": "Enhancement: Add efficient progress tracking for large groups",
+      "created_at": "2026-08-24T16:03:11Z",
+      "updated_at": "2026-09-24T11:18:38Z",
+      "labels": [
+        "Issue Type: Enhancement"
+      ],
+      "body_was_null": false,
+      "body_sha256": "47da2e702ed4c86f87316a16161975b356ef6132b53a373e8cb5afe6170af8d1",
+      "bug_label": false
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10506",
+      "number": 10506,
+      "title": "`LimitedSet` can prematurely evict refreshed items due to stale heap entries",
+      "created_at": "2026-08-21T13:16:06Z",
+      "updated_at": "2026-09-07T07:22:36Z",
+      "labels": [
+        "Issue Type: Bug Report"
+      ],
+      "body_was_null": false,
+      "body_sha256": "ec94ae2d3524694bebd46d12dc9ce1e15fe1f4bb83c8f436ccef522b27696672",
+      "bug_label": true
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10490",
+      "number": 10490,
+      "title": "Threads pool has no terminate_job, so revoke and cold shutdown don't have expected behavior",
+      "created_at": "2026-08-16T13:48:53Z",
+      "updated_at": "2026-09-27T06:34:05Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "4e3df2e6aa1f29664b3ad2b636109bac8da081c322314b24af8ee2eff5ab3dd5",
+      "bug_label": false
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10472",
+      "number": 10472,
+      "title": "RDS Proxy pinning the database connection due to Sequence Column Feature",
+      "created_at": "2026-08-10T17:51:18Z",
+      "updated_at": "2026-09-22T10:12:15Z",
+      "labels": [
+        "Issue Type: Bug Report"
+      ],
+      "body_was_null": false,
+      "body_sha256": "433090e000cd2cd768cf8728ff616f5cbdffd36cf25e994d4c9d1f4f802280c1",
+      "bug_label": true
+    },
+    {
+      "repository": "python-trio/trio",
+      "url": "https://github.com/python-trio/trio/issues/3520",
+      "number": 3520,
+      "title": "Is notify_closing after close() allowed? Fix or document",
+      "created_at": "2026-09-21T14:06:20Z",
+      "updated_at": "2026-09-21T17:41:00Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "0fd9d3ed174c74162205a273099fdeee662f832a88f723fc625b79a0edabc5fe",
+      "bug_label": false
+    },
+    {
+      "repository": "python-trio/trio",
+      "url": "https://github.com/python-trio/trio/issues/3513",
+      "number": 3513,
+      "title": "Missing Cygwin support",
+      "created_at": "2026-09-14T03:46:34Z",
+      "updated_at": "2026-09-16T07:55:18Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "9a10b6f9343512c5eba2cb7403a1e7a7de0a239646379fc1a9e5e2b7dbae5a18",
+      "bug_label": false
+    },
+    {
+      "repository": "python-trio/trio",
+      "url": "https://github.com/python-trio/trio/issues/3500",
+      "number": 3500,
+      "title": "KeyError in KqueueIOManager.process_events (TrioInternalError)",
+      "created_at": "2026-08-31T22:58:50Z",
+      "updated_at": "2026-09-17T15:04:56Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "106d715120864059126c26e2e079a8b1e1db172b389f5460d2be75094a57521c",
+      "bug_label": false
+    },
+    {
+      "repository": "encode/uvicorn",
+      "url": "https://github.com/Kludex/uvicorn/issues/3149",
+      "number": 3149,
+      "title": "--workers N loses TCP_NODELAY: every keep-alive request past the first costs ~43ms on Linux",
+      "created_at": "2026-09-20T15:28:41Z",
+      "updated_at": "2026-09-20T15:28:41Z",
+      "labels": [],
+      "body_was_null": false,
+      "body_sha256": "388131417a76076e0ecae527eed9206c98909f5930bebacc1da72d68cc765a83",
+      "bug_label": false
+    }
+  ]
+}

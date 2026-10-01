@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "832f0294580decda60a2149cd613cd1c402b24b8263fe0660c2588782a96ad47",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+              "line": 16,
+              "path": "public_check.py",
+              "text": "    for value in (\"plain\", \"C:\" + chr(92) + \"Users\"):"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only plain and single-backslash values are checked",
+          "id": "round_trip_consecutive_backslashes",
+          "issue_citation": {
+            "file_sha256": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+            "line": 3,
+            "path": "ISSUE.md",
+            "text": "`dotenv.set_key` must preserve values with consecutive backslashes when the"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+              "line": 22,
+              "path": "public_check.py",
+              "text": "rows = list(parse_stream(StringIO(\"first='plain'\\nsecond='ok'\")))"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only a quoted value without a terminal backslash is checked",
+          "id": "quoted_parser_boundary",
+          "issue_citation": {
+            "file_sha256": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "backslash must terminate at its own quote so the next binding remains separate."
+          }
+        }
+      ],
+      "cross_component": true,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+      "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "D01W",
+  "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+}

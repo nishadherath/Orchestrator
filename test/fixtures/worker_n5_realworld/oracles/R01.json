@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "source": "defaults",
+        "value": "ap"
+      },
+      "input": {
+        "defaults": {
+          "region": "ap"
+        },
+        "environment": {},
+        "file": {},
+        "key": "region",
+        "kind": "config_precedence"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "source": "environment",
+        "value": "eu"
+      },
+      "input": {
+        "defaults": {},
+        "environment": {
+          "region": "eu"
+        },
+        "file": {},
+        "key": "region",
+        "kind": "config_precedence"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "source": "file",
+        "value": ""
+      },
+      "input": {
+        "defaults": {},
+        "environment": {},
+        "file": {
+          "x": ""
+        },
+        "key": "x",
+        "kind": "config_precedence"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

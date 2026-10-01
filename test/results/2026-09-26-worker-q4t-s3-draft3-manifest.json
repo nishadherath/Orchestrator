@@ -1,0 +1,51 @@
+{
+  "authorisation": {
+    "no_replay": true,
+    "paid_calls": "operator-standing-authorised",
+    "scope": "18 Q4T episodes, at most 54 Claude Code subscription calls, USD 72 local allocation"
+  },
+  "date_utc": "2026-09-26",
+  "episode_allocation_usd": 4.0,
+  "episode_count": 18,
+  "family_count": 6,
+  "manifest_sha256": "562bae8251f1acb5b3e31f34061ea95954873e869f1221d8f36267a149f7e56e",
+  "maximum_allocation_usd": 72.0,
+  "maximum_provider_calls": 54,
+  "parent_manifest_sha256": "826c97572c991217f23d33813757cedf346bde7d4993784fe159058892167007",
+  "parent_rows_sha256": "48ac8297bd81369dbeeffe1fad2c124926f17fd9f57c7efba80d7b2eadc9ac31",
+  "profile": "worker-q4t-s3-six-family-paid-screen",
+  "runtime_cli_sha256": "6c752e2cc7c110c9df15f26d8d134d438c5ae95dbd610efc1a308bf7f9c5f6c1",
+  "runtime_launcher_sha256": "caf5d5ed16868641274290ec534126be19d08a6024a4541871a9c6033ad85760",
+  "runtime_schema_sha256": "46038ff7e73b9b7348f3ced9afb4082938ee05d5d4c043ab980ecadedbc79768",
+  "schema_version": 1,
+  "selection_rules": {
+    "b0_disagreement_requires_two_reserved_repetitions": true,
+    "family_is_independent_unit": true,
+    "invalid_report_not_above_each_b0": true,
+    "maximum_extra_usd_per_positive_family": 1.0,
+    "maximum_policy_cost_ratio_to_mean_b0": 1.5,
+    "minimum_gain": "acceptance on >=1 family against both B0 repetitions or mean quality-v2 +10 against both",
+    "non_negative_acceptance_and_mean_quality_vs_each_b0": true,
+    "unsupported_completion_not_above_each_b0": true,
+    "upstream_only_gain_required": true,
+    "zero_policy_critical_errors": true
+  },
+  "source_sha256": {
+    "tools/worker_q4t_canary_live.py": "19fa08a365e92943596705409eda42feab97a846216c9a2cea0fa1c281b3c1b8",
+    "tools/worker_q4t_screen_evidence.py": "af36a0a6d928611b72e4441900d55300609615c511b9f7281e587042ea7fef7c",
+    "tools/worker_q4t_screen_live.py": "22083e70507638dd691b373cd70f3ec41fab3d3f8fea4c74d6e9652e2c98159e",
+    "tools/worker_selector.py": "472972d1b2e9cb051a6ccaaa048bed3c6745c24a765b297bafb61cb1f581a776",
+    "tools/worker_wsl_q4t_auth_probe.py": "4f066e0a24c1bfdb39942c05aec6adb99a8767b5d01954abacfe84d800f6cdab",
+    "tools/worker_wsl_q4t_probe.py": "64b6be4aab7cc4edbdc847616d9fabc3c84a31c6ecc8b262917ce8d261b203cd"
+  },
+  "spend_notice_sha256": "a5672fdb3fa880ed9c235b21403db833da034859ba87d2711386fd5e5fc9b60a",
+  "stop_policy": {
+    "no_started_invocation_replay": true,
+    "positive_candidate_critical": "stop",
+    "settled_report_failure": "score-with-zero-report-credit",
+    "source": "tools/worker_q4t_policy.py",
+    "unsettled_or_unknown_failure": "stop"
+  },
+  "structured_retry_limit": 5,
+  "transport_mode": "claude-code-json-schema-v2"
+}

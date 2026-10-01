@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "pool-is-fair",
+  "next_step": "deploy",
+  "probes": []
+}

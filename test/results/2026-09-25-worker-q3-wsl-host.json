@@ -1,0 +1,99 @@
+{
+  "auth": {
+    "checks": {
+      "credential_reconciled": true,
+      "isolated_claude_login": true,
+      "q1_writer_stopped": true,
+      "subscription_reported": true
+    },
+    "credential_current": true,
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "result": "PASS"
+  },
+  "evidence_sha256": "6704e480bbae81351ba4686dcfd2ee5893ed26daaa86ae0745bfdb05bd9dde16",
+  "predecessor_evidence_sha256": {
+    "n4": "6d8290a0c5e5ab4218e0cd83dfbd05776c21a988cf42218e9147ec910ea0c24e",
+    "q1": "be7a43c09757d1bc489a1e96ece1430b980c2927bdbe8a70604a77adb16bb588"
+  },
+  "probes": {
+    "adapter": {
+      "checks": {
+        "exact_model_identity": true,
+        "isolated_public_fails_on_broken": true,
+        "isolated_public_passes_reference": true,
+        "protected_drift_before_copy_rejected": true,
+        "protected_public_source_unchanged": true,
+        "public_proofs_sealed": true,
+        "q1_boundary_bound": true,
+        "terminal_fake_receipt": true,
+        "two_edits_collected": true,
+        "zero_provider_call": true
+      },
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "result": "PASS"
+    },
+    "episode": {
+      "checks": {
+        "b0_accepted_after_one_fake_call": true,
+        "first_cell_sonnet_low": true,
+        "isolated_acceptance": true,
+        "protected_source_unchanged": true,
+        "terminal_receipt_bound": true,
+        "two_reference_edits_collected": true,
+        "zero_cost_settled": true
+      },
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "result": "PASS"
+    },
+    "grader": {
+      "checks": {
+        "baseline_hidden_fails": true,
+        "candidate_label": true,
+        "oracle_read_denied": true,
+        "reference_hidden_passes": true,
+        "workspace_unchanged": true,
+        "zero_provider_call": true
+      },
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "result": "PASS"
+    },
+    "launcher": {
+      "checks": {
+        "credential_wrapper_rejects_n4_identity": true,
+        "invalid_subscription_command_rejected_before_auth": true,
+        "no_provider_call": true,
+        "unchanged_package_collected": true,
+        "uncredentialed_actor_stopped": true
+      },
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "result": "PASS"
+    }
+  },
+  "recorded_at_utc": "2026-09-25T08:11:03+00:00",
+  "result": "PASS_STATIC",
+  "runtime_sha256": {
+    "tools/worker_wsl_namespace_q3.sh": "9da08e0d450c3d102b56ef69002cc9d8b5d47807b5d895560bcf212b6e190941",
+    "tools/worker_wsl_q3_auth.py": "ddca9ad47c1817505698959664e4a2376954f6971e557d2ff93bd5e72b0a79ea",
+    "tools/worker_wsl_q3_probe.py": "5e49f802bd13f3940769baee60971b1ad569b6346d171a02b6c97ab4a82f16ba"
+  },
+  "schema_version": 1,
+  "scope": "Provider-free Q3 transport and fake B0 episode; no live paid adapter qualified",
+  "source_sha256": {
+    "tools/worker_wsl_namespace_q3.sh": "9da08e0d450c3d102b56ef69002cc9d8b5d47807b5d895560bcf212b6e190941",
+    "tools/worker_wsl_q3_adapter.py": "b165ccca14f77472f96ca8d7ea9aa5812a89e1ae64f44b9ee9df04b71d25223a",
+    "tools/worker_wsl_q3_adapter_probe.py": "4f2ba241fa6acf5a806155babde69cc74382a55ccba75ee031667102a3599da0",
+    "tools/worker_wsl_q3_attestation.py": "f1c9f1b6ac57455845746136496bcd1520359fe04e99f5bb313f28152fd2e4c4",
+    "tools/worker_wsl_q3_auth.py": "ddca9ad47c1817505698959664e4a2376954f6971e557d2ff93bd5e72b0a79ea",
+    "tools/worker_wsl_q3_auth_probe.py": "670c62d1c7c62517de085628bf3534f2661177b9ee1f82e77b5c1142b0fc3905",
+    "tools/worker_wsl_q3_episode_probe.py": "80d83efee0f7b4696377a41d6523f68efd09ec452b1aa96fe26142e59b2d81a7",
+    "tools/worker_wsl_q3_grade.py": "1602c39dcd7225080fc290bad47ce972e5e69c2e6cb77001c62cfedeeae9f442",
+    "tools/worker_wsl_q3_grade_probe.py": "512db0c7e95f1873d4ae5889ff78685896b8f3c0ae7b13f5aea8531bb048025d",
+    "tools/worker_wsl_q3_install.sh": "f489fb72fed3f18701f25a1ebe7efb07535ce39fcb1c529d95ed7db254662249",
+    "tools/worker_wsl_q3_probe.py": "5e49f802bd13f3940769baee60971b1ad569b6346d171a02b6c97ab4a82f16ba"
+  }
+}

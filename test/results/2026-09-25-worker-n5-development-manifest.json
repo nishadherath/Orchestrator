@@ -1,0 +1,970 @@
+{
+  "assessments": {
+    "D01": {
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "evidence_cohort": "ef59c4a08fcbda7be97819d985b11bd592c52a2daff064396bec3596fde4f088",
+      "facts": {
+        "complexity": "routine",
+        "context_tokens": 1200,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D02": {
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "evidence_cohort": "ef59c4a08fcbda7be97819d985b11bd592c52a2daff064396bec3596fde4f088",
+      "facts": {
+        "complexity": "routine",
+        "context_tokens": 1200,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D03": {
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "evidence_cohort": "ef59c4a08fcbda7be97819d985b11bd592c52a2daff064396bec3596fde4f088",
+      "facts": {
+        "complexity": "routine",
+        "context_tokens": 1200,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D04": {
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "evidence_cohort": "ef59c4a08fcbda7be97819d985b11bd592c52a2daff064396bec3596fde4f088",
+      "facts": {
+        "complexity": "routine",
+        "context_tokens": 1200,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D05": {
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "evidence_cohort": "21447f566e693de8702ba4741f295a00bf30a644a55caa16ce82cb1ea3385072",
+      "facts": {
+        "complexity": "moderate",
+        "context_tokens": 4000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D06": {
+      "assessment_digest": "e9fefd02815963a44a7e863f6f9942a13f4aeb4e4ab304ea1c09644c4625fbb8",
+      "evidence_cohort": "60c9d95649e67fae2f8ed1a6fb26734d138eff0c9670a35e61b2e7693649ecd1",
+      "facts": {
+        "complexity": "moderate",
+        "context_tokens": 4000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "investigation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D07": {
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "evidence_cohort": "21447f566e693de8702ba4741f295a00bf30a644a55caa16ce82cb1ea3385072",
+      "facts": {
+        "complexity": "moderate",
+        "context_tokens": 4000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D08": {
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "evidence_cohort": "21447f566e693de8702ba4741f295a00bf30a644a55caa16ce82cb1ea3385072",
+      "facts": {
+        "complexity": "moderate",
+        "context_tokens": 4000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D09": {
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "evidence_cohort": "8d92b51cc26fb8ce630e26de5d5dbd82077000c95a54097bd696ee19fcc222ad",
+      "facts": {
+        "complexity": "complex",
+        "context_tokens": 9000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D10": {
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "evidence_cohort": "8d92b51cc26fb8ce630e26de5d5dbd82077000c95a54097bd696ee19fcc222ad",
+      "facts": {
+        "complexity": "complex",
+        "context_tokens": 9000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D11": {
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "evidence_cohort": "8d92b51cc26fb8ce630e26de5d5dbd82077000c95a54097bd696ee19fcc222ad",
+      "facts": {
+        "complexity": "complex",
+        "context_tokens": 9000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "implementation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    },
+    "D12": {
+      "assessment_digest": "892d8baf31f88a135ed3493c1282405c3793148dcd7805855b668b5c3f3c0e10",
+      "evidence_cohort": "74269e57d254fde3cd96f3ed9e5211bce7e4cbb6f6a3f5caaf3e8aaed0dde5fd",
+      "facts": {
+        "complexity": "complex",
+        "context_tokens": 9000,
+        "deadline_seconds": null,
+        "evidence": [
+          {
+            "claim": "service behaviour and bounded app.py edit",
+            "reference": "issue.md",
+            "source": "operator"
+          }
+        ],
+        "failure_cause": "none",
+        "frame_confidence": "clear",
+        "prior_local_repairs": 0,
+        "required_artefacts": [
+          "app.py"
+        ],
+        "task_kind": "investigation",
+        "verification": "executable"
+      },
+      "policy": "worker-shadow-v1",
+      "schema_version": 1
+    }
+  },
+  "authorisation": "separate-exact-approval-required",
+  "corpus_files": {
+    "catalogue.json": "7479666939b1d7c72f029e2c136a4934dac7988e5ffd8f23ba3a5d85334fefbb",
+    "development/D01/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D01/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D01/actor/public_check.py": "cde92a1554ce42cca6106ec9c0cc3b3b26d21e717df6d1034244eea00abc87af",
+    "development/D01/issue.md": "fd704cc35286d15e4c6e26dd720fb4ebf2ebfe39efcecc14e1a8a6fc08151b40",
+    "development/D02/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D02/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D02/actor/public_check.py": "cca5a41facd7ab4164d45724198a1ed86be2e5fb977e3289845b053c0bef43ae",
+    "development/D02/issue.md": "e6679add1a979cea0d72db70029c302e255dde93569c3221173bd81b063152fd",
+    "development/D03/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D03/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D03/actor/public_check.py": "f10d8ba53e976f2efd43569f1c1a58ac4f6709e2700a73f9ef5caa8f1816ebfd",
+    "development/D03/issue.md": "2cddadbe3e4f0198a74bc904a547faf44a60ecad11a602b01fee84ea140186c9",
+    "development/D04/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D04/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D04/actor/public_check.py": "3914ecab6abe5ad704e8790d956a16cfe3aadb42cfd248e99ef49df9cfb7fae9",
+    "development/D04/issue.md": "800bd4e59bebb33641cfb1d1d4dae7c5b94e53f3039f22710e4695db18d0f4df",
+    "development/D05/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D05/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D05/actor/public_check.py": "5edbba755778073bf7d37df0bbc52d7db383fcdd7f13a224acea82a5d3afce92",
+    "development/D05/issue.md": "cc1286438e4a417ff765aa93aaea8822fcf2e7ca56d229df81d3753d24e98d15",
+    "development/D06/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D06/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D06/actor/public_check.py": "afec8deefc7588a040ea3eab8774e94150da3450c19c4dd8607d5a21ed9a624d",
+    "development/D06/issue.md": "980c42f2d7f733a7124cdb5b6639bd93a1eb7320dcc480827ca2647ed7fccc37",
+    "development/D07/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D07/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D07/actor/public_check.py": "ad57f4a264e88c53c2724615ec8abbb8221ac5e4fd0bd65b0362ca02b55544dc",
+    "development/D07/issue.md": "fbf8816ba4e85a253b07810201d34c598e445fd34ef3133067336254662e8621",
+    "development/D08/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D08/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D08/actor/public_check.py": "bd50f3f21c7845f4c14cf94d7c2e9625dc3cabd675d47fe0274666fe78cc3e70",
+    "development/D08/issue.md": "c855a8c50d8f49fcd6cddb3391f10b017542c107bc34b201e70da2c946e4e396",
+    "development/D09/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D09/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D09/actor/public_check.py": "3ac75660a3a8f31c15c3d7705e4e3853cfa5a109cd8255cc6eed0cfee1012d24",
+    "development/D09/issue.md": "b2d8244f751211e057bb349e2e2f533618c257d3ea78650b2642f4778850d498",
+    "development/D10/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D10/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D10/actor/public_check.py": "945d2fba5deff9ac2ad8b682f6c0f5ae9ddc64f2bbb817ef7d8a5b36cbc793e6",
+    "development/D10/issue.md": "0d467c97bdb07005fa5681b8d9667d1bc62de92f1c10a11e1ccc0ac624939823",
+    "development/D11/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D11/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D11/actor/public_check.py": "e4621ecda8674109e75bebf8b5d6b10fcf9e8e96d881ddac8b6a59e0a4fc5b1c",
+    "development/D11/issue.md": "9a1cf50febfb790c1bfd05179d9a03ac27829f2d7ce1cc321a831dd09e49bff6",
+    "development/D12/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "development/D12/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "development/D12/actor/public_check.py": "2c5d709bb46a1612b8c200c679278a8ba241f3cbb04dbd450d150b4ea76107b5",
+    "development/D12/issue.md": "311a4c2e49d1c719e26f07048c3fc33079d6e24d00ac9f5e8c32d6c787c2ecdb",
+    "oracles/D01.json": "e199ae1bf45734e3bc15945f77bc9aa06f73e8f9762d21c1386da08aa4fe148a",
+    "oracles/D02.json": "f09cbec794083fd1d51a09dc5875e62db73e6176df442efb2e96b0e27ba48d98",
+    "oracles/D03.json": "872bbfd79fa62ffd5b39071e92a3ea856a398f71fffbade51ea5cc5518157a24",
+    "oracles/D04.json": "9b5a008174ee229adb26bcba0950b19b9a437466a6fe724234abe22950c3d515",
+    "oracles/D05.json": "1c52fa7ea949d94fad16f7f0554926564feb0044f9fe16436c9e2cd91177c0b9",
+    "oracles/D06.json": "106451aaa215fbaf5dfae0832a9a7b08fc986969c7c7d0eddbbb293022ac516e",
+    "oracles/D07.json": "cd086b5f373bd44c0600c5a578bdbc0bc9ca69623b7b26121747274157cb142e",
+    "oracles/D08.json": "f3164f9540fffbc1ec31c9b93625b7f90b9af08647286a9ab22fceee5372e7e3",
+    "oracles/D09.json": "2dd8aee554be2fc4e8f73a855dce57ffc71ed57fa12afca53e9349d4f8dcdba0",
+    "oracles/D10.json": "e1b588b8510d35ab9785cecccfd4632fe1f657c0261cf9bb8f9028cf3a0cc84b",
+    "oracles/D11.json": "4a854ef484d1d6265d8f9a38d390bc7ac62d7d564f3d3fd4128c92d5af8e2e0d",
+    "oracles/D12.json": "26cb41e46b441b3ea8bff67086685bb2eb669be16b5f6676bca059def224b3ad",
+    "oracles/R01.json": "a2c81e778dd8294788724661655c5cdfd7125e88d29679886490f4aae32ce637",
+    "oracles/R02.json": "2fd5023f20c05259876cf37db117373f3c03f0a379a05ce590af9f9ae3256fb8",
+    "oracles/R03.json": "8046a75c9c3a07984faf8d64b24f267cd74151a4a181b7590a3eb26e233d89ff",
+    "oracles/R04.json": "271d7f9888c146c4f3d6fa6358a13c6b54e39853385ffd15ee40248f97810b7e",
+    "oracles/R05.json": "4f505211dbafbca0683a388f9467b9898c479360dd4abc173cb8dcc031604df8",
+    "oracles/R06.json": "2951a803c037f1a020965253184a6d65049e954afceccf7835321c1812fc0a3d",
+    "oracles/R07.json": "966bff7cb65c4a879e26a6b15dd82bb045193f4af8f3d10752e8d0ee94eeedad",
+    "oracles/R08.json": "d26ef369fc4184561e87e9383dfa72887b8476bac21ec2219c93f1ff9a35996d",
+    "oracles/R09.json": "6719f601bcb7c2be057d431915d7d4f3594439a4f840404eedb7ef942ba554b4",
+    "oracles/R10.json": "bdcacb1732dfd247c2e8a34c8886af6e7c70db55f2bb84c42041a4c334d55189",
+    "oracles/R11.json": "e8416ae8083bd241c11d38f2c2733a778b75141540fb76880736ae5149d089b6",
+    "oracles/R12.json": "2faccc9d82b925cda67fc8e92e2b370ef4f61298f8bbf95c5d1dcb8929f82ea6",
+    "reserved/R01/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R01/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R01/actor/public_check.py": "dea3923fa2ae90c35d9e469351eb8f8623e642725609989af66eb520fdb7ef4d",
+    "reserved/R01/issue.md": "fd704cc35286d15e4c6e26dd720fb4ebf2ebfe39efcecc14e1a8a6fc08151b40",
+    "reserved/R02/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R02/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R02/actor/public_check.py": "e95e9ce922ed2f0e89976b624f56532d07700afd9293e4f5f2d87be0124eb7e9",
+    "reserved/R02/issue.md": "e6679add1a979cea0d72db70029c302e255dde93569c3221173bd81b063152fd",
+    "reserved/R03/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R03/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R03/actor/public_check.py": "df098a38ef07a486bef00bf2241af027c81e6715015a9d96bd90afe9ea080ed3",
+    "reserved/R03/issue.md": "2cddadbe3e4f0198a74bc904a547faf44a60ecad11a602b01fee84ea140186c9",
+    "reserved/R04/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R04/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R04/actor/public_check.py": "0120dbae326f2efc1d08a02dc553553a59b805a7a7919302841d6c157a39982f",
+    "reserved/R04/issue.md": "800bd4e59bebb33641cfb1d1d4dae7c5b94e53f3039f22710e4695db18d0f4df",
+    "reserved/R05/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R05/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R05/actor/public_check.py": "49a163e74e2e666be94f32f45fda07ec224638ed238143f1ffa956d574e99d8f",
+    "reserved/R05/issue.md": "cc1286438e4a417ff765aa93aaea8822fcf2e7ca56d229df81d3753d24e98d15",
+    "reserved/R06/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R06/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R06/actor/public_check.py": "55e2362a5abdda2ae43b76edba3d4d2f9160ffd64e1dd6aaae0a9aa035e2cc4e",
+    "reserved/R06/issue.md": "980c42f2d7f733a7124cdb5b6639bd93a1eb7320dcc480827ca2647ed7fccc37",
+    "reserved/R07/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R07/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R07/actor/public_check.py": "036a603333e60d6fe19054aec2f0c7143be4edfd541bd001b1e2221c485c0450",
+    "reserved/R07/issue.md": "fbf8816ba4e85a253b07810201d34c598e445fd34ef3133067336254662e8621",
+    "reserved/R08/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R08/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R08/actor/public_check.py": "76f17c89f6b80e51dfc46b5c38699d3d00af49f6ded26f9266f5c7fc2959d100",
+    "reserved/R08/issue.md": "c855a8c50d8f49fcd6cddb3391f10b017542c107bc34b201e70da2c946e4e396",
+    "reserved/R09/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R09/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R09/actor/public_check.py": "264d662067ccc3b4b44f0fd91df1f09310d473e2982e047c2b9d6271b44959b3",
+    "reserved/R09/issue.md": "b2d8244f751211e057bb349e2e2f533618c257d3ea78650b2642f4778850d498",
+    "reserved/R10/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R10/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R10/actor/public_check.py": "b91eefcc912dbc43f739987b38028de6ea43ca14f665772884b097ef78cbb3ac",
+    "reserved/R10/issue.md": "0d467c97bdb07005fa5681b8d9667d1bc62de92f1c10a11e1ccc0ac624939823",
+    "reserved/R11/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R11/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R11/actor/public_check.py": "e1f6e17cc5134fba4f90d265b3d94a73bcd649663a367f5be0abf4ca5fe43dab",
+    "reserved/R11/issue.md": "9a1cf50febfb790c1bfd05179d9a03ac27829f2d7ce1cc321a831dd09e49bff6",
+    "reserved/R12/acceptance.json": "f69df224dbe9bc639df0cb997e78d35c21c7e1d23f71b7c1aad715ca598c349c",
+    "reserved/R12/actor/app.py": "7a57f53422695eddb7422a40cf1c228bed4e19a0498f718cbdfaa9aa105b8664",
+    "reserved/R12/actor/public_check.py": "bc9ccc6fc85e3c29533a20c3f073c78fff9a3e7380968e46154796851ba0b783",
+    "reserved/R12/issue.md": "311a4c2e49d1c719e26f07048c3fc33079d6e24d00ac9f5e8c32d6c787c2ecdb"
+  },
+  "cost": {
+    "basis": "36 x USD 3 local admission allocations",
+    "currency": "USD",
+    "episode_maximum_usd": 3.0,
+    "episodes": 36,
+    "maximum_usd": 108.0
+  },
+  "credential_method": "subscription",
+  "execution_manifest_sha256": "42208d8d76aa229f01b4796f240d4fa8202017dd635d360052a86a4d95e7318d",
+  "extra_source_sha256": {
+    "tools/worker_n5_corpus.py": "aa38c7deddd08f53b2d62997989d78c90ef643d90ee64b378bf95e26a217347d",
+    "tools/worker_n5_development.py": "eaca0a75efbc95875c2bbb58be311c30f7928d34a843a1d165e2da49d28a9750",
+    "tools/worker_n5_live_development.py": "1cc7a33b65721c7260df5faecce37e3815a945b25e32b1064dd21007d43289ac",
+    "tools/worker_wsl_auth.py": "8f3f7427344a187e556370e2000aaff73b84f67f6a982357d7b5b6222f38ce53",
+    "tools/worker_wsl_subscription_attestation.py": "0ee1c63d40490f816fdebc55d69ca139bdb1067ffdbef56b9d7a999840b918c2",
+    "tools/worker_wsl_subscription_sentinel.py": "7ca1bbf7cf48855f6cf569d5c01ce747ce1da951e85ce4c0f27a353e16d5bfb6"
+  },
+  "host_attestation_sha256": "585e41bb9899d8d6049d0ee78b0e16aced3960dff6687ef38e9d033a0605ea1c",
+  "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+  "policy": {
+    "alternative_by_complexity": {
+      "complex": "worker-fable-high",
+      "moderate": "worker-sonnet-xhigh",
+      "routine": "worker-sonnet-medium"
+    },
+    "campaign_prompt": "One bounded worker attempt. Do not delegate.",
+    "candidate": "worker-shadow-v1",
+    "experimental_dispatch": "N5-experimental-v1",
+    "fallback": "worker-opus-high"
+  },
+  "profile": "worker-n5-development",
+  "registry_id": "claude-cells-v1",
+  "reserved_tasks_allowed": false,
+  "retry_policy": "no-automatic-provider-replay",
+  "rows": [
+    {
+      "arm": "B0",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 1,
+      "task_id": "D01"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 2,
+      "task_id": "D01"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-medium",
+      "sequence": 3,
+      "task_id": "D01"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 4,
+      "task_id": "D02"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-medium",
+      "sequence": 5,
+      "task_id": "D02"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 6,
+      "task_id": "D02"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-medium",
+      "sequence": 7,
+      "task_id": "D03"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 8,
+      "task_id": "D03"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 9,
+      "task_id": "D03"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 10,
+      "task_id": "D04"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 11,
+      "task_id": "D04"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "d33cc5c2c0b345af067638a53e2aa975993c9d162b5b721fda531e41cea17083",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-medium",
+      "sequence": 12,
+      "task_id": "D04"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-high",
+        "worker-sonnet-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 13,
+      "task_id": "D05"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-xhigh",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-xhigh",
+      "sequence": 14,
+      "task_id": "D05"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 15,
+      "task_id": "D05"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "e9fefd02815963a44a7e863f6f9942a13f4aeb4e4ab304ea1c09644c4625fbb8",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-xhigh",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-xhigh",
+      "sequence": 16,
+      "task_id": "D06"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "e9fefd02815963a44a7e863f6f9942a13f4aeb4e4ab304ea1c09644c4625fbb8",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 17,
+      "task_id": "D06"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "e9fefd02815963a44a7e863f6f9942a13f4aeb4e4ab304ea1c09644c4625fbb8",
+      "ladder": [
+        "worker-sonnet-high",
+        "worker-sonnet-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 18,
+      "task_id": "D06"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 19,
+      "task_id": "D07"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-high",
+        "worker-sonnet-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 20,
+      "task_id": "D07"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-xhigh",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-xhigh",
+      "sequence": 21,
+      "task_id": "D07"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-high",
+        "worker-sonnet-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-high",
+      "sequence": 22,
+      "task_id": "D08"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-xhigh",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-xhigh",
+      "sequence": 23,
+      "task_id": "D08"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "f83002cc5d03136fa552da1064168009f9d94491b1122a8d706b2ee64d415256",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 24,
+      "task_id": "D08"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-fable-high",
+        "worker-fable-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-fable-high",
+      "sequence": 25,
+      "task_id": "D09"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 26,
+      "task_id": "D09"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-opus-high",
+        "worker-opus-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-opus-high",
+      "sequence": 27,
+      "task_id": "D09"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 28,
+      "task_id": "D10"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-opus-high",
+        "worker-opus-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-opus-high",
+      "sequence": 29,
+      "task_id": "D10"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-fable-high",
+        "worker-fable-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-fable-high",
+      "sequence": 30,
+      "task_id": "D10"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-opus-high",
+        "worker-opus-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-opus-high",
+      "sequence": 31,
+      "task_id": "D11"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-fable-high",
+        "worker-fable-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-fable-high",
+      "sequence": 32,
+      "task_id": "D11"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "24cefc99c0a5a374fd93b771721a3350dfca6d31f118e66115e419b9d3af2dfc",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 33,
+      "task_id": "D11"
+    },
+    {
+      "arm": "alternative",
+      "assessment_digest": "892d8baf31f88a135ed3493c1282405c3793148dcd7805855b668b5c3f3c0e10",
+      "ladder": [
+        "worker-fable-high",
+        "worker-fable-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-fable-high",
+      "sequence": 34,
+      "task_id": "D12"
+    },
+    {
+      "arm": "B0",
+      "assessment_digest": "892d8baf31f88a135ed3493c1282405c3793148dcd7805855b668b5c3f3c0e10",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-sonnet-low",
+      "sequence": 35,
+      "task_id": "D12"
+    },
+    {
+      "arm": "candidate",
+      "assessment_digest": "892d8baf31f88a135ed3493c1282405c3793148dcd7805855b668b5c3f3c0e10",
+      "ladder": [
+        "worker-opus-high",
+        "worker-opus-high",
+        "worker-opus-high"
+      ],
+      "maximum_usd": 3.0,
+      "selected_cell": "worker-opus-high",
+      "sequence": 36,
+      "task_id": "D12"
+    }
+  ],
+  "schema_version": 1,
+  "screen_evidence": {
+    "actors.zip_sha256": "1b75c2d63e74cb7069ee70878135ad9b55696bb37ef04c87d90e06e2d8864c01",
+    "budget.json_sha256": "bf9b5da1bc98ec14f99ac98994122c4b0386f5183ca64ad44953b8bee9f9ee7d",
+    "campaign.json_sha256": "f663dd1941cc49a02372869ecb01c3b4502c24ec588f7788ab9ea358c3cf7503"
+  },
+  "spend_notice_sha256": "d8cf13401309bb883c95bd5447949f933ee1158146fc526a7165015c99fd081c",
+  "subscription_attestation_sha256": "37b25c2a66f40fadc46a36f522d013fd3942be16602c0f2b1c74932421dd06e0",
+  "subscription_sentinel_sha256": "4c4c0a31bc661ba155f1ef4cbd03c3933765bc8be6af83bea82a4c749206e7c3",
+  "supported_cells": [
+    "worker-fable-high",
+    "worker-fable-low",
+    "worker-fable-max",
+    "worker-fable-medium",
+    "worker-fable-xhigh",
+    "worker-opus-high",
+    "worker-opus-low",
+    "worker-opus-max",
+    "worker-opus-medium",
+    "worker-opus-xhigh",
+    "worker-sonnet-high",
+    "worker-sonnet-low",
+    "worker-sonnet-max",
+    "worker-sonnet-medium",
+    "worker-sonnet-xhigh"
+  ]
+}

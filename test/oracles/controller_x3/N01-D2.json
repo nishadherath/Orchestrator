@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_id": "N01-D2",
+  "diagnosis": "legacy-timeout-key-and-unit",
+  "cases": [
+    {"milestone": "settings expose only the new seconds key", "weight": 20,
+     "critical": false, "input": {"action": "settings"},
+     "expected": {"settings": {"request_deadline_s": 0.75, "retries": 2}}},
+    {"milestone": "client preserves retry override", "weight": 20,
+     "critical": false,
+     "input": {"action": "client", "override": {"retries": 3}},
+     "expected": {"timeout_s": 0.75, "retries": 3}},
+    {"milestone": "scheduler default remains 750 ms equivalent", "weight": 20,
+     "critical": false, "input": {"action": "scheduler"},
+     "expected": {"deadline_s": 0.75, "retries": 2}},
+    {"milestone": "client reads a new-key override", "weight": 20,
+     "critical": false,
+     "input": {"action": "client", "override": {"request_deadline_s": 1.2}},
+     "expected": {"timeout_s": 1.2, "retries": 2}},
+    {"milestone": "scheduler reads a new-key override", "weight": 20,
+     "critical": false,
+     "input": {"action": "scheduler", "override": {"request_deadline_s": 0.2}},
+     "expected": {"deadline_s": 0.2, "retries": 2}}
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "schema": "controller-x5-opening-event-frame-f-screen-v1",
+  "frame_sha256": "80885c6fc51e47b02b37251e88e86da18a6cf6a61b7d4913821bc584e84bdb8d",
+  "bodies_sha256": "5cef7aed276afafde091ebd4c8dc1baf008d0fcabfed7f0b2526560061616499",
+  "screened": 30,
+  "blind_paid_admissions": 0,
+  "rows": [
+    {
+      "position": 1,
+      "url": "https://github.com/pypa/packaging/issues/1418",
+      "decision": "reject_blind_paid",
+      "reason_code": "policy_request",
+      "reason": "Raw Version retention and API shape are proposed, not settled.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 2,
+      "url": "https://github.com/pydantic/pydantic-settings/issues/993",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_disclosed",
+      "reason": "Opening text gives parser-layer hypothesis and exact regression; frame E overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-opening-frame-e.json"
+      ]
+    },
+    {
+      "position": 3,
+      "url": "https://github.com/pallets/werkzeug/issues/3302",
+      "decision": "reject_blind_paid",
+      "reason_code": "deprecation_request",
+      "reason": "Proposes an API deprecation, not a failing repair task.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 4,
+      "url": "https://github.com/python-trio/trio/issues/3520",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_disclosed",
+      "reason": "Opening report maps kqueue, IOCP and epoll paths and proposes platform-specific repairs and a policy change.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 5,
+      "url": "https://github.com/aio-libs/aiohttp/issues/13868",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_disclosed",
+      "reason": "Opening report identifies the case-sensitive deduplication fault; frame D overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-external-frame-d.json"
+      ]
+    },
+    {
+      "position": 6,
+      "url": "https://github.com/python-attrs/attrs/issues/1627",
+      "decision": "reject_blind_paid",
+      "reason_code": "documentation_request",
+      "reason": "Requests examples in documentation.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 7,
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_disclosed",
+      "reason": "Opening report names TextClause parsing and the desired literal-string behaviour; frames C/D overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-external-frame-c.json",
+        "2026-09-30-controller-x5-external-frame-d.json"
+      ]
+    },
+    {
+      "position": 8,
+      "url": "https://github.com/pytest-dev/pluggy/issues/742",
+      "decision": "reject_blind_paid",
+      "reason_code": "policy_request",
+      "reason": "Opening report weighs support versus rejection of keyword-only arguments without a settled rule.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 9,
+      "url": "https://github.com/pallets/werkzeug/issues/3313",
+      "decision": "reject_blind_paid",
+      "reason_code": "policy_request",
+      "reason": "Author says this 411 proposal should be closed; frame E overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-opening-frame-e.json"
+      ]
+    },
+    {
+      "position": 10,
+      "url": "https://github.com/pallets/werkzeug/issues/3301",
+      "decision": "reject_blind_paid",
+      "reason_code": "deprecation_request",
+      "reason": "Proposes deprecating FileWrapper.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 11,
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13615",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_and_host_gap",
+      "reason": "Opening report names the PostgreSQL OID join path; PostgreSQL acceptance is not qualified on this worker host.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 12,
+      "url": "https://github.com/Textualize/rich/issues/4228",
+      "decision": "reject_blind_paid",
+      "reason_code": "support_question",
+      "reason": "Asks how to strip formatting for a downstream menu search.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 13,
+      "url": "https://github.com/agronholm/apscheduler/issues/1141",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_and_host_gap",
+      "reason": "Opening report gives sync-callback cause and async-def fix; PostgreSQL acceptance is not qualified.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 14,
+      "url": "https://github.com/pallets/werkzeug/issues/3307",
+      "decision": "reject_blind_paid",
+      "reason_code": "no_task",
+      "reason": "Empty-body junk issue.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 15,
+      "url": "https://github.com/pallets/jinja/issues/2278",
+      "decision": "reject_blind_paid",
+      "reason_code": "repair_disclosed",
+      "reason": "Opening report states exact release-workflow permission and checkout hardening.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 16,
+      "url": "https://github.com/Textualize/rich/issues/4229",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_disclosed",
+      "reason": "Opening report identifies empty input becoming an empty regex and zero-width matches.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 17,
+      "url": "https://github.com/python-attrs/attrs/issues/1620",
+      "decision": "reject_blind_paid",
+      "reason_code": "no_task",
+      "reason": "Contributor asks for work rather than reporting a defect.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 18,
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13617",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_disclosed",
+      "reason": "Opening report identifies a fresh dynamic comparator class on every property access; frame D overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-external-frame-d.json"
+      ]
+    },
+    {
+      "position": 19,
+      "url": "https://github.com/agronholm/apscheduler/issues/1144",
+      "decision": "reject_blind_paid",
+      "reason_code": "repair_disclosed",
+      "reason": "Opening report specifies UTC arithmetic and comparison repair; frame E overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-opening-frame-e.json"
+      ]
+    },
+    {
+      "position": 20,
+      "url": "https://github.com/pypa/packaging/issues/1422",
+      "decision": "reject_blind_paid",
+      "reason_code": "policy_request",
+      "reason": "Requests a sequenced mutability/equality/hash migration with unresolved compatibility rules.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 21,
+      "url": "https://github.com/pallets/flask/issues/6165",
+      "decision": "reject_blind_paid",
+      "reason_code": "documentation_policy",
+      "reason": "Requests changed guidance on MAX_CONTENT_LENGTH rather than a settled code repair.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 22,
+      "url": "https://github.com/sphinx-doc/sphinx/issues/14702",
+      "decision": "reject_blind_paid",
+      "reason_code": "host_oracle_gap",
+      "reason": "Mobile visual rendering report has no deterministic local acceptance or consequential follow-up contract.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 23,
+      "url": "https://github.com/pallets/werkzeug/issues/3312",
+      "decision": "reject_blind_paid",
+      "reason_code": "repair_disclosed",
+      "reason": "Opening report gives IPv6 colon-splitting cause and parsing fix; frame E overlap.",
+      "prior_frame_overlaps": [
+        "2026-09-30-controller-x5-opening-frame-e.json"
+      ]
+    },
+    {
+      "position": 24,
+      "url": "https://github.com/pallets/jinja/issues/2274",
+      "decision": "reject_blind_paid",
+      "reason_code": "maintainer_rejected_contract",
+      "reason": "Fresh-cache Jinja 3.1.6 reproduction fails, but a maintainer closed this StrEnum request as not planned: the API expects strings.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 25,
+      "url": "https://github.com/pallets/werkzeug/issues/3303",
+      "decision": "reject_blind_paid",
+      "reason_code": "deprecation_request",
+      "reason": "Proposes deprecating WSGI functions.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 26,
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13610",
+      "decision": "reject_blind_paid",
+      "reason_code": "diagnosis_and_host_gap",
+      "reason": "Opening report names SQL Server date-offset formatting path; SQL Server acceptance host is unavailable.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 27,
+      "url": "https://github.com/pypa/pip/issues/14325",
+      "decision": "reject_blind_paid",
+      "reason_code": "no_task",
+      "reason": "Empty-body junk issue.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 28,
+      "url": "https://github.com/encode/httpcore/issues/1110",
+      "decision": "reject_blind_paid",
+      "reason_code": "repair_disclosed",
+      "reason": "Opening report traces the connection-pool race and links an existing fix PR.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 29,
+      "url": "https://github.com/pallets/jinja/issues/2279",
+      "decision": "reject_blind_paid",
+      "reason_code": "no_task",
+      "reason": "Spam test issue.",
+      "prior_frame_overlaps": []
+    },
+    {
+      "position": 30,
+      "url": "https://github.com/sphinx-doc/sphinx/issues/14699",
+      "decision": "reject_blind_paid",
+      "reason_code": "nondeterministic_ci",
+      "reason": "Opening report describes an intermittent Windows timeout and prior timeout/readiness repair; no deterministic entry signal.",
+      "prior_frame_overlaps": []
+    }
+  ]
+}

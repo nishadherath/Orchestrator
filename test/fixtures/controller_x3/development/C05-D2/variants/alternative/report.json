@@ -1,0 +1,12 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "The page selection fetches the unbounded whole index.",
+  "next_step": "Measure offset and narrow page reads before rollout.",
+  "probes": [
+    {"input": {"size": 40, "offset": 8, "limit": 8},
+     "observed": {"selected": ["r008", "r009", "r010", "r011",
+                               "r012", "r013", "r014", "r015"], "reads": 8}},
+    {"input": {"size": 3, "offset": 0, "limit": 3},
+     "observed": {"selected": ["r000", "r001", "r002"], "reads": 3}}
+  ]
+}

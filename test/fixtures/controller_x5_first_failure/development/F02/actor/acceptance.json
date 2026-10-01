@@ -1,0 +1,4 @@
+{
+  "editable_paths": ["click/formatting.py", "click/_textwrap.py"],
+  "public_command": ["python3", "-B", "public_check.py"]
+}

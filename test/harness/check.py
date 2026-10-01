@@ -107,7 +107,17 @@ def parse_frontmatter(text: str) -> dict[str, str]:
 def prose_files() -> list[Path]:
     files: set[Path] = set()
     for pattern in PROSE_GLOBS:
-        files.update(p for p in REPO_ROOT.glob(pattern) if p.is_file())
+        files.update(
+            p for p in REPO_ROOT.glob(pattern)
+            if p.is_file() and not (
+                (p.is_relative_to(RESULTS_DIR)
+                 and "actors" in p.relative_to(RESULTS_DIR).parts)
+                or (p.is_relative_to(REPO_ROOT / "test/fixtures/controller_x5_external")
+                    and p.name == "source-issue.md")
+            )
+        )
+    # Campaign actor trees and byte-frozen upstream issue bodies are not
+    # authored prose. Keep curated result documents and other fixtures here.
     return sorted(files)
 
 
@@ -777,12 +787,96 @@ def check_controller_routing_r4(r: Report) -> None:
 def check_controller_evaluation_r5(r: Report) -> None:
     """CTRL-R5A: offline corpus, score and launch manifests remain frozen."""
     tests = REPO_ROOT / "test" / "harness" / "controller_evaluation_r5_tests.py"
-    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
-                          capture_output=True, text=True, timeout=120)
+    try:
+        proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                              capture_output=True, text=True, timeout=300)
+    except subprocess.TimeoutExpired:
+        r.add("CTRL-R5A", "R5 corpus blueprints, scoring and paid launch manifests hold offline",
+              False, "R5 offline suite exceeded the 300-second harness watchdog")
+        return
     detail = (proc.stdout + proc.stderr).strip()
     r.add("CTRL-R5A", "R5 corpus blueprints, scoring and paid launch manifests hold offline",
           proc.returncode == 0,
           detail.splitlines()[-1] if proc.returncode == 0 else detail[-2000:])
+
+
+def check_controller_x0(r: Report) -> None:
+    """X0 arithmetic/fixture guards do not qualify the unsafe legacy runtime."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_x0_tests.py"
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=60)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-X0", "X0 feasibility arithmetic and historical-fixture preservation",
+          proc.returncode == 0, detail[-2000:])
+
+
+def check_controller_x5_recovery(r: Report) -> None:
+    """Fresh recovery cases and public continuation gates remain provider-free."""
+    scripts = ("controller_x5_recovery_fixture_tests.py",
+               "controller_x5_recovery_protocol_tests.py",
+               "controller_x5_first_failure_tests.py",
+               "controller_x5_first_failure_fixture_tests.py",
+               "controller_x5_public_risk_review_tests.py",
+               "controller_x5_public_risk_fixture_tests.py",
+               "controller_x5_h03_fixture_tests.py")
+    results = [subprocess.run(
+        [sys.executable, "-B", str(REPO_ROOT / "test" / "harness" / name)],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=90)
+        for name in scripts]
+    detail = "\n".join((proc.stdout + proc.stderr).strip() for proc in results)
+    r.add("CTRL-X5-RECOVERY", "X5 recovery and public-risk review twin gates",
+          all(proc.returncode == 0 for proc in results), detail[-2000:])
+
+
+def check_controller_x1(r: Report) -> None:
+    """X1 campaign closure, settlement and package regressions are offline."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_x1_tests.py"
+    # The sealed 48-task corpus and its protected-oracle mutation probes take
+    # longer than the earlier small-fixture suite on slower Windows hosts.
+    # The direct suite passed in 438 seconds on 2026-09-29; the full run
+    # exceeded 600 seconds under host load.
+    try:
+        proc = subprocess.run([sys.executable, "-B", str(tests)], cwd=REPO_ROOT,
+                              capture_output=True, text=True, timeout=900)
+    except subprocess.TimeoutExpired:
+        r.add("CTRL-X1", "Controller campaign stop, reconciliation and binding",
+              False, "X1 offline suite exceeded the 900-second harness watchdog")
+        return
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-X1", "Controller campaign stop, reconciliation and binding",
+          proc.returncode == 0, detail[-2000:])
+
+
+def check_controller_x2(r: Report) -> None:
+    """Named Generator calls and N1-root admission stay provider-free."""
+    tests = REPO_ROOT / "test" / "harness" / "controller_x2_tests.py"
+    proc = subprocess.run([sys.executable, "-B", str(tests)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=90)
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-X2", "named Generator cells and one Controller admission per task revision",
+          proc.returncode == 0, detail[-2000:])
+
+
+def check_controller_x3_x4_handoff(r: Report) -> None:
+    """Keep the paired public path and N1 handoff boundary in the offline gate."""
+    try:
+        proc = subprocess.run(
+            [sys.executable, "-B", "-m", "unittest",
+             "test.harness.controller_x3_pair_tests",
+             "test.harness.controller_x3_fake_campaign_tests",
+             "test.harness.controller_x4_handoff_tests",
+             "test.harness.controller_x4_assessment_tests",
+             "test.harness.controller_x4_workflow_tests",
+             "test.harness.controller_x4_installed_tests",
+             "test.harness.controller_x4_wsl_interpreter_tests"],
+            cwd=REPO_ROOT, capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        r.add("CTRL-X3-X4", "public paired path, root assessment cost and Controller handoff",
+              False, "X3/X4 offline suite exceeded the 600-second harness watchdog")
+        return
+    detail = (proc.stdout + proc.stderr).strip()
+    r.add("CTRL-X3-X4", "public paired path, root assessment cost and Controller handoff",
+          proc.returncode == 0, detail[-2000:])
 
 
 ALLOWED_PRIOR_KINDS = {"measured", "bracketed", "policy-inherited", "policy-default"}
@@ -960,9 +1054,24 @@ def check_worker_selector_n3(r: Report) -> None:
           proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1600:])
 
 
+def check_worker_tasks_n8(r: Report) -> None:
+    """N8 operator commands preserve B0, authority, cancellation and accounting."""
+    outputs = []
+    passed = True
+    for name in ("worker_tasks_tests.py", "worker_n8_consumer_tests.py"):
+        proc = subprocess.run([sys.executable, str(REPO_ROOT / "test/harness" / name)],
+                              cwd=REPO_ROOT, capture_output=True, text=True, timeout=180)
+        passed = passed and proc.returncode == 0
+        outputs.append(name + ": " + (proc.stdout + proc.stderr).strip()[-1600:])
+    r.add("WORKER-N8-CLI", "durable operator task commands pass offline",
+          passed, "\n".join(outputs))
+
+
 def check_worker_n4(r: Report) -> None:
     """N4: deterministic corpus, fake campaign and predeclared paired bounds."""
-    scripts = (("worker_corpus_n4_tests.py", 150),
+    # This five-case fake campaign took 143.5 s on the current host; leave
+    # enough scheduling margin without weakening any assertion.
+    scripts = (("worker_corpus_n4_tests.py", 300),
                ("worker_evaluation_n4_tests.py", 90),
                ("worker_statistics_n4_tests.py", 30))
     problems = []
@@ -998,9 +1107,178 @@ def check_worker_n5_screen(r: Report) -> None:
 def check_worker_n5_live_screen(r: Report) -> None:
     """WORKER-N5-LIVE-SCREEN: at-most-once screen driver passes offline probes."""
     script = REPO_ROOT / "test" / "harness" / "worker_n5_live_screen_tests.py"
-    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
-                          capture_output=True, text=True, timeout=240)
+    # Three tests each exercise a nearly complete 60-row durable schedule.
+    # One schedule took 205 s on this host; 420 s cannot cover all three
+    # reliably. Keep every row/assertion and allow fixture I/O headroom.
+    try:
+        proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                              capture_output=True, text=True, timeout=900)
+    except subprocess.TimeoutExpired:
+        r.add("WORKER-N5-LIVE-SCREEN", "WSL screen driver recovers without replay",
+              False, "offline suite exceeded its 900-second watchdog")
+        return
     r.add("WORKER-N5-LIVE-SCREEN", "WSL screen driver recovers without replay",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_n5_development(r: Report) -> None:
+    """N5 corpus and actual experimental dispatch stay offline qualified."""
+    scripts = ("worker_n5_corpus_tests.py", "worker_experimental_dispatch_tests.py",
+               "worker_n5_development_tests.py")
+    results = [subprocess.run([sys.executable, str(REPO_ROOT / "test" / "harness" / name)],
+                              cwd=REPO_ROOT, capture_output=True, text=True,
+                              timeout=240) for name in scripts]
+    detail = "\n".join(f"{name}: {proc.returncode}: {(proc.stdout + proc.stderr).strip()[-300:]}"
+                       for name, proc in zip(scripts, results))
+    r.add("WORKER-N5-DEVELOPMENT", "diverse corpus and experimental dispatch pass offline",
+          all(proc.returncode == 0 for proc in results), detail[-1200:])
+
+
+def check_worker_q0_power(r: Report) -> None:
+    """Q0's exact paired-sign arithmetic remains reproducible offline."""
+    script = REPO_ROOT / "test" / "harness" / "worker_qualification_power_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q0-POWER", "paired-sign power and safety bounds pass offline",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q1_boundary(r: Report) -> None:
+    """Q1's path and evidence rejection cases pass without a WSL dependency."""
+    script = REPO_ROOT / "test" / "harness" / "worker_wsl_q1_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q1-BOUNDARY", "Q1 path and evidence rejection cases pass offline",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q2_public(r: Report) -> None:
+    """Q2's public source, private oracle and saved grades match the freeze."""
+    script = REPO_ROOT / "tools" / "worker_q2_public.py"
+    results = [subprocess.run([sys.executable, str(script), option], cwd=REPO_ROOT,
+                              capture_output=True, text=True, timeout=30)
+               for option in ("--check", "--check-evidence")]
+    results.append(subprocess.run(
+        [sys.executable, str(REPO_ROOT / "test/harness/worker_q2_public_tests.py")],
+        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30))
+    detail = "\n".join((proc.stdout + proc.stderr).strip()[-500:] for proc in results)
+    r.add("WORKER-Q2-PUBLIC", "Q2 public packages and zero-provider grades match frozen evidence",
+          all(proc.returncode == 0 for proc in results), detail)
+
+
+def check_worker_q3_gates(r: Report) -> None:
+    """Q3's two paid entry points reject mismatched approvals offline."""
+    script = REPO_ROOT / "test/harness/worker_q3_gate_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q3-GATES", "Q3 exact approvals reject changed manifests and allowances",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q3_public(r: Report) -> None:
+    """The expanded public corpus remains frozen, graded and adversarially checked."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q3_public_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q3-PUBLIC", "six public fixtures and attack evidence remain bound",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q3_expansion(r: Report) -> None:
+    """Expansion approval, receipt and no-replay controls pass offline."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q3_expansion_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q3-EXPANSION", "six-task runner rejects drift and replay",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q3_contract_audit(r: Report) -> None:
+    """Keep contract sensitivity distinct from frozen pilot grading."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q3_contract_audit_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q3-CONTRACT", "contract audit preserves frozen pilot evidence",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_quality_v2(r: Report) -> None:
+    """Q4 scoring and bounded final-report evidence pass offline."""
+    script = REPO_ROOT / "test" / "harness" / "worker_quality_v2_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q4-QUALITY", "contract-mapped quality and report evidence",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4_boundary(r: Report) -> None:
+    """Q4 policy and provider-free WSL evidence remain source-bound."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4_boundary_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q4-BOUNDARY", "common-tail policy and three-cell WSL boundary",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4_public(r: Report) -> None:
+    """Q4 public quality-v2 calibration stays bound to frozen source."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4_public_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q4-PUBLIC", "four-family quality-v2 calibration evidence",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4_screen(r: Report) -> None:
+    """The prospective M3 screen remains source-bound and provider-free."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4_screen_tests.py"
+    # Three independently bounded 30-second WSL hash checks plus fixture I/O
+    # cannot safely fit a 90-second outer watchdog on a slow Windows host.
+    # Keep the production checks unchanged; retain a failed report on timeout.
+    try:
+        proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                              capture_output=True, text=True, timeout=180)
+    except subprocess.TimeoutExpired:
+        r.add("WORKER-Q4-SCREEN", "Latin screen, exact approval and selection rules",
+              False, "Q4 offline screen exceeded the 180-second harness watchdog")
+        return
+    r.add("WORKER-Q4-SCREEN", "Latin screen, exact approval and selection rules",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4_result(r: Report) -> None:
+    """The complete M3 result is settled, reproducible and no-replay."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4_result_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=60)
+    r.add("WORKER-Q4-RESULT", "complete M3 receipts and decision reproduce",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4r_structured(r: Report) -> None:
+    """The prospective report transport preserves Q4 evidence and fails closed."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4r_structured_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q4R-STRUCTURED", "schema report transport and local bounds",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4r_boundary(r: Report) -> None:
+    """The Q4R WSL launcher and schema remain source-bound."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4r_boundary_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q4R-BOUNDARY", "provider-free schema and WSL boundary",
+          proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
+
+
+def check_worker_q4r_screen(r: Report) -> None:
+    """The pending public campaign is bounded and needs exact approval."""
+    script = REPO_ROOT / "test" / "harness" / "worker_q4r_screen_tests.py"
+    proc = subprocess.run([sys.executable, str(script)], cwd=REPO_ROOT,
+                          capture_output=True, text=True, timeout=30)
+    r.add("WORKER-Q4R-SCREEN", "twelve public rows, cost guard and approval gate",
           proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-1200:])
 
 
@@ -1454,14 +1732,36 @@ def main(argv: list[str]) -> int:
     check_controller_control_r3(report)
     check_controller_routing_r4(report)
     check_controller_evaluation_r5(report)
+    check_controller_x0(report)
+    check_controller_x1(report)
+    check_controller_x2(report)
+    check_controller_x3_x4_handoff(report)
+    check_controller_x5_recovery(report)
     check_route_priors(report)
     check_cost_table(report)
     check_route_selftest(report)
     check_qualified_default(report)
     check_worker_selector_n3(report)
+    check_worker_tasks_n8(report)
     check_worker_n4(report)
     check_worker_n5_screen(report)
     check_worker_n5_live_screen(report)
+    check_worker_n5_development(report)
+    check_worker_q0_power(report)
+    check_worker_q1_boundary(report)
+    check_worker_q2_public(report)
+    check_worker_q3_gates(report)
+    check_worker_q3_public(report)
+    check_worker_q3_expansion(report)
+    check_worker_q3_contract_audit(report)
+    check_worker_quality_v2(report)
+    check_worker_q4_boundary(report)
+    check_worker_q4_public(report)
+    check_worker_q4_screen(report)
+    check_worker_q4_result(report)
+    check_worker_q4r_structured(report)
+    check_worker_q4r_boundary(report)
+    check_worker_q4r_screen(report)
     check_claudep_selftest(report)
     check_dispatch_budget(report)
     check_acceptance_evidence(report)

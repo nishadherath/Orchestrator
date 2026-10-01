@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "S05",
+  "name": "Bounded lookahead for zero-cache seekable",
+  "source_url": "https://github.com/more-itertools/more-itertools",
+  "source_commit": "b5e3886a37209bb880f17d82fbf4ba00ece0e41e",
+  "fix_commit": "3eb4053e1aacac53853f6e0abae556f280726f01",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+  "package_path": "more_itertools",
+  "editable_paths": [
+    "more_itertools/more.py",
+    "more_itertools/recipes.py"
+  ],
+  "oracle_file": "S05.json",
+  "case_file": "S05_case.py",
+  "authored_rationale": "Authored regression from the pinned upstream zero-cache lookahead fix; exercises bounded retention on repeated peeks.",
+  "upstream_change_url": "https://github.com/more-itertools/more-itertools/commit/3eb4053e1aacac53853f6e0abae556f280726f01"
+}

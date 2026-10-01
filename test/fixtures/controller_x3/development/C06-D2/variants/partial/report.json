@@ -1,0 +1,20 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "retry-storm-pool-starvation",
+  "next_step": "verify-retry-progress-during-foreground-surge",
+  "probes": [
+    {"input": {"capacity": 2, "requests": [
+      {"id": "storm-r1", "kind": "retry"},
+      {"id": "storm-r2", "kind": "retry"},
+      {"id": "storm-f1", "kind": "foreground"},
+      {"id": "storm-r3", "kind": "retry"}]},
+     "observed": {"admitted": ["storm-f1", "storm-r1"],
+                  "deferred": ["storm-r2", "storm-r3"]}},
+    {"input": {"capacity": 2, "requests": [
+      {"id": "only-r1", "kind": "retry"},
+      {"id": "only-r2", "kind": "retry"},
+      {"id": "only-r3", "kind": "retry"}]},
+     "observed": {"admitted": ["only-r1", "only-r2"],
+                  "deferred": ["only-r3"]}}
+  ]
+}

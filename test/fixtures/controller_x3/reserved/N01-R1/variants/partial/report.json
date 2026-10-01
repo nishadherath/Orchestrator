@@ -1,0 +1,29 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "stale-legacy-package-import-paths",
+  "next_step": "migrate-batch-import-and-remove-legacy-export",
+  "probes": [
+    {
+      "input": {
+        "action": "api",
+        "customer": "Ada",
+        "cents": 125
+      },
+      "observed": {
+        "label": "Ada | USD 1.25",
+        "source": "labels.format"
+      }
+    },
+    {
+      "input": {
+        "action": "batch",
+        "customer": "Zoë",
+        "cents": -5
+      },
+      "observed": {
+        "label": "Zoë | -USD 0.05",
+        "source": "legacy_labels"
+      }
+    }
+  ]
+}

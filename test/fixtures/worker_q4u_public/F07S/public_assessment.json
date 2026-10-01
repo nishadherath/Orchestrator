@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "b2cc0f3434fa260922607f56d813b012420638b85d1dd055203cd756f3dab105",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "ff62fe3930eb1ccb0ada8a44f3a3689296a1afc410b10a318256107652418520",
+              "line": 8,
+              "path": "public_check.py",
+              "text": "assert decode(r\"a\\|b|c\\\\d\") == [\"a|b\", r\"c\\d\"]"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "reserved_character_round_trip",
+          "issue_citation": {
+            "file_sha256": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "`|` inside a component must be encoded as `\\|`, and a literal backslash as"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "ff62fe3930eb1ccb0ada8a44f3a3689296a1afc410b10a318256107652418520",
+              "line": 14,
+              "path": "public_check.py",
+              "text": "    raise AssertionError(\"trailing escape was accepted\")"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "trailing_escape_rejected",
+          "issue_citation": {
+            "file_sha256": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+            "line": 6,
+            "path": "ISSUE.md",
+            "text": "unpaired escape is invalid and must raise `ValueError`. Ordinary components"
+          }
+        }
+      ],
+      "cross_component": true,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+      "public_check.py": "ff62fe3930eb1ccb0ada8a44f3a3689296a1afc410b10a318256107652418520"
+    },
+    "schema_version": 1,
+    "verification_coverage": "direct"
+  },
+  "schema_version": 1,
+  "task_id": "F07S",
+  "task_sha256": "0032eff1aa2371b6dbc4d4f6e0c29c6338593605ec8953c0c6a43b4781942d50"
+}

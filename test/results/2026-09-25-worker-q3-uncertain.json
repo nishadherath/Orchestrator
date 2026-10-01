@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "actor_retained_for_reconciliation": true,
+    "first_attempt_uncertain": true,
+    "no_replay_on_second_run": true,
+    "no_terminal_receipt": true,
+    "public_source_unchanged": true,
+    "unknown_charge_held": true,
+    "zero_provider_call": true
+  },
+  "evidence_sha256": "1e246ce3d662e265c5ac4e006a10da09a07a36a2769ce3076ce710e114800646",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T09:00:07.447974+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": "fbea9aa136b6de7cf0f7438642ec8c916f53ef9e10b739b4427206d614c79e15"
+}

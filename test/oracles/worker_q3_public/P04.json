@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"milestone": "zero-url-netloc", "input": {"kind": "netloc", "url": "https://node.test:0/path"}, "expected": "node.test:0", "weight": 20, "critical": false},
+    {"milestone": "zero-http-pool", "input": {"kind": "pool", "port": 0, "scheme": "http"}, "expected": 0, "weight": 20, "critical": false},
+    {"milestone": "zero-https-pool", "input": {"kind": "pool", "port": 0, "scheme": "https"}, "expected": 0, "weight": 10, "critical": false},
+    {"milestone": "zero-proxy", "input": {"kind": "proxy", "url": "http://proxy.test:0"}, "expected": 0, "weight": 20, "critical": false},
+    {"milestone": "zero-host-comparison", "input": {"kind": "same", "port": 0, "urls": ["http://node.test:0/", "http://node.test/", "http://node.test:80/"]}, "expected": [true, false, false], "weight": 20, "critical": false},
+    {"milestone": "default-port-control", "input": {"kind": "pool", "port": null, "scheme": "https"}, "expected": 443, "weight": 10, "critical": false}
+  ]
+}

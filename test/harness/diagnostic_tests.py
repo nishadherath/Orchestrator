@@ -84,7 +84,9 @@ class DiagnosticTests(unittest.TestCase):
 
     def test_empty_project_has_stable_shape(self):
         value = preflight.operational_diagnostics(self.project)
-        self.assertEqual(set(value), {"routing", "controller_control", "acceptance", "costs", "priors", "graft"})
+        self.assertEqual(set(value), {"routing", "controller_control", "worker_tasks", "acceptance", "costs", "priors", "graft"})
+        self.assertEqual(value["worker_tasks"], {
+            "available": False, "rollback_safe": None, "roots": [], "error": None})
         self.assertEqual(value["routing"]["ledger_entries"], 0)
         self.assertEqual(value["acceptance"]["counts"], {})
         self.assertEqual(value["controller_control"], {

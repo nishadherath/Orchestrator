@@ -1,0 +1,240 @@
+{
+  "additional_provider_calls": 0,
+  "additional_provider_cost_usd": 0,
+  "billed_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-sonnet-5"
+  ],
+  "budget": {
+    "available_usd": 5.3105682,
+    "baseline_limit_units": 6000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-25T19:24:05.144288+00:00",
+    "currency": "USD",
+    "invocations": {
+      "2fd56613a28c7146b13d08e77402ccd6": {
+        "allowance_units": 6000000000,
+        "charged_units": 689431800,
+        "cost_usd": 0.6894318,
+        "metadata": {
+          "decision_digest": "8a55b033628d57907c4804013729c48c690fe2a0e7e78f9fb19b82a96e3d9683",
+          "revision_id": "edb966da9026b93c2c42270a6c117dd71298645146d6061f13749d61f7ef41ed",
+          "root_id": "9314ae2f13f75dd31f980443"
+        },
+        "reserved_at": "2026-09-25T19:24:05.177589+00:00",
+        "resolution": {
+          "cost_usd": 0.6894318,
+          "evidence": "receipt:51a4eafe98cb595ff8d3938c3b213ab00a4a5ec7d3a262a7a03a15ae2f9bee08",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 56806,
+            "cache_read_input_tokens": 356789,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.6894318,
+            "currency": "USD",
+            "input_tokens": 20,
+            "output_tokens": 38948
+          }
+        },
+        "started_at": "2026-09-25T19:24:05.186658+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 56806,
+          "cache_read_input_tokens": 356789,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.6894318,
+          "currency": "USD",
+          "input_tokens": 20,
+          "output_tokens": 38948
+        },
+        "updated_at": "2026-09-25T19:30:03.801935+00:00"
+      }
+    },
+    "limit_units": 6000000000,
+    "limit_usd": 6.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.6894318,
+    "unresolved": [],
+    "version": 1
+  },
+  "campaign_file_sha256": "14b76b6f54b324163cd9a5d4c562371d773e7a3ad85a40b0a5f11f8c95ccbba7",
+  "campaign_state_sha256": "02055027eb46c09001cc3fb771b35573a7307f7f620b42bd9ed1461ceef7179c",
+  "episode_label": "sonnet-high",
+  "episode_sequence": 3,
+  "evidence_sha256": "3f23ec1d25090ade69204e6c6746f01f25b0725d37a65b04226b012380f4339f",
+  "executable_grade": {
+    "candidate_edit_sha256": {
+      "platformdirs/_xdg.py": "de615b3d0c92faa6866b6c170d8b2c384f7d90694560d5997b07de1fab4270d9",
+      "platformdirs/api.py": "9e10cb6b53bb56567252e5b4ea5a88de496ac35bf40397d1d023b338b1451a80",
+      "platformdirs/macos.py": "2359562d06ff1cf9eeb17156a3474e96289794f5f0d7dbe11ba49e619c53e5e4",
+      "platformdirs/unix.py": "a7a09da2b6c963dcaaaa8f95efd3e84a27eb4e9d2638a67f4d82f7876e6652e1"
+    },
+    "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+    "cases": [
+      {
+        "milestone": "xdg-data-single",
+        "passed": false,
+        "weight": 20
+      },
+      {
+        "milestone": "xdg-data-multipath",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "milestone": "xdg-config-single",
+        "passed": false,
+        "weight": 15
+      },
+      {
+        "milestone": "xdg-lazy-first",
+        "passed": false,
+        "weight": 15
+      },
+      {
+        "milestone": "unix-site-path",
+        "passed": false,
+        "weight": 10
+      },
+      {
+        "milestone": "mac-cache-single",
+        "passed": false,
+        "weight": 15
+      },
+      {
+        "milestone": "mac-cache-path",
+        "passed": false,
+        "weight": 10
+      },
+      {
+        "milestone": "creation-disabled",
+        "passed": true,
+        "weight": 5
+      }
+    ],
+    "critical_error": false,
+    "false_success": false,
+    "grade_sha256": "c0da4fa283d8d5b88b98c48ed8a5a27e2db552fde2637dc94f03ea2fb974f43b",
+    "hidden_acceptance": false,
+    "oracle_read_denied": true,
+    "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+    "package_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "public_pass": false,
+    "quality": 15,
+    "root_state": "failed",
+    "schema_version": 1,
+    "source_workspace_unchanged": true,
+    "task_id": "P08",
+    "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+    "variant": "candidate"
+  },
+  "expected_model": "claude-sonnet-5",
+  "kind": "q4r-terminal-transport-reconciliation",
+  "limits": [
+    "The paid sequence 3 invocation was not replayed.",
+    "Observed real root model does not prove served effort.",
+    "No valid final structured report was received."
+  ],
+  "manifest_sha256": "33a46768649e0a1affaa34559b52df0d366094a4d6c5ece83f83a883105cb1a1",
+  "protected_sha256": {
+    "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+    "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+    "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+    "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+    "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+    "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+    "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+    "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+    "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+  },
+  "provider_calls_reconciled": 1,
+  "provider_cost_usd_reconciled": 0.6894318,
+  "quality_v2": {
+    "behaviour_accepted": false,
+    "component_scores": {
+      "behaviour": 10,
+      "diagnosis": 0,
+      "invariant": 5,
+      "report": 0
+    },
+    "contradicted_check_claims": [],
+    "critical_coverage": true,
+    "critical_error": true,
+    "grade_sha256": "75f5636acd6000da143f7dcaae5de0a18f1155aad51555209d493de2f52cafe9",
+    "hidden_accepted": false,
+    "inconclusive": true,
+    "predicate_results": {
+      "creation-disabled": true,
+      "diagnosis": false,
+      "mac-cache-path": false,
+      "mac-cache-single": false,
+      "report": false,
+      "unix-site-path": false,
+      "xdg-config-single": false,
+      "xdg-data-multipath": true,
+      "xdg-data-single": false,
+      "xdg-lazy-first": false
+    },
+    "quality": 15,
+    "report_observability": "transport-invalid",
+    "root_acceptance_gap": false,
+    "schema_version": 2,
+    "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2",
+    "unsupported_completion": false
+  },
+  "receipt_digest": "51a4eafe98cb595ff8d3938c3b213ab00a4a5ec7d3a262a7a03a15ae2f9bee08",
+  "receipt_identity_valid": false,
+  "report": {
+    "binding": {
+      "final_revision_sha256": "1ba297613f1027c27f8f6a31348b460c7b24d5e024afb04fe8ffb5b6151deeff",
+      "invocation_id": "2fd56613a28c7146b13d08e77402ccd6",
+      "prompt_sha256": "ea4fd7b203f81f3c93bdf2a5b34f66f606eba1bdad14cc194196036bd9bb5375",
+      "requested_cell": "worker-sonnet-high",
+      "revision_id": "edb966da9026b93c2c42270a6c117dd71298645146d6061f13749d61f7ef41ed",
+      "stream_sha256": "cd09a38ac77309d3944193162288d69d9c10459fad8f7405cf18b69cc24dcf3a",
+      "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+    },
+    "observability": "transport-invalid",
+    "raw_sha256": null,
+    "raw_utf8": null,
+    "report": null,
+    "schema_version": 2
+  },
+  "requested_effort": "high",
+  "root_models": [
+    "<synthetic>",
+    "claude-sonnet-5"
+  ],
+  "root_record_digest": "ae2b05a2fc39ea8c3121630c1a105574379cfa347c07388461f80787202828c9",
+  "schema_version": 1,
+  "served_effort": null,
+  "snapshot": {
+    "episode_label": "sonnet-high",
+    "files": {
+      "platformdirs/_xdg.py": "de615b3d0c92faa6866b6c170d8b2c384f7d90694560d5997b07de1fab4270d9",
+      "platformdirs/api.py": "9e10cb6b53bb56567252e5b4ea5a88de496ac35bf40397d1d023b338b1451a80",
+      "platformdirs/macos.py": "2359562d06ff1cf9eeb17156a3474e96289794f5f0d7dbe11ba49e619c53e5e4",
+      "platformdirs/unix.py": "a7a09da2b6c963dcaaaa8f95efd3e84a27eb4e9d2638a67f4d82f7876e6652e1"
+    },
+    "schema_version": 1,
+    "sequence": 3,
+    "snapshot_sha256": "e5ad4d54a3f28a43dd31c3cb74a28b0792984754042ac2dc00412fb15da8b31c",
+    "task_id": "P08"
+  },
+  "task_id": "P08",
+  "terminal": true,
+  "transport": {
+    "canonicalised": false,
+    "mode": "claude-code-json-schema-v1",
+    "raw_result_sha256": "f34044e6b9b6b06c5f0dc0e5171b1989993545355f69765cb6d7c27f4885f8eb",
+    "result_subtype": "success",
+    "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+    "structured_output_present": false
+  },
+  "writer_stopped": true
+}

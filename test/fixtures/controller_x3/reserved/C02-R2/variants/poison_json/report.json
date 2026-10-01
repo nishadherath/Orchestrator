@@ -1,0 +1,21 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "checkpoint-overlap-and-prefix-tombstone-resurrection",
+  "next_step": "replay-checkpoint-and-tombstone-traces-before-rollout",
+  "probes": [
+    {"input": {"checkpoint": 2, "log": [
+       {"op": "put", "key": "a", "value": 10},
+       {"op": "add", "key": "a", "value": 3},
+       {"op": "add", "key": "a", "value": 2}]},
+     "observed": {"snapshot": {"a": 13},
+                  "tail": [{"op": "add", "key": "a", "value": 2}],
+                  "state": {"a": 15}}},
+    {"input": {"checkpoint": 2, "log": [
+       {"op": "put", "key": "a", "value": 7},
+       {"op": "delete", "key": "a"},
+       {"op": "put", "key": "b", "value": 4}]},
+     "observed": {"snapshot": {},
+                  "tail": [{"op": "put", "key": "b", "value": 4}],
+                  "state": {"b": 4}}}
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "double_quote_boundary": false,
+        "plain_and_single_slash_controls": true,
+        "round_trip_double_slash": false,
+        "round_trip_quote_and_slash": false,
+        "single_quote_boundary": false
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 15,
+      "weights": {
+        "double_quote_boundary": 20,
+        "plain_and_single_slash_controls": 15,
+        "round_trip_double_slash": 20,
+        "round_trip_quote_and_slash": 20,
+        "single_quote_boundary": 25
+      }
+    },
+    "partial": {
+      "cases": {
+        "double_quote_boundary": false,
+        "plain_and_single_slash_controls": true,
+        "round_trip_double_slash": true,
+        "round_trip_quote_and_slash": true,
+        "single_quote_boundary": false
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 55,
+      "weights": {
+        "double_quote_boundary": 20,
+        "plain_and_single_slash_controls": 15,
+        "round_trip_double_slash": 20,
+        "round_trip_quote_and_slash": 20,
+        "single_quote_boundary": 25
+      }
+    },
+    "reference": {
+      "cases": {
+        "double_quote_boundary": true,
+        "plain_and_single_slash_controls": true,
+        "round_trip_double_slash": true,
+        "round_trip_quote_and_slash": true,
+        "single_quote_boundary": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "weights": {
+        "double_quote_boundary": 20,
+        "plain_and_single_slash_controls": 15,
+        "round_trip_double_slash": 20,
+        "round_trip_quote_and_slash": 20,
+        "single_quote_boundary": 25
+      }
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.14.7",
+  "schema_version": 1,
+  "task_id": "D01W",
+  "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+}

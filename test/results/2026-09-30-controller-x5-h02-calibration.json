@@ -1,0 +1,300 @@
+{
+  "actor_inventory_sha256": "efd52b7f171298ee2f0724fb4265f9cbed9a7cf11d4c038c5911ee1b8b691b40",
+  "case": "H02 authored development, unfrozen",
+  "host": "kali-linux WSL, Python 3.14.7",
+  "oracle_files": {
+    "forward/conftest.py": "b3ef8801c610e53f8b8e5f59c3c19d1e86ba620b5f78bfd4b6cee9a3c99c5e24",
+    "forward/lifecycle.py": "0c891ca446dbae98c34105210edf2e02729420e76facde124df0269010584f8b",
+    "forward/test_factory_scope.py": "22e770bc1c3bb778efb97e424cbe91af6c2be5db27c0dd06d9ce15d09ecfbc38",
+    "no_hook/test_mre.py": "6dac2decc918efecb64628a069e62997686e67234543d2cc26a9baa9124d0a57",
+    "upstream/conftest.py": "e0641c25d116c2ce2edb500d1bbe6bcd4709bd399fab2e3c4d498d70c9d68bca",
+    "upstream/test_loop_factory_parametrization.py": "1d524e69e3cb0f48eb737fd1aee010ee8b9e260d2f9c4a298a4e18107beff6d0"
+  },
+  "provider_calls": 0,
+  "qualified": true,
+  "rows": [
+    {
+      "checks": [
+        {
+          "exit_code": 1,
+          "expected_pass": false,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/baseline-public.log",
+          "log_sha256": "1e249f23b6a28cf6455d9bf48aea5071a5e98eef95fc2deb49c4b49a87a7f831",
+          "matched": true,
+          "observed_pass": false,
+          "phase": "public",
+          "tail": [
+            "test/fixtures/controller_x5_authored_pytest/development/H02/actor/pytest_asyncio/plugin.py:944: AssertionError",
+            "=========================== short test summary info ============================",
+            "ERROR test/fixtures/controller_x5_authored_pytest/development/H02/actor/case/test_mre.py::test_sync",
+            "1 passed, 1 error in 0.96s"
+          ]
+        },
+        {
+          "exit_code": 1,
+          "expected_pass": false,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/baseline-forward.log",
+          "log_sha256": "550c1632c7615161fa16b2df7b94eb487610b2069a478fc92ea3a3026844dbd7",
+          "matched": true,
+          "observed_pass": false,
+          "phase": "forward",
+          "tail": [
+            "....                                                                     [100%]sync factory coverage mismatch: ['test_sync_using_async_fixture']",
+            "",
+            "4 passed in 0.28s"
+          ]
+        },
+        {
+          "exit_code": 1,
+          "expected_pass": false,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/baseline-reverse.log",
+          "log_sha256": "f80c91cee8b179ba21ea72471942ec894c05a4988b1710191a71463ffdbbaa9f",
+          "matched": true,
+          "observed_pass": false,
+          "phase": "reverse",
+          "tail": [
+            "...                                                                      [100%]fixture lifecycle mismatch: setups=3 teardowns=3 first=1 second=1",
+            "sync factory coverage mismatch: ['test_sync_using_async_fixture']",
+            "",
+            "3 passed in 0.27s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/baseline-no_hook.log",
+          "log_sha256": "74975a4178810a68ef3fd6f4324069ae780c3f77616ef95fecca5a24f5c27265",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "no_hook",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.26s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/baseline-upstream.log",
+          "log_sha256": "f5f76323042b7dfde3d59e4283888e4dc470d45c97a7e8cbb6dfaac459dec125",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "upstream",
+          "tail": [
+            "........................................                                 [100%]",
+            "40 passed in 9.27s"
+          ]
+        }
+      ],
+      "matched": true,
+      "plugin_sha256": "ba47c25a4a22b117891e9214940729c41af936d3dafbb18b4284de8a88ed3375",
+      "variant": "baseline"
+    },
+    {
+      "checks": [
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/narrow_control-public.log",
+          "log_sha256": "64a92920deb36a0c69ed01d267689f1570d8e099bbbdc9dd3260af86a363e96a",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "public",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.23s"
+          ]
+        },
+        {
+          "exit_code": 1,
+          "expected_pass": false,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/narrow_control-forward.log",
+          "log_sha256": "ea2ad5d253302867b8b8816369d1e3e186185f3e47cadb0e62c7c8ef918978a5",
+          "matched": true,
+          "observed_pass": false,
+          "phase": "forward",
+          "tail": [
+            "....                                                                     [100%]sync factory coverage mismatch: ['test_sync_using_async_fixture']",
+            "",
+            "4 passed in 0.31s"
+          ]
+        },
+        {
+          "exit_code": 1,
+          "expected_pass": false,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/narrow_control-reverse.log",
+          "log_sha256": "ff0040cf37beb130a12f1457cb5a7133a09458493857c0799cae82120195f723",
+          "matched": true,
+          "observed_pass": false,
+          "phase": "reverse",
+          "tail": [
+            "...                                                                      [100%]sync factory coverage mismatch: ['test_sync_using_async_fixture']",
+            "",
+            "3 passed in 0.48s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/narrow_control-no_hook.log",
+          "log_sha256": "737583ceb80ad57afca52b9b982ee9458df9014f850d82ed5ee91587f08ad83c",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "no_hook",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.24s"
+          ]
+        }
+      ],
+      "matched": true,
+      "plugin_sha256": "121696c4633991eeccc1284919031f732f8a285cf1bc6c0265637f9d30952513",
+      "variant": "narrow_control"
+    },
+    {
+      "checks": [
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/proposal-public.log",
+          "log_sha256": "8fb7aae49fc8f356042127ab0a28da2b39d3d77520f4ad46c193087adfeb4202",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "public",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.22s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/proposal-forward.log",
+          "log_sha256": "401cc9bb77ee19bc417851befa3b820e0f0ec602088e28f37a4806f395875db3",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "forward",
+          "tail": [
+            ".....                                                                    [100%]",
+            "5 passed in 0.29s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/proposal-reverse.log",
+          "log_sha256": "e5fe0f73e9d2d7e8bd45a2b4e381f14b562f2343e22e698f4fddc0113218c338",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "reverse",
+          "tail": [
+            "....                                                                     [100%]",
+            "4 passed in 0.27s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/proposal-no_hook.log",
+          "log_sha256": "74975a4178810a68ef3fd6f4324069ae780c3f77616ef95fecca5a24f5c27265",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "no_hook",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.26s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/proposal-upstream.log",
+          "log_sha256": "8b29ba52056d2c614add3de6cbdfbc4b9795799144422b126a2b1b2fffb72c24",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "upstream",
+          "tail": [
+            "........................................                                 [100%]",
+            "40 passed in 10.17s"
+          ]
+        }
+      ],
+      "matched": true,
+      "plugin_sha256": "558f5ab0e7c357d253f26ccb34df3779a04f39db778a94188f843e316c8e6fd2",
+      "variant": "proposal"
+    },
+    {
+      "checks": [
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/alternative-public.log",
+          "log_sha256": "1a16068805c70e0dfbfd009d359c8a37c2c05abdaa7283e6bcb350bda4e7e378",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "public",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.20s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/alternative-forward.log",
+          "log_sha256": "935ca27ad948629303fadec7fb61a93271012cee439d615c35f436a2064dc435",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "forward",
+          "tail": [
+            ".....                                                                    [100%]",
+            "5 passed in 0.27s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/alternative-reverse.log",
+          "log_sha256": "e5fe0f73e9d2d7e8bd45a2b4e381f14b562f2343e22e698f4fddc0113218c338",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "reverse",
+          "tail": [
+            "....                                                                     [100%]",
+            "4 passed in 0.27s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/alternative-no_hook.log",
+          "log_sha256": "74975a4178810a68ef3fd6f4324069ae780c3f77616ef95fecca5a24f5c27265",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "no_hook",
+          "tail": [
+            "..                                                                       [100%]",
+            "2 passed in 0.26s"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "expected_pass": true,
+          "log": "test/results/2026-09-30-controller-x5-h02-calibration/alternative-upstream.log",
+          "log_sha256": "ebc5d0b845af3862e3f224331b9e0399eae20e1eceef8fe40bc8593e30e68521",
+          "matched": true,
+          "observed_pass": true,
+          "phase": "upstream",
+          "tail": [
+            "........................................                                 [100%]",
+            "40 passed in 9.61s"
+          ]
+        }
+      ],
+      "matched": true,
+      "plugin_sha256": "b4cbf2cbe2571e1a068423d5496b07f57d8f73744a5c47051a5bf3432d4aaba1",
+      "variant": "alternative"
+    }
+  ],
+  "schema_version": 1
+}

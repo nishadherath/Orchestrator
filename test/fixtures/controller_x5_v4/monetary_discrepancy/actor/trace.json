@@ -1,0 +1,34 @@
+{
+  "samples": [
+    {
+      "lines": [
+        "0.005",
+        "0.005"
+      ],
+      "observed": {
+        "ledger": "0.00",
+        "statement": "0.01"
+      }
+    },
+    {
+      "lines": [
+        "0.005",
+        "0.1"
+      ],
+      "observed": {
+        "ledger": "0.10",
+        "statement": "0.11"
+      }
+    },
+    {
+      "lines": [
+        "1.00",
+        "-0.25"
+      ],
+      "observed": {
+        "ledger": "0.75",
+        "statement": "0.75"
+      }
+    }
+  ]
+}

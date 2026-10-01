@@ -1,0 +1,30 @@
+{
+  "api_equivalent_projection_usd": [
+    0.03,
+    0.15
+  ],
+  "authorisation": "separate-exact-approval-required",
+  "credential_method": "claude-code-wsl-subscription",
+  "date_utc": "2026-09-25",
+  "evidence_sha256": {
+    "n4_host": "6d8290a0c5e5ab4218e0cd83dfbd05776c21a988cf42218e9147ec910ea0c24e",
+    "q3_host": "6704e480bbae81351ba4686dcfd2ee5893ed26daaa86ae0745bfdb05bd9dde16",
+    "subscription": "4ed595d2697d18137846f88fb617da9a0f0a50fc317cf1b25590f8e029577e46"
+  },
+  "local_allocation_usd": 0.1,
+  "manifest_sha256": "ab78db7bc5273863bfb68192941b580f3843d52c066940ba0f4cd6342c4c395b",
+  "maximum_provider_calls": 1,
+  "notice_sha256": "5775c41e1b221697bd7d872ac45f0952350ebd74958f58c750fad615b4d308ea",
+  "profile": "worker-q3-read-denial-sentinel",
+  "requested_cell": "worker-sonnet-low",
+  "requested_effort": "low",
+  "retry_policy": "no-automatic-provider-replay",
+  "schema_version": 1,
+  "source_sha256": {
+    "src/model_registry.json": "b5b46800893db5c5d0cfd301fbef2a5e66e2a65a6c60e59b1eda9d55fa33a33f",
+    "tools/worker_q3_sentinel_gate.py": "b3fa09358aa32d0aab709faa9b4edb75ff4d4e93f81234c7c520dd05dcd4281d",
+    "tools/worker_wsl_subscription_sentinel.py": "7ca1bbf7cf48855f6cf569d5c01ce747ce1da951e85ce4c0f27a353e16d5bfb6",
+    "tools/worker_wsl_transport.py": "100ff8cc9ffaf11136de1356002a426f62f46c3d7d223de32c78a5e6b92b0ce2"
+  },
+  "target": "/run/claude-auth/__denial_probe_never_create__.txt"
+}

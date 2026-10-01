@@ -1,0 +1,33 @@
+{
+  "schema": "controller-x5-opening-event-frame-e-screen-v1",
+  "frame_sha256": "d14358ae7e834d2a0c130f6516ef8df3e445db51121f9f5b5ea2b72bad16398e",
+  "bodies_sha256": "1bb8f63f6458b1939f9e5ab725fd4b2795d267101a7061967ddb42855a88a52b",
+  "screened": 4,
+  "blind_paid_admissions": 0,
+  "rows": [
+    {
+      "position": 1,
+      "url": "https://github.com/pallets/werkzeug/issues/3312",
+      "decision": "reject_blind_paid",
+      "reason": "The opening report names host_is_trusted, the colon partition of the bracketed IPv6 trusted entry, the source line, and a concrete parsing repair. The natural actor input already discloses the cause and fix."
+    },
+    {
+      "position": 2,
+      "url": "https://github.com/pallets/werkzeug/issues/3313",
+      "decision": "reject_blind_paid",
+      "reason": "The author describes a possible 411 behaviour, its compatibility cost for bodyless requests and form/data parsing, then says they are closing the note. This is a policy exploration without a settled failing acceptance contract."
+    },
+    {
+      "position": 3,
+      "url": "https://github.com/pydantic/pydantic-settings/issues/993",
+      "decision": "reject_blind_paid",
+      "reason": "The opening body supplies a complete minimal reproduction, likely list-item normalisation/splitting layer and an exact regression assertion. It describes the empty-array semantic itself, with no distinct source-cited public follow-up invariant that could remain broken after that assertion passes. A simple local repair might still be useful upstream, but this is not a qualified Controller-uplift case. No local source or oracle was run."
+    },
+    {
+      "position": 4,
+      "url": "https://github.com/agronholm/apscheduler/issues/1144",
+      "decision": "reject_blind_paid",
+      "reason": "The opening body gives the UTC-arithmetic and UTC-comparison repair, names the precise trigger path and says regression tests already pass with that fix. It also discloses Codex-assisted investigation. This cannot be a blind natural repair unit."
+    }
+  ]
+}

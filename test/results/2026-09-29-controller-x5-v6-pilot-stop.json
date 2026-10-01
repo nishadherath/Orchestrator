@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "stage": "controller-x5-v6-development-pilot",
+  "status": "stopped-after-six-for-measurement-contract-defect",
+  "manifest_sha256": "1a8eb29b2f2b816dafed0f6bbe22613cc496ee9601e55a37e1bb0822a8a001bf",
+  "completed_sequences": [1, 2, 3, 4, 5, 6],
+  "first_unstarted_sequence": 7,
+  "settled_cost_usd": 4.129411806,
+  "unresolved_roots": 0,
+  "behaviourally_complete": 6,
+  "protected_accepted": 0,
+  "result_sha256": {
+    "001": "0b9b85b1f14eacd309d24220dda33e0f29e20ca50db56981b673c0864e789e88",
+    "002": "6a046a8b2e606d2ad20f6e94bab25aeda5e885678fe6475e091e33949958280e",
+    "003": "4dcb636433545799eab1219d80122c7efcc2f870359daf4f7b6bc3c0fcb6d66c",
+    "004": "9e948701faedf2ed078b8907b1cb1aea55b5004d4d44d97b3d5290df1e7e4467",
+    "005": "40a087ac00568e159b055ca89ba66f5ec9f4460ce56e0d3a913f8221dce97513",
+    "006": "ce56452879544527f320d92d9e40722e08fd6e750ca168d97e4d768f74fb8a77"
+  },
+  "reason": "Public report template, worker tool surface and protected report schema did not align; all six repairs passed protected behaviour while every report score stayed 50 and acceptance stayed false. Further episodes would not measure the intended end-to-end outcome fairly."
+}

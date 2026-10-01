@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "sequence-alone-is-sufficient",
+  "next_step": "deploy",
+  "probes": []
+}

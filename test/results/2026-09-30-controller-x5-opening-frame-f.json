@@ -1,0 +1,909 @@
+{
+  "schema": "controller-x5-opening-event-frame-f-v1",
+  "protocol": "docs/stage-results/controller-x5-opening-event-frame-f-protocol-2026-09-30.md",
+  "fetched_at_utc": "2026-09-30T03:53:13+00:00",
+  "repositories": [
+    "pallets/werkzeug",
+    "pallets/jinja",
+    "pallets/flask",
+    "pallets/itsdangerous",
+    "pytest-dev/pluggy",
+    "python-attrs/attrs",
+    "python-trio/trio",
+    "encode/httpx",
+    "encode/httpcore",
+    "agronholm/apscheduler",
+    "aio-libs/yarl",
+    "pydantic/pydantic-settings",
+    "Textualize/rich",
+    "pypa/packaging",
+    "python-poetry/cleo",
+    "psf/requests",
+    "django/django",
+    "pytest-dev/pytest",
+    "sqlalchemy/sqlalchemy",
+    "fastapi/fastapi",
+    "aio-libs/aiohttp",
+    "celery/celery",
+    "pypa/pip",
+    "sphinx-doc/sphinx",
+    "scrapy/scrapy",
+    "pydantic/pydantic"
+  ],
+  "event_cutoff_utc": "2026-09-01T00:00:00Z",
+  "hash_seed": "x5-frame-f-2026-09-30-035057Z\n",
+  "opening_issue_count": 38,
+  "selected_count": 30,
+  "selected_urls": [
+    "https://github.com/pypa/packaging/issues/1418",
+    "https://github.com/pydantic/pydantic-settings/issues/993",
+    "https://github.com/pallets/werkzeug/issues/3302",
+    "https://github.com/python-trio/trio/issues/3520",
+    "https://github.com/aio-libs/aiohttp/issues/13868",
+    "https://github.com/python-attrs/attrs/issues/1627",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+    "https://github.com/pytest-dev/pluggy/issues/742",
+    "https://github.com/pallets/werkzeug/issues/3313",
+    "https://github.com/pallets/werkzeug/issues/3301",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13615",
+    "https://github.com/Textualize/rich/issues/4228",
+    "https://github.com/agronholm/apscheduler/issues/1141",
+    "https://github.com/pallets/werkzeug/issues/3307",
+    "https://github.com/pallets/jinja/issues/2278",
+    "https://github.com/Textualize/rich/issues/4229",
+    "https://github.com/python-attrs/attrs/issues/1620",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13617",
+    "https://github.com/agronholm/apscheduler/issues/1144",
+    "https://github.com/pypa/packaging/issues/1422",
+    "https://github.com/pallets/flask/issues/6165",
+    "https://github.com/sphinx-doc/sphinx/issues/14702",
+    "https://github.com/pallets/werkzeug/issues/3312",
+    "https://github.com/pallets/jinja/issues/2274",
+    "https://github.com/pallets/werkzeug/issues/3303",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13610",
+    "https://github.com/pypa/pip/issues/14325",
+    "https://github.com/encode/httpcore/issues/1110",
+    "https://github.com/pallets/jinja/issues/2279",
+    "https://github.com/sphinx-doc/sphinx/issues/14699"
+  ],
+  "repository_counts": [
+    {
+      "repository": "pallets/werkzeug",
+      "events_fetched": 98,
+      "opening_issues_since_cutoff": 7
+    },
+    {
+      "repository": "pallets/jinja",
+      "events_fetched": 90,
+      "opening_issues_since_cutoff": 3
+    },
+    {
+      "repository": "pallets/flask",
+      "events_fetched": 93,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "pallets/itsdangerous",
+      "events_fetched": 30,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pytest-dev/pluggy",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "python-attrs/attrs",
+      "events_fetched": 78,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "python-trio/trio",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "encode/httpx",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "encode/httpcore",
+      "events_fetched": 55,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "aio-libs/yarl",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pydantic/pydantic-settings",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "Textualize/rich",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "pypa/packaging",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 3
+    },
+    {
+      "repository": "python-poetry/cleo",
+      "events_fetched": 12,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "psf/requests",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "django/django",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "events_fetched": 98,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "events_fetched": 97,
+      "opening_issues_since_cutoff": 7
+    },
+    {
+      "repository": "fastapi/fastapi",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "celery/celery",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pypa/pip",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "sphinx-doc/sphinx",
+      "events_fetched": 97,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "scrapy/scrapy",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 1
+    }
+  ],
+  "pages": [
+    {
+      "repository": "pallets/werkzeug",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/werkzeug/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/werkzeug/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:30 GMT",
+      "items": 98,
+      "earliest_event_at": "2026-09-25T04:09:15Z",
+      "latest_event_at": "2026-09-30T00:01:57Z"
+    },
+    {
+      "repository": "pallets/jinja",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/jinja/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/jinja/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:32 GMT",
+      "items": 90,
+      "earliest_event_at": "2026-09-10T21:31:24Z",
+      "latest_event_at": "2026-09-29T23:07:53Z"
+    },
+    {
+      "repository": "pallets/flask",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/flask/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/flask/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:34 GMT",
+      "items": 93,
+      "earliest_event_at": "2026-09-23T06:36:30Z",
+      "latest_event_at": "2026-09-29T18:09:55Z"
+    },
+    {
+      "repository": "pallets/itsdangerous",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/itsdangerous/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/itsdangerous/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:36 GMT",
+      "items": 30,
+      "earliest_event_at": "2026-08-31T14:41:26Z",
+      "latest_event_at": "2026-09-29T02:47:40Z"
+    },
+    {
+      "repository": "pytest-dev/pluggy",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pytest-dev/pluggy/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pytest-dev/pluggy/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:37 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-05-17T06:32:10Z",
+      "latest_event_at": "2026-09-29T07:13:09Z"
+    },
+    {
+      "repository": "python-attrs/attrs",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/python-attrs/attrs/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-attrs/attrs/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:38 GMT",
+      "items": 78,
+      "earliest_event_at": "2026-09-01T05:19:56Z",
+      "latest_event_at": "2026-09-29T19:15:44Z"
+    },
+    {
+      "repository": "python-trio/trio",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/python-trio/trio/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-trio/trio/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:39 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-19T14:32:05Z",
+      "latest_event_at": "2026-09-30T03:18:50Z"
+    },
+    {
+      "repository": "encode/httpx",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/encode/httpx/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/encode/httpx/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:42 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-07-09T05:47:23Z",
+      "latest_event_at": "2026-09-29T20:33:16Z"
+    },
+    {
+      "repository": "encode/httpcore",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/encode/httpcore/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/encode/httpcore/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:44 GMT",
+      "items": 55,
+      "earliest_event_at": "2026-08-30T22:18:46Z",
+      "latest_event_at": "2026-09-30T02:46:59Z"
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/agronholm/apscheduler/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/agronholm/apscheduler/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:46 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-09-07T20:13:44Z",
+      "latest_event_at": "2026-09-29T23:24:17Z"
+    },
+    {
+      "repository": "aio-libs/yarl",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/aio-libs/yarl/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/aio-libs/yarl/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:47 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-28T17:08:35Z",
+      "latest_event_at": "2026-09-30T00:19:57Z"
+    },
+    {
+      "repository": "pydantic/pydantic-settings",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pydantic/pydantic-settings/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pydantic/pydantic-settings/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:49 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-23T08:14:33Z",
+      "latest_event_at": "2026-09-29T14:00:32Z"
+    },
+    {
+      "repository": "Textualize/rich",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/Textualize/rich/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/Textualize/rich/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:51 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-06-15T08:18:34Z",
+      "latest_event_at": "2026-09-30T01:48:29Z"
+    },
+    {
+      "repository": "pypa/packaging",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pypa/packaging/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pypa/packaging/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:53 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-09-12T06:13:36Z",
+      "latest_event_at": "2026-09-29T22:37:23Z"
+    },
+    {
+      "repository": "python-poetry/cleo",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/python-poetry/cleo/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-poetry/cleo/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:54 GMT",
+      "items": 12,
+      "earliest_event_at": "2026-08-31T12:19:38Z",
+      "latest_event_at": "2026-09-28T19:02:04Z"
+    },
+    {
+      "repository": "psf/requests",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/psf/requests/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/psf/requests/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:57 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-28T16:55:49Z",
+      "latest_event_at": "2026-09-29T23:26:35Z"
+    },
+    {
+      "repository": "django/django",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/django/django/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/django/django/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:52:59 GMT",
+      "items": 100,
+      "earliest_event_at": "2023-03-14T22:29:27Z",
+      "latest_event_at": "2026-09-30T01:41:05Z"
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pytest-dev/pytest/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pytest-dev/pytest/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:00 GMT",
+      "items": 98,
+      "earliest_event_at": "2026-09-26T15:25:36Z",
+      "latest_event_at": "2026-09-30T02:08:40Z"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/sqlalchemy/sqlalchemy/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/sqlalchemy/sqlalchemy/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:02 GMT",
+      "items": 97,
+      "earliest_event_at": "2026-09-25T04:15:21Z",
+      "latest_event_at": "2026-09-30T02:21:48Z"
+    },
+    {
+      "repository": "fastapi/fastapi",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/fastapi/fastapi/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/fastapi/fastapi/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:04 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-04-16T11:39:12Z",
+      "latest_event_at": "2026-09-30T03:19:22Z"
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/aio-libs/aiohttp/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/aio-libs/aiohttp/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:05 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-28T20:50:59Z",
+      "latest_event_at": "2026-09-29T21:14:37Z"
+    },
+    {
+      "repository": "celery/celery",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/celery/celery/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/celery/celery/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:07 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-28T22:13:16Z",
+      "latest_event_at": "2026-09-30T03:34:19Z"
+    },
+    {
+      "repository": "pypa/pip",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pypa/pip/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pypa/pip/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:09 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-09-06T13:25:04Z",
+      "latest_event_at": "2026-09-29T23:12:56Z"
+    },
+    {
+      "repository": "sphinx-doc/sphinx",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/sphinx-doc/sphinx/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/sphinx-doc/sphinx/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:10 GMT",
+      "items": 97,
+      "earliest_event_at": "2026-09-17T09:18:10Z",
+      "latest_event_at": "2026-09-29T23:22:15Z"
+    },
+    {
+      "repository": "scrapy/scrapy",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/scrapy/scrapy/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/scrapy/scrapy/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:11 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-08-28T16:18:54Z",
+      "latest_event_at": "2026-09-30T02:33:55Z"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pydantic/pydantic/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pydantic/pydantic/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:53:12 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-29T18:02:16Z",
+      "latest_event_at": "2026-09-30T02:35:38Z"
+    }
+  ],
+  "rows": [
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "16056363475",
+      "event_created_at": "2026-09-30T00:01:51Z",
+      "issue_created_at": "2026-09-30T00:01:50Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3313",
+      "number": 3313,
+      "title_sha256": "336fb5e056900ed479f9b2c4f2c5365b73c6173ec96f456acf7bcce25c3c0e56",
+      "body_was_null": false,
+      "body_sha256": "a282c0db4e8e110713c56d2e937a3e15d58a3b6edbe3ecf639c1ed886ec3c4c3"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15979257342",
+      "event_created_at": "2026-09-29T05:30:05Z",
+      "issue_created_at": "2026-09-29T05:30:01Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3312",
+      "number": 3312,
+      "title_sha256": "d644afbcd56320680a94afc13da545471ee0cf3fdcc2ea58fcbc9caab8421399",
+      "body_was_null": false,
+      "body_sha256": "6a78e606136d8e317866efd51c38ef8932cc38a58474170dc87049152eb7fe85"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15790649781",
+      "event_created_at": "2026-09-25T23:55:02Z",
+      "issue_created_at": "2026-09-25T23:55:01Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3307",
+      "number": 3307,
+      "title_sha256": "3891e7d89423f241212ad6ba9ef2263ce528a48aef2251f1d2a5a05172bd0dc5",
+      "body_was_null": true,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15775895298",
+      "event_created_at": "2026-09-25T18:48:30Z",
+      "issue_created_at": "2026-09-25T18:48:28Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3303",
+      "number": 3303,
+      "title_sha256": "3cf1dcdcb9d27a87ba1b02d34d169f149fdb06b6ad9c832f555ad22eb7e441a8",
+      "body_was_null": false,
+      "body_sha256": "0816903aa60e27f717a7debce1b5ef13bbac833d3e6797b7d28694cedc6a7f37"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15773565569",
+      "event_created_at": "2026-09-25T18:10:59Z",
+      "issue_created_at": "2026-09-25T18:10:58Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3302",
+      "number": 3302,
+      "title_sha256": "63ae4a91389a93e66eca02b28190bf670f5c3558937de6b9cc4ef2fc4d40c96a",
+      "body_was_null": false,
+      "body_sha256": "8fb5d09bd70f5f1a0b49977d0a150d54f5d5f963f78fa095ff21ee5c148237ca"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15773443584",
+      "event_created_at": "2026-09-25T18:09:02Z",
+      "issue_created_at": "2026-09-25T18:09:00Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3301",
+      "number": 3301,
+      "title_sha256": "808043edbb0feb76761e4ffeaeaae91fcf5293f8e566769be0ecf8613b601b8d",
+      "body_was_null": false,
+      "body_sha256": "4790c769908ac1e6a53c8851591e4cf651a4762516517dabc18da416e0fd768e"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15724148940",
+      "event_created_at": "2026-09-25T04:09:15Z",
+      "issue_created_at": "2026-09-25T04:09:14Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3297",
+      "number": 3297,
+      "title_sha256": "4d6ecfe581000fddb93b56753193f98cfeacd48439ae7938cac37e606531ee57",
+      "body_was_null": false,
+      "body_sha256": "92ef0e18eca0951b38f7e7fd2a0ebe55d130209b564c403376c90bc716f816b4"
+    },
+    {
+      "repository": "pallets/jinja",
+      "event_id": "15349969600",
+      "event_created_at": "2026-09-19T15:59:30Z",
+      "issue_created_at": "2026-09-19T15:59:29Z",
+      "url": "https://github.com/pallets/jinja/issues/2279",
+      "number": 2279,
+      "title_sha256": "4e388ab32b10dc8dbc7e28144f552830adc74787c1e2c0824032078a79f227fb",
+      "body_was_null": false,
+      "body_sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+    },
+    {
+      "repository": "pallets/jinja",
+      "event_id": "15313430942",
+      "event_created_at": "2026-09-18T18:48:47Z",
+      "issue_created_at": "2026-09-18T18:48:46Z",
+      "url": "https://github.com/pallets/jinja/issues/2278",
+      "number": 2278,
+      "title_sha256": "0466bad06fa9670e4f7deba037f099191b6597536f4e9b8851b2d489bd2efc10",
+      "body_was_null": false,
+      "body_sha256": "0feb4c464297202b9478484d1c105a6705e94a4ae2fa0f2c97ec5d2546c4dec2"
+    },
+    {
+      "repository": "pallets/jinja",
+      "event_id": "14859325822",
+      "event_created_at": "2026-09-11T12:38:54Z",
+      "issue_created_at": "2026-09-11T12:38:53Z",
+      "url": "https://github.com/pallets/jinja/issues/2274",
+      "number": 2274,
+      "title_sha256": "b89ac35c56b9b02eac560e7254abdac5703973343bbca74a8276bf32292defc1",
+      "body_was_null": false,
+      "body_sha256": "26f4dbda58628740ddb424d18860635e1a46c30463740cb3d0d21165d5315a53"
+    },
+    {
+      "repository": "pallets/flask",
+      "event_id": "15710864825",
+      "event_created_at": "2026-09-24T22:41:35Z",
+      "issue_created_at": "2026-09-24T22:41:33Z",
+      "url": "https://github.com/pallets/flask/issues/6165",
+      "number": 6165,
+      "title_sha256": "0c8de9d1b62e4cea9c941414ad91247e92cef5a74c6823978e30eeb775caf489",
+      "body_was_null": false,
+      "body_sha256": "3ba703ab57e655d1cf613f12dac55872cd4a2d50b10310241a990a4050dd9668"
+    },
+    {
+      "repository": "pytest-dev/pluggy",
+      "event_id": "15757519829",
+      "event_created_at": "2026-09-25T14:07:53Z",
+      "issue_created_at": "2026-09-25T14:07:52Z",
+      "url": "https://github.com/pytest-dev/pluggy/issues/742",
+      "number": 742,
+      "title_sha256": "15e70c974269d80bf1ba5c368f129ff5be0964b5340beb624a7d77dfcb31b21d",
+      "body_was_null": false,
+      "body_sha256": "44ed36c28f2977430484ad01074b2a9867164f70d3dd4b97bdbeeb814619045a"
+    },
+    {
+      "repository": "python-attrs/attrs",
+      "event_id": "15659401935",
+      "event_created_at": "2026-09-24T10:10:15Z",
+      "issue_created_at": "2026-09-24T10:10:13Z",
+      "url": "https://github.com/python-attrs/attrs/issues/1627",
+      "number": 1627,
+      "title_sha256": "81fd69d77d8a34354e440e845645acf2afb9f8f3a3b8bcb7ed6b55ae40af0bc5",
+      "body_was_null": false,
+      "body_sha256": "e9e4ac0eddd1efaf034d67de27f26db0fe8cbb003d2f4784bfd824cd99eeb249"
+    },
+    {
+      "repository": "python-attrs/attrs",
+      "event_id": "14581503165",
+      "event_created_at": "2026-09-07T16:01:26Z",
+      "issue_created_at": "2026-09-07T16:01:25Z",
+      "url": "https://github.com/python-attrs/attrs/issues/1620",
+      "number": 1620,
+      "title_sha256": "d447d530a6c7118fcd567de4bc8541b720feb95f2a89f90c6efe222898d1cb73",
+      "body_was_null": false,
+      "body_sha256": "af06b2c1e4b362f6f3ec7c7c8989802a4c6734ce567a0f731f4f3f91db048256"
+    },
+    {
+      "repository": "python-trio/trio",
+      "event_id": "15435004184",
+      "event_created_at": "2026-09-21T14:06:21Z",
+      "issue_created_at": "2026-09-21T14:06:20Z",
+      "url": "https://github.com/python-trio/trio/issues/3520",
+      "number": 3520,
+      "title_sha256": "01598fbbbb230fb68866f8ae564433395657aa76e75a46b6eaeb87661362994d",
+      "body_was_null": false,
+      "body_sha256": "0fd9d3ed174c74162205a273099fdeee662f832a88f723fc625b79a0edabc5fe"
+    },
+    {
+      "repository": "encode/httpcore",
+      "event_id": "15207746764",
+      "event_created_at": "2026-09-17T09:21:41Z",
+      "issue_created_at": "2026-09-17T09:21:40Z",
+      "url": "https://github.com/encode/httpcore/issues/1115",
+      "number": 1115,
+      "title_sha256": "fb9fb2125f5e569af84b56efdd755bb099f229570e90b2eb0ff05f8dceb98685",
+      "body_was_null": false,
+      "body_sha256": "4b6302a686a2a90b731ed26ad46e58bdab00d347c5c5c92f1f9e39b2a700dc64"
+    },
+    {
+      "repository": "encode/httpcore",
+      "event_id": "14917221069",
+      "event_created_at": "2026-09-12T16:54:21Z",
+      "issue_created_at": "2026-09-12T16:54:19Z",
+      "url": "https://github.com/encode/httpcore/issues/1110",
+      "number": 1110,
+      "title_sha256": "547c6110ce13208b448be27d1927ab340411708bf8d29da276aed2be69c82970",
+      "body_was_null": false,
+      "body_sha256": "ef27dadaabf7ffe9b83a42a1d9b6a61e35e101d20fe5c2c195e9b1dd00cd91cb"
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "event_id": "16026932287",
+      "event_created_at": "2026-09-29T16:27:40Z",
+      "issue_created_at": "2026-09-29T16:27:38Z",
+      "url": "https://github.com/agronholm/apscheduler/issues/1144",
+      "number": 1144,
+      "title_sha256": "ce0895f0b56fc8a13a08abf9dc36da656fe3256db817218ef4e36ddcf1af7e9d",
+      "body_was_null": false,
+      "body_sha256": "4e3dbf17b7f69d2b1b1164a0a5d480fab08ef855dbeb46c500db5f7fd0aa45c0"
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "event_id": "15416754117",
+      "event_created_at": "2026-09-21T09:10:09Z",
+      "issue_created_at": "2026-09-21T09:10:08Z",
+      "url": "https://github.com/agronholm/apscheduler/issues/1141",
+      "number": 1141,
+      "title_sha256": "10c2e94343aa57408acabd87fd2f9bbcd73e4f945de2c8aae89b04536a561987",
+      "body_was_null": false,
+      "body_sha256": "3dd097baa18cb04f777d38d1bcf2de3b4e4fa74dd84009bcc7314ba07b4ac296"
+    },
+    {
+      "repository": "pydantic/pydantic-settings",
+      "event_id": "15828186855",
+      "event_created_at": "2026-09-26T21:19:58Z",
+      "issue_created_at": "2026-09-26T21:19:57Z",
+      "url": "https://github.com/pydantic/pydantic-settings/issues/993",
+      "number": 993,
+      "title_sha256": "1ebdefb43a6e12815c5de70812f1241f837963571b22ff0a27f571be6f55a9b3",
+      "body_was_null": false,
+      "body_sha256": "ed6ce41a3e03f063229c3f0815cd6ede3ee718cf44fa735ff15d585a2b6bb8b7"
+    },
+    {
+      "repository": "Textualize/rich",
+      "event_id": "15680673784",
+      "event_created_at": "2026-09-24T15:06:22Z",
+      "issue_created_at": "2026-09-24T15:06:21Z",
+      "url": "https://github.com/Textualize/rich/issues/4229",
+      "number": 4229,
+      "title_sha256": "865b0db14ab9d747853ffe5ca25f3a0e958cf70be1b58d4eacb25b1c9c9da4dc",
+      "body_was_null": false,
+      "body_sha256": "8d2551a5bdc5fa65994c4a8d2eb770ffe7234950d1687f4c94707c50b0b6f9ad"
+    },
+    {
+      "repository": "Textualize/rich",
+      "event_id": "15619381892",
+      "event_created_at": "2026-09-23T20:53:26Z",
+      "issue_created_at": "2026-09-23T20:53:25Z",
+      "url": "https://github.com/Textualize/rich/issues/4228",
+      "number": 4228,
+      "title_sha256": "0fda7fa0fa2c8650ed6171794d1442b370d0c9a65eedf8f320ad3ec2ce88fd92",
+      "body_was_null": false,
+      "body_sha256": "66f7180b37c497aa2116839200e38b9215e5199135f004eceff9378b6f92aadd"
+    },
+    {
+      "repository": "pypa/packaging",
+      "event_id": "15755720037",
+      "event_created_at": "2026-09-25T13:42:31Z",
+      "issue_created_at": "2026-09-25T13:42:30Z",
+      "url": "https://github.com/pypa/packaging/issues/1422",
+      "number": 1422,
+      "title_sha256": "76a89c174dd16274688a51d72a89930004cc742f9bfe0163b47230a5ba634249",
+      "body_was_null": false,
+      "body_sha256": "10c93891772777ac719a8c3a4d2250aaa30f1e978cc63b4db9c4a9f21ea9156e"
+    },
+    {
+      "repository": "pypa/packaging",
+      "event_id": "15518481857",
+      "event_created_at": "2026-09-22T15:59:35Z",
+      "issue_created_at": "2026-09-22T15:59:33Z",
+      "url": "https://github.com/pypa/packaging/issues/1418",
+      "number": 1418,
+      "title_sha256": "ff2498a90ac0d244a03e65c5d10fcb7f482b84027cfc816d53a0841f51f1ea98",
+      "body_was_null": false,
+      "body_sha256": "32549fafeb290caa5d321b769c6c2ed2e32deb725402ae111f34b319ade7974e"
+    },
+    {
+      "repository": "pypa/packaging",
+      "event_id": "15406462365",
+      "event_created_at": "2026-09-21T05:41:06Z",
+      "issue_created_at": "2026-09-21T05:41:05Z",
+      "url": "https://github.com/pypa/packaging/issues/1416",
+      "number": 1416,
+      "title_sha256": "cdc90970db2b7b943c99c5dbd41e66a68068d249f16a12458bab1e4d6382ddbc",
+      "body_was_null": false,
+      "body_sha256": "03f25d3b73fe0d5393c7c931e3de925202150fb4e1f584de555f24ef980768c1"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "16043845250",
+      "event_created_at": "2026-09-29T20:20:52Z",
+      "issue_created_at": "2026-09-29T20:20:50Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13619",
+      "number": 13619,
+      "title_sha256": "bffba8701ad3c4a786aadccc77e8b2bb8e5cef11b3eacf92ec758cda1330409f",
+      "body_was_null": false,
+      "body_sha256": "1b89fdd6f5a2ed5d14cbbda418b699e804dfbbaf818a8e50d8e9639e1d6a6c8b"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "16019821260",
+      "event_created_at": "2026-09-29T15:00:35Z",
+      "issue_created_at": "2026-09-29T15:00:33Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13617",
+      "number": 13617,
+      "title_sha256": "b7b4902857510fe74842a4384fc0ec952df12c30c0b723bdd915ac3378aa5ab3",
+      "body_was_null": false,
+      "body_sha256": "dcce997b19009fea2f8b95910317147586ba475dd6e7fb84778a12702032587f"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "16016333856",
+      "event_created_at": "2026-09-29T14:18:10Z",
+      "issue_created_at": "2026-09-29T14:18:09Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+      "number": 13616,
+      "title_sha256": "22fe307400830f5c31ea721d2aa6abfe913422f96aec1742a4bea2ae5fd82cf2",
+      "body_was_null": false,
+      "body_sha256": "b13faf90be1529ca3705881725d1006a43b67aa0c5f8430c3b78fdef857d0512"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "15931787626",
+      "event_created_at": "2026-09-28T15:43:24Z",
+      "issue_created_at": "2026-09-28T15:43:23Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13615",
+      "number": 13615,
+      "title_sha256": "42638ae9fad5394c7d7d211ee394fd776bffc938262fc8df109cc460e63a5b04",
+      "body_was_null": false,
+      "body_sha256": "98293744cfdd81e2f9e3622bc86243488e345b21f34fb9c6096a59bee247fc5f"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "15815565194",
+      "event_created_at": "2026-09-26T14:45:40Z",
+      "issue_created_at": "2026-09-26T14:45:38Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13612",
+      "number": 13612,
+      "title_sha256": "4bda35f717b913eb61f4eec4e0008f2079dbd6830bb574b07cb763f3c8c7f7bb",
+      "body_was_null": false,
+      "body_sha256": "8d97755752bca680bdc0364c6e4e9a1987fe3ad8b8fb29f398d0d7130a2cb1c3"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "15811788032",
+      "event_created_at": "2026-09-26T12:42:35Z",
+      "issue_created_at": "2026-09-26T12:42:34Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13610",
+      "number": 13610,
+      "title_sha256": "a6e5d5566f0a91da3528bf5d95a00eed5ad0d9122af0bd9d380b2cbcb18906dd",
+      "body_was_null": false,
+      "body_sha256": "d1e403ddaba55b4ce04315b757fae9893e5ba5684d04881dd504ea3bd61e74b5"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "event_id": "15809480348",
+      "event_created_at": "2026-09-26T11:20:45Z",
+      "issue_created_at": "2026-09-26T11:20:43Z",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13609",
+      "number": 13609,
+      "title_sha256": "de28fb33071a5b3cb5af822bae11e413a983f59d406e02181cf2b8ee4957d4b5",
+      "body_was_null": false,
+      "body_sha256": "a0ad0f6628c85d17afeb72607003b0dcd90ac81e92f8c13ded8c119f6f5315c6"
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "event_id": "16002897236",
+      "event_created_at": "2026-09-29T11:27:56Z",
+      "issue_created_at": "2026-09-29T11:27:54Z",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13868",
+      "number": 13868,
+      "title_sha256": "2936ce3d43730a8ea9538f645f7aa01868a3bb7510b24c4c2698d4c5282b3f97",
+      "body_was_null": false,
+      "body_sha256": "149c3110d10e7c398265e1da99d045eb9528a42edd02683cf475abe15007a629"
+    },
+    {
+      "repository": "pypa/pip",
+      "event_id": "15708882528",
+      "event_created_at": "2026-09-24T22:02:49Z",
+      "issue_created_at": "2026-09-24T22:02:48Z",
+      "url": "https://github.com/pypa/pip/issues/14329",
+      "number": 14329,
+      "title_sha256": "fe63f57fa0f9c16f79927425576dfa8cd27a71cf1ad2c8cc56f1fca2fa97e677",
+      "body_was_null": false,
+      "body_sha256": "5c552ed1cc774a215c7013d153c70655ab173e161a0ee983c27cb9604ec8b558"
+    },
+    {
+      "repository": "pypa/pip",
+      "event_id": "15393460976",
+      "event_created_at": "2026-09-20T22:13:27Z",
+      "issue_created_at": "2026-09-20T22:13:26Z",
+      "url": "https://github.com/pypa/pip/issues/14325",
+      "number": 14325,
+      "title_sha256": "516435d6de0f36aadf5d0e80cf3d10140c0eb87396220de8524f074d259a7aef",
+      "body_was_null": true,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "repository": "sphinx-doc/sphinx",
+      "event_id": "15359064023",
+      "event_created_at": "2026-09-19T21:31:21Z",
+      "issue_created_at": "2026-09-19T21:31:20Z",
+      "url": "https://github.com/sphinx-doc/sphinx/issues/14702",
+      "number": 14702,
+      "title_sha256": "72afc12a582af66fd399ac18bb3e0238d6e0528d1c1fe30bcfe441f5d6b6a647",
+      "body_was_null": false,
+      "body_sha256": "8ece2634f7c83575ac5ed2e8e23aebbe5e69ed84bcbef39d0ab2d6f76ce32d2d"
+    },
+    {
+      "repository": "sphinx-doc/sphinx",
+      "event_id": "15346120474",
+      "event_created_at": "2026-09-19T13:40:58Z",
+      "issue_created_at": "2026-09-19T13:40:57Z",
+      "url": "https://github.com/sphinx-doc/sphinx/issues/14699",
+      "number": 14699,
+      "title_sha256": "958fb7a35d469e36c90903e70be59c579e392e6f8ec0ae2126445cd9b6887b04",
+      "body_was_null": false,
+      "body_sha256": "5d587d0fcb807f8cad5367dc98faf7682d4e7a99ed97966a7972dbb4f374faf2"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "event_id": "16061444162",
+      "event_created_at": "2026-09-30T01:56:17Z",
+      "issue_created_at": "2026-09-30T01:56:15Z",
+      "url": "https://github.com/pydantic/pydantic/issues/13900",
+      "number": 13900,
+      "title_sha256": "326b4c2d1888dbafff880405b36bfe8f0369c28daed845e3fd154bbc0144b5e0",
+      "body_was_null": false,
+      "body_sha256": "dbfb9262cd72137dfbe4f3d33b7e254dc335ae08656f125b9c6ad5180bd83c54"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "editable_paths": ["tenacity/retry.py", "tenacity/asyncio/__init__.py"],
+  "public_command": ["python3", "-B", "public_check.py"]
+}

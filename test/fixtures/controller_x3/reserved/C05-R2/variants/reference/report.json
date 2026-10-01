@@ -1,0 +1,27 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "little-endian-length-header-breaks-published-big-endian-frame",
+  "next_step": "replay legacy and current empty frames",
+  "probes": [
+    {
+      "input": {
+        "operation": "roundtrip",
+        "decoder": "legacy",
+        "payload_hex": "a1b2"
+      },
+      "observed": {
+        "payload_hex": "a1b2"
+      }
+    },
+    {
+      "input": {
+        "operation": "decode",
+        "decoder": "current",
+        "frame_hex": "0000"
+      },
+      "observed": {
+        "payload_hex": ""
+      }
+    }
+  ]
+}

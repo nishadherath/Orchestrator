@@ -1,0 +1,72 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "unbounded-replay-buffer-and-arrival-order-output",
+  "next_step": "replay capacity and gap-close ordering",
+  "probes": [
+    {
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 3,
+            "value": "C"
+          },
+          {
+            "sequence": 4,
+            "value": "D"
+          },
+          {
+            "sequence": 5,
+            "value": "E"
+          }
+        ]
+      },
+      "observed": {
+        "emitted": [],
+        "statuses": [
+          "buffered",
+          "buffered",
+          "backpressure"
+        ],
+        "pending": {
+          "3": "C",
+          "4": "D"
+        },
+        "peak_live": 2
+      }
+    },
+    {
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 3,
+            "value": "C"
+          },
+          {
+            "sequence": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "observed": {
+        "emitted": [
+          "A",
+          "B",
+          "C"
+        ],
+        "statuses": [
+          "emitted",
+          "buffered",
+          "emitted"
+        ],
+        "pending": {},
+        "peak_live": 1
+      }
+    }
+  ]
+}

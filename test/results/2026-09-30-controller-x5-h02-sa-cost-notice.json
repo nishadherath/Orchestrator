@@ -1,0 +1,8 @@
+{
+  "approved": true,
+  "approval_source": "Operator replied 'I approve' on 2026-09-30 to the pending request explicitly naming 159 authored pytest-asyncio fixture files per arm, Claude.ai destination, one S worker call and conditional A Controller plus worker, and USD 10 pair cap",
+  "date": "2026-09-30",
+  "manifest_sha256": "c09983df46b2c38f5d746d7d5fb6f6bf71c3b94328f90db13d3ef9da9620a5f4",
+  "maximum_usd": 10.0,
+  "scope": "H02 public-failure matched S/A continuation: one worker call per arm and one Controller admission"
+}

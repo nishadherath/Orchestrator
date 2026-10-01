@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "fields": [
+    {
+      "name": "request_id",
+      "wire_id": 1
+    },
+    {
+      "name": "trace_id",
+      "wire_id": 2
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "pooled-tenant-session-state-survives-return",
+  "next_step": "replay cross-tenant checkout and error recovery",
+  "probes": [
+    {
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": false
+          },
+          {
+            "tenant": "beta",
+            "fail": false
+          }
+        ]
+      },
+      "observed": {
+        "observed": [
+          {
+            "status": "ok",
+            "tenant_seen": "acme"
+          },
+          {
+            "status": "ok",
+            "tenant_seen": "beta"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    },
+    {
+      "input": {
+        "events": [
+          {
+            "tenant": "acme",
+            "fail": true
+          },
+          {
+            "tenant": "beta",
+            "fail": false
+          }
+        ]
+      },
+      "observed": {
+        "observed": [
+          {
+            "status": "error"
+          },
+          {
+            "status": "ok",
+            "tenant_seen": "beta"
+          }
+        ],
+        "available": true,
+        "idle_tenant": null
+      }
+    }
+  ]
+}

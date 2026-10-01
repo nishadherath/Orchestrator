@@ -2,9 +2,18 @@
 # Root-owned WSL launcher for one unprivileged actor process tree.
 # The evaluator and Windows host mounts are removed before dropping privilege.
 set -euo pipefail
+IFS=$'\n\t'
+umask 077
 
 runtime=/opt/orchestrator-worker-runtime
 base=/var/lib/orchestrator-worker-n4/actors
+auth_base=/var/lib/orchestrator-worker-n4/auth
+
+subscription=0
+if [[ ${1:-} == --subscription ]]; then
+    subscription=1
+    shift
+fi
 
 if [[ $(id -u) -ne 0 || $# -lt 3 ]]; then
     echo 'Usage (as WSL root): worker_wsl_namespace.sh ACTOR_DIR -- COMMAND [ARG...]' >&2
@@ -38,6 +47,14 @@ if [[ ${1:-} == --inside ]]; then
     mount -t tmpfs -o mode=1777,nosuid,nodev tmpfs /tmp
     mount --bind /dev/null /init
 
+    if [[ $subscription == 1 ]]; then
+        auth_session="$auth_base/sessions/${actor##*/}"
+        [[ $(stat -c %u:%a "$auth_session") == 65534:700 ]] || exit 70
+        [[ $(stat -c %u:%a "$auth_session/.credentials.json") == 65534:600 ]] || exit 70
+        mkdir -m 700 /run/claude-auth
+        mount --bind "$auth_session" /run/claude-auth
+    fi
+
     # Keep this actor's original path while hiding every sibling invocation.
     # Otherwise all actors share UID 65534 and could edit another actor's
     # app.py if its directory name became known.
@@ -58,12 +75,16 @@ if [[ ${1:-} == --inside ]]; then
     [[ $(stat -c %a /var/lib/orchestrator-worker-n4/evaluator) == 700 ]] || exit 70
 
     cd "$actor"
+    environment=(PATH="$runtime/bin:/usr/bin:/bin" HOME="$actor/.home"
+                 TMPDIR=/tmp XDG_CACHE_HOME="$actor/.cache"
+                 CLAUDE_PROJECT_DIR="$actor" CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192
+                 NO_COLOR=1)
+    if [[ $subscription == 1 ]]; then
+        environment+=(CLAUDE_CONFIG_DIR=/run/claude-auth)
+    fi
     exec setpriv --reuid=65534 --regid=65534 --clear-groups \
         --no-new-privs --bounding-set=-all --inh-caps=-all -- \
-        env -i PATH="$runtime/bin:/usr/bin:/bin" HOME="$actor/.home" \
-        TMPDIR=/tmp XDG_CACHE_HOME="$actor/.cache" \
-        CLAUDE_PROJECT_DIR="$actor" CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192 \
-        NO_COLOR=1 "$@"
+        env -i "${environment[@]}" "$@" 9>&-
 fi
 
 actor=$(realpath -e -- "$1")
@@ -77,6 +98,43 @@ shift
 [[ -d /var/lib/orchestrator-worker-n4/evaluator ]] || exit 64
 [[ -x $runtime/bin/claude && -x $runtime/bin/node ]] || exit 69
 
+if [[ $subscription == 1 ]]; then
+    [[ ${actor##*/} == inv-* && $1 == "$runtime/bin/claude" ]] || exit 64
+    # The root launcher never grants a credential to an arbitrary command.
+    # The Windows transport separately validates every option and budget.
+    if [[ $# == 5 && $2 == --restricted && $3 == auth &&
+          $4 == status && $5 == --json ]]; then
+        : # A provider-free check of the actual isolated Claude login.
+    else
+        required=(--restricted --strict-mcp-config --no-session-persistence
+                  --permission-prompts=none --tools=Read,Edit,Write,Glob,Grep
+                  "--settings=$runtime/actor-settings.json")
+        for flag in "${required[@]}"; do
+            found=0
+            for argument in "$@"; do
+                if [[ $argument == "$flag" ]]; then found=1; break; fi
+            done
+            [[ $found == 1 ]] || exit 64
+        done
+        for argument in "$@"; do
+            [[ $argument != --dangerously-skip-permissions ]] || exit 64
+        done
+    fi
+    [[ $(stat -c %u:%a "$runtime/actor-settings.json") == 0:644 ]] || exit 70
+    exec 9>"$auth_base/.lock"
+    flock -n 9 || { printf 'subscription credential is in use\n' >&2; exit 75; }
+    python3 "$runtime/worker_wsl_auth.py" begin "${actor##*/}" || exit 70
+fi
+
 cd /
-exec unshare --mount --pid --fork --kill-child -- "$runtime/bin/worker-wsl-namespace" \
-    --inside "$actor" -- "$@"
+inside=("$runtime/bin/worker-wsl-namespace")
+if [[ $subscription == 1 ]]; then inside+=(--subscription); fi
+inside+=(--inside "$actor" -- "$@")
+set +e
+unshare --mount --pid --fork --kill-child -- "${inside[@]}"
+status=$?
+set -e
+if [[ $subscription == 1 ]]; then
+    python3 "$runtime/worker_wsl_auth.py" finish "${actor##*/}" || exit 70
+fi
+exit "$status"

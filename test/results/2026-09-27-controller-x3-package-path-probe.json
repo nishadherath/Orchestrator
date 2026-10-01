@@ -1,0 +1,76 @@
+{
+  "controls": [
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "fe3461dcb180d1499d87ac7762bfaec2bd48b511df8d37b9eb098c7d14f00c9a",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "58fcc3de550b55f56a226361f0d4cb7ff1c6dc053e5164574fce7b9ed7eac321",
+      "public_check_passed": true,
+      "quality": 100.0,
+      "task_id": "N01-R1",
+      "variant": "reference"
+    },
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "b4dbf9e5764ed13e1a26ade92cafb4bccc731770259bf50aed74c1278be99b14",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "58fcc3de550b55f56a226361f0d4cb7ff1c6dc053e5164574fce7b9ed7eac321",
+      "public_check_passed": true,
+      "quality": 100.0,
+      "task_id": "N01-R1",
+      "variant": "alternative"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "2a6fca83e3a807bd03daf6c797978714c2afccf3b494c1475520c6072db13273",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "58fcc3de550b55f56a226361f0d4cb7ff1c6dc053e5164574fce7b9ed7eac321",
+      "public_check_passed": true,
+      "quality": 80.0,
+      "task_id": "N01-R1",
+      "variant": "partial"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "5840e65535cf26beaf9e49d4bd2271b0a906b155eebe9fbff9e352d3d09f8065",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "58fcc3de550b55f56a226361f0d4cb7ff1c6dc053e5164574fce7b9ed7eac321",
+      "public_check_passed": true,
+      "quality": 0.0,
+      "task_id": "N01-R1",
+      "variant": "baseline"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "2875f93129d2087169f95c83f7a21b2307cd537ce653e21f0f45bf269f57eb33",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "58fcc3de550b55f56a226361f0d4cb7ff1c6dc053e5164574fce7b9ed7eac321",
+      "public_check_passed": true,
+      "quality": 0.0,
+      "task_id": "N01-R1",
+      "variant": "label_copy"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "be1de02e80bc6f7058817d24ab47996548e896d77c6cf6dfb57b57d7eb1e4a9b",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "58fcc3de550b55f56a226361f0d4cb7ff1c6dc053e5164574fce7b9ed7eac321",
+      "public_check_passed": true,
+      "quality": 0.0,
+      "task_id": "N01-R1",
+      "variant": "poison_json"
+    }
+  ],
+  "mode": "controller-x3-wsl-vertical-probe",
+  "observed_at": "2026-09-27T11:43:51.681872+00:00",
+  "provider_calls": 0,
+  "result": "PASS",
+  "schema_version": 1,
+  "task_count": 1
+}

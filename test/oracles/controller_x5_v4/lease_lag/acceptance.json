@@ -1,0 +1,161 @@
+{
+  "case": "lease_lag",
+  "checks": [
+    {
+      "critical": false,
+      "expected": {
+        "lease": {
+          "owner": "east",
+          "token": 1,
+          "until": 110
+        },
+        "results": [
+          {
+            "status": "renewed",
+            "token": 1
+          }
+        ]
+      },
+      "input": {
+        "lease": {
+          "owner": "east",
+          "token": 1,
+          "until": 100
+        },
+        "operations": [
+          {
+            "op": "renew",
+            "owner": "east",
+            "server_now": 90,
+            "ttl": 20,
+            "worker_now": 105
+          }
+        ]
+      },
+      "name": "clock_ahead",
+      "weight": 30
+    },
+    {
+      "critical": true,
+      "expected": {
+        "lease": {
+          "owner": "east",
+          "token": 1,
+          "until": 100
+        },
+        "results": [
+          {
+            "status": "expired",
+            "token": 1
+          }
+        ]
+      },
+      "input": {
+        "lease": {
+          "owner": "east",
+          "token": 1,
+          "until": 100
+        },
+        "operations": [
+          {
+            "op": "renew",
+            "owner": "east",
+            "server_now": 100,
+            "ttl": 20,
+            "worker_now": 90
+          }
+        ]
+      },
+      "name": "expiry_boundary",
+      "weight": 20
+    },
+    {
+      "critical": true,
+      "expected": {
+        "lease": {
+          "owner": "east",
+          "token": 2,
+          "until": 121
+        },
+        "results": [
+          {
+            "status": "assigned",
+            "token": 2
+          },
+          {
+            "status": "stale_owner",
+            "token": 2
+          }
+        ]
+      },
+      "input": {
+        "lease": {
+          "owner": "east",
+          "token": 1,
+          "until": 100
+        },
+        "operations": [
+          {
+            "op": "assign",
+            "owner": "east",
+            "server_now": 101,
+            "ttl": 20
+          },
+          {
+            "op": "ack",
+            "owner": "east",
+            "token": 1
+          }
+        ]
+      },
+      "name": "stale_ack",
+      "weight": 35
+    },
+    {
+      "critical": true,
+      "expected": {
+        "lease": {
+          "owner": "west",
+          "token": 2,
+          "until": 121
+        },
+        "results": [
+          {
+            "status": "assigned",
+            "token": 2
+          },
+          {
+            "status": "stale_owner",
+            "token": 2
+          }
+        ]
+      },
+      "input": {
+        "lease": {
+          "owner": "east",
+          "token": 1,
+          "until": 100
+        },
+        "operations": [
+          {
+            "op": "assign",
+            "owner": "west",
+            "server_now": 101,
+            "ttl": 20
+          },
+          {
+            "op": "renew",
+            "owner": "east",
+            "server_now": 102,
+            "token": 1,
+            "ttl": 20,
+            "worker_now": 90
+          }
+        ]
+      },
+      "name": "ownership_order",
+      "weight": 15
+    }
+  ],
+  "schema_version": 1
+}

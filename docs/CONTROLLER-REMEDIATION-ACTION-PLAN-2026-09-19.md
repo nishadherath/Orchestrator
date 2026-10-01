@@ -1,13 +1,49 @@
 # Experimental Controller: deferred remediation action plan
 
-Date: 2026-09-19. Status: **deferred; do not execute until the operator directs**.
+Date: 2026-09-19. Status updated 2026-09-27: **operator directed autonomous
+completion of worker and Controller work; X0-X2 are complete offline**. The stage
+contracts, evidence gates and spending guards remain in force. Record each
+stage result and proceed when its prerequisites pass; request an operator
+decision only where evidence cannot settle it. Do not promote the Controller
+or any worker policy merely because this direction authorises implementation.
+The 2026-09-26 [Q4U worker canary](stage-results/worker-q4u-u3-canary-2026-09-26.md)
+found no quality gain and retained B0; N6 stopped before reserved comparison.
+The [N7 review](stage-results/worker-n7-2026-09-26.md) rejected Q4U default
+promotion and found a hidden-grader trust-boundary exploit and incomplete
+dependency seal. X3 must not inherit those evaluation weaknesses.
+[N8 consumer packaging](stage-results/worker-n8-2026-09-27.md) passed its full
+build, parity and installed-consumer checks within documented host limits.
+[X0](stage-results/controller-x0-2026-09-27.md) reproduced the six defect classes
+and a failed-cost projection defect. Its
+[integration/evaluation contract](CONTROLLER-REMEDIATION-CONTRACT-X0.md) makes
+the capped X6 comparison exploratory with no promotion authority. No new
+Controller experiment spend has occurred.
+[X1](stage-results/controller-x1-2026-09-27.md) closed ordinary restart after
+terminal or uncertain state, added single-driver and cancellation controls,
+bound the first-party runtime package and recovered settled failed cost. Its
+full offline gate passed 80/80. Live Controller dispatch remains blocked by
+unqualified host and process-isolation evidence; B0 remains the default.
+[X2](stage-results/controller-x2-2026-09-27.md) assigned named Generator
+cells and bound one Controller admission to an N1 task revision. Its checked
+build and 78-file parity passed. [X3](stage-results/controller-x3-2026-09-28.md)
+completed its offline corpus and fair-path gate: 48 ready tasks, 288/288
+protected controls, 672/672 isolation checks, and a sealed four-episode
+provider-free S/A campaign with complete accounting. The checked build passed.
+X4's Controller-to-N1 worker handoff and live role host have progressed. One
+fresh explicit-`on` root used the ungated default adapter, called Graft from
+its Framer, then completed a Sonnet worker and independent acceptance with
+complete accounting. Installed interactive auto/on/off, recovery, other-role
+Graft access and profile qualification remain open. No Controller quality
+claim or promotion follows.
 
 This plan owns the Controller-specific parts of the twelve-gap review. The
 [worker programme](WORKER-ROUTING-ACTION-PLAN-2026-09-19.md) executes first at
 the operator's chosen time. Its section 1 maps every original gap to an owner.
 Use the shared [execution protocol](REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md)
-and the prepared [X0 handoff](../handoffs/2026-09-19-controller-remediation-x0.md)
-when this programme is explicitly resumed.
+and the prepared [X1 handoff](../handoffs/2026-09-27-controller-remediation-x1.md)
+for the completed X1 model transition. X0's full gate passed all 79 checks;
+X1's passed all 80. X2 and X3's checked builds passed; X4 is the current
+implementation stage on Sol / High.
 
 2026-09-24 amendment: the [worker-first sequencing plan](WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md)
 governs cross-programme dependencies: X1 requires N4; X3 requires N3/N4;
@@ -52,11 +88,14 @@ code is present, `/controller auto` is stored, or tests pass with fake adapters.
 | X7 | Independent Controller-uplift and release adjudication | X6 | GPT-6 Astra / High | 2-4 h | R |
 | X8 | Qualified integration, consumer smoke and rollback | X7 decision | GPT-5.6 Sol / High | 3-5 h | I |
 
-Stop after each stage for operator review. Required operator model transitions
-are X0 to X1, X6 to X7 and X7 to X8. Prepare and validate a new handoff before
-each transition. Keep Sol High across X1-X6 when practical. High effort is the
-default; no stage needs Max or an automatic subagent launch. Escalate only a
-bounded unresolved issue under the shared protocol.
+The 2026-09-26 operator direction supersedes the earlier mandatory stop after
+each stage. Record and verify every stage before proceeding, and pause only
+for an unresolved operator decision, a required host model switch, or a failed
+gate. The planned model transitions are X0 to X1, X6 to X7 and X7 to X8;
+prepare and validate a new handoff before a switch or fresh session. Keep Sol
+High across X1-X6 when practical. High effort is the default; no stage needs
+Max or an automatic subagent launch. Escalate only a bounded unresolved issue
+under the shared protocol.
 
 ## 3. Work packages and exit evidence
 
@@ -234,6 +273,12 @@ No uplift claim from intended routing labels or from the number of role calls.
 
 ### X6: reserved comparison
 
+X0 disposition: the capped comparison below is exploratory only. The
+[feasibility analysis](../test/results/2026-09-27-controller-x0-power.json) cannot
+support automatic-promotion authority at this sample size. The margins below
+remain diagnostics; favourable estimates cannot waive independent confirmation.
+Any extension needs a separately frozen sample/power/budget contract.
+
 Freeze policy, profiles, implementation, complete manifests, score and analysis
 before accessing reserved outcomes. Compare S versus A on 24 new reserved
 tasks, two repetitions per arm, 96 episodes. Pair by task and report intervals
@@ -321,17 +366,95 @@ auxiliary work is allowed to disappear from reported experiment cost.
 
 ## 5. Completion register
 
-- [ ] X0 review reproductions/contracts accepted.
-- [ ] X1 R5 launch integrity repaired.
-- [ ] X2 Generator and task-wide admission corrected.
-- [ ] X3 meaningful corpus and fair comparison qualified.
-- [ ] X4 complete production and interactive integration qualified offline.
-- [ ] X5 pilot/development/continuation evidence reconciled.
-- [ ] X6 reserved comparison complete.
-- [ ] X7 independent release decision recorded.
-- [ ] X8 packaging and consumer validation complete.
+- [x] X0 reproductions and design contract complete; all 79 offline checks passed.
+- [x] X1 R5 launch integrity repaired; full offline gate passed 80/80.
+- [x] X2 Generator and task-wide admission corrected; checked build and parity passed.
+- [x] X3 meaningful corpus and fair offline path qualified; live quality remains X5/X6.
+- [x] X4 production and interactive integration qualified offline; one narrow
+  explicit-on default-adapter live path accepted.
+- [x] X5 pilot/development/continuation evidence reconciled; no candidate
+  uplift established, B0 retained.
+- [x] X6 disposition recorded: reserved comparison not entered for the
+  rejected X5 candidate; no reserved outcome accessed.
+- [x] X7 disposition recorded: independent adjudication not entered because
+  X6 has no result; no Controller release approval claimed.
+- [x] X8 disposition recorded: no Controller candidate qualified for
+  packaging or consumer smoke; existing B0 release remains unchanged.
 
-Exact initial action: only when the operator chooses this deferred programme,
-set **GPT-6 Astra, High**, read the X0 handoff, check actual N-stage results
-and execute X0 only. Projection: **USD 3-20 API-equivalent; 2-4 hours;
-no Claude experiment spend**. Revalidate the handoff at that later date.
+X5's v1 screen stopped on a worker decision and missing Sonnet High host
+support. V2's canary stopped before provider launch because its experimental
+adapter still used Q3's two-cell launcher; the USD 1 local hold remains
+uncertain. V3 used the existing Q4R three-cell boundary and passed the
+Sonnet High canary. Its first task auto-routed to Controller; its second,
+C03-D2, correctly presented a clear worker frame and missed the frozen
+four-of-four suitable-task gate. [The v3 stop record]
+(stage-results/controller-x5-screen-v3-stop-2026-09-28.md) preserves settled
+costs and the unassessed four tasks. Before any new paid screen, independently
+audit candidates for concrete competing causes or contradictions, publish
+exclusions and freeze a new prospective task list and cost notice. The
+[public candidate audit](stage-results/controller-x5-public-candidate-audit-2026-09-28.md)
+found that current actor source comments reveal their single faults; merely
+adding a trace or changing incident wording is insufficient. New X5-only
+actors or suitable open-source cases need genuine competing hypotheses and
+independent acceptance. The [prospective X5 redesign brief]
+(stage-results/controller-x5-redesign-brief-2026-09-28.md) records task
+families and stop gates for review. Do not
+retroactively relax v3's gate. Keep B0 as shipping default; no X6 spend or
+promotion follows from these development stops. The operator selected a v4
+redesign. Four X5-only actors and a provider-free acceptance audit are
+recorded in [the v4 design record]
+(stage-results/controller-x5-v4-design-2026-09-29.md). The distinct v4
+screen is a frozen development candidate. Actor isolation, protected
+scoring and the full 82-check offline gate passed. The first paid public
+assessment settled at USD 0.050811401, then N3 stopped on an unresolved
+frame. The other five screen tasks and the pilot were not run; X5 remains
+incomplete.
+
+V5 repaired the public evidence packet and prompt fields. Its three settled
+assessments cost USD 0.194320202, then the lease case validly routed to a
+worker because its effect was local and recoverable. V6 replaced that case
+with consequential shipment and migration incidents. Its six-task public
+screen passed the prospective route gate with USD 0.338381801 settled and
+no unresolved charge; see [the v6 screen record]
+(stage-results/controller-x5-v6-screen-2026-09-29.md). The 18-episode matched
+B/S/A pilot is frozen and provider-free preparation made all 18 N1 roots
+ready. Its USD 144 aggregate ceiling requires operator approval before any
+pilot provider call; see [the pilot preflight]
+(stage-results/controller-x5-v6-pilot-preflight-2026-09-29.md). No X5 quality
+uplift is established. B0 remains the shipping default and X6 stays unseen.
+
+The operator approved that frozen pilot. It stopped after six settled
+episodes costing USD 4.129411806, before episode 7, when the public report
+contract and actual worker tool surface proved incompatible with the
+protected report grader. All six behavioural check sets passed, while every
+published quality score remained 50/100 and acceptance remained false. The
+[v6 pilot stop record]
+(stage-results/controller-x5-v6-pilot-stop-2026-09-29.md) preserves the
+receipts and explains the measurement defect. The remaining v6 episodes
+will not run or be replayed. Repair the public measurement contract and
+requalify a new development comparison before X6.
+
+V7 separated host-verified functionality from report quality and ran fresh
+roots only for the 12 unstarted schedule positions, under a separate explicit
+USD 60 approval. All 12 settled at USD 3.020660704, with no unresolved
+charge; the combined v6/v7 spend was USD 7.15007251. The historical six
+outputs were regraded only as labelled post hoc diagnosis. Across four
+Controller-suitable task pairs, B, S and A each passed all protected
+functional checks and scored 100 under v7, while A had higher cost and
+latency. Four automatic admissions, a verified frontier role, four
+Controller-to-worker results and the C08-D2 clarify route occurred. The
+ordinary-worker A report retained an unsupported completion claim; C08-D2's
+A clarify route left the seeded false-success report untouched. See the
+[v7 result](stage-results/controller-x5-v7-result-2026-09-29.md). X5 is
+complete as negative development evidence. Do not promote A or open X6
+reserved cases for this candidate; retain B0. A future candidate would
+require a newly frozen design that can measure benefit where baseline
+performance is not saturated.
+
+The [candidate gate closure]
+(stage-results/controller-x5-candidate-closure-2026-09-29.md) records X6-X8
+as not entered for this candidate, rather than completed experiments. It
+predeclares the minimum corpus, measurement and cost conditions a new
+development candidate must satisfy before requesting another reserved
+comparison. This closes the current Controller remediation candidate without
+a default switch, new release or claim of independent X7 review.

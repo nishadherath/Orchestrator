@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"input": {"kind": "compressed_roundtrip", "message": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}, "expected": {"compressed": true, "roundtrip": true}, "weight": 30, "milestone": "compressed-load", "critical": false},
+    {"input": {"kind": "small_roundtrip", "message": "short"}, "expected": {"compressed": false, "roundtrip": true}, "weight": 10, "milestone": "small-preserved", "critical": false},
+    {"input": {"kind": "future_rejected", "signed_at": 120, "checked_at": 100, "max_age": 60}, "expected": {"rejected": true}, "weight": 25, "milestone": "future-rejected", "critical": true},
+    {"input": {"kind": "future_rejected", "signed_at": 101, "checked_at": 100, "max_age": 60}, "expected": {"rejected": true}, "weight": 15, "milestone": "small-skew-rejected", "critical": true},
+    {"input": {"kind": "expired_rejected", "signed_at": 10, "checked_at": 100, "max_age": 60}, "expected": {"rejected": true}, "weight": 10, "milestone": "expired-rejected", "critical": true},
+    {"input": {"kind": "tamper_rejected", "message": "payload"}, "expected": {"tampered_rejected": true}, "weight": 10, "milestone": "tamper-rejected", "critical": true}
+  ]
+}

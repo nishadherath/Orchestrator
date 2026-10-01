@@ -1,0 +1,10 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "record still reads",
+  "next_step": "perform cutover now",
+  "question": {
+    "missing_field": "approved_cutover_time_utc",
+    "prompt": ""
+  },
+  "probes": []
+}

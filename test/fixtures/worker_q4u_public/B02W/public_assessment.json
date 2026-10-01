@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "4d6f3f8be9643b36857ca93b06b9dbb6407839244bd7f8a20b13719dd0d461fb",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e",
+              "line": 9,
+              "path": "public_check.py",
+              "text": "assert list(JSONLIterator(StringIO(text))) == [{\"n\": i} for i in range(8)]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only complete ordinary lines are checked",
+          "id": "eof_terminates",
+          "issue_citation": {
+            "file_sha256": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+            "line": 3,
+            "path": "ISSUE.md",
+            "text": "`JSONLIterator` must terminate when a relative seek lands in the final"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e",
+              "line": 10,
+              "path": "public_check.py",
+              "text": "tail = list(JSONLIterator(StringIO(text), rel_seek=0.5))"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only positive relative seeking is checked",
+          "id": "negative_seek_tail",
+          "issue_citation": {
+            "file_sha256": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "incomplete line and no later newline exists. A negative `rel_seek` must"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+      "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "B02W",
+  "task_sha256": "d2147f43b79e67546a49c0dc531b858d6a20dddcde7871a1dd9bc4dcacbb2004"
+}

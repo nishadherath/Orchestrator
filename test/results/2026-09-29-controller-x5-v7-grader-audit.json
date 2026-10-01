@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "stage": "controller-x5-v7-provider-free-grader-audit",
+  "provider_calls": 0,
+  "historical_v6_receipts_modified": false,
+  "historical_posthoc_rows": 6,
+  "v6_published_quality_each": 50.0,
+  "v7_host_functional_accepted": 6,
+  "v7_functional_score_each": 100,
+  "v7_secondary_quality_each": 100.0,
+  "v7_false_successes": 0,
+  "v7_causal_kinds_present_on_each_task": true,
+  "reference_with_unverified_report_functionally_accepted": true,
+  "plausible_wrong_repair_with_complete_claim_rejected_and_flagged": true,
+  "pilot_unit_tests": "6/6 passed",
+  "protected_grader_tests": "1/1 passed",
+  "interpretation": "Retrospective development diagnosis only; does not replace frozen v6 results or establish Controller uplift."
+}

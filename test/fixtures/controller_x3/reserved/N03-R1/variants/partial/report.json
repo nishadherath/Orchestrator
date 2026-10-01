@@ -1,0 +1,29 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "minimum-client-version-for-mandatory-trace-absent",
+  "next_step": "await-minimum-version-and-legacy-client-decision",
+  "question": {
+    "missing_field": "minimum_supported_client_version",
+    "prompt": "What minimum supported client version is approved for trace_context, and what happens to older clients?"
+  },
+  "probes": [
+    {
+      "input": {
+        "client_version": "1.8",
+        "has_trace": false
+      },
+      "observed": {
+        "accepted": false
+      }
+    },
+    {
+      "input": {
+        "client_version": "2.2",
+        "has_trace": true
+      },
+      "observed": {
+        "accepted": true
+      }
+    }
+  ]
+}

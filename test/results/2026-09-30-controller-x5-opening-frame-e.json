@@ -1,0 +1,339 @@
+{
+  "schema": "controller-x5-opening-event-frame-e-v1",
+  "protocol": "docs/stage-results/controller-x5-opening-event-frame-e-protocol-2026-09-30.md",
+  "fetched_at_utc": "2026-09-30T03:43:18+00:00",
+  "repositories": [
+    "pallets/werkzeug",
+    "pallets/jinja",
+    "pallets/flask",
+    "pallets/itsdangerous",
+    "pytest-dev/pluggy",
+    "python-attrs/attrs",
+    "python-trio/trio",
+    "encode/httpx",
+    "encode/httpcore",
+    "agronholm/apscheduler",
+    "aio-libs/yarl",
+    "pydantic/pydantic-settings",
+    "Textualize/rich",
+    "pypa/packaging",
+    "python-poetry/cleo",
+    "psf/requests"
+  ],
+  "event_cutoff_utc": "2026-09-26T00:00:00Z",
+  "hash_seed": "x5-frame-e-2026-09-30-033927Z\n",
+  "opening_issue_count": 4,
+  "selected_count": 4,
+  "selected_urls": [
+    "https://github.com/pallets/werkzeug/issues/3312",
+    "https://github.com/pallets/werkzeug/issues/3313",
+    "https://github.com/pydantic/pydantic-settings/issues/993",
+    "https://github.com/agronholm/apscheduler/issues/1144"
+  ],
+  "repository_counts": [
+    {
+      "repository": "pallets/werkzeug",
+      "events_fetched": 98,
+      "opening_issues_since_cutoff": 2
+    },
+    {
+      "repository": "pallets/jinja",
+      "events_fetched": 90,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pallets/flask",
+      "events_fetched": 93,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pallets/itsdangerous",
+      "events_fetched": 30,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pytest-dev/pluggy",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "python-attrs/attrs",
+      "events_fetched": 78,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "python-trio/trio",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "encode/httpx",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "encode/httpcore",
+      "events_fetched": 55,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "aio-libs/yarl",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pydantic/pydantic-settings",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 1
+    },
+    {
+      "repository": "Textualize/rich",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "pypa/packaging",
+      "events_fetched": 99,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "python-poetry/cleo",
+      "events_fetched": 12,
+      "opening_issues_since_cutoff": 0
+    },
+    {
+      "repository": "psf/requests",
+      "events_fetched": 100,
+      "opening_issues_since_cutoff": 0
+    }
+  ],
+  "pages": [
+    {
+      "repository": "pallets/werkzeug",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/werkzeug/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/werkzeug/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:42:55 GMT",
+      "items": 98,
+      "earliest_event_at": "2026-09-25T04:09:15Z",
+      "latest_event_at": "2026-09-30T00:01:57Z"
+    },
+    {
+      "repository": "pallets/jinja",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/jinja/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/jinja/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:42:56 GMT",
+      "items": 90,
+      "earliest_event_at": "2026-09-10T21:31:24Z",
+      "latest_event_at": "2026-09-29T23:07:53Z"
+    },
+    {
+      "repository": "pallets/flask",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/flask/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/flask/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:42:58 GMT",
+      "items": 93,
+      "earliest_event_at": "2026-09-23T06:36:30Z",
+      "latest_event_at": "2026-09-29T18:09:55Z"
+    },
+    {
+      "repository": "pallets/itsdangerous",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pallets/itsdangerous/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/itsdangerous/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:42:59 GMT",
+      "items": 30,
+      "earliest_event_at": "2026-08-31T14:41:26Z",
+      "latest_event_at": "2026-09-29T02:47:40Z"
+    },
+    {
+      "repository": "pytest-dev/pluggy",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pytest-dev/pluggy/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pytest-dev/pluggy/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:00 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-05-17T06:32:10Z",
+      "latest_event_at": "2026-09-29T07:13:09Z"
+    },
+    {
+      "repository": "python-attrs/attrs",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/python-attrs/attrs/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-attrs/attrs/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:02 GMT",
+      "items": 78,
+      "earliest_event_at": "2026-09-01T05:19:56Z",
+      "latest_event_at": "2026-09-29T19:15:44Z"
+    },
+    {
+      "repository": "python-trio/trio",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/python-trio/trio/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-trio/trio/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:03 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-19T14:32:05Z",
+      "latest_event_at": "2026-09-30T03:18:50Z"
+    },
+    {
+      "repository": "encode/httpx",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/encode/httpx/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/encode/httpx/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:06 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-07-09T05:47:23Z",
+      "latest_event_at": "2026-09-29T20:33:16Z"
+    },
+    {
+      "repository": "encode/httpcore",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/encode/httpcore/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/encode/httpcore/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:07 GMT",
+      "items": 55,
+      "earliest_event_at": "2026-08-30T22:18:46Z",
+      "latest_event_at": "2026-09-30T02:46:59Z"
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/agronholm/apscheduler/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/agronholm/apscheduler/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:08 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-09-07T20:13:44Z",
+      "latest_event_at": "2026-09-29T23:24:17Z"
+    },
+    {
+      "repository": "aio-libs/yarl",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/aio-libs/yarl/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/aio-libs/yarl/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:10 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-28T17:08:35Z",
+      "latest_event_at": "2026-09-30T00:19:57Z"
+    },
+    {
+      "repository": "pydantic/pydantic-settings",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pydantic/pydantic-settings/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pydantic/pydantic-settings/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:11 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-23T08:14:33Z",
+      "latest_event_at": "2026-09-29T14:00:32Z"
+    },
+    {
+      "repository": "Textualize/rich",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/Textualize/rich/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/Textualize/rich/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:13 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-06-15T08:18:34Z",
+      "latest_event_at": "2026-09-30T01:48:29Z"
+    },
+    {
+      "repository": "pypa/packaging",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/pypa/packaging/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pypa/packaging/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:14 GMT",
+      "items": 99,
+      "earliest_event_at": "2026-09-12T06:13:36Z",
+      "latest_event_at": "2026-09-29T22:37:23Z"
+    },
+    {
+      "repository": "python-poetry/cleo",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/python-poetry/cleo/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-poetry/cleo/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:15 GMT",
+      "items": 12,
+      "earliest_event_at": "2026-08-31T12:19:38Z",
+      "latest_event_at": "2026-09-28T19:02:04Z"
+    },
+    {
+      "repository": "psf/requests",
+      "page": 1,
+      "requested_url": "https://api.github.com/repos/psf/requests/events?per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/psf/requests/events?per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 03:43:18 GMT",
+      "items": 100,
+      "earliest_event_at": "2026-09-28T16:55:49Z",
+      "latest_event_at": "2026-09-29T23:26:35Z"
+    }
+  ],
+  "rows": [
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "16056363475",
+      "event_created_at": "2026-09-30T00:01:51Z",
+      "issue_created_at": "2026-09-30T00:01:50Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3313",
+      "number": 3313,
+      "title_sha256": "336fb5e056900ed479f9b2c4f2c5365b73c6173ec96f456acf7bcce25c3c0e56",
+      "body_was_null": false,
+      "body_sha256": "a282c0db4e8e110713c56d2e937a3e15d58a3b6edbe3ecf639c1ed886ec3c4c3"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "event_id": "15979257342",
+      "event_created_at": "2026-09-29T05:30:05Z",
+      "issue_created_at": "2026-09-29T05:30:01Z",
+      "url": "https://github.com/pallets/werkzeug/issues/3312",
+      "number": 3312,
+      "title_sha256": "d644afbcd56320680a94afc13da545471ee0cf3fdcc2ea58fcbc9caab8421399",
+      "body_was_null": false,
+      "body_sha256": "6a78e606136d8e317866efd51c38ef8932cc38a58474170dc87049152eb7fe85"
+    },
+    {
+      "repository": "agronholm/apscheduler",
+      "event_id": "16026932287",
+      "event_created_at": "2026-09-29T16:27:40Z",
+      "issue_created_at": "2026-09-29T16:27:38Z",
+      "url": "https://github.com/agronholm/apscheduler/issues/1144",
+      "number": 1144,
+      "title_sha256": "ce0895f0b56fc8a13a08abf9dc36da656fe3256db817218ef4e36ddcf1af7e9d",
+      "body_was_null": false,
+      "body_sha256": "4e3dbf17b7f69d2b1b1164a0a5d480fab08ef855dbeb46c500db5f7fd0aa45c0"
+    },
+    {
+      "repository": "pydantic/pydantic-settings",
+      "event_id": "15828186855",
+      "event_created_at": "2026-09-26T21:19:58Z",
+      "issue_created_at": "2026-09-26T21:19:57Z",
+      "url": "https://github.com/pydantic/pydantic-settings/issues/993",
+      "number": 993,
+      "title_sha256": "1ebdefb43a6e12815c5de70812f1241f837963571b22ff0a27f571be6f55a9b3",
+      "body_was_null": false,
+      "body_sha256": "ed6ce41a3e03f063229c3f0815cd6ede3ee718cf44fa735ff15d585a2b6bb8b7"
+    }
+  ]
+}

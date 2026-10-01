@@ -1,0 +1,15 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "retry-job-context-lost",
+  "next_step": "replay-tenant-and-trace-retries-before-rollout",
+  "probes": [
+    {"input": {"job": {"id": "p1", "payload": {"n": 1},
+      "context": {"tenant": "alpha", "trace": "t1"}},
+      "attempt": 1, "field": "tenant"},
+     "observed": {"value": "alpha"}},
+    {"input": {"job": {"id": "p2", "payload": {"n": 2},
+      "context": {"tenant": "beta", "trace": "t2"}},
+      "attempt": 2, "field": "tenant"},
+     "observed": {"value": "beta"}}
+  ]
+}

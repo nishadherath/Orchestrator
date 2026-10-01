@@ -13,6 +13,8 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import acceptance  # noqa: E402
 import controller_control  # noqa: E402
+import controller_campaign_state  # noqa: E402
+import controller_campaign_manifest  # noqa: E402
 import controller_corpus  # noqa: E402
 import controller_dispatch  # noqa: E402
 import controller_evaluation  # noqa: E402
@@ -20,7 +22,8 @@ import controller_integrity  # noqa: E402
 import controller_policy  # noqa: E402
 import evaluation_live_worker  # noqa: E402
 import evaluation_runner  # noqa: E402
-from dispatch_budget import DispatchBudget  # noqa: E402
+import route  # noqa: E402
+from dispatch_budget import BudgetExhausted, DispatchBudget  # noqa: E402
 
 DEFAULT_AUTHORISATION = ROOT / "docs" / "CONTROLLER-ROUTING-R5-PILOT-AUTHORISATION.json"
 DEFAULT_RUN_ROOT = ROOT / "pilot-runs" / "controller-routing-v1-pilot"
@@ -31,7 +34,9 @@ class PilotRuntimeError(RuntimeError):
     """The pilot is unqualified, unauthorised or unsafe to continue."""
 
 
-def validate_manifest(value: dict) -> None:
+def validate_manifest(value: dict, *, require_materialised: bool = False) -> None:
+    if value.get("schema_version") != 2:
+        raise PilotRuntimeError("archived R5 manifest is not runnable; freeze a new v2 package")
     recorded = value.get("manifest_sha256")
     unsigned = {key: item for key, item in value.items() if key != "manifest_sha256"}
     if recorded != controller_evaluation.digest(unsigned):
@@ -39,8 +44,35 @@ def validate_manifest(value: dict) -> None:
     if (value.get("stage") != "instrumented-pilot" or value.get("execution_enabled") is not True
             or value.get("launch_readiness") != "authorisation-required"):
         raise PilotRuntimeError("pilot manifest is not launch-ready")
-    if len(value.get("episodes", ())) != 18 or value.get("maximum_authorised_usd") != 144.0:
+    continuation = value.get("continuation")
+    count = len(value.get("episodes", ()))
+    ceiling = value.get("maximum_authorised_usd")
+    if ((continuation is None and (count != 18 or ceiling != 144.0))
+            or (continuation is not None and not (1 <= count < 18
+                                                  and type(ceiling) in (int, float)
+                                                  and 0 < ceiling <= 144.0))):
         raise PilotRuntimeError("pilot schedule or ceiling is invalid")
+    rows = value["episodes"]
+    sequences = [row.get("sequence") for row in rows]
+    if ((continuation is None and sequences != list(range(1, 19)))
+            or (continuation is not None and (any(type(n) is not int or n < 1 or n > 18
+                                                  for n in sequences)
+                                              or sequences != sorted(set(sequences))))
+            or any(type(row.get("maximum_usd")) not in (int, float)
+                   or row["maximum_usd"] <= 0 for row in rows)
+            or sum(row["maximum_usd"] for row in rows) > ceiling + 1e-9):
+        raise PilotRuntimeError("pilot sequence or per-task allocation is invalid")
+    package = value.get("runtime_package")
+    if not isinstance(package, dict) or value.get("bound_files") != package.get("files"):
+        raise PilotRuntimeError("complete runtime inventory is absent")
+    try:
+        controller_campaign_manifest.verify_package(
+            ROOT, package, require_materialised=require_materialised)
+        controller_campaign_manifest.verify_host(
+            value.get("host_record"), require_live=require_materialised)
+        controller_campaign_manifest.verify_continuation(value)
+    except controller_campaign_manifest.CampaignManifestError as exc:
+        raise PilotRuntimeError(str(exc)) from exc
     for relative, expected in value.get("bound_files", {}).items():
         path = (ROOT / relative).resolve()
         if not path.is_relative_to(ROOT.resolve()) or not path.is_file():
@@ -83,22 +115,41 @@ class PilotEpisodeExecutor:
                  controller_adapter: controller_dispatch.ControllerAdapter):
         self.worker_adapter = worker_adapter
         self.controller_adapter = controller_adapter
+        self.cancelled_probe = lambda: False
 
     def _worker(self, task: dict, episode: dict, actor: Path, budget: DispatchBudget,
                 policy: str, cells: tuple[str, ...]) -> tuple[list[dict], bool]:
         attempts = []
         public_passed = False
         for number, cell in enumerate(cells, 1):
+            if self.cancelled_probe():
+                budget.cancel()
+                break
             if number > 1 and public_passed:
                 break
             invocation = f"worker-{number:02d}"
             cap = min(3.0, budget.remaining())
             if cap < 0.001:
                 break
-            allowance = budget.reserve(invocation, cap, 0.001,
-                                       {"cell": cell, "arm": episode["arm"],
-                                        "attempt": number})
-            budget.start(invocation)
+            try:
+                allowance = budget.reserve(invocation, cap, 0.001,
+                                           {"cell": cell, "arm": episode["arm"],
+                                            "attempt": number})
+                budget.start(invocation)
+            except BudgetExhausted:
+                # The operator may have cancelled after the first probe.
+                # A reserved call that never reached the adapter costs zero.
+                if invocation in budget.snapshot()["invocations"]:
+                    budget.settle(invocation, 0.0, final=True,
+                                  telemetry={"status": "not_launched"},
+                                  evidence="worker-cancelled-before-adapter")
+                break
+            if self.cancelled_probe():
+                budget.settle(invocation, 0.0, final=True,
+                              telemetry={"status": "not_launched"},
+                              evidence="worker-cancelled-before-adapter")
+                budget.cancel()
+                break
             request = evaluation_live_worker.WorkerRequest(
                 actor_root=actor, issue=(actor / "issue.md").read_text(encoding="utf-8"),
                 allowed_edits=("result.json",), requested_cell=cell,
@@ -140,6 +191,11 @@ class PilotEpisodeExecutor:
             decision = controller_policy.decide(
                 assessment, control, selected_cell=episode["selected_cell"],
                 controller_profile=episode["controller_profile"])
+            if self.cancelled_probe():
+                return {"status": "cancelled", "controller_used": False,
+                        "controller_stage": "not-dispatched", "worker_attempts": [],
+                        "public_passed": False, "grade": None, "cost_usd": 0.0,
+                        "reserved_usd": 0.0, "accounting_complete": True}
             dispatch = controller_dispatch.TaskDispatcher(actor, self.controller_adapter).dispatch(
                 decision, problem_text=problem, acceptance_state=acceptance_state,
                 input_revision=revision)
@@ -162,10 +218,22 @@ class PilotEpisodeExecutor:
                 attempts, public_passed = self._worker(
                     task, episode, actor, budget, policy, (episode["selected_cell"],))
             else:
+                dispatch_budget_path = (actor / ".claude" / "controller-dispatch"
+                                        / decision["decision_id"] / "task-budget.json")
+                if dispatch_budget_path.is_file():
+                    snapshot = DispatchBudget(dispatch_budget_path,
+                                              scope="task_dispatch").snapshot()
+                    cost_usd = snapshot["spent_usd"]
+                    reserved_usd = snapshot["reserved_usd"]
+                    accounting_complete = not snapshot["unresolved"]
+                else:
+                    # No durable budget exists for a pre-admission block.
+                    cost_usd, reserved_usd, accounting_complete = 0.0, 0.0, True
                 return {"status": "failed", "controller_used": controller_used,
                         "controller_stage": dispatch["stage"], "worker_attempts": [],
-                        "public_passed": False, "grade": None, "cost_usd": None,
-                        "accounting_complete": False}
+                        "public_passed": False, "grade": None, "cost_usd": cost_usd,
+                        "reserved_usd": reserved_usd,
+                        "accounting_complete": accounting_complete}
         else:
             budget = DispatchBudget(episode_root / "task-budget.json", episode["maximum_usd"],
                                     scope="task_dispatch")
@@ -197,39 +265,75 @@ class PilotEpisodeExecutor:
 
 
 def execute(manifest_path: Path, authorisation_path: Path, run_root: Path,
-            executor: PilotEpisodeExecutor) -> dict:
+            executor: PilotEpisodeExecutor, *, driver_lock_timeout_s: float = 10.0) -> dict:
+    run_root.mkdir(parents=True, exist_ok=True)
+    with route.ledger_lock(run_root / "campaign-driver.json", driver_lock_timeout_s):
+        return _execute_owned(manifest_path, authorisation_path, run_root, executor)
+
+
+def cancel(run_root: Path) -> dict:
+    return controller_campaign_state.cancel(run_root)
+
+
+def reconcile(run_root: Path, manifest_sha256: str) -> dict:
+    return controller_campaign_state.reconcile(
+        run_root, manifest_sha256, kind="pilot")
+
+
+def _execute_owned(manifest_path: Path, authorisation_path: Path, run_root: Path,
+                   executor: PilotEpisodeExecutor) -> dict:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    validate_manifest(manifest)
+    live = (isinstance(executor, PilotEpisodeExecutor)
+            and isinstance(executor.worker_adapter, evaluation_live_worker.LiveWorkerAdapter)
+            and isinstance(executor.controller_adapter,
+                           controller_dispatch.ControllerRuntimeAdapter))
+    validate_manifest(manifest, require_materialised=live)
+    controller_campaign_manifest.verify_continuation(manifest, run_root)
     authorisation = json.loads(authorisation_path.read_text(encoding="utf-8"))
     if not controller_evaluation.validate_authorisation(authorisation, manifest):
         raise PilotRuntimeError("exact active authorisation is absent or invalid")
+    if manifest.get("continuation") and (authorisation.get("authority_id")
+            != manifest["continuation"]["authority_id"]
+            or authorisation.get("authority_sha256")
+            != manifest["continuation"]["authority_sha256"]):
+        raise PilotRuntimeError("continuation authority differs from its grant")
     corpus = controller_corpus.load_corpus()
     tasks = {row["task_id"]: row for row in corpus["tasks"]}
     run_root.mkdir(parents=True, exist_ok=True)
     state_path = run_root / "state.json"
+    if isinstance(executor, PilotEpisodeExecutor):
+        executor.cancelled_probe = lambda: controller_campaign_state.cancelled(state_path)
     if state_path.is_file():
-        state = json.loads(state_path.read_text(encoding="utf-8"))
+        state = controller_campaign_state.load(state_path)
         if state.get("manifest_sha256") != manifest["manifest_sha256"]:
             raise PilotRuntimeError("run root belongs to another manifest")
         if state.get("current"):
             state.update(status="stopped",
                          stop_reason="persisted episode may have billed; reconcile without replay")
-            evaluation_runner.atomic_json(state_path, state)
+            controller_campaign_state.save(state_path, state)
             return state
     else:
-        state = {"schema_version": 1, "manifest_sha256": manifest["manifest_sha256"],
+        state = {"schema_version": 2, "manifest_sha256": manifest["manifest_sha256"],
                  "status": "running", "episodes": {}, "current": None,
                  "known_spend_usd": 0.0}
-        evaluation_runner.atomic_json(state_path, state)
-    if state["status"] == "completed":
+        controller_campaign_state.save(state_path, state)
+    # Only the original running schedule may admit its next episode.
+    if state["status"] != "running":
         return state
     for episode in manifest["episodes"]:
+        if controller_campaign_state.cancelled(state_path):
+            return controller_campaign_state.load(state_path)
         episode_id = f"pilot-{episode['sequence']:03d}-{episode['task_id'].lower()}-{episode['arm'].lower()}"
         if episode_id in state["episodes"]:
             continue
-        state["current"] = {"episode_id": episode_id, "stage": "dispatch-intent"}
-        evaluation_runner.atomic_json(state_path, state)
+        state["current"] = {"episode_id": episode_id, "stage": "dispatch-intent",
+                            "intent_sha256": controller_evaluation.digest({
+                                "manifest": manifest["manifest_sha256"], "episode": episode})}
+        controller_campaign_state.save(state_path, state)
+        if controller_campaign_state.cancelled(state_path):
+            return controller_campaign_state.load(state_path)
         result = executor.run(tasks[episode["task_id"]], episode, run_root / episode_id)
+        evaluation_runner.atomic_json(run_root / episode_id / "episode-result.json", result)
         state["episodes"][episode_id] = result
         state["current"] = None
         state["known_spend_usd"] = round(sum(
@@ -237,11 +341,11 @@ def execute(manifest_path: Path, authorisation_path: Path, run_root: Path,
             if isinstance(row.get("cost_usd"), (int, float)) and not isinstance(row.get("cost_usd"), bool)), 9)
         if result["status"] != "completed" or not result["accounting_complete"]:
             state.update(status="stopped", stop_reason=f"{episode_id} failed a stop condition")
-            evaluation_runner.atomic_json(state_path, state)
+            controller_campaign_state.save(state_path, state)
             return state
-        evaluation_runner.atomic_json(state_path, state)
+        controller_campaign_state.save(state_path, state)
     state.update(status="completed", stop_reason=None)
-    evaluation_runner.atomic_json(state_path, state)
+    controller_campaign_state.save(state_path, state)
     return state
 
 

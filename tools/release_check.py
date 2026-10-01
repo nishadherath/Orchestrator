@@ -85,7 +85,8 @@ def check_licence() -> dict:
 def check_stamp() -> dict:
     path = DIST / ".claude" / "ORCHESTRATOR_VERSION"
     version = path.read_text(encoding="utf-8").strip() if path.is_file() else ""
-    return {"status": "PASS" if version and not version.endswith("-dirty") else "ACTION_REQUIRED",
+    clean = re.fullmatch(r"\d{4}-\d{2}-\d{2}-[0-9a-f]{7,40}", version) is not None
+    return {"status": "PASS" if clean else "ACTION_REQUIRED",
             "detail": version or "version stamp missing"}
 
 

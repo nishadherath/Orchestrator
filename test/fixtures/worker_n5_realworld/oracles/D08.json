@@ -1,0 +1,82 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "dead_letter": [],
+        "delivered": [],
+        "retry": [
+          "a"
+        ]
+      },
+      "input": {
+        "already_delivered": [],
+        "kind": "message_delivery",
+        "messages": [
+          {
+            "attempt": 2,
+            "id": "a",
+            "outcome": "fail"
+          }
+        ],
+        "retry_limit": 3
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "dead_letter": [
+          "a"
+        ],
+        "delivered": [],
+        "retry": []
+      },
+      "input": {
+        "already_delivered": [],
+        "kind": "message_delivery",
+        "messages": [
+          {
+            "attempt": 3,
+            "id": "a",
+            "outcome": "fail"
+          }
+        ],
+        "retry_limit": 3
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "dead_letter": [],
+        "delivered": [
+          "x"
+        ],
+        "retry": []
+      },
+      "input": {
+        "already_delivered": [],
+        "kind": "message_delivery",
+        "messages": [
+          {
+            "attempt": 1,
+            "id": "x",
+            "outcome": "ok"
+          },
+          {
+            "attempt": 2,
+            "id": "x",
+            "outcome": "fail"
+          }
+        ],
+        "retry_limit": 2
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

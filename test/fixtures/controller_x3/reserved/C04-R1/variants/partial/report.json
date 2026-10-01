@@ -1,0 +1,75 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "object-id-lookup-missing-tenant-ownership",
+  "next_step": "verify owner archived report lookup",
+  "probes": [
+    {
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-b"
+      },
+      "observed": null
+    },
+    {
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-c"
+      },
+      "observed": null
+    }
+  ]
+}

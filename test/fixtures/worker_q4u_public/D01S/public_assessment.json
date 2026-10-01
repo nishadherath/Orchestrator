@@ -1,0 +1,66 @@
+{
+  "assessment": {
+    "assessment_sha256": "0b16146276fdcb22afc8e0605d39f1700522d17046d1aa79816188312cfe79ed",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "5047a9a4f9e5236860cb5537cf2865b3a952b5035eec9400559d63d1d965be15",
+              "line": 17,
+              "path": "public_check.py",
+              "text": "    value = \"prefix\" + slash * 2 + \"suffix\""
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "round_trip_consecutive_backslashes",
+          "issue_citation": {
+            "file_sha256": "f5720deec4054890245137091a040c3f914fc6ac17eb1a5fb39c9fcccf2410ef",
+            "line": 3,
+            "path": "ISSUE.md",
+            "text": "`dotenv.set_key` must preserve values with consecutive backslashes when the"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "5047a9a4f9e5236860cb5537cf2865b3a952b5035eec9400559d63d1d965be15",
+              "line": 23,
+              "path": "public_check.py",
+              "text": "for quote in (\"'\", '\"'):"
+            },
+            {
+              "file_sha256": "5047a9a4f9e5236860cb5537cf2865b3a952b5035eec9400559d63d1d965be15",
+              "line": 24,
+              "path": "public_check.py",
+              "text": "    raw = \"key=\" + quote + \"value\" + slash * 2 + quote + \"\\nnext=\" + quote + \"present\" + quote"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "quoted_parser_boundary",
+          "issue_citation": {
+            "file_sha256": "f5720deec4054890245137091a040c3f914fc6ac17eb1a5fb39c9fcccf2410ef",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "backslash must terminate at its own quote so the next binding remains separate."
+          }
+        }
+      ],
+      "cross_component": true,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "f5720deec4054890245137091a040c3f914fc6ac17eb1a5fb39c9fcccf2410ef",
+      "public_check.py": "5047a9a4f9e5236860cb5537cf2865b3a952b5035eec9400559d63d1d965be15"
+    },
+    "schema_version": 1,
+    "verification_coverage": "direct"
+  },
+  "schema_version": 1,
+  "task_id": "D01S",
+  "task_sha256": "d902180a0446ffcc5859ba4eea251d6ccbc15098bf59c8c7b87d573fc9e969c7"
+}

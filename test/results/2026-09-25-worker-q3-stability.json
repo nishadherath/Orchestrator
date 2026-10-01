@@ -1,0 +1,261 @@
+{
+  "actor_unchanged": true,
+  "baseline": [
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": false,
+        "single-compute": false,
+        "typed-bool": false,
+        "typed-float": false
+      },
+      "hidden_acceptance": false,
+      "public_pass": false,
+      "quality": 10.0
+    }
+  ],
+  "campaign_sha256": "bb10427bb003977db02c02e327d1e496fb8bbf2e17edb081c7f47ad5f95f4c0f",
+  "candidate": [
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    },
+    {
+      "cases": {
+        "eviction-preserved": true,
+        "second-key": true,
+        "single-compute": true,
+        "typed-bool": true,
+        "typed-float": true
+      },
+      "hidden_acceptance": true,
+      "public_pass": true,
+      "quality": 100.0
+    }
+  ],
+  "manifest_sha256": "ecdb71d90de67fbdef559d9e815c13935236bf446f378ddb98edb3867f9fd3b7",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T09:29:21+00:00",
+  "repeats": 10,
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_stability.py": "4653d89fdcecddd5582068528cb94efa14e4eb86b8d0dc20ba2de57b5efb4e54",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce",
+    "tools/worker_wsl_q3_grade.py": "1602c39dcd7225080fc290bad47ce972e5e69c2e6cb77001c62cfedeeae9f442"
+  },
+  "stable_baseline": true,
+  "stable_candidate": true
+}

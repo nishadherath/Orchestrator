@@ -1,0 +1,20 @@
+{
+  "assessment_cost_usd": 0.050811401,
+  "assessment_invocation_id": "public-assessment-76f8b5845614e83d9bcae660",
+  "assessment_status": "settled",
+  "budget_unresolved": [],
+  "effective_action": null,
+  "first_task": "X5-PAY",
+  "manifest_sha256": "244ea833f2fb122b4937410b75239db08c9548846310a417563244ff2df9b7a4",
+  "model_reported": "claude-sonnet-5",
+  "observed_worker_facts": {
+    "failure_cause": "identity",
+    "frame_confidence": "uncertain",
+    "task_kind": "investigation"
+  },
+  "provider_calls": 1,
+  "root_id": "7e2c255bcd9687d340d1eca2",
+  "screen_stop": "N3 selection stopped: unresolved_frame",
+  "tasks_not_assessed": ["X5-FEAT", "X5-LEASE", "X5-MONEY", "N01-D1", "C08-D2"],
+  "worker_or_controller_pilot_calls": 0
+}

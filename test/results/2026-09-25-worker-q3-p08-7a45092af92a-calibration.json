@@ -1,0 +1,269 @@
+{
+  "checks": {
+    "alternative_accepted": false,
+    "baseline_rejected": true,
+    "no_critical_or_false_success": false,
+    "partial_progress": true,
+    "reference_accepted": false
+  },
+  "evidence_sha256": "fa70bcf0fb664d6f41160e508bcff4c17b32646840a035d5b5af17134fbf793f",
+  "grades": {
+    "alternative": {
+      "case_source_sha256": "5afd8e1afa2d7201bdd0f5ad4197fdac0f6d43d42f52cc1f27a6aebc30bbc59c",
+      "cases": [
+        {
+          "milestone": "xdg-data-single",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "xdg-data-multipath",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "xdg-config-single",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "xdg-lazy-first",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "unix-site-path",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "mac-cache-single",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "mac-cache-path",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "creation-disabled",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": true,
+      "grade_sha256": "6da005c4e49dd7eb0e7fe705da918166e588399f4b3e1420565bb1766588b07d",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+      "package_sha256": "f43f1b1286c788f5d4459c5a7a22710b59754cde14f546d401a855ba2babf79c",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 85,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P08",
+      "task_sha256": "7a45092af92a75301b817094ad5e46bdb3baa0d20ff1303b2f5112136f96cde0",
+      "variant": "alternative"
+    },
+    "baseline": {
+      "case_source_sha256": "5afd8e1afa2d7201bdd0f5ad4197fdac0f6d43d42f52cc1f27a6aebc30bbc59c",
+      "cases": [
+        {
+          "milestone": "xdg-data-single",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "xdg-data-multipath",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "xdg-config-single",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "xdg-lazy-first",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "unix-site-path",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "mac-cache-single",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "mac-cache-path",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "creation-disabled",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "c79f351cb51538da7802fef01bd508617a7aea37c1f19d047063b6d124930f9d",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+      "package_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 15,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P08",
+      "task_sha256": "7a45092af92a75301b817094ad5e46bdb3baa0d20ff1303b2f5112136f96cde0",
+      "variant": "baseline"
+    },
+    "partial": {
+      "case_source_sha256": "5afd8e1afa2d7201bdd0f5ad4197fdac0f6d43d42f52cc1f27a6aebc30bbc59c",
+      "cases": [
+        {
+          "milestone": "xdg-data-single",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "xdg-data-multipath",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "xdg-config-single",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "xdg-lazy-first",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "unix-site-path",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "mac-cache-single",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "mac-cache-path",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "creation-disabled",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "5d519c3daf3e53fd2501ba73305a0402c8cb85c81c0ea4a272b01781e657a90e",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+      "package_sha256": "b9b7dcd3ea4f2e1d465e8a6d37c859fed30db7b180e8bf6a9e956868fe331e7f",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 60,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P08",
+      "task_sha256": "7a45092af92a75301b817094ad5e46bdb3baa0d20ff1303b2f5112136f96cde0",
+      "variant": "partial"
+    },
+    "reference": {
+      "case_source_sha256": "5afd8e1afa2d7201bdd0f5ad4197fdac0f6d43d42f52cc1f27a6aebc30bbc59c",
+      "cases": [
+        {
+          "milestone": "xdg-data-single",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "xdg-data-multipath",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "xdg-config-single",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "xdg-lazy-first",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "unix-site-path",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "mac-cache-single",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "mac-cache-path",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "creation-disabled",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": true,
+      "grade_sha256": "0403a94ac42fe3861b0ff44f55f2a131fe16564e76a5e685aa8b7423330e555f",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+      "package_sha256": "ab5e1ccd35fb204e74a23a837be4ef182b2b8578e72939dc814f4d15709cb5d5",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 85,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P08",
+      "task_sha256": "7a45092af92a75301b817094ad5e46bdb3baa0d20ff1303b2f5112136f96cde0",
+      "variant": "reference"
+    }
+  },
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T10:43:29+00:00",
+  "result": "PROVISIONAL",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_public_calibrate.py": "38c163472eeaf0fad1edb7876dce657bb4b19d4d00e003c5088efec8b3a27fdd",
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce",
+    "tools/worker_wsl_q3_public.py": "ee8255eeb45d5c27a0655759a32191a68fc958d1f88c42d031bfe57e8cbdebcb"
+  },
+  "task_id": "P08",
+  "task_sha256": "7a45092af92a75301b817094ad5e46bdb3baa0d20ff1303b2f5112136f96cde0"
+}

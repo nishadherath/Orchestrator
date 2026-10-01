@@ -1,0 +1,16 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "dual-read-backfill-precedence",
+  "next_step": "replay-mixed-version-rows-before-cutover",
+  "probes": [
+    {
+      "input": {"op": "read", "records": [{"id": "probe-a", "legacy": 21}]},
+      "observed": {"values": [{"id": "probe-a", "value": 21}]}
+    },
+    {
+      "input": {"op": "read", "records": [
+        {"id": "probe-b", "legacy": 21, "current": 34}]},
+      "observed": {"values": [{"id": "probe-b", "value": 34}]}
+    }
+  ]
+}

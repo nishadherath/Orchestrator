@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "task_id": "N04-R2",
+  "diagnosis": "stale-generated-fixture-pair-from-source",
+  "cases": [
+    {
+      "milestone": "API fixture reflects declared source",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "action": "fixture",
+        "name": "api"
+      },
+      "expected": {
+        "schema_version": 2,
+        "service": "api",
+        "port": 8080
+      }
+    },
+    {
+      "milestone": "worker fixture reflects declared source",
+      "weight": 30,
+      "critical": false,
+      "input": {
+        "action": "fixture",
+        "name": "worker"
+      },
+      "expected": {
+        "schema_version": 2,
+        "service": "worker",
+        "port": 9090
+      }
+    },
+    {
+      "milestone": "both checked fixtures reproduce byte for byte",
+      "weight": 30,
+      "critical": false,
+      "input": {
+        "action": "reproducible"
+      },
+      "expected": {
+        "matches": {
+          "api": true,
+          "worker": true
+        }
+      }
+    },
+    {
+      "milestone": "new API port reaches its consumer",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "action": "port",
+        "name": "api"
+      },
+      "expected": {
+        "port": 8080
+      }
+    }
+  ]
+}

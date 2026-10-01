@@ -1,0 +1,9 @@
+{
+  "approved_at_utc": "2026-09-26T06:38:33+00:00",
+  "credential_method": "claude-code-wsl-subscription",
+  "decision": "approved",
+  "manifest_sha256": "6b5b5d92bab2360494dfc9c7501f4dd7044baec81ec07dc1742f73a46ba263d6",
+  "maximum_authorised_usd": 72.0,
+  "maximum_provider_calls": 54,
+  "schema_version": 1
+}

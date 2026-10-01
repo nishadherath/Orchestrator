@@ -1,0 +1,26 @@
+{
+  "actor_files": {
+    "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+    "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+    "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+    "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+    "boltons/jsonutils.py": "f71876a97e818d3988b3296cf2a11788d0513cf251f269f8eb7fd42aab591094",
+    "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+  },
+  "editable_paths": [
+    "boltons/jsonutils.py"
+  ],
+  "evaluator_zip_sha256": "e997e6d9d34288a71279d6e89ff19476957ffeb04033fe7280e1cbafcc6da847",
+  "fix_commit": "f1034b07ddf71f4d9285134a47a4ade16fe40789",
+  "fix_url": "https://github.com/mahmoud/boltons/commit/f1034b07ddf71f4d9285134a47a4ade16fe40789",
+  "id": "B02W",
+  "licence": "BSD-3-Clause",
+  "licence_sha256": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+  "origin": "pinned-upstream-regression",
+  "public_check_variant": "weak",
+  "public_coverage": "partial",
+  "schema_version": 1,
+  "source_commit": "435774ef8b10c1355bf77483a837945034011754",
+  "source_url": "https://github.com/mahmoud/boltons",
+  "task_sha256": "d2147f43b79e67546a49c0dc531b858d6a20dddcde7871a1dd9bc4dcacbb2004"
+}

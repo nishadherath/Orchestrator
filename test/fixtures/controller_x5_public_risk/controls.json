@@ -1,0 +1,20 @@
+[
+  {
+    "id": "C01",
+    "eligible": false,
+    "kind": "clear repair",
+    "issue": "A tenant-scoped key registry already checks issuer, audience and expiry. One newly published Blue key is absent from Blue's map; add it without changing verifier policy.",
+    "public_source": "keys_for_expected_tenant = tenant_keys[expected_tenant]",
+    "public_check": "Tests the new and old Blue keys, both tenant routes, issuer mismatch, audience and expiry.",
+    "decision": "The requested mapping is known and the public check covers the consequential trust boundaries; a separate Controller investigation has no cited unresolved premise."
+  },
+  {
+    "id": "M01",
+    "eligible": false,
+    "kind": "missing decision",
+    "issue": "The operator asks to retire an issuer but supplies neither the issuer identity nor the intended overlap period for existing live tokens.",
+    "public_source": "accepted_issuers = configured_issuers",
+    "public_check": "Existing issuer tokens continue to validate; no new trust policy is specified.",
+    "decision": "The authoritative trust policy is missing; ask for the issuer and overlap decision before any repair or Controller review."
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "task_id": "C05-D1",
+  "diagnosis": "unbounded-cartesian-window-join",
+  "cases": [
+    {
+      "milestone": "inclusive window joins matching keys", "weight": 20,
+      "critical": false,
+      "input": {"left": [{"id": "L1", "key": "a", "time": 10}],
+                "right": [{"id": "R1", "key": "a", "time": 12}], "window": 2},
+      "expected": {"pairs": [["L1", "R1"]]}
+    },
+    {
+      "milestone": "outside-window match is excluded", "weight": 20,
+      "critical": true,
+      "input": {"left": [{"id": "L1", "key": "a", "time": 10}],
+                "right": [{"id": "R1", "key": "a", "time": 13}], "window": 2},
+      "expected": {"pairs": []}
+    },
+    {
+      "milestone": "different keys never join", "weight": 20,
+      "critical": true,
+      "input": {"left": [{"id": "L1", "key": "a", "time": 10}],
+                "right": [{"id": "R1", "key": "b", "time": 10}], "window": 2},
+      "expected": {"pairs": []}
+    },
+    {
+      "milestone": "sparse streams respect the live-row cap", "weight": 20,
+      "critical": false,
+      "input": {"scenario": "sparse-64"},
+      "expected": {"pairs": []}
+    },
+    {
+      "milestone": "one right event may join two left events in order", "weight": 20,
+      "critical": false,
+      "input": {"left": [
+                  {"id": "L1", "key": "a", "time": 10},
+                  {"id": "L2", "key": "a", "time": 11}],
+                "right": [{"id": "R1", "key": "a", "time": 11}], "window": 1},
+      "expected": {"pairs": [["L1", "R1"], ["L2", "R1"]]}
+    }
+  ]
+}

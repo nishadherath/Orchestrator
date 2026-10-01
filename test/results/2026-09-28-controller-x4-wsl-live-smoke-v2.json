@@ -1,0 +1,126 @@
+{
+  "budget": {
+    "available_usd": 0.0,
+    "baseline_limit_units": 12000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-28T03:03:46.567216+00:00",
+    "currency": "USD",
+    "invocations": {
+      "8470fcd7820ca7577cf6fea4729743b0": {
+        "allowance_units": 11706663800,
+        "charged_units": 0,
+        "cost_usd": null,
+        "metadata": {
+          "decision_digest": "8347e82ff49e4be6772a26afbb5f53c8de3e9bb25b67a8b6922fd93944c4b353",
+          "revision_id": "5376812c950e610ee2788eb5503379fd836882ea56d66ad63d8b1fae3c3d68ce",
+          "root_id": "x4-live-smoke-root-v2"
+        },
+        "reserved_at": "2026-09-28T03:06:44.208120+00:00",
+        "resolution": null,
+        "started_at": "2026-09-28T03:06:44.218968+00:00",
+        "state": "running",
+        "telemetry": null
+      },
+      "controller-5376812c950e610ee2788eb5": {
+        "allowance_units": 4000000000,
+        "charged_units": 272239000,
+        "cost_usd": 0.272239,
+        "metadata": {
+          "allocation": "controller",
+          "decision_id": "rtd-a8538c8127587a139a0a5ca4",
+          "revision_id": "5376812c950e610ee2788eb5503379fd836882ea56d66ad63d8b1fae3c3d68ce"
+        },
+        "reserved_at": "2026-09-28T03:05:13.041421+00:00",
+        "resolution": {
+          "cost_usd": 0.272239,
+          "evidence": "controller-adapter-result",
+          "final": true,
+          "telemetry": {
+            "accounting_complete": true,
+            "outcome": "gap"
+          }
+        },
+        "started_at": "2026-09-28T03:05:13.045419+00:00",
+        "state": "settled",
+        "telemetry": {
+          "accounting_complete": true,
+          "outcome": "gap"
+        },
+        "updated_at": "2026-09-28T03:06:44.162111+00:00"
+      },
+      "controller-follow-on-5376812c950e610ee2788eb5": {
+        "allowance_units": 3500000000,
+        "charged_units": 0,
+        "cost_usd": 0.0,
+        "metadata": {
+          "allocation": "worker-verification-hold",
+          "revision_id": "5376812c950e610ee2788eb5503379fd836882ea56d66ad63d8b1fae3c3d68ce"
+        },
+        "reserved_at": "2026-09-28T03:05:13.037675+00:00",
+        "resolution": {
+          "cost_usd": 0.0,
+          "evidence": "controller-validated-worker-handoff",
+          "final": true,
+          "telemetry": {}
+        },
+        "state": "settled",
+        "telemetry": {},
+        "updated_at": "2026-09-28T03:06:44.183600+00:00"
+      },
+      "public-assessment-5376812c950e610ee2788eb5": {
+        "allowance_units": 500000000,
+        "charged_units": 21097200,
+        "cost_usd": 0.0210972,
+        "metadata": {
+          "allocation": "public-assessment",
+          "packet_sha256": "f5b3db6cf82535d2b8cb1d2127ae685f853cc078d145598a16a3f545f23759d1",
+          "revision_id": "5376812c950e610ee2788eb5503379fd836882ea56d66ad63d8b1fae3c3d68ce"
+        },
+        "reserved_at": "2026-09-28T03:05:02.936256+00:00",
+        "resolution": {
+          "cost_usd": 0.0210972,
+          "evidence": "public-assessment:f5b3db6cf82535d2b8cb1d2127ae685f853cc078d145598a16a3f545f23759d1",
+          "final": true,
+          "telemetry": {
+            "cost_usd": 0.0210972,
+            "input_tokens": 4,
+            "model": "claude-sonnet-5",
+            "output_tokens": 817,
+            "provider_calls": 1
+          }
+        },
+        "started_at": "2026-09-28T03:05:02.940276+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cost_usd": 0.0210972,
+          "input_tokens": 4,
+          "model": "claude-sonnet-5",
+          "output_tokens": 817,
+          "provider_calls": 1
+        },
+        "updated_at": "2026-09-28T03:05:12.941840+00:00"
+      }
+    },
+    "limit_units": 12000000000,
+    "limit_usd": 12.0,
+    "reserved_usd": 11.7066638,
+    "scope": "task_dispatch",
+    "spent_usd": 0.2933362,
+    "unresolved": [
+      "8470fcd7820ca7577cf6fea4729743b0"
+    ],
+    "version": 1
+  },
+  "controller_stage": "worker-ready",
+  "credential_reconciled": true,
+  "effective_action": "controller",
+  "error": null,
+  "public_assessment_cost_usd": 0.0210972,
+  "public_assessment_status": "settled",
+  "root_id": "x4-live-smoke-root-v2",
+  "schema_version": 1,
+  "seed": "/var/lib/orchestrator-worker-n4/seed/controller-x4-ka1sgn86",
+  "status": "uncertain",
+  "worker_attempt_count": 1
+}

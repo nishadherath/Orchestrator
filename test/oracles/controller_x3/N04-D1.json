@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "N04-D1",
+  "diagnosis": "manifest-pin-drift",
+  "cases": [
+    {"milestone": "deploy manifest has approved API pin", "weight": 30,
+     "critical": false, "input": {"action": "release", "service": "api"},
+     "expected": {"pin": {"version": "2.4.1", "digest": "sha256:aa22"}}},
+    {"milestone": "audit manifest has approved API pin", "weight": 30,
+     "critical": false, "input": {"action": "audit", "service": "api"},
+     "expected": {"pin": {"version": "2.4.1", "digest": "sha256:aa22"}}},
+    {"milestone": "deploy worker pin is preserved", "weight": 20,
+     "critical": false, "input": {"action": "release", "service": "worker"},
+     "expected": {"pin": {"version": "3.1.0", "digest": "sha256:bb00"}}},
+    {"milestone": "audit worker pin is preserved", "weight": 20,
+     "critical": false, "input": {"action": "audit", "service": "worker"},
+     "expected": {"pin": {"version": "3.1.0", "digest": "sha256:bb00"}}}
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "samples": [
+    {
+      "observed": {
+        "carrier_commits": [
+          {
+            "order": "o1",
+            "qty": 2,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "order": "o1",
+            "qty": 2,
+            "sku": "a",
+            "tenant": "n"
+          }
+        ],
+        "results": [
+          "reserved",
+          "reserved",
+          "dispatched",
+          "replayed"
+        ],
+        "stock": {
+          "n|a": 2
+        }
+      },
+      "operations": [
+        {
+          "op": "reserve",
+          "order": "o1",
+          "qty": 2,
+          "sku": "a",
+          "tenant": "n"
+        },
+        {
+          "op": "reserve",
+          "order": "o2",
+          "qty": 1,
+          "sku": "a",
+          "tenant": "n"
+        },
+        {
+          "op": "dispatch",
+          "order": "o1",
+          "tenant": "n"
+        },
+        {
+          "op": "dispatch",
+          "order": "o1",
+          "tenant": "n"
+        }
+      ],
+      "stock": {
+        "n|a": 2
+      }
+    }
+  ]
+}

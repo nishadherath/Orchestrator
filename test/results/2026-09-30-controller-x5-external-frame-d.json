@@ -1,0 +1,519 @@
+{
+  "schema": "controller-x5-external-frame-d-v1",
+  "protocol": "docs/stage-results/controller-x5-external-recent-frame-d-protocol-2026-09-30.md",
+  "fetched_at_utc": "2026-09-30T01:57:21+00:00",
+  "repositories": [
+    "pydantic/pydantic",
+    "pytest-dev/pytest",
+    "pytest-dev/pytest-asyncio",
+    "sqlalchemy/sqlalchemy",
+    "sqlalchemy/alembic",
+    "aio-libs/aiohttp",
+    "agronholm/anyio",
+    "celery/celery",
+    "fastapi/fastapi",
+    "Kludex/starlette",
+    "encode/httpx",
+    "encode/httpcore",
+    "encode/uvicorn",
+    "psf/requests",
+    "urllib3/urllib3",
+    "pallets/werkzeug",
+    "pallets/click",
+    "python-trio/trio",
+    "astral-sh/ruff",
+    "python-poetry/poetry"
+  ],
+  "created_cutoff_utc": "2026-09-27T00:00:00Z",
+  "hash_seed": "x5-frame-d-2026-09-30-015455Z\n",
+  "all_open_issue_count": 18,
+  "selected_count": 18,
+  "selected_urls": [
+    "https://github.com/agronholm/anyio/issues/1356",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+    "https://github.com/celery/celery/issues/10733",
+    "https://github.com/agronholm/anyio/issues/1353",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13619",
+    "https://github.com/celery/celery/issues/10725",
+    "https://github.com/astral-sh/ruff/issues/28989",
+    "https://github.com/aio-libs/aiohttp/issues/13835",
+    "https://github.com/astral-sh/ruff/issues/28930",
+    "https://github.com/astral-sh/ruff/issues/28942",
+    "https://github.com/pydantic/pydantic/issues/13886",
+    "https://github.com/pydantic/pydantic/issues/13900",
+    "https://github.com/aio-libs/aiohttp/issues/13868",
+    "https://github.com/agronholm/anyio/issues/1364",
+    "https://github.com/astral-sh/ruff/issues/28998",
+    "https://github.com/sqlalchemy/sqlalchemy/issues/13617",
+    "https://github.com/astral-sh/ruff/issues/28945",
+    "https://github.com/celery/celery/issues/10724"
+  ],
+  "repository_counts": [
+    {
+      "repository": "pydantic/pydantic",
+      "included": 2
+    },
+    {
+      "repository": "pytest-dev/pytest",
+      "included": 0
+    },
+    {
+      "repository": "pytest-dev/pytest-asyncio",
+      "included": 0
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "included": 3
+    },
+    {
+      "repository": "sqlalchemy/alembic",
+      "included": 0
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "included": 2
+    },
+    {
+      "repository": "agronholm/anyio",
+      "included": 3
+    },
+    {
+      "repository": "celery/celery",
+      "included": 3
+    },
+    {
+      "repository": "fastapi/fastapi",
+      "included": 0
+    },
+    {
+      "repository": "Kludex/starlette",
+      "included": 0
+    },
+    {
+      "repository": "encode/httpx",
+      "included": 0
+    },
+    {
+      "repository": "encode/httpcore",
+      "included": 0
+    },
+    {
+      "repository": "encode/uvicorn",
+      "included": 0
+    },
+    {
+      "repository": "psf/requests",
+      "included": 0
+    },
+    {
+      "repository": "urllib3/urllib3",
+      "included": 0
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "included": 0
+    },
+    {
+      "repository": "pallets/click",
+      "included": 0
+    },
+    {
+      "repository": "python-trio/trio",
+      "included": 0
+    },
+    {
+      "repository": "astral-sh/ruff",
+      "included": 5
+    },
+    {
+      "repository": "python-poetry/poetry",
+      "included": 0
+    }
+  ],
+  "pages": [
+    {
+      "requested_url": "https://api.github.com/repos/pydantic/pydantic/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pydantic/pydantic/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:05 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/pytest-dev/pytest/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pytest-dev/pytest/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:06 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/pytest-dev/pytest-asyncio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pytest-dev/pytest-asyncio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:07 GMT",
+      "items": 51
+    },
+    {
+      "requested_url": "https://api.github.com/repos/sqlalchemy/sqlalchemy/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/sqlalchemy/sqlalchemy/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:08 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/sqlalchemy/alembic/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/sqlalchemy/alembic/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:08 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/aio-libs/aiohttp/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/aio-libs/aiohttp/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:09 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/agronholm/anyio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/agronholm/anyio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:10 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/celery/celery/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/celery/celery/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:11 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/fastapi/fastapi/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/fastapi/fastapi/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:12 GMT",
+      "items": 82
+    },
+    {
+      "requested_url": "https://api.github.com/repos/Kludex/starlette/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/Kludex/starlette/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:12 GMT",
+      "items": 59
+    },
+    {
+      "requested_url": "https://api.github.com/repos/encode/httpx/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/encode/httpx/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:13 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/encode/httpcore/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/encode/httpcore/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:14 GMT",
+      "items": 74
+    },
+    {
+      "requested_url": "https://api.github.com/repos/encode/uvicorn/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repositories/92946971/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:15 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/psf/requests/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/psf/requests/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:16 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/urllib3/urllib3/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/urllib3/urllib3/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:17 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/pallets/werkzeug/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/werkzeug/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:17 GMT",
+      "items": 5
+    },
+    {
+      "requested_url": "https://api.github.com/repos/pallets/click/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/pallets/click/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:18 GMT",
+      "items": 86
+    },
+    {
+      "requested_url": "https://api.github.com/repos/python-trio/trio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-trio/trio/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:19 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/astral-sh/ruff/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/astral-sh/ruff/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:20 GMT",
+      "items": 100
+    },
+    {
+      "requested_url": "https://api.github.com/repos/python-poetry/poetry/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "final_url": "https://api.github.com/repos/python-poetry/poetry/issues?state=open&sort=created&direction=desc&per_page=100&page=1",
+      "status": 200,
+      "server_date": "Wed, 30 Sep 2026 01:57:20 GMT",
+      "items": 100
+    }
+  ],
+  "rows": [
+    {
+      "repository": "pydantic/pydantic",
+      "url": "https://github.com/pydantic/pydantic/issues/13900",
+      "number": 13900,
+      "title": "Publish the SkipJsonSchema example in the JSON Schema docs",
+      "created_at": "2026-09-30T01:56:15Z",
+      "updated_at": "2026-09-30T01:56:15Z",
+      "labels": [],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "dbfb9262cd72137dfbe4f3d33b7e254dc335ae08656f125b9c6ad5180bd83c54"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "url": "https://github.com/pydantic/pydantic/issues/13886",
+      "number": 13886,
+      "title": "Add support for string constraints for `SecretStr` type",
+      "created_at": "2026-09-28T14:47:29Z",
+      "updated_at": "2026-09-29T20:57:54Z",
+      "labels": [
+        "feature request"
+      ],
+      "comments": 2,
+      "body_was_null": false,
+      "body_sha256": "bf9e9f5cced23aeeafa60fb575a9fe0b5ee255db24fe33edfedd1e8202e04de0"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13619",
+      "number": 13619,
+      "title": "2.1: TypeError \"Expected tuple, got Row\" when DBAPI returns tuple subclasses (e.g. databricks-sql-connector)",
+      "created_at": "2026-09-29T20:20:50Z",
+      "updated_at": "2026-09-29T20:20:50Z",
+      "labels": [],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "1b89fdd6f5a2ed5d14cbbda418b699e804dfbbaf818a8e50d8e9639e1d6a6c8b"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13617",
+      "number": 13617,
+      "title": "TypeDecorator.comparator_factory creates a new class with type() on every access",
+      "created_at": "2026-09-29T15:00:33Z",
+      "updated_at": "2026-09-29T15:00:33Z",
+      "labels": [],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "dcce997b19009fea2f8b95910317147586ba475dd6e7fb84778a12702032587f"
+    },
+    {
+      "repository": "sqlalchemy/sqlalchemy",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13616",
+      "number": 13616,
+      "title": "tstring() string portions should not parse :param bind names or \\: escapes",
+      "created_at": "2026-09-29T14:18:09Z",
+      "updated_at": "2026-09-29T14:22:01Z",
+      "labels": [
+        "bug",
+        "sql"
+      ],
+      "comments": 1,
+      "body_was_null": false,
+      "body_sha256": "b13faf90be1529ca3705881725d1006a43b67aa0c5f8430c3b78fdef857d0512"
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13868",
+      "number": 13868,
+      "title": "HeadersDictProxy treats mixed-case duplicate headers as distinct keys",
+      "created_at": "2026-09-29T11:27:54Z",
+      "updated_at": "2026-09-29T11:27:54Z",
+      "labels": [],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "149c3110d10e7c398265e1da99d045eb9528a42edd02683cf475abe15007a629"
+    },
+    {
+      "repository": "aio-libs/aiohttp",
+      "url": "https://github.com/aio-libs/aiohttp/issues/13835",
+      "number": 13835,
+      "title": "Request a 3.14 patch release with the merged correctness fixes",
+      "created_at": "2026-09-27T22:19:28Z",
+      "updated_at": "2026-09-27T22:59:44Z",
+      "labels": [
+        "ai-slop"
+      ],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "9b27b181101a769054c61f01501c8576e1150d8167dcb0cf8eb46c653fa308f8"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "url": "https://github.com/agronholm/anyio/issues/1364",
+      "number": 1364,
+      "title": "connect_tcp() leaks a connected socket when an enclosing scope is cancelled after the connect succeeds",
+      "created_at": "2026-09-29T15:19:04Z",
+      "updated_at": "2026-09-29T15:19:04Z",
+      "labels": [],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "d110922f24268d7a47f16098a52a3da8dfbb25ba4a944fbe544c51ea859241cd"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "url": "https://github.com/agronholm/anyio/issues/1356",
+      "number": 1356,
+      "title": "Exception raised by a start()ed child during cancellation is lost on asyncio",
+      "created_at": "2026-09-28T06:32:47Z",
+      "updated_at": "2026-09-28T06:32:47Z",
+      "labels": [],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "f6de890de5774768ee9a7168f55d29f66075a2c4086282a14d357cd9b740a179"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "url": "https://github.com/agronholm/anyio/issues/1353",
+      "number": 1353,
+      "title": "Hypothesis async tests don't actually run on all parametrized anyio backends",
+      "created_at": "2026-09-27T15:05:05Z",
+      "updated_at": "2026-09-27T15:06:32Z",
+      "labels": [
+        "bug",
+        "pytest plugin"
+      ],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "996bb6c2c00b9e37d616468f7a461b5b35b6f8df623593404b2683ddcb34f63f"
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10733",
+      "number": 10733,
+      "title": "Deferred consumer operations execute in reverse order in hub-less workers",
+      "created_at": "2026-09-29T13:56:02Z",
+      "updated_at": "2026-09-29T16:28:47Z",
+      "labels": [
+        "Issue Type: Bug Report",
+        "Worker",
+        "Component: Consumer"
+      ],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "cfd640e4fea31b0f15cf1b74087bc32f8e3eecec24a247baab3ab36e32853672"
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10725",
+      "number": 10725,
+      "title": "A link the broker refuses after the task body ran records FAILURE and acks the message, so the link is never sent",
+      "created_at": "2026-09-28T20:34:31Z",
+      "updated_at": "2026-09-28T20:35:39Z",
+      "labels": [],
+      "comments": 1,
+      "body_was_null": false,
+      "body_sha256": "4f10f5463a61c3ba40d9cc8ceddf5ba448b5a833542eda0c6761f2ff6517f410"
+    },
+    {
+      "repository": "celery/celery",
+      "url": "https://github.com/celery/celery/issues/10724",
+      "number": 10724,
+      "title": "A task whose SUCCESS is stored still fires its error callback: a pool child lost after the store, or a raising on_success",
+      "created_at": "2026-09-28T20:34:25Z",
+      "updated_at": "2026-09-29T03:41:32Z",
+      "labels": [],
+      "comments": 2,
+      "body_was_null": false,
+      "body_sha256": "85fc00abf6d2c3200a925fff97ff449d1cf19a105a9e0c745ed214688255ac52"
+    },
+    {
+      "repository": "astral-sh/ruff",
+      "url": "https://github.com/astral-sh/ruff/issues/28998",
+      "number": 28998,
+      "title": "PLW0108 False positive when lambda executes a list element",
+      "created_at": "2026-09-29T14:42:47Z",
+      "updated_at": "2026-09-29T15:25:18Z",
+      "labels": [
+        "question"
+      ],
+      "comments": 1,
+      "body_was_null": false,
+      "body_sha256": "90288735fed9ba29ac8a08ef840f1af4b365ce3513875c55743e1fba307a6039"
+    },
+    {
+      "repository": "astral-sh/ruff",
+      "url": "https://github.com/astral-sh/ruff/issues/28989",
+      "number": 28989,
+      "title": "SLF001 false positives in __new__",
+      "created_at": "2026-09-29T09:04:44Z",
+      "updated_at": "2026-09-29T13:35:55Z",
+      "labels": [
+        "bug"
+      ],
+      "comments": 1,
+      "body_was_null": false,
+      "body_sha256": "74e3e0a78085f9dcc61a7bd7f02659afd8ba4a8872d77c3a60779e1af2334d0c"
+    },
+    {
+      "repository": "astral-sh/ruff",
+      "url": "https://github.com/astral-sh/ruff/issues/28945",
+      "number": 28945,
+      "title": "RUF031 incorrectly-parenthesized-tuple-in-subscript: false negative",
+      "created_at": "2026-09-27T13:02:46Z",
+      "updated_at": "2026-09-28T14:25:57Z",
+      "labels": [
+        "rule",
+        "needs-decision"
+      ],
+      "comments": 4,
+      "body_was_null": false,
+      "body_sha256": "84573bd49e26196b3b348007faafe7a89f1dc232b3124409385c5b21611bffd1"
+    },
+    {
+      "repository": "astral-sh/ruff",
+      "url": "https://github.com/astral-sh/ruff/issues/28942",
+      "number": 28942,
+      "title": "PLC0414 useless-import-alias: detect in *.pyi files - mypy stubgen generates the violation",
+      "created_at": "2026-09-27T12:26:48Z",
+      "updated_at": "2026-09-28T10:03:38Z",
+      "labels": [
+        "rule",
+        "needs-decision"
+      ],
+      "comments": 3,
+      "body_was_null": false,
+      "body_sha256": "4a6de99d6d1a055a24200bb1f21348eddbccf2f79ee8f17b7f929501ec9f8b1d"
+    },
+    {
+      "repository": "astral-sh/ruff",
+      "url": "https://github.com/astral-sh/ruff/issues/28930",
+      "number": 28930,
+      "title": "Known Deviations doc incorrect for multiline-strings",
+      "created_at": "2026-09-27T00:18:25Z",
+      "updated_at": "2026-09-28T19:42:23Z",
+      "labels": [
+        "documentation"
+      ],
+      "comments": 0,
+      "body_was_null": false,
+      "body_sha256": "0a962bfe7f1938147fdef5ca1ac41840c0b44203c342a5f663da6bc67006ec28"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{"schema_version":1,"cases":[
+  {"input":{"case":"bounded-memory"},"expected":{"ok":true},"weight":55,"milestone":"bounded-memory","critical":false},
+  {"input":{"case":"lookahead-order"},"expected":{"ok":true},"weight":25,"milestone":"lookahead-order","critical":false},
+  {"input":{"case":"empty-default"},"expected":{"ok":true},"weight":20,"milestone":"empty-default","critical":false}
+]}

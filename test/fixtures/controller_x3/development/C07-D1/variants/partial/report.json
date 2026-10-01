@@ -1,0 +1,11 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "inconsistent-decimal-aggregation-across-consumers",
+  "next_step": "verify-negative-refunds",
+  "probes": [
+    {"input": {"amounts": ["0.015", "0.015"]},
+     "observed": {"ledger": "0.03", "statement": "0.03"}},
+    {"input": {"amounts": ["1.225"]},
+     "observed": {"ledger": "1.22", "statement": "1.22"}}
+  ]
+}

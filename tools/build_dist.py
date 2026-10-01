@@ -138,7 +138,21 @@ def strip_rationale(routing_text: str) -> str:
 
 
 def version_stamp() -> str:
-    rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip() or "no-git"
+    def inspect(*args: str) -> str:
+        try:
+            result = subprocess.run(["git", *args], capture_output=True, text=True,
+                                    cwd=REPO_ROOT, timeout=30)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            raise RuntimeError("source provenance unavailable; restore Git access before building") from exc
+        if result.returncode != 0:
+            raise RuntimeError(
+                f"source provenance inspection failed ({result.returncode}); "
+                "restore Git access before building")
+        return result.stdout.strip()
+
+    rev = inspect("rev-parse", "--short", "HEAD")
+    if not rev or any(char not in "0123456789abcdef" for char in rev):
+        raise RuntimeError("source provenance has no valid commit; commit the source before building")
     # dist/ and dist-with-rationale/ are this script's own output, always
     # uncommitted relative to the source commit it just built from (the
     # docstring's "one commit before the commit that adds dist/"), so
@@ -147,9 +161,8 @@ def version_stamp() -> str:
     # ROUTING.md-only change produced a dirty stamp with git status
     # showing nothing but dist/ itself modified). The dirty check exists
     # to catch uncommitted *source* drift, which this excludes them from.
-    dirty = subprocess.run(["git", "status", "--porcelain", "--", ".", ":(exclude)dist",
-                            ":(exclude)dist-with-rationale"],
-                            capture_output=True, text=True, cwd=REPO_ROOT).stdout.strip()
+    dirty = inspect("status", "--porcelain", "--", ".", ":(exclude)dist",
+                    ":(exclude)dist-with-rationale")
     return f"{dt.date.today().isoformat()}-{rev}{'-dirty' if dirty else ''}"
 
 
@@ -172,10 +185,11 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
         out[dist_dir / ".claude" / "commands" / command.name] = command.read_text(encoding="utf-8")
     out[dist_dir / ".claude" / "ORCHESTRATOR_VERSION"] = version + "\n"
     out[dist_dir / ".claude" / "B0_BRIEF.md"] = worker_half(SRC / "System" / "B0_BRIEF.md")
-    for name in ("system_controller.py", "controller_integrity.py", "controller_control.py", "controller_policy.py", "controller_dispatch.py", "model_registry.py", "worker_selector.py", "dispatch_budget.py", "acceptance.py", "task_executor.py", "managed_delegation.py", "worker_adapter.py", "claudep.py", "system_prompts.py", "validate_records.py",
-                 "route.py", "handoff.py", "context_probe.py"):
+    for name in ("system_controller.py", "controller_integrity.py", "controller_control.py", "controller_policy.py", "controller_profile_policy.py", "controller_public_assessment.py", "controller_wsl_interpreter.py", "controller_wsl_launch.py", "controller_dispatch.py", "controller_workflow.py", "model_registry.py", "worker_selector.py", "dispatch_budget.py", "acceptance.py", "task_executor.py", "managed_delegation.py", "worker_adapter.py", "claudep.py", "system_prompts.py", "validate_records.py",
+                 "route.py", "handoff.py", "context_probe.py", "worker_tasks.py"):
         out[dist_dir / "tools" / name] = (REPO_ROOT / "tools" / name).read_text(encoding="utf-8")
-    for name in ("SYSTEM.md", "STEPS.md", "ROLES.md", "TECHNIQUES.md"):
+    for name in ("SYSTEM.md", "STEPS.md", "ROLES.md", "TECHNIQUES.md",
+                 "PUBLIC_ASSESSMENT_PROMPT.md"):
         out[dist_dir / "src" / "System" / name] = (SRC / "System" / name).read_text(encoding="utf-8")
     for schema in sorted((SRC / "System" / "schemas").glob("*.schema.json")):
         out[dist_dir / "src" / "System" / "schemas" / schema.name] = schema.read_text(encoding="utf-8")
@@ -197,6 +211,7 @@ def planned_files(version: str, dist_dir: Path = DIST, with_rationale: bool = Fa
     out[dist_dir / "SELF-LEARNING.md"] = (SRC / "SELF-LEARNING.md").read_text(encoding="utf-8")
     out[dist_dir / "MANAGED-DELEGATION.md"] = (SRC / "MANAGED-DELEGATION.md").read_text(encoding="utf-8")
     out[dist_dir / "WORKER-SELECTOR.md"] = (SRC / "WORKER-SELECTOR.md").read_text(encoding="utf-8")
+    out[dist_dir / "WORKER-TASKS.md"] = (SRC / "WORKER-TASKS.md").read_text(encoding="utf-8")
     out[dist_dir / "CONTROLLER.md"] = (SRC / "CONTROLLER.md").read_text(encoding="utf-8")
     out[dist_dir / "CLAUDE.template.md"] = (SRC / "CLAUDE.template.md").read_text(encoding="utf-8")
     out[dist_dir / "preflight.py"] = (SRC / "preflight.py").read_text(encoding="utf-8")
@@ -294,8 +309,10 @@ def main(argv: list[str]) -> int:
     harness = subprocess.run([sys.executable, str(HARNESS), "--json"], capture_output=True, text=True, cwd=REPO_ROOT)
     try:
         checks = json.loads(harness.stdout)["checks"]
-    except (json.JSONDecodeError, KeyError):
-        print("refusing to build: harness did not produce parseable --json output\n" + harness.stdout[-1500:], file=sys.stderr)
+    except (json.JSONDecodeError, KeyError, TypeError):
+        print("refusing to build: harness did not produce parseable --json output"
+              f" (exit {harness.returncode})\nstdout:\n{harness.stdout[-1500:]}"
+              f"\nstderr:\n{harness.stderr[-3000:]}", file=sys.stderr)
         return 1
     # DIST and RELEASE both compare the current bundle with planned output,
     # so stale generated files are expected immediately before this builder
@@ -313,7 +330,11 @@ def main(argv: list[str]) -> int:
 
     suffix = "-with-rationale" if args.with_rationale else ""
     dist_dir = DIST.with_name(f"dist{suffix}") if suffix else DIST
-    version = version_stamp() + suffix
+    try:
+        version = version_stamp() + suffix
+    except RuntimeError as exc:
+        print(f"refusing to build: {exc}", file=sys.stderr)
+        return 1
     files = planned_files(version, dist_dir, args.with_rationale)
     if args.dry_run:
         # Per-file status against what is actually on disk (docs/PLAN-6.md

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task_id": "C06-D1",
+  "diagnosis": "worker-clock-used-for-lease-expiry",
+  "cases": [
+    {
+      "milestone": "aligned clock before expiry renews", "weight": 20,
+      "critical": false,
+      "input": {"leases": [{"id": "j1", "server_now": 8,
+                           "worker_now": 8, "expires_at": 10}]},
+      "expected": {"renewable": ["j1"], "expired": []}
+    },
+    {
+      "milestone": "fast worker clock does not reject valid renewal", "weight": 20,
+      "critical": true,
+      "input": {"leases": [{"id": "j1", "server_now": 8,
+                           "worker_now": 13, "expires_at": 10}]},
+      "expected": {"renewable": ["j1"], "expired": []}
+    },
+    {
+      "milestone": "slow worker clock cannot renew expired lease", "weight": 20,
+      "critical": true,
+      "input": {"leases": [{"id": "j1", "server_now": 13,
+                           "worker_now": 8, "expires_at": 10}]},
+      "expected": {"renewable": [], "expired": ["j1"]}
+    },
+    {
+      "milestone": "server expiry boundary is exclusive", "weight": 20,
+      "critical": false,
+      "input": {"leases": [{"id": "j1", "server_now": 10,
+                           "worker_now": 8, "expires_at": 10}]},
+      "expected": {"renewable": [], "expired": ["j1"]}
+    },
+    {
+      "milestone": "mixed jobs preserve decision order", "weight": 20,
+      "critical": false,
+      "input": {"leases": [
+        {"id": "j1", "server_now": 8, "worker_now": 13, "expires_at": 10},
+        {"id": "j2", "server_now": 13, "worker_now": 8, "expires_at": 10},
+        {"id": "j3", "server_now": 9, "worker_now": 9, "expires_at": 10}]},
+      "expected": {"renewable": ["j1", "j3"], "expired": ["j2"]}
+    }
+  ]
+}

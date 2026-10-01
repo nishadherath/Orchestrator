@@ -1,0 +1,148 @@
+{
+  "case": "tenant_feature",
+  "checks": [
+    {
+      "critical": true,
+      "expected": {
+        "results": [
+          {
+            "source": "store",
+            "value": true
+          },
+          {
+            "source": "store",
+            "value": false
+          }
+        ]
+      },
+      "input": {
+        "operations": [
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "n"
+          },
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "s"
+          }
+        ],
+        "store": {
+          "n": {
+            "f": true
+          },
+          "s": {
+            "f": false
+          }
+        }
+      },
+      "name": "tenant_boundary",
+      "weight": 40
+    },
+    {
+      "critical": false,
+      "expected": {
+        "results": [
+          {
+            "source": "store",
+            "value": true
+          },
+          {
+            "source": "store",
+            "value": false
+          },
+          {
+            "source": "cache",
+            "value": true
+          }
+        ]
+      },
+      "input": {
+        "operations": [
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "n"
+          },
+          {
+            "feature": "g",
+            "op": "lookup",
+            "tenant": "n"
+          },
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "n"
+          }
+        ],
+        "store": {
+          "n": {
+            "f": true,
+            "g": false
+          }
+        }
+      },
+      "name": "feature_separation",
+      "weight": 20
+    },
+    {
+      "critical": true,
+      "expected": {
+        "results": [
+          {
+            "source": "store",
+            "value": true
+          },
+          {
+            "status": "updated"
+          },
+          {
+            "source": "store",
+            "value": false
+          },
+          {
+            "source": "store",
+            "value": false
+          }
+        ]
+      },
+      "input": {
+        "operations": [
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "n"
+          },
+          {
+            "feature": "f",
+            "op": "update",
+            "tenant": "n",
+            "value": false
+          },
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "n"
+          },
+          {
+            "feature": "f",
+            "op": "lookup",
+            "tenant": "s"
+          }
+        ],
+        "store": {
+          "n": {
+            "f": true
+          },
+          "s": {
+            "f": false
+          }
+        }
+      },
+      "name": "update_invalidation",
+      "weight": 40
+    }
+  ],
+  "schema_version": 1
+}

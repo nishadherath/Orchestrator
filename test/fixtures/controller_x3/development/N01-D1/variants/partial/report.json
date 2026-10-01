@@ -1,0 +1,11 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "stale-cross-module-symbol-imports",
+  "next_step": "remove-legacy-export-and-update-imports",
+  "probes": [
+    {"input": {"action": "format", "cents": 255},
+     "observed": {"text": "USD 2.55"}},
+    {"input": {"action": "format", "cents": -5},
+     "observed": {"text": "-USD 0.05"}}
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/FrameRecord.schema.json",
+  "title": "FrameRecord",
+  "description": "The Framer's non-premise output at a ledger version: goal ladder, metric interrogation, problem type, dissolution verdict, acceptance criteria, B0. Not in SYSTEM.md section 4's record list, which names only PremiseRecords for the Frame phase; added because the phase table's Frame row produces these and they need a single-writer home (D47). Single writer: Framer (Frame). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "FrameRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "goal_ladder": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "description": "One rung in quick mode, three in deep: the stated goal, the goal behind it, the goal behind that."
+    },
+    "metric_interrogation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1200,
+      "description": "What the stated metric measures, what it misses, and what a wrong answer would score."
+    },
+    "problem_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "The relational form's name, for library indexing and technique selection."
+    },
+    "dissolution_verdict": {
+      "enum": [
+        "stands",
+        "dissolved",
+        "reframed"
+      ],
+      "description": "dissolved: the problem does not exist as stated once premises are classified. reframed: it exists but not as stated; the goal ladder says how."
+    },
+    "dissolution_reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "description": "Why, in one paragraph. 'n/a' when the verdict is stands."
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "description": "Fixed before generation. Copied from the ProblemRecord if supplied, proposed otherwise, and not revised after candidates are seen."
+    },
+    "b0_candidate_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "The CandidateRecord holding B0, the deductive baseline, written by the Framer with technique b0."
+    },
+    "premise_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 40,
+      "description": "Premises at this version. Cap 40; the Framer merges above it."
+    },
+    "stable": {
+      "type": "boolean",
+      "description": "True when no premise changed class since the previous version."
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "goal_ladder",
+    "metric_interrogation",
+    "problem_type",
+    "dissolution_verdict",
+    "dissolution_reason",
+    "acceptance_criteria",
+    "b0_candidate_id",
+    "premise_count",
+    "stable"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "controller-x5-external-e17-preflight-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "source_issue": "https://github.com/pydantic/pydantic/issues/13754",
+  "source_issue_sha256": "1d5149e98fb11b155f357cfae3f75ec2e7265ce4bd7aa25346b2059cca8a14e5",
+  "pydantic_version": "2.14.0b1",
+  "pydantic_core_version": "2.48.0",
+  "hosts": ["Windows", "kali-linux WSL"],
+  "observations_identical_on_both_hosts": {
+    "default": {
+      "dump_keys": ["my_field", "computed"],
+      "default_schema_keys": ["myAlias", "computedAlias"],
+      "schema_by_alias_false_keys": ["my_field", "computed"],
+      "schema_by_alias_true_keys": ["myAlias", "computedAlias"]
+    },
+    "serialize_by_alias_true": {
+      "dump_keys": ["myAlias", "computedAlias"],
+      "default_schema_keys": ["myAlias", "computedAlias"],
+      "schema_by_alias_false_keys": ["my_field", "computed"],
+      "schema_by_alias_true_keys": ["myAlias", "computedAlias"]
+    }
+  },
+  "method_defaults": {
+    "model_json_schema_by_alias": true,
+    "model_dump_by_alias": null
+  },
+  "provider_calls": 0,
+  "decision": "reject blind paid task",
+  "reason": "reported default-call mismatch reproduces, but independent alias switches already exist and a changed schema default is an unsettled compatibility policy; no independent protected oracle or residual risk check is qualified"
+}

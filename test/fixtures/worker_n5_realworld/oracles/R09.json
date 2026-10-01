@@ -1,0 +1,102 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "rejected": [
+          1
+        ],
+        "stock": {
+          "p": 0
+        }
+      },
+      "input": {
+        "events": [
+          {
+            "delta": -2,
+            "sku": "p"
+          },
+          {
+            "delta": -1,
+            "sku": "p"
+          }
+        ],
+        "kind": "inventory_reconcile",
+        "opening": {
+          "p": 2
+        }
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "rejected": [
+          0
+        ],
+        "stock": {
+          "p": 1,
+          "q": 2
+        }
+      },
+      "input": {
+        "events": [
+          {
+            "delta": -1,
+            "sku": "q"
+          },
+          {
+            "delta": -2,
+            "sku": "p"
+          },
+          {
+            "delta": 2,
+            "sku": "q"
+          }
+        ],
+        "kind": "inventory_reconcile",
+        "opening": {
+          "p": 3,
+          "q": 0
+        }
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "rejected": [
+          1
+        ],
+        "stock": {
+          "a": 2
+        }
+      },
+      "input": {
+        "events": [
+          {
+            "delta": -3,
+            "sku": "a"
+          },
+          {
+            "delta": -2,
+            "sku": "a"
+          },
+          {
+            "delta": 1,
+            "sku": "a"
+          }
+        ],
+        "kind": "inventory_reconcile",
+        "opening": {
+          "a": 4
+        }
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

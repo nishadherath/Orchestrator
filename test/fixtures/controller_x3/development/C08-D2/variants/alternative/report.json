@@ -1,0 +1,13 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "Adding trace_id conflicts with the immutable version-one API contract.",
+  "next_step": "Ask the API owner for a compatible versioning decision.",
+  "question": {"missing_field": "compatibility_path",
+               "prompt": "Which compatible API path is approved for trace_id: version two or opt-in?"},
+  "probes": [
+    {"input": {"id": "order-17", "status": "ready", "trace_id": "private-17"},
+     "observed": {"id": "order-17", "status": "ready"}},
+    {"input": {"id": "order-18", "status": "failed", "trace_id": "private-18"},
+     "observed": {"id": "order-18", "status": "failed"}}
+  ]
+}

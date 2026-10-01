@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "4c8d3a524212130d83896f2b9195dec1d8001579cbbc799d423d52cbf1749018",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "f960fedd2b11973d4209731cea5720058da0276abf21af213c9e7b3fcc6db458",
+              "line": 5,
+              "path": "public_check.py",
+              "text": "assert tax_cents(100, 1000) == 10"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check has no half-cent boundary",
+          "id": "half_up_rounding",
+          "issue_citation": {
+            "file_sha256": "c1b8446aa497008409de02931da188e39b0e01bf46678d5da366689eff638481",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "as `(subtotal_cents * rate_basis_points / 10000)` rounded half up to the next"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "f960fedd2b11973d4209731cea5720058da0276abf21af213c9e7b3fcc6db458",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert invoice_total([100], 1000) == 110"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check has only one line",
+          "id": "subtotal_once",
+          "issue_citation": {
+            "file_sha256": "c1b8446aa497008409de02931da188e39b0e01bf46678d5da366689eff638481",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "cent, using integer arithmetic. An invoice's tax is calculated once on the"
+          }
+        }
+      ],
+      "cross_component": true,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "c1b8446aa497008409de02931da188e39b0e01bf46678d5da366689eff638481",
+      "public_check.py": "f960fedd2b11973d4209731cea5720058da0276abf21af213c9e7b3fcc6db458"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "R10",
+  "task_sha256": "57f3224aa876428b085cd16baa6619e7e93cbdf4c785d2210ee9f405cd250bc9"
+}

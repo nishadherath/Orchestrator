@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "a3878fe0703bc0491be06e9e842cadd7f1ab40715fc67238f2460c0bc5627693",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert apply_events(original, [(\"a\", 2, \"put\", \"new\")]) == {\"a\": (2, \"new\")}"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only a newer put is checked",
+          "id": "stale_revision_ignored",
+          "issue_citation": {
+            "file_sha256": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+            "line": 6,
+            "path": "ISSUE.md",
+            "text": "not strictly newer than the stored revision for that object. A delete must"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+              "line": 7,
+              "path": "public_check.py",
+              "text": "assert original == {\"a\": (1, \"old\")}"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "No delete or stale resurrection is checked",
+          "id": "tombstone_blocks_resurrection",
+          "issue_citation": {
+            "file_sha256": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+            "line": 7,
+            "path": "ISSUE.md",
+            "text": "retain its revision as a tombstone with `None` payload, so a later stale put"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+      "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "H08W",
+  "task_sha256": "7209c8c557afce8d48537e06cd9b0627b775745e130c1e9b99cd57aea83b8de6"
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "task_id": "R02",
+  "cases": [
+    {
+      "name": "changed default replaces cached decision", "weight": 20, "critical": true,
+      "operations": [
+        {"action":"set_default","tenant":"north","flag":"new-ui","value":false},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"},
+        {"action":"set_default","tenant":"north","flag":"new-ui","value":true},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":false,"source":"default"},{"enabled":true,"source":"default"}]}
+    },
+    {
+      "name": "same flag and user stay tenant-specific", "weight": 20, "critical": true,
+      "operations": [
+        {"action":"set_default","tenant":"north","flag":"new-ui","value":true},
+        {"action":"set_default","tenant":"south","flag":"new-ui","value":false},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"},
+        {"action":"evaluate","tenant":"south","flag":"new-ui","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":true,"source":"default"},{"enabled":false,"source":"default"}]}
+    },
+    {
+      "name": "kill overrides an enabled user", "weight": 20, "critical": true,
+      "operations": [
+        {"action":"set_default","tenant":"north","flag":"new-ui","value":false},
+        {"action":"set_override","tenant":"north","flag":"new-ui","user":"lee","value":true},
+        {"action":"set_kill","tenant":"north","flag":"new-ui","value":true},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":false,"source":"kill"}]}
+    },
+    {
+      "name": "kill removal restores current override", "weight": 15, "critical": true,
+      "operations": [
+        {"action":"set_default","tenant":"north","flag":"new-ui","value":true},
+        {"action":"set_override","tenant":"north","flag":"new-ui","user":"lee","value":true},
+        {"action":"set_kill","tenant":"north","flag":"new-ui","value":true},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"},
+        {"action":"set_kill","tenant":"north","flag":"new-ui","value":false},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":false,"source":"kill"},{"enabled":true,"source":"override"}]}
+    },
+    {
+      "name": "negative override beats enabled default", "weight": 10, "critical": false,
+      "operations": [
+        {"action":"set_default","tenant":"north","flag":"new-ui","value":true},
+        {"action":"set_override","tenant":"north","flag":"new-ui","user":"lee","value":false},
+        {"action":"evaluate","tenant":"north","flag":"new-ui","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":false,"source":"override"}]}
+    },
+    {
+      "name": "unset flag is disabled", "weight": 5, "critical": false,
+      "operations": [
+        {"action":"evaluate","tenant":"north","flag":"unknown","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":false,"source":"missing"}]}
+    },
+    {
+      "name": "different flags do not share decisions", "weight": 10, "critical": false,
+      "operations": [
+        {"action":"set_default","tenant":"north","flag":"alpha","value":true},
+        {"action":"set_default","tenant":"north","flag":"beta","value":false},
+        {"action":"evaluate","tenant":"north","flag":"alpha","user":"lee"},
+        {"action":"evaluate","tenant":"north","flag":"beta","user":"lee"}
+      ],
+      "expected": {"results":[{"enabled":true,"source":"default"},{"enabled":false,"source":"default"}]}
+    }
+  ]
+}

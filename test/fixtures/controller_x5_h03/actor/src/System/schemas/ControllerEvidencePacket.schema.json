@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/ControllerEvidencePacket.schema.json",
+  "title": "ControllerEvidencePacket",
+  "description": "Compact validated Controller output for a later worker. Written by Controller code outside the append-only blackboard.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "packet_version": {"const": 1},
+    "task_revision": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "task_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "acceptance_contract_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "acceptance_source": {"enum": ["external", "framer-provisional"]},
+    "input_snapshot_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "outcome": {"enum": ["solution", "gap", "dissolved", "blocked"]},
+    "readiness": {"enum": ["verified-ready", "provisional-guidance", "blocked"]},
+    "premise_ids": {"type": "array", "items": {"type": "string", "pattern": "^[a-z]+-[0-9]{3,}$"}},
+    "candidate_ids": {"type": "array", "items": {"type": "string", "pattern": "^[a-z]+-[0-9]{3,}$"}},
+    "verified_findings": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {
+      "premise_id": {"type": "string", "pattern": "^[a-z]+-[0-9]{3,}$"},
+      "text": {"type": "string", "minLength": 1, "maxLength": 600},
+      "source": {"type": "string", "maxLength": 300},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+    }, "required": ["premise_id", "text", "source", "confidence"]}},
+    "rejected_hypotheses": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {
+      "candidate_id": {"type": "string", "pattern": "^[a-z]+-[0-9]{3,}$"},
+      "verdict": {"enum": ["return", "reject"]},
+      "failure_modes": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 300}}
+    }, "required": ["candidate_id", "verdict", "failure_modes"]}},
+    "remaining_uncertainties": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {
+      "premise_id": {"type": "string", "pattern": "^[a-z]+-[0-9]{3,}$"},
+      "text": {"type": "string", "minLength": 1, "maxLength": 600},
+      "next_test": {"type": "string", "minLength": 1, "maxLength": 300}
+    }, "required": ["premise_id", "text", "next_test"]}},
+    "safe_next_action": {"type": "string", "minLength": 1, "maxLength": 300},
+    "operator_question": {"type": ["string", "null"], "maxLength": 300},
+    "artefacts": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {
+      "path": {"type": "string", "minLength": 1, "maxLength": 300},
+      "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+      "size": {"type": "integer", "minimum": 0}
+    }, "required": ["path", "sha256", "size"]}},
+    "accounting": {"type": "object", "additionalProperties": false, "properties": {
+      "known_spend_usd": {"type": "number", "minimum": 0},
+      "reserved_usd": {"type": "number", "minimum": 0},
+      "accounting_complete": {"type": "boolean"}
+    }, "required": ["known_spend_usd", "reserved_usd", "accounting_complete"]},
+    "packet_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "required": [
+    "packet_version", "task_revision", "task_digest", "acceptance_contract_digest",
+    "acceptance_source", "input_snapshot_digest", "outcome", "readiness", "premise_ids",
+    "candidate_ids", "verified_findings", "rejected_hypotheses", "remaining_uncertainties",
+    "safe_next_action", "operator_question", "artefacts", "accounting", "packet_digest"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "assessment": {
+    "assessment_sha256": "313800a534bd531847b8101780259b77519bf48525d574a27a4ea9993bc323d2",
+    "facts": {
+      "change_required": false,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773",
+              "line": 9,
+              "path": "public_check.py",
+              "text": "assert isinstance(value[\"missing_fields\"], list)"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check validates a list, not the needed jurisdiction",
+          "id": "jurisdiction_required",
+          "issue_citation": {
+            "file_sha256": "9a10b77238ebd1b6f1376d58bedcfa498e3951cbbc8397e3f6b3a11d9a904ec4",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "`tier=premium`. `policy.py` chooses a schedule from both tier and jurisdiction."
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "investigation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "9a10b77238ebd1b6f1376d58bedcfa498e3951cbbc8397e3f6b3a11d9a904ec4",
+      "public_check.py": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "M05",
+  "task_sha256": "e4ec3aed20f096c5cbe0b5c358f44b755d7d5afc83a6bb558bf75a61da8dc178"
+}

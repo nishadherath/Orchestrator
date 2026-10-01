@@ -1,0 +1,27 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "committed-retry-lacks-idempotency-receipt",
+  "next_step": "verify-conflicting-payload",
+  "probes": [
+    {
+      "input": {"attempts": [
+        {"tenant": "acme", "key": "k1", "amount": 100, "phase": "commit"},
+        {"tenant": "acme", "key": "k1", "amount": 100, "phase": "commit"}
+      ]},
+      "observed": {"balances": {"acme": 100}, "results": [
+        {"status": "committed", "balance": 100},
+        {"status": "replayed", "balance": 100}
+      ]}
+    },
+    {
+      "input": {"attempts": [
+        {"tenant": "acme", "key": "k1", "amount": 100, "phase": "commit"},
+        {"tenant": "beta", "key": "k1", "amount": 80, "phase": "commit"}
+      ]},
+      "observed": {"balances": {"acme": 100, "beta": 80}, "results": [
+        {"status": "committed", "balance": 100},
+        {"status": "committed", "balance": 80}
+      ]}
+    }
+  ]
+}

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 import controller_evaluation as subject  # noqa: E402
+import controller_campaign_manifest  # noqa: E402
 import controller_corpus  # noqa: E402
 import controller_matrix_runtime  # noqa: E402
 import controller_pilot_runtime  # noqa: E402
@@ -133,11 +134,16 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="r5-matrix-") as raw:
         root = Path(raw)
-        auth = dict(approved, maximum_authorised_usd=48.75)
+        # The archived R5 manifest stays byte-for-byte unchanged. Current-code
+        # fake dispatch gets a fresh versioned inventory and approval fixture.
+        current_matrix = controller_campaign_manifest.upgrade(matrix, ROOT)
+        manifest_path = root / "manifest.json"
+        manifest_path.write_text(json.dumps(current_matrix), encoding="utf-8")
+        auth = dict(approved, manifest_sha256=current_matrix["manifest_sha256"])
         auth_path = root / "authorisation.json"
         auth_path.write_text(json.dumps(auth), encoding="utf-8")
         state = controller_matrix_runtime.execute(
-            subject.MATRIX_MANIFEST, auth_path, root / "run",
+            manifest_path, auth_path, root / "run",
             controller_matrix_runtime.MatrixAdapter(fake_transport))
         check("matrix-fake-run-completes-once", state["status"] == "completed"
               and len(state["episodes"]) == 60 and state["known_spend_usd"] == 0.6)
@@ -146,7 +152,7 @@ def main() -> int:
             for command in observed_commands}) == 15)
         before = len(observed_commands)
         resumed = controller_matrix_runtime.execute(
-            subject.MATRIX_MANIFEST, auth_path, root / "run",
+            manifest_path, auth_path, root / "run",
             controller_matrix_runtime.MatrixAdapter(fake_transport))
         check("matrix-replay-is-free", resumed["status"] == "completed"
               and len(observed_commands) == before)
@@ -159,13 +165,15 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="r5-matrix-crash-") as raw:
         root = Path(raw)
+        manifest_path = root / "manifest.json"
+        manifest_path.write_text(json.dumps(current_matrix), encoding="utf-8")
         auth_path = root / "authorisation.json"
-        auth_path.write_text(json.dumps(dict(approved, maximum_authorised_usd=48.75)),
+        auth_path.write_text(json.dumps(auth),
                              encoding="utf-8")
         raising = RaisingAdapter()
-        first = controller_matrix_runtime.execute(subject.MATRIX_MANIFEST, auth_path,
+        first = controller_matrix_runtime.execute(manifest_path, auth_path,
                                                    root / "run", raising)
-        second = controller_matrix_runtime.execute(subject.MATRIX_MANIFEST, auth_path,
+        second = controller_matrix_runtime.execute(manifest_path, auth_path,
                                                     root / "run", raising)
         check("matrix-interruption-never-replays", first["status"] == second["status"] == "stopped"
               and raising.calls == 1 and "without replay" in second["stop_reason"])
@@ -285,8 +293,7 @@ def main() -> int:
         pilot_manifest = json.loads(subject.PILOT_MANIFEST.read_text(encoding="utf-8"))
         pilot_manifest.update(execution_enabled=True, launch_readiness="authorisation-required",
                               blockers=["operator authorisation is absent"])
-        unsigned = {key: value for key, value in pilot_manifest.items() if key != "manifest_sha256"}
-        pilot_manifest["manifest_sha256"] = subject.digest(unsigned)
+        pilot_manifest = controller_campaign_manifest.upgrade(pilot_manifest, ROOT)
         manifest_path = root / "manifest.json"
         manifest_path.write_text(json.dumps(pilot_manifest), encoding="utf-8")
         pilot_auth = {"schema_version": 1, "decision": "approved",

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "public_command": [
+    "python3",
+    "-B",
+    "public_check.py"
+  ],
+  "editable_paths": [
+    "h11/_connection.py",
+    "h11/_headers.py",
+    "h11/_writers.py"
+  ]
+}

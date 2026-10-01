@@ -1,10 +1,29 @@
 # Worker routing and delegation: staged action plan
 
-Date: 2026-09-19. Status updated 2026-09-24: **N0A through N2 complete for offline
-review; N3 pending**. See the [N0A result](stage-results/worker-n0a.md),
+Date: 2026-09-19. Status updated 2026-09-27: **N0A through N5 executed; N5 did
+not qualify a new shipping policy. N6 stopped at its pre-reserve gate. N7
+rejected the experimental candidate as a default.** The
+[N6 disposition](stage-results/worker-n6-pre-reserve-disposition-2026-09-26.md)
+and [Q4U canary](stage-results/worker-q4u-u3-canary-2026-09-26.md) retain B0
+and leave the reserve untouched. The
+[N7 review](stage-results/worker-n7-2026-09-26.md) found no quality gain and
+two evaluation-integrity blockers. [N8 consumer verification](stage-results/worker-n8-2026-09-27.md)
+is complete within its documented host scope. See
+the [N5 result](stage-results/worker-n5.md),
+[N0A result](stage-results/worker-n0a.md),
 [contract v2](WORKER-EXECUTION-CONTRACT-v2.md) and
 [N1 result](stage-results/worker-n1.md) and [N2 result](stage-results/worker-n2.md).
 N0 remains historical evidence.
+
+Q-series status updated 2026-09-26: Q1/Q2 passed and the eight-family Q3 B0
+pilot ran. A [contract audit](stage-results/worker-q3-contract-audit-2026-09-25.md)
+identified grading and comparison gaps. The
+[Q4 implementation contract](WORKER-Q4-MEASUREMENT-AND-FREEZE-2026-09-25.md)
+guided the later measurement repair and public screens. Q4U's prospective
+ten-episode canary is complete with no candidate gain, so its reserved tasks
+remain untouched and B0 remains default. Earlier stop-before-Q5 text is
+historical; the operator subsequently approved paid calls and directed
+continuation, subject to the frozen campaign gates.
 
 This is the next programme requested after the twelve-gap review. It repairs
 ordinary worker routing, execution and delegation. Experimental Controller
@@ -15,6 +34,11 @@ adds N0A before N1 and governs its shared-contract and test-compatibility change
 N1 was executed on operator direction using the
 [v2 handoff](../handoffs/2026-09-24-worker-routing-n1-v2.md).
 Do not implement the superseded v1 transition table or statistical gate.
+After reviewing N5's infeasible 12-task qualification bound, the operator
+directed the provider-free Q0 redesign. Its [stage result](stage-results/worker-q0.md)
+and [proposed protocol](WORKER-QUALIFICATION-PROTOCOL-Q0-2026-09-25.md)
+were the starting point for Q1-Q4U. The original N6 schedule, R outcomes and
+contract remain untouched as historical design evidence.
 
 ## 1. Scope and ownership of all twelve gaps
 
@@ -231,6 +255,11 @@ selector, and one predeclared alternative cell-selection strategy. This is a
 Compare effort and model independently; eliminate only on recorded evidence.
 Tune a small versioned rule table and preserve rejected alternatives. All
 arms have the same task-level cap and acceptance; all their overhead counts.
+N3's `shadow_select()` is observational; it does not change B0 dispatch.
+Before development spend, implement an explicitly experimental, manifest-bound
+candidate/alternative dispatch path and qualify it offline. A shadow decision
+alone cannot count as an executed candidate arm. Preserve B0 as the shipping
+default and reconcile started calls without automatic replay.
 
 Exit: a dated availability/identity snapshot, full spend reconciliation,
 uncertainty-aware capability/cost table, selected policy and rejected options.
@@ -328,14 +357,24 @@ are not inferred from OpenAI rates. No spend is approved by this table.
   [stage result](stage-results/worker-n2.md).
 - [x] N3 selector and assessment qualified offline; see
   [stage result](stage-results/worker-n3.md).
-- [ ] N4 worker corpus, isolation and campaign integrity qualified.
-  The [N4 stage result](stage-results/worker-n4.md) records offline progress
-  and the open actual worker/Graft isolation gate.
-- [ ] N5 live screen and development evidence reconciled.
-- [ ] N6 reserved comparison complete, including inconclusive if appropriate.
-- [ ] N7 independent adjudication recorded.
-- [ ] N8 consumer release preparation complete.
+- [x] N4 worker corpus, isolation and campaign integrity implemented; the
+  [N4 stage result](stage-results/worker-n4.md) records the provider-free gate,
+  and N5's authenticated WSL preflight and live run exercised the launch path.
+  The corpus remains synthetic and single-file.
+- [x] N5 live screen and development evidence reconciled; the
+  [N5 stage result](stage-results/worker-n5.md) keeps B0 as the shipping
+  default and the tested candidate experimental.
+- [ ] N6 reserved comparison complete. The candidate was stopped before this
+  comparison; see the [pre-reserve disposition](stage-results/worker-n6-pre-reserve-disposition-2026-09-26.md).
+- [x] N7 independent adjudication recorded; the
+  [review](stage-results/worker-n7-2026-09-26.md) rejects Q4U default
+  promotion and retains B0. Full offline harness rerun passed.
+- [x] N8 consumer release preparation complete within documented host limits;
+  full build, 78-file parity and built-bundle install/upgrade/rollback passed.
 
-Exact next action: close N4's live actor/Graft isolation gate and review its
-offline evidence before any N5 paid campaign. The recommended host setting for
-N4 remains **GPT-5.6 Sol / High**. N5 requires its own concrete spend notice.
+Controller X0 is now complete from the actual N8 outcome; its
+[stage record](stage-results/controller-x0-2026-09-27.md) records all 79 offline
+checks passing. Exact next action: set **GPT-5.6 Sol / High** and use
+`handoffs/2026-09-27-controller-remediation-x1.md`. Do not view or run
+the reserved tasks to manufacture a qualification result after the negative
+development gate. B0 remains default.

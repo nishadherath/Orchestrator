@@ -1,0 +1,32 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "unicode-character-count-shifts-following-frame-boundary",
+  "next_step": "verify following-frame decoding",
+  "probes": [
+    {
+      "input": {
+        "operation": "roundtrip",
+        "messages": [
+          "é"
+        ]
+      },
+      "observed": {
+        "messages": [
+          "é"
+        ]
+      }
+    },
+    {
+      "input": {
+        "operation": "roundtrip",
+        "messages": [
+          "é",
+          "ok"
+        ]
+      },
+      "observed": {
+        "error": "invalid_frame"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "baseline_public_pass": true,
+  "baseline_score": 15,
+  "forged_cases": {},
+  "forged_public_pass": true,
+  "forged_score": 100,
+  "provider_calls": 0,
+  "result": "REPRODUCED",
+  "schema_version": 1,
+  "sealed_source_mutated": false,
+  "task_id": "D01W"
+}

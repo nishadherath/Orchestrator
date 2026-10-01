@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task_id": "C01-D1",
+  "diagnosis": "un-normalised-order-id-join",
+  "cases": [
+    {
+      "milestone": "exact ID still matches", "weight": 20, "critical": false,
+      "input": {"orders": [{"account": "west", "id": "PO-7"}],
+                "receipts": [{"account": "west", "id": "PO-7"}]},
+      "expected": {"settled": ["PO-7"], "pending": []}
+    },
+    {
+      "milestone": "client-version alias matches", "weight": 20, "critical": true,
+      "input": {"orders": [{"account": "west", "id": "PO-0007"}],
+                "receipts": [{"account": "west", "id": "po-7"}]},
+      "expected": {"settled": ["PO-0007"], "pending": []}
+    },
+    {
+      "milestone": "account boundary survives alias normalization", "weight": 20,
+      "critical": true,
+      "input": {"orders": [{"account": "west", "id": "PO-0007"}],
+                "receipts": [{"account": "east", "id": "po-7"}]},
+      "expected": {"settled": [], "pending": ["PO-0007"]}
+    },
+    {
+      "milestone": "ID prefix remains significant", "weight": 20,
+      "critical": false,
+      "input": {"orders": [{"account": "west", "id": "SO-7"}],
+                "receipts": [{"account": "west", "id": "PO-0007"}]},
+      "expected": {"settled": [], "pending": ["SO-7"]}
+    },
+    {
+      "milestone": "mixed orders retain order and receipt duplicates do not multiply", "weight": 20,
+      "critical": false,
+      "input": {"orders": [{"account": "west", "id": "PO-0007"},
+                            {"account": "west", "id": "SO-9"},
+                            {"account": "east", "id": "PO-0007"}],
+                "receipts": [{"account": "west", "id": "po-7"},
+                             {"account": "west", "id": "PO-007"}]},
+      "expected": {"settled": ["PO-0007"],
+                   "pending": ["SO-9", "PO-0007"]}
+    }
+  ]
+}

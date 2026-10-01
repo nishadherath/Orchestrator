@@ -1,0 +1,17 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "un-normalised-order-id-join",
+  "next_step": "replay-cross-account-aliases-before-cutover",
+  "probes": [
+    {
+      "input": {"orders": [{"account": "west", "id": "PO-0008"}],
+                "receipts": [{"account": "west", "id": "po-8"}]},
+      "observed": {"settled": ["PO-0008"], "pending": []}
+    },
+    {
+      "input": {"orders": [{"account": "west", "id": "PO-0008"}],
+                "receipts": [{"account": "east", "id": "po-8"}]},
+      "observed": {"settled": [], "pending": ["PO-0008"]}
+    }
+  ]
+}

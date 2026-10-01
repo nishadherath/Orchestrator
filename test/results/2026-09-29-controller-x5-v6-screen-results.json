@@ -1,0 +1,77 @@
+{
+  "budget_unresolved": [],
+  "manifest_sha256": "417570f779e2f46359a68a1af991d10936d406151023f0670cb2e1c75cdcbd75",
+  "pilot_provider_calls": 0,
+  "provider_calls": 6,
+  "results": [
+    {
+      "assessment_cost_usd": 0.0732572,
+      "assessment_invocation_id": "public-assessment-14319eefc9603a5a03483339",
+      "assessment_status": "settled",
+      "budget_unresolved": [],
+      "decision_frozen": true,
+      "decision_id": "rtd-aa643a0ad3baf88243ff77b5",
+      "effective_action": "controller",
+      "root_id": "f2746414f345ff61697b42e9",
+      "task_id": "X5-SHIP"
+    },
+    {
+      "assessment_cost_usd": 0.0690172,
+      "assessment_invocation_id": "public-assessment-30ab35358bb1ff4277245555",
+      "assessment_status": "settled",
+      "budget_unresolved": [],
+      "decision_frozen": true,
+      "decision_id": "rtd-08f831b7e2a53172eff50e93",
+      "effective_action": "controller",
+      "root_id": "a1f8247ecf74bb90bf0ebfed",
+      "task_id": "X5-MIGRATE"
+    },
+    {
+      "assessment_cost_usd": 0.0595688,
+      "assessment_invocation_id": "public-assessment-869b6901765422cff6dbebd0",
+      "assessment_status": "settled",
+      "budget_unresolved": [],
+      "decision_frozen": true,
+      "decision_id": "rtd-6100875b4895b900a575a084",
+      "effective_action": "controller",
+      "root_id": "f1ff7c5a7b3c6539daccab88",
+      "task_id": "X5-PAY"
+    },
+    {
+      "assessment_cost_usd": 0.0558644,
+      "assessment_invocation_id": "public-assessment-ec6d0e0a177adc327a5540d1",
+      "assessment_status": "settled",
+      "budget_unresolved": [],
+      "decision_frozen": true,
+      "decision_id": "rtd-94cdc2849be932bb5717d48c",
+      "effective_action": "controller",
+      "root_id": "486e2b588e58e5b5c2625194",
+      "task_id": "X5-FEAT"
+    },
+    {
+      "assessment_cost_usd": 0.044636801,
+      "assessment_invocation_id": "public-assessment-88560cc5991531eb443b3066",
+      "assessment_status": "settled",
+      "budget_unresolved": [],
+      "decision_frozen": true,
+      "decision_id": "rtd-7fd3256eab4703863109e190",
+      "effective_action": "worker",
+      "root_id": "27f70d0da55b6789b97f4992",
+      "task_id": "N01-D1"
+    },
+    {
+      "assessment_cost_usd": 0.0360374,
+      "assessment_invocation_id": "public-assessment-884cc63b3f38eaae88e23c09",
+      "assessment_status": "settled",
+      "budget_unresolved": [],
+      "decision_frozen": true,
+      "decision_id": "rtd-c8c2ed90e21d38bd6646950d",
+      "effective_action": "clarify",
+      "root_id": "f3332d6dd5ea23f7e7020db9",
+      "task_id": "C08-D2"
+    }
+  ],
+  "screen_status": "passed-prospective-routing-gate",
+  "settled_cost_usd": 0.338381801,
+  "unassessed_tasks": []
+}

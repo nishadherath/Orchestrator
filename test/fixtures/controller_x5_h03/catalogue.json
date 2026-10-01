@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "case_id": "H03",
+  "status": "authored-retrospective-development",
+  "provider_calls": 0,
+  "actor_files": {
+    "ISSUE.md": "5c398c48914fd00207ea4204b6b07b07f6a6197ec81b9667a442f13e4de3cda7",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "public_check.py": "1acde14ab868113620b57638aa559faa3332da44d030ed22d231558a27d11858",
+    "src/cost_table.json": "faf64bf87d0fac403aa4a6b86dbd28741bdf2e2f8ca556a176ec3f452300306b",
+    "src/model_registry.json": "0ce39fb88eb4732ec1e0327d70ce74b01aa102e255e361d9b4d69a1656e7e3ec",
+    "src/routing_priors.json": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
+    "src/routing_table.json": "7b4d0558ecc230d8f55c4f0ed786e292ecdb65c3dfc8aee6ddb3012091b07626",
+    "src/System/PUBLIC_ASSESSMENT_PROMPT.md": "aaef1199bba77b60a11066e12739e7d4aaf37b90f4a3e31f1683922b3af748b9",
+    "src/System/ROLES.md": "81894a4fcc3554df5d64faa6481a7661f4983eb637f7f1dfc344b6519efc57e8",
+    "src/System/schemas/BudgetEntry.schema.json": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
+    "src/System/schemas/CandidateRecord.schema.json": "32d20d1e5b68fbeb9d75dcecffd5b62564239940e1fbdd820ef210be892b5634",
+    "src/System/schemas/ControllerEvidencePacket.schema.json": "a1edcfe362d356738ba193a29b519b88466edaad5be220056468f30a15db5c60",
+    "src/System/schemas/CritiqueRecord.schema.json": "397f4376aa6d4eb303d4d3e0ff6b5cf5bcad82057ac07aa05a4e16b65c10fccb",
+    "src/System/schemas/EvaluationRecord.schema.json": "183cc9fa899782932da9054a6adf4d36c0a6474a043b5c8abb30bf512f12951d",
+    "src/System/schemas/FrameRecord.schema.json": "e2f1907aa81d481f9b9fe35f0bd40e52faf6b2d0266c3055ea6602aa6ec295d0",
+    "src/System/schemas/GapReport.schema.json": "e74d3b5b832c0e75e0061540ef6cb573788c56bda6976588b94c704994ba4172",
+    "src/System/schemas/MeasurementRecord.schema.json": "f5ea8277aa964a16e57c5f2bdaef835f56f4cffb602b19d1ca636e93b819cbc2",
+    "src/System/schemas/PhaseDigest.schema.json": "3252e3f87bfb99130010ec4c1f7ed565752058fead0a3a8f94249d88a134530b",
+    "src/System/schemas/PremiseRecord.schema.json": "f6abe384e4066a0f9977128e94ef4a25d3a690c3128f4a2b51fe504c50d06bb3",
+    "src/System/schemas/ProblemRecord.schema.json": "71c78494e5eb4892cf5f32d92d5eceb79d28c926344da92cbb5196e860b8a177",
+    "src/System/schemas/RigourAssessment.schema.json": "b50bfb66d6c6e8447b2654ac0486add221b0b2c3d58947e538b5a501c23f3694",
+    "src/System/schemas/RoutingDecision.schema.json": "8c62f346ff8f869fa4e9194e0723d1c48f5a079de439c70504ab8c7376817497",
+    "src/System/schemas/RoutingLedgerEntry.schema.json": "fc50a94e32861df858e1bdd238fb5ee4cfef5622562d2cbc9460ee197f45999e",
+    "src/System/schemas/SelectionRecord.schema.json": "7c7bc5178d297d4ffbf9bcb3ffadacf27735145868be3012363c514f517f28c6",
+    "src/System/schemas/SolutionRecord.schema.json": "6c40620df1102f08325c32e01024c92f6d7d1e23f7bef8bb281ea7f2eb246e82",
+    "src/System/STEPS.md": "36ea1bc3181ee376481611712441347d28d2a14a2ae0289379a8f224842d5520",
+    "src/System/SYSTEM.md": "9c1ecc682103f9ee611ec51069f07e9a907799d4a68026c37f9db5b41abbe2e4",
+    "src/System/TECHNIQUES.md": "002fb8d825a66382f1011a5796c65d7f907340789e216d38691e7ac68da19340",
+    "tools/acceptance.py": "ca556812ec778b5abe9fc52acef813f2ce8f2dfc1c53e4a85e5cdaf1072de45d",
+    "tools/claudep.py": "82a611276d57631eace8d7ad6ecb634c5f87d323e0293b2695cfc6acf7646b84",
+    "tools/context_probe.py": "6bbe5bb0bbb5b00cdc50e82a97065386b05f2a5c627335f49192ebdabac6e557",
+    "tools/controller_control.py": "f86f7fe7d43f923a841126cca99d98245db47cd3f1f22a1ce9bd8426bc3dd0b4",
+    "tools/controller_dispatch.py": "71fd20b8611fe106523964db1ce83fd1a6354bae0ae8c56df9916406bf1b9305",
+    "tools/controller_integrity.py": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
+    "tools/controller_policy.py": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+    "tools/controller_profile_policy.py": "4f74897c444d81c0fae2f50c60b1979aa89e11cccc99524fe5bd52e5f53a7a8f",
+    "tools/controller_public_assessment.py": "f08379c6187887a2035ab6807275a46428897af3606f3d1eacd0b7b3928c3924",
+    "tools/controller_workflow.py": "6d69d4e01212cd58aff58d0ae0e280d7226972ec725b1f03880921175df3d20a",
+    "tools/controller_wsl_interpreter.py": "e1496d53b62558c9b2db6285e6bd66ac7da3e9d16c48fd31050186680d60953d",
+    "tools/controller_wsl_launch.py": "2a4cb4460b8ccf8cc6927f721614bca8683c6d0028ca6b520b1c3c6efaf8694e",
+    "tools/dispatch_budget.py": "132ec13a50f75b561a17ace6a4d7220f3cfd9532630da5315bedf077ff1ac41e",
+    "tools/handoff.py": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
+    "tools/managed_delegation.py": "35cb9dd8be2f0d9b285f42b01a1f2cb03dc7d8e26185f42b81a389a855c78e71",
+    "tools/model_registry.py": "675b2d607ef3e9e7a43e7cc45cb5f31fc827a969652a74d359b0670cfb9e5480",
+    "tools/route.py": "38781853708428a65da197c2ad7bda8b1b643c5ee69526bdb43e15182eb489b4",
+    "tools/system_controller.py": "9d5f1ee33eabed7721a3431d10b8d69bb0f0061b380a2ec54f197dbe8203a071",
+    "tools/system_prompts.py": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
+    "tools/task_executor.py": "4693718ccd9a5ef0d08207c55ea0a52155ce0396b3fab6e74c208c4067c44126",
+    "tools/validate_records.py": "beca6a70a948a9cf5b9d12193c09c2663125d86171169b9fdb4c9f509fe9b8a3",
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_selector.py": "472972d1b2e9cb051a6ccaaa048bed3c6745c24a765b297bafb61cb1f581a776",
+    "tools/worker_tasks.py": "549b8552fe73f8dfa5cd2d4d1e63905561e63925f6cf51b4b30dac00492b6916"
+  },
+  "actor_file_count": 52,
+  "actor_bytes": 879471,
+  "editable_paths": [
+    "tools/system_controller.py"
+  ],
+  "risk": {
+    "decision": "public-review-eligible-if-producer-passes",
+    "unresolved_premise": "A correction that passes the initial-frame public check also guards both re-entry paths and commits no records from a rejected Framer batch.",
+    "next_public_check": "Exercise a changed acceptance list on verification and critique re-entry; inspect the ledger for partial commits.",
+    "citations": {
+      "precommit_gap": {
+        "path": "tools/system_controller.py",
+        "line": 1095,
+        "quote": "accepted, rejected = scribe.write(records",
+        "file_sha256": "9d5f1ee33eabed7721a3431d10b8d69bb0f0061b380a2ec54f197dbe8203a071"
+      },
+      "verify_reentry": {
+        "path": "tools/system_controller.py",
+        "line": 1165,
+        "quote": "recs = call(\"frame\", \"framer\", frame_prompt)",
+        "file_sha256": "9d5f1ee33eabed7721a3431d10b8d69bb0f0061b380a2ec54f197dbe8203a071"
+      },
+      "critique_reentry": {
+        "path": "tools/system_controller.py",
+        "line": 1303,
+        "quote": "recs = call(\"frame\", \"framer\", build_frame_prompt(problem, [], prior_ledger, falsified))",
+        "file_sha256": "9d5f1ee33eabed7721a3431d10b8d69bb0f0061b380a2ec54f197dbe8203a071"
+      },
+      "public_coverage": {
+        "path": "public_check.py",
+        "line": 32,
+        "quote": "scripted[(\"frame\", \"framer\")] = [changed, canned[\"frame_v1\"], canned[\"frame_v2\"]]",
+        "file_sha256": "1acde14ab868113620b57638aa559faa3332da44d030ed22d231558a27d11858"
+      }
+    },
+    "controls": [
+      {
+        "id": "C03",
+        "decision": "do-not-review",
+        "reason": "No external acceptance contract is frozen."
+      },
+      {
+        "id": "M03",
+        "decision": "clarify",
+        "reason": "Caller asks to replace criteria without an authoritative revised contract."
+      }
+    ]
+  },
+  "private_sha256": {
+    "oracle.py": "a20a456caf4db5bf08734963748fb2dbcfcb2feaa3e3a353fbade083b232d03e",
+    "variants/reference/system_controller.py": "50a50c426b41099791c23af8a7649f03dad23c85153268df1e56659a6c4323fb",
+    "variants/alternative/system_controller.py": "fbd49b13376a4cf69340a2110cbbd0b46156b1d6e0392c7f41397f4575f5b8c2",
+    "variants/partial/system_controller.py": "3bca73dc81a3f69b5d4b41b8bf5105494eaff082c6e40057531e9ff49ce6caac"
+  },
+  "probes": {
+    "windows": {
+      "path": "test/results/2026-09-30-controller-x5-h03-probe.json",
+      "sha256": "11c3320a3942c100825c12e4df82e9ac4ca6bc8ec1894c4a94346096017cada9",
+      "python": "3.12.14",
+      "platform": "Windows-11-10.0.26200-SP0"
+    },
+    "wsl": {
+      "path": "test/results/2026-09-30-controller-x5-h03-wsl-probe.json",
+      "sha256": "ad6edd1939966eb3aeed81cb88f09f9db65a19a7c6cb960506c5fe874e8d2131",
+      "python": "3.14.7",
+      "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+    }
+  },
+  "limits": [
+    "One retrospective development case is not a powered effect estimate.",
+    "The actor is reconstructed from this project's real H02 integration failure, not a blind upstream issue."
+  ],
+  "catalogue_sha256": "92e333e2dfa2d493e653a778ecd37a93aa0746aa322d50965cfcab24ed5700ea"
+}

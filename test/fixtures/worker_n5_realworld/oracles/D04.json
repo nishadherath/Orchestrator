@@ -1,0 +1,56 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "applied": true,
+        "value": "x",
+        "version": 1
+      },
+      "input": {
+        "current_value": null,
+        "current_version": 0,
+        "expected_version": 0,
+        "kind": "optimistic_write",
+        "new_value": "x"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "applied": true,
+        "value": true,
+        "version": 5
+      },
+      "input": {
+        "current_value": false,
+        "current_version": 4,
+        "expected_version": 4,
+        "kind": "optimistic_write",
+        "new_value": true
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "applied": false,
+        "value": 5,
+        "version": 1
+      },
+      "input": {
+        "current_value": 5,
+        "current_version": 1,
+        "expected_version": 2,
+        "kind": "optimistic_write",
+        "new_value": 6
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

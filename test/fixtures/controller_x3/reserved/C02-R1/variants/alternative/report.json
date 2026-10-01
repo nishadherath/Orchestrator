@@ -1,0 +1,13 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "Shadow-only writes leave the rollback reader stale.",
+  "next_step": "Replay cutover and rollback readers before rollout.",
+  "probes": [
+    {"input": {"phase": "shadow", "reader": "legacy", "value": 17,
+               "record": {"legacy": 6, "shadow": 6}},
+     "observed": {"read": 17}},
+    {"input": {"phase": "cutover", "reader": "shadow", "value": 13,
+               "record": {"legacy": 5, "shadow": 5}},
+     "observed": {"read": 13}}
+  ]
+}

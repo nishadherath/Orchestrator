@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for the following service behaviour. Apply a write only when expected_version matches current_version. Return applied, resulting version and value; a conflict preserves the current state. Preserve the JSON-line command-line interface. Edit only `app.py`; the public check is a small example, not a full specification.

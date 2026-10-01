@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "public_command": [
+    "python3",
+    "-B",
+    "public_check.py"
+  ],
+  "editable_paths": [
+    "compat.py",
+    "report.json"
+  ]
+}

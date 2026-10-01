@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "task_id": "N03-R1",
+  "diagnosis": "minimum-client-version-for-mandatory-trace-absent",
+  "cases": [
+    {
+      "milestone": "existing minimum client remains compatible without trace",
+      "weight": 35,
+      "critical": true,
+      "input": {
+        "client_version": "1.8",
+        "has_trace": false
+      },
+      "expected": {
+        "accepted": true
+      }
+    },
+    {
+      "milestone": "later supported client retains optional trace until approval",
+      "weight": 35,
+      "critical": true,
+      "input": {
+        "client_version": "2.2",
+        "has_trace": false
+      },
+      "expected": {
+        "accepted": true
+      }
+    },
+    {
+      "milestone": "modern client with trace still succeeds",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "client_version": "2.2",
+        "has_trace": true
+      },
+      "expected": {
+        "accepted": true
+      }
+    },
+    {
+      "milestone": "unsupported older client remains rejected",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "client_version": "1.5",
+        "has_trace": false
+      },
+      "expected": {
+        "accepted": false
+      }
+    }
+  ]
+}

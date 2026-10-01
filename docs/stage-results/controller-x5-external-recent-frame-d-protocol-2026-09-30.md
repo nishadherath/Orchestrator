@@ -1,0 +1,17 @@
+# X5 recent natural issue frame D: prospective collection protocol
+
+Frozen at 2026-09-30 01:54:55 UTC, before fetching this frame or reading its issue bodies. This is an **adaptive development** search after frames B and C found no blind paid case. It tests a changed premise: a recently opened, not-yet-bug-labelled issue may preserve a symptom before a public diagnosis appears. Age alone does not prove that premise. This is not a reserved sample or a representative rate estimate. B0 remains the shipping default and X6 remains sealed.
+
+## Fixed collection
+
+Query GitHub's public Issues API for these twenty repositories, in this order: `pydantic/pydantic`, `pytest-dev/pytest`, `pytest-dev/pytest-asyncio`, `sqlalchemy/sqlalchemy`, `sqlalchemy/alembic`, `aio-libs/aiohttp`, `agronholm/anyio`, `celery/celery`, `fastapi/fastapi`, `Kludex/starlette`, `encode/httpx`, `encode/httpcore`, `encode/uvicorn`, `psf/requests`, `urllib3/urllib3`, `pallets/werkzeug`, `pallets/click`, `python-trio/trio`, `astral-sh/ruff`, and `python-poetry/poetry`.
+
+Request open issues ordered by creation descending, 100 per page. Continue pages until every fetched item is older than 2026-09-27 00:00:00 UTC or an empty page is reached. A full last page above the cutoff requires another page; any incomplete repository invalidates the whole frame. Exclude PR entries and older items, but apply **no label filter**. Freeze repository, URL, number, title, creation/update times, labels, comment count, body-null marker and SHA-256 of the UTF-8 encoding of the decoded JSON body string. Hash an empty string for a JSON `null` body. Record fetch time, request/final URLs, status and page counts.
+
+Sort included issues by SHA-256 of the UTF-8 string `x5-frame-d-2026-09-30-015455Z\n` plus the canonical issue URL. Screen the first 30 in that order, or all if fewer than 30 qualify. Save their exact natural body strings and verify body hashes before judging. Previously screened URLs from frames B or C stay in the denominator and are marked as such; do not replace them. Do not change the repository set, cutoff, order seed, sample size or entry rule after seeing results.
+
+## Admission and stopping
+
+Record a decision and reason for every selected row. Reject a blind repair if the frozen public issue or already-public linked material supplies the repair, if no deterministic WSL reproduction or independent acceptance can be built, if the correct behaviour is an unsettled policy choice, or if no consequential residual gap can survive the initial public check. Do not redact diagnosis from the natural issue. A symptom-only candidate remains research until its source revision and dependencies are pinned, its report reproduces on the worker host, and a distinct public follow-up check and protected oracle are independently qualified with baseline, narrow-wrong and two complete repairs.
+
+Before any paid producer, freeze the target population, paired S/A analysis, task order, caps and dated manifest-bound cost notice. A public pass that closes the risk stops before review. A matched comparison requires identical accepted public bytes, equal worker policy, settled accounting and blinded protected grading. Stop this frame after the fixed selected prefix even if it yields zero candidates; do not keep drawing rows until one looks promising. A single development pair cannot open X6 or promote Controller routing.

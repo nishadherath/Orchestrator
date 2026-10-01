@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "task_id": "N01-R1",
+  "diagnosis": "stale-legacy-package-import-paths",
+  "cases": [
+    {"milestone": "new package exports the formatter", "weight": 20,
+     "critical": true, "input": {"action": "direct", "customer": "Ada", "cents": 125},
+     "expected": {"label": "Ada | USD 1.25"}},
+    {"milestone": "API consumer imports the new package", "weight": 20,
+     "critical": false, "input": {"action": "api", "customer": "Kai", "cents": 250},
+     "expected": {"label": "Kai | USD 2.50", "source": "labels.format"}},
+    {"milestone": "batch consumer handles negative values from new package", "weight": 20,
+     "critical": false, "input": {"action": "batch", "customer": "Jo", "cents": -5},
+     "expected": {"label": "Jo | -USD 0.05", "source": "labels.format"}},
+    {"milestone": "old export removed and both active imports migrated", "weight": 30,
+     "critical": false, "input": {"action": "exports"},
+     "expected": {"new": true, "old": false, "api_new": true, "batch_new": true}},
+    {"milestone": "new package preserves Unicode customer labels", "weight": 10,
+     "critical": false, "input": {"action": "direct", "customer": "Zoë", "cents": -12045},
+     "expected": {"label": "Zoë | -USD 120.45"}}
+  ]
+}

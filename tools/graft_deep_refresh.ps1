@@ -23,6 +23,8 @@ import http from "node:http";
 
 const upstream = process.env.GRAFT_UPSTREAM?.replace(/\/$/, "");
 const port = Number(process.env.GRAFT_PROXY_PORT);
+const usage = { calls: 0, input_tokens: 0, cache_read_tokens: 0,
+  output_tokens: 0, missing_usage: 0 };
 
 function targetIds(body) {
   const ids = [];
@@ -65,12 +67,26 @@ function normaliseToolArguments(response, ids) {
 
 http.createServer(async (request, reply) => {
   try {
+    if (request.method === "GET" && request.url === "/__graft_usage") {
+      reply.writeHead(200, { "content-type": "application/json" });
+      reply.end(JSON.stringify(usage));
+      return;
+    }
     const chunks = [];
     for await (const chunk of request) chunks.push(chunk);
     const raw = Buffer.concat(chunks);
     let body;
     try { body = JSON.parse(raw.toString("utf8")); } catch { body = null; }
-    if (body?.tool_choice && Array.isArray(body.tools)) body.reasoning_effort = "none";
+    if (body?.tool_choice && Array.isArray(body.tools)) {
+      body.reasoning_effort = "none";
+      // Graft requests 8,192 output tokens for record_symbols. Large files
+      // exhausted that cap; Flash supports a larger output without charging
+      // for unused capacity. Leave every other request and model unchanged.
+      if (body.model === "deepseek-flash" && body.max_tokens === 8192 &&
+          body.tools.some((tool) => tool.function?.name === "record_symbols")) {
+        body.max_tokens = 32768;
+      }
+    }
     const headers = { ...request.headers };
     delete headers.host;
     delete headers["content-length"];
@@ -82,7 +98,18 @@ http.createServer(async (request, reply) => {
     const responseText = await upstreamResponse.text();
     let output = responseText;
     try {
-      output = JSON.stringify(normaliseToolArguments(JSON.parse(responseText), body ? targetIds(body) : []));
+      const parsed = JSON.parse(responseText);
+      if (upstreamResponse.ok) {
+        usage.calls += 1;
+        if (parsed.usage) {
+          usage.input_tokens += parsed.usage.prompt_tokens || 0;
+          usage.cache_read_tokens += parsed.usage.prompt_tokens_details?.cached_tokens || 0;
+          usage.output_tokens += parsed.usage.completion_tokens || 0;
+        } else {
+          usage.missing_usage += 1;
+        }
+      }
+      output = JSON.stringify(normaliseToolArguments(parsed, body ? targetIds(body) : []));
     } catch {}
     reply.writeHead(upstreamResponse.status, {
       "content-type": upstreamResponse.headers.get("content-type") || "application/json",
@@ -124,6 +151,13 @@ try {
     }
 } finally {
     if ($proxyProcess -and -not $proxyProcess.HasExited) {
+        try {
+            $usage = Invoke-RestMethod -Uri "http://127.0.0.1:$proxyPort/__graft_usage" -TimeoutSec 5
+            Write-Output ("Graft DeepSeek usage: calls={0} input_tokens={1} cache_read_tokens={2} output_tokens={3} missing_usage={4}" -f `
+                $usage.calls, $usage.input_tokens, $usage.cache_read_tokens, $usage.output_tokens, $usage.missing_usage)
+        } catch {
+            Write-Warning 'Graft DeepSeek token usage could not be retrieved.'
+        }
         Stop-Process -Id $proxyProcess.Id -Force
         $proxyProcess.WaitForExit(5000) | Out-Null
     }

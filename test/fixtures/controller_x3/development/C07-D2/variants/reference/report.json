@@ -1,0 +1,11 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "utc-date-used-for-sydney-window",
+  "next_step": "replay-winter-and-daylight-saving-boundaries",
+  "probes": [
+    {"input": {"timestamp": "2026-06-15T15:30:00+00:00"},
+     "observed": {"window_day": "2026-06-16"}},
+    {"input": {"timestamp": "2026-01-15T13:30:00+00:00"},
+     "observed": {"window_day": "2026-01-16"}}
+  ]
+}

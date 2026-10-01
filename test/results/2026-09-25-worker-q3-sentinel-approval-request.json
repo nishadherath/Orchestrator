@@ -1,0 +1,9 @@
+{
+  "credential_method": "claude-code-wsl-subscription",
+  "decision": "approval-requested",
+  "manifest_sha256": "ab78db7bc5273863bfb68192941b580f3843d52c066940ba0f4cd6342c4c395b",
+  "maximum_authorised_usd": 0.1,
+  "maximum_provider_calls": 1,
+  "notice_sha256": "5775c41e1b221697bd7d872ac45f0952350ebd74958f58c750fad615b4d308ea",
+  "schema_version": 1
+}

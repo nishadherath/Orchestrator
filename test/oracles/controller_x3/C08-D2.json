@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "C08-D2",
+  "diagnosis": "immutable-api-contract-conflict",
+  "cases": [
+    {"milestone": "ready response retains exact v1 shape", "weight": 30,
+     "critical": true,
+     "input": {"id": "order-17", "status": "ready", "trace_id": "private-17"},
+     "expected": {"id": "order-17", "status": "ready"}},
+    {"milestone": "failed response retains exact v1 shape", "weight": 30,
+     "critical": true,
+     "input": {"id": "order-18", "status": "failed", "trace_id": "private-18"},
+     "expected": {"id": "order-18", "status": "failed"}},
+    {"milestone": "unrelated record metadata is not published", "weight": 40,
+     "critical": true,
+     "input": {"id": "order-19", "status": "pending",
+               "trace_id": "private-19", "tenant": "account-a"},
+     "expected": {"id": "order-19", "status": "pending"}}
+  ]
+}

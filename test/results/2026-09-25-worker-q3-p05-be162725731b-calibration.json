@@ -1,0 +1,269 @@
+{
+  "checks": {
+    "alternative_accepted": true,
+    "baseline_rejected": true,
+    "no_critical_or_false_success": true,
+    "partial_progress": true,
+    "reference_accepted": true
+  },
+  "evidence_sha256": "6728f381f1d6f5fed3a409fe30193d0a993b5c74bd94f507910960985a91da64",
+  "grades": {
+    "alternative": {
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "cases": [
+        {
+          "milestone": "sync-none-wait",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "sync-zero-wait",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "async-none-wait",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "async-zero-wait",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "callable-plus-strategy",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "positional-strategy",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "reject-nonzero-seed",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "sum-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "1678ab13822bd0efc4a695f955e45c50ac1112712b22abac3e8b92060b9880f9",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "package_sha256": "198bb4deb97c7ba95172e4acad19cdcf3256ed1b6aaa6c34e0a4d9a810785190",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P05",
+      "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "variant": "alternative"
+    },
+    "baseline": {
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "cases": [
+        {
+          "milestone": "sync-none-wait",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "sync-zero-wait",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "async-none-wait",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "async-zero-wait",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "callable-plus-strategy",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "positional-strategy",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "reject-nonzero-seed",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "sum-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "ff831ba9f18ce2a85601589372d99bd39f2c564f4ddc9831cd37242ff1d765ee",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "package_sha256": "d377507bfc06da919d4cac474f8ab26f1fe11a721dc7021274370b1ca2540662",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 10,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P05",
+      "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "variant": "baseline"
+    },
+    "partial": {
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "cases": [
+        {
+          "milestone": "sync-none-wait",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "sync-zero-wait",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "async-none-wait",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "async-zero-wait",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "callable-plus-strategy",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "positional-strategy",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "reject-nonzero-seed",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "sum-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "ad5fd055dfabb190eccea9ce8cbde6f08ab300cacefe83884e880e796af485be",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "package_sha256": "808a4c75d640b7719e1ed0fc071a8722e492db33ffda270e6ed0c56ccea1c81a",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 70,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P05",
+      "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "variant": "partial"
+    },
+    "reference": {
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "cases": [
+        {
+          "milestone": "sync-none-wait",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "sync-zero-wait",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "async-none-wait",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "async-zero-wait",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "callable-plus-strategy",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "positional-strategy",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "reject-nonzero-seed",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "sum-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "82fef44423781097274f7927e6c7dc16d51489d5041a1a095e475ce3a0f39321",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "package_sha256": "0bfc34fc8e2e31a5d1b99e5e97a00dc0fabc6c3b259ea8918a9386d6870d902e",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P05",
+      "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "variant": "reference"
+    }
+  },
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T10:30:26+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_public_calibrate.py": "38c163472eeaf0fad1edb7876dce657bb4b19d4d00e003c5088efec8b3a27fdd",
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce",
+    "tools/worker_wsl_q3_public.py": "ee8255eeb45d5c27a0655759a32191a68fc958d1f88c42d031bfe57e8cbdebcb"
+  },
+  "task_id": "P05",
+  "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191"
+}

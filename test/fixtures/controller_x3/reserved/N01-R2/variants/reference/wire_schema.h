@@ -1,0 +1,3 @@
+#define SCHEMA_VERSION 3
+#define FIELD_REQUEST_ID 1
+#define FIELD_TRACE_ID 2

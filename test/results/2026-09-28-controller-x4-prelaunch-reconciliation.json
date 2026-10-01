@@ -1,0 +1,15 @@
+{
+  "controller_cost_usd": 0.0,
+  "controller_run_dir_absent": true,
+  "evidence": "x4-prelaunch-freeze-error:no-run-directory:stopped-writer",
+  "prelaunch_error": "acceptance contract digest does not match its content",
+  "provider_calls": 1,
+  "public_assessment_cost_usd": 0.0340572,
+  "reserved_usd": 0.0,
+  "root_id": "x4-live-smoke-root",
+  "root_state": "blocked",
+  "schema_version": 1,
+  "total_spent_usd": 0.0340572,
+  "unresolved": [],
+  "worker_cost_usd": 0.0
+}

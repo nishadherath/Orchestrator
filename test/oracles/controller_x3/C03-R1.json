@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "task_id": "C03-R1",
+  "diagnosis": "unfenced-lease-owner-transfer",
+  "cases": [
+    {"milestone": "one owner can commit within its lease", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 5},
+       {"op": "complete", "worker": "A", "token": 1, "at": 1,
+        "value": "v1"}]},
+     "expected": {"results": [
+       {"status": "claimed", "token": 1}, {"status": "committed"}],
+       "owner": "A", "token": 1, "committed": "v1"}},
+    {"milestone": "a competing claim stays busy before expiry", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 10},
+       {"op": "claim", "worker": "B", "at": 5, "lease": 10}]},
+     "expected": {"results": [
+       {"status": "claimed", "token": 1},
+       {"status": "busy", "token": 1}],
+       "owner": "A", "token": 1, "committed": null}},
+    {"milestone": "an expired lease transfers to a new fence", "weight": 15,
+     "critical": false,
+     "input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 5},
+       {"op": "claim", "worker": "B", "at": 5, "lease": 10}]},
+     "expected": {"results": [
+       {"status": "claimed", "token": 1},
+       {"status": "claimed", "token": 2}],
+       "owner": "B", "token": 2, "committed": null}},
+    {"milestone": "a former owner cannot commit after transfer", "weight": 25,
+     "critical": true,
+     "input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 5},
+       {"op": "claim", "worker": "B", "at": 5, "lease": 10},
+       {"op": "complete", "worker": "A", "token": 1, "at": 6,
+        "value": "old"}]},
+     "expected": {"results": [
+       {"status": "claimed", "token": 1},
+       {"status": "claimed", "token": 2},
+       {"status": "stale"}],
+       "owner": "B", "token": 2, "committed": null}},
+    {"milestone": "the new owner can commit after transfer", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"op": "claim", "worker": "A", "at": 0, "lease": 5},
+       {"op": "claim", "worker": "B", "at": 5, "lease": 10},
+       {"op": "complete", "worker": "B", "token": 2, "at": 6,
+        "value": "fresh"}]},
+     "expected": {"results": [
+       {"status": "claimed", "token": 1},
+       {"status": "claimed", "token": 2},
+       {"status": "committed"}],
+       "owner": "B", "token": 2, "committed": "fresh"}}
+  ]
+}

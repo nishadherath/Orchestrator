@@ -1,0 +1,57 @@
+{
+  "authorisation": {
+    "paid_calls": "operator-standing-authorised",
+    "scope": "S3 two-call canary then S4 eighteen-episode public screen under this exact manifest",
+    "stage_review": "hold-before-S3"
+  },
+  "date_utc": "2026-09-26",
+  "episode_allocation_usd": 4.0,
+  "episode_count": 18,
+  "family_count": 6,
+  "live_rubric_sha256": {
+    "S01": "b4b03cf3e87932635064e8f1cc0aee0db9c7e2c26d36a58dc12b32f52d1fa635",
+    "S02": "ac6e1207364b5ae0d60791d049e47eae0815815d71f13f56dd482ceda011d6af",
+    "S03": "1bfb2c13422e36ff9c60f474c199d08ad7100bf789065a1b5bddb01b29314ab2",
+    "S04": "874cb2f15b59f7b6c3cc8593885b77b93d3d88bed8f00efb8fadcd1154b1a8ef",
+    "S05": "b27f3737417c958eb2125fefdfcc0bf06367163db9ad475b65dd1618e093f832",
+    "S06": "d54daaa910b604e534c5431c1b63ddbc41495c9228e0e5f67b8784bc579a1f82"
+  },
+  "manifest_sha256": "1d342647bc6087502e8ea6e837235743ec193e1d14b838230e7aa343fe1c94c9",
+  "maximum_allocation_usd": 72.0,
+  "maximum_provider_calls": 54,
+  "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+  "parent_rows_sha256": "32d8992d0db0222ff4c83f3fd977d798e191699e75fe69968c69804eba461e25",
+  "policy_counterfactual": {
+    "negative_medium": "diagnostic-only",
+    "trigger_negative": "corresponding-b0-repetition",
+    "trigger_positive": "sonnet-medium"
+  },
+  "profile": "worker-q4s-s4-six-family-screen",
+  "s3_campaign_sha256": "3010c9b9b829dea176bf3cbaba596aa79fbcd6404115fdaf922e93665928dad8",
+  "s3_manifest_sha256": "b9ced449dd4fdc6f8c428595bbc42713c2fc02c619b104c2cf6eb9490ff956be",
+  "s3_state_sha256": "3d8fa90542a8b280d1435e793f73706d447dff4e8f1696b086dd5c14e220fe2e",
+  "schema_version": 1,
+  "selection_rules": {
+    "b0_disagreement_requires_two_reserved_repetitions": true,
+    "family_is_independent_unit": true,
+    "invalid_report_not_above_each_b0": true,
+    "maximum_extra_usd_per_positive_family": 1.0,
+    "maximum_policy_cost_ratio_to_mean_b0": 1.5,
+    "minimum_gain": "acceptance on >=1 family against both B0 repetitions or mean quality-v2 +10 against both",
+    "non_negative_acceptance_and_mean_quality_vs_each_b0": true,
+    "unsupported_completion_not_above_each_b0": true,
+    "zero_policy_critical_errors": true
+  },
+  "source_sha256": {
+    "tools/worker_q4s_screen_live.py": "8f82a3be57f32e6e7a40cb35bdcad6bce405334a0ea7d3994e9a940d2e56748c"
+  },
+  "spend_notice_sha256": "2bdcc9141e39f8261f94d8b4b87e8c4d14da58cc1db3f043e06e07569536b9db",
+  "stop_rules": [
+    "S3 canary must pass both heads before any S4 call",
+    "After each complete family, stop on positive candidate critical error",
+    "Stop on uncertain or excess charge, stale source/host/auth or protected drift",
+    "Stop on model identity mismatch or invalid transport; grade settled failure",
+    "A terminal missing structured report is scored and never replayed",
+    "No automatic replay of a started provider invocation"
+  ]
+}

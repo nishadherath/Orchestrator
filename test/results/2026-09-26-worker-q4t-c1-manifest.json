@@ -1,0 +1,34 @@
+{
+  "authorisation": {
+    "paid_calls": "operator-standing-authorised",
+    "scope": "Q4T C1 one Sonnet-medium transport canary, USD 3 local ceiling",
+    "stage_review": "hold-after-C1"
+  },
+  "canary_task_sha256": "49e240bd5e3070840a7528ab29612cd19b48c91fc214c3fdee0fc410eae0ce9e",
+  "cells": [
+    "worker-sonnet-medium"
+  ],
+  "date_utc": "2026-09-26",
+  "episode_allocation_usd": 3.0,
+  "installed_launcher_sha256": "caf5d5ed16868641274290ec534126be19d08a6024a4541871a9c6033ad85760",
+  "manifest_sha256": "8bdacc74f21a7a8bacd31a15d8ed01fe9949b8b78a29d010767a8d84b23dd591",
+  "maximum_allocation_usd": 3.0,
+  "maximum_provider_calls": 1,
+  "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+  "profile": "worker-q4t-c1-structured-transport-canary",
+  "repair_cells": [],
+  "report_schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q4t_canary_live.py": "19fa08a365e92943596705409eda42feab97a846216c9a2cea0fa1c281b3c1b8",
+    "tools/worker_q4t_structured.py": "aaf7c63b7ebba9d4de0f5c6cb35c0ff656ca2586f00abf79e8ba1787f41ffcae",
+    "tools/worker_wsl_namespace_q4t.sh": "caf5d5ed16868641274290ec534126be19d08a6024a4541871a9c6033ad85760",
+    "tools/worker_wsl_q4t_adapter.py": "c4bc714f0a7136f6a6c4dc8ecdab5fe3289c41c8e76650b7ce293c0a68e5b6f5",
+    "tools/worker_wsl_q4t_auth_probe.py": "4f066e0a24c1bfdb39942c05aec6adb99a8767b5d01954abacfe84d800f6cdab",
+    "tools/worker_wsl_q4t_probe.py": "64b6be4aab7cc4edbdc847616d9fabc3c84a31c6ecc8b262917ce8d261b203cd"
+  },
+  "spend_notice_sha256": "1baa98197ed9fe3022ca9791e0681b5608beba60f3616da91803012b4aa8ba5d",
+  "stop_on_failed_or_uncertain_canary": true,
+  "structured_retry_limit": 5,
+  "transport_mode": "claude-code-json-schema-v2"
+}

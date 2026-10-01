@@ -110,6 +110,98 @@ class ExecutorTests(unittest.TestCase):
                                     ("direct" if n == 1 else "escalation")
                                     for n, a in enumerate(result["attempts"], 1)))
 
+    def test_settled_first_failure_can_pause_before_direct_repair(self):
+        executor, adapter = self.make(fail_count=1, root="pause_root")
+        with self.assertRaisesRegex(ExecutorError, "positive integer"):
+            executor.run("pause_root", stop_after_attempts=0)
+        self.assertEqual([], adapter.calls)
+
+        checkpoint = executor.run("pause_root", stop_after_attempts=1)
+        self.assertEqual("ready", checkpoint["state"])
+        self.assertEqual(1, len(adapter.calls))
+        self.assertEqual([], checkpoint["budget"]["unresolved"])
+        self.assertEqual("terminal", checkpoint["attempts"][0]["process_state"])
+        self.assertTrue(checkpoint["attempts"][0]["receipt"]["writer_stopped"])
+        self.assertEqual("fail", checkpoint["attempts"][0]["verification"]["status"])
+        self.assertEqual(0.1, checkpoint["budget"]["spent_usd"])
+
+        resumed = executor.run("pause_root")
+        self.assertEqual("accepted", resumed["state"])
+        self.assertEqual(2, len(adapter.calls))
+        self.assertEqual(["fail", "pass"],
+                         [a["verification"]["status"] for a in resumed["attempts"]])
+        self.assertEqual(0.2, resumed["budget"]["spent_usd"])
+
+        accepted, accepted_adapter = self.make(root="accepted_root")
+        self.assertEqual("accepted", accepted.run(
+            "accepted_root", stop_after_attempts=1)["state"])
+        self.assertEqual(1, len(accepted_adapter.calls))
+
+        uncertain_adapter = IncompleteAdapter()
+        uncertain = TaskExecutor(self.project, uncertain_adapter)
+        uncertain.admit(goal="Task", scope=["output.txt"],
+                        permissions=["read", "edit"], acceptance_path=self.contract,
+                        budget_usd=1.0, authority_id="uncertain_grant",
+                        actor="operator", root_id="uncertain_root")
+        unsafe = uncertain.run("uncertain_root", stop_after_attempts=1)
+        self.assertEqual("uncertain", unsafe["state"])
+        self.assertEqual(1, len(uncertain_adapter.calls))
+        self.assertTrue(unsafe["budget"]["unresolved"])
+
+    def test_host_single_call_ceiling_caps_reservation_without_shrinking_task_budget(self):
+        class CappedAdapter(FakeAdapter):
+            def capability(self, root):
+                return {**super().capability(root), "max_single_call_usd": 6.0}
+
+        adapter = CappedAdapter()
+        executor = TaskExecutor(self.project, adapter)
+        executor.admit(goal="Create accepted output", scope=["output.txt"],
+                       permissions=["read", "edit"], acceptance_path=self.contract,
+                       budget_usd=12.0, authority_id="grant_capped",
+                       actor="operator", root_id="root_capped")
+        result = executor.run("root_capped")
+        self.assertEqual("accepted", result["state"])
+        self.assertEqual(6.0, adapter.calls[0].allowance_usd)
+        self.assertEqual(12.0, result["budget"]["limit_usd"])
+        self.assertEqual(0.1, result["budget"]["spent_usd"])
+        self.assertEqual([], result["budget"]["unresolved"])
+
+    def test_invalid_host_single_call_ceiling_blocks_admission(self):
+        class InvalidAdapter(FakeAdapter):
+            def capability(self, root):
+                return {**super().capability(root), "max_single_call_usd": "unbounded"}
+
+        executor = TaskExecutor(self.project, InvalidAdapter())
+        with self.assertRaisesRegex(ExecutorError, "single-call ceiling"):
+            executor.admit(goal="Create accepted output", scope=["output.txt"],
+                           permissions=["read", "edit"], acceptance_path=self.contract,
+                           budget_usd=12.0, authority_id="grant_invalid_cap",
+                           actor="operator", root_id="root_invalid_cap")
+
+    def test_required_change_retries_after_passing_no_op(self):
+        (self.project / "output.txt").write_text("accepted-before", encoding="utf-8")
+        contract = json.loads(self.contract.read_text(encoding="utf-8"))
+        contract["require_changed_output"] = True
+        contract["command"] = [sys.executable, "-c",
+                               "from pathlib import Path; import sys; "
+                               "sys.exit(0 if Path('output.txt').read_text().startswith('accepted') else 1)"]
+        self.contract.write_text(json.dumps(contract), encoding="utf-8")
+        adapter = FakeAdapter(fail_count=1)
+        executor = TaskExecutor(self.project, adapter)
+        executor.admit(goal="Fix accepted output", scope=["output.txt"],
+                       permissions=["read", "edit"], acceptance_path=self.contract,
+                       budget_usd=1.0, authority_id="grant_no_op",
+                       actor="operator", root_id="root_no_op")
+        result = executor.run("root_no_op")
+        self.assertEqual("accepted", result["state"], result.get("block"))
+        self.assertEqual(["worker-sonnet-low", "worker-sonnet-low"],
+                         [call.requested_cell for call in adapter.calls])
+        self.assertEqual(["fail", "pass"],
+                         [attempt["verification"]["status"] for attempt in result["attempts"]])
+        self.assertEqual([False, True],
+                         [attempt["verification"]["evidence"]["required_output_changed"]
+                          for attempt in result["attempts"]])
+
     def test_authority_and_budget_amendment(self):
         executor, adapter = self.make()
         with self.assertRaises(ExecutorError):

@@ -1,0 +1,111 @@
+{
+  "date_utc": "2026-09-26",
+  "evidence_sha256": "3046ae51187de5ea4a869a43c04f7940707aa3a5f15a979955e1f9ecdeb1c809",
+  "grades": [
+    {
+      "cases": [
+        {
+          "exit_code": 0,
+          "milestone": "amount-domain",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "exit_code": 0,
+          "milestone": "conflicting-duplicate",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "exit_code": 0,
+          "milestone": "validation-rollback",
+          "passed": false,
+          "weight": 30
+        },
+        {
+          "exit_code": 0,
+          "milestone": "overdraft-rollback",
+          "passed": false,
+          "weight": 30
+        }
+      ],
+      "executable_score": 0,
+      "public_pass": false,
+      "quality_rubric_sha256": "4fbb934af7ab7d03954dd9ef79158d81dfdfac87dacdc2eee6960f891dd3f05c",
+      "variant": "baseline"
+    },
+    {
+      "cases": [
+        {
+          "exit_code": 0,
+          "milestone": "amount-domain",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "exit_code": 0,
+          "milestone": "conflicting-duplicate",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "exit_code": 0,
+          "milestone": "validation-rollback",
+          "passed": false,
+          "weight": 30
+        },
+        {
+          "exit_code": 0,
+          "milestone": "overdraft-rollback",
+          "passed": false,
+          "weight": 30
+        }
+      ],
+      "executable_score": 40,
+      "public_pass": false,
+      "quality_rubric_sha256": "4fbb934af7ab7d03954dd9ef79158d81dfdfac87dacdc2eee6960f891dd3f05c",
+      "variant": "partial"
+    },
+    {
+      "cases": [
+        {
+          "exit_code": 0,
+          "milestone": "amount-domain",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "exit_code": 0,
+          "milestone": "conflicting-duplicate",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "exit_code": 0,
+          "milestone": "validation-rollback",
+          "passed": true,
+          "weight": 30
+        },
+        {
+          "exit_code": 0,
+          "milestone": "overdraft-rollback",
+          "passed": true,
+          "weight": 30
+        }
+      ],
+      "executable_score": 100,
+      "public_pass": true,
+      "quality_rubric_sha256": "4fbb934af7ab7d03954dd9ef79158d81dfdfac87dacdc2eee6960f891dd3f05c",
+      "variant": "reference"
+    }
+  ],
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q4t_public.py": "dee75830b70425599e37414a231479f9685f100408a2fe8a5a54dc70138e972f",
+    "tools/worker_q4t_public_grade.py": "a3662c651fc1f4ea31aaf3499ce53ae447d93ccaa2769daefd628ddbf6d4d00a"
+  },
+  "task_id": "T07",
+  "task_sha256": "8b4563ee986ac258e5a36e1c4368019d6623f4ae1932d8e0878cb8a6d786beff"
+}

@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "72bc52149645fa6e08521b728b3f43399a1ac5149f720b22012d04a1df08a91f",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert decode(\"tenant|event|42\") == [\"tenant\", \"event\", \"42\"]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "Only ordinary unescaped components are checked",
+          "id": "reserved_character_round_trip",
+          "issue_citation": {
+            "file_sha256": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "`|` inside a component must be encoded as `\\|`, and a literal backslash as"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0",
+              "line": 5,
+              "path": "public_check.py",
+              "text": "assert encode([\"tenant\", \"event\", \"42\"]) == \"tenant|event|42\""
+            }
+          ],
+          "coverage": "partial",
+          "gap": "No malformed escape is checked",
+          "id": "trailing_escape_rejected",
+          "issue_citation": {
+            "file_sha256": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+            "line": 6,
+            "path": "ISSUE.md",
+            "text": "unpaired escape is invalid and must raise `ValueError`. Ordinary components"
+          }
+        }
+      ],
+      "cross_component": true,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+      "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "F07W",
+  "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+}

@@ -1,0 +1,56 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "delay_ms": 75,
+        "retry": true
+      },
+      "input": {
+        "attempt": 2,
+        "base_ms": 50,
+        "cap_ms": 75,
+        "kind": "retry_decision",
+        "max_attempts": 3,
+        "status": 429
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "delay_ms": 0,
+        "retry": false
+      },
+      "input": {
+        "attempt": 3,
+        "base_ms": 100,
+        "cap_ms": 800,
+        "kind": "retry_decision",
+        "max_attempts": 3,
+        "status": 500
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "delay_ms": 0,
+        "retry": false
+      },
+      "input": {
+        "attempt": 1,
+        "base_ms": 20,
+        "cap_ms": 100,
+        "kind": "retry_decision",
+        "max_attempts": 4,
+        "status": 404
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

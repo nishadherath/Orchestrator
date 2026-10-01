@@ -1,0 +1,29 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "minimum-client-version-for-mandatory-trace-absent",
+  "next_step": "await-minimum-version-and-legacy-client-decision",
+  "question": {
+    "missing_field": "minimum_supported_client_version",
+    "prompt": "Which minimum client version permits mandatory trace_context, and should older supported clients keep the optional field?"
+  },
+  "probes": [
+    {
+      "input": {
+        "client_version": "1.9",
+        "has_trace": false
+      },
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "input": {
+        "client_version": "2.3",
+        "has_trace": true
+      },
+      "observed": {
+        "accepted": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "files": [
+    "src/dotenv/__init__.py",
+    "src/dotenv/__main__.py",
+    "src/dotenv/cli.py",
+    "src/dotenv/ipython.py",
+    "src/dotenv/main.py",
+    "src/dotenv/parser.py",
+    "src/dotenv/py.typed",
+    "src/dotenv/variables.py",
+    "src/dotenv/version.py"
+  ],
+  "fix": "f7b18d9c72d1abcc2ad4023424b84f5bee30d266",
+  "grades": {
+    "baseline": {
+      "double_backslash": false,
+      "following_binding": true,
+      "parser_boundary": false,
+      "plain": true,
+      "regex": true,
+      "trailing_backslash": true,
+      "windows_path": true
+    },
+    "partial": {
+      "double_backslash": true,
+      "following_binding": true,
+      "parser_boundary": false,
+      "plain": true,
+      "regex": true,
+      "trailing_backslash": true,
+      "windows_path": true
+    },
+    "reference": {
+      "double_backslash": true,
+      "following_binding": true,
+      "parser_boundary": true,
+      "plain": true,
+      "regex": true,
+      "trailing_backslash": true,
+      "windows_path": true
+    }
+  },
+  "licence_sha256": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+  "parent": "751f8c148222e58aa173c83c4e5e6cfccb2cc124"
+}

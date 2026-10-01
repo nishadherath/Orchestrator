@@ -1,0 +1,30 @@
+{
+  "schema": "controller-x5-external-intake-b-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "selection": "exploratory title/date screen after prior X5 candidate inspection; not random or reserved",
+  "provider_calls": 0,
+  "reported_api_equivalent_cost_usd": 0,
+  "cases": [
+    {"id": "E04", "issue": "https://github.com/agronholm/anyio/issues/1364", "issue_body_sha256": "d110922f24268d7a47f16098a52a3da8dfbb25ba4a944fbe544c51ea859241cd", "decision": "reject", "reason": "issue includes concrete cleanup patch"},
+    {"id": "E05", "issue": "https://github.com/agronholm/anyio/issues/1356", "issue_body_sha256": "f6de890de5774768ee9a7168f55d29f66075a2c4086282a14d357cd9b740a179", "decision": "reject", "reason": "issue identifies exact early-return path"},
+    {"id": "E06", "issue": "https://github.com/agronholm/anyio/issues/1344", "issue_body_sha256": "db25e36d64d2c7a3a7158459d4febc1dac8c4626650994e6ff07700e5a352831", "decision": "reject blind paid comparison", "reason": "linked public PR proposes cleanup and maintainer policy remains unsettled"},
+    {"id": "E07", "issue": "https://github.com/agronholm/anyio/issues/1353", "issue_body_sha256": "996bb6c2c00b9e37d616468f7a461b5b35b6f8df623593404b2683ddcb34f63f", "decision": "reject", "reason": "issue identifies hook lines and missing re-wrap"},
+    {"id": "E08", "issue": "https://github.com/pallets/werkzeug/issues/3285", "issue_body_sha256": "4f2c99d7429e8bc8ba27e530122b39567eb28db504b655525ea659570302bc9d", "decision": "reject", "reason": "issue includes root cause, regression commits and suggested fixes"},
+    {"id": "E09", "issue": "https://github.com/pydantic/pydantic/issues/13869", "issue_body_sha256": "8d66723f9516ec4bcc867b93a60ce0291519f42faca6f5b4f240580e5ec4cf9d", "decision": "reject", "reason": "issue gives exact branch asymmetry, fix layer and controls"},
+    {"id": "E10", "issue": "https://github.com/pydantic/pydantic/issues/13678", "issue_body_sha256": "bb10e3a64d72953c888e1040bd9fc7d17a7480d7a22a524dfac9594878fe02d2", "decision": "reject", "reason": "issue diagnoses merge order and suggests repair"},
+    {"id": "E11", "issue": "https://github.com/pydantic/pydantic/issues/13647", "issue_body_sha256": "d4cc100dc768b7832c6a32b4a283fbaad9eed17a6cddab669e7b168130e71a21", "decision": "reject", "reason": "issue gives Rust function, precise rebuild fix and says author has tested patch"}
+  ],
+  "e06_pinned_anyio": "4.15.1",
+  "e06_watchdog_seconds": 3,
+  "e06_observed": {
+    "windows_issue": {"worker_non_daemon": true, "loop_returned": true, "timed_out": true},
+    "wsl_issue": {"worker_non_daemon": true, "loop_returned": true, "timed_out": true},
+    "windows_ready": {"worker_non_daemon": true, "loop_returned": true, "timed_out": true},
+    "wsl_ready": {"worker_non_daemon": true, "loop_returned": true, "timed_out": true},
+    "windows_drain_control": {"exit_code": 0, "timed_out": false},
+    "wsl_drain_control": {"exit_code": 0, "timed_out": false}
+  },
+  "e06_adaptation": "The readiness-controlled variant enforces worker creation without completing a transient root task; one earlier fixed-timer WSL run stopped before a worker existed.",
+  "qualified_paid_cases": 0,
+  "population_inference": "none; convenience selection and small count"
+}

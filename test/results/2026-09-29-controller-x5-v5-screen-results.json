@@ -1,0 +1,39 @@
+{
+  "manifest_sha256": "a6bc5d5b867750a1f9c880dd14851a78401870ef04cc8ca34e7642b52ecc273c",
+  "provider_calls": 3,
+  "settled_cost_usd": 0.194320202,
+  "budget_unresolved": [],
+  "screen_status": "stopped-at-first-miss",
+  "results": [
+    {
+      "task_id": "X5-PAY",
+      "root_id": "9ad6993a0394196d5f31e2e8",
+      "assessment_invocation_id": "public-assessment-40defeaf9208d11c52e666a6",
+      "assessment_cost_usd": 0.061979601,
+      "decision_id": "rtd-fa1b8a26202f1d207b5ffa20",
+      "decision_frozen": true,
+      "effective_action": "controller"
+    },
+    {
+      "task_id": "X5-FEAT",
+      "root_id": "7737f31112bfbe88407a0894",
+      "assessment_invocation_id": "public-assessment-bfe32a81596e9533a36580e0",
+      "assessment_cost_usd": 0.061468801,
+      "decision_id": "rtd-b91333555a8d4a6ea83eddd7",
+      "decision_frozen": true,
+      "effective_action": "controller"
+    },
+    {
+      "task_id": "X5-LEASE",
+      "root_id": "81444f375293fe8e694bf1c5",
+      "assessment_invocation_id": "public-assessment-54ab9386d2beb3d640c11c0f",
+      "assessment_cost_usd": 0.0708718,
+      "decision_id": "rtd-7020b62edb5d1d4c944c50eb",
+      "decision_frozen": true,
+      "effective_action": "worker",
+      "reason_codes": ["clear_worker_frame", "implementation_failure_worker_repair"]
+    }
+  ],
+  "unassessed_tasks": ["X5-MONEY", "N01-D1", "C08-D2"],
+  "pilot_provider_calls": 0
+}

@@ -19,7 +19,7 @@ import model_registry
 import route
 import worker_n5_screen as screen_plan
 from worker_adapter import WorkerRequest, digest
-from worker_wsl_transport import grade_isolated
+from worker_wsl_transport import WslWorkerAdapter, grade_isolated
 
 
 class LiveScreenError(RuntimeError):
@@ -78,9 +78,15 @@ class LiveScreen:
                 or self.output == screen_plan.CORPUS.resolve()
                 or self.output.is_relative_to(screen_plan.CORPUS.resolve())):
             raise LiveScreenError("campaign output overlaps frozen evaluation inputs")
+        if check_host and manifest["credential_method"] != "subscription":
+            raise LiveScreenError("this host requires Claude Code subscription credentials")
         if adapter is None:
-            raise LiveScreenError("WSL credential delivery is not qualified; "
-                                  "live dispatch remains closed")
+            if not check_host or manifest["credential_method"] != "subscription":
+                raise LiveScreenError("WSL subscription credential delivery is required")
+            adapter = WslWorkerAdapter(subscription=True)
+        elif check_host and (not isinstance(adapter, WslWorkerAdapter)
+                             or not adapter.host.subscription):
+            raise LiveScreenError("live dispatch requires the WSL subscription adapter")
         self.adapter = adapter
         self.grader = grader if grader is not None else grade_isolated
         self.check_host = check_host
@@ -135,6 +141,10 @@ class LiveScreen:
                     contract.get("host_attestation_sha256") !=
                     self.manifest["host_attestation_sha256"]
                     or contract.get("transport") != "wsl-private-mount-pid-uid65534"
+                    or contract.get("credential_method") !=
+                    self.manifest["credential_method"]
+                    or contract.get("subscription_attestation_sha256") !=
+                    self.manifest["subscription_attestation_sha256"]
                     or contract.get("filesystem_enforcement_proven") is not True):
                 self._block(state, "receipt lacks the frozen WSL host contract", budget)
                 return False
@@ -301,7 +311,7 @@ def main() -> int:
     parser.add_argument("--approval", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--execute", action="store_true",
-                        help="reserved for the qualified WSL credential path")
+                        help="run only with a current WSL subscription sentinel and exact approval")
     args = parser.parse_args()
     if not args.execute:
         parser.error("--execute is required; inspecting a manifest never launches workers")

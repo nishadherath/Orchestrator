@@ -1,0 +1,8 @@
+{
+  "approved": true,
+  "manifest_sha256": "43dfaabcb4b3d7a6a04f4308f71827cf591ef029050886760e56801b322c1090",
+  "maximum_usd": 20.0,
+  "scope": "K02 development public-success review: one producer and conditional matched S/A calls",
+  "date": "2026-09-29",
+  "approval_source": "user approved all planned tests on 2026-09-30"
+}

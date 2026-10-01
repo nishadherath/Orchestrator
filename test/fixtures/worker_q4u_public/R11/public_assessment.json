@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "c20579ecdc6d4c8ee42978ba8a8dcafdd8e847dc6e34ce402871a776b872851b",
+    "facts": {
+      "change_required": false,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "776d67e04ede3bcfc81ab27652e2c72979c169d081183adf7dc5f66cba9738e0",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert coalesce(source) == [(1, 8)]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check covers overlap, not touching intervals",
+          "id": "touching_interval",
+          "issue_citation": {
+            "file_sha256": "625f1d86e28c5f05997f6e78b317044ad3456e608a51777abe7e1511e9c1b07c",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "sort them by start, and merge overlapping or touching intervals into the"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "776d67e04ede3bcfc81ab27652e2c72979c169d081183adf7dc5f66cba9738e0",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert coalesce(source) == [(1, 8)]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check has no contained interval",
+          "id": "contained_interval",
+          "issue_citation": {
+            "file_sha256": "625f1d86e28c5f05997f6e78b317044ad3456e608a51777abe7e1511e9c1b07c",
+            "line": 6,
+            "path": "ISSUE.md",
+            "text": "smallest sorted set. A contained interval must not shorten its container."
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "investigation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "625f1d86e28c5f05997f6e78b317044ad3456e608a51777abe7e1511e9c1b07c",
+      "public_check.py": "776d67e04ede3bcfc81ab27652e2c72979c169d081183adf7dc5f66cba9738e0"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "R11",
+  "task_sha256": "69fad2b3e61a48d0819c746629305c339caf88d7af24fd80d70ca62d686085c4"
+}

@@ -1,0 +1,7 @@
+{
+  "approved": true,
+  "approval_source": "Operator message on 2026-09-29: I approve the pilot",
+  "manifest_sha256": "1a8eb29b2f2b816dafed0f6bbe22613cc496ee9601e55a37e1bb0822a8a001bf",
+  "maximum_pilot_usd": 144.0,
+  "scope": "18 paired X5 v6 development pilot episodes"
+}

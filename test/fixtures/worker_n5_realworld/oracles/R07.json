@@ -1,0 +1,69 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "enabled": false,
+        "reason": "denied"
+      },
+      "input": {
+        "account": "d",
+        "allowed": [],
+        "denied": [
+          "d"
+        ],
+        "flag": false,
+        "kind": "feature_gate",
+        "prerequisites": {},
+        "requires": [
+          "x"
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "enabled": false,
+        "reason": "not-listed"
+      },
+      "input": {
+        "account": "e",
+        "allowed": [],
+        "denied": [],
+        "flag": true,
+        "kind": "feature_gate",
+        "prerequisites": {},
+        "requires": []
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "enabled": false,
+        "reason": "prerequisite"
+      },
+      "input": {
+        "account": "f",
+        "allowed": [
+          "f"
+        ],
+        "denied": [],
+        "flag": true,
+        "kind": "feature_gate",
+        "prerequisites": {
+          "p": false
+        },
+        "requires": [
+          "p"
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

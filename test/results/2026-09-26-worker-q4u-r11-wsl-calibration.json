@@ -1,0 +1,50 @@
+{
+  "actor_file_count": 5,
+  "evaluator_zip_sha256": "26bae20e6a7dd765e123bce87b2241f7978bf48ac216455f8c0b218e5a1b78fa",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "contained": true,
+        "empty": true,
+        "overlap": true,
+        "touching": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "task_id": "R11",
+      "unchanged": true
+    },
+    "partial": {
+      "cases": {
+        "contained": true,
+        "empty": true,
+        "overlap": true,
+        "touching": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 0,
+      "task_id": "R11",
+      "unchanged": false
+    },
+    "reference": {
+      "cases": {
+        "contained": true,
+        "empty": true,
+        "overlap": true,
+        "touching": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "task_id": "R11",
+      "unchanged": true
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.14.7",
+  "schema_version": 1,
+  "task_id": "R11",
+  "task_sha256": "69fad2b3e61a48d0819c746629305c339caf88d7af24fd80d70ca62d686085c4"
+}

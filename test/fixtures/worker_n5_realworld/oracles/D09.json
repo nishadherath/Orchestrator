@@ -1,0 +1,92 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "rejected": [
+          0
+        ],
+        "stock": {
+          "a": 1
+        }
+      },
+      "input": {
+        "events": [
+          {
+            "delta": 1,
+            "sku": "b"
+          }
+        ],
+        "kind": "inventory_reconcile",
+        "opening": {
+          "a": 1
+        }
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "rejected": [],
+        "stock": {
+          "a": 2
+        }
+      },
+      "input": {
+        "events": [
+          {
+            "delta": 0,
+            "sku": "a"
+          },
+          {
+            "delta": 2,
+            "sku": "a"
+          }
+        ],
+        "kind": "inventory_reconcile",
+        "opening": {
+          "a": 0
+        }
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "rejected": [
+          0
+        ],
+        "stock": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "input": {
+        "events": [
+          {
+            "delta": -4,
+            "sku": "x"
+          },
+          {
+            "delta": -1,
+            "sku": "y"
+          },
+          {
+            "delta": -3,
+            "sku": "x"
+          }
+        ],
+        "kind": "inventory_reconcile",
+        "opening": {
+          "x": 3,
+          "y": 1
+        }
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "task_id": "C06-D2",
+  "diagnosis": "retry-storm-pool-starvation",
+  "cases": [
+    {"milestone": "mixed pair still fills both slots", "weight": 20,
+     "critical": false,
+     "input": {"capacity": 2, "requests": [
+       {"id": "pair-f", "kind": "foreground"},
+       {"id": "pair-r", "kind": "retry"}]},
+     "expected": {"admitted": ["pair-f", "pair-r"], "deferred": []}},
+    {"milestone": "retry-only queue uses both slots", "weight": 20,
+     "critical": false,
+     "input": {"capacity": 2, "requests": [
+       {"id": "only-r1", "kind": "retry"},
+       {"id": "only-r2", "kind": "retry"},
+       {"id": "only-r3", "kind": "retry"}]},
+     "expected": {"admitted": ["only-r1", "only-r2"],
+                  "deferred": ["only-r3"]}},
+    {"milestone": "retry storm preserves a foreground slot", "weight": 30,
+     "critical": false,
+     "input": {"capacity": 2, "requests": [
+       {"id": "storm-r1", "kind": "retry"},
+       {"id": "storm-r2", "kind": "retry"},
+       {"id": "storm-f1", "kind": "foreground"},
+       {"id": "storm-r3", "kind": "retry"}]},
+     "expected": {"admitted": ["storm-f1", "storm-r1"],
+                  "deferred": ["storm-r2", "storm-r3"]}},
+    {"milestone": "foreground surge does not starve retries", "weight": 30,
+     "critical": false,
+     "input": {"capacity": 2, "requests": [
+       {"id": "surge-r1", "kind": "retry"},
+       {"id": "surge-f1", "kind": "foreground"},
+       {"id": "surge-f2", "kind": "foreground"},
+       {"id": "surge-r2", "kind": "retry"}]},
+     "expected": {"admitted": ["surge-f1", "surge-r1"],
+                  "deferred": ["surge-f2", "surge-r2"]}}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "actor_files": {
+    "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+    "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+    "event_ref/decode.py": "c838b7e7b438c9dce70621872c527a6094806cc677b1b13a06eee2e36fb9a896",
+    "event_ref/encode.py": "be947aefb8b1daea3107c964de737a1ed37d70ad8423746f5bdcd7ca8bc25e62",
+    "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+  },
+  "change_required": true,
+  "editable_paths": [
+    "event_ref/encode.py",
+    "event_ref/decode.py"
+  ],
+  "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+  "id": "F07W",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "escaped-event-reference-round-trip",
+  "origin": "authored-synthetic-regression",
+  "public_check_variant": "weak",
+  "public_coverage": "partial",
+  "schema_version": 1,
+  "split": "development",
+  "task_kind": "implementation",
+  "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+}

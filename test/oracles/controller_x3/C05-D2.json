@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_id": "C05-D2",
+  "diagnosis": "unbounded-index-page-fetch",
+  "cases": [
+    {"milestone": "tiny full page is preserved", "weight": 20,
+     "critical": false,
+     "input": {"size": 3, "offset": 0, "limit": 3},
+     "expected": {"selected": ["r000", "r001", "r002"], "reads": 3}},
+    {"milestone": "medium full page is preserved", "weight": 20,
+     "critical": false,
+     "input": {"size": 8, "offset": 0, "limit": 8},
+     "expected": {"selected": ["r000", "r001", "r002", "r003",
+                               "r004", "r005", "r006", "r007"], "reads": 8}},
+    {"milestone": "offset page reads only its eight rows", "weight": 30,
+     "critical": false,
+     "input": {"size": 40, "offset": 8, "limit": 8},
+     "expected": {"selected": ["r008", "r009", "r010", "r011",
+                               "r012", "r013", "r014", "r015"], "reads": 8}},
+    {"milestone": "narrow page avoids an eight-row overfetch", "weight": 30,
+     "critical": false,
+     "input": {"size": 64, "offset": 17, "limit": 3},
+     "expected": {"selected": ["r017", "r018", "r019"], "reads": 3}}
+  ]
+}

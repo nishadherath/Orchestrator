@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "P06",
+  "name": "PyJWT parsed key-set cache consistency",
+  "source_url": "https://github.com/jpadilla/pyjwt",
+  "source_commit": "ea7267519f2be5ff031efabd692af7a4461f3d5e",
+  "fix_commit": "384c945065ad1f1d7e5a0331c7377c7f278532f5",
+  "issue_origin": "upstream-fix",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+  "package_path": "jwt",
+  "editable_paths": [
+    "jwt/api_jwk.py",
+    "jwt/jwk_set_cache.py",
+    "jwt/jwks_client.py"
+  ],
+  "oracle_file": "P06.json",
+  "case_file": "P06_case.py"
+}

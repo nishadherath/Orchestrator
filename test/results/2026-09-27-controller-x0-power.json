@@ -1,0 +1,201 @@
+{
+  "decision": "24-task-X6-exploratory-only-no-promotion-authority",
+  "limits": [
+    "Assumed task distributions, not empirical Controller outcomes.",
+    "The sign test examines direction, not a +5 quality margin or acceptance non-inferiority.",
+    "Quality simulations examine one gate; all-gate power cannot be greater.",
+    "Eight suitable families and two tasks each yield fragile bootstrap coverage.",
+    "Zero-harm bounds assume independent tasks; shared family failures reduce effective information.",
+    "Two repetitions per arm give 96 episodes, not 96 independent tasks."
+  ],
+  "minimum_zero_event_tasks_for_upper_below_5_percent": 59,
+  "provider_calls": 0,
+  "quality_gate_simulations": [
+    {
+      "assumed_delta_magnitude": 20,
+      "assumed_loss_probability": 0.15,
+      "assumed_mean_delta": 0.0,
+      "assumed_win_probability": 0.15,
+      "bootstrap_resamples": 400,
+      "empirical_interval_coverage": 0.9716666666666667,
+      "families": 8,
+      "family_shared_outcomes": false,
+      "median_lower_bound": -6.25,
+      "monte_carlo_standard_error": 0.0,
+      "quality_gate_pass_fraction": 0.0,
+      "repetitions_per_arm": 2,
+      "scenario": "null",
+      "seed": 27092026,
+      "simulations": 600,
+      "tasks": 16
+    },
+    {
+      "assumed_delta_magnitude": 20,
+      "assumed_loss_probability": 0.15,
+      "assumed_mean_delta": 0.0,
+      "assumed_win_probability": 0.15,
+      "bootstrap_resamples": 400,
+      "empirical_interval_coverage": 0.9466666666666667,
+      "families": 8,
+      "family_shared_outcomes": true,
+      "median_lower_bound": -7.5,
+      "monte_carlo_standard_error": 0.0016652771985913182,
+      "quality_gate_pass_fraction": 0.0016666666666666668,
+      "repetitions_per_arm": 2,
+      "scenario": "null",
+      "seed": 27092027,
+      "simulations": 600,
+      "tasks": 16
+    },
+    {
+      "assumed_delta_magnitude": 20,
+      "assumed_loss_probability": 0.1,
+      "assumed_mean_delta": 6.000000000000001,
+      "assumed_win_probability": 0.4,
+      "bootstrap_resamples": 400,
+      "empirical_interval_coverage": 0.9666666666666667,
+      "families": 8,
+      "family_shared_outcomes": false,
+      "median_lower_bound": -1.25,
+      "monte_carlo_standard_error": 0.006162911769730399,
+      "quality_gate_pass_fraction": 0.023333333333333334,
+      "repetitions_per_arm": 2,
+      "scenario": "modest",
+      "seed": 27092028,
+      "simulations": 600,
+      "tasks": 16
+    },
+    {
+      "assumed_delta_magnitude": 20,
+      "assumed_loss_probability": 0.1,
+      "assumed_mean_delta": 6.000000000000001,
+      "assumed_win_probability": 0.4,
+      "bootstrap_resamples": 400,
+      "empirical_interval_coverage": 0.8916666666666667,
+      "families": 8,
+      "family_shared_outcomes": true,
+      "median_lower_bound": -2.5,
+      "monte_carlo_standard_error": 0.008610931897776695,
+      "quality_gate_pass_fraction": 0.04666666666666667,
+      "repetitions_per_arm": 2,
+      "scenario": "modest",
+      "seed": 27092029,
+      "simulations": 600,
+      "tasks": 16
+    },
+    {
+      "assumed_delta_magnitude": 20,
+      "assumed_loss_probability": 0.05,
+      "assumed_mean_delta": 12.999999999999998,
+      "assumed_win_probability": 0.7,
+      "bootstrap_resamples": 400,
+      "empirical_interval_coverage": 0.9616666666666667,
+      "families": 8,
+      "family_shared_outcomes": false,
+      "median_lower_bound": 6.25,
+      "monte_carlo_standard_error": 0.020362342694297236,
+      "quality_gate_pass_fraction": 0.535,
+      "repetitions_per_arm": 2,
+      "scenario": "large",
+      "seed": 27092030,
+      "simulations": 600,
+      "tasks": 16
+    },
+    {
+      "assumed_delta_magnitude": 20,
+      "assumed_loss_probability": 0.05,
+      "assumed_mean_delta": 12.999999999999998,
+      "assumed_win_probability": 0.7,
+      "bootstrap_resamples": 400,
+      "empirical_interval_coverage": 0.91,
+      "families": 8,
+      "family_shared_outcomes": true,
+      "median_lower_bound": 5.0,
+      "monte_carlo_standard_error": 0.020379614905677284,
+      "quality_gate_pass_fraction": 0.4716666666666667,
+      "repetitions_per_arm": 2,
+      "scenario": "large",
+      "seed": 27092031,
+      "simulations": 600,
+      "tasks": 16
+    }
+  ],
+  "schema_version": 1,
+  "sign_test_sensitivity": [
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.2,
+      "directional_power": 0.04630708145604627,
+      "one_sided_alpha": 0.025,
+      "tasks": 16
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.35,
+      "directional_power": 0.3069904460775406,
+      "one_sided_alpha": 0.025,
+      "tasks": 16
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.5,
+      "directional_power": 0.643081091332715,
+      "one_sided_alpha": 0.025,
+      "tasks": 16
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.2,
+      "directional_power": 0.15078420212351787,
+      "one_sided_alpha": 0.025,
+      "tasks": 24
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.35,
+      "directional_power": 0.5757962807561596,
+      "one_sided_alpha": 0.025,
+      "tasks": 24
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.5,
+      "directional_power": 0.8730992364047825,
+      "one_sided_alpha": 0.025,
+      "tasks": 24
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.2,
+      "directional_power": 0.45555326699024434,
+      "one_sided_alpha": 0.025,
+      "tasks": 48
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.35,
+      "directional_power": 0.928037492727426,
+      "one_sided_alpha": 0.025,
+      "tasks": 48
+    },
+    {
+      "assumed_loss_probability": 0.05,
+      "assumed_win_probability": 0.5,
+      "directional_power": 0.996999878424815,
+      "one_sided_alpha": 0.025,
+      "tasks": 48
+    }
+  ],
+  "source_sha256": {
+    "controller_x0_power.py": "d7710199694becdd3b6c3afc534efbb82dcc149d3fff15775642f9a3f7513e39",
+    "worker_qualification_power.py": "d846c91468a8a4d05cfdf4ab1a2e2ffbbbf5d1eba519172f326eaff1c8b62de8"
+  },
+  "stage": "X0",
+  "zero_candidate_only_harm_upper_95": {
+    "16": 0.17074972298248092,
+    "24": 0.11734615615494881,
+    "48": 0.06050340934889431,
+    "59": 0.049507609888227,
+    "8": 0.31234397806636793
+  }
+}

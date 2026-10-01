@@ -1,0 +1,72 @@
+{
+  "assessment": {
+    "assessment_sha256": "29807e1d96cfd2b577ba34a0c749551630297b3bbda9a0ba9a8f555f787a0af2",
+    "facts": {
+      "change_required": true,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "b1e6f696686df6dbe1ca1e66a811a34d51d01dcbca52e2de679b0dc10092a9d7",
+              "line": 27,
+              "path": "public_check.py",
+              "text": "assert list(JSONLIterator(BoundedRead(StringIO(incomplete)), rel_seek=0.95)) == []"
+            },
+            {
+              "file_sha256": "b1e6f696686df6dbe1ca1e66a811a34d51d01dcbca52e2de679b0dc10092a9d7",
+              "line": 16,
+              "path": "public_check.py",
+              "text": "            raise AssertionError(\"relative seek did not terminate\")"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "eof_terminates",
+          "issue_citation": {
+            "file_sha256": "16dd31744120834fd71a67177dbaae4a89f709e428d2c3791c655006f537f088",
+            "line": 3,
+            "path": "ISSUE.md",
+            "text": "`JSONLIterator` must terminate when a relative seek lands in the final"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "b1e6f696686df6dbe1ca1e66a811a34d51d01dcbca52e2de679b0dc10092a9d7",
+              "line": 29,
+              "path": "public_check.py",
+              "text": "tail = list(JSONLIterator(BoundedRead(StringIO(text)), rel_seek=-0.25))"
+            },
+            {
+              "file_sha256": "b1e6f696686df6dbe1ca1e66a811a34d51d01dcbca52e2de679b0dc10092a9d7",
+              "line": 31,
+              "path": "public_check.py",
+              "text": "assert tail and tail == positive"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "negative_seek_tail",
+          "issue_citation": {
+            "file_sha256": "16dd31744120834fd71a67177dbaae4a89f709e428d2c3791c655006f537f088",
+            "line": 4,
+            "path": "ISSUE.md",
+            "text": "incomplete line and no later newline exists. A negative `rel_seek` must"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "implementation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "16dd31744120834fd71a67177dbaae4a89f709e428d2c3791c655006f537f088",
+      "public_check.py": "b1e6f696686df6dbe1ca1e66a811a34d51d01dcbca52e2de679b0dc10092a9d7"
+    },
+    "schema_version": 1,
+    "verification_coverage": "direct"
+  },
+  "schema_version": 1,
+  "task_id": "B02S",
+  "task_sha256": "749d55a6584f224ea535b1b22c1aaab07fbbe17d23084747c3ab6e98be4ef4a8"
+}

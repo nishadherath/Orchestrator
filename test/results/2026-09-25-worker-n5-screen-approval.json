@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "decision": "approved",
+  "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+  "maximum_authorised_usd": 48.75,
+  "credential_method": "subscription",
+  "spend_notice_sha256": "61974465310977df96fa7cfbecd885793b7a09769df60a4d0ee49bfbe7296761",
+  "approved_by": "operator",
+  "approved_at": "2026-09-24T22:33:09Z"
+}

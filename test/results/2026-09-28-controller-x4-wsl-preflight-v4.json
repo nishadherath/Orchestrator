@@ -1,0 +1,32 @@
+{
+  "actor_files": {
+    "acceptance.json": "c222227e49d8abcc9b7dad6e82728c35fe07212dccaf5e77411643e04ccc7437",
+    "app.py": "a59258ec7dec6a76c188fcc6c46d482c662b9f6e2ab99e9b28be633b2fecd5f2",
+    "audit_manifest.py": "817bd367fbf2f052c7480b69dacaab63bf6c5b3147c1a845c2322b8aad5dffc8",
+    "issue.md": "0ca410b66ea83b5402574f08721c1f4d1de0c8b620877b5b42e7c9f4f45883df",
+    "public_check.py": "9d3800dcef71366ffcd9cccfb56fbaa91185f25abc5e78620aced2c4551fd509",
+    "release_manifest.py": "5ac0ea82038aa1d8ba7375fd3683bcb593fe8ffa8e7b5d0577b6be3be41ec4dd",
+    "report.json": "116ec3fbd32edb43717cb6524c24ea3fd6b33a2d2f34d3f546cad8ec7652d164"
+  },
+  "credential_fresh": true,
+  "credential_method": "claude.ai subscription",
+  "editable_paths": [
+    "release_manifest.py",
+    "audit_manifest.py",
+    "report.json"
+  ],
+  "isolated_proof_bound": true,
+  "provider_calls": 0,
+  "root_id": "x4-live-smoke-root-v4",
+  "schema_version": 1,
+  "seed": "/var/lib/orchestrator-worker-n4/seed/controller-x4-pvaz02yr",
+  "status": "READY_NO_PROVIDER_CALL",
+  "worker_capability": {
+    "budget_enforced": true,
+    "enforcement_proven": true,
+    "supported_cells": [
+      "worker-sonnet-low",
+      "worker-opus-high"
+    ]
+  }
+}

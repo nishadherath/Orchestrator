@@ -1,0 +1,14 @@
+{
+  "input": {
+    "events": [
+      {"op": "put", "tenant": "north", "feature": "flag", "value": "A"},
+      {"op": "get", "tenant": "south", "feature": "flag"}
+    ]
+  },
+  "observed": {
+    "results": [
+      {"status": "stored"},
+      {"status": "hit", "value": "A"}
+    ]
+  }
+}

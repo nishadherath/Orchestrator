@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "task_id": "C06-R1",
+  "diagnosis": "broad-cache-eviction-and-uncoalesced-refills",
+  "cases": [
+    {
+      "milestone": "changed key is refreshed",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "cache": {
+          "a": "old"
+        },
+        "backend": {
+          "a": "fresh"
+        },
+        "invalidated": [
+          "a"
+        ],
+        "waves": [
+          [
+            "a"
+          ]
+        ]
+      },
+      "expected": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          }
+        ],
+        "loads": [
+          {
+            "tick": 0,
+            "key": "a"
+          }
+        ],
+        "cache": {
+          "a": "fresh"
+        }
+      }
+    },
+    {
+      "milestone": "unaffected hot keys remain cached",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "cache": {
+          "a": "old",
+          "b": "B",
+          "c": "C"
+        },
+        "backend": {
+          "a": "fresh",
+          "b": "B",
+          "c": "C"
+        },
+        "invalidated": [
+          "a"
+        ],
+        "waves": [
+          [
+            "b",
+            "c"
+          ]
+        ]
+      },
+      "expected": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "b",
+            "status": "value",
+            "value": "B"
+          },
+          {
+            "tick": 0,
+            "key": "c",
+            "status": "value",
+            "value": "C"
+          }
+        ],
+        "loads": [],
+        "cache": {
+          "b": "B",
+          "c": "C"
+        }
+      }
+    },
+    {
+      "milestone": "one hot-key wave shares one backend refill",
+      "weight": 25,
+      "critical": false,
+      "input": {
+        "cache": {
+          "a": "old"
+        },
+        "backend": {
+          "a": "fresh"
+        },
+        "invalidated": [
+          "a"
+        ],
+        "waves": [
+          [
+            "a",
+            "a",
+            "a"
+          ]
+        ]
+      },
+      "expected": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          },
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          },
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          }
+        ],
+        "loads": [
+          {
+            "tick": 0,
+            "key": "a"
+          }
+        ],
+        "cache": {
+          "a": "fresh"
+        }
+      }
+    },
+    {
+      "milestone": "distinct missing keys stagger without stale values",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "cache": {
+          "a": "old",
+          "b": "old"
+        },
+        "backend": {
+          "a": "A",
+          "b": "B"
+        },
+        "invalidated": [
+          "a",
+          "b"
+        ],
+        "waves": [
+          [
+            "a",
+            "b"
+          ]
+        ]
+      },
+      "expected": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "A"
+          },
+          {
+            "tick": 0,
+            "key": "b",
+            "status": "retry"
+          }
+        ],
+        "loads": [
+          {
+            "tick": 0,
+            "key": "a"
+          }
+        ],
+        "cache": {
+          "a": "A"
+        }
+      }
+    },
+    {
+      "milestone": "deferred key refills on a later wave",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "cache": {
+          "a": "old",
+          "b": "old"
+        },
+        "backend": {
+          "a": "A",
+          "b": "B"
+        },
+        "invalidated": [
+          "a",
+          "b"
+        ],
+        "waves": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "b"
+          ]
+        ]
+      },
+      "expected": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "A"
+          },
+          {
+            "tick": 0,
+            "key": "b",
+            "status": "retry"
+          },
+          {
+            "tick": 1,
+            "key": "b",
+            "status": "value",
+            "value": "B"
+          }
+        ],
+        "loads": [
+          {
+            "tick": 0,
+            "key": "a"
+          },
+          {
+            "tick": 1,
+            "key": "b"
+          }
+        ],
+        "cache": {
+          "a": "A",
+          "b": "B"
+        }
+      }
+    }
+  ]
+}

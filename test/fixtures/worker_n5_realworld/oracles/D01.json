@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "source": "defaults",
+        "value": "safe"
+      },
+      "input": {
+        "defaults": {
+          "mode": "safe"
+        },
+        "environment": {
+          "mode": null
+        },
+        "file": {},
+        "key": "mode",
+        "kind": "config_precedence"
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "source": "missing",
+        "value": null
+      },
+      "input": {
+        "defaults": {},
+        "environment": {},
+        "file": {},
+        "key": "x",
+        "kind": "config_precedence"
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "source": "environment",
+        "value": false
+      },
+      "input": {
+        "defaults": {},
+        "environment": {
+          "x": false
+        },
+        "file": {
+          "x": true
+        },
+        "key": "x",
+        "kind": "config_precedence"
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "controller-x5-external-e02-preflight-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "source_issue": "https://github.com/sqlalchemy/alembic/issues/1768",
+  "provider_calls": 0,
+  "reported_api_equivalent_cost_usd": 0,
+  "pinned_packages": {
+    "alembic": "1.17.2",
+    "SQLAlchemy": "2.0.45"
+  },
+  "reproduction": "test/fixtures/controller_x5_external/development/E02/repro/repro.py",
+  "adaptation": "Reduced the issue's incomplete migration fragment to a named Boolean batch add on SQLite; omitted old status-column removal and unrelated tables.",
+  "hosts": {
+    "windows_python": "3.12.14",
+    "wsl_worker_python": "3.14.7"
+  },
+  "observed_on_both_hosts": {
+    "direct_create_check_count": 1,
+    "before_batch_check_count": 0,
+    "after_batch_check_count": 2,
+    "after_batch_constraint_names": ["is_active", "is_active"],
+    "invalid_boolean_value_rejected": true
+  },
+  "limits": [
+    "The issue's printed SQL has raw and convention-applied names; the adaptation produced two raw names.",
+    "No data-integrity bypass or consequential residual risk was observed.",
+    "Later related reports were seen before protected-oracle authoring and cannot serve as an unbiased holdout."
+  ],
+  "admission": "reject paid X5 screening: consequential independent public residual-risk trigger not established"
+}

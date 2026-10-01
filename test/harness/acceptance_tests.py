@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -30,7 +31,7 @@ class AcceptanceTests(unittest.TestCase):
         self.contract_path = self.project / "acceptance.json"
 
     def contract(self, *, command=None, kind="command", rubric=None, outputs=None,
-                 protected=None, timeout=10):
+                 protected=None, timeout=10, require_changed_output=None):
         value = {
             "version": 1, "kind": kind, "criteria": ["the result meets the task"],
             "constraints": ["do not weaken protected tests"],
@@ -42,8 +43,78 @@ class AcceptanceTests(unittest.TestCase):
         if kind == "rubric":
             value["command"] = []
             value["rubric"] = rubric or ["review correctness and constraint compliance"]
+        if require_changed_output is not None:
+            value["require_changed_output"] = require_changed_output
         self.contract_path.write_text(json.dumps(value), encoding="utf-8")
         return acceptance.load_contract(self.project, self.contract_path)
+
+    def test_explicit_change_requirement_rejects_passing_no_op(self):
+        frozen = self.contract(require_changed_output=True)
+        resolved = acceptance.verify(self.project, frozen, "changed-001")
+        self.assertEqual("fail", resolved["status"])
+        self.assertFalse(resolved["evidence"]["required_output_changed"])
+        self.assertTrue(acceptance.qualified(resolved))
+        legacy = self.contract()
+        self.assertEqual("pass", acceptance.verify(self.project, legacy,
+                                                    "legacy-no-op")["status"])
+
+    def test_explicit_change_requirement_accepts_changed_output(self):
+        frozen = self.contract(require_changed_output=True)
+        (self.project / "result.txt").write_text("fixed", encoding="utf-8")
+        resolved = acceptance.verify(self.project, frozen, "changed-002")
+        self.assertEqual("pass", resolved["status"])
+        self.assertTrue(resolved["evidence"]["required_output_changed"])
+        self.assertTrue(acceptance.qualified(resolved))
+
+    def test_rewriting_identical_bytes_is_not_a_change(self):
+        frozen = self.contract(
+            command=[sys.executable, "-c",
+                     "from pathlib import Path; Path('result.txt').write_text('initial\\n')"],
+            require_changed_output=True)
+        resolved = acceptance.verify(self.project, frozen, "changed-identical")
+        self.assertEqual("fail", resolved["status"])
+        self.assertFalse(resolved["evidence"]["required_output_changed"])
+        self.assertTrue(acceptance.qualified(resolved))
+
+    def test_new_required_output_counts_as_a_change(self):
+        frozen = self.contract(outputs=["new.txt"], require_changed_output=True)
+        self.assertEqual(["new.txt"], frozen["contract"]["required_baseline"]["missing"])
+        (self.project / "new.txt").write_text("created", encoding="utf-8")
+        resolved = acceptance.verify(self.project, frozen, "changed-created")
+        self.assertEqual("pass", resolved["status"])
+        self.assertTrue(acceptance.qualified(resolved))
+
+    def test_verifier_cannot_create_a_required_change(self):
+        frozen = self.contract(
+            command=[sys.executable, "-c",
+                     "from pathlib import Path; "
+                     "Path('result.txt').write_text('from check'); "
+                     "p=Path('check-count.txt'); "
+                     "p.write_text(str(int(p.read_text())+1 if p.exists() else 1))"],
+            require_changed_output=True)
+        resolved = acceptance.verify(self.project, frozen, "check-mutates")
+        self.assertEqual("blocked", resolved["status"])
+        self.assertIn("changed required outputs", resolved["evidence"]["blocked_reason"])
+        self.assertFalse(acceptance.qualified(resolved))
+        self.assertEqual(resolved, acceptance.verify(self.project, frozen, "check-mutates"))
+        self.assertEqual("1", (self.project / "check-count.txt").read_text())
+
+    def test_change_requirement_rejects_invalid_contract_and_forged_pass(self):
+        with self.assertRaises(acceptance.AcceptanceError):
+            self.contract(require_changed_output="true")
+        with self.assertRaises(acceptance.AcceptanceError):
+            self.contract(kind="rubric", require_changed_output=True)
+        with self.assertRaises(acceptance.AcceptanceError):
+            self.contract(kind="rubric", require_changed_output=False)
+        frozen = self.contract(require_changed_output=True)
+        resolved = acceptance.verify(self.project, frozen, "changed-003")
+        forged = json.loads(json.dumps(resolved))
+        forged["status"] = "pass"
+        forged["evidence"]["required_output_changed"] = True
+        forged["evidence"]["result_digest"] = acceptance.digest({
+            key: value for key, value in forged["evidence"].items()
+            if key != "result_digest"})
+        self.assertFalse(acceptance.qualified(forged))
 
     def test_claimed_pass_with_failing_check_is_acceptance_fail(self):
         frozen = self.contract(command=[sys.executable, "-c", "raise SystemExit(3)"])
@@ -51,6 +122,88 @@ class AcceptanceTests(unittest.TestCase):
         self.assertEqual(resolved["status"], "fail")
         self.assertTrue(acceptance.qualified(resolved))
         self.assertEqual(resolved["evidence"]["command"]["exit_code"], 3)
+
+    def test_injected_command_runner_prevents_local_candidate_execution(self):
+        marker = self.project / "unsafe-local-execution.txt"
+        command = [sys.executable, "-c", f"from pathlib import Path; Path({str(marker)!r}).write_text('ran')"]
+        frozen = self.contract(command=command)
+        seen = []
+
+        def isolated(argv, *, cwd, capture_output, timeout, shell):
+            seen.append((argv, cwd, capture_output, timeout, shell))
+            process = subprocess.CompletedProcess(argv, 0, b"", b"")
+            proof = {
+                "boundary": "synthetic isolated verifier",
+                "artefacts_digest": acceptance.snapshot(cwd, ["result.txt"])["digest"],
+                "protected_digest": acceptance.snapshot(
+                    cwd, ["tests/protected.py"])["digest"],
+            }
+            process.isolation_evidence = {**proof, "sha256": acceptance.digest(proof)}
+            return process
+
+        resolved = acceptance.verify(self.project, frozen, "isolated-001",
+                                     command_runner=isolated)
+        self.assertEqual("pass", resolved["status"])
+        self.assertTrue(acceptance.qualified(resolved))
+        self.assertEqual([(command, self.project, True, 10, False)], seen)
+        self.assertFalse(marker.exists())
+
+    def test_invalid_isolated_process_result_fails_closed(self):
+        frozen = self.contract()
+
+        def invalid(argv, **kwargs):
+            return subprocess.CompletedProcess(argv, 0, "text", b"")
+
+        with self.assertRaisesRegex(acceptance.AcceptanceError, "invalid process result"):
+            acceptance.verify(self.project, frozen, "isolated-001", command_runner=invalid)
+        self.assertFalse((self.project / ".claude" / "acceptance" /
+                          "isolated-001.json").exists())
+
+    def test_isolated_proof_must_bind_current_artefacts(self):
+        frozen = self.contract()
+
+        def stale(argv, **kwargs):
+            process = subprocess.CompletedProcess(argv, 0, b"", b"")
+            proof = {"artefacts_digest": "0" * 64,
+                     "protected_digest": "0" * 64}
+            process.isolation_evidence = {**proof, "sha256": acceptance.digest(proof)}
+            return process
+
+        with self.assertRaisesRegex(acceptance.AcceptanceError, "does not bind"):
+            acceptance.verify(self.project, frozen, "isolated-001", command_runner=stale)
+
+    def test_isolated_runner_does_not_reuse_local_command_evidence(self):
+        frozen = self.contract()
+        acceptance.verify(self.project, frozen, "isolation-upgrade")
+        calls = []
+
+        def isolated(argv, *, cwd, **kwargs):
+            calls.append(argv)
+            process = subprocess.CompletedProcess(argv, 0, b"", b"")
+            proof = {
+                "artefacts_digest": acceptance.snapshot(cwd, ["result.txt"])["digest"],
+                "protected_digest": acceptance.snapshot(
+                    cwd, ["tests/protected.py"])["digest"],
+            }
+            process.isolation_evidence = {**proof, "sha256": acceptance.digest(proof)}
+            return process
+
+        resolved = acceptance.verify(self.project, frozen, "isolation-upgrade",
+                                     command_runner=isolated)
+        self.assertEqual([frozen["contract"]["command"]], calls)
+        self.assertTrue(acceptance.qualified(resolved))
+        self.assertIn("isolation_evidence", resolved["evidence"]["command"])
+
+    def test_isolated_timeout_is_blocked_without_proof(self):
+        frozen = self.contract()
+
+        def timeout(argv, **kwargs):
+            raise subprocess.TimeoutExpired(argv, kwargs["timeout"])
+
+        resolved = acceptance.verify(self.project, frozen, "isolated-timeout",
+                                     command_runner=timeout)
+        self.assertEqual("blocked", resolved["status"])
+        self.assertFalse(acceptance.qualified(resolved))
 
     def test_missing_output_fails_and_missing_command_blocks(self):
         frozen = self.contract(outputs=["missing.txt"])

@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "task_id": "N04-R1",
+  "diagnosis": "feature-disable-audit-step-omitted",
+  "cases": [
+    {
+      "milestone": "approved feature is disabled",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "action": "flags",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": []
+      },
+      "expected": {
+        "flags": {
+          "beta_exports": false,
+          "search": true
+        }
+      }
+    },
+    {
+      "milestone": "disable transition is audited",
+      "weight": 30,
+      "critical": false,
+      "input": {
+        "action": "audit",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": []
+      },
+      "expected": {
+        "audit": [
+          {
+            "event": "disable",
+            "flag": "beta_exports",
+            "reason": "maintenance"
+          }
+        ]
+      }
+    },
+    {
+      "milestone": "unrelated flag is preserved",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "action": "flags",
+        "flags": {
+          "beta_exports": true,
+          "search": true,
+          "reports": false
+        },
+        "audit": []
+      },
+      "expected": {
+        "flags": {
+          "beta_exports": false,
+          "search": true,
+          "reports": false
+        }
+      }
+    },
+    {
+      "milestone": "previous audit events remain before the new event",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "action": "audit",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": [
+          {
+            "event": "enable",
+            "flag": "search",
+            "reason": "launch"
+          }
+        ]
+      },
+      "expected": {
+        "audit": [
+          {
+            "event": "enable",
+            "flag": "search",
+            "reason": "launch"
+          },
+          {
+            "event": "disable",
+            "flag": "beta_exports",
+            "reason": "maintenance"
+          }
+        ]
+      }
+    },
+    {
+      "milestone": "repeat disable appends only one event",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "action": "audit",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": [],
+        "repeat": 2
+      },
+      "expected": {
+        "audit": [
+          {
+            "event": "disable",
+            "flag": "beta_exports",
+            "reason": "maintenance"
+          }
+        ]
+      }
+    }
+  ]
+}

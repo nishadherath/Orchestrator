@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "S02",
+  "name": "Hookspec argument defaults",
+  "source_url": "https://github.com/pytest-dev/pluggy",
+  "source_commit": "9836e545d68690b30accc1eeb4af408f80efa44c",
+  "fix_commit": "a031c1c91fdd5e4c684f97c2a0e96cbc7e18835f",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606",
+  "package_path": "pluggy",
+  "editable_paths": [
+    "pluggy/_hooks.py",
+    "pluggy/_manager.py",
+    "pluggy/_callers.py"
+  ],
+  "oracle_file": "S02.json",
+  "case_file": "S02_case.py",
+  "authored_rationale": "Authored regression from the pinned upstream hookspec-default fix; exercises registration and call forms.",
+  "upstream_change_url": "https://github.com/pytest-dev/pluggy/commit/a031c1c91fdd5e4c684f97c2a0e96cbc7e18835f"
+}

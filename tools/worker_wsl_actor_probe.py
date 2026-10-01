@@ -107,6 +107,9 @@ def main() -> int:
         "actor_root_creation_denied": write_denied(ACTOR / "forbidden.txt"),
         "acceptance_write_denied": write_denied(ACTOR / "acceptance.json"),
         "evaluator_direct_denied": denied(HIDDEN),
+        "auth_master_denied": denied(Path(
+            "/var/lib/orchestrator-worker-n4/auth/.credentials.json")),
+        "wsl_login_denied": denied(Path("/home/wsl/.claude/.credentials.json")),
         "evaluator_symlink_denied": denied(target),
         "recursive_search_denied": "oracle.py" not in search.stdout,
         "windows_c_unmounted": denied(Path("/mnt/c/Users/Bob")),
@@ -116,7 +119,8 @@ def main() -> int:
         "proc_root_no_escape": denied(Path("/proc/1/root") / HIDDEN.relative_to("/")),
         "claude_native_runs": version.returncode == 0 and "2.1.273" in version.stdout,
         "sanitized_environment": "WSL_INTEROP" not in os.environ
-                                 and "ANTHROPIC_API_KEY" not in os.environ,
+                                 and "ANTHROPIC_API_KEY" not in os.environ
+                                 and "CLAUDE_CONFIG_DIR" not in os.environ,
     }
     checks.update(graft_checks())
     print(json.dumps({"checks": checks, "result": "PASS" if all(checks.values()) else "FAIL"},

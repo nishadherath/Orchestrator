@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "task_id": "C08-R1",
+  "diagnosis": "unbounded-replay-buffer-and-arrival-order-output",
+  "cases": [
+    {
+      "milestone": "ordered first record emits immediately",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 1,
+            "value": "A"
+          }
+        ]
+      },
+      "expected": {
+        "emitted": [
+          "A"
+        ],
+        "statuses": [
+          "emitted"
+        ],
+        "pending": {},
+        "peak_live": 0
+      }
+    },
+    {
+      "milestone": "future records respect the live bound",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 3,
+            "value": "C"
+          },
+          {
+            "sequence": 4,
+            "value": "D"
+          },
+          {
+            "sequence": 5,
+            "value": "E"
+          }
+        ]
+      },
+      "expected": {
+        "emitted": [],
+        "statuses": [
+          "buffered",
+          "buffered",
+          "backpressure"
+        ],
+        "pending": {
+          "3": "C",
+          "4": "D"
+        },
+        "peak_live": 2
+      }
+    },
+    {
+      "milestone": "closing a gap drains buffered records in order",
+      "weight": 25,
+      "critical": false,
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 3,
+            "value": "C"
+          },
+          {
+            "sequence": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "expected": {
+        "emitted": [
+          "A",
+          "B",
+          "C"
+        ],
+        "statuses": [
+          "emitted",
+          "buffered",
+          "emitted"
+        ],
+        "pending": {},
+        "peak_live": 1
+      }
+    },
+    {
+      "milestone": "an early buffered record drains when one arrives",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 2,
+            "value": "B"
+          },
+          {
+            "sequence": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 3,
+            "value": "C"
+          }
+        ]
+      },
+      "expected": {
+        "emitted": [
+          "A",
+          "B",
+          "C"
+        ],
+        "statuses": [
+          "buffered",
+          "emitted",
+          "emitted"
+        ],
+        "pending": {},
+        "peak_live": 1
+      }
+    },
+    {
+      "milestone": "old duplicate is ignored without new live state",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 1,
+            "value": "A"
+          }
+        ]
+      },
+      "expected": {
+        "emitted": [
+          "A"
+        ],
+        "statuses": [
+          "emitted",
+          "duplicate"
+        ],
+        "pending": {},
+        "peak_live": 0
+      }
+    }
+  ]
+}

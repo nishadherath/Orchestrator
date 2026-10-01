@@ -71,6 +71,13 @@ qualified B0 automatic sequence in this document.
 
 ## 3. Freeze acceptance and dispatch
 
+For operator-selected durable execution, use `/worker-task` and read
+`WORKER-TASKS.md`. Admit the frozen task through `tools/worker_tasks.py`, then
+run that root; do not also launch an Agent worker for its scope. The CLI owns
+the fixed B0 attempts and budget. Its host capability report distinguishes
+configured controls from proven isolation. Otherwise follow the Agent-tool
+procedure below; it remains a prompt obligation, not an intercepted launch.
+
 Before dispatch, create a task-specific version-1 acceptance contract from
 `acceptance-contract.example.json`:
 

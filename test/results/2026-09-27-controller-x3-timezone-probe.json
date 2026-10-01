@@ -1,0 +1,76 @@
+{
+  "controls": [
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "d87deafcfdb464423610ff30a83772c8bb2ed90df47a077317ea61ef0cc214f5",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "23bfcdbb44acf2759c1d078da3b1055a89348a11db41f53f3c174d4c9fe564fe",
+      "public_check_passed": true,
+      "quality": 100.0,
+      "task_id": "C07-D2",
+      "variant": "reference"
+    },
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "8cca7889737f48342623aa615a9dc48248cf52fae1c1e5cacca22c5debe8dee2",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "23bfcdbb44acf2759c1d078da3b1055a89348a11db41f53f3c174d4c9fe564fe",
+      "public_check_passed": true,
+      "quality": 100.0,
+      "task_id": "C07-D2",
+      "variant": "alternative"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "d1045f885b88a5d0dc086b1c5b1154046694e683a8c52a38c007556c818cd278",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "23bfcdbb44acf2759c1d078da3b1055a89348a11db41f53f3c174d4c9fe564fe",
+      "public_check_passed": true,
+      "quality": 73.0,
+      "task_id": "C07-D2",
+      "variant": "partial"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "4d3b58c29987dc49cdfa9c737d46f71a6692080c5a5f45a58bf0427cbffeb7d4",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "23bfcdbb44acf2759c1d078da3b1055a89348a11db41f53f3c174d4c9fe564fe",
+      "public_check_passed": true,
+      "quality": 16.0,
+      "task_id": "C07-D2",
+      "variant": "baseline"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "197721bc89a38e0234cf1d87296e082e1e949cac7fcea813c65a7828369afc5e",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "23bfcdbb44acf2759c1d078da3b1055a89348a11db41f53f3c174d4c9fe564fe",
+      "public_check_passed": true,
+      "quality": 16.0,
+      "task_id": "C07-D2",
+      "variant": "label_copy"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "72f631bd14cc9502a6562ee30fe53a89b70f50347ef7a95c1e5b2901748e1355",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "23bfcdbb44acf2759c1d078da3b1055a89348a11db41f53f3c174d4c9fe564fe",
+      "public_check_passed": true,
+      "quality": 0.0,
+      "task_id": "C07-D2",
+      "variant": "poison_json"
+    }
+  ],
+  "mode": "controller-x3-wsl-vertical-probe",
+  "observed_at": "2026-09-27T03:58:46.360292+00:00",
+  "provider_calls": 0,
+  "result": "PASS",
+  "schema_version": 1,
+  "task_count": 1
+}

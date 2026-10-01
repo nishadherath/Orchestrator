@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "task_id": "C04-R1",
+  "diagnosis": "object-id-lookup-missing-tenant-ownership",
+  "cases": [
+    {
+      "milestone": "listing shows only active reports owned by the tenant",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "tenant": "acme",
+        "operation": "list",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ]
+      },
+      "expected": [
+        {
+          "id": "r-a",
+          "tenant": "acme",
+          "state": "active",
+          "body": "A"
+        }
+      ]
+    },
+    {
+      "milestone": "owner opens an active report by ID",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-a"
+      },
+      "expected": {
+        "id": "r-a",
+        "tenant": "acme",
+        "state": "active",
+        "body": "A"
+      }
+    },
+    {
+      "milestone": "guessed foreign active report is denied",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-b"
+      },
+      "expected": null
+    },
+    {
+      "milestone": "owner opens an archived report by ID",
+      "weight": 25,
+      "critical": false,
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-c"
+      },
+      "expected": {
+        "id": "r-c",
+        "tenant": "acme",
+        "state": "archived",
+        "body": "C"
+      }
+    },
+    {
+      "milestone": "guessed foreign archived report is denied",
+      "weight": 15,
+      "critical": true,
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "r-d"
+      },
+      "expected": null
+    },
+    {
+      "milestone": "unknown ID remains absent",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "tenant": "acme",
+        "operation": "get",
+        "reports": [
+          {
+            "id": "r-a",
+            "tenant": "acme",
+            "state": "active",
+            "body": "A"
+          },
+          {
+            "id": "r-b",
+            "tenant": "beta",
+            "state": "active",
+            "body": "B"
+          },
+          {
+            "id": "r-c",
+            "tenant": "acme",
+            "state": "archived",
+            "body": "C"
+          },
+          {
+            "id": "r-d",
+            "tenant": "beta",
+            "state": "archived",
+            "body": "D"
+          }
+        ],
+        "report_id": "missing"
+      },
+      "expected": null
+    }
+  ]
+}

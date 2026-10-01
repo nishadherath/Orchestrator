@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "task_id": "C05-R2",
+  "diagnosis": "little-endian-length-header-breaks-published-big-endian-frame",
+  "cases": [
+    {
+      "milestone": "current reader still roundtrips a nonempty frame",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "operation": "roundtrip",
+        "decoder": "current",
+        "payload_hex": "4f4b"
+      },
+      "expected": {
+        "payload_hex": "4f4b"
+      }
+    },
+    {
+      "milestone": "legacy reader accepts a newly encoded frame",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "operation": "roundtrip",
+        "decoder": "legacy",
+        "payload_hex": "a1b2"
+      },
+      "expected": {
+        "payload_hex": "a1b2"
+      }
+    },
+    {
+      "milestone": "encoder emits the published big-endian header",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "operation": "encode",
+        "payload_hex": "4f4b"
+      },
+      "expected": {
+        "frame_hex": "00024f4b"
+      }
+    },
+    {
+      "milestone": "current reader accepts a published nonempty frame",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "operation": "decode",
+        "decoder": "current",
+        "frame_hex": "00024f4b"
+      },
+      "expected": {
+        "payload_hex": "4f4b"
+      }
+    },
+    {
+      "milestone": "current reader accepts the published empty frame",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "operation": "decode",
+        "decoder": "current",
+        "frame_hex": "0000"
+      },
+      "expected": {
+        "payload_hex": ""
+      }
+    },
+    {
+      "milestone": "legacy reader retains arbitrary payload bytes",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "operation": "roundtrip",
+        "decoder": "legacy",
+        "payload_hex": "00ff"
+      },
+      "expected": {
+        "payload_hex": "00ff"
+      }
+    }
+  ]
+}

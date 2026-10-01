@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for the following service behaviour. Resolve one configuration key from environment, file and defaults in that order. Null means absent. Return its value and source, or null and missing. Preserve the JSON-line command-line interface. Edit only `app.py`; the public check is a small example, not a full specification.

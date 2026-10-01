@@ -1,0 +1,120 @@
+{
+  "case": "H01",
+  "python": "3.14.7",
+  "qualified": true,
+  "results": [
+    {
+      "matched_expected": true,
+      "pool_sha256": {
+        "httpcore/_async/connection_pool.py": "0ce210dacd9909ff6a7f0c61ccca6b4cf2ea08bf0ec465e2285eaa447c6f5726",
+        "httpcore/_sync/connection_pool.py": "6be4fc2d3b14c5ceebd16c356ad7c7483a163e34347c0f1497b4b7f85d0c8fbd"
+      },
+      "protected": {
+        "exit_code": 1,
+        "output_tail": "pool_keeps_assigned_connection_at_capacity)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\oracles\\controller_x5_authored_httpcore\\H01_hidden.py\", line 86, in test_async_pool_keeps_assigned_connection_at_capacity\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x0000029914DEBE00> unexpectedly found in [<__main__.IdleConnection object at 0x0000029914DEBE00>]\n\n======================================================================\nFAIL: test_surplus_cleanup_preserves_assigned_connection (__main__.ProtectedPoolTests.test_surplus_cleanup_preserves_assigned_connection)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\oracles\\controller_x5_authored_httpcore\\H01_hidden.py\", line 61, in test_surplus_cleanup_preserves_assigned_connection\n    self.assertNotIn(assigned, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x0000029914FE4050> unexpectedly found in [<__main__.IdleConnection object at 0x0000029914FE4050>]\n\n----------------------------------------------------------------------\nRan 3 tests in 0.004s\n\nFAILED (failures=2)\n",
+        "passed": false
+      },
+      "public": {
+        "exit_code": 1,
+        "output_tail": "F.\n======================================================================\nFAIL: test_assigned_request_survives_competing_origin (__main__.PoolAssignmentTests.test_assigned_request_survives_competing_origin)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\results\\x5-h01-75qqhalz\\baseline\\public_check.py\", line 49, in test_assigned_request_survives_competing_origin\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x00000216C0E28050> unexpectedly found in [<__main__.IdleConnection object at 0x00000216C0E28050>]\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=1)\n",
+        "passed": false
+      },
+      "variant": "baseline",
+      "wsl_protected": {
+        "exit_code": 1,
+        "output_tail": "t_async_pool_keeps_assigned_connection_at_capacity)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/oracles/controller_x5_authored_httpcore/H01_hidden.py\", line 86, in test_async_pool_keeps_assigned_connection_at_capacity\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x72e950e0c440> unexpectedly found in [<__main__.IdleConnection object at 0x72e950e0c440>]\n\n======================================================================\nFAIL: test_surplus_cleanup_preserves_assigned_connection (__main__.ProtectedPoolTests.test_surplus_cleanup_preserves_assigned_connection)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/oracles/controller_x5_authored_httpcore/H01_hidden.py\", line 61, in test_surplus_cleanup_preserves_assigned_connection\n    self.assertNotIn(assigned, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x72e950e19e50> unexpectedly found in [<__main__.IdleConnection object at 0x72e950e19e50>]\n\n----------------------------------------------------------------------\nRan 3 tests in 0.022s\n\nFAILED (failures=2)\n",
+        "passed": false
+      },
+      "wsl_public": {
+        "exit_code": 1,
+        "output_tail": "F.\n======================================================================\nFAIL: test_assigned_request_survives_competing_origin (__main__.PoolAssignmentTests.test_assigned_request_survives_competing_origin)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/results/x5-h01-75qqhalz/baseline/public_check.py\", line 49, in test_assigned_request_survives_competing_origin\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x762025d2c590> unexpectedly found in [<__main__.IdleConnection object at 0x762025d2c590>]\n\n----------------------------------------------------------------------\nRan 2 tests in 0.009s\n\nFAILED (failures=1)\n",
+        "passed": false
+      }
+    },
+    {
+      "matched_expected": true,
+      "pool_sha256": {
+        "httpcore/_async/connection_pool.py": "0ce210dacd9909ff6a7f0c61ccca6b4cf2ea08bf0ec465e2285eaa447c6f5726",
+        "httpcore/_sync/connection_pool.py": "45a9868564f40cc77f6c0716d0f88092ad66bcb0dba79c5ed46a5ed8d9809baf"
+      },
+      "protected": {
+        "exit_code": 1,
+        "output_tail": "pool_keeps_assigned_connection_at_capacity)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\oracles\\controller_x5_authored_httpcore\\H01_hidden.py\", line 86, in test_async_pool_keeps_assigned_connection_at_capacity\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x000001DB3691BE00> unexpectedly found in [<__main__.IdleConnection object at 0x000001DB3691BE00>]\n\n======================================================================\nFAIL: test_surplus_cleanup_preserves_assigned_connection (__main__.ProtectedPoolTests.test_surplus_cleanup_preserves_assigned_connection)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\oracles\\controller_x5_authored_httpcore\\H01_hidden.py\", line 61, in test_surplus_cleanup_preserves_assigned_connection\n    self.assertNotIn(assigned, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x000001DB36B14050> unexpectedly found in [<__main__.IdleConnection object at 0x000001DB36B14050>]\n\n----------------------------------------------------------------------\nRan 3 tests in 0.005s\n\nFAILED (failures=2)\n",
+        "passed": false
+      },
+      "public": {
+        "exit_code": 0,
+        "output_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+        "passed": true
+      },
+      "variant": "partial",
+      "wsl_protected": {
+        "exit_code": 1,
+        "output_tail": "t_async_pool_keeps_assigned_connection_at_capacity)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/oracles/controller_x5_authored_httpcore/H01_hidden.py\", line 86, in test_async_pool_keeps_assigned_connection_at_capacity\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x73c2ae934440> unexpectedly found in [<__main__.IdleConnection object at 0x73c2ae934440>]\n\n======================================================================\nFAIL: test_surplus_cleanup_preserves_assigned_connection (__main__.ProtectedPoolTests.test_surplus_cleanup_preserves_assigned_connection)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/oracles/controller_x5_authored_httpcore/H01_hidden.py\", line 61, in test_surplus_cleanup_preserves_assigned_connection\n    self.assertNotIn(assigned, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x73c2ae93de50> unexpectedly found in [<__main__.IdleConnection object at 0x73c2ae93de50>]\n\n----------------------------------------------------------------------\nRan 3 tests in 0.017s\n\nFAILED (failures=2)\n",
+        "passed": false
+      },
+      "wsl_public": {
+        "exit_code": 0,
+        "output_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+        "passed": true
+      }
+    },
+    {
+      "matched_expected": true,
+      "pool_sha256": {
+        "httpcore/_async/connection_pool.py": "e395dacd875b57e34aef061126642a1357416272f055e9cebbb4de010c03f2b3",
+        "httpcore/_sync/connection_pool.py": "59bd431c41648538e2e68fb41fe57be3ef7d7f231e02f9387e4f862d3e726481"
+      },
+      "protected": {
+        "exit_code": 0,
+        "output_tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+        "passed": true
+      },
+      "public": {
+        "exit_code": 0,
+        "output_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+        "passed": true
+      },
+      "variant": "reference",
+      "wsl_protected": {
+        "exit_code": 0,
+        "output_tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.003s\n\nOK\n",
+        "passed": true
+      },
+      "wsl_public": {
+        "exit_code": 0,
+        "output_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+        "passed": true
+      }
+    },
+    {
+      "matched_expected": true,
+      "pool_sha256": {
+        "httpcore/_async/connection_pool.py": "df5d33205cbdfc9649cc02ede3967e1cfaf3fee26c0208462c7f4b8e711ed026",
+        "httpcore/_sync/connection_pool.py": "7465eeeac7dd023ff3beb6ae2ed6eb0810dd32e4d9d2c1588202fa0947dfcb37"
+      },
+      "protected": {
+        "exit_code": 0,
+        "output_tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nOK\n",
+        "passed": true
+      },
+      "public": {
+        "exit_code": 0,
+        "output_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nOK\n",
+        "passed": true
+      },
+      "variant": "alternative",
+      "wsl_protected": {
+        "exit_code": 0,
+        "output_tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+        "passed": true
+      },
+      "wsl_public": {
+        "exit_code": 0,
+        "output_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+        "passed": true
+      }
+    }
+  ],
+  "schema_version": 1
+}

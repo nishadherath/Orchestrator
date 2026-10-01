@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "kind": "command",
+  "criteria": [
+    "public examples pass"
+  ],
+  "constraints": [
+    "Do not alter the issue, test or acceptance contract"
+  ],
+  "required_outputs": [
+    "app.py"
+  ],
+  "protected_paths": [
+    "public_check.py",
+    "ISSUE.md",
+    "acceptance.json"
+  ],
+  "command": [
+    "python3",
+    "public_check.py"
+  ],
+  "timeout_s": 10
+}

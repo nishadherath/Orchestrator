@@ -1,0 +1,15 @@
+{
+  "input": {
+    "attempts": [
+      {"tenant": "north", "key": "r-17", "amount": 25, "phase": "commit"},
+      {"tenant": "north", "key": "r-17", "amount": 25, "phase": "commit"}
+    ]
+  },
+  "observed": {
+    "results": [
+      {"status": "committed", "balance": 25},
+      {"status": "committed", "balance": 50}
+    ],
+    "balances": {"north": 50}
+  }
+}

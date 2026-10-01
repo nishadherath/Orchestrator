@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "shadow-only-writes-are-safe",
+  "next_step": "deploy",
+  "probes": []
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "services": [
+    {
+      "name": "api",
+      "port": 8080
+    },
+    {
+      "name": "worker",
+      "port": 9090
+    }
+  ]
+}

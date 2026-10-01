@@ -1,0 +1,13 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "immutable-api-contract-conflict",
+  "next_step": "await-owner-compatible-api-path",
+  "question": {"missing_field": "compatibility_path",
+               "prompt": "Should trace_id use a version-two endpoint or an approved opt-in mode?"},
+  "probes": [
+    {"input": {"id": "order-17", "status": "ready", "trace_id": "private-17"},
+     "observed": {"id": "order-17", "status": "ready"}},
+    {"input": {"id": "order-18", "status": "failed", "trace_id": "private-18"},
+     "observed": {"id": "order-18", "status": "failed"}}
+  ]
+}

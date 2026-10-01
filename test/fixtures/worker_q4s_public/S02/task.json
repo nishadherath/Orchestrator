@@ -1,0 +1,54 @@
+{
+  "actor_bytes": 69149,
+  "actor_file_count": 13,
+  "actor_files": {
+    "ISSUE.md": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+    "LICENSE": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606",
+    "acceptance.json": "f8eac730c9ed63f88eb203530a194ca03f4ce5d1248c9e4dea0cfc892acfacef",
+    "pluggy/__init__.py": "f94737c0d72ae5af0bb2f2602a231b4e61adfab5567d16e4746141a4badd1465",
+    "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+    "pluggy/_compat.py": "64a136b0ff61ae478b1662e5b898838f38ebe1ead41bd513f98938d912a0c153",
+    "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+    "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c",
+    "pluggy/_result.py": "f2668b485954c9e3f74a995bc4710d9f0390d012ac48a889a266864151aa5d4c",
+    "pluggy/_tracing.py": "499081bfd619d3c5a3acd0a650379e3d727f4cdf1e6cd266cf398707f7b61683",
+    "pluggy/_warnings.py": "b5dd00bd90697da9ab8820b73aab0bc31321f92cc03237e399ce7c4f9bcfde5c",
+    "pluggy/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "public_check.py": "7ed2d0c4305f63489b0873bd2089eb3ffdc527ca9254fa0012b64e20374b6579"
+  },
+  "authored_rationale": "Authored regression from the pinned upstream hookspec-default fix; exercises registration and call forms.",
+  "case_file": "S02_case.py",
+  "case_source_sha256": "d28a57d6df25edeb77322516fc9b722ba5248e312a3a2a9523fda86bbf4ac3d3",
+  "editable_paths": [
+    "pluggy/_hooks.py",
+    "pluggy/_manager.py",
+    "pluggy/_callers.py"
+  ],
+  "fix_commit": "a031c1c91fdd5e4c684f97c2a0e96cbc7e18835f",
+  "id": "S02",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606",
+  "name": "Hookspec argument defaults",
+  "oracle_file": "S02.json",
+  "oracle_sha256": "0a77790a9db80ec35f1d4dd3335dfd1afa81353aef09e0b33d13fb6f3376797a",
+  "package_path": "pluggy",
+  "partial_files": {
+    "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+    "pluggy/_hooks.py": "31fceb45935ceddc310746ab144f13fb7d5dd768c392496dc67d805dced53466",
+    "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c"
+  },
+  "provenance_sha256": "5768d91ed96b52558508ec9bf9f0eb8e702e9e79b9466518eda470d1c7ddba96",
+  "reference_files": {
+    "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+    "pluggy/_hooks.py": "31fceb45935ceddc310746ab144f13fb7d5dd768c392496dc67d805dced53466",
+    "pluggy/_manager.py": "b6a11dbc73e2c51b4adc7b7e73a7093126cc0f933fb0f04be7c27ce73664510e"
+  },
+  "schema_version": 1,
+  "source_commit": "9836e545d68690b30accc1eeb4af408f80efa44c",
+  "source_python_lines": 1833,
+  "source_url": "https://github.com/pytest-dev/pluggy",
+  "task_sha256": "07c392de393d743be2b6952c91ffe5e0d4243e73dd5450063582643a9fcee9b0",
+  "upstream_change_url": "https://github.com/pytest-dev/pluggy/commit/a031c1c91fdd5e4c684f97c2a0e96cbc7e18835f"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "C02",
+    "eligible": false,
+    "kind": "clear repair",
+    "issue": "The service already supplies payment_id as the gateway idempotency key on every call; only the one-attempt retry ceiling prevents recovery from a documented pre-debit timeout.",
+    "public_source": "gateway.charge(amount_cents, payment_id, idempotency_key=payment_id)",
+    "public_check": "Tests pre- and post-debit timeouts, repeated payment ID, distinct IDs and permanent errors.",
+    "decision": "The missing retry count is known and the public checks cover the consequential duplicate-debit boundary; no separate Controller investigation has an unresolved premise."
+  },
+  {
+    "id": "M02",
+    "eligible": false,
+    "kind": "missing decision",
+    "issue": "A caller requests replay safety but does not specify which field denotes one logical payment or whether duplicate requests with changed amounts must be rejected.",
+    "public_source": "def charge(amount_cents, payment_id, *, idempotency_key=None):",
+    "public_check": "Only ordinary debit success is shown; no authoritative logical-payment identity is supplied.",
+    "decision": "Ask the caller to define the durable payment identity and changed-amount policy before changing retry or idempotency behaviour."
+  }
+]

@@ -8,5 +8,9 @@ __pycache__/
 # Paid evaluation output is durable local evidence, never release payload.
 /pilot-runs/
 
+# Live N5 actor workspaces are preserved in an archive beside each campaign.
+# Keep transient Python copies out of Git and the Graft source index.
+/test/results/*-worker-n5-*-run/actors/
+
 # Local Claude Code subscription login backup. Never commit or package it.
 /local-auth/

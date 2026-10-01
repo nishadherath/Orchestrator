@@ -1,0 +1,27 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "new-reader-old-row-fallback-and-new-writer-legacy-projection",
+  "next_step": "replay old rows and old-reader new writes",
+  "probes": [
+    {
+      "input": {
+        "operation": "read_new",
+        "row": {
+          "value": 9
+        }
+      },
+      "observed": {
+        "value": 9
+      }
+    },
+    {
+      "input": {
+        "operation": "roundtrip_old",
+        "value": 11
+      },
+      "observed": {
+        "value": 11
+      }
+    }
+  ]
+}

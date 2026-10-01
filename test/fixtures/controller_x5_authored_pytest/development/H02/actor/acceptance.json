@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "case_id": "H02",
+  "origin": "authored development adaptation",
+  "editable_paths": ["pytest_asyncio/plugin.py"],
+  "public_command": ["python3", "-B", "public_check.py"]
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "task_id": "C03-D2",
+  "diagnosis": "unfenced-outbox-delivery-lease",
+  "cases": [
+    {
+      "milestone": "ordinary claim and acknowledgement", "weight": 20, "critical": false,
+      "input": {"events": [
+        {"op": "enqueue", "id": "m1"},
+        {"op": "claim", "id": "m1", "worker": "a", "at": 0, "lease": 5},
+        {"op": "ack", "id": "m1", "worker": "a", "token": 1, "at": 1}
+      ]},
+      "expected": {"results": [{"status": "enqueued"},
+                             {"status": "claimed", "token": 1},
+                             {"status": "acked"}], "acked": ["m1"]}
+    },
+    {
+      "milestone": "active lease excludes concurrent owner", "weight": 20, "critical": true,
+      "input": {"events": [
+        {"op": "enqueue", "id": "m1"},
+        {"op": "claim", "id": "m1", "worker": "a", "at": 0, "lease": 5},
+        {"op": "claim", "id": "m1", "worker": "b", "at": 3, "lease": 5},
+        {"op": "ack", "id": "m1", "worker": "a", "token": 1, "at": 4}
+      ]},
+      "expected": {"results": [{"status": "enqueued"},
+                             {"status": "claimed", "token": 1},
+                             {"status": "busy"}, {"status": "acked"}],
+                   "acked": ["m1"]}
+    },
+    {
+      "milestone": "stale acknowledgement cannot cross fencing token", "weight": 20,
+      "critical": true,
+      "input": {"events": [
+        {"op": "enqueue", "id": "m1"},
+        {"op": "claim", "id": "m1", "worker": "a", "at": 0, "lease": 5},
+        {"op": "claim", "id": "m1", "worker": "b", "at": 6, "lease": 5},
+        {"op": "ack", "id": "m1", "worker": "a", "token": 1, "at": 7},
+        {"op": "ack", "id": "m1", "worker": "b", "token": 2, "at": 8}
+      ]},
+      "expected": {"results": [{"status": "enqueued"},
+                             {"status": "claimed", "token": 1},
+                             {"status": "claimed", "token": 2},
+                             {"status": "stale"}, {"status": "acked"}],
+                   "acked": ["m1"]}
+    },
+    {
+      "milestone": "duplicate acknowledgement is reported idempotently", "weight": 20,
+      "critical": false,
+      "input": {"events": [
+        {"op": "enqueue", "id": "m1"},
+        {"op": "claim", "id": "m1", "worker": "a", "at": 0, "lease": 5},
+        {"op": "ack", "id": "m1", "worker": "a", "token": 1, "at": 1},
+        {"op": "ack", "id": "m1", "worker": "a", "token": 1, "at": 2}
+      ]},
+      "expected": {"results": [{"status": "enqueued"},
+                             {"status": "claimed", "token": 1},
+                             {"status": "acked"},
+                             {"status": "already_acked"}],
+                   "acked": ["m1"]}
+    },
+    {
+      "milestone": "expiry boundary admits new owner only", "weight": 20,
+      "critical": true,
+      "input": {"events": [
+        {"op": "enqueue", "id": "m1"},
+        {"op": "claim", "id": "m1", "worker": "a", "at": 0, "lease": 5},
+        {"op": "claim", "id": "m1", "worker": "b", "at": 5, "lease": 5},
+        {"op": "ack", "id": "m1", "worker": "a", "token": 1, "at": 5},
+        {"op": "ack", "id": "m1", "worker": "b", "token": 2, "at": 6}
+      ]},
+      "expected": {"results": [{"status": "enqueued"},
+                             {"status": "claimed", "token": 1},
+                             {"status": "claimed", "token": 2},
+                             {"status": "stale"}, {"status": "acked"}],
+                   "acked": ["m1"]}
+    }
+  ]
+}

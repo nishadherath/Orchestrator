@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "S06",
+  "name": "Specific exception for invalid joiner context",
+  "source_url": "https://github.com/kjd/idna",
+  "source_commit": "62f30346a210028aa37b9002c3e4814a2c06416a",
+  "fix_commit": "9067b803a55441805934410b11c0899209b66785",
+  "issue_origin": "authored-regression",
+  "licence": "BSD-3-Clause",
+  "licence_file": "LICENSE.md",
+  "licence_sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+  "package_path": "idna",
+  "editable_paths": [
+    "idna/core.py",
+    "idna/codec.py"
+  ],
+  "oracle_file": "S06.json",
+  "case_file": "S06_case.py",
+  "authored_rationale": "Authored regression from the pinned upstream joiner-exception fix; exercises specific and generic error boundaries.",
+  "upstream_change_url": "https://github.com/kjd/idna/commit/9067b803a55441805934410b11c0899209b66785"
+}

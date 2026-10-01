@@ -1,0 +1,11 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "manifest-pin-drift",
+  "next_step": "update-audit-pin",
+  "probes": [
+    {"input": {"action": "release", "service": "api"},
+     "observed": {"pin": {"version": "2.4.1", "digest": "sha256:aa22"}}},
+    {"input": {"action": "release", "service": "worker"},
+     "observed": {"pin": {"version": "3.1.0", "digest": "sha256:bb00"}}}
+  ]
+}

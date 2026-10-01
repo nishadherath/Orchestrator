@@ -138,6 +138,108 @@ class BudgetTests(unittest.TestCase):
     def runner(self, budget):
         return controller.LiveRoleRunner(self.root, budget.remaining, budget=budget)
 
+    def test_stream_retains_all_root_assistant_text_not_only_terminal_reply(self):
+        events = [
+            {"type": "assistant", "message": {"id": "a1", "model": "claude-opus-5",
+             "content": [{"type": "text", "text": '{"type":"FrameRecord"}'}]}},
+            {"type": "assistant", "parent_tool_use_id": "child",
+             "message": {"id": "c1", "model": "claude-sonnet-5",
+                         "content": [{"type": "text", "text": "child text"}]}},
+            {"type": "assistant", "message": {"id": "a2", "model": "claude-opus-5",
+             "content": [{"type": "text", "text": '{"type":"PremiseRecord"}'}]}},
+            {"type": "result", "result": '{"type":"PremiseRecord"}',
+             "total_cost_usd": .03},
+        ]
+        output = "\n".join(json.dumps(event) for event in events)
+        parsed = claudep._result_from_stdout(output, 1, "fake", stream_json=True)
+        self.assertEqual(parsed.result, '{"type":"PremiseRecord"}')
+        self.assertEqual(parsed.extras["assistant_message_count"], 2)
+        self.assertEqual(parsed.extras["assistant_text"],
+                         '{"type":"FrameRecord"}\n{"type":"PremiseRecord"}')
+        self.assertEqual(parsed.extras["root_models"], ["claude-opus-5"])
+        self.assertEqual(parsed.extras["child_models"], ["claude-sonnet-5"])
+
+    def test_live_role_parses_complete_stream_before_scribe_validation(self):
+        budget = self.budget()
+        expected = controller.model_registry.resolve_cell(
+            "worker-opus-high")["expected_provider_model"]
+        reply = claudep.ClaudeCallResult(
+            '{"type":"PremiseRecord"}', .03, 1,
+            {"assistant_text": '{"type":"FrameRecord"}\n{"type":"PremiseRecord"}',
+             "root_models": [expected], "child_models": [],
+             "billed_models": [expected], "auxiliary_billed_models": []},
+            {}, "fake")
+        runner = controller.LiveRoleRunner(
+            self.root, budget.remaining, budget=budget,
+            stream_json=True, require_identity=True)
+        with mock.patch.object(claudep, "call_claude", return_value=reply):
+            records = runner("frame", "framer", "test", timeout=1).records
+        self.assertEqual([item["type"] for item in records],
+                         ["FrameRecord", "PremiseRecord"])
+        self.assertEqual(budget.snapshot()["spent_usd"], .03)
+
+    def test_frame_first_output_preserves_forward_references(self):
+        script = controller._happy_path_script()
+        first, second = script[("frame", "framer")]
+        script[("frame", "framer")] = [
+            sorted(first, key=lambda row: {
+                "FrameRecord": 0, "CandidateRecord": 1,
+                "PremiseRecord": 2}[row["type"]]),
+            sorted(second, key=lambda row: {
+                "FrameRecord": 0, "PremiseRecord": 1}[row["type"]]),
+        ]
+        runner = controller.FakeRoleRunner(script)
+        result = controller.run_quick(
+            "Duplicate accounts from whitespace; legacy_ids.py is frozen.",
+            self.root, 5.0, 30, lambda _remaining: runner)
+        self.assertEqual("solution", result.outcome)
+
+    def test_standard_generator_cohort_reserves_all_siblings_and_downstream_floor(self):
+        budget = self.budget(4.0)
+        budget.reserve("prior", 1.2, 0, {})
+        budget.start("prior")
+        budget.settle("prior", 1.2, final=True, telemetry={}, evidence="fixture")
+        runner = controller.LiveRoleRunner(
+            self.root, budget.remaining, budget=budget)
+        families = list(runner.generator_cells)[:3]
+        self.assertEqual(3, len(families))
+        caps = runner.generator_plan(families)
+        self.assertEqual(set(families), set(caps))
+        self.assertTrue(all(cap >= controller.ROLE_CALL_FLOOR_USD
+                            for cap in caps.values()))
+        self.assertLessEqual(sum(caps.values()) +
+                             2 * controller.ROLE_CALL_FLOOR_USD,
+                             budget.remaining() + 1e-8)
+
+        entered = threading.Event()
+        release = threading.Event()
+        lock = threading.Lock()
+        count = 0
+
+        def paid(*_args, **_kwargs):
+            nonlocal count
+            with lock:
+                count += 1
+                if count == len(families):
+                    entered.set()
+            self.assertTrue(release.wait(10))
+            return claudep.ClaudeCallResult("", .2, 1, {}, {}, "fake")
+
+        with mock.patch.object(claudep, "call_claude", side_effect=paid):
+            with ThreadPoolExecutor(max_workers=len(families)) as pool:
+                futures = [pool.submit(runner, "generate", "generator", "test",
+                                       timeout=10, technique=family,
+                                       call_cap_usd=caps[family])
+                           for family in families]
+                try:
+                    self.assertTrue(entered.wait(10))
+                finally:
+                    release.set()
+                for future in futures:
+                    future.result(timeout=10)
+        self.assertEqual(count, 3)
+        self.assertEqual(budget.snapshot()["spent_usd"], 1.8)
+
     def test_role_cap_is_reservation_not_constant(self):
         budget = self.budget()
         reply = claudep.ClaudeCallResult("", .1, 1, {}, {}, "fake")
@@ -155,14 +257,28 @@ class BudgetTests(unittest.TestCase):
         snap = budget.snapshot()
         self.assertEqual((snap["spent_usd"], snap["reserved_usd"]), (.2, .4))
 
-    def test_classifier_failure_persists_cost_before_fallback(self):
+    def test_classifier_failure_persists_cost_and_never_claims_checkpoint(self):
         budget = self.budget()
         partial = claudep.ClaudeCallResult("", .04, 1, {}, {}, "fake")
         with mock.patch.object(claudep, "call_claude", side_effect=claudep.ClaudeCallError("bad response", partial)):
-            result, _ = self.runner(budget).classify("controller-stability", "test", {}, {"stable": False})
-        self.assertEqual(result, {"stable": False})
+            with self.assertRaises(controller.RoleCallFailed):
+                self.runner(budget).classify("controller-stability", "test", {}, {"stable": True})
         self.assertEqual(budget.snapshot()["spent_usd"], .04)
-        self.assertEqual(budget.snapshot()["reserved_usd"], .06)
+        self.assertEqual(budget.snapshot()["reserved_usd"], .21)
+
+    def test_classifier_reserves_measured_headroom(self):
+        budget = self.budget()
+        reply = claudep.ClaudeCallResult(
+            '{"stable":true,"reasoning":"checked"}', .11, 1,
+            {}, {"structured_output": {"stable": True, "reasoning": "checked"}}, "fake")
+        with mock.patch.object(claudep, "call_claude", return_value=reply) as provider:
+            result, _ = self.runner(budget).classify(
+                "controller-stability", "test", controller.STABILITY_SCHEMA,
+                {"stable": False})
+        self.assertTrue(result["stable"])
+        self.assertEqual(provider.call_args.kwargs["max_budget_usd"], .25)
+        self.assertEqual(budget.snapshot()["spent_usd"], .11)
+        self.assertEqual(budget.snapshot()["reserved_usd"], 0)
 
     def test_unknown_success_never_becomes_zero(self):
         budget = self.budget()
@@ -256,7 +372,8 @@ class BudgetTests(unittest.TestCase):
                 self.frames = 0
                 self.generators = 0
                 self.lock = threading.Lock()
-            def __call__(self, phase, role, prompt, *, timeout):
+            def __call__(self, phase, role, prompt, *, timeout,
+                         technique=None, call_cap_usd=None):
                 if phase == "frame":
                     self.frames += 1
                     return controller.RoleReply(canned[f"frame_v{self.frames}"], None)
@@ -293,7 +410,8 @@ class BudgetTests(unittest.TestCase):
             runner.classify("controller-stability", "test", {}, {})
             self.assertLessEqual(provider.call_args.kwargs["timeout"], .5)
             runner.deadline = time.monotonic() - 1
-            runner.classify("controller-stability", "test", {}, {})
+            with self.assertRaises(BudgetExhausted):
+                runner.classify("controller-stability", "test", {}, {})
             with self.assertRaises(BudgetExhausted):
                 runner("frame", "framer", "test", timeout=1)
             self.assertEqual(provider.call_count, 1)

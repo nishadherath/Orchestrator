@@ -1,0 +1,73 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "unbounded-replay-buffer-and-arrival-order-output",
+  "next_step": "verify buffered drain after gap close",
+  "probes": [
+    {
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 3,
+            "value": "C"
+          },
+          {
+            "sequence": 4,
+            "value": "D"
+          },
+          {
+            "sequence": 5,
+            "value": "E"
+          }
+        ]
+      },
+      "observed": {
+        "emitted": [],
+        "statuses": [
+          "buffered",
+          "buffered",
+          "backpressure"
+        ],
+        "pending": {
+          "3": "C",
+          "4": "D"
+        },
+        "peak_live": 2
+      }
+    },
+    {
+      "input": {
+        "capacity": 2,
+        "records": [
+          {
+            "sequence": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 3,
+            "value": "C"
+          },
+          {
+            "sequence": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "observed": {
+        "emitted": [
+          "A",
+          "B"
+        ],
+        "statuses": [
+          "emitted",
+          "buffered",
+          "emitted"
+        ],
+        "pending": {
+          "3": "C"
+        },
+        "peak_live": 1
+      }
+    }
+  ]
+}

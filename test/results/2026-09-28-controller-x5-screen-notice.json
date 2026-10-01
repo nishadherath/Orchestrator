@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-28 Australia/Sydney",
+  "manifest_sha256": "b87106f6bb0807020030fb2db7faf2ee5e1fab9c296b3cc78b1e893dc66d47c2",
+  "approved": true,
+  "approval_basis": "operator standing approval for all paid calls in this project",
+  "maximum_calls": 6,
+  "maximum_screen_usd": 3.0,
+  "provider": "Claude Code WSL claude.ai subscription",
+  "purpose": "X5 prospective public-assessment screen only"
+}

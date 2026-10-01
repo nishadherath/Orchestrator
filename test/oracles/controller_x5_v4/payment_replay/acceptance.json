@@ -1,0 +1,189 @@
+{
+  "case": "payment_replay",
+  "checks": [
+    {
+      "critical": true,
+      "expected": {
+        "balances": {
+          "n": 125
+        },
+        "results": [
+          {
+            "balance": 125,
+            "status": "committed"
+          },
+          {
+            "balance": 125,
+            "status": "replayed"
+          }
+        ]
+      },
+      "input": {
+        "attempts": [
+          {
+            "amount": 125,
+            "key": "k",
+            "phase": "commit",
+            "response_lost": true,
+            "tenant": "n"
+          },
+          {
+            "amount": 125,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          }
+        ]
+      },
+      "name": "lost_response_replay",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "balances": {
+          "n": 100,
+          "s": 80
+        },
+        "results": [
+          {
+            "balance": 100,
+            "status": "committed"
+          },
+          {
+            "balance": 80,
+            "status": "committed"
+          }
+        ]
+      },
+      "input": {
+        "attempts": [
+          {
+            "amount": 100,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          },
+          {
+            "amount": 80,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "s"
+          }
+        ]
+      },
+      "name": "tenant_boundary",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "balances": {
+          "n": 100
+        },
+        "results": [
+          {
+            "balance": 100,
+            "status": "committed"
+          },
+          {
+            "balance": 100,
+            "status": "conflict"
+          }
+        ]
+      },
+      "input": {
+        "attempts": [
+          {
+            "amount": 100,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          },
+          {
+            "amount": 140,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          }
+        ]
+      },
+      "name": "payload_conflict",
+      "weight": 15
+    },
+    {
+      "critical": false,
+      "expected": {
+        "balances": {
+          "n": 100
+        },
+        "results": [
+          {
+            "balance": 0,
+            "status": "aborted"
+          },
+          {
+            "balance": 100,
+            "status": "committed"
+          }
+        ]
+      },
+      "input": {
+        "attempts": [
+          {
+            "amount": 100,
+            "key": "k",
+            "phase": "abort",
+            "tenant": "n"
+          },
+          {
+            "amount": 100,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          }
+        ]
+      },
+      "name": "precommit_retry",
+      "weight": 10
+    },
+    {
+      "critical": true,
+      "expected": {
+        "balances": {
+          "n": 125
+        },
+        "results": [
+          {
+            "balance": 125,
+            "status": "committed"
+          },
+          {
+            "balance": 125,
+            "status": "replayed"
+          }
+        ]
+      },
+      "input": {
+        "attempts": [],
+        "parallel_attempts": [
+          {
+            "amount": 125,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          },
+          {
+            "amount": 125,
+            "key": "k",
+            "phase": "commit",
+            "tenant": "n"
+          }
+        ]
+      },
+      "name": "parallel_retry",
+      "weight": 25
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "controller-x5-external-e03-preflight-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "provider_calls": 0,
+  "reported_api_equivalent_cost_usd": 0,
+  "source_issue": "https://github.com/encode/httpx/issues/3782",
+  "source_issue_body": "test/fixtures/controller_x5_external/development/E03/source-issue.md",
+  "source_issue_body_sha256": "ce3c81faa2f56068cde7695396bd35d73bb886cdfcc953ab5852b9d747e33262",
+  "later_proposal": "https://github.com/encode/httpcore/pull/1113",
+  "upstream_httpcore_release_commit": "98209758cc14e1a5f966fe1dfdc1064b94055d8c",
+  "upstream_declared_licence": "BSD-3-Clause",
+  "pinned_packages": {
+    "httpx": "0.28.1",
+    "httpcore": "1.0.9",
+    "anyio": "4.12.1",
+    "h11": "0.16.0"
+  },
+  "httpcore_http11_sha256": "faa33d6d5ecf8d2405e6fc6cdfbf9e5173881706c88cf7196cd962b97f53b41c",
+  "local_reproduction": "test/fixtures/controller_x5_external/development/E03/repro/repro.py",
+  "adaptation": "Original client cancellation sequence with local asyncio HTTP/1.1 chunk server, three-connection pool and three-second watchdog instead of remote httpbin.org",
+  "windows_python": "3.12.14",
+  "wsl_worker_python": "3.14.7",
+  "windows_observed": {
+    "single_cancel_active": [0, 0, 0, 0, 0],
+    "double_cancel_active": [1, 2, 3, "PoolTimeout"]
+  },
+  "wsl_observed": {
+    "single_cancel_active": [0, 0, 0, 0, 0],
+    "double_cancel_active": [1, 2, 3, "PoolTimeout"],
+    "identical_run_count": 4
+  },
+  "disposable_positive_control": {
+    "source_only_patch_sha256": "8b545e3d6405b0b25887d7bfe3356bc554365e15fd95e573f124a463ccad2250",
+    "windows_single_cancel_active": [0, 0, 0, 0, 0],
+    "windows_double_cancel_active": [0, 0, 0, 0, 0],
+    "wsl_single_cancel_active": [0, 0, 0, 0, 0],
+    "wsl_double_cancel_active": [0, 0, 0, 0, 0]
+  },
+  "close_retry_calibration": {
+    "probe": "test/fixtures/controller_x5_external/development/E03/repro/close_retry_probe.py",
+    "probe_sha256": "43fcd1fd79da64f09a88478190052aea443c5662c6991675c236e0a2317357bc",
+    "concurrent_probe": "test/fixtures/controller_x5_external/development/E03/repro/concurrent_close_probe.py",
+    "concurrent_probe_sha256": "ceb278c4707f1e0215d223fc84615eae2c043c3eb9d4f60c7a196e7d131dbb08",
+    "negative_variant_source_sha256": "c0c875c149f7b5e432ccd0bfc2e6c33a4bd8db8044900891c6728e9f94ee8c18",
+    "serialised_variant_source_sha256": "c568b704e75a7056f30966ce005155af80cc48433e1359a3ff3e98d535b85fe9",
+    "windows_and_wsl": {
+      "pinned": {"double_cancel": "PoolTimeout", "retry_reached_connection": false, "concurrent_close_once": true},
+      "cancellation_only": {"double_cancel": "clear", "retry_reached_connection": false, "concurrent_close_once": true},
+      "published_repair": {"double_cancel": "clear", "retry_reached_connection": true, "concurrent_close_once": true},
+      "serialised_repair": {"double_cancel": "clear", "retry_reached_connection": true, "concurrent_close_once": true}
+    },
+    "limitation": "The retry failure is injected at an internal connection boundary; no actual transport-close error frequency or full upstream suite was measured."
+  },
+  "admission": "reject blind paid X5; published PR exposes diagnosis, failed-close tests and repair, so independent protected acceptance and contamination control are missing",
+  "risk": "A retrospective task could reward model memory of the published fix; the original February issue-body history is unverified."
+}

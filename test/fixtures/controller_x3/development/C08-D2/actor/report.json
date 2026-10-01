@@ -1,0 +1,8 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "api-change-already-compatible",
+  "next_step": "deploy",
+  "question": {"missing_field": "compatibility_path",
+               "prompt": "No decision is needed."},
+  "probes": []
+}

@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "expiry": 14,
+        "fence": 3,
+        "owner": "b",
+        "results": [
+          {
+            "fence": 3,
+            "granted": true
+          }
+        ]
+      },
+      "input": {
+        "expiry": 10,
+        "fence": 2,
+        "kind": "lease_fencing",
+        "owner": "a",
+        "requests": [
+          {
+            "at": 10,
+            "owner": "b",
+            "ttl": 4
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "expiry": 13,
+        "fence": 2,
+        "owner": "a",
+        "results": [
+          {
+            "fence": 2,
+            "granted": true
+          }
+        ]
+      },
+      "input": {
+        "expiry": 10,
+        "fence": 2,
+        "kind": "lease_fencing",
+        "owner": "a",
+        "requests": [
+          {
+            "at": 5,
+            "owner": "a",
+            "ttl": 8
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "expiry": 12,
+        "fence": 3,
+        "owner": "b",
+        "results": [
+          {
+            "fence": 2,
+            "granted": false
+          },
+          {
+            "fence": 3,
+            "granted": true
+          }
+        ]
+      },
+      "input": {
+        "expiry": 10,
+        "fence": 2,
+        "kind": "lease_fencing",
+        "owner": "a",
+        "requests": [
+          {
+            "at": 9,
+            "owner": "b",
+            "ttl": 2
+          },
+          {
+            "at": 10,
+            "owner": "b",
+            "ttl": 2
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

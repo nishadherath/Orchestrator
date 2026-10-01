@@ -1,0 +1,17 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "unbounded-cartesian-window-join",
+  "next_step": "replay-sparse-stream-with-cap-before-rollout",
+  "probes": [
+    {
+      "input": {"left": [{"id": "Lp", "key": "a", "time": 20}],
+                "right": [{"id": "Rp", "key": "a", "time": 21}], "window": 2},
+      "observed": {"pairs": [["Lp", "Rp"]]}
+    },
+    {
+      "input": {"left": [{"id": "Lq", "key": "a", "time": 20}],
+                "right": [{"id": "Rq", "key": "a", "time": 24}], "window": 2},
+      "observed": {"pairs": []}
+    }
+  ]
+}

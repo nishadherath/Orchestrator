@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "the visible request identifier remains present",
+  "next_step": "ship the header",
+  "probes": []
+}

@@ -1,0 +1,36 @@
+{
+  "boundary": "Q1 isolated actor uid 65534; root-owned evaluator oracle",
+  "case": "H01",
+  "qualified": true,
+  "rows": [
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 1,
+      "public_passed": false,
+      "public_tail": "F.\n======================================================================\nFAIL: test_assigned_request_survives_competing_origin (__main__.PoolAssignmentTests.test_assigned_request_survives_competing_origin)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-d6ea92d95c8444758595cc443fb6939a/public_check.py\", line 49, in test_assigned_request_survives_competing_origin\n    self.assertNotIn(original, closing)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: <__main__.IdleConnection object at 0x73c3430a8590> unexpectedly found in [<__main__.IdleConnection object at 0x73c3430a8590>]\n\n----------------------------------------------------------------------\nRan 2 tests in 0.002s\n\nFAILED (failures=1)\n",
+      "variant": "baseline"
+    },
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 0,
+      "public_passed": true,
+      "public_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.002s\n\nOK\n",
+      "variant": "partial"
+    },
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 0,
+      "public_passed": true,
+      "public_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.002s\n\nOK\n",
+      "variant": "reference"
+    },
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 0,
+      "public_passed": true,
+      "public_tail": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+      "variant": "alternative"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,67 @@
+{
+  "auth": {
+    "auth_method": "claude.ai",
+    "checks": {
+      "claude_ai": true,
+      "logged_in": true,
+      "no_model_request": true,
+      "subscription": true
+    },
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "result": "PASS",
+    "schema_version": 1,
+    "subscription_type": "max"
+  },
+  "evidence_sha256": "32a4c7193c912eb595ec8688bedf0cd41dd446339d8a703279abc69880d874cc",
+  "probe": {
+    "checks": {
+      "collected_revision_bound": true,
+      "exact_identity": true,
+      "protected_source_unchanged": true,
+      "report_digests_bound": true,
+      "reports_present": true,
+      "restricted_environment": true,
+      "schema_transport_bound": true,
+      "three_cells_exercised": true,
+      "two_edits_collected": true,
+      "unsupported_cell_rejected": true,
+      "writers_stopped": true,
+      "zero_provider_cost": true
+    },
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "result": "PASS",
+    "schema_version": 1,
+    "supported_cells": [
+      "worker-opus-high",
+      "worker-sonnet-low",
+      "worker-sonnet-medium"
+    ]
+  },
+  "recorded_at_utc": "2026-09-25T20:48:21+00:00",
+  "result": "PASS",
+  "runtime_launcher_sha256": "247fa1bf166f1f6f27d1c9caee0bcd7ac6e402e93000757b981143d0aba3ac5e",
+  "runtime_schema_sha256": "46038ff7e73b9b7348f3ced9afb4082938ee05d5d4c043ab980ecadedbc79768",
+  "schema_version": 1,
+  "scope": "Q4S provider-free schema boundary; no live model qualified",
+  "source_sha256": {
+    "tools/model_registry.py": "8e54def2905ce7f864b129ada2e3c010b26a9f1662da31d721031b0371d7b0c0",
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_q4_adapter.py": "d9833ef91383c47c47ddc210d1322113651edab0a656661e123a83a6f80f9750",
+    "tools/worker_q4r_structured.py": "ebc98cfbefe5161b2e22f91389ce6ce90bd185c3bc9cf7f7841bbc77c5f67567",
+    "tools/worker_q4s_admission.py": "9b7b9ed2566a60d8783dfe20b01f8372af763f49e563b06ce4dab62425649741",
+    "tools/worker_q4s_structured.py": "7af2919cc90233ef81fcaaf6f865e7d6e264192f273b5a09f3c0424d4852dce4",
+    "tools/worker_quality_v2.py": "d0d7718a872eff4d59df6c55e7770da993eee55cfda2ee1cdee4e1cfde3a2604",
+    "tools/worker_wsl_auth.py": "8f3f7427344a187e556370e2000aaff73b84f67f6a982357d7b5b6222f38ce53",
+    "tools/worker_wsl_namespace_q4s.sh": "247fa1bf166f1f6f27d1c9caee0bcd7ac6e402e93000757b981143d0aba3ac5e",
+    "tools/worker_wsl_q1.py": "33bd2985ac688680e90417db58c5b7e61e41748af284e3ce85b649e6b978b259",
+    "tools/worker_wsl_q3_adapter.py": "b165ccca14f77472f96ca8d7ea9aa5812a89e1ae64f44b9ee9df04b71d25223a",
+    "tools/worker_wsl_q4s_adapter.py": "5df583d46d39c1ec1150b7dc5630686cc37a95702bc18aa208fe3efac3c40307",
+    "tools/worker_wsl_q4s_attestation.py": "663ab3923785b393f356d9776bab0090a7ba7b2f2e0d61da0eeeecdab8f54fbc",
+    "tools/worker_wsl_q4s_auth_probe.py": "64fae250b2498cc11606ddfdf12140aaef5f2189f601814461418c5ef7feca56",
+    "tools/worker_wsl_q4s_install.sh": "5add9fc328ec4e074a7649b280bd9ea1fc28926e558961362fb96141d128fd01",
+    "tools/worker_wsl_q4s_probe.py": "3152c9f38a06a963cd08defe876d6f76c57d1a521a60a72176fb01960ad84017",
+    "tools/worker_wsl_transport.py": "100ff8cc9ffaf11136de1356002a426f62f46c3d7d223de32c78a5e6b92b0ce2"
+  }
+}

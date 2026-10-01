@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "S03",
+  "name": "Preserve outgoing HTTP header spelling",
+  "source_url": "https://github.com/python-hyper/h11",
+  "source_commit": "3e148213b360da52023bc3903fd738397b56a3ac",
+  "fix_commit": "ce515c5a9a5113646754bdb7aee3625821c9fd50",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE.txt",
+  "licence_sha256": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+  "package_path": "h11",
+  "editable_paths": [
+    "h11/_connection.py",
+    "h11/_headers.py",
+    "h11/_writers.py"
+  ],
+  "oracle_file": "S03.json",
+  "case_file": "S03_case.py",
+  "authored_rationale": "Authored regression from the pinned upstream header-casing fix; exercises storage, framing and wire output.",
+  "upstream_change_url": "https://github.com/python-hyper/h11/commit/ce515c5a9a5113646754bdb7aee3625821c9fd50"
+}

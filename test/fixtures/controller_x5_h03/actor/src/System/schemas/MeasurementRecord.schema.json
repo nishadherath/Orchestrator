@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-system/schemas/MeasurementRecord.schema.json",
+  "title": "MeasurementRecord",
+  "description": "One measurement of one premise. No artefact, no record: the artefact field is required and non-empty. Single writer: Verifier (Verify). Append-only; a correction is a new record referencing this one.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "MeasurementRecord"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$",
+      "description": "Record id: a lower-case type prefix, a hyphen, at least three digits. Unique within a run."
+    },
+    "ledger_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The ledger version this record was written against. A CandidateRecord citing a version other than the frozen one is rejected by the Scribe."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]{3,}$"
+      },
+      "description": "Ids of the records this one is derived from or responds to. Never edit those records; reference them."
+    },
+    "premise_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]{3,}$"
+    },
+    "method": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "What was run or read."
+    },
+    "result": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "description": "What it showed, with numbers."
+    },
+    "artefact": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "Path or URI of the log, output or dataset the result was read from."
+    },
+    "outcome": {
+      "enum": [
+        "supports",
+        "falsifies",
+        "inconclusive"
+      ]
+    },
+    "cost_usd": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "ledger_version",
+    "references",
+    "premise_id",
+    "method",
+    "result",
+    "artefact",
+    "outcome",
+    "cost_usd"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "N03-D1",
+  "diagnosis": "operator-retention-duration-absent",
+  "cases": [
+    {
+      "milestone": "north retains the approved existing policy", "weight": 50,
+      "critical": true,
+      "input": {"tenant": "north"},
+      "expected": {"tenant": "north", "retention_days": 30}
+    },
+    {
+      "milestone": "south retains the approved existing policy", "weight": 50,
+      "critical": true,
+      "input": {"tenant": "south"},
+      "expected": {"tenant": "south", "retention_days": 30}
+    }
+  ]
+}

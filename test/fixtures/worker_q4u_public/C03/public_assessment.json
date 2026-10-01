@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "02af6daea4dadf41e040f9db254befd329455a46ab3f0f1f74e8abdebb90688b",
+    "facts": {
+      "change_required": false,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "b4ed82d15c6d1984832b4c3c078af0752f81565a502e847ee708f9b07e6bae3e",
+              "line": 6,
+              "path": "public_check.py",
+              "text": "assert allocate(2, [1, 1, 1]) == [1, 1, 0]"
+            }
+          ],
+          "coverage": "direct",
+          "gap": "",
+          "id": "stable_remainder_tie",
+          "issue_citation": {
+            "file_sha256": "be103da808a1d0f9843ab19609044ca3d5bdb5a61ad696e9610fdcaf2b3ec0ba",
+            "line": 8,
+            "path": "ISSUE.md",
+            "text": "distribute remaining cents by descending fractional remainder, breaking ties"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "b4ed82d15c6d1984832b4c3c078af0752f81565a502e847ee708f9b07e6bae3e",
+              "line": 7,
+              "path": "public_check.py",
+              "text": "assert allocate(0, [1, 2]) == [0, 0]"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The zero-total valid input is checked, but invalid inputs are not",
+          "id": "invalid_input",
+          "issue_citation": {
+            "file_sha256": "be103da808a1d0f9843ab19609044ca3d5bdb5a61ad696e9610fdcaf2b3ec0ba",
+            "line": 9,
+            "path": "ISSUE.md",
+            "text": "by original index. Raise `ValueError` for invalid input."
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "investigation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "be103da808a1d0f9843ab19609044ca3d5bdb5a61ad696e9610fdcaf2b3ec0ba",
+      "public_check.py": "b4ed82d15c6d1984832b4c3c078af0752f81565a502e847ee708f9b07e6bae3e"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "C03",
+  "task_sha256": "3b12a1a5b5f8312533c335d86a43fde82115c19f7e4c04c71da426bb76d78663"
+}

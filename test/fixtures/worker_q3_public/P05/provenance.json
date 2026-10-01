@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "P05",
+  "name": "Tenacity retry waits and callable composition",
+  "source_url": "https://github.com/jd/tenacity",
+  "source_commit": "a09999688c8d3bb3d4ca1716748009954cc7c4d0",
+  "fix_commit": "389aab8b2688f7a1df41c2dd7797eeb18c8baff9",
+  "issue_origin": "upstream-fix",
+  "licence": "Apache-2.0",
+  "licence_file": "LICENSE",
+  "licence_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+  "package_path": "tenacity",
+  "editable_paths": [
+    "tenacity/__init__.py",
+    "tenacity/asyncio/__init__.py",
+    "tenacity/wait.py"
+  ],
+  "oracle_file": "P05.json",
+  "case_file": "P05_case.py"
+}

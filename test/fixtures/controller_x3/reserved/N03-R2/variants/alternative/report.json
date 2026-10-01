@@ -1,0 +1,29 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "approved-destructive-cutover-time-absent",
+  "next_step": "await-approved-utc-cutover-time",
+  "question": {
+    "missing_field": "approved_cutover_time_utc",
+    "prompt": "Which UTC cutover time has the operator approved before we delete the rollback archive?"
+  },
+  "probes": [
+    {
+      "input": {
+        "action": "status"
+      },
+      "observed": {
+        "active": "primary",
+        "archive": "intact",
+        "cutover_at_utc": null
+      }
+    },
+    {
+      "input": {
+        "action": "recovery"
+      },
+      "observed": {
+        "rollback_available": true
+      }
+    }
+  ]
+}

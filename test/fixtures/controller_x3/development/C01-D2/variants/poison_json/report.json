@@ -1,0 +1,15 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "ambiguous-composite-cache-key",
+  "next_step": "replay-alias-and-punctuation-traces-before-rollout",
+  "probes": [
+    {"input": {"events": [
+      {"op": "put", "namespace": "ab", "token": "c", "value": 4},
+      {"op": "get", "namespace": "a", "token": "bc"}]},
+     "observed": {"results": [{"status": "stored"}, {"status": "miss"}]}},
+    {"input": {"events": [
+      {"op": "put", "namespace": "account", "token": "17", "value": 9},
+      {"op": "get", "namespace": "account", "token": "17"}]},
+     "observed": {"results": [{"status": "stored"}, {"status": "hit", "value": 9}]}}
+  ]
+}

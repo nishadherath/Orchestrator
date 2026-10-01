@@ -1,0 +1,1116 @@
+{
+  "created_at_utc": "2026-09-25T11:29:01+00:00",
+  "manifest_sha256": "59358e16730482036176e417ea29ce63368ea855ccbd4cc6d9cd325d2a8b56f1",
+  "next_sequence": 7,
+  "rows": [
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "click/core.py",
+              "click/exceptions.py"
+            ],
+            "cost_usd": 0.2353996,
+            "identity_valid": true,
+            "q1_record_sha256": "7b99ff2c17ab78fd619bc1575d1f3cb64a3065a51df1c5a97c4221be04696b41",
+            "q1_spec_sha256": "748f43ff57814a5bf1087ca8521f633423fe9af649edcfd46dc27758fade14d7",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 28070,
+              "cache_read_input_tokens": 330243,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.2353996,
+              "currency": "USD",
+              "input_tokens": 32,
+              "output_tokens": 5577
+            },
+            "verification": "pass",
+            "wall_clock_s": 79.255,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.7646004,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T11:30:08.451606+00:00",
+          "currency": "USD",
+          "invocations": {
+            "49a6ec22c47eb46df6d1aab4b99a31fc": {
+              "allowance_units": 6000000000,
+              "charged_units": 235399600,
+              "cost_usd": 0.2353996,
+              "metadata": {
+                "decision_digest": "b89fc4591f35ec3d96836884dca5feb3e9d172a188d8909a7c301ae78de33126",
+                "revision_id": "b3169359412274c6e48c2c63eae079f95bd9f805736e2d986624a73ea4a33859",
+                "root_id": "8853c3676f7241a183eb1653"
+              },
+              "reserved_at": "2026-09-25T11:30:08.484647+00:00",
+              "resolution": {
+                "cost_usd": 0.2353996,
+                "evidence": "receipt:135b33c49098038ad1310d5a2e1f34eec460c2a26715c52bc8ed78515e20dacf",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 28070,
+                  "cache_read_input_tokens": 330243,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.2353996,
+                  "currency": "USD",
+                  "input_tokens": 32,
+                  "output_tokens": 5577
+                }
+              },
+              "started_at": "2026-09-25T11:30:08.493707+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 28070,
+                "cache_read_input_tokens": 330243,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.2353996,
+                "currency": "USD",
+                "input_tokens": 32,
+                "output_tokens": 5577
+              },
+              "updated_at": "2026-09-25T11:31:27.776640+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.2353996,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "click/__init__.py": "a69ee28ce4be8232a81ad71c9523b04fc42112cc522f8ced4ff9c5e92fdd6b5b",
+            "click/core.py": "668e4662b384af86b5d033a5ec7b72fd9aeed9b3af041d06f3402945b88dc06f",
+            "click/exceptions.py": "ec4311ba3a516d5a465f403a67ffad8a15f48aaef0009c3a2da12c0d8c938b09",
+            "click/parser.py": "6128dbeae13fecc7fe210144b01ec72efcdb6ab2c32b2138585c5fdf22eb0480"
+          },
+          "case_source_sha256": "a9f9e15edb9a1fb693f2ba8465aaf094784737c763c0ed3b6e0d50822431bdd4",
+          "cases": [
+            {
+              "milestone": "single-command-suggestion",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "milestone": "multiple-command-suggestions",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "single-option-suggestion",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "multiple-option-suggestions",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "unrelated-command",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "exception-contract",
+              "passed": false,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "f1c2add7b36d74bc5e8ee10dc1c22299ab76f492c45192cf397533c680e23373",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "aaa172e00a511de8239721fba2249f556377fb7164738d05205b0cf54ae651fa",
+          "package_sha256": "780df75c48ee579421c2247fb2fee23c12d4d99948c97fa35331f51c7d385eff",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 55,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P03",
+          "task_sha256": "4177a184f67a3f800ee75a88f5131ce919ea8c665d3112604efd5b62182c88c6",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "08bdbe1006b51a57cb14cbc5fa866a637c059f8537940c8142efed8648af5ac2",
+          "LICENSE.txt": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d",
+          "acceptance.json": "703c0545e7800b27b3c86eb3c0bcdfd846808a5a4ff4e91bc7ed1d89344c3d25",
+          "click/_compat.py": "80f36d5d0f6af86e908a5d9bf8c0b90ac1ec186710e2ee98496cbdfed966ba17",
+          "click/_termui_impl.py": "8f15a0ca9f4e2e0f51d48c801f7ca6cb9fd3f7e5bf3dbff0abf025ee45d61b1f",
+          "click/_textwrap.py": "04e69ed1143abe0dc590d8122723a81b31b599e18cc49fee9165592b1feffb4a",
+          "click/_utils.py": "919c2d4dfe6032e0a294925c792da24c2bd1bc263ed1a379ac9abc80ac3ba7c8",
+          "click/_winconsole.py": "fefc54b946b1c01868474bd458236e1d8f1551e7e231d088c94d925cfaa817e0",
+          "click/decorators.py": "e4feda6e126d010629fca1e08d4be132fe3ae044703b3aefd9e9cd9279701f24",
+          "click/formatting.py": "4557f0c2bd2bc16369806afc35a1e874fce422beffb54c9587f9c375a9cb30d7",
+          "click/globals.py": "80cf8d87a0383341c1fd2824685e4ce2770618c0c773f7e51d7bbdfe88781845",
+          "click/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "click/shell_completion.py": "bdd632fdaf159871e1b1fd7705c1e92a817bd3bce2457f1acc6db043bcbc4f4b",
+          "click/termui.py": "cfa3f38ef4ef25c9946350df78b85fad1f1b54aa3dc67ce5d2521dbb091068f0",
+          "click/testing.py": "3d82d85b86630803fa1d15ad361169af78a627141510f16adc45b724bd0b4df0",
+          "click/types.py": "5d0b35e357b4cb3bea9c9176d72f9b5e10836cd2f345fc7e5eeb596617e2906f",
+          "click/utils.py": "bdea7aaaa324bf75a4cc0f4e0aeedfe8abbeddb7991cda68f2a26a2febb3524f",
+          "public_check.py": "95abe8ec51892eaf2fa4cd942e0b587f0a2667ced3af1161daf9df8b6c88cdb7"
+        },
+        "root_id": "8853c3676f7241a183eb1653",
+        "root_state": "accepted",
+        "task_id": "P03",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-public-59358e1673048203-p03"
+      },
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "P03"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "urllib3/connectionpool.py",
+              "urllib3/poolmanager.py",
+              "urllib3/util/url.py"
+            ],
+            "cost_usd": 0.26020620000000005,
+            "identity_valid": true,
+            "q1_record_sha256": "00333fcaf7d90cc00c41254ad19141c9b94b49bf8120fc7e370a684a4394d8e5",
+            "q1_spec_sha256": "cf1bb9301c029a7b1d20700ab1c54aec4f3adfd3e754ae832cb8530b6cca9fd5",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 27297,
+              "cache_read_input_tokens": 524356,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.26020620000000005,
+              "currency": "USD",
+              "input_tokens": 36,
+              "output_tokens": 4486
+            },
+            "verification": "pass",
+            "wall_clock_s": 59.975202,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.739793799,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T11:32:32.929975+00:00",
+          "currency": "USD",
+          "invocations": {
+            "a01cf1a32ba0e988b68d31e012cbe6d4": {
+              "allowance_units": 6000000000,
+              "charged_units": 260206201,
+              "cost_usd": 0.26020620000000005,
+              "metadata": {
+                "decision_digest": "8d97644a7c9d1dbdc87826394e1d72efdc46fe68f12bbe275a91a7af92d2ee5a",
+                "revision_id": "bc4c8275bc9cfec5c3d61637070237162d169b8b1ee327042d2a6bb70ef41d5a",
+                "root_id": "1d4b9d8f627e9be202a4a3ea"
+              },
+              "reserved_at": "2026-09-25T11:32:32.979240+00:00",
+              "resolution": {
+                "cost_usd": 0.26020620000000005,
+                "evidence": "receipt:0aaabd41c037ddd67168faf69eef20968298961bac7c923697645e1b99d37c3a",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 27297,
+                  "cache_read_input_tokens": 524356,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.26020620000000005,
+                  "currency": "USD",
+                  "input_tokens": 36,
+                  "output_tokens": 4486
+                }
+              },
+              "started_at": "2026-09-25T11:32:32.991325+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 27297,
+                "cache_read_input_tokens": 524356,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.26020620000000005,
+                "currency": "USD",
+                "input_tokens": 36,
+                "output_tokens": 4486
+              },
+              "updated_at": "2026-09-25T11:33:33.005629+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.260206201,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "urllib3/connectionpool.py": "305cacb1662f9219d9665b567667c7cb09c9b9c61fa18ea0c12350df2802fb1c",
+            "urllib3/poolmanager.py": "e38d72b5fbbefb953a3f613638708028037b66223bac0ecdbe1d5ad0e5765cca",
+            "urllib3/util/url.py": "a91c84efaca37c8a792c1a016af9ea7db9ea6f25f289dab89b504f5e31d12313"
+          },
+          "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+          "cases": [
+            {
+              "milestone": "zero-url-netloc",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-http-pool",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-https-pool",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "zero-proxy",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "zero-host-comparison",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "default-port-control",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": false,
+          "grade_sha256": "b0457a3b748a0dc8dc9b86627eb928be8c5ec3ad6cdf6c9b6ff2bdb75605dac8",
+          "hidden_acceptance": true,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+          "package_sha256": "14d7ceb9b9744d136e3b6d4c41d2cd95e9c23f53ef35d17decf79b0588d15690",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 100,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P04",
+          "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+          "LICENSE.txt": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+          "acceptance.json": "8769cd599a6eabf7cb0c962dca5b677c60042d9aa0bd810eddf12b5e19425a01",
+          "public_check.py": "15da5d8e1d5676a3470f7c17bc714c0dc23b3bf2522e37fedecf3065ea8ac216",
+          "urllib3/__init__.py": "24ca35b60d67215d40789daf10d0bf4f17e5d1ee61e86ce5f43195935ad645ba",
+          "urllib3/_base_connection.py": "1f37121077b1803ad152beb48cd9e20762908ddc3ded279d0f996e45f1ed0978",
+          "urllib3/_collections.py": "68e566da62a296fbaf4f579f006b6403ba62eb90b5342dc725fa45c6f6014bc0",
+          "urllib3/_request_methods.py": "802785f3948efd45385a83f0607228cffb70f9e33f1153a42c5a7c385b02ec30",
+          "urllib3/_version.py": "3418ca3321e4aa4a614b1092e09a5fdd30f0fc574b96bc53227bd7a551a44d35",
+          "urllib3/connection.py": "3fd7904a4f2898bcc358ae69280d9d16c75447773e42397bb3909cb4b2cf931a",
+          "urllib3/contrib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "urllib3/contrib/emscripten/__init__.py": "c325ef7bcae6a97eecd8aa91401c43e56978f23cd63e7e7ed6efd7a100442d57",
+          "urllib3/contrib/emscripten/connection.py": "822125b01a14b0a55445b6736fc182ac99aa5b6dd79ef8f668dc90545e36b258",
+          "urllib3/contrib/emscripten/emscripten_fetch_worker.js": "cf5937cd9e3f84329ddfeb4def0cf3f0b1e31c2da9c4dfeebbc07793d0fd0377",
+          "urllib3/contrib/emscripten/fetch.py": "e7171dfbebe217165dda7072d1a2bbdddb49f53b21d7261953f4945f09f089b9",
+          "urllib3/contrib/emscripten/request.py": "98bdbcb33cb52af137349856a2be633666aba7c830a650d4fbb8301996398344",
+          "urllib3/contrib/emscripten/response.py": "083a58d0616896e47723110290cda01f9b837d80ccd042f5156afb07beb0b603",
+          "urllib3/contrib/pyopenssl.py": "374ff9f6612ece4434a04aaf018ab72fc11eaa6fe35f27cfbc62c4f07d0518ea",
+          "urllib3/contrib/socks.py": "1e3dcd8d2295901c01373f8a91b23b2bbbf6eb920f30d183b1fff1efea10094c",
+          "urllib3/exceptions.py": "8503c7a2aa38cb0e3a7ac3525647225505d5520031580825b21e8c6f242d6be4",
+          "urllib3/fields.py": "6862c5015669554f856c996596f7b8021834fa91fd659050d88cfb95fa648e43",
+          "urllib3/filepost.py": "53c78d67e9a928a1e1ae56c7104893c7180ad7a21e8e111aeeecf8db2a80fdd2",
+          "urllib3/http2/__init__.py": "c73ac0487ed1e4035190f24ea2de651a70133aadca2aec97cc8e36adc9f09aab",
+          "urllib3/http2/connection.py": "6c7307e9f36f6adc173eb2aaadc9fbe32037a5459ca8f0e9a672b52dc2826cff",
+          "urllib3/http2/probe.py": "9e7024a9b8406a43a217be6bcfb5b4b9d677f047a1fee0fc7e357be0def71442",
+          "urllib3/py.typed": "51a0ae3c56b71fc5006a46edfb91bc48f69c95d4ce1af26fd7ca4f8d42798036",
+          "urllib3/response.py": "9a8aed6d04aced6c43ab5d239373d3c8ea77c94fcca6a612f6ad4eb8226c9a9d",
+          "urllib3/util/__init__.py": "faa792d1071e8af6b3bc110a0cd142008fba00271d0ce1384ccbe8ed22cd9404",
+          "urllib3/util/connection.py": "2633bbdb69731e5ccb5cf4e4afd65605d86c7979cc5633126f50c92d5ad74a74",
+          "urllib3/util/proxy.py": "b1e3fcf90e41e9b07474cb703e3f98719650df4bc7b8ba91bbeb48d096767f3b",
+          "urllib3/util/request.py": "8ada670bcba0ec3e2755f0e6194091325824011510d77aff5ccc529f34f09a91",
+          "urllib3/util/response.py": "bd013adfdba81218f5be98c4771bb994d22124249466477ba6a965508d0164e0",
+          "urllib3/util/retry.py": "d989d25fefc579c312843eb5331e6cebc274fdbb541d9aeb73f064155452d4fe",
+          "urllib3/util/ssl_.py": "57688d26deaf5ed89c47c147fd273170bab2a8db838131796eafd746071b9fbe",
+          "urllib3/util/ssl_match_hostname.py": "16de38289cd3cc632629f7ff6573fdd658b65785a19af132d7a3ca05cbf8bd99",
+          "urllib3/util/ssltransport.py": "133e0ef2947fbd3f1d6a7fc5bea0584ba7600df05710c7d57ebcdc754a167e2e",
+          "urllib3/util/timeout.py": "e1e4f5155799654ee1ee6603d49ab639735ee1fc5e91d36f868594919bac4690",
+          "urllib3/util/util.py": "8f795b64ad633f28b00f7e13f08809cdd5846554fee04fb4bd82098bd52378d0",
+          "urllib3/util/wait.py": "fe987c22b511deca8faa2d0ea29420254947e30ce419e3390a2c80ed7186b662"
+        },
+        "root_id": "1d4b9d8f627e9be202a4a3ea",
+        "root_state": "accepted",
+        "task_id": "P04",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-public-59358e1673048203-p04"
+      },
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "P04"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "tenacity/__init__.py",
+              "tenacity/asyncio/__init__.py",
+              "tenacity/wait.py"
+            ],
+            "cost_usd": 0.1743372,
+            "identity_valid": true,
+            "q1_record_sha256": "ee38cf36bbc3454d68e44dcb94ca1ddcf7da4cf7075f4083f2e0b9d1da4ababf",
+            "q1_spec_sha256": "d377507bfc06da919d4cac474f8ab26f1fe11a721dc7021274370b1ca2540662",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 16429,
+              "cache_read_input_tokens": 290091,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.1743372,
+              "currency": "USD",
+              "input_tokens": 30,
+              "output_tokens": 4935
+            },
+            "verification": "pass",
+            "wall_clock_s": 83.130274,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.8256628,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T11:34:55.062884+00:00",
+          "currency": "USD",
+          "invocations": {
+            "a76fc99fd54d809f5a0794ecd2706de7": {
+              "allowance_units": 6000000000,
+              "charged_units": 174337200,
+              "cost_usd": 0.1743372,
+              "metadata": {
+                "decision_digest": "3127d0d41f120fd5cb4c79f4121a990e87951df14b4204ffc2ca480ce8dbca5f",
+                "revision_id": "1152757025b3a99ef7e4187b69826b713c761a67512aa510cf3cb369c3751336",
+                "root_id": "e9e3a6c3afa3418b9c674d39"
+              },
+              "reserved_at": "2026-09-25T11:34:55.100145+00:00",
+              "resolution": {
+                "cost_usd": 0.1743372,
+                "evidence": "receipt:5fddd7ba62265f79d18bb75e097edcf746749de584abd8e1143fde543f43b8d3",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 16429,
+                  "cache_read_input_tokens": 290091,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.1743372,
+                  "currency": "USD",
+                  "input_tokens": 30,
+                  "output_tokens": 4935
+                }
+              },
+              "started_at": "2026-09-25T11:34:55.110652+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 16429,
+                "cache_read_input_tokens": 290091,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.1743372,
+                "currency": "USD",
+                "input_tokens": 30,
+                "output_tokens": 4935
+              },
+              "updated_at": "2026-09-25T11:36:18.303979+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.1743372,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "tenacity/__init__.py": "b8693add34508b6100c353cc346a27cdfd8580f5bf511538afb3aead84e2589b",
+            "tenacity/asyncio/__init__.py": "5c84ceaa5352ae2d96cc60e971081f83de3ecd3e733cd9f3a977886eaef6c0b2",
+            "tenacity/wait.py": "4dfe43ca627876617adcb34cffad32e9403313c77bb750a29440504655f9c06b"
+          },
+          "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+          "cases": [
+            {
+              "milestone": "sync-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "sync-zero-wait",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "async-none-wait",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "async-zero-wait",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "callable-plus-strategy",
+              "passed": false,
+              "weight": 15
+            },
+            {
+              "milestone": "positional-strategy",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "reject-nonzero-seed",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "sum-control",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "1b2ef99a71cd00cb421086c63ccd074065d8bbaefe439ec57fa8cff7463fcf9f",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+          "package_sha256": "2d9e0590fee9320852c71e1b346955f6e758136f224aecc59848a16fdc626d73",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 85,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P05",
+          "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+          "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+          "acceptance.json": "1071dbe99c4c99a99a46063bff6f57027dae652460399815e48b4ed829e62f89",
+          "public_check.py": "ee2c65b87f7d793df2c7db1664d0d38275d9eed3cb0f5b8ea371a3a96c08cdee",
+          "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+          "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+          "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+          "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+          "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+          "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+          "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+          "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+          "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d"
+        },
+        "root_id": "e9e3a6c3afa3418b9c674d39",
+        "root_state": "accepted",
+        "task_id": "P05",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-public-59358e1673048203-p05"
+      },
+      "sequence": 3,
+      "state": "graded",
+      "task_id": "P05"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "jwt/api_jwk.py",
+              "jwt/jwk_set_cache.py",
+              "jwt/jwks_client.py"
+            ],
+            "cost_usd": 0.1329656,
+            "identity_valid": true,
+            "q1_record_sha256": "30c32fb6cb7692089f22f8fa7476c83809d49e21ed85067e3819cab1037d57cc",
+            "q1_spec_sha256": "201339eeda7d2976f7ddd63f1c76b676f07b5699bd18d8b6ee68665ebda88e2c",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 14946,
+              "cache_read_input_tokens": 174448,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.1329656,
+              "currency": "USD",
+              "input_tokens": 18,
+              "output_tokens": 3701
+            },
+            "verification": "pass",
+            "wall_clock_s": 42.326883,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.8670344,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T11:37:44.257892+00:00",
+          "currency": "USD",
+          "invocations": {
+            "5fc6ee6ea6c32e6fe04d530d209522d0": {
+              "allowance_units": 6000000000,
+              "charged_units": 132965600,
+              "cost_usd": 0.1329656,
+              "metadata": {
+                "decision_digest": "3737d5c63fe6cbb691bb43e3d91ebaaf415a9f736cbc9f75a7d5dd48b40fc919",
+                "revision_id": "f849744fcad4af70f5c53a3a1f2320ff7f5499efefda2f93c53cca34287c6d75",
+                "root_id": "37708237fcd0628270179bf0"
+              },
+              "reserved_at": "2026-09-25T11:37:44.291746+00:00",
+              "resolution": {
+                "cost_usd": 0.1329656,
+                "evidence": "receipt:ec1d9fcba6961219bf26fb2459468069b8aa507a715ec333645408c00382a1a3",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 14946,
+                  "cache_read_input_tokens": 174448,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.1329656,
+                  "currency": "USD",
+                  "input_tokens": 18,
+                  "output_tokens": 3701
+                }
+              },
+              "started_at": "2026-09-25T11:37:44.302914+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 14946,
+                "cache_read_input_tokens": 174448,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.1329656,
+                "currency": "USD",
+                "input_tokens": 18,
+                "output_tokens": 3701
+              },
+              "updated_at": "2026-09-25T11:38:26.664892+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.1329656,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "jwt/api_jwk.py": "82db1ab2a348a1fb421bb931682bcac4dbabdd67e1936f626e624797542dd8cd",
+            "jwt/jwk_set_cache.py": "06cd0bf0a7a513aefe7ed7dd75923bc5a716e353598df6e2dc8bd50bcef8b367",
+            "jwt/jwks_client.py": "f9b8749c8179fd0f869fffa7abdccab09d86e720c1d5b288ecb0386392587e2e"
+          },
+          "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+          "cases": [
+            {
+              "milestone": "parsed-cache-hit",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "normalise-on-write",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "cache-object-identity",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "transformed-fetch-consistency",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "milestone": "skip-non-object-member",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "skip-invalid-component",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "clear-cache",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-response-contract",
+              "passed": true,
+              "weight": 10
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "82d840e1e8b0cbb8897078cfe7707608eec3ba6fbf2ab5796119e1ae857b9067",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+          "package_sha256": "ec21832483339fd3552202cb3967036e60996301a33149a1fc2b2ae54d4de47f",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 80,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P06",
+          "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+          "LICENSE": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+          "acceptance.json": "c48cc906288bfb51a66eb76828316830ab3ead05fad9b6a00d15af50e88e9505",
+          "jwt/__init__.py": "0564795b435a412848db0d678100fd138aa3096075e8cce364751c7e427d60fd",
+          "jwt/algorithms.py": "31e174916a77d17f4ed9dbcd3b869e9264a146aaf8d97f02d9b43bf828fe0441",
+          "jwt/api_jws.py": "a0c578d4e09c823afe019ed3e0b06fb184c665ff34cfe404c68229ae3272269d",
+          "jwt/api_jwt.py": "e8283616669448b2b116b0184e6eed568d67b10a1ff8909f647cb43f44bce615",
+          "jwt/exceptions.py": "3540f48760343221d5e94f933edfc0af4a6b9c01f1c892748ba2c7216cddf154",
+          "jwt/help.py": "1c1dd9b2b2557254745d8fac0c7f8bbe5e4aeda7b9422746894e96c93027621b",
+          "jwt/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "jwt/types.py": "478e81927a35574f1faaec6756bef502f5bab843e2947265aa4817e8e6d9167c",
+          "jwt/utils.py": "e4e3d4faf0b15c47a049940088e256434b6566920ec7163c172ce47684c29ac0",
+          "jwt/warnings.py": "8904ef3fe34f0d003eb6e84f86389f124611a8c520b5ef7d88e3cc25cfc32c99",
+          "public_check.py": "a0f259c76e6feafdbbff1262e8a429ee3b33ca8a74a923573b1b228a1f182bd1"
+        },
+        "root_id": "37708237fcd0628270179bf0",
+        "root_state": "accepted",
+        "task_id": "P06",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-public-59358e1673048203-p06"
+      },
+      "sequence": 4,
+      "state": "graded",
+      "task_id": "P06"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "packaging/_parser.py",
+              "packaging/markers.py",
+              "packaging/requirements.py"
+            ],
+            "cost_usd": 0.2668178,
+            "identity_valid": true,
+            "q1_record_sha256": "ab2416d7382ee4b516799e5eb30bb6c5b48ba3694317a1d751ed1b7c4dc31572",
+            "q1_spec_sha256": "daffd3517e6b87a1a358fc64c6f08646c97cf34f968f430796538e4b218e0cec",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 27945,
+              "cache_read_input_tokens": 302179,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.2668178,
+              "currency": "USD",
+              "input_tokens": 24,
+              "output_tokens": 9337
+            },
+            "verification": "pass",
+            "wall_clock_s": 102.568087,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.7331822,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T11:39:49.694245+00:00",
+          "currency": "USD",
+          "invocations": {
+            "17f78e6c4f0e7cab08c4d202f5418adc": {
+              "allowance_units": 6000000000,
+              "charged_units": 266817800,
+              "cost_usd": 0.2668178,
+              "metadata": {
+                "decision_digest": "572a430d11bb31b5b8b41e64b0d4989289b4407168232c8f3cecce3c7674df66",
+                "revision_id": "71157b65ebe5f5dd7ab1772fc909b5411e2d816098e760735fc19a52fbb13dc0",
+                "root_id": "70d9d6f39b0965e349074677"
+              },
+              "reserved_at": "2026-09-25T11:39:49.740593+00:00",
+              "resolution": {
+                "cost_usd": 0.2668178,
+                "evidence": "receipt:7e5b4cea416f6e5150592d9e0dbc42bd6c378f7f726a863b7e9d8ff84b0c23da",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 27945,
+                  "cache_read_input_tokens": 302179,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.2668178,
+                  "currency": "USD",
+                  "input_tokens": 24,
+                  "output_tokens": 9337
+                }
+              },
+              "started_at": "2026-09-25T11:39:49.751399+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 27945,
+                "cache_read_input_tokens": 302179,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.2668178,
+                "currency": "USD",
+                "input_tokens": 24,
+                "output_tokens": 9337
+              },
+              "updated_at": "2026-09-25T11:41:32.355539+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.2668178,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "packaging/_parser.py": "e3a0f49091f31899e12b3a9accc61fb37b6743bdb3d29c50703805e0fdc0ac8c",
+            "packaging/markers.py": "189c70f0c2d9b5522378d8508f9b7cbeb56a20f12ab4fa4d7dc4e804a1836f32",
+            "packaging/requirements.py": "66a14d505e52f9a89db2a01dfbd17bf2a5cda7435cf70ca2a26ffd3d912e83c8"
+          },
+          "case_source_sha256": "559b24348a895257faa0a87ec43209ef8b0ba3e602b023f39841f7971621ab47",
+          "cases": [
+            {
+              "milestone": "parser-node-roundtrip",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "compound-marker-roundtrip",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "requirement-roundtrip",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "requirement-with-marker",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "old-node-state",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "old-marker-state",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "old-requirement-state",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "invalid-node-state",
+              "passed": true,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-marker-state",
+              "passed": false,
+              "weight": 5
+            },
+            {
+              "milestone": "invalid-requirement-state",
+              "passed": false,
+              "weight": 5
+            },
+            {
+              "milestone": "ordinary-parsing-control",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "7d612c4633cee7288954cc41fffa684bc3c7ffe38f2d4d20385d9adf59e9d273",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "43b35626a94891de6b3eeaa3fe945f75f791d3fbc5bd71cb9fb97cbabfda6906",
+          "package_sha256": "230b3a1279f834d3b469ae3b152df1b3fe409c9a1521deee6a5ceded4cfa19cd",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 90,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P07",
+          "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "717aeb140632ae1394d6040e9d47ef7d62e53dbf5f5e17a5c942001da8fa90d9",
+          "LICENSE": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48",
+          "acceptance.json": "0fa0ed1525a2b567d9196d450d5d1d8c6efacbb0e7fdad2ea7a9d9e944dac382",
+          "packaging/__init__.py": "e196ba08ba82386d4acf583df1201cc98ad3e7788ec4bac878348257e2193701",
+          "packaging/_elffile.py": "fac2a4a6d62acd8c36fb1dd007225ae66078adf3d6bb5a719191d1c755801426",
+          "packaging/_manylinux.py": "1dfea707470eadac84b3debea77a085c08069c5aaebf6d033b997ea36fd79efd",
+          "packaging/_musllinux.py": "67ab308c7dcc03b5d2dea5e798c37b40f86a3f77e7a18234790d7c7bdf878001",
+          "packaging/_structures.py": "eb48d16c5efca7ccf930a9cd77a700a6b80e69d0891d5d03966526441a8565cb",
+          "packaging/_tokenizer.py": "b455365abf996497406e45cb109a3ba9440325a2247dfb7d0ea6a27e210d0fb0",
+          "packaging/dependency_groups.py": "5d92005452bdb871b84421a9ae6267dd522751631eb3185afe4cad26e30ef5e6",
+          "packaging/direct_url.py": "78a99b0e23cfd6c2d5e0c8ff902499aaa927ac8c953bd4abec9a45f0a0a3a785",
+          "packaging/errors.py": "ea17c461701ff2ffc817ae7e94569d24e30889e04fdb120ab721178c6d67188b",
+          "packaging/licenses/__init__.py": "fc9c745d1883ff9f296a5b169f22eb2ee879f59a4608f20f5cb29d668f4e26f4",
+          "packaging/licenses/_spdx.py": "596ec35e2ca0ebcba9fd8343ff0a51625af548786257815f24b41f7e08613314",
+          "packaging/metadata.py": "72b021d04dc654656a3e5bba11d445b1a1be63a518ce74d4aa3b8629118fbfa7",
+          "packaging/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "packaging/pylock.py": "1bfd609dc4e60db44b6358e8e150c8f54c3e6f9204ae1fd0f55fc16d5253983f",
+          "packaging/specifiers.py": "2a60a070e59601e64fde3891fd71a0527596ac9374d6925143bf768d48fc2036",
+          "packaging/tags.py": "27cdf015902cd46b1263438f08f1c5b41498b5ffc24009aaee1da3f478bf7f62",
+          "packaging/utils.py": "33bf8930a89cdac3f562d57ff1a5bb795181fb1dc00ee282892aec55e09dd94a",
+          "packaging/version.py": "d6e001f2c82cef04b7c75ade39b03ae76f86ab2f3b46608a44aa5c7b9cdb45be",
+          "public_check.py": "2a91b12f9e2684cad3c3e92a0c7d55c727d850956e3443bf2a611ed53a5f44fe"
+        },
+        "root_id": "70d9d6f39b0965e349074677",
+        "root_state": "accepted",
+        "task_id": "P07",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-public-59358e1673048203-p07"
+      },
+      "sequence": 5,
+      "state": "graded",
+      "task_id": "P07"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "platformdirs/_xdg.py",
+              "platformdirs/api.py",
+              "platformdirs/macos.py",
+              "platformdirs/unix.py"
+            ],
+            "cost_usd": 0.7048142000000001,
+            "identity_valid": true,
+            "q1_record_sha256": "34435f07e4fe18fe77e9d4563e3a8f7bea5e39a6069df3e738450a3dd0c83a49",
+            "q1_spec_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 63792,
+              "cache_read_input_tokens": 1440451,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.7048142000000001,
+              "currency": "USD",
+              "input_tokens": 62,
+              "output_tokens": 16019
+            },
+            "verification": "pass",
+            "wall_clock_s": 165.631886,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.295185799,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T11:43:32.127490+00:00",
+          "currency": "USD",
+          "invocations": {
+            "7344602bfab6954d01b3f7afa84b9b2e": {
+              "allowance_units": 6000000000,
+              "charged_units": 704814201,
+              "cost_usd": 0.7048142000000001,
+              "metadata": {
+                "decision_digest": "638d5a7aa42d062f5cc451bef1503444d0f4c8b79b8d6ccd4fd97029e4d23741",
+                "revision_id": "4c199472d39e78ba0affdea5031e3887249ea50ac69b087187fa7e88a81c6143",
+                "root_id": "4e13a89055c34d94d1991b1e"
+              },
+              "reserved_at": "2026-09-25T11:43:32.161655+00:00",
+              "resolution": {
+                "cost_usd": 0.7048142000000001,
+                "evidence": "receipt:757660bba00963eee61478c0061c85afcba1e1fb9c52a401fd5634bfbb36dc34",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 63792,
+                  "cache_read_input_tokens": 1440451,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.7048142000000001,
+                  "currency": "USD",
+                  "input_tokens": 62,
+                  "output_tokens": 16019
+                }
+              },
+              "started_at": "2026-09-25T11:43:32.170694+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 63792,
+                "cache_read_input_tokens": 1440451,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.7048142000000001,
+                "currency": "USD",
+                "input_tokens": 62,
+                "output_tokens": 16019
+              },
+              "updated_at": "2026-09-25T11:46:17.835018+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.704814201,
+          "unresolved": [],
+          "version": 1
+        },
+        "hidden_grade": {
+          "candidate_edit_sha256": {
+            "platformdirs/_xdg.py": "bb004f0bdb69ba10896ee63c2a6d8c483f15b027dcd2b026402c98a5fbbf928e",
+            "platformdirs/api.py": "55fa6bab7e514bec72a51adaa3476f20b81c25cdc3f53693e9fdb08800a83475",
+            "platformdirs/macos.py": "d2b35f359c8b68213751c96d118e08cbc7aca1b4beaea791e21d996610c62942",
+            "platformdirs/unix.py": "6f45fa7d888f2b74a108d9014278c9120515b6dd78e2e1b5bb991cb16e548189"
+          },
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "833613e58804468c3e529a79c3e52c48b145a7acd473e43d2628f6f9789b41f5",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "7364f74a7da3612351249a0200a62a3f6eb284761f135e9fa5697ae887de4d93",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 90,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+          "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+          "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+          "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+          "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+          "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+          "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+          "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+          "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+        },
+        "root_id": "4e13a89055c34d94d1991b1e",
+        "root_state": "accepted",
+        "task_id": "P08",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q3-public-59358e1673048203-p08"
+      },
+      "sequence": 6,
+      "state": "graded",
+      "task_id": "P08"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "6c77777bc85f0f677e9b8c9eb521af7bf7ebcc14eecfa7b3026f61d101ce0e30",
+  "status": "complete",
+  "total_cost_usd": 1.774540602,
+  "total_provider_calls": 6
+}

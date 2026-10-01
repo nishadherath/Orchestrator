@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "task_id": "C01-R1",
+  "diagnosis": "sequence-dedup-scope-too-broad",
+  "cases": [
+    {"milestone": "same feed and epoch replay emits once", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"},
+       {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"}]},
+     "expected": {"emitted": ["a7"]}},
+    {"milestone": "different sequence numbers both emit", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"},
+       {"feed": "alpha", "epoch": 1, "seq": 8, "record": "a8"}]},
+     "expected": {"emitted": ["a7", "a8"]}},
+    {"milestone": "different feeds may reuse sequence", "weight": 30,
+     "critical": false,
+     "input": {"events": [
+       {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"},
+       {"feed": "beta", "epoch": 1, "seq": 7, "record": "b7"}]},
+     "expected": {"emitted": ["a7", "b7"]}},
+    {"milestone": "new epoch may reuse sequence", "weight": 30,
+     "critical": false,
+     "input": {"events": [
+       {"feed": "alpha", "epoch": 1, "seq": 7, "record": "a7"},
+       {"feed": "alpha", "epoch": 2, "seq": 7, "record": "a2-7"}]},
+     "expected": {"emitted": ["a7", "a2-7"]}}
+  ]
+}

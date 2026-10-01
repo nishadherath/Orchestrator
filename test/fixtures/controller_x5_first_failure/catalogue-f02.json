@@ -1,0 +1,152 @@
+{
+  "cases": [
+    {
+      "actor_files": {
+        "ISSUE.md": "a9e1a91cdb2761db025cc7641469140c48442c78d29837075853a239b899581c",
+        "LICENSE.txt": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+        "acceptance.json": "a9961cd5b5659b58bc4ff3801af83b3f3edddfd0ce8886c7d46a63f127456637",
+        "attr/__init__.py": "4fdf747231ee1acc387a5912d163595305e7cf73536a0954a23e12be98e323f8",
+        "attr/__init__.pyi": "b1f6230bcd1c410601ea23e5fbca7c7f54dcc66da01a789a30a21409e9ecd68b",
+        "attr/_cmp.py": "dcd9f54e3c659546225ff9c9a159c4917a0393484cd4360a8f90c4ec665ee22d",
+        "attr/_cmp.pyi": "53efd153f5193b23d4110cd713a44c61041c8e4651636e704c7f7db0dd2cecc3",
+        "attr/_compat.py": "aa4df995064dde6f1177f98dd08ba0cc59b41b8ed197c51106a9e8b484b1ace8",
+        "attr/_config.py": "0499fe7dced578eaca08d0eb0a58c2b4293e8d63e39939496d8e5ec52ceafae6",
+        "attr/_funcs.py": "20b679523b45d3c7302da505140864241419808aff369931c918a4639e83c0a5",
+        "attr/_make.py": "c13aad77adba74e1d68f248085ddf624d768ca468abe42232add865f4b4a6c02",
+        "attr/_next_gen.py": "2b205638ab541785abe9c7b833c9a98d46cb0e4186b2ef103b8a099a90dd1d00",
+        "attr/_typing_compat.pyi": "5c33f9e13527f992a10fad9339079b9b3af0172a268540a8191a5c95be9a9510",
+        "attr/_version_info.py": "c3847e1580b734afe43241945899583f87150251fd1d1682fae9b77dc8d89073",
+        "attr/_version_info.pyi": "c7f3372f75ae07baff50b5c05a3c7de7db9d290e072c1f25fa1b1cd450c636f9",
+        "attr/converters.py": "be3ce4f8ee6feb27a881b13a734665690fe4c81cfe030089c648f428229a8ed7",
+        "attr/converters.pyi": "a2b5366df7fe56341ada4303caf9cc415ef7a094f6591c90bb0e19475ca6d5b1",
+        "attr/exceptions.py": "6f8bcc6e7a10dd5a7059986aad88bfb2c5d508af28d9ce074124b4f5c49433da",
+        "attr/exceptions.pyi": "cd9abc6c2527280cbd983b41130e366613e1014207a1329e7434089c90fcf373",
+        "attr/filters.py": "64188a58ba774742df099b2aed7d75a67f565fc36c952db05cce23b272ce19cf",
+        "attr/filters.pyi": "dc9e411be753c65b41935ffe46e351507aefdaabb5bfcbf868334043bfe689f0",
+        "attr/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attr/setters.py": "b743c8e408df22520d21c2b3992ff7027896f8251e3fb9eabc17ba8aac38d1cf",
+        "attr/setters.pyi": "367564685535041e0907c13826e5f2af34d482fb4ca63f29df005d258eee8b1e",
+        "attr/validators.py": "c9ee9811e6a1473572ded03b5de81fbcb28a526a432fbff51492d7fa082bca8d",
+        "attr/validators.pyi": "70504e50bb0c928a642e540987ca5a1f4ecf03d2335dba4fd5fc47b6ef9a9b2a",
+        "public_check.py": "aa3681f7215b90c01f4375ae130f1668bb0090bc3f1ef7e2206a3ea86e5da85f"
+      },
+      "actor_total_bytes": 217085,
+      "editable_paths": [
+        "attr/_make.py",
+        "attr/validators.py"
+      ],
+      "expected_hidden_passed": {
+        "alternative": 6,
+        "baseline": 2,
+        "partial": 4,
+        "reference": 6
+      },
+      "expected_public": {
+        "alternative": true,
+        "baseline": false,
+        "partial": false,
+        "reference": true
+      },
+      "hidden_total": 6,
+      "id": "F01",
+      "issue_origin": "authored regression on pinned upstream source; not an upstream issue",
+      "licence": "MIT",
+      "oracle_sha256": "172140ac8fecf6076e3e0f640a1372100d57d84283b23373ed0b4652e25a5fd8",
+      "public_command": [
+        "python3",
+        "-B",
+        "public_check.py"
+      ],
+      "upstream": "https://github.com/python-attrs/attrs",
+      "upstream_commit": "8f767776326faaed11e6c2974798787f6e19b343",
+      "upstream_source": "src/attr",
+      "variants": {
+        "alternative": {
+          "attr/_make.py": "9e873516e074063ef79ca597d8039df912fef7feb24660b42de9163e8832d397",
+          "attr/validators.py": "d1bdfa3e055258e5715c1df8871c73c1be8e4301432696aafb4721e051ced32b"
+        },
+        "partial": {
+          "attr/_make.py": "8009324b26e77f13da6c1b2bf687eeee502d81afee1141b8f10cb07448195328",
+          "attr/validators.py": "c9ee9811e6a1473572ded03b5de81fbcb28a526a432fbff51492d7fa082bca8d"
+        },
+        "reference": {
+          "attr/_make.py": "8009324b26e77f13da6c1b2bf687eeee502d81afee1141b8f10cb07448195328",
+          "attr/validators.py": "04df88cefdc8a7176b800c5d35df3bcae0a43d9c303362fc15b783cef53517c5"
+        }
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "8f36e43ec7f2169d65d875eadfa943378b81d8dd9c9dac860ac7b5ab65c8d516",
+        "LICENSE.txt": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d",
+        "acceptance.json": "6969151f2c47de44ae315c3d5997aff1b602bc61cb47381520a3a1785c770d34",
+        "click/__init__.py": "5abfc54d37d47cc788b7e7a05e9514787f8c5a0b7db429d0f24d748ac89964ca",
+        "click/_compat.py": "8db1da2965cf3e5dc66c6c53833cbc613ea1cd2440b9d0eb6aa8360eb46d4913",
+        "click/_termui_impl.py": "88b97d9b7a5b947b10a16d8ab269837bc84c7e55c28ba72ea5f2fb339112336a",
+        "click/_textwrap.py": "c028a803a1bd264043e81fa2f550165e9898878c2de57d65541d9242f11b122b",
+        "click/_utils.py": "c7a62c70514253d091cbca49917fe16281556db1aa83bb389532180c47dc1233",
+        "click/_winconsole.py": "a6f0d49ef0be806a9730bd64a2e5b373a95d49de91fd7728595ff31d773f2db7",
+        "click/core.py": "53df54afb5deba7fd7c3a968a2a6284fc2d9dd3892e6939dfbb3092ca3fbca0f",
+        "click/decorators.py": "16069357615691fcdfc9c794bb515f6009eb35aad6f7a76c017bdce06dae8d55",
+        "click/exceptions.py": "1ef498df81b86ae8ff6d8451f3e4fc094f09c2aff5f8e72c454e1ecdfa337849",
+        "click/formatting.py": "94e3dec547d96d75ee56dcfd17e856ac3d783e5d6831e4d4a693e3894a3bdd8a",
+        "click/globals.py": "80cf8d87a0383341c1fd2824685e4ce2770618c0c773f7e51d7bbdfe88781845",
+        "click/parser.py": "a09f9f53fde6bf1ba022e36d1da0804d9e7a9601261d18208c9892a84818ae30",
+        "click/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "click/shell_completion.py": "18522f75ddffe655e943978d1953255c447842867d3fd67fbdc1543d3df7da09",
+        "click/termui.py": "16f6546b36d647d191788fc912e32d93e8b64289517f004e6d9604f4896ad1ca",
+        "click/testing.py": "76f4e649bc53000d667c8c0deff1591970fa034b0f085a207165839b2301019a",
+        "click/types.py": "30a39185da37bbd98ef47153f7bfd310b04eac44bd9b9b2fe15998406337757e",
+        "click/utils.py": "4720e22c292047ff1a747546b1ba80e96d1d8e8158e2e21ff01cdddb6498db17",
+        "public_check.py": "7f8ec716993baaef6601d65d910684e0f6c4e26a19ca0c6be7638fb8c313d01d"
+      },
+      "actor_total_bytes": 451167,
+      "editable_paths": [
+        "click/formatting.py",
+        "click/_textwrap.py"
+      ],
+      "expected_hidden_passed": {
+        "alternative": 7,
+        "baseline": 3,
+        "partial": 4,
+        "reference": 7
+      },
+      "expected_public": {
+        "alternative": true,
+        "baseline": false,
+        "partial": false,
+        "reference": true
+      },
+      "hidden_total": 7,
+      "id": "F02",
+      "issue_origin": "authored regression on pinned upstream source; not an upstream issue",
+      "licence": "BSD-3-Clause",
+      "oracle_sha256": "8b1abb82e57c651754df755fcc1af52aba5ec02ad1ec0f87b9fcfb1987e4afa5",
+      "public_command": [
+        "python3",
+        "-B",
+        "public_check.py"
+      ],
+      "upstream": "https://github.com/pallets/click",
+      "upstream_commit": "06b2a678741131fd577ce170e23e5ca0aeba0309",
+      "upstream_source": "src/click",
+      "variants": {
+        "alternative": {
+          "click/_textwrap.py": "e78449632fee4d2396b12a4f564d924688d6e1b47a383f6098e63e6ebd7ef6f7",
+          "click/formatting.py": "72ee612d98f6ae8ac410b809e1b4ccdc0f07620a45cecacd447dd39cf940fa46"
+        },
+        "partial": {
+          "click/_textwrap.py": "c028a803a1bd264043e81fa2f550165e9898878c2de57d65541d9242f11b122b",
+          "click/formatting.py": "f125b628692f8dfcfd43535b7a88cc1ee64137471f9d0243b389aa0cfea85e6b"
+        },
+        "reference": {
+          "click/_textwrap.py": "ed9d0ded59a7fbae933524d4c29e8e5c96dc5174666044fd87d736b9c0fca104",
+          "click/formatting.py": "f125b628692f8dfcfd43535b7a88cc1ee64137471f9d0243b389aa0cfea85e6b"
+        }
+      }
+    }
+  ],
+  "catalogue_sha256": "334712473c21fb4067e966715c094ac2f4ca03dc3362be9ad2002e3d3715e51f",
+  "schema_version": 1,
+  "split": "development"
+}

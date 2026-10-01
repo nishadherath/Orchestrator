@@ -1,0 +1,28 @@
+{
+  "actor_files": {
+    "ISSUE.md": "c1b8446aa497008409de02931da188e39b0e01bf46678d5da366689eff638481",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "1c09b81bd2317cd63cd04064df6bfb234b486994618eddf3d201ba893f09922d",
+    "billing/__init__.py": "bbc22975f340f6d1474f91eba8b559e34043777071517879cce7e995becaa6dc",
+    "billing/invoice.py": "f2266aaa65be2a9d6067715eccb46f28891bbc2255dc9784494498022b20e8d6",
+    "billing/tax.py": "e4ffa22d10d65834a53c4a20cfd69681e29197b2d43ae00a2043aab8460aa5d4",
+    "public_check.py": "f960fedd2b11973d4209731cea5720058da0276abf21af213c9e7b3fcc6db458"
+  },
+  "change_required": true,
+  "editable_paths": [
+    "billing/tax.py",
+    "billing/invoice.py"
+  ],
+  "evaluator_zip_sha256": "3e53940cb82921c8ef37ae9367e6f8874be95bd0a956e0c03a8e462f093e8c7b",
+  "id": "R10",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "invoice-subtotal-tax-rounding",
+  "origin": "authored-synthetic-regression",
+  "public_check_variant": "weak",
+  "public_coverage": "partial",
+  "schema_version": 1,
+  "split": "reserved",
+  "task_kind": "implementation",
+  "task_sha256": "57f3224aa876428b085cd16baa6619e7e93cbdf4c785d2210ee9f405cd250bc9"
+}

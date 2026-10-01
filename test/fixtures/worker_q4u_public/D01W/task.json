@@ -1,0 +1,35 @@
+{
+  "actor_files": {
+    "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+    "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+    "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+    "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+    "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+    "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+    "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+    "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+    "src/dotenv/main.py": "27e9b390d4432c14b41a796d8e66415a01ca2ee2eeb331d447888d101f4b631e",
+    "src/dotenv/parser.py": "2dfc1a909cf8994ef87320952958256b9e19b91990cdcf07090061aaf7f6bb93",
+    "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+    "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+    "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+  },
+  "editable_paths": [
+    "src/dotenv/main.py",
+    "src/dotenv/parser.py"
+  ],
+  "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+  "fix_commit": "f7b18d9c72d1abcc2ad4023424b84f5bee30d266",
+  "fix_url": "https://github.com/theskumar/python-dotenv/commit/f7b18d9c72d1abcc2ad4023424b84f5bee30d266",
+  "id": "D01W",
+  "issue_url": "https://github.com/theskumar/python-dotenv/issues/661",
+  "licence": "BSD-3-Clause",
+  "licence_sha256": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+  "origin": "pinned-upstream-regression",
+  "public_check_variant": "weak",
+  "public_coverage": "partial",
+  "schema_version": 1,
+  "source_commit": "751f8c148222e58aa173c83c4e5e6cfccb2cc124",
+  "source_url": "https://github.com/theskumar/python-dotenv",
+  "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+}

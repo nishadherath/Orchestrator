@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "task_id": "C01-D2",
+  "diagnosis": "ambiguous-composite-cache-key",
+  "cases": [
+    {"milestone": "same composite identity still hits", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"op": "put", "namespace": "account", "token": "17", "value": 9},
+       {"op": "get", "namespace": "account", "token": "17"}]},
+     "expected": {"results": [{"status": "stored"}, {"status": "hit", "value": 9}]}},
+    {"milestone": "unrelated token misses", "weight": 20,
+     "critical": false,
+     "input": {"events": [
+       {"op": "put", "namespace": "account", "token": "17", "value": 9},
+       {"op": "get", "namespace": "account", "token": "18"}]},
+     "expected": {"results": [{"status": "stored"}, {"status": "miss"}]}},
+    {"milestone": "concatenation alias misses", "weight": 30,
+     "critical": false,
+     "input": {"events": [
+       {"op": "put", "namespace": "ab", "token": "c", "value": 4},
+       {"op": "get", "namespace": "a", "token": "bc"}]},
+     "expected": {"results": [{"status": "stored"}, {"status": "miss"}]}},
+    {"milestone": "punctuation alias misses", "weight": 30,
+     "critical": false,
+     "input": {"events": [
+       {"op": "put", "namespace": "a:", "token": "b", "value": 5},
+       {"op": "get", "namespace": "a", "token": ":b"}]},
+     "expected": {"results": [{"status": "stored"}, {"status": "miss"}]}}
+  ]
+}

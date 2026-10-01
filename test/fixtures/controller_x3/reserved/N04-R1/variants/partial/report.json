@@ -1,0 +1,36 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "feature-disable-audit-step-omitted",
+  "next_step": "append-audit-event-and-recheck-idempotency",
+  "probes": [
+    {
+      "input": {
+        "action": "flags",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": []
+      },
+      "observed": {
+        "flags": {
+          "beta_exports": false,
+          "search": true
+        }
+      }
+    },
+    {
+      "input": {
+        "action": "audit",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": []
+      },
+      "observed": {
+        "audit": []
+      }
+    }
+  ]
+}

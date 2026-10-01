@@ -8,57 +8,39 @@ result file it rests on, and anything unverified says so in the same
 sentence. `docs/AUDIT-2026-09-16.md` is the audit this file was written
 after; where the two disagree, the audit is the record of what was checked.
 
-The project and redistributable are licensed under Apache-2.0. The W09
-candidate is mechanically release-ready; publication remains an explicit
-operator action.
+The project and redistributable are licensed under Apache-2.0. The active work
+is the [bounded release candidate](docs/RELEASE-CANDIDATE-2026-10-01.md): review
+shipping changes, verify the exact package and document its supported scope.
+Publication remains an explicit operator action.
 
-The next planned development programme is
-[worker routing, execution and delegation remediation](docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md).
-[Experimental Controller remediation](docs/CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md)
-is a separate deferred programme. Both follow the
-[staged execution protocol](docs/REMEDIATION-EXECUTION-PROTOCOL-2026-09-19.md);
-the worker programme started on operator direction. N0 is the historical
-contract baseline; N0A through N3 are complete for offline review. The Controller
-programme remains deferred. Each stage stops for review. The N0 outputs are the
-[worker execution contract](docs/WORKER-EXECUTION-CONTRACT.md) and
-[stage record](docs/stage-results/worker-n0.md).
+B0 remains the shipping default. Controller is experimental, and **Controller
+uplift remains an unfinished qualification goal**. RC completion does not
+promote Controller or qualify automatic routing, the frontier profile, general
+host isolation or served effort.
 
-The [worker-first sequencing plan](docs/WORKER-CONTROLLER-SEQUENCING-PLAN-2026-09-24.md)
-adds N0A before N1 to correct shared contracts and test dependencies. It is the
-current planning entry point and includes model/effort choices, acceptance
-gates and costs. N0A through N3 are complete for offline review: see the
-[v2 contract](docs/WORKER-EXECUTION-CONTRACT-v2.md),
-[N1 acceptance matrix](docs/WORKER-N1-ACCEPTANCE-v2.md) and
-[N1 stage result](docs/stage-results/worker-n1.md) and
-[N2 stage result](docs/stage-results/worker-n2.md) and
-[N3 stage result](docs/stage-results/worker-n3.md). N1 adds a durable B0
-executor and installable worker adapter. N2 adds an opt-in managed child graph
-under one root and budget, tested with fake transports. The real adapter rejects
-managed delegation until host isolation is proven; automatic interactive
-dispatch still follows the existing route. N3 adds a public-evidence
-[experimental worker selector](src/WORKER-SELECTOR.md) with all 15 cells,
-failure classification and provenance-checked overrides. Its decisions are
-journalled beside B0; no N3 candidate can change automatic dispatch yet.
-Controller work remains deferred.
+The [N8 consumer integration](docs/stage-results/worker-n8-2026-09-27.md)
+added the durable task CLI and installed upgrade/rollback checks. The
+[task guide](src/WORKER-TASKS.md) describes admission, B0 execution, cancellation
+and recovery. Ordinary Agent-tool launches are not intercepted by that API.
+The general live adapter rejects managed children until host isolation is proven.
 
-The earlier [Controller-aware routing programme](docs/CONTROLLER-ROUTING-PLAN.md)
-has completed R0-R4 records and R5 offline scaffolding. The 2026-09-19 review
-reopened R5 readiness: its current synthetic grader accepts public-label-only
-results, and campaign restart/dependency coverage needs repair. The deferred
-plan records the fixes and the replacement quality evaluation. The direct
-Controller enforces integrity-v1 and
-emits validated evidence packets, while one registry resolves every Sonnet,
-Opus and Fable effort cell without implicit fall-through. Durable project,
-session and task `auto/on/off` controls now resolve with explicit precedence
-through the `/controller` command and provider-free CLI. The qualified router
-remains B0 until the evaluation stages pass. The provisional R4 path can plan
-and execute a Controller under explicit structured dispatch, but is not the
-automatic shipping default. R5 now includes a 48-task, 288-variant synthetic
-corpus with a separate grading area, a 60-call all-cell matrix runtime and
-an 18-episode B/S/A pilot runtime. These are plumbing fixtures, not qualified
-task-quality evidence; campaign safety is limited by the restart defect above.
-The paid matrix and pilot remain paused and have not run, so live
-Fable/effort behaviour and Controller uplift remain unmeasured.
+The [X4 integration](docs/stage-results/controller-x4-2026-09-28.md) exercised
+one explicit-on live Controller-to-worker continuation. The
+[X5 v7 comparison](docs/stage-results/controller-x5-v7-result-2026-09-29.md)
+completed its authored development comparison with no Controller quality or
+acceptance gain. Subsequent recovery and risk-review candidates did not
+establish uplift. The latest [H03b result](docs/stage-results/controller-x5-h03b-result-2026-10-01.md)
+stopped after one failed public producer; its frozen private grader raised an
+exception, leaving the quality score unavailable. Closed experiments must not
+be replayed or retrospectively rescored.
+
+The historical [worker programme](docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md)
+and [Controller programme](docs/CONTROLLER-REMEDIATION-ACTION-PLAN-2026-09-19.md)
+retain the contracts, stage results and outstanding qualification gates.
+N7 rejected Q4U default promotion after finding no canary quality gain, a
+hidden-grader false-credit flaw and incomplete dependency binding. The consumer
+bundle retains B0 and diagnostic selection. No new paid experiment is part of
+the bounded RC.
 
 ## What it achieves
 
@@ -142,9 +124,12 @@ One task, end to end:
    Every assessment and ledger state resolves to `worker-sonnet-low`, including
    open consequential work and historical frontier signals. Adaptive posterior
    calculations remain inspectable but cannot change dispatch (D107).
-3. **Spawn.** Before dispatch, the orchestrator freezes a task-specific
-   acceptance contract containing the required outputs, constraints, protected
-   paths and an executable check or review rubric. It then uses the Agent tool
+ 3. **Spawn.** Before dispatch, the orchestrator freezes a task-specific
+    acceptance contract containing the required outputs, constraints, protected
+    paths and an executable check or review rubric. For an implementation that
+    must change code, the optional `require_changed_output: true` rejects a
+    passing no-op; it remains absent when leaving working code unchanged may
+    be correct. It then uses the Agent tool
    (also called the Task tool) with
    `subagent_type` set to the cell name and never a `model` parameter,
    because a per-invocation model silently overrides the definition

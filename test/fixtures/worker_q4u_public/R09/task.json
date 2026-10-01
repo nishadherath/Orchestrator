@@ -1,0 +1,25 @@
+{
+  "actor_files": {
+    "ISSUE.md": "142d675c6b2e9a608a5a7569a3c2eb27b1f297d2cd197c1d7003340bcedb7d1d",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "757c1ef3ce9b8ae1c05eae75e3fd34c5abb31c2f295e058551ec336ec609794b",
+    "frame_parser.py": "6e80decccc7c569186562fdbf1ab06fc4488b0091812b4bdd3a379c49ddcbd89",
+    "public_check.py": "3a37718af56b0ce49a325d7d29acbe7f1b1df0c7823cabb88d0c10c617a45a5c"
+  },
+  "change_required": true,
+  "editable_paths": [
+    "frame_parser.py"
+  ],
+  "evaluator_zip_sha256": "17e1104087604f2bbf1a6f0169384488d9cff1b78aa3e46c0e1841d6f03e52f7",
+  "id": "R09",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "chunk-boundary-frames",
+  "origin": "authored-synthetic-regression",
+  "public_check_variant": "weak",
+  "public_coverage": "partial",
+  "schema_version": 1,
+  "split": "reserved",
+  "task_kind": "implementation",
+  "task_sha256": "ea695798fe5d77912ba9c61f05e55b48e2de8f8a62cd3eea24d24c0a9c69d41a"
+}

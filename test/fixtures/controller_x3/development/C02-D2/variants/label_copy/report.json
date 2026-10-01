@@ -1,0 +1,17 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "versioned-envelope-fields-dropped",
+  "next_step": "replay-unknown-fields-before-rollout",
+  "probes": [
+    {"input": {"op": "rewrite", "name": "Cal", "record": {
+      "version": 2, "id": "audit-9", "payload": {"name": "Eve"},
+      "audit": {"source": "queue", "attempt": 2}}},
+     "observed": {"record": {"version": 2, "id": "audit-9",
+       "payload": {"name": "Cal"},
+       "audit": {"source": "queue", "attempt": 2}}}},
+    {"input": {"op": "rewrite", "name": "Ada", "record": {
+      "version": 1, "id": "legacy-7", "payload": {"name": "Eve"}}},
+     "observed": {"record": {"version": 1, "id": "legacy-7",
+       "payload": {"name": "Ada"}}}}
+  ]
+}

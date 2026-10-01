@@ -95,14 +95,99 @@ On 2026-09-25, the Windows status was `loggedIn=true`,
 `authMethod=claude.ai`, `subscriptionType=max`. The source had a
 `claudeAiOauth` section with access and refresh tokens. The copy to WSL
 matched byte-for-byte, had owner `wsl` and mode `600`, and WSL status reported
-the same login method and subscription. No token value was displayed.
+the same login method and subscription. No token value was displayed. **Auth
+status does not prove that the access token is still usable.** Check its
+`expiresAt` field against the current epoch time before starting a worker.
 
-## Important limitation
+## Isolated worker credential handoff
 
-The N5 test worker uses `tools/worker_wsl_namespace.sh`, which deliberately
-sets a separate actor `HOME` with `env -i`. The interactive `wsl` account's
-login therefore **does not authenticate that isolated worker**. Do not copy
-this file into an actor directory or weaken the namespace. N5 live dispatch
-remains closed until a separate, attested credential-delivery path is built
-and the manifest-bound spend gate is satisfied. See
-[the N5 screen contract](WORKER-N5-SCREEN.md).
+The N5 worker has a separate actor `HOME` and a cleared environment. Its
+launcher takes a private copy from a **root-owned master** at
+`/var/lib/orchestrator-worker-n4/auth/.credentials.json`, binds that copy at
+`/run/claude-auth` inside one UID 65534 mount namespace, and points
+`CLAUDE_CONFIG_DIR` there. The credential is outside the actor package, Graft
+index and Windows mounts. Claude Code runs with `--restricted`, no shell tool,
+and explicit Read/Edit denies for the auth mount. The root launcher serialises
+invocations and commits a refreshed private copy only after the process stops
+and validates the master has not changed. An interrupted or malformed copy
+blocks further work until reconciled. Never copy a credential into an actor
+directory or weaken the namespace.
+
+The root store rejects an access or refresh token with less than five minutes
+of stated validity, even when `claude auth status` says logged in. If WSL login
+needs renewal, run `wsl.exe -d kali-linux -u wsl -- /opt/orchestrator-worker-runtime/bin/claude auth login --claudeai`
+from PowerShell and complete the browser flow. On this host the pending login
+emptied the WSL user's two token fields before sign-in finished. Do not copy
+that intermediate file or run a worker until login completes. The root master
+and ignored backup retained their earlier values. The fresh Claude.ai email
+login and checked helper completed successfully on 2026-09-25; the new WSL
+login, root master and ignored backup later matched by digest, with the backup
+ACL unchanged. The seven-check paid Read-denial sentinel passed afterward.
+The ordinary WSL user's `PATH` does not include this Claude binary, so use
+the absolute path above. `claude auth status` on Windows can report logged in
+while the saved token is too close to expiry for the isolated worker.
+
+After sign-in, run the checked helper from the repository root. It stages the
+current WSL runtime, validates and promotes the fresh login, then updates the
+existing ignored backup without changing its ACL. It prints no credential:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/worker_wsl_sync_login.ps1
+```
+
+The equivalent manual operations are below for diagnosis. None prints a token:
+
+```powershell
+wsl.exe -d kali-linux -u root -- bash /mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/tools/worker_wsl_stage.sh
+if ($LASTEXITCODE -ne 0) { throw 'WSL runtime staging failed' }
+wsl.exe -d kali-linux -u root -- python3 /opt/orchestrator-worker-runtime/worker_wsl_auth.py sync
+if ($LASTEXITCODE -ne 0) { throw 'Fresh WSL login was not promoted to the root store' }
+wsl.exe -d kali-linux -u root -- python3 /opt/orchestrator-worker-runtime/worker_wsl_auth.py inspect
+if ($LASTEXITCODE -ne 0) { throw 'Private credential store is not ready' }
+```
+
+For the first setup, `provision` creates the root store from the valid WSL
+login:
+
+```powershell
+wsl.exe -d kali-linux -u root -- python3 /opt/orchestrator-worker-runtime/worker_wsl_auth.py provision
+if ($LASTEXITCODE -ne 0) { throw 'Initial root credential provision failed' }
+```
+
+Use `sync` only after the store already exists. If performing the manual path
+after WSL reauthentication, refresh the existing git-ignored project backup
+from the new WSL user login, preserving its Windows ACL. This is a binary copy;
+do not print either file:
+
+```powershell
+$wslCredential = '\\wsl.localhost\kali-linux\home\wsl\.claude\.credentials.json'
+$backup = Join-Path (Get-Location) 'local-auth\claude-code\.credentials.json'
+if (-not (Test-Path -LiteralPath $wslCredential -PathType Leaf) -or
+    -not (Test-Path -LiteralPath $backup -PathType Leaf)) {
+    throw 'Credential source or existing ignored backup is unavailable'
+}
+[IO.File]::WriteAllBytes($backup, [IO.File]::ReadAllBytes($wslCredential))
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath $wslCredential).Hash -ne
+    (Get-FileHash -Algorithm SHA256 -LiteralPath $backup).Hash) {
+    throw 'Ignored backup differs from WSL login'
+}
+git check-ignore -v local-auth/claude-code/.credentials.json
+if (git ls-files local-auth) { throw 'Credential backup path became tracked' }
+icacls $backup
+```
+
+Do not use the backup to overwrite a newer WSL login or root master.
+`tools/worker_wsl_subscription_attestation.py` then performs a
+provider-free status check inside the actual actor namespace and binds it to
+the N4 host attestation. This verifies login visibility, not a served model.
+
+On 2026-09-25, a one-call Sonnet-low denial sentinel reached Claude Code with
+an **expired** access token. Claude Code returned a synthetic result with zero
+tokens and USD 0 reported API-equivalent cost, then emptied both token fields
+in its private copy. The root store rejected that copy and kept the master and
+WSL user login unchanged. The failed copy was removed only with
+`worker_wsl_auth.py discard-empty inv-<32-hex>`, which verifies both fields
+are empty and the master is unchanged. This command must never be used on a
+partially refreshed or usable copy. The result does not establish paid worker
+read denial or model identity; those checks must be repeated after fresh
+sign-in. See [the N5 screen contract](WORKER-N5-SCREEN.md).

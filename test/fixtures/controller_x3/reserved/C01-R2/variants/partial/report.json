@@ -1,0 +1,16 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "stale-index-overrides-authoritative-row",
+  "next_step": "verify-latest-tombstone-before-rollout",
+  "probes": [
+    {"input": {"key": "item-c", "rows": [
+      {"key": "item-c", "rev": 1, "value": "c1", "deleted": false},
+      {"key": "item-c", "rev": 2, "value": "c2", "deleted": false}],
+      "snapshot": {"item-c": {"rev": 1, "value": "c1"}}},
+     "observed": {"status": "found", "value": "c2"}},
+    {"input": {"key": "item-a", "rows": [
+      {"key": "item-a", "rev": 1, "value": "a1", "deleted": false}],
+      "snapshot": {"item-a": {"rev": 1, "value": "a1"}}},
+     "observed": {"status": "found", "value": "a1"}}
+  ]
+}

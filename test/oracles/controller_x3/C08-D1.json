@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "C08-D1",
+  "diagnosis": "incompatible-lock-order-contracts",
+  "cases": [
+    {
+      "milestone": "settlement order remains unchanged pending decision", "weight": 50,
+      "critical": true,
+      "input": {"caller": "settlement"},
+      "expected": {"order": ["account", "inventory"]}
+    },
+    {
+      "milestone": "reservation order remains unchanged pending decision", "weight": 50,
+      "critical": true,
+      "input": {"caller": "reservation"},
+      "expected": {"order": ["inventory", "account"]}
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "tenant-omitted-from-feature-cache-key",
+  "next_step": "verify-same-tenant-updates",
+  "probes": [
+    {
+      "input": {"events": [
+        {"op": "put", "tenant": "north", "feature": "flag", "value": true},
+        {"op": "get", "tenant": "south", "feature": "flag"}]},
+      "observed": {"results": [{"status": "stored"}, {"status": "miss"}]}
+    },
+    {
+      "input": {"events": [
+        {"op": "put", "tenant": "north", "feature": "flag", "value": true},
+        {"op": "get", "tenant": "north", "feature": "flag"}]},
+      "observed": {"results": [{"status": "stored"},
+                               {"status": "hit", "value": true}]}
+    }
+  ]
+}

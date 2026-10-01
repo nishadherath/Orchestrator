@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "utc-day-is-correct",
+  "next_step": "deploy",
+  "probes": []
+}

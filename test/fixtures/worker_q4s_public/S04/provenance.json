@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "S04",
+  "name": "Stable, constructor-based pickle reduction",
+  "source_url": "https://github.com/grantjenks/python-sortedcontainers",
+  "source_commit": "72d30a0cf5408e8eb8638a38c20747c5fc71f36b",
+  "fix_commit": "b5395b553d1fe3aa2f2668436a005aeedb5f6259",
+  "issue_origin": "authored-regression",
+  "licence": "Apache-2.0",
+  "licence_file": "LICENSE",
+  "licence_sha256": "7dcf4a5137118a925727b8a1690bc6ea70b156ee6739dbb51fd4d386718d6ce5",
+  "package_path": "sortedcontainers",
+  "editable_paths": [
+    "sortedcontainers/sorteddict.py",
+    "sortedcontainers/sortedlist.py",
+    "sortedcontainers/sortedset.py"
+  ],
+  "oracle_file": "S04.json",
+  "case_file": "S04_case.py",
+  "authored_rationale": "Authored regression from the pinned upstream reducer fix; exercises constructor-based pickle contracts across collection types.",
+  "upstream_change_url": "https://github.com/grantjenks/python-sortedcontainers/commit/b5395b553d1fe3aa2f2668436a005aeedb5f6259"
+}

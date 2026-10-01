@@ -1,0 +1,47 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "mutable-default-lists-across-independent-calls",
+  "next_step": "replay-independent-heading-and-footer-calls",
+  "probes": [
+    {
+      "input": {
+        "steps": [
+          {
+            "kind": "heading",
+            "text": "A"
+          },
+          {
+            "kind": "heading",
+            "text": "B"
+          }
+        ]
+      },
+      "observed": {
+        "rendered": [
+          "A",
+          "B"
+        ]
+      }
+    },
+    {
+      "input": {
+        "steps": [
+          {
+            "kind": "footer",
+            "text": "L"
+          },
+          {
+            "kind": "footer",
+            "text": "R"
+          }
+        ]
+      },
+      "observed": {
+        "rendered": [
+          "L",
+          "R"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "actor_file_count": 7,
+  "evaluator_zip_sha256": "3e53940cb82921c8ef37ae9367e6f8874be95bd0a956e0c03a8e462f093e8c7b",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "half_up": false,
+        "ordinary": true,
+        "subtotal_once": false
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 30,
+      "weights": {
+        "half_up": 35,
+        "ordinary": 30,
+        "subtotal_once": 35
+      }
+    },
+    "partial": {
+      "cases": {
+        "half_up": true,
+        "ordinary": true,
+        "subtotal_once": false
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 65,
+      "weights": {
+        "half_up": 35,
+        "ordinary": 30,
+        "subtotal_once": 35
+      }
+    },
+    "reference": {
+      "cases": {
+        "half_up": true,
+        "ordinary": true,
+        "subtotal_once": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "weights": {
+        "half_up": 35,
+        "ordinary": 30,
+        "subtotal_once": 35
+      }
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.14.7",
+  "schema_version": 1,
+  "task_id": "R10",
+  "task_sha256": "57f3224aa876428b085cd16baa6619e7e93cbdf4c785d2210ee9f405cd250bc9"
+}

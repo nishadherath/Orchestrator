@@ -1,0 +1,49 @@
+{
+  "actor_bytes": 260054,
+  "actor_file_count": 11,
+  "actor_files": {
+    "ISSUE.md": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+    "LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+    "acceptance.json": "6df9a50e90a66c3a7f068cf33a6f76f3fc70507a66b834cb1d3b3551458c2c85",
+    "more_itertools/__init__.py": "19cb2d318e8d45eb7d56136a55f1452c9469d21597571c31d752aa8232a2c07b",
+    "more_itertools/__init__.pyi": "e41dde4f338dd4106e38ba1bd6f09f97211bda549deaeb17410f82bfe85791e0",
+    "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+    "more_itertools/more.pyi": "68a80754717728996043ad56500342dc06b07a4c0bf99051ab3200aca95a79c9",
+    "more_itertools/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c",
+    "more_itertools/recipes.pyi": "2dd48ac5ef0b502f989bd2e13923c402994244ee50a4187e2f0d59c348bf2583",
+    "public_check.py": "9ebcd44cb181560c92e822a24cffd8ab0ca6ab34dec11d792db9a8b7cbfdbe55"
+  },
+  "authored_rationale": "Authored regression from the pinned upstream zero-cache lookahead fix; exercises bounded retention on repeated peeks.",
+  "case_file": "S05_case.py",
+  "case_source_sha256": "85ae09886f8d1e9592ca83bbf42b552dc99fe1043df59816e3d13d0b6e078bda",
+  "editable_paths": [
+    "more_itertools/more.py",
+    "more_itertools/recipes.py"
+  ],
+  "fix_commit": "3eb4053e1aacac53853f6e0abae556f280726f01",
+  "id": "S05",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+  "name": "Bounded lookahead for zero-cache seekable",
+  "oracle_file": "S05.json",
+  "oracle_sha256": "9f226b27f681fb544d3f410e95924dee44afc0392ccd13c4dc23433e86ac7280",
+  "package_path": "more_itertools",
+  "partial_files": {
+    "more_itertools/more.py": "4bac6bf74a204853189dd7408cf2201c72c00c095c792b565a4cef645e929215",
+    "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+  },
+  "provenance_sha256": "123486d79649b846531d186d03cbd341076da29633fa59ec0a97344ff3865313",
+  "reference_files": {
+    "more_itertools/more.py": "30a2a3398faae2c4b19ea57302bf18c92b7856e22fa8d7b2bd3e049710450810",
+    "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+  },
+  "schema_version": 1,
+  "source_commit": "b5e3886a37209bb880f17d82fbf4ba00ece0e41e",
+  "source_python_lines": 7268,
+  "source_url": "https://github.com/more-itertools/more-itertools",
+  "task_sha256": "729372ac746e3de6ca707742efbc238c334324d4624089a51fef22c1d98d7e3c",
+  "upstream_change_url": "https://github.com/more-itertools/more-itertools/commit/3eb4053e1aacac53853f6e0abae556f280726f01"
+}

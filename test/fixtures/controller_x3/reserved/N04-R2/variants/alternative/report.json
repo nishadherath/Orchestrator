@@ -1,0 +1,29 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "stale-generated-fixture-pair-from-source",
+  "next_step": "rebuild-both-fixtures-and-check-reproducibility",
+  "probes": [
+    {
+      "input": {
+        "action": "fixture",
+        "name": "api"
+      },
+      "observed": {
+        "port": 8080,
+        "schema_version": 2,
+        "service": "api"
+      }
+    },
+    {
+      "input": {
+        "action": "fixture",
+        "name": "worker"
+      },
+      "observed": {
+        "port": 9090,
+        "schema_version": 2,
+        "service": "worker"
+      }
+    }
+  ]
+}

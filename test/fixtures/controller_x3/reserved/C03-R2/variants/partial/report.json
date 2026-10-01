@@ -1,0 +1,19 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "sequence-watermark-confused-with-delivery-identity",
+  "next_step": "verify-lower-sequence-distinct-deliveries",
+  "probes": [
+    {"input": {"deliveries": [
+       {"delivery_id": "d1", "customer": "alice", "sequence": 1,
+        "amount": 5},
+       {"delivery_id": "d1", "customer": "alice", "sequence": 3,
+        "amount": 5}]},
+     "observed": {"totals": {"alice": 5}, "applied": ["d1"]}},
+    {"input": {"deliveries": [
+       {"delivery_id": "d2", "customer": "alice", "sequence": 3,
+        "amount": 7},
+       {"delivery_id": "d1", "customer": "alice", "sequence": 2,
+        "amount": 5}]},
+     "observed": {"totals": {"alice": 7}, "applied": ["d2"]}}
+  ]
+}

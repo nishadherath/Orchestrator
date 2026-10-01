@@ -1,0 +1,13 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "operator-target-region-absent",
+  "next_step": "wait-for-approved-target-region",
+  "question": {"missing_field": "target_region",
+               "prompt": "What region did the operator approve for pilot data?"},
+  "probes": [
+    {"input": {"tenant": "pilot"},
+     "observed": {"tenant": "pilot", "region": "us-west-2"}},
+    {"input": {"tenant": "north"},
+     "observed": {"tenant": "north", "region": "us-west-2"}}
+  ]
+}

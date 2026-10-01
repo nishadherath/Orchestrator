@@ -1,0 +1,95 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "pending-queue-depth-confused-with-batch-size",
+  "next_step": "replay burst and drain traces before rollout",
+  "probes": [
+    {
+      "input": {
+        "capacity": 2,
+        "operations": [
+          {
+            "kind": "enqueue",
+            "batch": [
+              "a"
+            ]
+          },
+          {
+            "kind": "enqueue",
+            "batch": [
+              "b"
+            ]
+          },
+          {
+            "kind": "enqueue",
+            "batch": [
+              "c"
+            ]
+          }
+        ]
+      },
+      "observed": {
+        "results": [
+          "accepted",
+          "accepted",
+          "backpressure"
+        ],
+        "pending": [
+          [
+            "a"
+          ],
+          [
+            "b"
+          ]
+        ],
+        "consumed": []
+      }
+    },
+    {
+      "input": {
+        "capacity": 2,
+        "operations": [
+          {
+            "kind": "enqueue",
+            "batch": [
+              "a"
+            ]
+          },
+          {
+            "kind": "enqueue",
+            "batch": [
+              "b"
+            ]
+          },
+          {
+            "kind": "consume"
+          },
+          {
+            "kind": "enqueue",
+            "batch": [
+              "c"
+            ]
+          }
+        ]
+      },
+      "observed": {
+        "results": [
+          "accepted",
+          "accepted",
+          "consumed",
+          "accepted"
+        ],
+        "pending": [
+          [
+            "b"
+          ],
+          [
+            "c"
+          ]
+        ],
+        "consumed": [
+          "a"
+        ]
+      }
+    }
+  ]
+}

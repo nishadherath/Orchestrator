@@ -1,0 +1,11 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "legacy-timeout-key-and-unit",
+  "next_step": "replay-new-key-overrides",
+  "probes": [
+    {"input": {"action": "client", "override": {"request_deadline_s": 1.2}},
+     "observed": {"timeout_s": 1.2, "retries": 2}},
+    {"input": {"action": "scheduler"},
+     "observed": {"deadline_s": 0.75, "retries": 2}}
+  ]
+}

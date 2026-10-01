@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for the following service behaviour. Normalise record IDs by trimming whitespace and lowercasing. Drop blank IDs and later duplicates while retaining the first value and input order. Return normalised records. Preserve the JSON-line command-line interface. Edit only `app.py`; the public check is a small example, not a full specification.

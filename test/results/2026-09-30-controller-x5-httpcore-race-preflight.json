@@ -1,0 +1,1 @@
+{"cases": [{"assigned_connection_selected_for_close": true, "assigned_request_still_references_connection": true, "kind": "surplus_keepalive", "selected_close_count": 1}, {"assigned_connection_selected_for_close": true, "assigned_request_still_references_connection": true, "kind": "different_origin_at_capacity", "selected_close_count": 1}], "httpcore_version": "1.0.9"}

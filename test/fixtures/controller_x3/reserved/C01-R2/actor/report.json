@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "search-index-is-authoritative",
+  "next_step": "deploy",
+  "probes": []
+}

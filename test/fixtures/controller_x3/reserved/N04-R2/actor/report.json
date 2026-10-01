@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "the API fixture name still loads",
+  "next_step": "ship fixtures",
+  "probes": []
+}

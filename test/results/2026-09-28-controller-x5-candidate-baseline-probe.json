@@ -1,0 +1,95 @@
+{
+  "cases": [
+    {
+      "input": {
+        "orders": [
+          {
+            "account": "west",
+            "id": "PO-007"
+          },
+          {
+            "account": "east",
+            "id": "PO-007"
+          }
+        ],
+        "receipts": [
+          {
+            "account": "west",
+            "id": "po-7"
+          }
+        ]
+      },
+      "observed": {
+        "pending": [
+          "PO-007",
+          "PO-007"
+        ],
+        "settled": []
+      },
+      "source_sha256": {
+        "app.py": "2d7e2b82f53ccf08074f6e73a61772eeb09b04789da1f8fb288500263fa74a59",
+        "reconcile.py": "2927830bcc7f050c2f32e22eb49c5dee5f895731bac3c3ddc70cf2b22515c551"
+      },
+      "task_id": "C01-D1"
+    },
+    {
+      "input": {
+        "leases": [
+          {
+            "expires_at": 100,
+            "id": "w-east",
+            "server_now": 80,
+            "worker_now": 103
+          },
+          {
+            "expires_at": 100,
+            "id": "w-west",
+            "server_now": 80,
+            "worker_now": 80
+          },
+          {
+            "expires_at": 100,
+            "id": "w-slow",
+            "server_now": 103,
+            "worker_now": 80
+          }
+        ]
+      },
+      "observed": {
+        "expired": [
+          "w-east"
+        ],
+        "renewable": [
+          "w-west",
+          "w-slow"
+        ]
+      },
+      "source_sha256": {
+        "app.py": "982fd1791d487ca7d51595949f59bdb78ebfceb90a85ad86953f4eb837e571f1",
+        "lease.py": "097f055f0e69f79181fab4e8e4790c023f9d4ed1f2a2c9c88719ab6bfb912073"
+      },
+      "task_id": "C06-D1"
+    },
+    {
+      "input": {
+        "amounts": [
+          "0.005",
+          "0.005"
+        ]
+      },
+      "observed": {
+        "ledger": "0.00",
+        "statement": "0.01"
+      },
+      "source_sha256": {
+        "app.py": "2f21d3d9d698589668f684b24b8a3015107f9d404c808a3bc4de008163bb5c27",
+        "ledger.py": "dcbe685f665c5d8dd401600293bcbf22378b4c3b6189d6c9d11bd6ad80a6b783",
+        "money.py": "87eb6a983b24332b35c68b80674beb1f13f6346c3b0c622ddb4cb22ed5927896",
+        "statement.py": "293a41497661c9dd27d653ec2721d75340d805911acab9272e13cb6cbccdfce8"
+      },
+      "task_id": "C07-D1"
+    }
+  ],
+  "provider_calls": 0,
+  "schema_version": 1
+}

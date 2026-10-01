@@ -1,0 +1,9 @@
+{
+  "approved": true,
+  "approval_source": "User approved all planned tests until the work is done in the active X5 conversation",
+  "date": "2026-09-30",
+  "manifest_sha256": "7a936e07733470f2c7520d39e2a6f846ad257d406edd56a0c542ff3a2006a3fe",
+  "maximum_usd": 4.0,
+  "projected_api_equivalent_usd": "0.2-2.0 for one fresh B0 attempt, bounded above by 4.0",
+  "scope": "H02 authored development B0 fresh root after two pre-launch repairs: one attempt and protected grade"
+}

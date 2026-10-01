@@ -1,0 +1,47 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "stale-generated-header-and-hardcoded-generator",
+  "next_step": "replace-hardcoded-generator-and-recheck-header",
+  "probes": [
+    {
+      "input": {
+        "action": "header"
+      },
+      "observed": {
+        "version": 3,
+        "fields": {
+          "REQUEST_ID": 1,
+          "TRACE_ID": 2
+        }
+      }
+    },
+    {
+      "input": {
+        "action": "generated",
+        "schema": {
+          "version": 4,
+          "fields": [
+            {
+              "name": "request_id",
+              "wire_id": 1
+            },
+            {
+              "name": "trace_id",
+              "wire_id": 2
+            },
+            {
+              "name": "audit_id",
+              "wire_id": 3
+            }
+          ]
+        }
+      },
+      "observed": {
+        "version": 2,
+        "fields": {
+          "REQUEST_ID": 1
+        }
+      }
+    }
+  ]
+}

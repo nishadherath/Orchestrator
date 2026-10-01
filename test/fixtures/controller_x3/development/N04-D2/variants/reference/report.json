@@ -1,0 +1,9 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "staged-key-rotation-incomplete",
+  "next_step": "verify-dual-acceptance-and-new-signer-before-rollout",
+  "probes": [
+    {"input": {"action": "verify", "key_id": "blue"}, "observed": {"valid": true}},
+    {"input": {"action": "verify", "key_id": "green"}, "observed": {"valid": true}}
+  ]
+}

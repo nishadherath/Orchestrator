@@ -619,7 +619,16 @@ def operational_diagnostics(cwd: Path, detailed: bool = False) -> dict:
         routing.update({"execution_observations": observations, "mismatches": mismatches,
                         "unresolved_ids": unresolved})
         acceptance_result["outstanding_entries"] = acceptance_outstanding
+    worker_tasks = {"available": (cwd / "tools/worker_tasks.py").is_file(),
+                    "rollback_safe": None, "roots": [], "error": None}
+    if worker_tasks["available"]:
+        try:
+            from worker_tasks import project_status
+            worker_tasks.update(project_status(cwd))
+        except (OSError, ValueError, RuntimeError) as exc:
+            worker_tasks["error"] = str(exc)
     return {"routing": routing, "controller_control": control,
+            "worker_tasks": worker_tasks,
             "acceptance": acceptance_result, "costs": costs,
             "priors": prior, "graft": graft}
 
@@ -632,6 +641,9 @@ def print_operational_status(value: dict, detailed: bool) -> None:
           f"{routing['model_or_effort_mismatches']} observed model/effort mismatches, "
           f"{routing['unobserved_actuals']} without complete actual evidence")
     print(f"  Acceptance: {acceptance['counts'] or {'none': 0}}; {acceptance['outstanding']} outstanding")
+    tasks = value["worker_tasks"]
+    print(f"  Durable tasks: {len(tasks['roots'])}; rollback safe={tasks['rollback_safe']}; "
+          f"CLI installed={tasks['available']}" + (f"; ERROR {tasks['error']}" if tasks['error'] else ""))
     print(f"  Cost: routing known USD {costs['routing_ledger']['known_spent_usd']:.4f}, "
           f"routing unknown {costs['routing_ledger']['unknown_attempts']}; controller known USD "
           f"{controller['known_spent_usd']:.4f}, reserved USD {controller['reserved_usd']:.4f}, "

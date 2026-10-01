@@ -1,0 +1,81 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": [
+        {
+          "id": "z",
+          "value": 1
+        }
+      ],
+      "input": {
+        "kind": "deduplicate",
+        "records": [
+          {
+            "id": "z",
+            "value": 1
+          },
+          {
+            "id": "Z ",
+            "value": 3
+          }
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": [
+        {
+          "id": "abc",
+          "value": []
+        }
+      ],
+      "input": {
+        "kind": "deduplicate",
+        "records": [
+          {
+            "id": "abc",
+            "value": []
+          }
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": [
+        {
+          "id": "a",
+          "value": 4
+        },
+        {
+          "id": "b",
+          "value": 5
+        }
+      ],
+      "input": {
+        "kind": "deduplicate",
+        "records": [
+          {
+            "id": " a",
+            "value": 4
+          },
+          {
+            "id": "b ",
+            "value": 5
+          },
+          {
+            "id": " A ",
+            "value": 6
+          }
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

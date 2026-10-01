@@ -1,0 +1,43 @@
+{
+  "candidate_status": "no-vulnerable-baseline",
+  "high_level": [
+    {
+      "authorization": true,
+      "cookie": true,
+      "host": "origin-a.invalid",
+      "ordinary": true,
+      "path": "/start",
+      "proxy_authorization": true
+    },
+    {
+      "authorization": false,
+      "cookie": false,
+      "host": "origin-b.invalid",
+      "ordinary": true,
+      "path": "/final",
+      "proxy_authorization": false
+    }
+  ],
+  "high_level_status": 200,
+  "low_level": [
+    {
+      "authorization": true,
+      "cookie": true,
+      "host": "origin-a.invalid",
+      "ordinary": true,
+      "path": "/start",
+      "proxy_authorization": true
+    },
+    {
+      "authorization": false,
+      "cookie": false,
+      "host": "origin-b.invalid",
+      "ordinary": true,
+      "path": "/final",
+      "proxy_authorization": false
+    }
+  ],
+  "low_level_status": 200,
+  "observation_valid": true,
+  "source_commit": "f4e4bc31f40f8c94c6a1f1685df28f97ff48c305"
+}

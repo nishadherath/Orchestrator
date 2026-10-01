@@ -1,0 +1,1 @@
+Implement `solve(data)` in `app.py` for the following service behaviour. Combine ordered API pages, keeping the first record for each ID. Apply zero-based offset and limit after deduplication. Return items and the next offset, or null at the end. Preserve the JSON-line command-line interface. Edit only `app.py`; the public check is a small example, not a full specification.

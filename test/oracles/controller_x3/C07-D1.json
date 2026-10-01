@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "task_id": "C07-D1",
+  "diagnosis": "inconsistent-decimal-aggregation-across-consumers",
+  "cases": [
+    {
+      "milestone": "ordinary cents remain consistent", "weight": 20,
+      "critical": false,
+      "input": {"amounts": ["1.25", "2.25"]},
+      "expected": {"ledger": "3.50", "statement": "3.50"}
+    },
+    {
+      "milestone": "fractional cents aggregate before rounding", "weight": 20,
+      "critical": true,
+      "input": {"amounts": ["0.005", "0.005"]},
+      "expected": {"ledger": "0.01", "statement": "0.01"}
+    },
+    {
+      "milestone": "binary-float tie does not change half-even result", "weight": 20,
+      "critical": true,
+      "input": {"amounts": ["2.675"]},
+      "expected": {"ledger": "2.68", "statement": "2.68"}
+    },
+    {
+      "milestone": "refunds retain negative sign", "weight": 20,
+      "critical": false,
+      "input": {"amounts": ["-0.005", "-0.005"]},
+      "expected": {"ledger": "-0.01", "statement": "-0.01"}
+    },
+    {
+      "milestone": "three fractional charges aggregate exactly", "weight": 20,
+      "critical": false,
+      "input": {"amounts": ["0.333", "0.333", "0.333"]},
+      "expected": {"ledger": "1.00", "statement": "1.00"}
+    }
+  ]
+}

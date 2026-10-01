@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "task_id": "C03-D1",
+  "diagnosis": "committed-retry-lacks-idempotency-receipt",
+  "cases": [
+    {
+      "milestone": "committed retry returns original receipt",
+      "weight": 25,
+      "critical": true,
+      "input": {"attempts": [
+        {"tenant": "acme", "key": "p1", "amount": 100, "phase": "commit"},
+        {"tenant": "acme", "key": "p1", "amount": 100, "phase": "commit"}
+      ]},
+      "expected": {"results": [
+        {"status": "committed", "balance": 100},
+        {"status": "replayed", "balance": 100}
+      ], "balances": {"acme": 100}}
+    },
+    {
+      "milestone": "changed payload conflicts",
+      "weight": 25,
+      "critical": false,
+      "input": {"attempts": [
+        {"tenant": "acme", "key": "p1", "amount": 100, "phase": "commit"},
+        {"tenant": "acme", "key": "p1", "amount": 140, "phase": "commit"}
+      ]},
+      "expected": {"results": [
+        {"status": "committed", "balance": 100},
+        {"status": "conflict", "balance": 100}
+      ], "balances": {"acme": 100}}
+    },
+    {
+      "milestone": "tenant receipts remain separate",
+      "weight": 25,
+      "critical": true,
+      "input": {"attempts": [
+        {"tenant": "acme", "key": "p1", "amount": 100, "phase": "commit"},
+        {"tenant": "beta", "key": "p1", "amount": 80, "phase": "commit"}
+      ]},
+      "expected": {"results": [
+        {"status": "committed", "balance": 100},
+        {"status": "committed", "balance": 80}
+      ], "balances": {"acme": 100, "beta": 80}}
+    },
+    {
+      "milestone": "aborted attempt remains retryable",
+      "weight": 25,
+      "critical": true,
+      "input": {"attempts": [
+        {"tenant": "acme", "key": "p1", "amount": 100, "phase": "abort-before-commit"},
+        {"tenant": "acme", "key": "p1", "amount": 100, "phase": "commit"}
+      ]},
+      "expected": {"results": [
+        {"status": "not_committed", "balance": 0},
+        {"status": "committed", "balance": 100}
+      ], "balances": {"acme": 100}}
+    }
+  ]
+}

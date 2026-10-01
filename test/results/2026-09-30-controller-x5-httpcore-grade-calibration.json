@@ -1,0 +1,121 @@
+{
+  "case": "H01",
+  "qualified": true,
+  "rows": [
+    {
+      "grade": {
+        "accepted": false,
+        "boundary": "Q1 isolated actor uid 65534; evaluator-owned comparison",
+        "candidate_edit_sha256": {
+          "httpcore/_async/connection_pool.py": "0ce210dacd9909ff6a7f0c61ccca6b4cf2ea08bf0ec465e2285eaa447c6f5726",
+          "httpcore/_sync/connection_pool.py": "6be4fc2d3b14c5ceebd16c356ad7c7483a163e34347c0f1497b4b7f85d0c8fbd"
+        },
+        "case": "H01",
+        "checks": {
+          "async_competing": false,
+          "ordinary_cleanup": true,
+          "public": false,
+          "sync_surplus": false
+        },
+        "critical": false,
+        "oracle_sha256": "5358cb7d14b544c201338d707ca7ef1223141d4acaeaebd4d0811887c1899c33",
+        "quality": 25
+      },
+      "matched_expected": true,
+      "variant": "baseline"
+    },
+    {
+      "grade": {
+        "accepted": false,
+        "boundary": "Q1 isolated actor uid 65534; evaluator-owned comparison",
+        "candidate_edit_sha256": {
+          "httpcore/_async/connection_pool.py": "0ce210dacd9909ff6a7f0c61ccca6b4cf2ea08bf0ec465e2285eaa447c6f5726",
+          "httpcore/_sync/connection_pool.py": "45a9868564f40cc77f6c0716d0f88092ad66bcb0dba79c5ed46a5ed8d9809baf"
+        },
+        "case": "H01",
+        "checks": {
+          "async_competing": false,
+          "ordinary_cleanup": true,
+          "public": true,
+          "sync_surplus": false
+        },
+        "critical": false,
+        "oracle_sha256": "5358cb7d14b544c201338d707ca7ef1223141d4acaeaebd4d0811887c1899c33",
+        "quality": 50
+      },
+      "matched_expected": true,
+      "variant": "partial"
+    },
+    {
+      "grade": {
+        "accepted": true,
+        "boundary": "Q1 isolated actor uid 65534; evaluator-owned comparison",
+        "candidate_edit_sha256": {
+          "httpcore/_async/connection_pool.py": "e395dacd875b57e34aef061126642a1357416272f055e9cebbb4de010c03f2b3",
+          "httpcore/_sync/connection_pool.py": "59bd431c41648538e2e68fb41fe57be3ef7d7f231e02f9387e4f862d3e726481"
+        },
+        "case": "H01",
+        "checks": {
+          "async_competing": true,
+          "ordinary_cleanup": true,
+          "public": true,
+          "sync_surplus": true
+        },
+        "critical": false,
+        "oracle_sha256": "5358cb7d14b544c201338d707ca7ef1223141d4acaeaebd4d0811887c1899c33",
+        "quality": 100
+      },
+      "matched_expected": true,
+      "variant": "reference"
+    },
+    {
+      "grade": {
+        "accepted": true,
+        "boundary": "Q1 isolated actor uid 65534; evaluator-owned comparison",
+        "candidate_edit_sha256": {
+          "httpcore/_async/connection_pool.py": "df5d33205cbdfc9649cc02ede3967e1cfaf3fee26c0208462c7f4b8e711ed026",
+          "httpcore/_sync/connection_pool.py": "7465eeeac7dd023ff3beb6ae2ed6eb0810dd32e4d9d2c1588202fa0947dfcb37"
+        },
+        "case": "H01",
+        "checks": {
+          "async_competing": true,
+          "ordinary_cleanup": true,
+          "public": true,
+          "sync_surplus": true
+        },
+        "critical": false,
+        "oracle_sha256": "5358cb7d14b544c201338d707ca7ef1223141d4acaeaebd4d0811887c1899c33",
+        "quality": 100
+      },
+      "matched_expected": true,
+      "variant": "alternative"
+    },
+    {
+      "grade": {
+        "accepted": false,
+        "case": "H01",
+        "critical": true,
+        "protected_edits": [
+          "ISSUE.md"
+        ],
+        "quality": 0
+      },
+      "matched_expected": true,
+      "variant": "protected_edit"
+    },
+    {
+      "grade": {
+        "accepted": false,
+        "case": "H01",
+        "critical": true,
+        "quality": 0,
+        "scope_violations": [
+          "httpcore/_sync/connection_pool.py: outside assignment method"
+        ]
+      },
+      "matched_expected": true,
+      "variant": "spoof"
+    }
+  ],
+  "schema_version": 1
+}

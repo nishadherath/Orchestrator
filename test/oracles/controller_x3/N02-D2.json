@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "N02-D2",
+  "diagnosis": "nullable-profile-dereference",
+  "cases": [
+    {"milestone": "valid email is preserved", "weight": 25,
+     "critical": false, "input": {"profile": {"email": "lee@example.test"}},
+     "expected": {"email": "lee@example.test"}},
+    {"milestone": "null profile yields null email", "weight": 25,
+     "critical": false, "input": {"profile": null},
+     "expected": {"email": null}},
+    {"milestone": "missing email key yields null", "weight": 25,
+     "critical": false, "input": {"profile": {"name": "Lee"}},
+     "expected": {"email": null}},
+    {"milestone": "empty profile yields null", "weight": 25,
+     "critical": false, "input": {"profile": {}},
+     "expected": {"email": null}}
+  ]
+}

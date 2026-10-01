@@ -1,0 +1,15 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "inclusive-slice-upper-bound",
+  "next_step": "check-interior-bounds",
+  "probes": [
+    {
+      "input": {"items": ["x", "y"], "limit": 0},
+      "observed": {"selected": []}
+    },
+    {
+      "input": {"items": ["x", "y"], "limit": 1},
+      "observed": {"selected": ["x"]}
+    }
+  ]
+}

@@ -30,7 +30,10 @@ targeted search. Do not report them as measured monetary savings.
 
 - `.codex/config.toml` keeps the existing local Node/Graft launcher, enables
   Graft and requires successful MCP startup. The existing zero optional
-  startup grace remains; Graft has a 30-second startup timeout.
+  startup grace remains; Graft has a 30-second startup timeout. Its MCP tool
+  timeout is 180 seconds because the executable X3 corpus expanded the local
+  freshness walk beyond the former 60-second limit. A live session may need
+  restart before a changed MCP timeout takes effect.
 - `.mcp.json` registers the same installed package for Claude Code. Its root
   argument uses `${CLAUDE_PROJECT_DIR:-.}` per Claude Code's expansion rules.
 - `.claude/settings.json` enables that named project server and permits only
@@ -69,12 +72,34 @@ The installed Graft/OpenAI adapter currently needs a local compatibility
 wrapper for DeepSeek: disable reasoning on forced-tool summary calls and
 normalize expanded symbol IDs before recording them. Keep this workaround out
 of distributable source until upstream compatibility makes it unnecessary.
+The helper also raises Graft's 8,192-token `record_symbols` output ceiling to
+32,768 only for `deepseek-flash`, because several large files truncated at the
+original cap. Unused output capacity is not itself billed. It reports
+aggregate input, cache-read and output tokens without printing prompts,
+responses or credentials. These counts support an API-rate estimate, not an
+invoice amount.
 Run `powershell -NoProfile -ExecutionPolicy Bypass -File
 tools/graft_deep_refresh.ps1` for an authenticated deep refresh. The helper
 loads the four `GRAFT_*` values from the Windows user environment without
 printing them, starts a no-logging loopback adapter in a hidden process, resumes
 Graft's cache and removes its temporary files when finished. Ordinary
 `graft build` and MCP retrieval remain local and do not need this helper.
+The 2026-09-25 Q3 refresh left eight stale semantic summaries in
+`tools/task_executor.py` even after a cached retry; its forced tool response
+was unparseable. `graft_check_freshness` reports the structural graph in sync,
+but also reports the semantic drift. Do not assume full semantic coverage from
+structural freshness, and do not rerun the same paid deep request unchanged.
+The dated outcome and cost limitation are in `docs/FINDINGS.md`.
+
+On 2026-09-29, a local `graft build` refreshed the wiring graph without a
+provider call: 1,945 indexed files, 19,404 nodes, 38,850 edges and 1,930
+cards. The subsequent `graft check` still reported a stale semantic layer,
+including changed source and new corpus files not yet summarized. A paid deep
+retry was not launched because the documented `task_executor.py` forced-tool
+failure remains unresolved. Scoped MCP retrieval refreshes its graph before
+queries, but the committed semantic snapshot must not be described as fully
+in sync. Repair the request-shaping or parser failure before another paid deep
+pass, then verify freshness again.
 
 ## Evidence and sources
 

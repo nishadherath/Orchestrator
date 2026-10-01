@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-28 Australia/Sydney",
+  "manifest_sha256": "bf5c768724b2207e6701190a69bb6264e3e0a2b721de59fb405ca01bf6192d72",
+  "approved": true,
+  "approval_basis": "operator standing approval for all paid calls in this project; remediate and rerun",
+  "task_id": "C03-D1",
+  "requested_cell": "worker-sonnet-high",
+  "maximum_canary_usd": 1.0,
+  "provider": "Claude Code WSL claude.ai subscription"
+}

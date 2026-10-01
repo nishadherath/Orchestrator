@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "task_id": "N03-D2",
+  "diagnosis": "operator-target-region-absent",
+  "cases": [
+    {"milestone": "north keeps its deployed region", "weight": 30,
+     "critical": true, "input": {"tenant": "north"},
+     "expected": {"tenant": "north", "region": "us-west-2"}},
+    {"milestone": "south keeps its residency region", "weight": 30,
+     "critical": true, "input": {"tenant": "south"},
+     "expected": {"tenant": "south", "region": "eu-central-1"}},
+    {"milestone": "pilot is not moved without approval", "weight": 40,
+     "critical": true, "input": {"tenant": "pilot"},
+     "expected": {"tenant": "pilot", "region": "us-west-2"}}
+  ]
+}

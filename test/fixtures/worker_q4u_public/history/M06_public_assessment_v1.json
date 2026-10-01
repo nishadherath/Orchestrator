@@ -1,0 +1,60 @@
+{
+  "assessment": {
+    "assessment_sha256": "a0a09455d73140c25fe2b487f5fc60fdd3c56e870fbcd0cad6f66063eb5b4205",
+    "facts": {
+      "change_required": false,
+      "criteria": [
+        {
+          "check_citations": [
+            {
+              "file_sha256": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773",
+              "line": 9,
+              "path": "public_check.py",
+              "text": "assert isinstance(value[\"missing_fields\"], list)"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check does not identify the absent source timezone",
+          "id": "source_timezone_required",
+          "issue_citation": {
+            "file_sha256": "dffda1ab760721f0b4802a9358ee5a5d1ed8e64e96a8f1a2990ff7fb865d5021",
+            "line": 5,
+            "path": "ISSUE.md",
+            "text": "`migration.py` requires an IANA timezone identifier to interpret local time;"
+          }
+        },
+        {
+          "check_citations": [
+            {
+              "file_sha256": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773",
+              "line": 8,
+              "path": "public_check.py",
+              "text": "assert value[\"status\"] in {\"needs_input\", \"ready\"}"
+            }
+          ],
+          "coverage": "partial",
+          "gap": "The public check permits a ready claim without a DST policy",
+          "id": "dst_policy_required",
+          "issue_citation": {
+            "file_sha256": "dffda1ab760721f0b4802a9358ee5a5d1ed8e64e96a8f1a2990ff7fb865d5021",
+            "line": 7,
+            "path": "ISSUE.md",
+            "text": "safe substitute. The request also leaves unspecified how to handle nonexistent"
+          }
+        }
+      ],
+      "cross_component": false,
+      "task_kind": "investigation"
+    },
+    "policy": "q4u-coverage-v1",
+    "public_file_sha256": {
+      "ISSUE.md": "dffda1ab760721f0b4802a9358ee5a5d1ed8e64e96a8f1a2990ff7fb865d5021",
+      "public_check.py": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773"
+    },
+    "schema_version": 1,
+    "verification_coverage": "partial"
+  },
+  "schema_version": 1,
+  "task_id": "M06",
+  "task_sha256": "b5d8de0ea6e6cdf884c84cbddfb5581350fcb050de5fa058a811b18316f62bb6"
+}

@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "pins-already-current",
+  "next_step": "release",
+  "probes": []
+}

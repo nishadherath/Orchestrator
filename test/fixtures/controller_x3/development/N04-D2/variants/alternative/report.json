@@ -1,0 +1,9 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "The staged key rotation still accepted only the blue identifier.",
+  "next_step": "Test dual validation and the new signer before rollout.",
+  "probes": [
+    {"input": {"action": "verify", "key_id": "blue"}, "observed": {"valid": true}},
+    {"input": {"action": "verify", "key_id": "green"}, "observed": {"valid": true}}
+  ]
+}

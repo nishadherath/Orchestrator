@@ -1,0 +1,24 @@
+{
+  "actor_files": {
+    "ISSUE.md": "83c29041cd3267a7ea0426348faa20010ce14830e997d30ca7de0f69fb00daef",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "c356f056796672202786a52139c8209f1b6097dce1a807deed51e9ab4c9b8ed8",
+    "conversion.py": "2e7f5b4e82dd33cec3e7a0b52844dd05304316ebe0ac5cd2ab890dbd4c686c80",
+    "decision.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "public_check.py": "45a392340dfb488f7763db586df9efe53f4137f9f1aacea86db56b3f27a9a773"
+  },
+  "change_required": false,
+  "editable_paths": [
+    "decision.json"
+  ],
+  "evaluator_zip_sha256": "dc07e72226d8f0b8e3c134a649a704522b00e6261837cebb54991badefe00fc4",
+  "id": "R12",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "currency-quote-provenance",
+  "origin": "authored-synthetic-missing-facts",
+  "schema_version": 1,
+  "split": "reserved",
+  "task_kind": "investigation",
+  "task_sha256": "4e22c8b4edece3751167db5fc8485041503642d986edf9ced42605ec7ab5e14f"
+}

@@ -1,0 +1,5 @@
+{
+  "port": 8000,
+  "schema_version": 1,
+  "service": "api"
+}

@@ -1,0 +1,110 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "broad-cache-eviction-and-uncoalesced-refills",
+  "next_step": "verify hot-key refill coalescing and stagger",
+  "probes": [
+    {
+      "input": {
+        "cache": {
+          "a": "old",
+          "b": "B",
+          "c": "C"
+        },
+        "backend": {
+          "a": "fresh",
+          "b": "B",
+          "c": "C"
+        },
+        "invalidated": [
+          "a"
+        ],
+        "waves": [
+          [
+            "b",
+            "c"
+          ]
+        ]
+      },
+      "observed": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "b",
+            "status": "value",
+            "value": "B"
+          },
+          {
+            "tick": 0,
+            "key": "c",
+            "status": "value",
+            "value": "C"
+          }
+        ],
+        "loads": [],
+        "cache": {
+          "b": "B",
+          "c": "C"
+        }
+      }
+    },
+    {
+      "input": {
+        "cache": {
+          "a": "old"
+        },
+        "backend": {
+          "a": "fresh"
+        },
+        "invalidated": [
+          "a"
+        ],
+        "waves": [
+          [
+            "a",
+            "a",
+            "a"
+          ]
+        ]
+      },
+      "observed": {
+        "responses": [
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          },
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          },
+          {
+            "tick": 0,
+            "key": "a",
+            "status": "value",
+            "value": "fresh"
+          }
+        ],
+        "loads": [
+          {
+            "tick": 0,
+            "key": "a"
+          },
+          {
+            "tick": 0,
+            "key": "a"
+          },
+          {
+            "tick": 0,
+            "key": "a"
+          }
+        ],
+        "cache": {
+          "a": "fresh"
+        }
+      }
+    }
+  ]
+}

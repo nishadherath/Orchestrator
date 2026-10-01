@@ -1,0 +1,146 @@
+{
+  "campaign_state_sha256": "6c77777bc85f0f677e9b8c9eb521af7bf7ebcc14eecfa7b3026f61d101ce0e30",
+  "evidence_sha256": "d555d9630e231c179edda3a92f1d5197967d8ab1bf2668125520e9462e9a81b5",
+  "manifest_sha256": "59358e16730482036176e417ea29ce63368ea855ccbd4cc6d9cd325d2a8b56f1",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T11:49:02+00:00",
+  "result": "PASS",
+  "rows": [
+    {
+      "added_lines": 25,
+      "api_equivalent_cost_usd": 0.2353996,
+      "attempts": 1,
+      "changed_paths": [
+        "click/core.py",
+        "click/exceptions.py"
+      ],
+      "false_success": true,
+      "hidden_acceptance": false,
+      "hidden_quality": 55,
+      "missed_milestones": [
+        "multiple-command-suggestions",
+        "multiple-option-suggestions",
+        "exception-contract"
+      ],
+      "patch_sha256": "d6680348549efe6e557d7e03fcf94ebf016961489b794ab7bfa8182933bd9008",
+      "provider_wall_clock_s": 79.255,
+      "removed_lines": 13,
+      "root_state": "accepted",
+      "served_effort_observable": false,
+      "task_id": "P03"
+    },
+    {
+      "added_lines": 7,
+      "api_equivalent_cost_usd": 0.260206201,
+      "attempts": 1,
+      "changed_paths": [
+        "urllib3/connectionpool.py",
+        "urllib3/poolmanager.py",
+        "urllib3/util/url.py"
+      ],
+      "false_success": false,
+      "hidden_acceptance": true,
+      "hidden_quality": 100,
+      "missed_milestones": [],
+      "patch_sha256": "5ee3a66de9333c1459b4235bbe066f41194d1178d3960a6be7bcac5b372d93b5",
+      "provider_wall_clock_s": 59.975202,
+      "removed_lines": 6,
+      "root_state": "accepted",
+      "served_effort_observable": false,
+      "task_id": "P04"
+    },
+    {
+      "added_lines": 9,
+      "api_equivalent_cost_usd": 0.1743372,
+      "attempts": 1,
+      "changed_paths": [
+        "tenacity/__init__.py",
+        "tenacity/asyncio/__init__.py",
+        "tenacity/wait.py"
+      ],
+      "false_success": true,
+      "hidden_acceptance": false,
+      "hidden_quality": 85,
+      "missed_milestones": [
+        "callable-plus-strategy"
+      ],
+      "patch_sha256": "082e5a1581b4affd188bad2a91dbc5eb62c2552907779dcfdcd1f65f88bc3f9a",
+      "provider_wall_clock_s": 83.130274,
+      "removed_lines": 6,
+      "root_state": "accepted",
+      "served_effort_observable": false,
+      "task_id": "P05"
+    },
+    {
+      "added_lines": 16,
+      "api_equivalent_cost_usd": 0.1329656,
+      "attempts": 1,
+      "changed_paths": [
+        "jwt/api_jwk.py",
+        "jwt/jwk_set_cache.py",
+        "jwt/jwks_client.py"
+      ],
+      "false_success": true,
+      "hidden_acceptance": false,
+      "hidden_quality": 80,
+      "missed_milestones": [
+        "transformed-fetch-consistency"
+      ],
+      "patch_sha256": "c4a70ae3ec67bf7db63ec2240e2b743109f5f89eb402ffbb6397e20c44e94031",
+      "provider_wall_clock_s": 42.326883,
+      "removed_lines": 9,
+      "root_state": "accepted",
+      "served_effort_observable": false,
+      "task_id": "P06"
+    },
+    {
+      "added_lines": 63,
+      "api_equivalent_cost_usd": 0.2668178,
+      "attempts": 1,
+      "changed_paths": [
+        "packaging/_parser.py",
+        "packaging/markers.py",
+        "packaging/requirements.py"
+      ],
+      "false_success": true,
+      "hidden_acceptance": false,
+      "hidden_quality": 90,
+      "missed_milestones": [
+        "invalid-marker-state",
+        "invalid-requirement-state"
+      ],
+      "patch_sha256": "c952991731fac749e98b92b8be818eac99152289449fb1265d74a8d1ca972060",
+      "provider_wall_clock_s": 102.568087,
+      "removed_lines": 0,
+      "root_state": "accepted",
+      "served_effort_observable": false,
+      "task_id": "P07"
+    },
+    {
+      "added_lines": 97,
+      "api_equivalent_cost_usd": 0.704814201,
+      "attempts": 1,
+      "changed_paths": [
+        "platformdirs/_xdg.py",
+        "platformdirs/api.py",
+        "platformdirs/macos.py",
+        "platformdirs/unix.py"
+      ],
+      "false_success": true,
+      "hidden_acceptance": false,
+      "hidden_quality": 90,
+      "missed_milestones": [
+        "mac-cache-path"
+      ],
+      "patch_sha256": "a59d88aae9c88e69105b4b5bc0c34a81e01caed59ddb80a7f8a5ca9ef79f968b",
+      "provider_wall_clock_s": 165.631886,
+      "removed_lines": 42,
+      "root_state": "accepted",
+      "served_effort_observable": false,
+      "task_id": "P08"
+    }
+  ],
+  "schema_version": 1,
+  "total_api_equivalent_cost_usd": 1.774540602
+}

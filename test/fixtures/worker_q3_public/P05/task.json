@@ -1,0 +1,61 @@
+{
+  "actor_bytes": 93766,
+  "actor_file_count": 17,
+  "actor_files": {
+    "ISSUE.md": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+    "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+    "acceptance.json": "1071dbe99c4c99a99a46063bff6f57027dae652460399815e48b4ed829e62f89",
+    "public_check.py": "ee2c65b87f7d793df2c7db1664d0d38275d9eed3cb0f5b8ea371a3a96c08cdee",
+    "tenacity/__init__.py": "0224d1889a906266dd49551857b1e0ece6075e1d08448ee56ccc3a0019394afb",
+    "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+    "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+    "tenacity/asyncio/__init__.py": "1ebfeee45e78d03adad1a22d7786be6124120f90510251557099ba8d557e4f40",
+    "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+    "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+    "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+    "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+    "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+    "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+    "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d",
+    "tenacity/wait.py": "2cdbb14a160c362aa7795c9501ab4c1edfb69bb9bb7f0a472c2b0c6823e2ca55"
+  },
+  "alternative_files": {
+    "tenacity/__init__.py": "f13e48a185560da3faac77e340aeaea2d2bdaaf6dd2153f8a6963cbe4dd12d44",
+    "tenacity/asyncio/__init__.py": "45dec52feb8e6b78df864601cf7ed741d2673199007dff3c9f04f51917079fb6",
+    "tenacity/wait.py": "7e972b340627d9491082db00c88858308bf5fc24c8918ca00edf176b96ae5a8f"
+  },
+  "case_file": "P05_case.py",
+  "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+  "editable_paths": [
+    "tenacity/__init__.py",
+    "tenacity/asyncio/__init__.py",
+    "tenacity/wait.py"
+  ],
+  "fix_commit": "389aab8b2688f7a1df41c2dd7797eeb18c8baff9",
+  "id": "P05",
+  "issue_origin": "upstream-fix",
+  "licence": "Apache-2.0",
+  "licence_file": "LICENSE",
+  "licence_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+  "name": "Tenacity retry waits and callable composition",
+  "oracle_file": "P05.json",
+  "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+  "package_path": "tenacity",
+  "partial_files": {
+    "tenacity/__init__.py": "3a8b59c43c3680f8329c5863e73e7f28434197f73720e6fc5e1aeea7d5fbb900",
+    "tenacity/asyncio/__init__.py": "1ebfeee45e78d03adad1a22d7786be6124120f90510251557099ba8d557e4f40",
+    "tenacity/wait.py": "fab8c53ae00dda64008a70c03654f22e059f3d697c3c8a6029513910fa7179fc"
+  },
+  "provenance_sha256": "6aff8fe07f9fbd1d5d6977f694bf5ae51aee17834e63a68012c16b16bede8269",
+  "reference_files": {
+    "tenacity/__init__.py": "3a8b59c43c3680f8329c5863e73e7f28434197f73720e6fc5e1aeea7d5fbb900",
+    "tenacity/asyncio/__init__.py": "03cc2a143eb77a4e37fb04283b2e4dc9a1f568ad6fbd47958cb6c3a95379ad48",
+    "tenacity/wait.py": "fab8c53ae00dda64008a70c03654f22e059f3d697c3c8a6029513910fa7179fc"
+  },
+  "schema_version": 1,
+  "source_commit": "a09999688c8d3bb3d4ca1716748009954cc7c4d0",
+  "source_python_lines": 2409,
+  "source_url": "https://github.com/jd/tenacity",
+  "task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191"
+}

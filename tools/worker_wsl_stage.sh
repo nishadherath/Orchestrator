@@ -13,7 +13,10 @@ install -m 644 "$source_root/worker_wsl_actor_probe.py" "$runtime/actor-probe.py
 install -m 644 "$source_root/worker_wsl_materialize.py" "$runtime/worker_wsl_materialize.py"
 install -m 644 "$source_root/worker_wsl_collect.py" "$runtime/worker_wsl_collect.py"
 install -m 644 "$source_root/worker_wsl_grade.py" "$runtime/worker_wsl_grade.py"
+install -m 644 "$source_root/worker_wsl_public_verify.py" "$runtime/worker_wsl_public_verify.py"
 install -m 644 "$source_root/worker_wsl_transport_probe.py" "$runtime/transport-probe.py"
+install -m 644 "$source_root/worker_wsl_auth.py" "$runtime/worker_wsl_auth.py"
+install -m 644 "$source_root/worker_wsl_restricted_settings.json" "$runtime/actor-settings.json"
 rm -f -- "$runtime/materialize.py" "$runtime/collect.py"
 cat > "$runtime/actor-mcp.json" <<'JSON'
 {"mcpServers":{"graft":{"type":"stdio","command":"/opt/orchestrator-worker-runtime/bin/node","args":["/opt/orchestrator-worker-runtime/lib/node_modules/@nanonets/graft/dist/cli.js","mcp","${CLAUDE_PROJECT_DIR:-.}"]}}}
@@ -22,8 +25,10 @@ chmod 644 "$runtime/actor-mcp.json"
 chown root:root "$runtime/bin/claude" "$runtime/bin/worker-wsl-namespace" \
     "$runtime/actor-probe.py" "$runtime/worker_wsl_materialize.py" \
     "$runtime/worker_wsl_collect.py" "$runtime/worker_wsl_grade.py" \
+    "$runtime/worker_wsl_public_verify.py" \
     "$runtime/transport-probe.py" \
-    "$runtime/actor-mcp.json"
+    "$runtime/actor-mcp.json" "$runtime/worker_wsl_auth.py" \
+    "$runtime/actor-settings.json"
 
 install -d -m 711 "$base" "$base/actors"
 install -d -m 700 "$base/evaluator"

@@ -44,6 +44,19 @@ for capability learning.
 
 ## Why learning no longer controls dispatch
 
+The later worker-routing programme did not qualify a replacement either.
+Q4U's ten-episode development canary produced six zero paired quality deltas
+across four task mechanisms. N7 also reproduced a false-full-credit grader
+flaw and found an incomplete dependency seal, so those scores cannot qualify
+a new policy. N6 stopped before the reserved comparison. Retain B0 and keep
+experimental selector output diagnostic until a new frozen evaluation passes.
+
+The durable executor and `/worker-task` interface store root budgets and
+attempt evidence under `.claude/task-executor-v2/`. Their N3 shadow decisions
+are not direct-start success evidence for the suggested cell. Admission,
+cancellation or an override record alone cannot train capability. See
+`WORKER-TASKS.md` for execution, recovery and host limits.
+
 The project tested the adaptive B1 policy rather than removing it on theory
 alone. In the 32-episode development comparison, B1 accepted 12 of 16 episodes
 against B0's 11 of 16, but cost 42 percent more. That was enough to carry the

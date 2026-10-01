@@ -83,6 +83,25 @@ class ScreenTests(unittest.TestCase):
             with self.subTest(key=key), self.assertRaises(screen.ScreenError):
                 screen.validate_authorisation(bound, changed, check_host=False)
 
+    def test_subscription_requires_matching_host_and_sentinel_digests(self):
+        with self.assertRaises(screen.ScreenError):
+            screen.build_manifest(credential_method="subscription",
+                                  host_attestation_sha256="a" * 64)
+        with self.assertRaises(screen.ScreenError):
+            screen.build_manifest(credential_method="subscription",
+                                  host_attestation_sha256="a" * 64,
+                                  subscription_attestation_sha256="b" * 64)
+        bound = screen.build_manifest(credential_method="subscription",
+                                      host_attestation_sha256="a" * 64,
+                                      subscription_attestation_sha256="b" * 64,
+                                      subscription_sentinel_sha256="c" * 64)
+        self.assertEqual("b" * 64, bound["subscription_attestation_sha256"])
+        self.assertEqual("c" * 64, bound["subscription_sentinel_sha256"])
+        changed = copy.deepcopy(bound)
+        changed["subscription_sentinel_sha256"] = "d" * 64
+        with self.assertRaises(screen.ScreenError):
+            screen.validate_manifest(changed)
+
     def test_no_edit_microtask_starts_correct_and_is_penalised_for_edit(self):
         actor = screen.SCREEN / "S03"
         oracle = screen.SCREEN / "oracles" / "S03.json"

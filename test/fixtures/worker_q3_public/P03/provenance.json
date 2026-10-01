@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "P03",
+  "name": "Click command and option diagnostics",
+  "source_url": "https://github.com/pallets/click",
+  "source_commit": "19fd4d6e18bc9fce451f92f422696b11169faa57",
+  "fix_commit": "831c8f0948af519e45b90801d7430ff25451f972",
+  "issue_origin": "upstream-feature",
+  "licence": "BSD-3-Clause",
+  "licence_file": "LICENSE.txt",
+  "licence_sha256": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d",
+  "package_path": "click",
+  "editable_paths": ["click/__init__.py", "click/core.py", "click/exceptions.py", "click/parser.py"],
+  "oracle_file": "P03.json",
+  "case_file": "P03_case.py"
+}

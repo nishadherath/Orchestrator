@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"milestone": "sync-none-wait", "input": {"kind": "sync", "wait": null}, "expected": ["ready", 2], "weight": 20, "critical": false},
+    {"milestone": "sync-zero-wait", "input": {"kind": "sync", "wait": 0}, "expected": ["ready", 2], "weight": 15, "critical": false},
+    {"milestone": "async-none-wait", "input": {"kind": "async", "wait": null}, "expected": ["ready", 2], "weight": 20, "critical": false},
+    {"milestone": "async-zero-wait", "input": {"kind": "async", "wait": 0}, "expected": ["ready", 2], "weight": 10, "critical": false},
+    {"milestone": "callable-plus-strategy", "input": {"kind": "compose"}, "expected": 3.0, "weight": 15, "critical": false},
+    {"milestone": "positional-strategy", "input": {"kind": "combine"}, "expected": 3.0, "weight": 10, "critical": false},
+    {"milestone": "reject-nonzero-seed", "input": {"kind": "invalid"}, "expected": "TypeError", "weight": 5, "critical": false},
+    {"milestone": "sum-control", "input": {"kind": "control"}, "expected": 3.0, "weight": 5, "critical": false}
+  ]
+}

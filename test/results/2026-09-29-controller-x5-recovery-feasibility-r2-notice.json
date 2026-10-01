@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "stage": "x5-recovery-development-feasibility",
+  "date": "2026-09-29 Australia/Sydney",
+  "approved": false,
+  "manifest_sha256": "513eee128cc7360f4976fe85f1f59950885adb2415340ac853a4c5d7468e1536",
+  "scope": "two X5 recovery producers and up to four matched development continuations",
+  "maximum_usd": 30.0,
+  "per_root_maximum_usd": 5.0,
+  "projected_api_equivalent_usd": {
+    "low": 2.0,
+    "high": 12.0,
+    "basis": "Historical settled X5 v6 six-episode cost USD 4.129411806 and X5 v7 twelve-episode cost USD 3.020660704; recovery tasks and Controller paths may cost more. No cache discount is presumed."
+  },
+  "provider_calls_at_notice": 0
+}

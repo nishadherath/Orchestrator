@@ -1,0 +1,7 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 69.64,
+  "stdout": "",
+  "stderr": "test_analysis_applies_quality_cost_and_repetition_rules (__main__.Q4ScreenTests.test_analysis_applies_quality_cost_and_repetition_rules) ... ok\ntest_continuation_preserves_failure_and_original_envelope (__main__.Q4ScreenTests.test_continuation_preserves_failure_and_original_envelope) ... ok\ntest_manifest_freezes_latin_order_common_tail_and_cost (__main__.Q4ScreenTests.test_manifest_freezes_latin_order_common_tail_and_cost) ... ok\ntest_manifest_is_source_bound_and_approval_is_exact (__main__.Q4ScreenTests.test_manifest_is_source_bound_and_approval_is_exact) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 68.820s\n\nOK\n",
+  "provider_calls": 0
+}

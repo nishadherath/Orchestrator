@@ -1,0 +1,52 @@
+{
+  "observed": {
+    "results": [
+      {
+        "source": "store",
+        "value": true
+      },
+      {
+        "source": "cache",
+        "value": true
+      },
+      {
+        "status": "updated"
+      },
+      {
+        "source": "cache",
+        "value": true
+      }
+    ]
+  },
+  "operations": [
+    {
+      "feature": "search",
+      "op": "lookup",
+      "tenant": "north"
+    },
+    {
+      "feature": "search",
+      "op": "lookup",
+      "tenant": "south"
+    },
+    {
+      "feature": "search",
+      "op": "update",
+      "tenant": "north",
+      "value": false
+    },
+    {
+      "feature": "search",
+      "op": "lookup",
+      "tenant": "north"
+    }
+  ],
+  "store": {
+    "north": {
+      "search": true
+    },
+    "south": {
+      "search": false
+    }
+  }
+}

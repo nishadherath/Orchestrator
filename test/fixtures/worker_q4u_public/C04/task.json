@@ -1,0 +1,23 @@
+{
+  "actor_files": {
+    "ISSUE.md": "0dfca77696596d9311bc243d81a8140e566bc78b00c9df778a2ebc938dae353d",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "b63634c2d12e851c6226c0b971e5a3fe1b933388b0fb3d127485535b31f7379c",
+    "labels.py": "aeb141d61a79f3f01adf2398cbc9cb5d208865e972367f47bfb0d5d984b316c7",
+    "public_check.py": "23c028213ebac30f452011e3e25d38e9e626341fcc0bbaa9fbb87a53e655b1ac"
+  },
+  "change_required": false,
+  "editable_paths": [
+    "labels.py"
+  ],
+  "evaluator_zip_sha256": "5eefccfcd832fc04aae3a3ddf96befba5684e563d218358e0c63d8fa0cfbd997",
+  "id": "C04",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "unicode-label-canonicalisation",
+  "origin": "authored-synthetic-control",
+  "schema_version": 1,
+  "split": "development",
+  "task_kind": "investigation",
+  "task_sha256": "527990779885a4e325b4e5e4f1bd621dd5c43f847efff4f502a812027a74351b"
+}

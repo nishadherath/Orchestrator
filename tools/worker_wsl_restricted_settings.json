@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(//run/claude-auth/**)",
+      "Edit(//run/claude-auth/**)",
+      "Read(//proc/**)",
+      "Edit(//proc/**)"
+    ]
+  }
+}

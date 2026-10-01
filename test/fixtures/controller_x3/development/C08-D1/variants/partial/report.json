@@ -1,0 +1,11 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "incompatible-lock-order-contracts",
+  "next_step": "await-owner-lock-order-decision",
+  "question": {"missing_field": "lock_order_decision",
+               "prompt": "Which account and inventory lock order should govern the shared path?"},
+  "probes": [
+    {"input": {"caller": "settlement"},
+     "observed": {"order": ["account", "inventory"]}}
+  ]
+}

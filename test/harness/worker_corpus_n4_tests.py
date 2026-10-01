@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import worker_corpus  # noqa: E402
 import worker_evaluation as evaluation  # noqa: E402
+from task_executor import TaskExecutor  # noqa: E402
 
 ALTERNATIVES = {
     "D01": "layers = [(name, data.get(name)) for name in ('cli', 'environment', 'file', 'default')]\n"
@@ -153,10 +154,22 @@ class CorpusTests(unittest.TestCase):
             state = runner.run()
             self.assertEqual("complete", state["status"], state.get("block"))
             self.assertEqual(24, len(state["results"]))
-            self.assertEqual(24, PublicOnlyFake.calls)
+            # Host execution of the public check can accept at different B0
+            # rungs. Count actual journalled attempts, then require resume to
+            # replay none of them rather than assuming one or three per task.
+            attempts = 0
+            for index in range(len(state["results"])):
+                token = evaluation.digest({"manifest": manifest["manifest_sha256"],
+                                           "index": index})[:20]
+                actor = output / "actors" / token
+                attempts += len(TaskExecutor(actor, PublicOnlyFake()).status(
+                    f"episode_{token}")["attempts"])
+            self.assertGreaterEqual(attempts, len(state["results"]))
+            self.assertLessEqual(attempts, 3 * len(state["results"]))
+            self.assertEqual(attempts, PublicOnlyFake.calls)
             self.assertEqual(1, sum(row["grade"]["acceptance"] for row in state["results"]))
             self.assertEqual(state, runner.run())
-            self.assertEqual(24, PublicOnlyFake.calls)
+            self.assertEqual(attempts, PublicOnlyFake.calls)
             self.assertFalse(list(output.rglob("*oracle*")))
 
     def test_full_inventory_and_generated_file_parity(self):

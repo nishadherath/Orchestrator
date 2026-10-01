@@ -1,0 +1,6 @@
+{"schema_version":1,"cases":[
+  {"input":{"case":"amount-domain"},"expected":{"ok":true},"weight":20,"milestone":"amount-domain","critical":false},
+  {"input":{"case":"conflicting-duplicate"},"expected":{"ok":true},"weight":20,"milestone":"conflicting-duplicate","critical":false},
+  {"input":{"case":"validation-rollback"},"expected":{"ok":true},"weight":30,"milestone":"validation-rollback","critical":false},
+  {"input":{"case":"overdraft-rollback"},"expected":{"ok":true},"weight":30,"milestone":"overdraft-rollback","critical":true}
+]}

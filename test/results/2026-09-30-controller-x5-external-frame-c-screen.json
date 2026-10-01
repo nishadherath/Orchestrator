@@ -1,0 +1,32 @@
+{
+  "schema": "controller-x5-external-frame-c-screen-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "protocol": "docs/stage-results/controller-x5-external-bug-frame-c-protocol-2026-09-30.md",
+  "frame": "test/results/2026-09-30-controller-x5-external-frame-c.json",
+  "frame_sha256": "e57f7902b7488c951990a444e0bd08977dd9f4e8c03e28e6fa721de143075d87",
+  "body_snapshot": "test/results/2026-09-30-controller-x5-external-frame-c-selected-bodies.json",
+  "body_snapshot_sha256": "5f125782138dd75f6b44048fbca3724eb5b3558c9e7155ea7922167d543e7cbc",
+  "all_open_issues": 64,
+  "bug_labelled_issues": 16,
+  "processed_prefix_length": 16,
+  "provider_calls": 0,
+  "qualified_paid_cases": 0,
+  "rows": [
+    {"position": 1, "url": "https://github.com/celery/celery/issues/10576", "body_sha256": "6f2648816a36e3a4b0a0536dc89b4c4f4de2eac3c1832854705d7a161b0da2a3", "decision": "reject blind paid task", "reason": "issue names both collision code paths, the unused AlreadyRegistered exception and the available qualname; uniqueness policy is unsettled"},
+    {"position": 2, "url": "https://github.com/pytest-dev/pytest/issues/15051", "body_sha256": "6d557e64ea07a732a86bb1a84fb1916173fffa8f1edbc795ac533884e8a2dad5", "decision": "reject blind paid task", "reason": "trace identifies the exact DoctestItem.function dereference and the missing attribute; no distinct consequential residual check is established"},
+    {"position": 3, "url": "https://github.com/celery/celery/issues/10554", "body_sha256": "b8b5a01ac418dd37532d0ca287837697007a1fc28d022641da633ed79f2e6197", "decision": "reject blind paid task", "reason": "issue gives the exact close_pool path and proposes splitting task cleanup from worker shutdown; PostgreSQL pool lifecycle is not locally qualified"},
+    {"position": 4, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13616", "body_sha256": "b13faf90be1529ca3705881725d1006a43b67aa0c5f8430c3b78fdef857d0512", "decision": "reject blind paid task", "reason": "issue states the intended tstring parsing change and explicit bindparam/text alternatives"},
+    {"position": 5, "url": "https://github.com/aio-libs/aiohttp/issues/13433", "body_sha256": "9094c50c1e3fb69ecba658655fa4f9ae239b7c54b23e0b5d9d777d5c206bd029", "decision": "reject blind paid task", "reason": "report traces encoded index key versus decoded path traversal and gives two repair directions"},
+    {"position": 6, "url": "https://github.com/celery/celery/issues/10506", "body_sha256": "ec94ae2d3524694bebd46d12dc9ce1e15fe1f4bb83c8f436ccef522b27696672", "decision": "reject blind paid task", "reason": "issue identifies stale heap removal mechanism and says regression tests already pass with a fix"},
+    {"position": 7, "url": "https://github.com/aio-libs/aiohttp/issues/13495", "body_sha256": "cb5fdf98fd9de4deb8a711d9920a62cdd9b76e623292dae9fe524dee864a885b", "decision": "reject blind paid task", "reason": "issue names as_bytes omission of stored encoding options and announces a ready fix"},
+    {"position": 8, "url": "https://github.com/celery/celery/issues/10711", "body_sha256": "f293945eb3094f9ca8155a85f88c8c5063ba131f078f6eb9d69cd3d9c849a2e6", "decision": "ineligible documentation task", "reason": "issue identifies the two exact documentation values to replace and leaves default policy to maintainers"},
+    {"position": 9, "url": "https://github.com/aio-libs/aiohttp/issues/13364", "body_sha256": "8d6211c9ae76f40fc450f6813abdb18a61a2b4a07893af972253f1c0f2cce73f", "decision": "reject blind paid task", "reason": "issue identifies exact parser lines, failed whole-header comparison and missing multi-coding support"},
+    {"position": 10, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13497", "body_sha256": "6806c79e9f3180dc4d7884d91990d2ce1f19f504e3c97a897aee5b74e4aa598d", "decision": "reject blind paid task", "reason": "issue identifies the reflection mapping and scale value; SQL Server runtime is unavailable for independent local acceptance"},
+    {"position": 11, "url": "https://github.com/aio-libs/aiohttp/issues/13756", "body_sha256": "b87d01fc2f25436cef9c3f219aad739ebcab8c8645d67b78df73442a1e99cd52", "decision": "reject blind paid task", "reason": "issue names the two None guards and says a fix with regression tests is ready"},
+    {"position": 12, "url": "https://github.com/aio-libs/aiohttp/issues/13751", "body_sha256": "870dd0ec959602fd3463f6577066225de4ac2c77851ffb686068e0d288eb8c77", "decision": "reject blind paid task", "reason": "GitHub dependency workflow has no accessible diagnostic log in the report and is labelled waiting-for-upstream; no deterministic local reproduction or independent acceptance"},
+    {"position": 13, "url": "https://github.com/celery/celery/issues/10733", "body_sha256": "cfd640e4fea31b0f15cf1b74087bc32f8e3eecec24a247baab3ab36e32853672", "decision": "reject blind paid task", "reason": "issue shows append/pop LIFO cause, FIFO expected behaviour and public fix PR #10734"},
+    {"position": 14, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13612", "body_sha256": "8d97755752bca680bdc0364c6e4e9a1987fe3ad8b8fb29f398d0d7130a2cb1c3", "decision": "reject blind paid task", "reason": "linked pandas-stubs #1953 publishes select() workaround and SQLAlchemy maintainer calls legacy Query typing best effort; no settled repair contract"},
+    {"position": 15, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13570", "body_sha256": "e89a137650fc36b31d277485170f46abfec8c8d6e596b4a0b68c0a1452ff9cd1", "decision": "reject blind paid task", "reason": "issue traces detached finalizer path and specifies the needed connection_record=None close branch"},
+    {"position": 16, "url": "https://github.com/celery/celery/issues/10472", "body_sha256": "433090e000cd2cd768cf8728ff616f5cbdffd36cf25e994d4c9d1f4f802280c1", "decision": "reject blind paid task", "reason": "requires AWS RDS Proxy/PostgreSQL observation and proposes an Identity-column migration rather than a settled local repair"}
+  ]
+}

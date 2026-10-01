@@ -1,0 +1,64 @@
+{
+  "controls": [
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "64fa99ad4a0a8695346aedb30097b5e29e9d8edd2d10f9b7f31f4ca3a96a97a7",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "27f8d36195d75bcbe9db8674dee643b4071a7d2bceee76331facb2477c0d691c",
+      "quality": 100.0,
+      "variant": "reference"
+    },
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "0e5096b4198da2c877e1dc5842a609efb92b5e49eb1cdf498c6625def6e38819",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "27f8d36195d75bcbe9db8674dee643b4071a7d2bceee76331facb2477c0d691c",
+      "quality": 100.0,
+      "variant": "alternative"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "54f9ad1baaf83e9d981ccd182e399e37ca4e6c105a066edb8f4775de3149302a",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "27f8d36195d75bcbe9db8674dee643b4071a7d2bceee76331facb2477c0d691c",
+      "quality": 75.0,
+      "variant": "partial"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "b5f2b17c85921a5c3978983e26337635f543983b6b38b99a18be54345c121be9",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "27f8d36195d75bcbe9db8674dee643b4071a7d2bceee76331facb2477c0d691c",
+      "quality": 0.0,
+      "variant": "baseline"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "0ee528503ddff91e0a2eb4400a8f122039d5f9c99ab5bc8937efe0df0c1fd3c4",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "27f8d36195d75bcbe9db8674dee643b4071a7d2bceee76331facb2477c0d691c",
+      "quality": 0.0,
+      "variant": "label_copy"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "65ac15c3236060c71f6a5c5bf24ab9036381f3608e1c0af09f998cd7af53abe1",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "27f8d36195d75bcbe9db8674dee643b4071a7d2bceee76331facb2477c0d691c",
+      "quality": 0.0,
+      "variant": "poison_json"
+    }
+  ],
+  "mode": "controller-x3-wsl-vertical-probe",
+  "observed_at": "2026-09-26T21:48:22.857642+00:00",
+  "provider_calls": 0,
+  "result": "PASS",
+  "schema_version": 1,
+  "task_count": 1
+}

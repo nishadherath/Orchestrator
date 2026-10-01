@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "task_id": "C07-D2",
+  "diagnosis": "utc-date-used-for-sydney-window",
+  "cases": [
+    {"milestone": "winter noon remains on the same day", "weight": 20,
+     "critical": false,
+     "input": {"timestamp": "2026-06-16T02:00:00+00:00"},
+     "expected": {"window_day": "2026-06-16"}},
+    {"milestone": "summer evening remains on the same day", "weight": 20,
+     "critical": false,
+     "input": {"timestamp": "2026-01-15T12:00:00+00:00"},
+     "expected": {"window_day": "2026-01-15"}},
+    {"milestone": "winter midnight boundary advances the day", "weight": 30,
+     "critical": false,
+     "input": {"timestamp": "2026-06-15T15:30:00+00:00"},
+     "expected": {"window_day": "2026-06-16"}},
+    {"milestone": "summer daylight-saving boundary advances the day", "weight": 30,
+     "critical": false,
+     "input": {"timestamp": "2026-01-15T13:30:00+00:00"},
+     "expected": {"window_day": "2026-01-16"}}
+  ]
+}

@@ -1,0 +1,329 @@
+{
+  "checks": {
+    "alternative_accepted": true,
+    "baseline_rejected": true,
+    "no_critical_or_false_success": true,
+    "partial_progress": true,
+    "reference_accepted": true
+  },
+  "evidence_sha256": "12a13858ce3ab5cf728e787789283c36331e45260cab0dad8b7afc6316c72c94",
+  "grades": {
+    "alternative": {
+      "case_source_sha256": "559b24348a895257faa0a87ec43209ef8b0ba3e602b023f39841f7971621ab47",
+      "cases": [
+        {
+          "milestone": "parser-node-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "compound-marker-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "requirement-roundtrip",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "requirement-with-marker",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-node-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-marker-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-requirement-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "invalid-node-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-marker-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-requirement-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "ordinary-parsing-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "1a2c299171d4a4d1d5d1340b8b6eeac9a83a85efbdf792e27d03d9c84eabf7df",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "43b35626a94891de6b3eeaa3fe945f75f791d3fbc5bd71cb9fb97cbabfda6906",
+      "package_sha256": "235acc3724b537fad06abe72eb44e4041c587418714cb8d7bd96782ec5bcbe0a",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P07",
+      "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4",
+      "variant": "alternative"
+    },
+    "baseline": {
+      "case_source_sha256": "559b24348a895257faa0a87ec43209ef8b0ba3e602b023f39841f7971621ab47",
+      "cases": [
+        {
+          "milestone": "parser-node-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "compound-marker-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "requirement-roundtrip",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "requirement-with-marker",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-node-state",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "old-marker-state",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "old-requirement-state",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "invalid-node-state",
+          "passed": false,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-marker-state",
+          "passed": false,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-requirement-state",
+          "passed": false,
+          "weight": 5
+        },
+        {
+          "milestone": "ordinary-parsing-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "a0e5221eaf9ad21f1b9553ca6c97c5cabc6c9ddc1ce42ff8b12e68b3b7d79d6e",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "43b35626a94891de6b3eeaa3fe945f75f791d3fbc5bd71cb9fb97cbabfda6906",
+      "package_sha256": "daffd3517e6b87a1a358fc64c6f08646c97cf34f968f430796538e4b218e0cec",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 55,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P07",
+      "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4",
+      "variant": "baseline"
+    },
+    "partial": {
+      "case_source_sha256": "559b24348a895257faa0a87ec43209ef8b0ba3e602b023f39841f7971621ab47",
+      "cases": [
+        {
+          "milestone": "parser-node-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "compound-marker-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "requirement-roundtrip",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "requirement-with-marker",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-node-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-marker-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-requirement-state",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "invalid-node-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-marker-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-requirement-state",
+          "passed": false,
+          "weight": 5
+        },
+        {
+          "milestone": "ordinary-parsing-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "8a9269b60ec94765e16582ced02cd8d23a029049bae88d225cb5d856527cae67",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "43b35626a94891de6b3eeaa3fe945f75f791d3fbc5bd71cb9fb97cbabfda6906",
+      "package_sha256": "9a515090e635303ad99fc43be33af7bcbe915d0d618d6cc0362755cbf6e55d17",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 85,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P07",
+      "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4",
+      "variant": "partial"
+    },
+    "reference": {
+      "case_source_sha256": "559b24348a895257faa0a87ec43209ef8b0ba3e602b023f39841f7971621ab47",
+      "cases": [
+        {
+          "milestone": "parser-node-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "compound-marker-roundtrip",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "requirement-roundtrip",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "requirement-with-marker",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-node-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-marker-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "old-requirement-state",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "invalid-node-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-marker-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-requirement-state",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "ordinary-parsing-control",
+          "passed": true,
+          "weight": 5
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "9db56defa099a0c50e7bdd2d73a73efce4a41c8b9da96a2fa06c3d14d81454fc",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "43b35626a94891de6b3eeaa3fe945f75f791d3fbc5bd71cb9fb97cbabfda6906",
+      "package_sha256": "8c9707b36d0bc0611dbd2869ac240ba0e8af16cdee1d3a15ae80cf04c84f4a33",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P07",
+      "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4",
+      "variant": "reference"
+    }
+  },
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T10:38:42+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_public_calibrate.py": "38c163472eeaf0fad1edb7876dce657bb4b19d4d00e003c5088efec8b3a27fdd",
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce",
+    "tools/worker_wsl_q3_public.py": "ee8255eeb45d5c27a0655759a32191a68fc958d1f88c42d031bfe57e8cbdebcb"
+  },
+  "task_id": "P07",
+  "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4"
+}

@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "provider_calls": 0,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.14",
+  "actor_files": 52,
+  "actor_bytes": 879471,
+  "baseline_source_sha256": "9d5f1ee33eabed7721a3431d10b8d69bb0f0061b380a2ec54f197dbe8203a071",
+  "partial_source_sha256": "3bca73dc81a3f69b5d4b41b8bf5105494eaff082c6e40057531e9ff49ce6caac",
+  "alternative_source_sha256": "fbd49b13376a4cf69340a2110cbbd0b46156b1d6e0392c7f41397f4575f5b8c2",
+  "reference_source_sha256": "50a50c426b41099791c23af8a7649f03dad23c85153268df1e56659a6c4323fb",
+  "baseline": {
+    "returncode": 1,
+    "observed": {
+      "framer_calls": 1,
+      "frames": [
+        [
+          "fix the duplicate",
+          "check every related path"
+        ]
+      ],
+      "outcome": "gap"
+    },
+    "stderr_tail": [
+      "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "AssertionError: Controller did not finish after a correctable reply"
+    ],
+    "oracle_returncode": 0,
+    "oracle": {
+      "checks": {
+        "initial_correction": false,
+        "ordinary_run": true,
+        "persistent_critique_atomic": false,
+        "persistent_initial_atomic": false,
+        "persistent_reframe_atomic": false,
+        "reframe_correction": false
+      },
+      "critical_error": true,
+      "schema_version": 2,
+      "score": 10
+    },
+    "oracle_stderr_tail": [],
+    "risk_returncode": 1,
+    "risk": {
+      "framer_calls": 3,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate",
+          "an unapproved extra condition"
+        ]
+      ],
+      "outcome": "gap",
+      "passed": false,
+      "schema_version": 1
+    },
+    "risk_stderr_tail": []
+  },
+  "partial": {
+    "returncode": 0,
+    "observed": {
+      "framer_calls": 3,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ]
+      ],
+      "outcome": "solution"
+    },
+    "stderr_tail": [],
+    "oracle_returncode": 0,
+    "oracle": {
+      "checks": {
+        "initial_correction": true,
+        "ordinary_run": true,
+        "persistent_critique_atomic": false,
+        "persistent_initial_atomic": true,
+        "persistent_reframe_atomic": false,
+        "reframe_correction": false
+      },
+      "critical_error": true,
+      "schema_version": 2,
+      "score": 45
+    },
+    "oracle_stderr_tail": [],
+    "risk_returncode": 1,
+    "risk": {
+      "framer_calls": 3,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate",
+          "an unapproved extra condition"
+        ]
+      ],
+      "outcome": "gap",
+      "passed": false,
+      "schema_version": 1
+    },
+    "risk_stderr_tail": []
+  },
+  "alternative": {
+    "returncode": 0,
+    "observed": {
+      "framer_calls": 3,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ]
+      ],
+      "outcome": "solution"
+    },
+    "stderr_tail": [],
+    "oracle_returncode": 0,
+    "oracle": {
+      "checks": {
+        "initial_correction": true,
+        "ordinary_run": true,
+        "persistent_critique_atomic": true,
+        "persistent_initial_atomic": true,
+        "persistent_reframe_atomic": true,
+        "reframe_correction": true
+      },
+      "critical_error": false,
+      "schema_version": 2,
+      "score": 100
+    },
+    "oracle_stderr_tail": [],
+    "risk_returncode": 0,
+    "risk": {
+      "framer_calls": 4,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ]
+      ],
+      "outcome": "solution",
+      "passed": true,
+      "schema_version": 1
+    },
+    "risk_stderr_tail": []
+  },
+  "reference": {
+    "returncode": 0,
+    "observed": {
+      "framer_calls": 3,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ]
+      ],
+      "outcome": "solution"
+    },
+    "stderr_tail": [],
+    "oracle_returncode": 0,
+    "oracle": {
+      "checks": {
+        "initial_correction": true,
+        "ordinary_run": true,
+        "persistent_critique_atomic": true,
+        "persistent_initial_atomic": true,
+        "persistent_reframe_atomic": true,
+        "reframe_correction": true
+      },
+      "critical_error": false,
+      "schema_version": 2,
+      "score": 100
+    },
+    "oracle_stderr_tail": [],
+    "risk_returncode": 0,
+    "risk": {
+      "framer_calls": 4,
+      "frames": [
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ],
+        [
+          "fix the duplicate"
+        ]
+      ],
+      "outcome": "solution",
+      "passed": true,
+      "schema_version": 1
+    },
+    "risk_stderr_tail": []
+  }
+}

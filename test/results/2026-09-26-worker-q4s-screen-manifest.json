@@ -1,0 +1,2434 @@
+{
+  "authorisation": {
+    "paid_calls": "operator-standing-authorised",
+    "scope": "S3 two-call canary then S4 eighteen-episode public screen under this exact manifest",
+    "stage_review": "hold-before-S3"
+  },
+  "calibration_evidence_sha256": "194013f916203bce7ee656dcda237f4403b45e4f674b7b19b866636283c66a5a",
+  "calibration_sha256": "897c8609166c8d6387f3641b3ffd8e2be4f2b91aa644c3ad3a4f1f923eae10f0",
+  "canary": {
+    "actor_files": {
+      "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+      "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+      "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+      "canary_box/parse.py": "fdd378b8ccd38fac393abe32d2761f7df73558b9d0e60f9c95a08974b5f5008f",
+      "canary_box/render.py": "f91b7469d69ffbbe2d3fdb1341cd5adfcd823685a614870ea770903a10c30abd",
+      "canary_box/store.py": "df621f881cc9cfd8d6f6d3177bb9048d5461653e5abe642f1b5c4821bd189d4a",
+      "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+    },
+    "cells": [
+      "worker-sonnet-low",
+      "worker-sonnet-medium"
+    ],
+    "editable_paths": [
+      "canary_box/parse.py",
+      "canary_box/store.py",
+      "canary_box/render.py"
+    ],
+    "episode_maximum_usd": 3.0,
+    "excluded_from_reserved_corpus": true,
+    "excluded_from_six_family_screen": true,
+    "maximum_provider_calls": 2,
+    "origin": "authored-small-synthetic-transport-only",
+    "public_command": [
+      "python3",
+      "-B",
+      "public_check.py"
+    ],
+    "reference_files": {
+      "canary_box/parse.py": "eda2e1a7f072bf683206ee4d9b23178c5cc7bc22b95d3ca3910e35b8029ed4d5",
+      "canary_box/render.py": "9568073e578d6bbd54e1a8a7a9f23ef99c8fd4af67641c379efb86c583731cdf",
+      "canary_box/store.py": "c0cfea55645f4aa5a10d0c857abf333af06fafc26b9453cc266f275cf34d08e1"
+    },
+    "repair_cells": [],
+    "task_sha256": "49e240bd5e3070840a7528ab29612cd19b48c91fc214c3fdee0fc410eae0ce9e"
+  },
+  "controller_allowed": false,
+  "cost": {
+    "api_equivalent_projection_usd": [
+      6.5,
+      33.0
+    ],
+    "canary_allocation_usd": 6.0,
+    "combined_allocation_usd": 78.0,
+    "currency": "USD",
+    "maximum_canary_calls": 2,
+    "maximum_provider_calls": 56,
+    "maximum_screen_calls": 54,
+    "screen_allocation_usd": 72.0
+  },
+  "credential_method": "claude-code-wsl-subscription",
+  "date_utc": "2026-09-25",
+  "host_evidence_sha256": "32a4c7193c912eb595ec8688bedf0cd41dd446339d8a703279abc69880d874cc",
+  "host_sha256": "5e2c150f09b735772559e7fcc0bd64de24f4188a27f0bcd17df303ae31f6011e",
+  "latin_order": {
+    "base": [
+      "b0-a",
+      "b0-b",
+      "sonnet-medium"
+    ],
+    "method": "cyclic rotations by ascending frozen task SHA-256",
+    "task_order": [
+      "S03",
+      "S02",
+      "S04",
+      "S01",
+      "S05",
+      "S06"
+    ]
+  },
+  "manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+  "policy_counterfactual": {
+    "negative_medium": "diagnostic-only",
+    "trigger_negative": "corresponding-b0-repetition",
+    "trigger_positive": "sonnet-medium"
+  },
+  "profile": "worker-q4s-prospective-public-screen",
+  "prompt_contract_sha256": "434af3e56ae74e294587ad4ac1c6411fdb88a11d0a01482e53a4fd35e8d17d0c",
+  "public_trigger_sha256": "16d5c031ce7ed8ff7012458ec94b5b40222cb82f6852dcdef9f4f330891e0814",
+  "registry_id": "claude-cells-v1",
+  "report_schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+  "reserved_tasks_allowed": false,
+  "rows": [
+    {
+      "actor_files": {
+        "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+        "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+        "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+        "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+        "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+        "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+        "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+        "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+        "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+        "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+        "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+        "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+        "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88",
+        "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+      },
+      "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+      "editable_paths": [
+        "h11/_connection.py",
+        "h11/_headers.py",
+        "h11/_writers.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 1,
+      "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "request-raw-case",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: request raw case",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "host-first",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: host first",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "generated-framing",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: generated framing",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "header-replacement",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: header replacement",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "schema_version": 2,
+        "task_sha256": "b520f19dc215c90d9c034a14b3eb252c0ef948af39b7b621b8301b9113092fdd"
+      },
+      "sequence": 1,
+      "source_task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f",
+      "task_id": "S03",
+      "task_sha256": "b520f19dc215c90d9c034a14b3eb252c0ef948af39b7b621b8301b9113092fdd",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S03/actor/ISSUE.md:3",
+        "issue_sha256": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "mechanism": "Header storage, automatic framing and wire serialisation must preserve raw casing while matching names case-insensitively.",
+        "modules": [
+          "h11/_connection.py",
+          "h11/_headers.py",
+          "h11/_writers.py"
+        ],
+        "source_sha256": {
+          "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+          "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+          "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88"
+        },
+        "task_id": "S03",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+        "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+        "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+        "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+        "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+        "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+        "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+        "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+        "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+        "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+        "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+        "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+        "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88",
+        "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+      },
+      "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+      "editable_paths": [
+        "h11/_connection.py",
+        "h11/_headers.py",
+        "h11/_writers.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 1,
+      "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "request-raw-case",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: request raw case",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "host-first",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: host first",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "generated-framing",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: generated framing",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "header-replacement",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: header replacement",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "schema_version": 2,
+        "task_sha256": "b520f19dc215c90d9c034a14b3eb252c0ef948af39b7b621b8301b9113092fdd"
+      },
+      "sequence": 2,
+      "source_task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f",
+      "task_id": "S03",
+      "task_sha256": "b520f19dc215c90d9c034a14b3eb252c0ef948af39b7b621b8301b9113092fdd",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S03/actor/ISSUE.md:3",
+        "issue_sha256": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "mechanism": "Header storage, automatic framing and wire serialisation must preserve raw casing while matching names case-insensitively.",
+        "modules": [
+          "h11/_connection.py",
+          "h11/_headers.py",
+          "h11/_writers.py"
+        ],
+        "source_sha256": {
+          "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+          "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+          "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88"
+        },
+        "task_id": "S03",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+        "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+        "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+        "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+        "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+        "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+        "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+        "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+        "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+        "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+        "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+        "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+        "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88",
+        "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+      },
+      "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+      "editable_paths": [
+        "h11/_connection.py",
+        "h11/_headers.py",
+        "h11/_writers.py"
+      ],
+      "episode_label": "sonnet-medium",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-medium",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 1,
+      "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "request-raw-case",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: request raw case",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "host-first",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: host first",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "generated-framing",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: generated framing",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "header-replacement",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S03 issue contract: header replacement",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "schema_version": 2,
+        "task_sha256": "b520f19dc215c90d9c034a14b3eb252c0ef948af39b7b621b8301b9113092fdd"
+      },
+      "sequence": 3,
+      "source_task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f",
+      "task_id": "S03",
+      "task_sha256": "b520f19dc215c90d9c034a14b3eb252c0ef948af39b7b621b8301b9113092fdd",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S03/actor/ISSUE.md:3",
+        "issue_sha256": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+        "mechanism": "Header storage, automatic framing and wire serialisation must preserve raw casing while matching names case-insensitively.",
+        "modules": [
+          "h11/_connection.py",
+          "h11/_headers.py",
+          "h11/_writers.py"
+        ],
+        "source_sha256": {
+          "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+          "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+          "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88"
+        },
+        "task_id": "S03",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "LICENSE": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606",
+        "acceptance.json": "f8eac730c9ed63f88eb203530a194ca03f4ce5d1248c9e4dea0cfc892acfacef",
+        "pluggy/__init__.py": "f94737c0d72ae5af0bb2f2602a231b4e61adfab5567d16e4746141a4badd1465",
+        "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+        "pluggy/_compat.py": "64a136b0ff61ae478b1662e5b898838f38ebe1ead41bd513f98938d912a0c153",
+        "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+        "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c",
+        "pluggy/_result.py": "f2668b485954c9e3f74a995bc4710d9f0390d012ac48a889a266864151aa5d4c",
+        "pluggy/_tracing.py": "499081bfd619d3c5a3acd0a650379e3d727f4cdf1e6cd266cf398707f7b61683",
+        "pluggy/_warnings.py": "b5dd00bd90697da9ab8820b73aab0bc31321f92cc03237e399ce7c4f9bcfde5c",
+        "pluggy/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public_check.py": "7ed2d0c4305f63489b0873bd2089eb3ffdc527ca9254fa0012b64e20374b6579"
+      },
+      "case_source_sha256": "d28a57d6df25edeb77322516fc9b722ba5248e312a3a2a9523fda86bbf4ac3d3",
+      "editable_paths": [
+        "pluggy/_hooks.py",
+        "pluggy/_manager.py",
+        "pluggy/_callers.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 2,
+      "oracle_sha256": "0a77790a9db80ec35f1d4dd3335dfd1afa81353aef09e0b33d13fb6f3376797a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "default-and-override",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: default and override",
+            "weight": 25
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "late-spec",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: late spec",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "historic",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: historic",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "extra-and-falsy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: extra and falsy",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "schema_version": 2,
+        "task_sha256": "7f99055d1332434cf41912661aad14832ffc5b012ff817b3ac33327b7fad22a7"
+      },
+      "sequence": 4,
+      "source_task_sha256": "07c392de393d743be2b6952c91ffe5e0d4243e73dd5450063582643a9fcee9b0",
+      "task_id": "S02",
+      "task_sha256": "7f99055d1332434cf41912661aad14832ffc5b012ff817b3ac33327b7fad22a7",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S02/actor/ISSUE.md:3",
+        "issue_sha256": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "mechanism": "Hookspec defaults, plugin validation and dispatch must pass the same effective argument through direct and historic calls.",
+        "modules": [
+          "pluggy/_hooks.py",
+          "pluggy/_manager.py",
+          "pluggy/_callers.py"
+        ],
+        "source_sha256": {
+          "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+          "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+          "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c"
+        },
+        "task_id": "S02",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "LICENSE": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606",
+        "acceptance.json": "f8eac730c9ed63f88eb203530a194ca03f4ce5d1248c9e4dea0cfc892acfacef",
+        "pluggy/__init__.py": "f94737c0d72ae5af0bb2f2602a231b4e61adfab5567d16e4746141a4badd1465",
+        "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+        "pluggy/_compat.py": "64a136b0ff61ae478b1662e5b898838f38ebe1ead41bd513f98938d912a0c153",
+        "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+        "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c",
+        "pluggy/_result.py": "f2668b485954c9e3f74a995bc4710d9f0390d012ac48a889a266864151aa5d4c",
+        "pluggy/_tracing.py": "499081bfd619d3c5a3acd0a650379e3d727f4cdf1e6cd266cf398707f7b61683",
+        "pluggy/_warnings.py": "b5dd00bd90697da9ab8820b73aab0bc31321f92cc03237e399ce7c4f9bcfde5c",
+        "pluggy/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public_check.py": "7ed2d0c4305f63489b0873bd2089eb3ffdc527ca9254fa0012b64e20374b6579"
+      },
+      "case_source_sha256": "d28a57d6df25edeb77322516fc9b722ba5248e312a3a2a9523fda86bbf4ac3d3",
+      "editable_paths": [
+        "pluggy/_hooks.py",
+        "pluggy/_manager.py",
+        "pluggy/_callers.py"
+      ],
+      "episode_label": "sonnet-medium",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-medium",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 2,
+      "oracle_sha256": "0a77790a9db80ec35f1d4dd3335dfd1afa81353aef09e0b33d13fb6f3376797a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "default-and-override",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: default and override",
+            "weight": 25
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "late-spec",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: late spec",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "historic",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: historic",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "extra-and-falsy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: extra and falsy",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "schema_version": 2,
+        "task_sha256": "7f99055d1332434cf41912661aad14832ffc5b012ff817b3ac33327b7fad22a7"
+      },
+      "sequence": 5,
+      "source_task_sha256": "07c392de393d743be2b6952c91ffe5e0d4243e73dd5450063582643a9fcee9b0",
+      "task_id": "S02",
+      "task_sha256": "7f99055d1332434cf41912661aad14832ffc5b012ff817b3ac33327b7fad22a7",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S02/actor/ISSUE.md:3",
+        "issue_sha256": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "mechanism": "Hookspec defaults, plugin validation and dispatch must pass the same effective argument through direct and historic calls.",
+        "modules": [
+          "pluggy/_hooks.py",
+          "pluggy/_manager.py",
+          "pluggy/_callers.py"
+        ],
+        "source_sha256": {
+          "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+          "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+          "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c"
+        },
+        "task_id": "S02",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "LICENSE": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606",
+        "acceptance.json": "f8eac730c9ed63f88eb203530a194ca03f4ce5d1248c9e4dea0cfc892acfacef",
+        "pluggy/__init__.py": "f94737c0d72ae5af0bb2f2602a231b4e61adfab5567d16e4746141a4badd1465",
+        "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+        "pluggy/_compat.py": "64a136b0ff61ae478b1662e5b898838f38ebe1ead41bd513f98938d912a0c153",
+        "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+        "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c",
+        "pluggy/_result.py": "f2668b485954c9e3f74a995bc4710d9f0390d012ac48a889a266864151aa5d4c",
+        "pluggy/_tracing.py": "499081bfd619d3c5a3acd0a650379e3d727f4cdf1e6cd266cf398707f7b61683",
+        "pluggy/_warnings.py": "b5dd00bd90697da9ab8820b73aab0bc31321f92cc03237e399ce7c4f9bcfde5c",
+        "pluggy/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public_check.py": "7ed2d0c4305f63489b0873bd2089eb3ffdc527ca9254fa0012b64e20374b6579"
+      },
+      "case_source_sha256": "d28a57d6df25edeb77322516fc9b722ba5248e312a3a2a9523fda86bbf4ac3d3",
+      "editable_paths": [
+        "pluggy/_hooks.py",
+        "pluggy/_manager.py",
+        "pluggy/_callers.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 2,
+      "oracle_sha256": "0a77790a9db80ec35f1d4dd3335dfd1afa81353aef09e0b33d13fb6f3376797a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "default-and-override",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: default and override",
+            "weight": 25
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "late-spec",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: late spec",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "historic",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: historic",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "extra-and-falsy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S02 issue contract: extra and falsy",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "schema_version": 2,
+        "task_sha256": "7f99055d1332434cf41912661aad14832ffc5b012ff817b3ac33327b7fad22a7"
+      },
+      "sequence": 6,
+      "source_task_sha256": "07c392de393d743be2b6952c91ffe5e0d4243e73dd5450063582643a9fcee9b0",
+      "task_id": "S02",
+      "task_sha256": "7f99055d1332434cf41912661aad14832ffc5b012ff817b3ac33327b7fad22a7",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S02/actor/ISSUE.md:3",
+        "issue_sha256": "6d705381fdfb694cced6934c007903fff345a72f05af849316e818a2bdf6e7fe",
+        "mechanism": "Hookspec defaults, plugin validation and dispatch must pass the same effective argument through direct and historic calls.",
+        "modules": [
+          "pluggy/_hooks.py",
+          "pluggy/_manager.py",
+          "pluggy/_callers.py"
+        ],
+        "source_sha256": {
+          "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+          "pluggy/_hooks.py": "61e55d0570aa68b48ac928688a39906c548f57d88a4d8b7cb44b9e651ef745d7",
+          "pluggy/_manager.py": "50c04db12ef81c0425624b30c78d818016c381c7999afd3308c2f07192f5229c"
+        },
+        "task_id": "S02",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "LICENSE": "7dcf4a5137118a925727b8a1690bc6ea70b156ee6739dbb51fd4d386718d6ce5",
+        "acceptance.json": "dfabae36f4d801a094600022662ccbe1f4944588e9ebf11cfbe9ce7092c43f75",
+        "public_check.py": "8e682c87a0b7c4c8f218997c7f6fc958a34d45bf3cf5f58516360c045d9e303a",
+        "sortedcontainers/__init__.py": "235d4d37c3cb23a4559073ad8596c196fc849f847022775bf364531865bac9d9",
+        "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+        "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+        "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+      },
+      "case_source_sha256": "dd2189bb67d6c48c456fd516bb33d23e65eeb27e5f2f067e738983a8cbea8ff0",
+      "editable_paths": [
+        "sortedcontainers/sorteddict.py",
+        "sortedcontainers/sortedlist.py",
+        "sortedcontainers/sortedset.py"
+      ],
+      "episode_label": "sonnet-medium",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-medium",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 3,
+      "oracle_sha256": "063cf593436099d31f125a8bd19e6d9f41e9a3a04f1730650a82a04c8a561819",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "list-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: list reduce",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "key-list-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: key list reduce",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "dict-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: dict reduce",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "set-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: set reduce",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "schema_version": 2,
+        "task_sha256": "421d86e022fcee09ca23c28b16a4895ab585402db5cf3b99ef2fe79cfbebc607"
+      },
+      "sequence": 7,
+      "source_task_sha256": "2e596efd5a115fb33c51bb77212874fd4c21597d24a5c10c1139406a39cb74d0",
+      "task_id": "S04",
+      "task_sha256": "421d86e022fcee09ca23c28b16a4895ab585402db5cf3b99ef2fe79cfbebc607",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S04/actor/ISSUE.md:3",
+        "issue_sha256": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "mechanism": "List, keyed list, dictionary and set reducers must reconstruct values and key behaviour without private indexes.",
+        "modules": [
+          "sortedcontainers/sorteddict.py",
+          "sortedcontainers/sortedlist.py",
+          "sortedcontainers/sortedset.py"
+        ],
+        "source_sha256": {
+          "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+          "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+          "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+        },
+        "task_id": "S04",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "LICENSE": "7dcf4a5137118a925727b8a1690bc6ea70b156ee6739dbb51fd4d386718d6ce5",
+        "acceptance.json": "dfabae36f4d801a094600022662ccbe1f4944588e9ebf11cfbe9ce7092c43f75",
+        "public_check.py": "8e682c87a0b7c4c8f218997c7f6fc958a34d45bf3cf5f58516360c045d9e303a",
+        "sortedcontainers/__init__.py": "235d4d37c3cb23a4559073ad8596c196fc849f847022775bf364531865bac9d9",
+        "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+        "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+        "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+      },
+      "case_source_sha256": "dd2189bb67d6c48c456fd516bb33d23e65eeb27e5f2f067e738983a8cbea8ff0",
+      "editable_paths": [
+        "sortedcontainers/sorteddict.py",
+        "sortedcontainers/sortedlist.py",
+        "sortedcontainers/sortedset.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 3,
+      "oracle_sha256": "063cf593436099d31f125a8bd19e6d9f41e9a3a04f1730650a82a04c8a561819",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "list-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: list reduce",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "key-list-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: key list reduce",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "dict-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: dict reduce",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "set-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: set reduce",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "schema_version": 2,
+        "task_sha256": "421d86e022fcee09ca23c28b16a4895ab585402db5cf3b99ef2fe79cfbebc607"
+      },
+      "sequence": 8,
+      "source_task_sha256": "2e596efd5a115fb33c51bb77212874fd4c21597d24a5c10c1139406a39cb74d0",
+      "task_id": "S04",
+      "task_sha256": "421d86e022fcee09ca23c28b16a4895ab585402db5cf3b99ef2fe79cfbebc607",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S04/actor/ISSUE.md:3",
+        "issue_sha256": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "mechanism": "List, keyed list, dictionary and set reducers must reconstruct values and key behaviour without private indexes.",
+        "modules": [
+          "sortedcontainers/sorteddict.py",
+          "sortedcontainers/sortedlist.py",
+          "sortedcontainers/sortedset.py"
+        ],
+        "source_sha256": {
+          "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+          "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+          "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+        },
+        "task_id": "S04",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "LICENSE": "7dcf4a5137118a925727b8a1690bc6ea70b156ee6739dbb51fd4d386718d6ce5",
+        "acceptance.json": "dfabae36f4d801a094600022662ccbe1f4944588e9ebf11cfbe9ce7092c43f75",
+        "public_check.py": "8e682c87a0b7c4c8f218997c7f6fc958a34d45bf3cf5f58516360c045d9e303a",
+        "sortedcontainers/__init__.py": "235d4d37c3cb23a4559073ad8596c196fc849f847022775bf364531865bac9d9",
+        "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+        "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+        "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+      },
+      "case_source_sha256": "dd2189bb67d6c48c456fd516bb33d23e65eeb27e5f2f067e738983a8cbea8ff0",
+      "editable_paths": [
+        "sortedcontainers/sorteddict.py",
+        "sortedcontainers/sortedlist.py",
+        "sortedcontainers/sortedset.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 3,
+      "oracle_sha256": "063cf593436099d31f125a8bd19e6d9f41e9a3a04f1730650a82a04c8a561819",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "list-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: list reduce",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "key-list-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: key list reduce",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "dict-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: dict reduce",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "set-reduce",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S04 issue contract: set reduce",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "schema_version": 2,
+        "task_sha256": "421d86e022fcee09ca23c28b16a4895ab585402db5cf3b99ef2fe79cfbebc607"
+      },
+      "sequence": 9,
+      "source_task_sha256": "2e596efd5a115fb33c51bb77212874fd4c21597d24a5c10c1139406a39cb74d0",
+      "task_id": "S04",
+      "task_sha256": "421d86e022fcee09ca23c28b16a4895ab585402db5cf3b99ef2fe79cfbebc607",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S04/actor/ISSUE.md:3",
+        "issue_sha256": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+        "mechanism": "List, keyed list, dictionary and set reducers must reconstruct values and key behaviour without private indexes.",
+        "modules": [
+          "sortedcontainers/sorteddict.py",
+          "sortedcontainers/sortedlist.py",
+          "sortedcontainers/sortedset.py"
+        ],
+        "source_sha256": {
+          "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+          "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+          "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+        },
+        "task_id": "S04",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "LICENSE": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+        "acceptance.json": "178d63b22dbf7e25c963a458942dd2b83c4a921c818aa0c1b18a92de3ad436db",
+        "attr/__init__.py": "c4b60c58c71a654db9f722632f0dc871b6ce65a55aba231682da218e185726d4",
+        "attr/__init__.pyi": "b1f6230bcd1c410601ea23e5fbca7c7f54dcc66da01a789a30a21409e9ecd68b",
+        "attr/_cmp.py": "dcd9f54e3c659546225ff9c9a159c4917a0393484cd4360a8f90c4ec665ee22d",
+        "attr/_cmp.pyi": "53efd153f5193b23d4110cd713a44c61041c8e4651636e704c7f7db0dd2cecc3",
+        "attr/_compat.py": "cd836731e872eb5ee88d62c7d62d048131e3178e7c4d773d1be743e785bedb76",
+        "attr/_config.py": "746ab7c51e9f819105e9406dfcbd13f9e507201e22e37911987d0fdbcb09570f",
+        "attr/_funcs.py": "597251e696a8ca4392cc411050ad4c023655f461efe5e909ec39ab9f223e87c2",
+        "attr/_make.py": "130c1f5bb2573a51e7161380a591cca9f5c1a25c369e44b44243482c68ea871f",
+        "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+        "attr/_typing_compat.pyi": "5c33f9e13527f992a10fad9339079b9b3af0172a268540a8191a5c95be9a9510",
+        "attr/_version_info.py": "c3847e1580b734afe43241945899583f87150251fd1d1682fae9b77dc8d89073",
+        "attr/_version_info.pyi": "c7f3372f75ae07baff50b5c05a3c7de7db9d290e072c1f25fa1b1cd450c636f9",
+        "attr/converters.py": "1a50de3b33de4c581e0412db8fd1b9ec4cf994093af2e85200b45827f7b17bce",
+        "attr/converters.pyi": "a2b5366df7fe56341ada4303caf9cc415ef7a094f6591c90bb0e19475ca6d5b1",
+        "attr/exceptions.py": "6f8bcc6e7a10dd5a7059986aad88bfb2c5d508af28d9ce074124b4f5c49433da",
+        "attr/exceptions.pyi": "cd9abc6c2527280cbd983b41130e366613e1014207a1329e7434089c90fcf373",
+        "attr/filters.py": "64188a58ba774742df099b2aed7d75a67f565fc36c952db05cce23b272ce19cf",
+        "attr/filters.pyi": "dc9e411be753c65b41935ffe46e351507aefdaabb5bfcbf868334043bfe689f0",
+        "attr/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34",
+        "attr/setters.pyi": "367564685535041e0907c13826e5f2af34d482fb4ca63f29df005d258eee8b1e",
+        "attr/validators.py": "9b7411cd94c036be1fd82e1e55d528160d753605d66a4f166ade2a4131a1bdcb",
+        "attr/validators.pyi": "80cd59987681724c98588d848aba51373aa6dc1d7d730e48aba0782a7a3d6023",
+        "attrs/__init__.py": "3ea59419611e6cfc16be5521f2a3a69e030ec97e737fac48b7f38b88a06a2006",
+        "attrs/__init__.pyi": "da057bf60f54c49a69192338f2101927a87f3076fbd1d66824bdf564d25e6582",
+        "attrs/converters.py": "f244258eb5707d24d1bbc20dc0493c488d1e1abce659fb6c4fbaccd04ab2a213",
+        "attrs/exceptions.py": "0020829a0d7dfaf0c56833d8f6f165d7df523d709030dfdb10db380c02e3ce6b",
+        "attrs/filters.py": "54e50c66e83db8453a754b80d1d1758c89d42b43cbddf2e03f45414b977e0831",
+        "attrs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attrs/setters.py": "78bd5889d6105774f687dfd2608652651d4501c1c66f54ee093cb41342efd925",
+        "attrs/validators.py": "c5ccbac03e53b5391d086d5fe1759ba1c3d23b47da06393921f5497cfe92523d",
+        "public_check.py": "34db2b3bbe6a646f60ec418ec4952241565bb6c2e774f7fbeb656259f664bb28"
+      },
+      "case_source_sha256": "15546dfa64d3d7e7fe38b4c587430b758aeb68f3178b9991f4de5003ca94adf6",
+      "editable_paths": [
+        "attr/_compat.py",
+        "attr/_make.py",
+        "attr/_next_gen.py",
+        "attr/setters.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 4,
+      "oracle_sha256": "daaa860e5157f5a6071059dc41db9c63ff77b2409df76fde475e2ea3f730d8c3",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "class-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: class hook",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "field-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: field hook",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "ordinary-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: ordinary hook",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "double-yield",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: double yield",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "schema_version": 2,
+        "task_sha256": "5affb442e04a57847e5e9b492d2b963da3bbec3e0c592c9606381530ab86d17a"
+      },
+      "sequence": 10,
+      "source_task_sha256": "2f0f45e38e7a5cd5e0f8427ddb0f4e84341da98bd921d3b3481e72f149926357",
+      "task_id": "S01",
+      "task_sha256": "5affb442e04a57847e5e9b492d2b963da3bbec3e0c592c9606381530ab86d17a",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S01/actor/ISSUE.md:3",
+        "issue_sha256": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "mechanism": "Callable detection, generated assignment and field hooks must preserve one-yield before/after assignment semantics.",
+        "modules": [
+          "attr/_compat.py",
+          "attr/_make.py",
+          "attr/_next_gen.py",
+          "attr/setters.py"
+        ],
+        "source_sha256": {
+          "attr/_compat.py": "cd836731e872eb5ee88d62c7d62d048131e3178e7c4d773d1be743e785bedb76",
+          "attr/_make.py": "130c1f5bb2573a51e7161380a591cca9f5c1a25c369e44b44243482c68ea871f",
+          "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+          "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34"
+        },
+        "task_id": "S01",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "LICENSE": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+        "acceptance.json": "178d63b22dbf7e25c963a458942dd2b83c4a921c818aa0c1b18a92de3ad436db",
+        "attr/__init__.py": "c4b60c58c71a654db9f722632f0dc871b6ce65a55aba231682da218e185726d4",
+        "attr/__init__.pyi": "b1f6230bcd1c410601ea23e5fbca7c7f54dcc66da01a789a30a21409e9ecd68b",
+        "attr/_cmp.py": "dcd9f54e3c659546225ff9c9a159c4917a0393484cd4360a8f90c4ec665ee22d",
+        "attr/_cmp.pyi": "53efd153f5193b23d4110cd713a44c61041c8e4651636e704c7f7db0dd2cecc3",
+        "attr/_compat.py": "cd836731e872eb5ee88d62c7d62d048131e3178e7c4d773d1be743e785bedb76",
+        "attr/_config.py": "746ab7c51e9f819105e9406dfcbd13f9e507201e22e37911987d0fdbcb09570f",
+        "attr/_funcs.py": "597251e696a8ca4392cc411050ad4c023655f461efe5e909ec39ab9f223e87c2",
+        "attr/_make.py": "130c1f5bb2573a51e7161380a591cca9f5c1a25c369e44b44243482c68ea871f",
+        "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+        "attr/_typing_compat.pyi": "5c33f9e13527f992a10fad9339079b9b3af0172a268540a8191a5c95be9a9510",
+        "attr/_version_info.py": "c3847e1580b734afe43241945899583f87150251fd1d1682fae9b77dc8d89073",
+        "attr/_version_info.pyi": "c7f3372f75ae07baff50b5c05a3c7de7db9d290e072c1f25fa1b1cd450c636f9",
+        "attr/converters.py": "1a50de3b33de4c581e0412db8fd1b9ec4cf994093af2e85200b45827f7b17bce",
+        "attr/converters.pyi": "a2b5366df7fe56341ada4303caf9cc415ef7a094f6591c90bb0e19475ca6d5b1",
+        "attr/exceptions.py": "6f8bcc6e7a10dd5a7059986aad88bfb2c5d508af28d9ce074124b4f5c49433da",
+        "attr/exceptions.pyi": "cd9abc6c2527280cbd983b41130e366613e1014207a1329e7434089c90fcf373",
+        "attr/filters.py": "64188a58ba774742df099b2aed7d75a67f565fc36c952db05cce23b272ce19cf",
+        "attr/filters.pyi": "dc9e411be753c65b41935ffe46e351507aefdaabb5bfcbf868334043bfe689f0",
+        "attr/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34",
+        "attr/setters.pyi": "367564685535041e0907c13826e5f2af34d482fb4ca63f29df005d258eee8b1e",
+        "attr/validators.py": "9b7411cd94c036be1fd82e1e55d528160d753605d66a4f166ade2a4131a1bdcb",
+        "attr/validators.pyi": "80cd59987681724c98588d848aba51373aa6dc1d7d730e48aba0782a7a3d6023",
+        "attrs/__init__.py": "3ea59419611e6cfc16be5521f2a3a69e030ec97e737fac48b7f38b88a06a2006",
+        "attrs/__init__.pyi": "da057bf60f54c49a69192338f2101927a87f3076fbd1d66824bdf564d25e6582",
+        "attrs/converters.py": "f244258eb5707d24d1bbc20dc0493c488d1e1abce659fb6c4fbaccd04ab2a213",
+        "attrs/exceptions.py": "0020829a0d7dfaf0c56833d8f6f165d7df523d709030dfdb10db380c02e3ce6b",
+        "attrs/filters.py": "54e50c66e83db8453a754b80d1d1758c89d42b43cbddf2e03f45414b977e0831",
+        "attrs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attrs/setters.py": "78bd5889d6105774f687dfd2608652651d4501c1c66f54ee093cb41342efd925",
+        "attrs/validators.py": "c5ccbac03e53b5391d086d5fe1759ba1c3d23b47da06393921f5497cfe92523d",
+        "public_check.py": "34db2b3bbe6a646f60ec418ec4952241565bb6c2e774f7fbeb656259f664bb28"
+      },
+      "case_source_sha256": "15546dfa64d3d7e7fe38b4c587430b758aeb68f3178b9991f4de5003ca94adf6",
+      "editable_paths": [
+        "attr/_compat.py",
+        "attr/_make.py",
+        "attr/_next_gen.py",
+        "attr/setters.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 4,
+      "oracle_sha256": "daaa860e5157f5a6071059dc41db9c63ff77b2409df76fde475e2ea3f730d8c3",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "class-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: class hook",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "field-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: field hook",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "ordinary-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: ordinary hook",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "double-yield",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: double yield",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "schema_version": 2,
+        "task_sha256": "5affb442e04a57847e5e9b492d2b963da3bbec3e0c592c9606381530ab86d17a"
+      },
+      "sequence": 11,
+      "source_task_sha256": "2f0f45e38e7a5cd5e0f8427ddb0f4e84341da98bd921d3b3481e72f149926357",
+      "task_id": "S01",
+      "task_sha256": "5affb442e04a57847e5e9b492d2b963da3bbec3e0c592c9606381530ab86d17a",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S01/actor/ISSUE.md:3",
+        "issue_sha256": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "mechanism": "Callable detection, generated assignment and field hooks must preserve one-yield before/after assignment semantics.",
+        "modules": [
+          "attr/_compat.py",
+          "attr/_make.py",
+          "attr/_next_gen.py",
+          "attr/setters.py"
+        ],
+        "source_sha256": {
+          "attr/_compat.py": "cd836731e872eb5ee88d62c7d62d048131e3178e7c4d773d1be743e785bedb76",
+          "attr/_make.py": "130c1f5bb2573a51e7161380a591cca9f5c1a25c369e44b44243482c68ea871f",
+          "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+          "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34"
+        },
+        "task_id": "S01",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "LICENSE": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+        "acceptance.json": "178d63b22dbf7e25c963a458942dd2b83c4a921c818aa0c1b18a92de3ad436db",
+        "attr/__init__.py": "c4b60c58c71a654db9f722632f0dc871b6ce65a55aba231682da218e185726d4",
+        "attr/__init__.pyi": "b1f6230bcd1c410601ea23e5fbca7c7f54dcc66da01a789a30a21409e9ecd68b",
+        "attr/_cmp.py": "dcd9f54e3c659546225ff9c9a159c4917a0393484cd4360a8f90c4ec665ee22d",
+        "attr/_cmp.pyi": "53efd153f5193b23d4110cd713a44c61041c8e4651636e704c7f7db0dd2cecc3",
+        "attr/_compat.py": "cd836731e872eb5ee88d62c7d62d048131e3178e7c4d773d1be743e785bedb76",
+        "attr/_config.py": "746ab7c51e9f819105e9406dfcbd13f9e507201e22e37911987d0fdbcb09570f",
+        "attr/_funcs.py": "597251e696a8ca4392cc411050ad4c023655f461efe5e909ec39ab9f223e87c2",
+        "attr/_make.py": "130c1f5bb2573a51e7161380a591cca9f5c1a25c369e44b44243482c68ea871f",
+        "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+        "attr/_typing_compat.pyi": "5c33f9e13527f992a10fad9339079b9b3af0172a268540a8191a5c95be9a9510",
+        "attr/_version_info.py": "c3847e1580b734afe43241945899583f87150251fd1d1682fae9b77dc8d89073",
+        "attr/_version_info.pyi": "c7f3372f75ae07baff50b5c05a3c7de7db9d290e072c1f25fa1b1cd450c636f9",
+        "attr/converters.py": "1a50de3b33de4c581e0412db8fd1b9ec4cf994093af2e85200b45827f7b17bce",
+        "attr/converters.pyi": "a2b5366df7fe56341ada4303caf9cc415ef7a094f6591c90bb0e19475ca6d5b1",
+        "attr/exceptions.py": "6f8bcc6e7a10dd5a7059986aad88bfb2c5d508af28d9ce074124b4f5c49433da",
+        "attr/exceptions.pyi": "cd9abc6c2527280cbd983b41130e366613e1014207a1329e7434089c90fcf373",
+        "attr/filters.py": "64188a58ba774742df099b2aed7d75a67f565fc36c952db05cce23b272ce19cf",
+        "attr/filters.pyi": "dc9e411be753c65b41935ffe46e351507aefdaabb5bfcbf868334043bfe689f0",
+        "attr/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34",
+        "attr/setters.pyi": "367564685535041e0907c13826e5f2af34d482fb4ca63f29df005d258eee8b1e",
+        "attr/validators.py": "9b7411cd94c036be1fd82e1e55d528160d753605d66a4f166ade2a4131a1bdcb",
+        "attr/validators.pyi": "80cd59987681724c98588d848aba51373aa6dc1d7d730e48aba0782a7a3d6023",
+        "attrs/__init__.py": "3ea59419611e6cfc16be5521f2a3a69e030ec97e737fac48b7f38b88a06a2006",
+        "attrs/__init__.pyi": "da057bf60f54c49a69192338f2101927a87f3076fbd1d66824bdf564d25e6582",
+        "attrs/converters.py": "f244258eb5707d24d1bbc20dc0493c488d1e1abce659fb6c4fbaccd04ab2a213",
+        "attrs/exceptions.py": "0020829a0d7dfaf0c56833d8f6f165d7df523d709030dfdb10db380c02e3ce6b",
+        "attrs/filters.py": "54e50c66e83db8453a754b80d1d1758c89d42b43cbddf2e03f45414b977e0831",
+        "attrs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "attrs/setters.py": "78bd5889d6105774f687dfd2608652651d4501c1c66f54ee093cb41342efd925",
+        "attrs/validators.py": "c5ccbac03e53b5391d086d5fe1759ba1c3d23b47da06393921f5497cfe92523d",
+        "public_check.py": "34db2b3bbe6a646f60ec418ec4952241565bb6c2e774f7fbeb656259f664bb28"
+      },
+      "case_source_sha256": "15546dfa64d3d7e7fe38b4c587430b758aeb68f3178b9991f4de5003ca94adf6",
+      "editable_paths": [
+        "attr/_compat.py",
+        "attr/_make.py",
+        "attr/_next_gen.py",
+        "attr/setters.py"
+      ],
+      "episode_label": "sonnet-medium",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-medium",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 4,
+      "oracle_sha256": "daaa860e5157f5a6071059dc41db9c63ff77b2409df76fde475e2ea3f730d8c3",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "class-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: class hook",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "field-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: field hook",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "ordinary-hook",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: ordinary hook",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "double-yield",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S01 issue contract: double yield",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "schema_version": 2,
+        "task_sha256": "5affb442e04a57847e5e9b492d2b963da3bbec3e0c592c9606381530ab86d17a"
+      },
+      "sequence": 12,
+      "source_task_sha256": "2f0f45e38e7a5cd5e0f8427ddb0f4e84341da98bd921d3b3481e72f149926357",
+      "task_id": "S01",
+      "task_sha256": "5affb442e04a57847e5e9b492d2b963da3bbec3e0c592c9606381530ab86d17a",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S01/actor/ISSUE.md:3",
+        "issue_sha256": "fe84e83a6a2013deca4f206cd339a3c305771cfae2f2f879ad4f6be61223cffb",
+        "mechanism": "Callable detection, generated assignment and field hooks must preserve one-yield before/after assignment semantics.",
+        "modules": [
+          "attr/_compat.py",
+          "attr/_make.py",
+          "attr/_next_gen.py",
+          "attr/setters.py"
+        ],
+        "source_sha256": {
+          "attr/_compat.py": "cd836731e872eb5ee88d62c7d62d048131e3178e7c4d773d1be743e785bedb76",
+          "attr/_make.py": "130c1f5bb2573a51e7161380a591cca9f5c1a25c369e44b44243482c68ea871f",
+          "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+          "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34"
+        },
+        "task_id": "S01",
+        "triggered": true
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "acceptance.json": "6df9a50e90a66c3a7f068cf33a6f76f3fc70507a66b834cb1d3b3551458c2c85",
+        "more_itertools/__init__.py": "19cb2d318e8d45eb7d56136a55f1452c9469d21597571c31d752aa8232a2c07b",
+        "more_itertools/__init__.pyi": "e41dde4f338dd4106e38ba1bd6f09f97211bda549deaeb17410f82bfe85791e0",
+        "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+        "more_itertools/more.pyi": "68a80754717728996043ad56500342dc06b07a4c0bf99051ab3200aca95a79c9",
+        "more_itertools/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c",
+        "more_itertools/recipes.pyi": "2dd48ac5ef0b502f989bd2e13923c402994244ee50a4187e2f0d59c348bf2583",
+        "public_check.py": "9ebcd44cb181560c92e822a24cffd8ab0ca6ab34dec11d792db9a8b7cbfdbe55"
+      },
+      "case_source_sha256": "85ae09886f8d1e9592ca83bbf42b552dc99fe1043df59816e3d13d0b6e078bda",
+      "editable_paths": [
+        "more_itertools/more.py",
+        "more_itertools/recipes.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 5,
+      "oracle_sha256": "9f226b27f681fb544d3f410e95924dee44afc0392ccd13c4dc23433e86ac7280",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "bounded-memory",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: bounded memory",
+            "weight": 40
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "lookahead-order",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: lookahead order",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "empty-default",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: empty default",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "schema_version": 2,
+        "task_sha256": "31de16b603caafc4db04c4db4b0735e189856d255ef5118447238407b9bf6d91"
+      },
+      "sequence": 13,
+      "source_task_sha256": "729372ac746e3de6ca707742efbc238c334324d4624089a51fef22c1d98d7e3c",
+      "task_id": "S05",
+      "task_sha256": "31de16b603caafc4db04c4db4b0735e189856d255ef5118447238407b9bf6d91",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S05/actor/ISSUE.md:3",
+        "issue_sha256": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "mechanism": "The zero-cache seekable lookahead implementation must bound retained state during repeated peeks.",
+        "modules": [
+          "more_itertools/more.py",
+          "more_itertools/recipes.py"
+        ],
+        "source_sha256": {
+          "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+          "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+        },
+        "task_id": "S05",
+        "triggered": false
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "acceptance.json": "6df9a50e90a66c3a7f068cf33a6f76f3fc70507a66b834cb1d3b3551458c2c85",
+        "more_itertools/__init__.py": "19cb2d318e8d45eb7d56136a55f1452c9469d21597571c31d752aa8232a2c07b",
+        "more_itertools/__init__.pyi": "e41dde4f338dd4106e38ba1bd6f09f97211bda549deaeb17410f82bfe85791e0",
+        "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+        "more_itertools/more.pyi": "68a80754717728996043ad56500342dc06b07a4c0bf99051ab3200aca95a79c9",
+        "more_itertools/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c",
+        "more_itertools/recipes.pyi": "2dd48ac5ef0b502f989bd2e13923c402994244ee50a4187e2f0d59c348bf2583",
+        "public_check.py": "9ebcd44cb181560c92e822a24cffd8ab0ca6ab34dec11d792db9a8b7cbfdbe55"
+      },
+      "case_source_sha256": "85ae09886f8d1e9592ca83bbf42b552dc99fe1043df59816e3d13d0b6e078bda",
+      "editable_paths": [
+        "more_itertools/more.py",
+        "more_itertools/recipes.py"
+      ],
+      "episode_label": "sonnet-medium",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-medium",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 5,
+      "oracle_sha256": "9f226b27f681fb544d3f410e95924dee44afc0392ccd13c4dc23433e86ac7280",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "bounded-memory",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: bounded memory",
+            "weight": 40
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "lookahead-order",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: lookahead order",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "empty-default",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: empty default",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "schema_version": 2,
+        "task_sha256": "31de16b603caafc4db04c4db4b0735e189856d255ef5118447238407b9bf6d91"
+      },
+      "sequence": 14,
+      "source_task_sha256": "729372ac746e3de6ca707742efbc238c334324d4624089a51fef22c1d98d7e3c",
+      "task_id": "S05",
+      "task_sha256": "31de16b603caafc4db04c4db4b0735e189856d255ef5118447238407b9bf6d91",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S05/actor/ISSUE.md:3",
+        "issue_sha256": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "mechanism": "The zero-cache seekable lookahead implementation must bound retained state during repeated peeks.",
+        "modules": [
+          "more_itertools/more.py",
+          "more_itertools/recipes.py"
+        ],
+        "source_sha256": {
+          "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+          "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+        },
+        "task_id": "S05",
+        "triggered": false
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "acceptance.json": "6df9a50e90a66c3a7f068cf33a6f76f3fc70507a66b834cb1d3b3551458c2c85",
+        "more_itertools/__init__.py": "19cb2d318e8d45eb7d56136a55f1452c9469d21597571c31d752aa8232a2c07b",
+        "more_itertools/__init__.pyi": "e41dde4f338dd4106e38ba1bd6f09f97211bda549deaeb17410f82bfe85791e0",
+        "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+        "more_itertools/more.pyi": "68a80754717728996043ad56500342dc06b07a4c0bf99051ab3200aca95a79c9",
+        "more_itertools/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c",
+        "more_itertools/recipes.pyi": "2dd48ac5ef0b502f989bd2e13923c402994244ee50a4187e2f0d59c348bf2583",
+        "public_check.py": "9ebcd44cb181560c92e822a24cffd8ab0ca6ab34dec11d792db9a8b7cbfdbe55"
+      },
+      "case_source_sha256": "85ae09886f8d1e9592ca83bbf42b552dc99fe1043df59816e3d13d0b6e078bda",
+      "editable_paths": [
+        "more_itertools/more.py",
+        "more_itertools/recipes.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 5,
+      "oracle_sha256": "9f226b27f681fb544d3f410e95924dee44afc0392ccd13c4dc23433e86ac7280",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "bounded-memory",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: bounded memory",
+            "weight": 40
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "lookahead-order",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: lookahead order",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "empty-default",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S05 issue contract: empty default",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "schema_version": 2,
+        "task_sha256": "31de16b603caafc4db04c4db4b0735e189856d255ef5118447238407b9bf6d91"
+      },
+      "sequence": 15,
+      "source_task_sha256": "729372ac746e3de6ca707742efbc238c334324d4624089a51fef22c1d98d7e3c",
+      "task_id": "S05",
+      "task_sha256": "31de16b603caafc4db04c4db4b0735e189856d255ef5118447238407b9bf6d91",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S05/actor/ISSUE.md:3",
+        "issue_sha256": "55e4de855c73c3113c0311642f583d0b67152c94f257f863cf26472b389755c0",
+        "mechanism": "The zero-cache seekable lookahead implementation must bound retained state during repeated peeks.",
+        "modules": [
+          "more_itertools/more.py",
+          "more_itertools/recipes.py"
+        ],
+        "source_sha256": {
+          "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+          "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+        },
+        "task_id": "S05",
+        "triggered": false
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "LICENSE.md": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+        "acceptance.json": "ad3f06fbfcc116354b20e6b358784f4176ece82893b829d89f627c8cb75916d3",
+        "idna/__init__.py": "30fa8d0cb65b5ea19a35d5f1005862a853ca1105e3bb68cd42109ecbafb97893",
+        "idna/__main__.py": "e0930aeba5a3e2e2d94ca6c5fac4f72c0c4eb2be9bba283becf98e909091471c",
+        "idna/cli.py": "b30a892cc35cf14ceceb42b388da5b5a71eeaa51b75914302526e8e27f310c0a",
+        "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+        "idna/compat.py": "01ea40dfd71e447c647c73f8d7e16f296e4a8be7f83df519f7445432508d766a",
+        "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec",
+        "idna/idnadata.py": "01ffa6a3c5819a48402ba4f25ca3901fcf0e5f49903432ad74bed45ad429a699",
+        "idna/intranges.py": "838f6c70b4a4a89b4084b98e3836bb8551eb8928e66fad2d893b04a287097412",
+        "idna/package_data.py": "4de23de04a8014015a5df049c2c38f50c2e7dbdebdba2acf6be0da79a71e0325",
+        "idna/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "idna/uts46data.py": "8ee8cdcf942a58c7097fe5d82efe17d6306f6f9165234b7af9ed6620bb206cf9",
+        "public_check.py": "cd78559e2816007cf87b1be8e3379ec91f2ae6201f5d3d15d8836278626bddc5"
+      },
+      "case_source_sha256": "efbf83dea1003b9f7dcdf49096a41dff6caa5790eeb8413350720607e9e70435",
+      "editable_paths": [
+        "idna/core.py",
+        "idna/codec.py"
+      ],
+      "episode_label": "sonnet-medium",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-medium",
+      "ladder": [
+        "worker-sonnet-medium",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 6,
+      "oracle_sha256": "89842e4c3cf8a9e6c269e8a5418db79c9c0d3ffb13f1a45a24da302838ea680c",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zwj-type",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: zwj type",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zwnj-type",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: zwnj type",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "unknown-data",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: unknown data",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "valid-context",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: valid context",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "schema_version": 2,
+        "task_sha256": "80b1118776e4c5830f85e6d95933b020ee24ae46cf3e15ddef78187f8f8614cb"
+      },
+      "sequence": 16,
+      "source_task_sha256": "f7645deaf759273e4b4730aafbe87d1f606e7f84b10caf2d5a911d803bee3143",
+      "task_id": "S06",
+      "task_sha256": "80b1118776e4c5830f85e6d95933b020ee24ae46cf3e15ddef78187f8f8614cb",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S06/actor/ISSUE.md:3",
+        "issue_sha256": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "mechanism": "The core joiner validation error path must retain the specific invalid-context exception while preserving unknown-data errors.",
+        "modules": [
+          "idna/core.py",
+          "idna/codec.py"
+        ],
+        "source_sha256": {
+          "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+          "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec"
+        },
+        "task_id": "S06",
+        "triggered": false
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "LICENSE.md": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+        "acceptance.json": "ad3f06fbfcc116354b20e6b358784f4176ece82893b829d89f627c8cb75916d3",
+        "idna/__init__.py": "30fa8d0cb65b5ea19a35d5f1005862a853ca1105e3bb68cd42109ecbafb97893",
+        "idna/__main__.py": "e0930aeba5a3e2e2d94ca6c5fac4f72c0c4eb2be9bba283becf98e909091471c",
+        "idna/cli.py": "b30a892cc35cf14ceceb42b388da5b5a71eeaa51b75914302526e8e27f310c0a",
+        "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+        "idna/compat.py": "01ea40dfd71e447c647c73f8d7e16f296e4a8be7f83df519f7445432508d766a",
+        "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec",
+        "idna/idnadata.py": "01ffa6a3c5819a48402ba4f25ca3901fcf0e5f49903432ad74bed45ad429a699",
+        "idna/intranges.py": "838f6c70b4a4a89b4084b98e3836bb8551eb8928e66fad2d893b04a287097412",
+        "idna/package_data.py": "4de23de04a8014015a5df049c2c38f50c2e7dbdebdba2acf6be0da79a71e0325",
+        "idna/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "idna/uts46data.py": "8ee8cdcf942a58c7097fe5d82efe17d6306f6f9165234b7af9ed6620bb206cf9",
+        "public_check.py": "cd78559e2816007cf87b1be8e3379ec91f2ae6201f5d3d15d8836278626bddc5"
+      },
+      "case_source_sha256": "efbf83dea1003b9f7dcdf49096a41dff6caa5790eeb8413350720607e9e70435",
+      "editable_paths": [
+        "idna/core.py",
+        "idna/codec.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 6,
+      "oracle_sha256": "89842e4c3cf8a9e6c269e8a5418db79c9c0d3ffb13f1a45a24da302838ea680c",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zwj-type",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: zwj type",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zwnj-type",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: zwnj type",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "unknown-data",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: unknown data",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "valid-context",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: valid context",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "schema_version": 2,
+        "task_sha256": "80b1118776e4c5830f85e6d95933b020ee24ae46cf3e15ddef78187f8f8614cb"
+      },
+      "sequence": 17,
+      "source_task_sha256": "f7645deaf759273e4b4730aafbe87d1f606e7f84b10caf2d5a911d803bee3143",
+      "task_id": "S06",
+      "task_sha256": "80b1118776e4c5830f85e6d95933b020ee24ae46cf3e15ddef78187f8f8614cb",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S06/actor/ISSUE.md:3",
+        "issue_sha256": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "mechanism": "The core joiner validation error path must retain the specific invalid-context exception while preserving unknown-data errors.",
+        "modules": [
+          "idna/core.py",
+          "idna/codec.py"
+        ],
+        "source_sha256": {
+          "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+          "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec"
+        },
+        "task_id": "S06",
+        "triggered": false
+      }
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "LICENSE.md": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+        "acceptance.json": "ad3f06fbfcc116354b20e6b358784f4176ece82893b829d89f627c8cb75916d3",
+        "idna/__init__.py": "30fa8d0cb65b5ea19a35d5f1005862a853ca1105e3bb68cd42109ecbafb97893",
+        "idna/__main__.py": "e0930aeba5a3e2e2d94ca6c5fac4f72c0c4eb2be9bba283becf98e909091471c",
+        "idna/cli.py": "b30a892cc35cf14ceceb42b388da5b5a71eeaa51b75914302526e8e27f310c0a",
+        "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+        "idna/compat.py": "01ea40dfd71e447c647c73f8d7e16f296e4a8be7f83df519f7445432508d766a",
+        "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec",
+        "idna/idnadata.py": "01ffa6a3c5819a48402ba4f25ca3901fcf0e5f49903432ad74bed45ad429a699",
+        "idna/intranges.py": "838f6c70b4a4a89b4084b98e3836bb8551eb8928e66fad2d893b04a287097412",
+        "idna/package_data.py": "4de23de04a8014015a5df049c2c38f50c2e7dbdebdba2acf6be0da79a71e0325",
+        "idna/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "idna/uts46data.py": "8ee8cdcf942a58c7097fe5d82efe17d6306f6f9165234b7af9ed6620bb206cf9",
+        "public_check.py": "cd78559e2816007cf87b1be8e3379ec91f2ae6201f5d3d15d8836278626bddc5"
+      },
+      "case_source_sha256": "efbf83dea1003b9f7dcdf49096a41dff6caa5790eeb8413350720607e9e70435",
+      "editable_paths": [
+        "idna/core.py",
+        "idna/codec.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 4.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 6,
+      "oracle_sha256": "89842e4c3cf8a9e6c269e8a5418db79c9c0d3ffb13f1a45a24da302838ea680c",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zwj-type",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: zwj type",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zwnj-type",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: zwnj type",
+            "weight": 20
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "unknown-data",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: unknown data",
+            "weight": 20
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "valid-context",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "S06 issue contract: valid context",
+            "weight": 20
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism with observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks and remaining work",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "schema_version": 2,
+        "task_sha256": "80b1118776e4c5830f85e6d95933b020ee24ae46cf3e15ddef78187f8f8614cb"
+      },
+      "sequence": 18,
+      "source_task_sha256": "f7645deaf759273e4b4730aafbe87d1f606e7f84b10caf2d5a911d803bee3143",
+      "task_id": "S06",
+      "task_sha256": "80b1118776e4c5830f85e6d95933b020ee24ae46cf3e15ddef78187f8f8614cb",
+      "trigger": {
+        "issue_citation": "test/fixtures/worker_q4s_public/S06/actor/ISSUE.md:3",
+        "issue_sha256": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+        "mechanism": "The core joiner validation error path must retain the specific invalid-context exception while preserving unknown-data errors.",
+        "modules": [
+          "idna/core.py",
+          "idna/codec.py"
+        ],
+        "source_sha256": {
+          "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+          "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec"
+        },
+        "task_id": "S06",
+        "triggered": false
+      }
+    }
+  ],
+  "runtime_cli_sha256": "6c752e2cc7c110c9df15f26d8d134d438c5ae95dbd610efc1a308bf7f9c5f6c1",
+  "runtime_cli_version": "2.1.273 (Claude Code)",
+  "runtime_launcher_sha256": "247fa1bf166f1f6f27d1c9caee0bcd7ac6e402e93000757b981143d0aba3ac5e",
+  "runtime_schema_sha256": "46038ff7e73b9b7348f3ced9afb4082938ee05d5d4c043ab980ecadedbc79768",
+  "schema_version": 1,
+  "selection_rules": {
+    "b0_disagreement_requires_two_reserved_repetitions": true,
+    "family_is_independent_unit": true,
+    "invalid_report_not_above_each_b0": true,
+    "maximum_extra_usd_per_positive_family": 1.0,
+    "maximum_policy_cost_ratio_to_mean_b0": 1.5,
+    "minimum_gain": "acceptance on >=1 family against both B0 repetitions or mean quality-v2 +10 against both",
+    "non_negative_acceptance_and_mean_quality_vs_each_b0": true,
+    "unsupported_completion_not_above_each_b0": true,
+    "zero_policy_critical_errors": true
+  },
+  "source_sha256": {
+    "src/cost_table.json": "faf64bf87d0fac403aa4a6b86dbd28741bdf2e2f8ca556a176ec3f452300306b",
+    "src/model_registry.json": "b5b46800893db5c5d0cfd301fbef2a5e66e2a65a6c60e59b1eda9d55fa33a33f",
+    "tools/acceptance.py": "3e7a13e6135cc4ab3b46cff5ba63089e0410f930ded9ff05192eca0483ba6a6b",
+    "tools/model_registry.py": "8e54def2905ce7f864b129ada2e3c010b26a9f1662da31d721031b0371d7b0c0",
+    "tools/route.py": "38781853708428a65da197c2ad7bda8b1b643c5ee69526bdb43e15182eb489b4",
+    "tools/task_executor.py": "64cd58eafe128649f61dc865d875f3161f6f12cb3932ff487abbfd1c1450706c",
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_q4_adapter.py": "d9833ef91383c47c47ddc210d1322113651edab0a656661e123a83a6f80f9750",
+    "tools/worker_q4r_structured.py": "ebc98cfbefe5161b2e22f91389ce6ce90bd185c3bc9cf7f7841bbc77c5f67567",
+    "tools/worker_q4s_admission.py": "9b7b9ed2566a60d8783dfe20b01f8372af763f49e563b06ce4dab62425649741",
+    "tools/worker_q4s_partial.py": "b7160c7854e05f424d5c2dacb27588ecd932aef3c67e92d78dcdfd1e8517b086",
+    "tools/worker_q4s_public_catalogue.py": "f28c13dc14856d0adf3b65a43e519946ef7236f270ba1502d36cdb2252a6a8d6",
+    "tools/worker_q4s_public_grade.py": "61c63368bb467971599cc1960d3ded3020522660bac1635ea481ef7d6fbd44cb",
+    "tools/worker_q4s_public_source.py": "a9cf2bba668c7eb4d385f1e8a53146ed2f37bfd15cf656b9e8fc65b24f1bbda2",
+    "tools/worker_q4s_rubric.py": "dd0149cbe4084352f10d1c2af2d553be30ae1169405a80f7d8f596b7061b7391",
+    "tools/worker_q4s_screen.py": "8545bf58e840dc5fcf589106d60639a9f001b624a28ad6095fe8dd556ab5560b",
+    "tools/worker_q4s_structured.py": "7af2919cc90233ef81fcaaf6f865e7d6e264192f273b5a09f3c0424d4852dce4",
+    "tools/worker_q4s_trigger.py": "3279d2494b1ce998d53b25c2b3c3f4e955a59b5dd68622fc6f39d1e98ce26ae6",
+    "tools/worker_quality_v2.py": "d0d7718a872eff4d59df6c55e7770da993eee55cfda2ee1cdee4e1cfde3a2604",
+    "tools/worker_wsl_namespace_q4s.sh": "247fa1bf166f1f6f27d1c9caee0bcd7ac6e402e93000757b981143d0aba3ac5e",
+    "tools/worker_wsl_q1.py": "33bd2985ac688680e90417db58c5b7e61e41748af284e3ce85b649e6b978b259",
+    "tools/worker_wsl_q3_adapter.py": "b165ccca14f77472f96ca8d7ea9aa5812a89e1ae64f44b9ee9df04b71d25223a",
+    "tools/worker_wsl_q4s_adapter.py": "5df583d46d39c1ec1150b7dc5630686cc37a95702bc18aa208fe3efac3c40307",
+    "tools/worker_wsl_q4s_attestation.py": "663ab3923785b393f356d9776bab0090a7ba7b2f2e0d61da0eeeecdab8f54fbc",
+    "tools/worker_wsl_q4s_install.sh": "5add9fc328ec4e074a7649b280bd9ea1fc28926e558961362fb96141d128fd01",
+    "tools/worker_wsl_transport.py": "100ff8cc9ffaf11136de1356002a426f62f46c3d7d223de32c78a5e6b92b0ce2"
+  },
+  "spend_notice_sha256": "09647d15eabc6e5815da9cae1c6d647dcdf69870dc367a8d6fe57190487358da",
+  "stop_rules": [
+    "S3 canary must pass both heads before any S4 call",
+    "After each complete family, stop on positive candidate critical error",
+    "Stop on uncertain or excess charge, stale source/host/auth or protected drift",
+    "Stop on model identity mismatch or invalid transport; grade settled failure",
+    "A terminal missing structured report is scored and never replayed",
+    "No automatic replay of a started provider invocation"
+  ]
+}

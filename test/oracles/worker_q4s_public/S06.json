@@ -1,0 +1,6 @@
+{"schema_version":1,"cases":[
+  {"input":{"case":"zwj-type"},"expected":{"ok":true},"weight":25,"milestone":"zwj-type","critical":false},
+  {"input":{"case":"zwnj-type"},"expected":{"ok":true},"weight":25,"milestone":"zwnj-type","critical":false},
+  {"input":{"case":"unknown-data"},"expected":{"ok":true},"weight":25,"milestone":"unknown-data","critical":false},
+  {"input":{"case":"valid-context"},"expected":{"ok":true},"weight":25,"milestone":"valid-context","critical":false}
+]}

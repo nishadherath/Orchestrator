@@ -1,0 +1,13 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "operator-retention-duration-absent",
+  "next_step": "wait-for-operator-retention-days",
+  "question": {"missing_field": "retention_days",
+               "prompt": "What account-data retention duration in days is approved?"},
+  "probes": [
+    {"input": {"tenant": "probe-a"},
+     "observed": {"tenant": "probe-a", "retention_days": 30}},
+    {"input": {"tenant": "probe-b"},
+     "observed": {"tenant": "probe-b", "retention_days": 30}}
+  ]
+}

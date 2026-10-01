@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "the above-threshold smoke passes",
+  "next_step": "ship warning",
+  "probes": []
+}

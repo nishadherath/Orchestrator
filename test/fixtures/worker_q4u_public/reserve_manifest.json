@@ -1,0 +1,51 @@
+{
+  "qualification_authority": false,
+  "qualification_limit": "Four independent mechanisms are exploratory only",
+  "reserve_sha256": "d69516552f4ce0c4cd9f7c05fe65928a922e448dee5d3ff8fa3c3affb7d326b6",
+  "rows": [
+    {
+      "command_contract_sha256": "83e959662b939a1136d7d04e072de8de8425d895b56e11910b11ab0d3c3a26e7",
+      "evaluator_zip_sha256": "17e1104087604f2bbf1a6f0169384488d9cff1b78aa3e46c0e1841d6f03e52f7",
+      "mechanism": "chunk-boundary-frames",
+      "public_assessment_sha256": "317b6a117da5b3baca469db54dc542c529e3b41673eb6d2317737dd4d506f6fa",
+      "task_id": "R09",
+      "task_sha256": "ea695798fe5d77912ba9c61f05e55b48e2de8f8a62cd3eea24d24c0a9c69d41a"
+    },
+    {
+      "command_contract_sha256": "0dcbb056b8ce6f4488cdc9e2d83dd998fe987c704e74ce381b661670da004165",
+      "evaluator_zip_sha256": "3e53940cb82921c8ef37ae9367e6f8874be95bd0a956e0c03a8e462f093e8c7b",
+      "mechanism": "invoice-subtotal-tax-rounding",
+      "public_assessment_sha256": "4c8d3a524212130d83896f2b9195dec1d8001579cbbc799d423d52cbf1749018",
+      "task_id": "R10",
+      "task_sha256": "57f3224aa876428b085cd16baa6619e7e93cbdf4c785d2210ee9f405cd250bc9"
+    },
+    {
+      "command_contract_sha256": "360bd30c813625b4f5e641b5f753dd3a978a9178acff335b7003a445f9d6ced0",
+      "evaluator_zip_sha256": "26bae20e6a7dd765e123bce87b2241f7978bf48ac216455f8c0b218e5a1b78fa",
+      "mechanism": "half-open-interval-coalescing",
+      "public_assessment_sha256": "c20579ecdc6d4c8ee42978ba8a8dcafdd8e847dc6e34ce402871a776b872851b",
+      "task_id": "R11",
+      "task_sha256": "69fad2b3e61a48d0819c746629305c339caf88d7af24fd80d70ca62d686085c4"
+    },
+    {
+      "command_contract_sha256": "ce0d1e91e3c6e30f71b75ff25baea8ef18c2e29f9ab76f6b89de280c7bd73ee9",
+      "evaluator_zip_sha256": "dc07e72226d8f0b8e3c134a649a704522b00e6261837cebb54991badefe00fc4",
+      "mechanism": "currency-quote-provenance",
+      "public_assessment_sha256": "2b54b304ea51ac5b6757b059e3e8480fd9ceb278f06d40728dfcc03a3d7b70b4",
+      "task_id": "R12",
+      "task_sha256": "28e80a4e346fa03c9227342e9ca1606c1192421ca64ca8a6e38f7fc24e282815"
+    }
+  ],
+  "schema_version": 1,
+  "selection_frozen_before_provider_outcomes": true,
+  "source_sha256": {
+    "tools/worker_q4u_assess_public.py": "5bc59364857784fce2eef87ae2ddca267d138f5f26bb6d5f8ef9ffb31a41bdaf",
+    "tools/worker_q4u_contract.py": "eccb0d82d9a29ec56727910c35b7538c4d3090f00e764d04f1713a5600ed9d45",
+    "tools/worker_q4u_controls.py": "107abbbb06a3d00927f08696f80170705beebdbfafef407c31e4e76b454a4cfc",
+    "tools/worker_q4u_coverage.py": "e3567a6c991720c62a993733db0757f073352e60563230481b15912b53b251e5",
+    "tools/worker_q4u_missing.py": "1af823556335ace94767f7afcaadc7066ece4bc1bdded054dbc38baa8630af1c",
+    "tools/worker_q4u_reserve.py": "2cb8b6003bf6e9a2de9918936eab615d2b049f02bdd3245acdcdca0f112b5e9e"
+  },
+  "split": "reserved",
+  "stage": "Q4U-U3"
+}

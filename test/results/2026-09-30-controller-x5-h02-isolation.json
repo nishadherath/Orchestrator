@@ -1,0 +1,36 @@
+{
+  "boundary": "Q4U isolated actor uid 65534; evaluator-owned oracle",
+  "case": "H02",
+  "qualified": true,
+  "rows": [
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 1,
+      "public_passed": false,
+      "public_tail": "        _make_asyncio_fixture_function(synchronizer, loop_scope)\n        with MonkeyPatch.context() as c:\n            c.setattr(fixturedef, \"func\", synchronizer)\n>           hook_result = yield\n                          ^^^^^\nE           AssertionError: The fixture value for \"parent\" is not available.  This can happen when the fixture has already been torn down.\n\npytest_asyncio/plugin.py:944: AssertionError\n=========================== short test summary info ============================\nERROR case/test_mre.py::test_sync - AssertionError: The fixture value for \"pa...\n1 passed, 1 error in 0.03s\n",
+      "variant": "baseline"
+    },
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 0,
+      "public_passed": true,
+      "public_tail": "..                                                                       [100%]\n2 passed in 0.01s\n",
+      "variant": "narrow_control"
+    },
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 0,
+      "public_passed": true,
+      "public_tail": "..                                                                       [100%]\n2 passed in 0.01s\n",
+      "variant": "proposal"
+    },
+    {
+      "oracle_read_denied": true,
+      "public_exit_code": 0,
+      "public_passed": true,
+      "public_tail": "..                                                                       [100%]\n2 passed in 0.01s\n",
+      "variant": "alternative"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,10 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "nullable-profile-dereference",
+  "next_step": "guard-missing-email-key",
+  "probes": [
+    {"input": {"profile": {"email": "zoe@example.test"}},
+     "observed": {"email": "zoe@example.test"}},
+    {"input": {"profile": null}, "observed": {"email": null}}
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "same-term-dual-writer-and-unfenced-expired-write",
+  "next_step": "replay overlap and post-expiry takeover",
+  "probes": [
+    {
+      "input": {
+        "operations": [
+          {
+            "kind": "promote",
+            "replica": "a",
+            "term": 1,
+            "at": 0
+          },
+          {
+            "kind": "promote",
+            "replica": "b",
+            "term": 1,
+            "at": 1
+          },
+          {
+            "kind": "write",
+            "replica": "a",
+            "term": 1,
+            "at": 2,
+            "value": "A"
+          },
+          {
+            "kind": "write",
+            "replica": "b",
+            "term": 1,
+            "at": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "observed": {
+        "statuses": [
+          "promoted",
+          "busy",
+          "written",
+          "stale"
+        ],
+        "writes": [
+          "A"
+        ],
+        "owner": "a",
+        "term": 1,
+        "expires_at": 5
+      }
+    },
+    {
+      "input": {
+        "operations": [
+          {
+            "kind": "promote",
+            "replica": "a",
+            "term": 1,
+            "at": 0
+          },
+          {
+            "kind": "promote",
+            "replica": "b",
+            "term": 2,
+            "at": 6
+          },
+          {
+            "kind": "write",
+            "replica": "b",
+            "term": 2,
+            "at": 7,
+            "value": "B"
+          }
+        ]
+      },
+      "observed": {
+        "statuses": [
+          "promoted",
+          "promoted",
+          "written"
+        ],
+        "writes": [
+          "B"
+        ],
+        "owner": "b",
+        "term": 2,
+        "expires_at": 11
+      }
+    }
+  ]
+}

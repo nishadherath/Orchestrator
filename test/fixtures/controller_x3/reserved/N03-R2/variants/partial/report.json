@@ -1,0 +1,29 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "approved-destructive-cutover-time-absent",
+  "next_step": "await-approved-utc-cutover-time",
+  "question": {
+    "missing_field": "approved_cutover_time_utc",
+    "prompt": "What approved UTC timestamp should govern this destructive cutover?"
+  },
+  "probes": [
+    {
+      "input": {
+        "action": "status"
+      },
+      "observed": {
+        "active": "replacement",
+        "archive": "deleted",
+        "cutover_at_utc": "2026-10-01T00:00:00Z"
+      }
+    },
+    {
+      "input": {
+        "action": "recovery"
+      },
+      "observed": {
+        "rollback_available": false
+      }
+    }
+  ]
+}

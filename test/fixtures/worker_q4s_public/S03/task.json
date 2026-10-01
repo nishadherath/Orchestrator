@@ -1,0 +1,56 @@
+{
+  "actor_bytes": 84038,
+  "actor_file_count": 15,
+  "actor_files": {
+    "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+    "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+    "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+    "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+    "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+    "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+    "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+    "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+    "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+    "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+    "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+    "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+    "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+    "h11/_writers.py": "ef37678efd047584307d6c9720ad857160d7e61e47914a0b20683f132c74ee88",
+    "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+  },
+  "authored_rationale": "Authored regression from the pinned upstream header-casing fix; exercises storage, framing and wire output.",
+  "case_file": "S03_case.py",
+  "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+  "editable_paths": [
+    "h11/_connection.py",
+    "h11/_headers.py",
+    "h11/_writers.py"
+  ],
+  "fix_commit": "ce515c5a9a5113646754bdb7aee3625821c9fd50",
+  "id": "S03",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE.txt",
+  "licence_sha256": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+  "name": "Preserve outgoing HTTP header spelling",
+  "oracle_file": "S03.json",
+  "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+  "package_path": "h11",
+  "partial_files": {
+    "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+    "h11/_headers.py": "f7ff8c6eaf3214ed2e753d581b69cd5ca5d3da41f0aed88324952029925754b4",
+    "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+  },
+  "provenance_sha256": "2f22c186270f3a076774c7b2fef8e77da83dccf7df32dab324871a2fdcb600d8",
+  "reference_files": {
+    "h11/_connection.py": "4f0d5a8e9565ac6a2a8bef7c90a08674f54d50edfae409e0f87b805a8ac93af6",
+    "h11/_headers.py": "6dd24c43193622caefba6a9caf81fbe5e6bc3483ab716aa541e6fa0dcf523c9b",
+    "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+  },
+  "schema_version": 1,
+  "source_commit": "3e148213b360da52023bc3903fd738397b56a3ac",
+  "source_python_lines": 2167,
+  "source_url": "https://github.com/python-hyper/h11",
+  "task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f",
+  "upstream_change_url": "https://github.com/python-hyper/h11/commit/ce515c5a9a5113646754bdb7aee3625821c9fd50"
+}

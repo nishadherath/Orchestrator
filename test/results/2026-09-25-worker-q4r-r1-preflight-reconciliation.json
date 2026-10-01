@@ -1,0 +1,17 @@
+{
+  "archived_run": "test/results/2026-09-25-worker-q4r-r1-run-preflight-blocked",
+  "blocked_campaign_sha256": "4b9bb366ce973546acdeaad662df221f43ea11e27da5df6808580c84ba7ab61f",
+  "blocked_state_sha256": "d5c3b6a7f53652ddb9d17086661de20e8d08fd20c52bbba6df797f908c4c5e4f",
+  "conclusion": "No actor workspace or provider invocation was created",
+  "evidence_sha256": "21f28467e7884710d60d190fbc64fa7d398b28b496e6adb12e39af94ea57aca3",
+  "first_episode_workspace": "/var/lib/orchestrator-worker-n4/seed/q4r-33a46768649e-01",
+  "first_episode_workspace_exists": false,
+  "manifest_sha256": "33a46768649e0a1affaa34559b52df0d366094a4d6c5ece83f83a883105cb1a1",
+  "qualification": "Recorded zero cost does not prove zero external charge",
+  "recorded_at_utc": "2026-09-25T19:16:49+00:00",
+  "recorded_cost_usd": 0,
+  "recorded_provider_calls": 0,
+  "renewed_credential_inspection": "PASS",
+  "schema_version": 1,
+  "source_runner_sha256": "1f51d5b89c658770f5d011b95baa1a36671f4a144f4279af9b3e7a133550d9d3"
+}

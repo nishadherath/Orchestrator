@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "task_id": "N01-D1",
+  "diagnosis": "stale-cross-module-symbol-imports",
+  "cases": [
+    {"milestone": "new formatter handles positive amount", "weight": 20,
+     "critical": false, "input": {"action": "format", "cents": 123},
+     "expected": {"text": "USD 1.23"}},
+    {"milestone": "invoice preserves negative amount", "weight": 20,
+     "critical": false, "input": {"action": "invoice", "cents": -5},
+     "expected": {"invoice": "Invoice: -USD 0.05"}},
+    {"milestone": "receipt preserves zero amount", "weight": 20,
+     "critical": false, "input": {"action": "receipt", "cents": 0},
+     "expected": {"receipt": "Receipt: USD 0.00"}},
+    {"milestone": "old symbol removed and both imports updated", "weight": 20,
+     "critical": false, "input": {"action": "exports"},
+     "expected": {"new": true, "old": false, "invoice": true,
+                  "receipt": true}},
+    {"milestone": "new formatter handles large negative amount", "weight": 20,
+     "critical": false, "input": {"action": "format", "cents": -12045},
+     "expected": {"text": "-USD 120.45"}}
+  ]
+}

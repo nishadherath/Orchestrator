@@ -1,0 +1,312 @@
+{
+  "catalogue_sha256": "a51502c0e286d56783cdd8886387108f3afc24bde91e4fdbd99282d8207e54ff",
+  "claim": "two public task mechanisms only; no routing or population effect",
+  "date_utc": "2026-09-25T06:39:53.647105+00:00",
+  "evidence_sha256": "1bf637a995500a248703592cf7f0a75f58b5de6ecf04c7bf20f2f509187ffc62",
+  "outcomes": [
+    {
+      "cases": [
+        {
+          "milestone": "typed-bool",
+          "passed": false,
+          "weight": 25
+        },
+        {
+          "milestone": "typed-float",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "single-compute",
+          "passed": false,
+          "weight": 30
+        },
+        {
+          "milestone": "second-key",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "eviction-preserved",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "hidden_acceptance": false,
+      "milestones": [
+        "eviction-preserved"
+      ],
+      "oracle_direct_read_denied": true,
+      "oracle_sha256": "0a95cf202f46b5e6fd908719307f4175345ba18033853294bbc8be90a0e10f64",
+      "package_sha256": "df5748fa21dc9193facc6b3e802e3bcfae92d8ddfeb711586833574951f47cd9",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 10.0,
+      "task_id": "P01",
+      "variant": "baseline"
+    },
+    {
+      "cases": [
+        {
+          "milestone": "typed-bool",
+          "passed": false,
+          "weight": 25
+        },
+        {
+          "milestone": "typed-float",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "single-compute",
+          "passed": true,
+          "weight": 30
+        },
+        {
+          "milestone": "second-key",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "eviction-preserved",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "hidden_acceptance": false,
+      "milestones": [
+        "single-compute",
+        "second-key",
+        "eviction-preserved"
+      ],
+      "oracle_direct_read_denied": true,
+      "oracle_sha256": "0a95cf202f46b5e6fd908719307f4175345ba18033853294bbc8be90a0e10f64",
+      "package_sha256": "5859e2648e7f6504849e2544c33fdaafd890275306a8263f811b3d4b8508d816",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 55.0,
+      "task_id": "P01",
+      "variant": "partial"
+    },
+    {
+      "cases": [
+        {
+          "milestone": "typed-bool",
+          "passed": true,
+          "weight": 25
+        },
+        {
+          "milestone": "typed-float",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "single-compute",
+          "passed": true,
+          "weight": 30
+        },
+        {
+          "milestone": "second-key",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "eviction-preserved",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "hidden_acceptance": true,
+      "milestones": [
+        "typed-bool",
+        "typed-float",
+        "single-compute",
+        "second-key",
+        "eviction-preserved"
+      ],
+      "oracle_direct_read_denied": true,
+      "oracle_sha256": "0a95cf202f46b5e6fd908719307f4175345ba18033853294bbc8be90a0e10f64",
+      "package_sha256": "587e741fc9b8a223094169d451ba05ed7826e66bd6f22fbb0a014fd1be94b3ec",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100.0,
+      "task_id": "P01",
+      "variant": "reference"
+    },
+    {
+      "cases": [
+        {
+          "milestone": "compressed-load",
+          "passed": false,
+          "weight": 30
+        },
+        {
+          "milestone": "small-preserved",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "future-rejected",
+          "passed": false,
+          "weight": 25
+        },
+        {
+          "milestone": "small-skew-rejected",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "expired-rejected",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "tamper-rejected",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": true,
+      "false_success": false,
+      "hidden_acceptance": false,
+      "milestones": [
+        "small-preserved",
+        "expired-rejected",
+        "tamper-rejected"
+      ],
+      "oracle_direct_read_denied": true,
+      "oracle_sha256": "70e8cede910e69dc49ce91818d4fddb6224035f13404da8e5edb1efffe3c9d86",
+      "package_sha256": "b15bf71f620d00eded5e60a3b404fa4ca8c99350211b05b2e2ca25416515fdea",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 30.0,
+      "task_id": "P02",
+      "variant": "baseline"
+    },
+    {
+      "cases": [
+        {
+          "milestone": "compressed-load",
+          "passed": true,
+          "weight": 30
+        },
+        {
+          "milestone": "small-preserved",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "future-rejected",
+          "passed": false,
+          "weight": 25
+        },
+        {
+          "milestone": "small-skew-rejected",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "expired-rejected",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "tamper-rejected",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": true,
+      "false_success": false,
+      "hidden_acceptance": false,
+      "milestones": [
+        "compressed-load",
+        "small-preserved",
+        "expired-rejected",
+        "tamper-rejected"
+      ],
+      "oracle_direct_read_denied": true,
+      "oracle_sha256": "70e8cede910e69dc49ce91818d4fddb6224035f13404da8e5edb1efffe3c9d86",
+      "package_sha256": "542bb5c39d76ac831dfd25c8b8cc65e050052f8699ddc84f76ef5c293b7cdbf5",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 60.0,
+      "task_id": "P02",
+      "variant": "partial"
+    },
+    {
+      "cases": [
+        {
+          "milestone": "compressed-load",
+          "passed": true,
+          "weight": 30
+        },
+        {
+          "milestone": "small-preserved",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "future-rejected",
+          "passed": true,
+          "weight": 25
+        },
+        {
+          "milestone": "small-skew-rejected",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "expired-rejected",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "tamper-rejected",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "hidden_acceptance": true,
+      "milestones": [
+        "compressed-load",
+        "small-preserved",
+        "future-rejected",
+        "small-skew-rejected",
+        "expired-rejected",
+        "tamper-rejected"
+      ],
+      "oracle_direct_read_denied": true,
+      "oracle_sha256": "70e8cede910e69dc49ce91818d4fddb6224035f13404da8e5edb1efffe3c9d86",
+      "package_sha256": "0dcdd4c94892f3f46432f85207ae9ced5d42cf80e327333bdf176913b9a2d06a",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100.0,
+      "task_id": "P02",
+      "variant": "reference"
+    }
+  ],
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "q1_host_evidence_sha256": "4f8533e4edfe4d90c24cafa0f0cadd892d732a20046f3680c97ac1e0e3d98295",
+  "result": "PASS",
+  "runtime_sha256": {
+    "tools/worker_wsl_q2_case.py": "e2ae8977319115a96d8a838d9b8b7fc2dbde1fe6f64796872ddb9c6fc3e1d2a6",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-30",
+  "upstream_commit": "98209758cc14e1a5f966fe1dfdc1064b94055d8c",
+  "files": {
+    "httpcore/_sync/connection_pool.py": {
+      "upstream_sha256": "6be4fc2d3b14c5ceebd16c356ad7c7483a163e34347c0f1497b4b7f85d0c8fbd",
+      "vendored_sha256": "6be4fc2d3b14c5ceebd16c356ad7c7483a163e34347c0f1497b4b7f85d0c8fbd",
+      "byte_equal": true
+    },
+    "httpcore/_async/connection_pool.py": {
+      "upstream_sha256": "0ce210dacd9909ff6a7f0c61ccca6b4cf2ea08bf0ec465e2285eaa447c6f5726",
+      "vendored_sha256": "0ce210dacd9909ff6a7f0c61ccca6b4cf2ea08bf0ec465e2285eaa447c6f5726",
+      "byte_equal": true
+    }
+  }
+}

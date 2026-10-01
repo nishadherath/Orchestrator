@@ -1,0 +1,19 @@
+{
+  "approved": false,
+  "approval_source": "pending explicit H03 payload and cap approval",
+  "retired": true,
+  "retired_reason": "Provider-free fake continuation found that the H03 actor lacks the acceptance.json required by the generic review checkpoint; H03b corrects this before any paid use.",
+  "date": "2026-10-01",
+  "manifest_sha256": "5392ed2cdaa3ed0eca0feba8bcf868a4d3190e0fcd9c2afbbfa073ab1aca22db",
+  "scope": "H03 authored Controller defect: one producer and conditional public-risk S/A review",
+  "provider": "Claude.ai subscription through WSL",
+  "actor_file_count": 52,
+  "actor_bytes": 879471,
+  "editable_paths": ["tools/system_controller.py"],
+  "maximum_usd": 16.0,
+  "estimated_api_equivalent_usd": [1.0, 8.0],
+  "pricing_source": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
+  "controller_pricing_source": "https://platform.claude.com/docs/en/models/overview",
+  "pricing_checked_on": "2026-10-01",
+  "pricing_assumptions": "Sonnet 5 input USD 2/MTok, output USD 10/MTok, 5-minute cache write USD 2.50/MTok and cache read USD 0.20/MTok. The standard Controller profile also includes Opus Framer and Critic roles; the current Opus 5.5 list price is USD 4/MTok input and USD 20/MTok output. Three bounded worker calls and one conditional Controller investigation are possible. Actual resolved model identity, token use, cache mix and role mix remain uncertain. These are API-equivalent estimates for subscription use, not a claim of direct API billing."
+}

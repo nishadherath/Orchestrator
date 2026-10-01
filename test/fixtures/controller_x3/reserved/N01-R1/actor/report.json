@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "the public API smoke passed",
+  "next_step": "ship the package migration",
+  "probes": []
+}

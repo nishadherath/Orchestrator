@@ -1,0 +1,10 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "nullable-profile-dereference",
+  "next_step": "run-null-and-missing-key-checks",
+  "probes": [
+    {"input": {"profile": {"email": "zoe@example.test"}},
+     "observed": {"email": "zoe@example.test"}},
+    {"input": {"profile": null}, "observed": {"email": null}}
+  ]
+}

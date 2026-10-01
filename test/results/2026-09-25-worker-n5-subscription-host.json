@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "auth_session_reconciled": true,
+    "credential_read_denied_by_settings": true,
+    "default_actor_master_denied": true,
+    "host_current": true,
+    "isolated_claude_login": true,
+    "master_private": true,
+    "restricted_file_tools": true,
+    "subscription_reported": true
+  },
+  "evidence_sha256": "4ed595d2697d18137846f88fb617da9a0f0a50fc317cf1b25590f8e029577e46",
+  "host_attestation_sha256": "6d8290a0c5e5ab4218e0cd83dfbd05776c21a988cf42218e9147ec910ea0c24e",
+  "limits": [
+    "No model request or charged worker call was made.",
+    "Built-in Read denial needs a bounded live sentinel before N5 dispatch."
+  ],
+  "recorded_at": "2026-09-25T08:11:45+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": "0ee1c63d40490f816fdebc55d69ca139bdb1067ffdbef56b9d7a999840b918c2"
+}

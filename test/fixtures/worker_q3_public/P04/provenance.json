@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "P04",
+  "name": "urllib3 explicit zero-port contract",
+  "source_url": "https://github.com/urllib3/urllib3",
+  "source_commit": "f4e4bc31f40f8c94c6a1f1685df28f97ff48c305",
+  "fix_commit": "f5cf122346141b187cca0db6e6445297d336b610",
+  "issue_origin": "upstream-fix",
+  "licence": "MIT",
+  "licence_file": "LICENSE.txt",
+  "licence_sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+  "package_path": "urllib3",
+  "generated_files": ["urllib3/_version.py"],
+  "editable_paths": [
+    "urllib3/connectionpool.py",
+    "urllib3/poolmanager.py",
+    "urllib3/util/url.py"
+  ],
+  "oracle_file": "P04.json",
+  "case_file": "P04_case.py"
+}

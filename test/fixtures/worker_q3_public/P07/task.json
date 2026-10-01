@@ -1,0 +1,69 @@
+{
+  "actor_bytes": 359920,
+  "actor_file_count": 25,
+  "actor_files": {
+    "ISSUE.md": "717aeb140632ae1394d6040e9d47ef7d62e53dbf5f5e17a5c942001da8fa90d9",
+    "LICENSE": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48",
+    "acceptance.json": "0fa0ed1525a2b567d9196d450d5d1d8c6efacbb0e7fdad2ea7a9d9e944dac382",
+    "packaging/__init__.py": "e196ba08ba82386d4acf583df1201cc98ad3e7788ec4bac878348257e2193701",
+    "packaging/_elffile.py": "fac2a4a6d62acd8c36fb1dd007225ae66078adf3d6bb5a719191d1c755801426",
+    "packaging/_manylinux.py": "1dfea707470eadac84b3debea77a085c08069c5aaebf6d033b997ea36fd79efd",
+    "packaging/_musllinux.py": "67ab308c7dcc03b5d2dea5e798c37b40f86a3f77e7a18234790d7c7bdf878001",
+    "packaging/_parser.py": "53f0da8ec131d95a02fc5e3a7d2555de10ca3425a841890f91ab0eddd95dd228",
+    "packaging/_structures.py": "eb48d16c5efca7ccf930a9cd77a700a6b80e69d0891d5d03966526441a8565cb",
+    "packaging/_tokenizer.py": "b455365abf996497406e45cb109a3ba9440325a2247dfb7d0ea6a27e210d0fb0",
+    "packaging/dependency_groups.py": "5d92005452bdb871b84421a9ae6267dd522751631eb3185afe4cad26e30ef5e6",
+    "packaging/direct_url.py": "78a99b0e23cfd6c2d5e0c8ff902499aaa927ac8c953bd4abec9a45f0a0a3a785",
+    "packaging/errors.py": "ea17c461701ff2ffc817ae7e94569d24e30889e04fdb120ab721178c6d67188b",
+    "packaging/licenses/__init__.py": "fc9c745d1883ff9f296a5b169f22eb2ee879f59a4608f20f5cb29d668f4e26f4",
+    "packaging/licenses/_spdx.py": "596ec35e2ca0ebcba9fd8343ff0a51625af548786257815f24b41f7e08613314",
+    "packaging/markers.py": "f03e1e5e7ecc3df8c2387a0cd111e4816ba692890e458db5a5788afd70d79cbd",
+    "packaging/metadata.py": "72b021d04dc654656a3e5bba11d445b1a1be63a518ce74d4aa3b8629118fbfa7",
+    "packaging/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packaging/pylock.py": "1bfd609dc4e60db44b6358e8e150c8f54c3e6f9204ae1fd0f55fc16d5253983f",
+    "packaging/requirements.py": "b6dc9e0ac2c3d7d8681c250286a8b130a9287031aa5a65f1cc6656b3b2215120",
+    "packaging/specifiers.py": "2a60a070e59601e64fde3891fd71a0527596ac9374d6925143bf768d48fc2036",
+    "packaging/tags.py": "27cdf015902cd46b1263438f08f1c5b41498b5ffc24009aaee1da3f478bf7f62",
+    "packaging/utils.py": "33bf8930a89cdac3f562d57ff1a5bb795181fb1dc00ee282892aec55e09dd94a",
+    "packaging/version.py": "d6e001f2c82cef04b7c75ade39b03ae76f86ab2f3b46608a44aa5c7b9cdb45be",
+    "public_check.py": "2a91b12f9e2684cad3c3e92a0c7d55c727d850956e3443bf2a611ed53a5f44fe"
+  },
+  "alternative_files": {
+    "packaging/_parser.py": "25d334cb4ae0ee659f2d7c37cc75e5f4208fe4abe99a9b90d19a2c64e322c617",
+    "packaging/markers.py": "81366046ce83a0b447fb72d939afd328690fc6899ca70a3fe20e765576aceade",
+    "packaging/requirements.py": "100d6ccaa4fa57acb57576970a8429472448ceb9a0f1b4e0a8198d4fb9b53f34"
+  },
+  "case_file": "P07_case.py",
+  "case_source_sha256": "559b24348a895257faa0a87ec43209ef8b0ba3e602b023f39841f7971621ab47",
+  "editable_paths": [
+    "packaging/_parser.py",
+    "packaging/markers.py",
+    "packaging/requirements.py"
+  ],
+  "fix_commit": "48a8a069805291186522de3eff73ea80a8ca96ad",
+  "id": "P07",
+  "issue_origin": "upstream-fix",
+  "licence": "Apache-2.0 OR BSD-2-Clause",
+  "licence_file": "LICENSE",
+  "licence_sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48",
+  "name": "packaging requirement and marker serialisation",
+  "oracle_file": "P07.json",
+  "oracle_sha256": "43b35626a94891de6b3eeaa3fe945f75f791d3fbc5bd71cb9fb97cbabfda6906",
+  "package_path": "packaging",
+  "partial_files": {
+    "packaging/_parser.py": "29fda7b03c38739e17f36a58f1b6b8174d81bdee8eca018c0232fe05e82a71ec",
+    "packaging/markers.py": "8f5ec401b044cbd0201cf04c48e38ada66f0f94f3a711c29fbcffb57fe6ed2da",
+    "packaging/requirements.py": "b6dc9e0ac2c3d7d8681c250286a8b130a9287031aa5a65f1cc6656b3b2215120"
+  },
+  "provenance_sha256": "b95858d652939186bc86eca912f374a90089a398739ef16c29e46bfc67f08f84",
+  "reference_files": {
+    "packaging/_parser.py": "29fda7b03c38739e17f36a58f1b6b8174d81bdee8eca018c0232fe05e82a71ec",
+    "packaging/markers.py": "8f5ec401b044cbd0201cf04c48e38ada66f0f94f3a711c29fbcffb57fe6ed2da",
+    "packaging/requirements.py": "babdc4a2c959cadfb131993f7bb411e6ce531ad2972bc4ae90b6f0521eccab24"
+  },
+  "schema_version": 1,
+  "source_commit": "823b44ed1f904084a77ae3adf0ef130af6365f84",
+  "source_python_lines": 9544,
+  "source_url": "https://github.com/pypa/packaging",
+  "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4"
+}

@@ -1,0 +1,45 @@
+{
+  "evidence_sha256": "e8620d631cce912039a4bc2146fbcdbcbabcfcabbeac05935e2928bffb744ecf",
+  "probe": {
+    "checks": {
+      "collected_revision_bound": true,
+      "exact_identity": true,
+      "protected_source_unchanged": true,
+      "report_digests_bound": true,
+      "reports_present": true,
+      "restricted_environment": true,
+      "schema_transport_bound": true,
+      "three_cells_exercised": true,
+      "two_edits_collected": true,
+      "unsupported_cell_rejected": true,
+      "writers_stopped": true,
+      "zero_provider_cost": true
+    },
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "result": "PASS",
+    "schema_version": 1,
+    "supported_cells": [
+      "worker-opus-high",
+      "worker-sonnet-high",
+      "worker-sonnet-low"
+    ]
+  },
+  "recorded_at_utc": "2026-09-25T17:32:15+00:00",
+  "result": "PASS",
+  "runtime_launcher_sha256": "3d6137654b6a9121f81651fa5a917f525ee384863f4075edac2afb4913e08b4e",
+  "runtime_schema_sha256": "46038ff7e73b9b7348f3ced9afb4082938ee05d5d4c043ab980ecadedbc79768",
+  "schema_version": 1,
+  "scope": "Q4R provider-free schema boundary; no live model qualified",
+  "source_sha256": {
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_q4_adapter.py": "d9833ef91383c47c47ddc210d1322113651edab0a656661e123a83a6f80f9750",
+    "tools/worker_q4r_structured.py": "ebc98cfbefe5161b2e22f91389ce6ce90bd185c3bc9cf7f7841bbc77c5f67567",
+    "tools/worker_quality_v2.py": "d0d7718a872eff4d59df6c55e7770da993eee55cfda2ee1cdee4e1cfde3a2604",
+    "tools/worker_wsl_namespace_q4r.sh": "3d6137654b6a9121f81651fa5a917f525ee384863f4075edac2afb4913e08b4e",
+    "tools/worker_wsl_q4r_adapter.py": "18c734db7347a5f427a233fe59a61a0451de7edf20d424135b3d7bf15fecd11a",
+    "tools/worker_wsl_q4r_attestation.py": "d1e8df88969d81c9e931460801595b98ee108c37d179c13904752d10d52a0a10",
+    "tools/worker_wsl_q4r_install.sh": "779bef58102abc5e7c6a34a851e38ba5573e9c3024f4fbbfe141ba326f59ba0b",
+    "tools/worker_wsl_q4r_probe.py": "2b41b3d018fbfd6ad0348dfa513e24947db0a6f7b3f942d8ccae76626c62767b"
+  }
+}

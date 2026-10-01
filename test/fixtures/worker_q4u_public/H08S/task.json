@@ -1,0 +1,25 @@
+{
+  "actor_files": {
+    "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+    "public_check.py": "b34527b50a7ddf5ea79fcba0a28761c847c8bf5bfb96a35d6b993948d213df1b",
+    "reconcile.py": "bc958ad273929708bbc169157101df8ff116a23fa7a42c1bfef79ca0a7ef1055"
+  },
+  "change_required": true,
+  "editable_paths": [
+    "reconcile.py"
+  ],
+  "evaluator_zip_sha256": "be47d926f1960a63c9f1d478ac7a2ff14edd3b1375a47e3c5ffd38f6d2092bdc",
+  "id": "H08S",
+  "licence": "Apache-2.0",
+  "licence_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "mechanism": "monotonic-event-tombstones",
+  "origin": "authored-synthetic-regression",
+  "public_check_variant": "strong",
+  "public_coverage": "direct",
+  "schema_version": 1,
+  "split": "development",
+  "task_kind": "implementation",
+  "task_sha256": "8ab73f0b91b46b9ca3cc05c27e499ac2a317643f1509297bbf9aff0d4c484ee1"
+}

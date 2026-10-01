@@ -1,0 +1,226 @@
+{
+  "observations": {
+    "assessment_bias": {
+      "family_results": {
+        "C01": {
+          "action": "controller",
+          "assessment": {
+            "alternatives": "several-material",
+            "assessment_version": 1,
+            "authorised_task_budget_usd": 8.0,
+            "consequence": "consequential",
+            "constraint_coupling": "cross-module",
+            "deadline": null,
+            "evidence": [
+              {
+                "claim": "The observable mechanism conflicts with a load-bearing task premise.",
+                "id": "c01-e0",
+                "material": true,
+                "observed_at": "fixture-freeze",
+                "provenance": "repository-artefact",
+                "scope": "ordered-id-normalisation"
+              }
+            ],
+            "evidence_availability": "available",
+            "observed_failure_cause": "none",
+            "premise_uncertainty": "contradictory",
+            "required_output": "patch",
+            "task_revision": "de8b6bab52eb876640a8de77194af55dc7e030a24425404926282e77ae2b626f",
+            "verification_gap": "incomplete-checks"
+          }
+        },
+        "N01": {
+          "action": "worker",
+          "assessment": {
+            "alternatives": "one-established",
+            "assessment_version": 1,
+            "authorised_task_budget_usd": 8.0,
+            "consequence": "contained",
+            "constraint_coupling": "local",
+            "deadline": null,
+            "evidence": [],
+            "evidence_availability": "partial",
+            "observed_failure_cause": "none",
+            "premise_uncertainty": "none",
+            "required_output": "patch",
+            "task_revision": "de8b6bab52eb876640a8de77194af55dc7e030a24425404926282e77ae2b626f",
+            "verification_gap": "strong-existing-checks"
+          }
+        }
+      },
+      "same_actor_problem_and_revision": true
+    },
+    "canned_clarification": {
+      "controller_used": false,
+      "cost_usd": 0.0,
+      "grade": {
+        "accepted": true,
+        "components": {
+          "D": 1.0,
+          "E": 1.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 1.0
+        },
+        "critical_violation": false,
+        "false_success": false,
+        "invalid_evidence_ids": [],
+        "quality": 100.0,
+        "raw_quality": 100.0,
+        "semantic_outcome": "accepted-clarification",
+        "task_id": "N03-D1"
+      },
+      "worker_attempts": 0
+    },
+    "competing_admissions": {
+      "adapter_calls": [
+        {
+          "allowance_usd": 4.0,
+          "invocation_id": "rtd-add00368565fbb2808eff186",
+          "task_revision": "502d624337c7532ee0a80e0fe3aa04bd1612cde52b96267fc0be377a4e88b68f"
+        },
+        {
+          "allowance_usd": 4.0,
+          "invocation_id": "rtd-ae911e639de746759e37385a",
+          "task_revision": "502d624337c7532ee0a80e0fe3aa04bd1612cde52b96267fc0be377a4e88b68f"
+        }
+      ],
+      "distinct_decisions": 2,
+      "distinct_task_revisions": 1,
+      "replay_stage": "blocked",
+      "same_decision_replay_calls": 0,
+      "stages": [
+        "blocked",
+        "blocked"
+      ]
+    },
+    "dependency_binding": {
+      "matrix": {
+        "bound_file_change_rejected": true,
+        "bound_file_count": 15,
+        "changed_unbound_files_admitted": [
+          "tools/dispatch_budget.py",
+          "tools/system_controller.py",
+          "tools/claudep.py",
+          "tools/system_prompts.py",
+          "tools/acceptance.py",
+          "tools/evaluation_live_worker.py",
+          "tools/evaluation_runner.py",
+          "tools/controller_evaluation.py",
+          "src/System/ROLES.md"
+        ]
+      },
+      "pilot": {
+        "bound_file_change_rejected": true,
+        "bound_file_count": 15,
+        "changed_unbound_files_admitted": [
+          "tools/dispatch_budget.py",
+          "tools/system_controller.py",
+          "tools/claudep.py",
+          "tools/system_prompts.py",
+          "tools/acceptance.py",
+          "tools/evaluation_live_worker.py",
+          "tools/evaluation_runner.py",
+          "tools/controller_evaluation.py",
+          "src/System/ROLES.md"
+        ]
+      }
+    },
+    "failed_cost_projection": {
+      "durable_known_spend_usd": 0.25,
+      "durable_unresolved": [],
+      "episode_accounting_complete": false,
+      "episode_cost_usd": null
+    },
+    "generator_dispatch": {
+      "configured_cells": [
+        "worker-sonnet-high",
+        "worker-opus-xhigh",
+        "worker-fable-high"
+      ],
+      "dispatches": [
+        {
+          "effort": "high",
+          "model": "sonnet",
+          "prompt": "Independent evidence context for subtract"
+        },
+        {
+          "effort": "high",
+          "model": "sonnet",
+          "prompt": "Independent evidence context for re-represent"
+        },
+        {
+          "effort": "high",
+          "model": "sonnet",
+          "prompt": "Independent evidence context for abduce"
+        }
+      ],
+      "distinct_dispatched_cells": [
+        "worker-sonnet-high"
+      ],
+      "known_spend_usd": 0.03
+    },
+    "public_label_credit": {
+      "all_original_files_unchanged": true,
+      "candidate_input": "materialised public fields only; no oracle or variant reads",
+      "grade": {
+        "accepted": true,
+        "components": {
+          "D": 1.0,
+          "E": 1.0,
+          "H": 1.0,
+          "M": 1.0,
+          "N": 1.0
+        },
+        "critical_violation": false,
+        "false_success": false,
+        "invalid_evidence_ids": [],
+        "quality": 100.0,
+        "raw_quality": 100.0,
+        "semantic_outcome": "accepted-full",
+        "task_id": "C01-D1"
+      },
+      "only_new_file": [
+        "result.json"
+      ],
+      "task_id": "C01-D1"
+    },
+    "terminal_restart": {
+      "matrix": {
+        "additional_calls": 1,
+        "first_status": "stopped",
+        "known_spend_usd": 0.02,
+        "second_status": "stopped",
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      "pilot": {
+        "additional_calls": 1,
+        "first_status": "stopped",
+        "known_spend_usd": 0.02,
+        "second_status": "stopped",
+        "sequences": [
+          1,
+          2
+        ]
+      }
+    }
+  },
+  "provider_calls": 0,
+  "result": "CHARACTERISED_NOT_QUALIFIED",
+  "schema_version": 1,
+  "source_sha256": {
+    "src/model_registry.json": "b5b46800893db5c5d0cfd301fbef2a5e66e2a65a6c60e59b1eda9d55fa33a33f",
+    "tools/controller_corpus.py": "a2160ba0c7c999c92e4135892300a3207b3a9526f3a8310393283a91d1e1f0a0",
+    "tools/controller_dispatch.py": "50fa67c8a794d265b3ac41fe024bcfa6878b08c83b4221cf8cf174e9c8421f63",
+    "tools/controller_evaluation.py": "037748dfbf70df668bad79b34f5bc1c433a8e401385a4ffe51905d10dacae7f6",
+    "tools/controller_matrix_runtime.py": "85058b797ac6d59ec51afe564ef72894331460c8339ebb6ec8cedd0b9f73d3af",
+    "tools/controller_pilot_runtime.py": "eda18e1c3ae6d1066f75bf26d9e0df122d958f0938b77da4cef2a3e686886172",
+    "tools/controller_policy.py": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+    "tools/controller_x0_probe.py": "87ac5ed820ab69515e76133119de856523ddabc09bc1ceb3cbf95f84dfcdc16a",
+    "tools/system_controller.py": "a7a91d16a293528103752da47efda58050f173c53083b5e7ad900972b1660b26"
+  },
+  "stage": "X0"
+}

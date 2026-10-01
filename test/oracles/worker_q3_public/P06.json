@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"milestone": "parsed-cache-hit", "input": {"kind": "parsed-hit"}, "expected": true, "weight": 15, "critical": false},
+    {"milestone": "normalise-on-write", "input": {"kind": "normalise"}, "expected": true, "weight": 15, "critical": false},
+    {"milestone": "cache-object-identity", "input": {"kind": "identity"}, "expected": true, "weight": 10, "critical": false},
+    {"milestone": "transformed-fetch-consistency", "input": {"kind": "transformed"}, "expected": [["one"], ["one"], true], "weight": 20, "critical": false},
+    {"milestone": "skip-non-object-member", "input": {"kind": "malformed-member"}, "expected": ["one"], "weight": 15, "critical": false},
+    {"milestone": "skip-invalid-component", "input": {"kind": "bad-component"}, "expected": ["one"], "weight": 10, "critical": false},
+    {"milestone": "clear-cache", "input": {"kind": "clear"}, "expected": true, "weight": 5, "critical": false},
+    {"milestone": "invalid-response-contract", "input": {"kind": "bad-response"}, "expected": "PyJWKClientError", "weight": 10, "critical": false}
+  ]
+}

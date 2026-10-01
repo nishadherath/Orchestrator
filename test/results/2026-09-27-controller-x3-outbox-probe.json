@@ -1,0 +1,70 @@
+{
+  "controls": [
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "81deba679e5f333291557d6ed1231ce80d23b54e16b4af3f5643db5ee7f93ba4",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "e75a1ea850102734559aec2c4fc2886293c91c239eb003a213be0d5f3062bc3a",
+      "quality": 100.0,
+      "task_id": "C03-D2",
+      "variant": "reference"
+    },
+    {
+      "accepted": true,
+      "actor_manifest_sha256": "ef4b4be9064314d97349c2a3d90a247291e7e4ed3f2056810aa7cc57772982ad",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "e75a1ea850102734559aec2c4fc2886293c91c239eb003a213be0d5f3062bc3a",
+      "quality": 100.0,
+      "task_id": "C03-D2",
+      "variant": "alternative"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "c3bc17964e14c80a05287489069d39cec71053425dd6a62bdfa7fe20065d718b",
+      "false_success": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "e75a1ea850102734559aec2c4fc2886293c91c239eb003a213be0d5f3062bc3a",
+      "quality": 92.0,
+      "task_id": "C03-D2",
+      "variant": "partial"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "c3278125706eedbec48153809164b25129dc04d0ee0b4d98994ad7f1dd63fa70",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "e75a1ea850102734559aec2c4fc2886293c91c239eb003a213be0d5f3062bc3a",
+      "quality": 0.0,
+      "task_id": "C03-D2",
+      "variant": "baseline"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "30689ff934360344a33e892ca65345be3ec99803c4f55b3c9b3ca3545f8bdfc8",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "e75a1ea850102734559aec2c4fc2886293c91c239eb003a213be0d5f3062bc3a",
+      "quality": 0.0,
+      "task_id": "C03-D2",
+      "variant": "label_copy"
+    },
+    {
+      "accepted": false,
+      "actor_manifest_sha256": "80be3426ba9d40f03c92f1e7a00a9d3b8c5641f3350e84f021e80ea2da920778",
+      "false_success": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "e75a1ea850102734559aec2c4fc2886293c91c239eb003a213be0d5f3062bc3a",
+      "quality": 0.0,
+      "task_id": "C03-D2",
+      "variant": "poison_json"
+    }
+  ],
+  "mode": "controller-x3-wsl-vertical-probe",
+  "observed_at": "2026-09-26T22:25:08.158190+00:00",
+  "provider_calls": 0,
+  "result": "PASS",
+  "schema_version": 1,
+  "task_count": 1
+}

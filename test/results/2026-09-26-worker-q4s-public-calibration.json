@@ -1,0 +1,608 @@
+{
+  "date_utc": "2026-09-26",
+  "evidence_sha256": "194013f916203bce7ee656dcda237f4403b45e4f674b7b19b866636283c66a5a",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "rows": [
+    {
+      "grades": [
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "class-hook",
+              "passed": false,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "field-hook",
+              "passed": false,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "ordinary-hook",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "exit_code": 0,
+              "milestone": "double-yield",
+              "passed": false,
+              "weight": 20
+            }
+          ],
+          "executable_score": 20,
+          "public_pass": false,
+          "quality_rubric_sha256": "82631dc8dee5e897560246faf78c33495ad9e72bcf7348617f34490fc60a829d",
+          "variant": "baseline"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "class-hook",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "field-hook",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "ordinary-hook",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "exit_code": 0,
+              "milestone": "double-yield",
+              "passed": false,
+              "weight": 20
+            }
+          ],
+          "executable_score": 80,
+          "public_pass": true,
+          "quality_rubric_sha256": "82631dc8dee5e897560246faf78c33495ad9e72bcf7348617f34490fc60a829d",
+          "variant": "partial"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "class-hook",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "field-hook",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "ordinary-hook",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "exit_code": 0,
+              "milestone": "double-yield",
+              "passed": true,
+              "weight": 20
+            }
+          ],
+          "executable_score": 100,
+          "public_pass": true,
+          "quality_rubric_sha256": "82631dc8dee5e897560246faf78c33495ad9e72bcf7348617f34490fc60a829d",
+          "variant": "reference"
+        }
+      ],
+      "task_id": "S01",
+      "task_sha256": "2f0f45e38e7a5cd5e0f8427ddb0f4e84341da98bd921d3b3481e72f149926357"
+    },
+    {
+      "grades": [
+        {
+          "cases": [
+            {
+              "exit_code": 1,
+              "milestone": "default-and-override",
+              "passed": false,
+              "weight": 30
+            },
+            {
+              "exit_code": 1,
+              "milestone": "late-spec",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "exit_code": 1,
+              "milestone": "historic",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 1,
+              "milestone": "extra-and-falsy",
+              "passed": false,
+              "weight": 25
+            }
+          ],
+          "executable_score": 0,
+          "public_pass": false,
+          "quality_rubric_sha256": "3ee4c4b24ce50dc8a135b2da1892d1b3cab539031a50e11a192afaa4e747dc93",
+          "variant": "baseline"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 1,
+              "milestone": "default-and-override",
+              "passed": false,
+              "weight": 30
+            },
+            {
+              "exit_code": 1,
+              "milestone": "late-spec",
+              "passed": false,
+              "weight": 20
+            },
+            {
+              "exit_code": 1,
+              "milestone": "historic",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "extra-and-falsy",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 25,
+          "public_pass": false,
+          "quality_rubric_sha256": "3ee4c4b24ce50dc8a135b2da1892d1b3cab539031a50e11a192afaa4e747dc93",
+          "variant": "partial"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "default-and-override",
+              "passed": true,
+              "weight": 30
+            },
+            {
+              "exit_code": 0,
+              "milestone": "late-spec",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "exit_code": 0,
+              "milestone": "historic",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "extra-and-falsy",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 100,
+          "public_pass": true,
+          "quality_rubric_sha256": "3ee4c4b24ce50dc8a135b2da1892d1b3cab539031a50e11a192afaa4e747dc93",
+          "variant": "reference"
+        }
+      ],
+      "task_id": "S02",
+      "task_sha256": "07c392de393d743be2b6952c91ffe5e0d4243e73dd5450063582643a9fcee9b0"
+    },
+    {
+      "grades": [
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "request-raw-case",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 1,
+              "milestone": "host-first",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "generated-framing",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "header-replacement",
+              "passed": false,
+              "weight": 25
+            }
+          ],
+          "executable_score": 0,
+          "public_pass": false,
+          "quality_rubric_sha256": "528820c4b6716d4f5dde19c73debfb63312d5413c7b8e1cf6e397d7810c2899c",
+          "variant": "baseline"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "request-raw-case",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "host-first",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "generated-framing",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "header-replacement",
+              "passed": false,
+              "weight": 25
+            }
+          ],
+          "executable_score": 50,
+          "public_pass": true,
+          "quality_rubric_sha256": "528820c4b6716d4f5dde19c73debfb63312d5413c7b8e1cf6e397d7810c2899c",
+          "variant": "partial"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "request-raw-case",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "host-first",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "generated-framing",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "header-replacement",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 100,
+          "public_pass": true,
+          "quality_rubric_sha256": "528820c4b6716d4f5dde19c73debfb63312d5413c7b8e1cf6e397d7810c2899c",
+          "variant": "reference"
+        }
+      ],
+      "task_id": "S03",
+      "task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f"
+    },
+    {
+      "grades": [
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "list-reduce",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "key-list-reduce",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "dict-reduce",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "set-reduce",
+              "passed": false,
+              "weight": 25
+            }
+          ],
+          "executable_score": 0,
+          "public_pass": false,
+          "quality_rubric_sha256": "064ef14ae5d6f6c02eaedfeea8e27b0588502ea610fd0a67670fe49b607d57cf",
+          "variant": "baseline"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "list-reduce",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "key-list-reduce",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "dict-reduce",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "set-reduce",
+              "passed": false,
+              "weight": 25
+            }
+          ],
+          "executable_score": 50,
+          "public_pass": true,
+          "quality_rubric_sha256": "064ef14ae5d6f6c02eaedfeea8e27b0588502ea610fd0a67670fe49b607d57cf",
+          "variant": "partial"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "list-reduce",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "key-list-reduce",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "dict-reduce",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "set-reduce",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 100,
+          "public_pass": true,
+          "quality_rubric_sha256": "064ef14ae5d6f6c02eaedfeea8e27b0588502ea610fd0a67670fe49b607d57cf",
+          "variant": "reference"
+        }
+      ],
+      "task_id": "S04",
+      "task_sha256": "2e596efd5a115fb33c51bb77212874fd4c21597d24a5c10c1139406a39cb74d0"
+    },
+    {
+      "grades": [
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "bounded-memory",
+              "passed": false,
+              "weight": 55
+            },
+            {
+              "exit_code": 0,
+              "milestone": "lookahead-order",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "empty-default",
+              "passed": true,
+              "weight": 20
+            }
+          ],
+          "executable_score": 45,
+          "public_pass": true,
+          "quality_rubric_sha256": "a8aef2333d98a80598c45b3b8d9f96582076f3c0e9cf3063e302c9534222ac2f",
+          "variant": "baseline"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "bounded-memory",
+              "passed": true,
+              "weight": 55
+            },
+            {
+              "exit_code": 0,
+              "milestone": "lookahead-order",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 1,
+              "milestone": "empty-default",
+              "passed": false,
+              "weight": 20
+            }
+          ],
+          "executable_score": 80,
+          "public_pass": true,
+          "quality_rubric_sha256": "a8aef2333d98a80598c45b3b8d9f96582076f3c0e9cf3063e302c9534222ac2f",
+          "variant": "partial"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "bounded-memory",
+              "passed": true,
+              "weight": 55
+            },
+            {
+              "exit_code": 0,
+              "milestone": "lookahead-order",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "empty-default",
+              "passed": true,
+              "weight": 20
+            }
+          ],
+          "executable_score": 100,
+          "public_pass": true,
+          "quality_rubric_sha256": "a8aef2333d98a80598c45b3b8d9f96582076f3c0e9cf3063e302c9534222ac2f",
+          "variant": "reference"
+        }
+      ],
+      "task_id": "S05",
+      "task_sha256": "729372ac746e3de6ca707742efbc238c334324d4624089a51fef22c1d98d7e3c"
+    },
+    {
+      "grades": [
+        {
+          "cases": [
+            {
+              "exit_code": 1,
+              "milestone": "zwj-type",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 1,
+              "milestone": "zwnj-type",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "unknown-data",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "valid-context",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 50,
+          "public_pass": false,
+          "quality_rubric_sha256": "63c34101e85206d74c5a4a30e551a8faa5b68064dd9d56967cc6665b3f13af76",
+          "variant": "baseline"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "zwj-type",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 1,
+              "milestone": "zwnj-type",
+              "passed": false,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "unknown-data",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "valid-context",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 75,
+          "public_pass": true,
+          "quality_rubric_sha256": "63c34101e85206d74c5a4a30e551a8faa5b68064dd9d56967cc6665b3f13af76",
+          "variant": "partial"
+        },
+        {
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "zwj-type",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "zwnj-type",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "unknown-data",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "valid-context",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 100,
+          "public_pass": true,
+          "quality_rubric_sha256": "63c34101e85206d74c5a4a30e551a8faa5b68064dd9d56967cc6665b3f13af76",
+          "variant": "reference"
+        }
+      ],
+      "task_id": "S06",
+      "task_sha256": "f7645deaf759273e4b4730aafbe87d1f606e7f84b10caf2d5a911d803bee3143"
+    }
+  ],
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q4s_public_catalogue.py": "f28c13dc14856d0adf3b65a43e519946ef7236f270ba1502d36cdb2252a6a8d6",
+    "tools/worker_q4s_public_grade.py": "61c63368bb467971599cc1960d3ded3020522660bac1635ea481ef7d6fbd44cb",
+    "tools/worker_q4s_rubric.py": "dd0149cbe4084352f10d1c2af2d553be30ae1169405a80f7d8f596b7061b7391"
+  }
+}

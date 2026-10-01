@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "whole-index-read-is-fine",
+  "next_step": "deploy",
+  "probes": []
+}

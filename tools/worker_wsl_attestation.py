@@ -31,24 +31,27 @@ ACTOR_BASE = "/var/lib/orchestrator-worker-n4/actors/"
 RUNTIME_FILES = (
     "bin/node", "bin/claude", "bin/worker-wsl-namespace", "actor-probe.py",
     "worker_wsl_materialize.py", "worker_wsl_collect.py", "worker_wsl_grade.py",
-    "transport-probe.py",
+    "worker_wsl_public_verify.py",
+    "transport-probe.py", "worker_wsl_auth.py", "actor-settings.json",
     "actor-mcp.json", "lib/node_modules/@nanonets/graft/dist/cli.js",
 )
 SOURCE_FILES = (
     "tools/setup_worker_wsl.sh", "tools/worker_wsl_stage.sh",
     "tools/worker_wsl_namespace.sh", "tools/worker_wsl_actor_probe.py",
     "tools/worker_wsl_materialize.py", "tools/worker_wsl_collect.py",
-    "tools/worker_wsl_grade.py",
+    "tools/worker_wsl_grade.py", "tools/worker_wsl_public_verify.py",
     "tools/worker_wsl_transport_probe.py",
     "tools/worker_wsl_transport.py",
     "tools/worker_wsl_adapter_probe.py",
     "tools/worker_wsl_attestation.py",
+    "tools/worker_wsl_auth.py", "tools/worker_wsl_restricted_settings.json",
 )
 GRAFT_TOOLS = {"mcp__graft__" + name for name in (
     "graft_check_freshness", "graft_repo_map", "graft_find_code",
     "graft_file_api", "graft_trace_calls", "graft_find_all")}
 REQUIRED_CHECKS = {
     "acceptance_write_denied", "actor_edit_observed", "actor_read_write",
+    "auth_master_denied", "wsl_login_denied",
     "actor_root_creation_denied", "actor_uid", "allowed_edit_collected",
     "claude_actor_cwd", "claude_graft_connected", "claude_graft_six_tools",
     "claude_native_runs", "claude_no_credentials", "claude_no_execution_tools",
@@ -69,7 +72,9 @@ REQUIRED_CHECKS = {
     "isolated_grade_digest_rejected", "isolated_grade_output_capped",
     "windows_isolated_grade_bridge", "isolated_grade_partial_score",
     "isolated_grade_no_edit_rule", "isolated_grade_actor_digest_rejected",
-    "sibling_actor_hidden",
+    "sibling_actor_hidden", "windows_public_verify_bridge",
+    "isolated_public_evaluator_denied", "isolated_public_self_modification_rejected",
+    "isolated_public_source_unchanged",
 }
 
 
@@ -341,7 +346,39 @@ def run() -> dict:
         bridge_checks["isolated_grade_oracle_hidden"] = (
             wsl(launcher, grade_actor, "--", "/usr/bin/test", "-r", oracle_linux,
                 timeout=30).returncode != 0)
-        from worker_wsl_transport import TransportError, grade_isolated
+        from worker_wsl_transport import (TransportError, grade_isolated,
+                                          public_verify_isolated)
+        (source / "public_check.py").write_text(
+            "from pathlib import Path\n"
+            "assert b'import json' in Path('app.py').read_bytes()\n",
+            encoding="utf-8")
+        public_before = {name: sha(source / name) for name in
+                         ("app.py", "public_check.py", "ISSUE.md", "acceptance.json")}
+        public = public_verify_isolated(source, 10)
+        bridge_checks["windows_public_verify_bridge"] = (
+            public["exit_code"] == 0 and public["public_sha256"] == public_before)
+        bridge_checks["isolated_public_source_unchanged"] = all(
+            sha(source / name) == value for name, value in public_before.items())
+        (source / "public_check.py").write_text(
+            "from pathlib import Path\n"
+            "try:\n"
+            "    Path('/var/lib/orchestrator-worker-n4/evaluator/oracle.py').read_text()\n"
+            "except OSError:\n"
+            "    pass\n"
+            "else:\n"
+            "    raise SystemExit(9)\n", encoding="utf-8")
+        denied = public_verify_isolated(source, 10)
+        bridge_checks["isolated_public_evaluator_denied"] = denied["exit_code"] == 0
+        (source / "public_check.py").write_text(
+            "from pathlib import Path\nPath('app.py').write_text('VALUE = 3\\n')\n",
+            encoding="utf-8")
+        try:
+            public_verify_isolated(source, 10)
+        except TransportError as exc:
+            bridge_checks["isolated_public_self_modification_rejected"] = (
+                "changed its fresh copy" in str(exc))
+        else:
+            bridge_checks["isolated_public_self_modification_rejected"] = False
         app_digest = sha(source / "app.py")
         bridged_grade = grade_isolated(source, oracle, sha(oracle), app_digest,
                                       "accepted")

@@ -1,0 +1,282 @@
+{
+  "case": "shipment_commit",
+  "checks": [
+    {
+      "critical": true,
+      "expected": {
+        "carrier_commits": [
+          {
+            "order": "o1",
+            "qty": 2,
+            "sku": "a",
+            "tenant": "n"
+          }
+        ],
+        "results": [
+          "reserved",
+          "unavailable",
+          "dispatched"
+        ],
+        "stock": {
+          "n|a": 0
+        }
+      },
+      "input": {
+        "operations": [
+          {
+            "op": "reserve",
+            "order": "o1",
+            "qty": 2,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "reserve",
+            "order": "o2",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "dispatch",
+            "order": "o1",
+            "tenant": "n"
+          }
+        ],
+        "stock": {
+          "n|a": 2
+        }
+      },
+      "name": "oversold_last_units",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "carrier_commits": [
+          {
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          }
+        ],
+        "results": [
+          "reserved",
+          "dispatched",
+          "replayed"
+        ],
+        "stock": {
+          "n|a": 0
+        }
+      },
+      "input": {
+        "operations": [
+          {
+            "op": "reserve",
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "dispatch",
+            "order": "o",
+            "tenant": "n"
+          },
+          {
+            "op": "dispatch",
+            "order": "o",
+            "tenant": "n"
+          }
+        ],
+        "stock": {
+          "n|a": 1
+        }
+      },
+      "name": "carrier_retry",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "carrier_commits": [
+          {
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "s"
+          }
+        ],
+        "results": [
+          "reserved",
+          "reserved",
+          "dispatched",
+          "dispatched"
+        ],
+        "stock": {
+          "n|a": 0,
+          "s|a": 0
+        }
+      },
+      "input": {
+        "operations": [
+          {
+            "op": "reserve",
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "reserve",
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "s"
+          },
+          {
+            "op": "dispatch",
+            "order": "o",
+            "tenant": "n"
+          },
+          {
+            "op": "dispatch",
+            "order": "o",
+            "tenant": "s"
+          }
+        ],
+        "stock": {
+          "n|a": 1,
+          "s|a": 1
+        }
+      },
+      "name": "tenant_boundary",
+      "weight": 15
+    },
+    {
+      "critical": true,
+      "expected": {
+        "carrier_commits": [
+          {
+            "order": "o2",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          }
+        ],
+        "results": [
+          "reserved",
+          "cancelled",
+          "reserved",
+          "dispatched"
+        ],
+        "stock": {
+          "n|a": 0
+        }
+      },
+      "input": {
+        "operations": [
+          {
+            "op": "reserve",
+            "order": "o1",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "cancel",
+            "order": "o1",
+            "tenant": "n"
+          },
+          {
+            "op": "reserve",
+            "order": "o2",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "dispatch",
+            "order": "o2",
+            "tenant": "n"
+          }
+        ],
+        "stock": {
+          "n|a": 1
+        }
+      },
+      "name": "cancel_release",
+      "weight": 15
+    },
+    {
+      "critical": false,
+      "expected": {
+        "carrier_commits": [],
+        "results": [
+          "reserved",
+          "conflict"
+        ],
+        "stock": {
+          "n|a": 2
+        }
+      },
+      "input": {
+        "operations": [
+          {
+            "op": "reserve",
+            "order": "o",
+            "qty": 1,
+            "sku": "a",
+            "tenant": "n"
+          },
+          {
+            "op": "reserve",
+            "order": "o",
+            "qty": 2,
+            "sku": "a",
+            "tenant": "n"
+          }
+        ],
+        "stock": {
+          "n|a": 3
+        }
+      },
+      "name": "changed_order_conflict",
+      "weight": 10
+    },
+    {
+      "critical": false,
+      "expected": {
+        "carrier_commits": [],
+        "results": [
+          "missing"
+        ],
+        "stock": {
+          "n|a": 3
+        }
+      },
+      "input": {
+        "operations": [
+          {
+            "op": "dispatch",
+            "order": "o",
+            "tenant": "n"
+          }
+        ],
+        "stock": {
+          "n|a": 3
+        }
+      },
+      "name": "unreserved_dispatch",
+      "weight": 10
+    }
+  ],
+  "schema_version": 1
+}

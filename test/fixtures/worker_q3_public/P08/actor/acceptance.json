@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "public_command": [
+    "python3",
+    "-B",
+    "public_check.py"
+  ],
+  "editable_paths": [
+    "platformdirs/_xdg.py",
+    "platformdirs/api.py",
+    "platformdirs/macos.py",
+    "platformdirs/unix.py"
+  ]
+}

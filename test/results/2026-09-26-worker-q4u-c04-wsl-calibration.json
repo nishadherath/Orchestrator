@@ -1,0 +1,53 @@
+{
+  "actor_file_count": 5,
+  "evaluator_zip_sha256": "5eefccfcd832fc04aae3a3ddf96befba5684e563d218358e0c63d8fa0cfbd997",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "angstrom": true,
+        "ligature": true,
+        "non_string": true,
+        "punctuation": true,
+        "unicode_space": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "task_id": "C04",
+      "unchanged": true
+    },
+    "partial": {
+      "cases": {
+        "angstrom": true,
+        "ligature": true,
+        "non_string": true,
+        "punctuation": true,
+        "unicode_space": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 0,
+      "task_id": "C04",
+      "unchanged": false
+    },
+    "reference": {
+      "cases": {
+        "angstrom": true,
+        "ligature": true,
+        "non_string": true,
+        "punctuation": true,
+        "unicode_space": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "task_id": "C04",
+      "unchanged": true
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.14.7",
+  "schema_version": 1,
+  "task_id": "C04",
+  "task_sha256": "527990779885a4e325b4e5e4f1bd621dd5c43f847efff4f502a812027a74351b"
+}

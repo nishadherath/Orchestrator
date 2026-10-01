@@ -1,0 +1,42 @@
+{
+  "evidence_sha256": "cc0beba78001231b44549388e650c33eda2b048ecfec4f37d4139166245b5e51",
+  "probe": {
+    "checks": {
+      "collected_revision_bound": true,
+      "exact_identity": true,
+      "protected_source_unchanged": true,
+      "report_digests_bound": true,
+      "reports_present": true,
+      "restricted_environment": true,
+      "three_cells_exercised": true,
+      "two_edits_collected": true,
+      "unsupported_cell_rejected": true,
+      "writers_stopped": true,
+      "zero_provider_cost": true
+    },
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "result": "PASS",
+    "schema_version": 1,
+    "supported_cells": [
+      "worker-opus-high",
+      "worker-sonnet-low",
+      "worker-sonnet-xhigh"
+    ]
+  },
+  "recorded_at_utc": "2026-09-25T13:57:16+00:00",
+  "result": "PASS",
+  "runtime_launcher_sha256": "454a988cab15ac3a1af12910366c2c7f28175ec419e980cac09867c6caffafa6",
+  "schema_version": 1,
+  "scope": "Q4 provider-free three-cell boundary; no live model qualified",
+  "source_sha256": {
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_q4_adapter.py": "d9833ef91383c47c47ddc210d1322113651edab0a656661e123a83a6f80f9750",
+    "tools/worker_quality_v2.py": "d0d7718a872eff4d59df6c55e7770da993eee55cfda2ee1cdee4e1cfde3a2604",
+    "tools/worker_wsl_namespace_q4.sh": "454a988cab15ac3a1af12910366c2c7f28175ec419e980cac09867c6caffafa6",
+    "tools/worker_wsl_q4_adapter.py": "b34e8d7806691a357098d09706ed18f645990580d484ff74f72ea59f26bbda0d",
+    "tools/worker_wsl_q4_attestation.py": "96e570a0006b34a8efa3a416ff84e4d8ddd6af54ea85ba8c1441b6957b113992",
+    "tools/worker_wsl_q4_install.sh": "7a9d7c511033fb866d60ddd7481ec6ca4627c4c4af38b7694bc9a7d134b82343",
+    "tools/worker_wsl_q4_probe.py": "34df72c1481d1a7f0398dedbcf01015d43daef416831c0323b0298155f368d1e"
+  }
+}

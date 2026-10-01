@@ -1,0 +1,269 @@
+{
+  "checks": {
+    "alternative_accepted": true,
+    "baseline_rejected": true,
+    "no_critical_or_false_success": true,
+    "partial_progress": true,
+    "reference_accepted": true
+  },
+  "evidence_sha256": "45b8e996d0277aad4a8e7b04a546c8056031e626a526754eef4226b69e346717",
+  "grades": {
+    "alternative": {
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "cases": [
+        {
+          "milestone": "parsed-cache-hit",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "normalise-on-write",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "cache-object-identity",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "transformed-fetch-consistency",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "skip-non-object-member",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "skip-invalid-component",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "clear-cache",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-response-contract",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "fbda5b54ccb79ad8ae8b08c5bf01009be356abfb30a75f7bf4a9ce361d20f9dd",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "package_sha256": "9bb3de8c7553505b65d2a75566afc34395ab563a64a5cba73aea8d2f0074b0b1",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P06",
+      "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "variant": "alternative"
+    },
+    "baseline": {
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "cases": [
+        {
+          "milestone": "parsed-cache-hit",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "normalise-on-write",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "cache-object-identity",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "transformed-fetch-consistency",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "skip-non-object-member",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "skip-invalid-component",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "clear-cache",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-response-contract",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "f1993e39b420b8e63d7764389c59d5accedf9db44655b45ccf2a999c5e890e9b",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "package_sha256": "201339eeda7d2976f7ddd63f1c76b676f07b5699bd18d8b6ee68665ebda88e2c",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 15,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P06",
+      "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "variant": "baseline"
+    },
+    "partial": {
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "cases": [
+        {
+          "milestone": "parsed-cache-hit",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "normalise-on-write",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "cache-object-identity",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "transformed-fetch-consistency",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "skip-non-object-member",
+          "passed": false,
+          "weight": 15
+        },
+        {
+          "milestone": "skip-invalid-component",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "clear-cache",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-response-contract",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "87060b7d1d8270e6d1cd6c1da36c9df0f1d742135146b7ac7f3c9bab57b260ee",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "package_sha256": "7946f7c2afe3d623c454f1f7476c105d7531b2d26b1576542865d722948d9b6a",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 75,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P06",
+      "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "variant": "partial"
+    },
+    "reference": {
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "cases": [
+        {
+          "milestone": "parsed-cache-hit",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "normalise-on-write",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "cache-object-identity",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "transformed-fetch-consistency",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "skip-non-object-member",
+          "passed": true,
+          "weight": 15
+        },
+        {
+          "milestone": "skip-invalid-component",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "clear-cache",
+          "passed": true,
+          "weight": 5
+        },
+        {
+          "milestone": "invalid-response-contract",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "ee84e71c620ea0aecde7113a5c7abf4089426480930837518c4e63c47283ca6f",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "package_sha256": "4228c85dfc062e43b264aea7e798518856e492409a95d9ee7f3b3a4cdda6386e",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P06",
+      "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "variant": "reference"
+    }
+  },
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T10:33:45+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_public_calibrate.py": "38c163472eeaf0fad1edb7876dce657bb4b19d4d00e003c5088efec8b3a27fdd",
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce",
+    "tools/worker_wsl_q3_public.py": "ee8255eeb45d5c27a0655759a32191a68fc958d1f88c42d031bfe57e8cbdebcb"
+  },
+  "task_id": "P06",
+  "task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e"
+}

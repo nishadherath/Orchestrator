@@ -1,0 +1,13 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "incompatible-lock-order-contracts",
+  "next_step": "await-owner-lock-order-decision",
+  "question": {"missing_field": "lock_order_decision",
+               "prompt": "Which lock order may change, account before inventory or inventory before account, or is a coordinator authorized?"},
+  "probes": [
+    {"input": {"caller": "settlement"},
+     "observed": {"order": ["account", "inventory"]}},
+    {"input": {"caller": "reservation"},
+     "observed": {"order": ["inventory", "account"]}}
+  ]
+}

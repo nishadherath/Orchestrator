@@ -1,0 +1,98 @@
+{
+  "audit_sha256": "cccb964a8127908ec44cc6abb2c3dda914fe1e270cec47ad9b2c64f21b685278",
+  "audit_source_sha256": "e9b181b6d56aa735c81a2674901fa9a863b2cc2244032fad478c47023d17fca4",
+  "frozen_grades_modified": false,
+  "kind": "retrospective-contract-sensitivity",
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T13:05:58+00:00",
+  "result": "PASS",
+  "rows": [
+    {
+      "assessment": {
+        "checks": {
+          "multiple_commands": true,
+          "multiple_options": true,
+          "normal_parsing": true,
+          "unrelated_has_no_hint": true
+        },
+        "contract_sensitivity_supported": true,
+        "disputed_weight": 45,
+        "reason": "35 points require punctuation; 10 require an undisclosed exception API"
+      },
+      "candidate_edit_sha256": {
+        "click/__init__.py": "a69ee28ce4be8232a81ad71c9523b04fc42112cc522f8ced4ff9c5e92fdd6b5b",
+        "click/core.py": "668e4662b384af86b5d033a5ec7b72fd9aeed9b3af041d06f3402945b88dc06f",
+        "click/exceptions.py": "ec4311ba3a516d5a465f403a67ffad8a15f48aaef0009c3a2da12c0d8c938b09",
+        "click/parser.py": "6128dbeae13fecc7fe210144b01ec72efcdb6ab2c32b2138585c5fdf22eb0480"
+      },
+      "frozen_hidden_acceptance": false,
+      "frozen_quality": 55,
+      "observed": {
+        "has_NoSuchCommand": false,
+        "multiple_commands": {
+          "exit_code": 2,
+          "output": "Usage: group [OPTIONS] COMMAND [ARGS]...\nTry 'group --help' for help.\n\nError: No such command 'decline'. Did you mean one of 'declare', 'refine'?\n"
+        },
+        "multiple_options": {
+          "exit_code": 2,
+          "output": "Usage: options [OPTIONS]\nTry 'options --help' for help.\n\nError: No such option '--bounds'. Did you mean one of '--bound', '--count'?\n"
+        },
+        "unrelated": {
+          "exit_code": 2,
+          "output": "Usage: group [OPTIONS] COMMAND [ARGS]...\nTry 'group --help' for help.\n\nError: No such command 'quartz'.\n"
+        },
+        "valid_command": {
+          "exit_code": 0,
+          "output": "ran\n"
+        },
+        "valid_options": {
+          "exit_code": 0,
+          "output": "1:2\n"
+        }
+      },
+      "original_grade_sha256": "f1c2add7b36d74bc5e8ee10dc1c22299ab76f492c45192cf397533c680e23373",
+      "probe_sha256": "24d4c06e1fe3ba85610922bf7c809c792b9c6631a7ef0d916199116f457e6c55",
+      "source_workspace_unchanged": true,
+      "task_id": "P03",
+      "task_sha256": "4177a184f67a3f800ee75a88f5131ce919ea8c665d3112604efd5b62182c88c6"
+    },
+    {
+      "assessment": {
+        "checks": {
+          "invalid_marker": true,
+          "invalid_requirement": true
+        },
+        "contract_sensitivity_supported": true,
+        "disputed_weight": 10,
+        "reason": "public issue requires rejection, not a specific exception class"
+      },
+      "candidate_edit_sha256": {
+        "packaging/_parser.py": "e3a0f49091f31899e12b3a9accc61fb37b6743bdb3d29c50703805e0fdc0ac8c",
+        "packaging/markers.py": "189c70f0c2d9b5522378d8508f9b7cbeb56a20f12ab4fa4d7dc4e804a1836f32",
+        "packaging/requirements.py": "66a14d505e52f9a89db2a01dfbd17bf2a5cda7435cf70ca2a26ffd3d912e83c8"
+      },
+      "frozen_hidden_acceptance": false,
+      "frozen_quality": 90,
+      "observed": {
+        "invalid_marker": {
+          "exception": "InvalidMarker",
+          "is_value_error": true,
+          "rejected": true
+        },
+        "invalid_requirement": {
+          "exception": "InvalidRequirement",
+          "is_value_error": true,
+          "rejected": true
+        }
+      },
+      "original_grade_sha256": "7d612c4633cee7288954cc41fffa684bc3c7ffe38f2d4d20385d9adf59e9d273",
+      "probe_sha256": "cd3d9daaf3d4f950653db5d847ea1ea1d8cb43432d65e484e6c94a0f231f477b",
+      "source_workspace_unchanged": true,
+      "task_id": "P07",
+      "task_sha256": "0fdbbc9331d24a7d96d001d81496dbeb551e8cb038eb3fea0e812aec89d0c4a4"
+    }
+  ],
+  "schema_version": 1,
+  "source_evidence_sha256": "c8cef8e6763132b25bff3d259eb4f8d8393cb1d23417a7692fe5f38ae6b80f2e"
+}

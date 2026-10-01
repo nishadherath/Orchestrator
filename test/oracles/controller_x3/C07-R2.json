@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "task_id": "C07-R2",
+  "diagnosis": "transport-sequence-watermark-overrides-state-revision",
+  "cases": [
+    {
+      "milestone": "monotonic revisions apply",
+      "weight": 10,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "sequence": 1,
+            "revision": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 2,
+            "revision": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "expected": {
+        "current": {
+          "revision": 2,
+          "value": "B"
+        },
+        "statuses": [
+          "applied",
+          "applied"
+        ]
+      }
+    },
+    {
+      "milestone": "equal revision is a stale replay",
+      "weight": 15,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "sequence": 1,
+            "revision": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 1,
+            "revision": 1,
+            "value": "A"
+          }
+        ]
+      },
+      "expected": {
+        "current": {
+          "revision": 1,
+          "value": "A"
+        },
+        "statuses": [
+          "applied",
+          "stale"
+        ]
+      }
+    },
+    {
+      "milestone": "high transport sequence cannot apply an older revision",
+      "weight": 30,
+      "critical": true,
+      "input": {
+        "events": [
+          {
+            "sequence": 1,
+            "revision": 2,
+            "value": "A"
+          },
+          {
+            "sequence": 5,
+            "revision": 1,
+            "value": "old"
+          }
+        ]
+      },
+      "expected": {
+        "current": {
+          "revision": 2,
+          "value": "A"
+        },
+        "statuses": [
+          "applied",
+          "stale"
+        ]
+      }
+    },
+    {
+      "milestone": "later valid revision survives a stale high watermark",
+      "weight": 25,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "sequence": 1,
+            "revision": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 5,
+            "revision": 0,
+            "value": "old"
+          },
+          {
+            "sequence": 3,
+            "revision": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "expected": {
+        "current": {
+          "revision": 2,
+          "value": "B"
+        },
+        "statuses": [
+          "applied",
+          "stale",
+          "applied"
+        ]
+      }
+    },
+    {
+      "milestone": "lower transport sequence can carry a newer revision",
+      "weight": 20,
+      "critical": false,
+      "input": {
+        "events": [
+          {
+            "sequence": 4,
+            "revision": 1,
+            "value": "A"
+          },
+          {
+            "sequence": 2,
+            "revision": 2,
+            "value": "B"
+          }
+        ]
+      },
+      "expected": {
+        "current": {
+          "revision": 2,
+          "value": "B"
+        },
+        "statuses": [
+          "applied",
+          "applied"
+        ]
+      }
+    }
+  ]
+}

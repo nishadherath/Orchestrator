@@ -1,0 +1,4 @@
+{
+  "editable_paths": ["auth_gateway.py", "tenant_keys.py"],
+  "public_command": ["python3", "-B", "public_check.py"]
+}

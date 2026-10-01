@@ -1,0 +1,27 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "new-reader-old-row-fallback-and-new-writer-legacy-projection",
+  "next_step": "verify old-reader access to new writes",
+  "probes": [
+    {
+      "input": {
+        "operation": "read_new",
+        "row": {
+          "value": 9
+        }
+      },
+      "observed": {
+        "value": 9
+      }
+    },
+    {
+      "input": {
+        "operation": "roundtrip_old",
+        "value": 11
+      },
+      "observed": {
+        "status": "unsupported"
+      }
+    }
+  ]
+}

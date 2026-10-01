@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "S01",
+  "name": "Generator attribute hooks",
+  "source_url": "https://github.com/python-attrs/attrs",
+  "source_commit": "d3a98cf05ab15769003dcca3eae91cdd6504b83b",
+  "fix_commit": "4b5b295bb815bf845fa3570bf63781a88212db40",
+  "issue_origin": "authored-regression",
+  "licence": "MIT",
+  "licence_file": "LICENSE",
+  "licence_sha256": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+  "package_path": "attr",
+  "editable_paths": [
+    "attr/_compat.py",
+    "attr/_make.py",
+    "attr/_next_gen.py",
+    "attr/setters.py"
+  ],
+  "oracle_file": "S01.json",
+  "case_file": "S01_case.py",
+  "authored_rationale": "Authored regression from the pinned upstream generator-hook fix; exercises class and field hooks across assignment boundaries.",
+  "upstream_change_url": "https://github.com/python-attrs/attrs/commit/4b5b295bb815bf845fa3570bf63781a88212db40"
+}

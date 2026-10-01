@@ -1,0 +1,2086 @@
+{
+  "authorisation": "operator-standing-through-Q4-2026-09-25",
+  "calibration_evidence_sha256": "f750c590ddd8a25e47b8b95786f19abc5c46a19e1d3e0efc92914934b3acfb60",
+  "controller_allowed": false,
+  "cost": {
+    "api_equivalent_projection_usd": [
+      3.0,
+      50.0
+    ],
+    "combined_maximum_provider_calls": 42,
+    "combined_maximum_usd": 80.323065001,
+    "currency": "USD",
+    "new_maximum_provider_calls": 39,
+    "new_maximum_usd": 78.0,
+    "prior_provider_calls": 3,
+    "prior_spent_usd": 2.323065001
+  },
+  "credential_method": "claude-code-wsl-subscription",
+  "date_utc": "2026-09-25",
+  "host_evidence_sha256": "cc0beba78001231b44549388e650c33eda2b048ecfec4f37d4139166245b5e51",
+  "inherited_sequences": [
+    1,
+    2,
+    3
+  ],
+  "manifest_sha256": "85407d17bfc1f7613c9d4829263c6cbd4b8edb4afd18f4e1fce382d6cbd9f563",
+  "predecessor_campaign_sha256": "b68ab5077f6e7002b58c1e7d32e2dd6af77730a790a824c94be4b83817c2a68f",
+  "predecessor_manifest_sha256": "18f4fcec44b81cdb6127187929f4c1fb44ec125ef5d248c835ad30f4dac2fed3",
+  "predecessor_state_sha256": "cbbb9bf0604a3bd57ea89669c30d45c39276e91306056c7de93eb65a9fe87f78",
+  "profile": "worker-q4-m3-no-replay-continuation",
+  "reconciliation_evidence_sha256": "8cbb2a4cebdd0c87b0f3cdac05d4414a1a740b1ec1cc3c85a04f957bdac5038e",
+  "reconciliation_sha256": "db51b6d32548399bae2828b84ccf3fa85f25348a49eb8612d7beb71f1b8b4fab",
+  "remaining_sequences": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "reserved_repetition_rule": "one iff every B0 pair agrees on acceptance, critical/reporting safety and differs by less than 10 quality points; otherwise two",
+  "reserved_tasks_allowed": false,
+  "rows": [
+    {
+      "actor_files": {
+        "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+        "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+        "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+        "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+        "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+        "platformdirs/_xdg.py": "de615b3d0c92faa6866b6c170d8b2c384f7d90694560d5997b07de1fab4270d9",
+        "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+        "platformdirs/api.py": "9e10cb6b53bb56567252e5b4ea5a88de496ac35bf40397d1d023b338b1451a80",
+        "platformdirs/macos.py": "2359562d06ff1cf9eeb17156a3474e96289794f5f0d7dbe11ba49e619c53e5e4",
+        "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "platformdirs/unix.py": "a7a09da2b6c963dcaaaa8f95efd3e84a27eb4e9d2638a67f4d82f7876e6652e1",
+        "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+        "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+        "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+      },
+      "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+      "editable_paths": [
+        "platformdirs/_xdg.py",
+        "platformdirs/api.py",
+        "platformdirs/macos.py",
+        "platformdirs/unix.py"
+      ],
+      "episode_label": "opus-high",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-opus-high",
+      "ladder": [
+        "worker-opus-high",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 4,
+      "latin_rank": 1,
+      "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "xdg-data-single",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-data-single",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "xdg-data-multipath",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-data-multipath",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "xdg-config-single",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-config-single",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "xdg-lazy-first",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by xdg-lazy-first",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "unix-site-path",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by unix-site-path",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "mac-cache-single",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by mac-cache-single",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "mac-cache-path",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by mac-cache-path",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "creation-disabled",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P08 public issue obligation exercised by creation-disabled",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+        "schema_version": 2,
+        "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+      },
+      "sequence": 4,
+      "source_task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+      "task_id": "P08",
+      "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "LICENSE.txt": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+        "acceptance.json": "8769cd599a6eabf7cb0c962dca5b677c60042d9aa0bd810eddf12b5e19425a01",
+        "public_check.py": "15da5d8e1d5676a3470f7c17bc714c0dc23b3bf2522e37fedecf3065ea8ac216",
+        "urllib3/__init__.py": "24ca35b60d67215d40789daf10d0bf4f17e5d1ee61e86ce5f43195935ad645ba",
+        "urllib3/_base_connection.py": "1f37121077b1803ad152beb48cd9e20762908ddc3ded279d0f996e45f1ed0978",
+        "urllib3/_collections.py": "68e566da62a296fbaf4f579f006b6403ba62eb90b5342dc725fa45c6f6014bc0",
+        "urllib3/_request_methods.py": "802785f3948efd45385a83f0607228cffb70f9e33f1153a42c5a7c385b02ec30",
+        "urllib3/_version.py": "3418ca3321e4aa4a614b1092e09a5fdd30f0fc574b96bc53227bd7a551a44d35",
+        "urllib3/connection.py": "3fd7904a4f2898bcc358ae69280d9d16c75447773e42397bb3909cb4b2cf931a",
+        "urllib3/connectionpool.py": "2a3963cd2009e4d8b1297c63980d3f1188312e70e49c009be15ca841ff1effb9",
+        "urllib3/contrib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "urllib3/contrib/emscripten/__init__.py": "c325ef7bcae6a97eecd8aa91401c43e56978f23cd63e7e7ed6efd7a100442d57",
+        "urllib3/contrib/emscripten/connection.py": "822125b01a14b0a55445b6736fc182ac99aa5b6dd79ef8f668dc90545e36b258",
+        "urllib3/contrib/emscripten/emscripten_fetch_worker.js": "cf5937cd9e3f84329ddfeb4def0cf3f0b1e31c2da9c4dfeebbc07793d0fd0377",
+        "urllib3/contrib/emscripten/fetch.py": "e7171dfbebe217165dda7072d1a2bbdddb49f53b21d7261953f4945f09f089b9",
+        "urllib3/contrib/emscripten/request.py": "98bdbcb33cb52af137349856a2be633666aba7c830a650d4fbb8301996398344",
+        "urllib3/contrib/emscripten/response.py": "083a58d0616896e47723110290cda01f9b837d80ccd042f5156afb07beb0b603",
+        "urllib3/contrib/pyopenssl.py": "374ff9f6612ece4434a04aaf018ab72fc11eaa6fe35f27cfbc62c4f07d0518ea",
+        "urllib3/contrib/socks.py": "1e3dcd8d2295901c01373f8a91b23b2bbbf6eb920f30d183b1fff1efea10094c",
+        "urllib3/exceptions.py": "8503c7a2aa38cb0e3a7ac3525647225505d5520031580825b21e8c6f242d6be4",
+        "urllib3/fields.py": "6862c5015669554f856c996596f7b8021834fa91fd659050d88cfb95fa648e43",
+        "urllib3/filepost.py": "53c78d67e9a928a1e1ae56c7104893c7180ad7a21e8e111aeeecf8db2a80fdd2",
+        "urllib3/http2/__init__.py": "c73ac0487ed1e4035190f24ea2de651a70133aadca2aec97cc8e36adc9f09aab",
+        "urllib3/http2/connection.py": "6c7307e9f36f6adc173eb2aaadc9fbe32037a5459ca8f0e9a672b52dc2826cff",
+        "urllib3/http2/probe.py": "9e7024a9b8406a43a217be6bcfb5b4b9d677f047a1fee0fc7e357be0def71442",
+        "urllib3/poolmanager.py": "0ab32ea54d78d2bd85eb85ce00046b68c889ff78eaa4a9931d77df166b395f6a",
+        "urllib3/py.typed": "51a0ae3c56b71fc5006a46edfb91bc48f69c95d4ce1af26fd7ca4f8d42798036",
+        "urllib3/response.py": "9a8aed6d04aced6c43ab5d239373d3c8ea77c94fcca6a612f6ad4eb8226c9a9d",
+        "urllib3/util/__init__.py": "faa792d1071e8af6b3bc110a0cd142008fba00271d0ce1384ccbe8ed22cd9404",
+        "urllib3/util/connection.py": "2633bbdb69731e5ccb5cf4e4afd65605d86c7979cc5633126f50c92d5ad74a74",
+        "urllib3/util/proxy.py": "b1e3fcf90e41e9b07474cb703e3f98719650df4bc7b8ba91bbeb48d096767f3b",
+        "urllib3/util/request.py": "8ada670bcba0ec3e2755f0e6194091325824011510d77aff5ccc529f34f09a91",
+        "urllib3/util/response.py": "bd013adfdba81218f5be98c4771bb994d22124249466477ba6a965508d0164e0",
+        "urllib3/util/retry.py": "d989d25fefc579c312843eb5331e6cebc274fdbb541d9aeb73f064155452d4fe",
+        "urllib3/util/ssl_.py": "57688d26deaf5ed89c47c147fd273170bab2a8db838131796eafd746071b9fbe",
+        "urllib3/util/ssl_match_hostname.py": "16de38289cd3cc632629f7ff6573fdd658b65785a19af132d7a3ca05cbf8bd99",
+        "urllib3/util/ssltransport.py": "133e0ef2947fbd3f1d6a7fc5bea0584ba7600df05710c7d57ebcdc754a167e2e",
+        "urllib3/util/timeout.py": "e1e4f5155799654ee1ee6603d49ab639735ee1fc5e91d36f868594919bac4690",
+        "urllib3/util/url.py": "a7ab09930ef442396f32fbf2b1ecf2653b77de449bfc74bcf0cd0e4b46d77a4c",
+        "urllib3/util/util.py": "8f795b64ad633f28b00f7e13f08809cdd5846554fee04fb4bd82098bd52378d0",
+        "urllib3/util/wait.py": "fe987c22b511deca8faa2d0ea29420254947e30ce419e3390a2c80ed7186b662"
+      },
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "editable_paths": [
+        "urllib3/connectionpool.py",
+        "urllib3/poolmanager.py",
+        "urllib3/util/url.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 2,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-url-netloc",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-url-netloc",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-http-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-http-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-https-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-https-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "zero-proxy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-proxy",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-host-comparison",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-host-comparison",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "default-port-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by default-port-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "schema_version": 2,
+        "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+      },
+      "sequence": 5,
+      "source_task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "task_id": "P04",
+      "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "LICENSE.txt": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+        "acceptance.json": "8769cd599a6eabf7cb0c962dca5b677c60042d9aa0bd810eddf12b5e19425a01",
+        "public_check.py": "15da5d8e1d5676a3470f7c17bc714c0dc23b3bf2522e37fedecf3065ea8ac216",
+        "urllib3/__init__.py": "24ca35b60d67215d40789daf10d0bf4f17e5d1ee61e86ce5f43195935ad645ba",
+        "urllib3/_base_connection.py": "1f37121077b1803ad152beb48cd9e20762908ddc3ded279d0f996e45f1ed0978",
+        "urllib3/_collections.py": "68e566da62a296fbaf4f579f006b6403ba62eb90b5342dc725fa45c6f6014bc0",
+        "urllib3/_request_methods.py": "802785f3948efd45385a83f0607228cffb70f9e33f1153a42c5a7c385b02ec30",
+        "urllib3/_version.py": "3418ca3321e4aa4a614b1092e09a5fdd30f0fc574b96bc53227bd7a551a44d35",
+        "urllib3/connection.py": "3fd7904a4f2898bcc358ae69280d9d16c75447773e42397bb3909cb4b2cf931a",
+        "urllib3/connectionpool.py": "2a3963cd2009e4d8b1297c63980d3f1188312e70e49c009be15ca841ff1effb9",
+        "urllib3/contrib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "urllib3/contrib/emscripten/__init__.py": "c325ef7bcae6a97eecd8aa91401c43e56978f23cd63e7e7ed6efd7a100442d57",
+        "urllib3/contrib/emscripten/connection.py": "822125b01a14b0a55445b6736fc182ac99aa5b6dd79ef8f668dc90545e36b258",
+        "urllib3/contrib/emscripten/emscripten_fetch_worker.js": "cf5937cd9e3f84329ddfeb4def0cf3f0b1e31c2da9c4dfeebbc07793d0fd0377",
+        "urllib3/contrib/emscripten/fetch.py": "e7171dfbebe217165dda7072d1a2bbdddb49f53b21d7261953f4945f09f089b9",
+        "urllib3/contrib/emscripten/request.py": "98bdbcb33cb52af137349856a2be633666aba7c830a650d4fbb8301996398344",
+        "urllib3/contrib/emscripten/response.py": "083a58d0616896e47723110290cda01f9b837d80ccd042f5156afb07beb0b603",
+        "urllib3/contrib/pyopenssl.py": "374ff9f6612ece4434a04aaf018ab72fc11eaa6fe35f27cfbc62c4f07d0518ea",
+        "urllib3/contrib/socks.py": "1e3dcd8d2295901c01373f8a91b23b2bbbf6eb920f30d183b1fff1efea10094c",
+        "urllib3/exceptions.py": "8503c7a2aa38cb0e3a7ac3525647225505d5520031580825b21e8c6f242d6be4",
+        "urllib3/fields.py": "6862c5015669554f856c996596f7b8021834fa91fd659050d88cfb95fa648e43",
+        "urllib3/filepost.py": "53c78d67e9a928a1e1ae56c7104893c7180ad7a21e8e111aeeecf8db2a80fdd2",
+        "urllib3/http2/__init__.py": "c73ac0487ed1e4035190f24ea2de651a70133aadca2aec97cc8e36adc9f09aab",
+        "urllib3/http2/connection.py": "6c7307e9f36f6adc173eb2aaadc9fbe32037a5459ca8f0e9a672b52dc2826cff",
+        "urllib3/http2/probe.py": "9e7024a9b8406a43a217be6bcfb5b4b9d677f047a1fee0fc7e357be0def71442",
+        "urllib3/poolmanager.py": "0ab32ea54d78d2bd85eb85ce00046b68c889ff78eaa4a9931d77df166b395f6a",
+        "urllib3/py.typed": "51a0ae3c56b71fc5006a46edfb91bc48f69c95d4ce1af26fd7ca4f8d42798036",
+        "urllib3/response.py": "9a8aed6d04aced6c43ab5d239373d3c8ea77c94fcca6a612f6ad4eb8226c9a9d",
+        "urllib3/util/__init__.py": "faa792d1071e8af6b3bc110a0cd142008fba00271d0ce1384ccbe8ed22cd9404",
+        "urllib3/util/connection.py": "2633bbdb69731e5ccb5cf4e4afd65605d86c7979cc5633126f50c92d5ad74a74",
+        "urllib3/util/proxy.py": "b1e3fcf90e41e9b07474cb703e3f98719650df4bc7b8ba91bbeb48d096767f3b",
+        "urllib3/util/request.py": "8ada670bcba0ec3e2755f0e6194091325824011510d77aff5ccc529f34f09a91",
+        "urllib3/util/response.py": "bd013adfdba81218f5be98c4771bb994d22124249466477ba6a965508d0164e0",
+        "urllib3/util/retry.py": "d989d25fefc579c312843eb5331e6cebc274fdbb541d9aeb73f064155452d4fe",
+        "urllib3/util/ssl_.py": "57688d26deaf5ed89c47c147fd273170bab2a8db838131796eafd746071b9fbe",
+        "urllib3/util/ssl_match_hostname.py": "16de38289cd3cc632629f7ff6573fdd658b65785a19af132d7a3ca05cbf8bd99",
+        "urllib3/util/ssltransport.py": "133e0ef2947fbd3f1d6a7fc5bea0584ba7600df05710c7d57ebcdc754a167e2e",
+        "urllib3/util/timeout.py": "e1e4f5155799654ee1ee6603d49ab639735ee1fc5e91d36f868594919bac4690",
+        "urllib3/util/url.py": "a7ab09930ef442396f32fbf2b1ecf2653b77de449bfc74bcf0cd0e4b46d77a4c",
+        "urllib3/util/util.py": "8f795b64ad633f28b00f7e13f08809cdd5846554fee04fb4bd82098bd52378d0",
+        "urllib3/util/wait.py": "fe987c22b511deca8faa2d0ea29420254947e30ce419e3390a2c80ed7186b662"
+      },
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "editable_paths": [
+        "urllib3/connectionpool.py",
+        "urllib3/poolmanager.py",
+        "urllib3/util/url.py"
+      ],
+      "episode_label": "sonnet-xhigh",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-xhigh",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 2,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-url-netloc",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-url-netloc",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-http-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-http-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-https-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-https-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "zero-proxy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-proxy",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-host-comparison",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-host-comparison",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "default-port-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by default-port-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "schema_version": 2,
+        "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+      },
+      "sequence": 6,
+      "source_task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "task_id": "P04",
+      "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "LICENSE.txt": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+        "acceptance.json": "8769cd599a6eabf7cb0c962dca5b677c60042d9aa0bd810eddf12b5e19425a01",
+        "public_check.py": "15da5d8e1d5676a3470f7c17bc714c0dc23b3bf2522e37fedecf3065ea8ac216",
+        "urllib3/__init__.py": "24ca35b60d67215d40789daf10d0bf4f17e5d1ee61e86ce5f43195935ad645ba",
+        "urllib3/_base_connection.py": "1f37121077b1803ad152beb48cd9e20762908ddc3ded279d0f996e45f1ed0978",
+        "urllib3/_collections.py": "68e566da62a296fbaf4f579f006b6403ba62eb90b5342dc725fa45c6f6014bc0",
+        "urllib3/_request_methods.py": "802785f3948efd45385a83f0607228cffb70f9e33f1153a42c5a7c385b02ec30",
+        "urllib3/_version.py": "3418ca3321e4aa4a614b1092e09a5fdd30f0fc574b96bc53227bd7a551a44d35",
+        "urllib3/connection.py": "3fd7904a4f2898bcc358ae69280d9d16c75447773e42397bb3909cb4b2cf931a",
+        "urllib3/connectionpool.py": "2a3963cd2009e4d8b1297c63980d3f1188312e70e49c009be15ca841ff1effb9",
+        "urllib3/contrib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "urllib3/contrib/emscripten/__init__.py": "c325ef7bcae6a97eecd8aa91401c43e56978f23cd63e7e7ed6efd7a100442d57",
+        "urllib3/contrib/emscripten/connection.py": "822125b01a14b0a55445b6736fc182ac99aa5b6dd79ef8f668dc90545e36b258",
+        "urllib3/contrib/emscripten/emscripten_fetch_worker.js": "cf5937cd9e3f84329ddfeb4def0cf3f0b1e31c2da9c4dfeebbc07793d0fd0377",
+        "urllib3/contrib/emscripten/fetch.py": "e7171dfbebe217165dda7072d1a2bbdddb49f53b21d7261953f4945f09f089b9",
+        "urllib3/contrib/emscripten/request.py": "98bdbcb33cb52af137349856a2be633666aba7c830a650d4fbb8301996398344",
+        "urllib3/contrib/emscripten/response.py": "083a58d0616896e47723110290cda01f9b837d80ccd042f5156afb07beb0b603",
+        "urllib3/contrib/pyopenssl.py": "374ff9f6612ece4434a04aaf018ab72fc11eaa6fe35f27cfbc62c4f07d0518ea",
+        "urllib3/contrib/socks.py": "1e3dcd8d2295901c01373f8a91b23b2bbbf6eb920f30d183b1fff1efea10094c",
+        "urllib3/exceptions.py": "8503c7a2aa38cb0e3a7ac3525647225505d5520031580825b21e8c6f242d6be4",
+        "urllib3/fields.py": "6862c5015669554f856c996596f7b8021834fa91fd659050d88cfb95fa648e43",
+        "urllib3/filepost.py": "53c78d67e9a928a1e1ae56c7104893c7180ad7a21e8e111aeeecf8db2a80fdd2",
+        "urllib3/http2/__init__.py": "c73ac0487ed1e4035190f24ea2de651a70133aadca2aec97cc8e36adc9f09aab",
+        "urllib3/http2/connection.py": "6c7307e9f36f6adc173eb2aaadc9fbe32037a5459ca8f0e9a672b52dc2826cff",
+        "urllib3/http2/probe.py": "9e7024a9b8406a43a217be6bcfb5b4b9d677f047a1fee0fc7e357be0def71442",
+        "urllib3/poolmanager.py": "0ab32ea54d78d2bd85eb85ce00046b68c889ff78eaa4a9931d77df166b395f6a",
+        "urllib3/py.typed": "51a0ae3c56b71fc5006a46edfb91bc48f69c95d4ce1af26fd7ca4f8d42798036",
+        "urllib3/response.py": "9a8aed6d04aced6c43ab5d239373d3c8ea77c94fcca6a612f6ad4eb8226c9a9d",
+        "urllib3/util/__init__.py": "faa792d1071e8af6b3bc110a0cd142008fba00271d0ce1384ccbe8ed22cd9404",
+        "urllib3/util/connection.py": "2633bbdb69731e5ccb5cf4e4afd65605d86c7979cc5633126f50c92d5ad74a74",
+        "urllib3/util/proxy.py": "b1e3fcf90e41e9b07474cb703e3f98719650df4bc7b8ba91bbeb48d096767f3b",
+        "urllib3/util/request.py": "8ada670bcba0ec3e2755f0e6194091325824011510d77aff5ccc529f34f09a91",
+        "urllib3/util/response.py": "bd013adfdba81218f5be98c4771bb994d22124249466477ba6a965508d0164e0",
+        "urllib3/util/retry.py": "d989d25fefc579c312843eb5331e6cebc274fdbb541d9aeb73f064155452d4fe",
+        "urllib3/util/ssl_.py": "57688d26deaf5ed89c47c147fd273170bab2a8db838131796eafd746071b9fbe",
+        "urllib3/util/ssl_match_hostname.py": "16de38289cd3cc632629f7ff6573fdd658b65785a19af132d7a3ca05cbf8bd99",
+        "urllib3/util/ssltransport.py": "133e0ef2947fbd3f1d6a7fc5bea0584ba7600df05710c7d57ebcdc754a167e2e",
+        "urllib3/util/timeout.py": "e1e4f5155799654ee1ee6603d49ab639735ee1fc5e91d36f868594919bac4690",
+        "urllib3/util/url.py": "a7ab09930ef442396f32fbf2b1ecf2653b77de449bfc74bcf0cd0e4b46d77a4c",
+        "urllib3/util/util.py": "8f795b64ad633f28b00f7e13f08809cdd5846554fee04fb4bd82098bd52378d0",
+        "urllib3/util/wait.py": "fe987c22b511deca8faa2d0ea29420254947e30ce419e3390a2c80ed7186b662"
+      },
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "editable_paths": [
+        "urllib3/connectionpool.py",
+        "urllib3/poolmanager.py",
+        "urllib3/util/url.py"
+      ],
+      "episode_label": "opus-high",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-opus-high",
+      "ladder": [
+        "worker-opus-high",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 2,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-url-netloc",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-url-netloc",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-http-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-http-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-https-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-https-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "zero-proxy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-proxy",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-host-comparison",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-host-comparison",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "default-port-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by default-port-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "schema_version": 2,
+        "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+      },
+      "sequence": 7,
+      "source_task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "task_id": "P04",
+      "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "LICENSE.txt": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+        "acceptance.json": "8769cd599a6eabf7cb0c962dca5b677c60042d9aa0bd810eddf12b5e19425a01",
+        "public_check.py": "15da5d8e1d5676a3470f7c17bc714c0dc23b3bf2522e37fedecf3065ea8ac216",
+        "urllib3/__init__.py": "24ca35b60d67215d40789daf10d0bf4f17e5d1ee61e86ce5f43195935ad645ba",
+        "urllib3/_base_connection.py": "1f37121077b1803ad152beb48cd9e20762908ddc3ded279d0f996e45f1ed0978",
+        "urllib3/_collections.py": "68e566da62a296fbaf4f579f006b6403ba62eb90b5342dc725fa45c6f6014bc0",
+        "urllib3/_request_methods.py": "802785f3948efd45385a83f0607228cffb70f9e33f1153a42c5a7c385b02ec30",
+        "urllib3/_version.py": "3418ca3321e4aa4a614b1092e09a5fdd30f0fc574b96bc53227bd7a551a44d35",
+        "urllib3/connection.py": "3fd7904a4f2898bcc358ae69280d9d16c75447773e42397bb3909cb4b2cf931a",
+        "urllib3/connectionpool.py": "2a3963cd2009e4d8b1297c63980d3f1188312e70e49c009be15ca841ff1effb9",
+        "urllib3/contrib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "urllib3/contrib/emscripten/__init__.py": "c325ef7bcae6a97eecd8aa91401c43e56978f23cd63e7e7ed6efd7a100442d57",
+        "urllib3/contrib/emscripten/connection.py": "822125b01a14b0a55445b6736fc182ac99aa5b6dd79ef8f668dc90545e36b258",
+        "urllib3/contrib/emscripten/emscripten_fetch_worker.js": "cf5937cd9e3f84329ddfeb4def0cf3f0b1e31c2da9c4dfeebbc07793d0fd0377",
+        "urllib3/contrib/emscripten/fetch.py": "e7171dfbebe217165dda7072d1a2bbdddb49f53b21d7261953f4945f09f089b9",
+        "urllib3/contrib/emscripten/request.py": "98bdbcb33cb52af137349856a2be633666aba7c830a650d4fbb8301996398344",
+        "urllib3/contrib/emscripten/response.py": "083a58d0616896e47723110290cda01f9b837d80ccd042f5156afb07beb0b603",
+        "urllib3/contrib/pyopenssl.py": "374ff9f6612ece4434a04aaf018ab72fc11eaa6fe35f27cfbc62c4f07d0518ea",
+        "urllib3/contrib/socks.py": "1e3dcd8d2295901c01373f8a91b23b2bbbf6eb920f30d183b1fff1efea10094c",
+        "urllib3/exceptions.py": "8503c7a2aa38cb0e3a7ac3525647225505d5520031580825b21e8c6f242d6be4",
+        "urllib3/fields.py": "6862c5015669554f856c996596f7b8021834fa91fd659050d88cfb95fa648e43",
+        "urllib3/filepost.py": "53c78d67e9a928a1e1ae56c7104893c7180ad7a21e8e111aeeecf8db2a80fdd2",
+        "urllib3/http2/__init__.py": "c73ac0487ed1e4035190f24ea2de651a70133aadca2aec97cc8e36adc9f09aab",
+        "urllib3/http2/connection.py": "6c7307e9f36f6adc173eb2aaadc9fbe32037a5459ca8f0e9a672b52dc2826cff",
+        "urllib3/http2/probe.py": "9e7024a9b8406a43a217be6bcfb5b4b9d677f047a1fee0fc7e357be0def71442",
+        "urllib3/poolmanager.py": "0ab32ea54d78d2bd85eb85ce00046b68c889ff78eaa4a9931d77df166b395f6a",
+        "urllib3/py.typed": "51a0ae3c56b71fc5006a46edfb91bc48f69c95d4ce1af26fd7ca4f8d42798036",
+        "urllib3/response.py": "9a8aed6d04aced6c43ab5d239373d3c8ea77c94fcca6a612f6ad4eb8226c9a9d",
+        "urllib3/util/__init__.py": "faa792d1071e8af6b3bc110a0cd142008fba00271d0ce1384ccbe8ed22cd9404",
+        "urllib3/util/connection.py": "2633bbdb69731e5ccb5cf4e4afd65605d86c7979cc5633126f50c92d5ad74a74",
+        "urllib3/util/proxy.py": "b1e3fcf90e41e9b07474cb703e3f98719650df4bc7b8ba91bbeb48d096767f3b",
+        "urllib3/util/request.py": "8ada670bcba0ec3e2755f0e6194091325824011510d77aff5ccc529f34f09a91",
+        "urllib3/util/response.py": "bd013adfdba81218f5be98c4771bb994d22124249466477ba6a965508d0164e0",
+        "urllib3/util/retry.py": "d989d25fefc579c312843eb5331e6cebc274fdbb541d9aeb73f064155452d4fe",
+        "urllib3/util/ssl_.py": "57688d26deaf5ed89c47c147fd273170bab2a8db838131796eafd746071b9fbe",
+        "urllib3/util/ssl_match_hostname.py": "16de38289cd3cc632629f7ff6573fdd658b65785a19af132d7a3ca05cbf8bd99",
+        "urllib3/util/ssltransport.py": "133e0ef2947fbd3f1d6a7fc5bea0584ba7600df05710c7d57ebcdc754a167e2e",
+        "urllib3/util/timeout.py": "e1e4f5155799654ee1ee6603d49ab639735ee1fc5e91d36f868594919bac4690",
+        "urllib3/util/url.py": "a7ab09930ef442396f32fbf2b1ecf2653b77de449bfc74bcf0cd0e4b46d77a4c",
+        "urllib3/util/util.py": "8f795b64ad633f28b00f7e13f08809cdd5846554fee04fb4bd82098bd52378d0",
+        "urllib3/util/wait.py": "fe987c22b511deca8faa2d0ea29420254947e30ce419e3390a2c80ed7186b662"
+      },
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "editable_paths": [
+        "urllib3/connectionpool.py",
+        "urllib3/poolmanager.py",
+        "urllib3/util/url.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 4,
+      "latin_rank": 2,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-url-netloc",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-url-netloc",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-http-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-http-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-https-pool",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-https-pool",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "zero-proxy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-proxy",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "zero-host-comparison",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by zero-host-comparison",
+            "weight": 15
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "default-port-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P04 public issue obligation exercised by default-port-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+        "schema_version": 2,
+        "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+      },
+      "sequence": 8,
+      "source_task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "task_id": "P04",
+      "task_sha256": "9a0784e0a4917a44f01bf424020cb03bbe109eb1e351b6c0c382189a759e9fd8"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+        "acceptance.json": "1071dbe99c4c99a99a46063bff6f57027dae652460399815e48b4ed829e62f89",
+        "public_check.py": "ee2c65b87f7d793df2c7db1664d0d38275d9eed3cb0f5b8ea371a3a96c08cdee",
+        "tenacity/__init__.py": "0224d1889a906266dd49551857b1e0ece6075e1d08448ee56ccc3a0019394afb",
+        "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+        "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+        "tenacity/asyncio/__init__.py": "1ebfeee45e78d03adad1a22d7786be6124120f90510251557099ba8d557e4f40",
+        "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+        "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+        "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+        "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+        "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+        "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+        "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d",
+        "tenacity/wait.py": "2cdbb14a160c362aa7795c9501ab4c1edfb69bb9bb7f0a472c2b0c6823e2ca55"
+      },
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "editable_paths": [
+        "tenacity/__init__.py",
+        "tenacity/asyncio/__init__.py",
+        "tenacity/wait.py"
+      ],
+      "episode_label": "sonnet-xhigh",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-xhigh",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 3,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "callable-plus-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by callable-plus-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "positional-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by positional-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "reject-nonzero-seed",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by reject-nonzero-seed",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sum-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sum-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "schema_version": 2,
+        "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+      },
+      "sequence": 9,
+      "source_task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "task_id": "P05",
+      "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+        "acceptance.json": "1071dbe99c4c99a99a46063bff6f57027dae652460399815e48b4ed829e62f89",
+        "public_check.py": "ee2c65b87f7d793df2c7db1664d0d38275d9eed3cb0f5b8ea371a3a96c08cdee",
+        "tenacity/__init__.py": "0224d1889a906266dd49551857b1e0ece6075e1d08448ee56ccc3a0019394afb",
+        "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+        "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+        "tenacity/asyncio/__init__.py": "1ebfeee45e78d03adad1a22d7786be6124120f90510251557099ba8d557e4f40",
+        "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+        "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+        "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+        "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+        "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+        "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+        "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d",
+        "tenacity/wait.py": "2cdbb14a160c362aa7795c9501ab4c1edfb69bb9bb7f0a472c2b0c6823e2ca55"
+      },
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "editable_paths": [
+        "tenacity/__init__.py",
+        "tenacity/asyncio/__init__.py",
+        "tenacity/wait.py"
+      ],
+      "episode_label": "opus-high",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-opus-high",
+      "ladder": [
+        "worker-opus-high",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 3,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "callable-plus-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by callable-plus-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "positional-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by positional-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "reject-nonzero-seed",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by reject-nonzero-seed",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sum-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sum-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "schema_version": 2,
+        "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+      },
+      "sequence": 10,
+      "source_task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "task_id": "P05",
+      "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+        "acceptance.json": "1071dbe99c4c99a99a46063bff6f57027dae652460399815e48b4ed829e62f89",
+        "public_check.py": "ee2c65b87f7d793df2c7db1664d0d38275d9eed3cb0f5b8ea371a3a96c08cdee",
+        "tenacity/__init__.py": "0224d1889a906266dd49551857b1e0ece6075e1d08448ee56ccc3a0019394afb",
+        "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+        "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+        "tenacity/asyncio/__init__.py": "1ebfeee45e78d03adad1a22d7786be6124120f90510251557099ba8d557e4f40",
+        "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+        "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+        "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+        "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+        "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+        "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+        "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d",
+        "tenacity/wait.py": "2cdbb14a160c362aa7795c9501ab4c1edfb69bb9bb7f0a472c2b0c6823e2ca55"
+      },
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "editable_paths": [
+        "tenacity/__init__.py",
+        "tenacity/asyncio/__init__.py",
+        "tenacity/wait.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 3,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "callable-plus-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by callable-plus-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "positional-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by positional-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "reject-nonzero-seed",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by reject-nonzero-seed",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sum-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sum-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "schema_version": 2,
+        "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+      },
+      "sequence": 11,
+      "source_task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "task_id": "P05",
+      "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+        "acceptance.json": "1071dbe99c4c99a99a46063bff6f57027dae652460399815e48b4ed829e62f89",
+        "public_check.py": "ee2c65b87f7d793df2c7db1664d0d38275d9eed3cb0f5b8ea371a3a96c08cdee",
+        "tenacity/__init__.py": "0224d1889a906266dd49551857b1e0ece6075e1d08448ee56ccc3a0019394afb",
+        "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+        "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+        "tenacity/asyncio/__init__.py": "1ebfeee45e78d03adad1a22d7786be6124120f90510251557099ba8d557e4f40",
+        "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+        "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+        "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+        "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+        "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+        "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+        "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d",
+        "tenacity/wait.py": "2cdbb14a160c362aa7795c9501ab4c1edfb69bb9bb7f0a472c2b0c6823e2ca55"
+      },
+      "case_source_sha256": "25e68744a85d2a03dfe6b1243f7a5be9c0fa90564e2d13f41728a4ac11625247",
+      "editable_paths": [
+        "tenacity/__init__.py",
+        "tenacity/asyncio/__init__.py",
+        "tenacity/wait.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 4,
+      "latin_rank": 3,
+      "oracle_sha256": "f3a07c2e719f82a12435c880c206dc33a509425de19b9e8dbf63e6c2f2f37fc6",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sync-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sync-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-none-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-none-wait",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "async-zero-wait",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by async-zero-wait",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "callable-plus-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by callable-plus-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "positional-strategy",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by positional-strategy",
+            "weight": 10
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "reject-nonzero-seed",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by reject-nonzero-seed",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "sum-control",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P05 public issue obligation exercised by sum-control",
+            "weight": 5
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+        "schema_version": 2,
+        "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+      },
+      "sequence": 12,
+      "source_task_sha256": "be162725731b9137199a94c671762689e28d45b57addc95d69f19df3d0a98191",
+      "task_id": "P05",
+      "task_sha256": "a100fe318e2b6d1ff3268715c098a2b2bbf2b7c9cfe735180a14a8e0630739d9"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "LICENSE": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+        "acceptance.json": "c48cc906288bfb51a66eb76828316830ab3ead05fad9b6a00d15af50e88e9505",
+        "jwt/__init__.py": "0564795b435a412848db0d678100fd138aa3096075e8cce364751c7e427d60fd",
+        "jwt/algorithms.py": "31e174916a77d17f4ed9dbcd3b869e9264a146aaf8d97f02d9b43bf828fe0441",
+        "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+        "jwt/api_jws.py": "a0c578d4e09c823afe019ed3e0b06fb184c665ff34cfe404c68229ae3272269d",
+        "jwt/api_jwt.py": "e8283616669448b2b116b0184e6eed568d67b10a1ff8909f647cb43f44bce615",
+        "jwt/exceptions.py": "3540f48760343221d5e94f933edfc0af4a6b9c01f1c892748ba2c7216cddf154",
+        "jwt/help.py": "1c1dd9b2b2557254745d8fac0c7f8bbe5e4aeda7b9422746894e96c93027621b",
+        "jwt/jwk_set_cache.py": "037f79442909503c4a2e3fcce91654912e34e407837a9130ced538938c434a85",
+        "jwt/jwks_client.py": "00ba62de23c8c80d90fb1f73539a8fbf32c47a959d8d0fbaf51e46800c419ab7",
+        "jwt/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jwt/types.py": "478e81927a35574f1faaec6756bef502f5bab843e2947265aa4817e8e6d9167c",
+        "jwt/utils.py": "e4e3d4faf0b15c47a049940088e256434b6566920ec7163c172ce47684c29ac0",
+        "jwt/warnings.py": "8904ef3fe34f0d003eb6e84f86389f124611a8c520b5ef7d88e3cc25cfc32c99",
+        "public_check.py": "a0f259c76e6feafdbbff1262e8a429ee3b33ca8a74a923573b1b228a1f182bd1"
+      },
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "editable_paths": [
+        "jwt/api_jwk.py",
+        "jwt/jwk_set_cache.py",
+        "jwt/jwks_client.py"
+      ],
+      "episode_label": "opus-high",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-opus-high",
+      "ladder": [
+        "worker-opus-high",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 1,
+      "latin_rank": 4,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "parsed-cache-hit",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by parsed-cache-hit",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "normalise-on-write",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by normalise-on-write",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "cache-object-identity",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by cache-object-identity",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "transformed-fetch-consistency",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by transformed-fetch-consistency",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-non-object-member",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-non-object-member",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-invalid-component",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-invalid-component",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "clear-cache",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by clear-cache",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "invalid-response-contract",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by invalid-response-contract",
+            "weight": 15
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "schema_version": 2,
+        "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+      },
+      "sequence": 13,
+      "source_task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "task_id": "P06",
+      "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "LICENSE": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+        "acceptance.json": "c48cc906288bfb51a66eb76828316830ab3ead05fad9b6a00d15af50e88e9505",
+        "jwt/__init__.py": "0564795b435a412848db0d678100fd138aa3096075e8cce364751c7e427d60fd",
+        "jwt/algorithms.py": "31e174916a77d17f4ed9dbcd3b869e9264a146aaf8d97f02d9b43bf828fe0441",
+        "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+        "jwt/api_jws.py": "a0c578d4e09c823afe019ed3e0b06fb184c665ff34cfe404c68229ae3272269d",
+        "jwt/api_jwt.py": "e8283616669448b2b116b0184e6eed568d67b10a1ff8909f647cb43f44bce615",
+        "jwt/exceptions.py": "3540f48760343221d5e94f933edfc0af4a6b9c01f1c892748ba2c7216cddf154",
+        "jwt/help.py": "1c1dd9b2b2557254745d8fac0c7f8bbe5e4aeda7b9422746894e96c93027621b",
+        "jwt/jwk_set_cache.py": "037f79442909503c4a2e3fcce91654912e34e407837a9130ced538938c434a85",
+        "jwt/jwks_client.py": "00ba62de23c8c80d90fb1f73539a8fbf32c47a959d8d0fbaf51e46800c419ab7",
+        "jwt/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jwt/types.py": "478e81927a35574f1faaec6756bef502f5bab843e2947265aa4817e8e6d9167c",
+        "jwt/utils.py": "e4e3d4faf0b15c47a049940088e256434b6566920ec7163c172ce47684c29ac0",
+        "jwt/warnings.py": "8904ef3fe34f0d003eb6e84f86389f124611a8c520b5ef7d88e3cc25cfc32c99",
+        "public_check.py": "a0f259c76e6feafdbbff1262e8a429ee3b33ca8a74a923573b1b228a1f182bd1"
+      },
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "editable_paths": [
+        "jwt/api_jwk.py",
+        "jwt/jwk_set_cache.py",
+        "jwt/jwks_client.py"
+      ],
+      "episode_label": "b0-a",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 2,
+      "latin_rank": 4,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "parsed-cache-hit",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by parsed-cache-hit",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "normalise-on-write",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by normalise-on-write",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "cache-object-identity",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by cache-object-identity",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "transformed-fetch-consistency",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by transformed-fetch-consistency",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-non-object-member",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-non-object-member",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-invalid-component",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-invalid-component",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "clear-cache",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by clear-cache",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "invalid-response-contract",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by invalid-response-contract",
+            "weight": 15
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "schema_version": 2,
+        "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+      },
+      "sequence": 14,
+      "source_task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "task_id": "P06",
+      "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "LICENSE": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+        "acceptance.json": "c48cc906288bfb51a66eb76828316830ab3ead05fad9b6a00d15af50e88e9505",
+        "jwt/__init__.py": "0564795b435a412848db0d678100fd138aa3096075e8cce364751c7e427d60fd",
+        "jwt/algorithms.py": "31e174916a77d17f4ed9dbcd3b869e9264a146aaf8d97f02d9b43bf828fe0441",
+        "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+        "jwt/api_jws.py": "a0c578d4e09c823afe019ed3e0b06fb184c665ff34cfe404c68229ae3272269d",
+        "jwt/api_jwt.py": "e8283616669448b2b116b0184e6eed568d67b10a1ff8909f647cb43f44bce615",
+        "jwt/exceptions.py": "3540f48760343221d5e94f933edfc0af4a6b9c01f1c892748ba2c7216cddf154",
+        "jwt/help.py": "1c1dd9b2b2557254745d8fac0c7f8bbe5e4aeda7b9422746894e96c93027621b",
+        "jwt/jwk_set_cache.py": "037f79442909503c4a2e3fcce91654912e34e407837a9130ced538938c434a85",
+        "jwt/jwks_client.py": "00ba62de23c8c80d90fb1f73539a8fbf32c47a959d8d0fbaf51e46800c419ab7",
+        "jwt/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jwt/types.py": "478e81927a35574f1faaec6756bef502f5bab843e2947265aa4817e8e6d9167c",
+        "jwt/utils.py": "e4e3d4faf0b15c47a049940088e256434b6566920ec7163c172ce47684c29ac0",
+        "jwt/warnings.py": "8904ef3fe34f0d003eb6e84f86389f124611a8c520b5ef7d88e3cc25cfc32c99",
+        "public_check.py": "a0f259c76e6feafdbbff1262e8a429ee3b33ca8a74a923573b1b228a1f182bd1"
+      },
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "editable_paths": [
+        "jwt/api_jwk.py",
+        "jwt/jwk_set_cache.py",
+        "jwt/jwks_client.py"
+      ],
+      "episode_label": "b0-b",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-low",
+      "ladder": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 3,
+      "latin_rank": 4,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "parsed-cache-hit",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by parsed-cache-hit",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "normalise-on-write",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by normalise-on-write",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "cache-object-identity",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by cache-object-identity",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "transformed-fetch-consistency",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by transformed-fetch-consistency",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-non-object-member",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-non-object-member",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-invalid-component",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-invalid-component",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "clear-cache",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by clear-cache",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "invalid-response-contract",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by invalid-response-contract",
+            "weight": 15
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "schema_version": 2,
+        "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+      },
+      "sequence": 15,
+      "source_task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "task_id": "P06",
+      "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+    },
+    {
+      "actor_files": {
+        "ISSUE.md": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "LICENSE": "797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5",
+        "acceptance.json": "c48cc906288bfb51a66eb76828316830ab3ead05fad9b6a00d15af50e88e9505",
+        "jwt/__init__.py": "0564795b435a412848db0d678100fd138aa3096075e8cce364751c7e427d60fd",
+        "jwt/algorithms.py": "31e174916a77d17f4ed9dbcd3b869e9264a146aaf8d97f02d9b43bf828fe0441",
+        "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+        "jwt/api_jws.py": "a0c578d4e09c823afe019ed3e0b06fb184c665ff34cfe404c68229ae3272269d",
+        "jwt/api_jwt.py": "e8283616669448b2b116b0184e6eed568d67b10a1ff8909f647cb43f44bce615",
+        "jwt/exceptions.py": "3540f48760343221d5e94f933edfc0af4a6b9c01f1c892748ba2c7216cddf154",
+        "jwt/help.py": "1c1dd9b2b2557254745d8fac0c7f8bbe5e4aeda7b9422746894e96c93027621b",
+        "jwt/jwk_set_cache.py": "037f79442909503c4a2e3fcce91654912e34e407837a9130ced538938c434a85",
+        "jwt/jwks_client.py": "00ba62de23c8c80d90fb1f73539a8fbf32c47a959d8d0fbaf51e46800c419ab7",
+        "jwt/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jwt/types.py": "478e81927a35574f1faaec6756bef502f5bab843e2947265aa4817e8e6d9167c",
+        "jwt/utils.py": "e4e3d4faf0b15c47a049940088e256434b6566920ec7163c172ce47684c29ac0",
+        "jwt/warnings.py": "8904ef3fe34f0d003eb6e84f86389f124611a8c520b5ef7d88e3cc25cfc32c99",
+        "public_check.py": "a0f259c76e6feafdbbff1262e8a429ee3b33ca8a74a923573b1b228a1f182bd1"
+      },
+      "case_source_sha256": "a7d65ec6bfd05c323dec89e3f9592d496762242b71b52c90695cfa0306fb15b3",
+      "editable_paths": [
+        "jwt/api_jwk.py",
+        "jwt/jwk_set_cache.py",
+        "jwt/jwks_client.py"
+      ],
+      "episode_label": "sonnet-xhigh",
+      "episode_maximum_usd": 6.0,
+      "first_cell": "worker-sonnet-xhigh",
+      "ladder": [
+        "worker-sonnet-xhigh",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "latin_position": 4,
+      "latin_rank": 4,
+      "oracle_sha256": "7d3afb2c69669c772188de373a65b6747fc4bfcbafa54d28b84ddad97dff8c9a",
+      "repair_cells": [
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "rubric": {
+        "predicates": [
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "parsed-cache-hit",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by parsed-cache-hit",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "normalise-on-write",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by normalise-on-write",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "cache-object-identity",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by cache-object-identity",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": true,
+            "id": "transformed-fetch-consistency",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by transformed-fetch-consistency",
+            "weight": 15
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-non-object-member",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-non-object-member",
+            "weight": 10
+          },
+          {
+            "category": "behaviour",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "skip-invalid-component",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by skip-invalid-component",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "clear-cache",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by clear-cache",
+            "weight": 5
+          },
+          {
+            "category": "invariant",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "invalid-response-contract",
+            "mandatory": true,
+            "public_exact": false,
+            "public_obligation": "P06 public issue obligation exercised by invalid-response-contract",
+            "weight": 15
+          },
+          {
+            "category": "diagnosis",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "diagnosis",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Explain the public failure mechanism using observed evidence",
+            "weight": 10
+          },
+          {
+            "category": "report",
+            "comparator": "semantic",
+            "critical": false,
+            "id": "report",
+            "mandatory": false,
+            "public_exact": false,
+            "public_obligation": "Truthfully report checks, remaining work and clarification",
+            "weight": 10
+          }
+        ],
+        "public_spec_sha256": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+        "schema_version": 2,
+        "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+      },
+      "sequence": 16,
+      "source_task_sha256": "e70424c3224e39eac2efaee0f6b85c8abfe6ed5747f3ddc4b7faf0a206c27e9e",
+      "task_id": "P06",
+      "task_sha256": "d66bbe0ce60ab952ab1735cbd5b0ddc987214f26dded58ee3c722af31441c3ea"
+    }
+  ],
+  "schema_version": 1,
+  "selection_rules": {
+    "maximum_cost_ratio_to_mean_b0": 1.5,
+    "maximum_extra_usd_per_task": 1.0,
+    "minimum_gain": "acceptance on at least one task in both comparisons or mean quality +10 in both",
+    "non_negative_acceptance_and_quality_vs_each_b0": true,
+    "unsupported_completion_not_above_each_b0": true,
+    "winner": "least cost after dominance; quality tie then sonnet-xhigh",
+    "zero_candidate_critical_errors": true
+  },
+  "source_sha256": {
+    "tools/task_executor.py": "64cd58eafe128649f61dc865d875f3161f6f12cb3932ff487abbfd1c1450706c",
+    "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+    "tools/worker_q4_reconcile.py": "cecbe351ec46c5d9841ca37347679952f99b0d5d55976616ac9a2c9ef5d59e3c",
+    "tools/worker_q4_screen.py": "ff9bdd1597524593876300d7559967afa9bce65241861543921eadf32fd492ca",
+    "tools/worker_q4_screen_continue.py": "faa9bc17a513d1dfd3c7f35cb6a91b340c960260c078a88557b90fb66eef1e04",
+    "tools/worker_q4_screen_live.py": "bac9ea4d6424874532d576832056e295a67d6c9ca8e1fe14f6aa1de2da2f9cd4",
+    "tools/worker_quality_v2.py": "d0d7718a872eff4d59df6c55e7770da993eee55cfda2ee1cdee4e1cfde3a2604",
+    "tools/worker_wsl_q4_adapter.py": "b34e8d7806691a357098d09706ed18f645990580d484ff74f72ea59f26bbda0d"
+  },
+  "spend_notice_sha256": "a146afe74249cfb04165b7b229e6a0430416798d81365582629b9e3cb74d25ae",
+  "stop_rules": [
+    "No replay of inherited or started sequences",
+    "Record settled terminal provider failures as outcomes",
+    "Stop on nonterminal, uncertain-cost or identity-ambiguous receipt",
+    "Stop on stale host, calibration, source or predecessor evidence"
+  ]
+}

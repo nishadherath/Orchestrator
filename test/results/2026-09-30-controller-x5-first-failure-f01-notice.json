@@ -1,0 +1,11 @@
+{
+  "approved": true,
+  "approval_source": "Operator reply on 2026-09-30: approve all tests until all the planned work is done",
+  "date": "2026-09-30 Australia/Sydney",
+  "effect_unit": true,
+  "estimated_api_equivalent_usd_range": [0.3, 6.0],
+  "manifest_sha256": "8343b56df813cc152addb429a31739c8527e7c2f0faf4b69e8e904197e627d68",
+  "maximum_usd": 15.0,
+  "per_root_maximum_usd": 5.0,
+  "scope": "F01 development first-failure probe: one producer and conditional matched S/A calls"
+}

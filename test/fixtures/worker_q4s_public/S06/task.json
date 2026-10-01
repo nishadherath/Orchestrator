@@ -1,0 +1,53 @@
+{
+  "actor_bytes": 319857,
+  "actor_file_count": 15,
+  "actor_files": {
+    "ISSUE.md": "59eaefa8f4e49b37a6877e330acc16bcd962251b747091b0b14658e50e52e042",
+    "LICENSE.md": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+    "acceptance.json": "ad3f06fbfcc116354b20e6b358784f4176ece82893b829d89f627c8cb75916d3",
+    "idna/__init__.py": "30fa8d0cb65b5ea19a35d5f1005862a853ca1105e3bb68cd42109ecbafb97893",
+    "idna/__main__.py": "e0930aeba5a3e2e2d94ca6c5fac4f72c0c4eb2be9bba283becf98e909091471c",
+    "idna/cli.py": "b30a892cc35cf14ceceb42b388da5b5a71eeaa51b75914302526e8e27f310c0a",
+    "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+    "idna/compat.py": "01ea40dfd71e447c647c73f8d7e16f296e4a8be7f83df519f7445432508d766a",
+    "idna/core.py": "49f3abd713b73e8134443631edb31c8809e38b28c93db3f0ffddc007921460ec",
+    "idna/idnadata.py": "01ffa6a3c5819a48402ba4f25ca3901fcf0e5f49903432ad74bed45ad429a699",
+    "idna/intranges.py": "838f6c70b4a4a89b4084b98e3836bb8551eb8928e66fad2d893b04a287097412",
+    "idna/package_data.py": "4de23de04a8014015a5df049c2c38f50c2e7dbdebdba2acf6be0da79a71e0325",
+    "idna/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "idna/uts46data.py": "8ee8cdcf942a58c7097fe5d82efe17d6306f6f9165234b7af9ed6620bb206cf9",
+    "public_check.py": "cd78559e2816007cf87b1be8e3379ec91f2ae6201f5d3d15d8836278626bddc5"
+  },
+  "authored_rationale": "Authored regression from the pinned upstream joiner-exception fix; exercises specific and generic error boundaries.",
+  "case_file": "S06_case.py",
+  "case_source_sha256": "efbf83dea1003b9f7dcdf49096a41dff6caa5790eeb8413350720607e9e70435",
+  "editable_paths": [
+    "idna/core.py",
+    "idna/codec.py"
+  ],
+  "fix_commit": "9067b803a55441805934410b11c0899209b66785",
+  "id": "S06",
+  "issue_origin": "authored-regression",
+  "licence": "BSD-3-Clause",
+  "licence_file": "LICENSE.md",
+  "licence_sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+  "name": "Specific exception for invalid joiner context",
+  "oracle_file": "S06.json",
+  "oracle_sha256": "89842e4c3cf8a9e6c269e8a5418db79c9c0d3ffb13f1a45a24da302838ea680c",
+  "package_path": "idna",
+  "partial_files": {
+    "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+    "idna/core.py": "21fe99ffb054b341fe81594d4d8e16670b857e3b3c2dcc1a760f75c2e9943999"
+  },
+  "provenance_sha256": "6b46e90a18843c9c817fd09d25762f20c3e88757bdb0f3bf08cf4b5379a20913",
+  "reference_files": {
+    "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+    "idna/core.py": "7e19581dc27662f5cc474efc0087bb13894c9ed54b68346e34f11359958c1831"
+  },
+  "schema_version": 1,
+  "source_commit": "62f30346a210028aa37b9002c3e4814a2c06416a",
+  "source_python_lines": 19876,
+  "source_url": "https://github.com/kjd/idna",
+  "task_sha256": "f7645deaf759273e4b4730aafbe87d1f606e7f84b10caf2d5a911d803bee3143",
+  "upstream_change_url": "https://github.com/kjd/idna/commit/9067b803a55441805934410b11c0899209b66785"
+}

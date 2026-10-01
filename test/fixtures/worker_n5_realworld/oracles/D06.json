@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "failing": [],
+        "missing_evidence": [],
+        "status": "healthy"
+      },
+      "input": {
+        "checks": {},
+        "kind": "incident_triage",
+        "required": []
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "failing": [],
+        "missing_evidence": [],
+        "status": "healthy"
+      },
+      "input": {
+        "checks": {
+          "a": "ok",
+          "b": "ok"
+        },
+        "kind": "incident_triage",
+        "required": [
+          "a",
+          "b"
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "failing": [
+          "a",
+          "b"
+        ],
+        "missing_evidence": [
+          "b"
+        ],
+        "status": "blocked"
+      },
+      "input": {
+        "checks": {
+          "a": "fail"
+        },
+        "kind": "incident_triage",
+        "required": [
+          "a",
+          "b"
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

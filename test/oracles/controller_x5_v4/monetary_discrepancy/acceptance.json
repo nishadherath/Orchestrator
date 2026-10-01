@@ -1,0 +1,66 @@
+{
+  "case": "monetary_discrepancy",
+  "checks": [
+    {
+      "critical": false,
+      "expected": {
+        "ledger": "0.01",
+        "statement": "0.01"
+      },
+      "input": {
+        "lines": [
+          "0.005",
+          "0.005"
+        ]
+      },
+      "name": "final_rounding",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "ledger": "0.10",
+        "statement": "0.10"
+      },
+      "input": {
+        "lines": [
+          "0.005",
+          "0.1"
+        ]
+      },
+      "name": "binary_boundary",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "ledger": "-0.01",
+        "statement": "-0.01"
+      },
+      "input": {
+        "lines": [
+          "-0.015",
+          "0.005"
+        ]
+      },
+      "name": "signed_refund",
+      "weight": 25
+    },
+    {
+      "critical": true,
+      "expected": {
+        "ledger": "1000000000000.11",
+        "statement": "1000000000000.11"
+      },
+      "input": {
+        "lines": [
+          "1000000000000.105",
+          "0.005"
+        ]
+      },
+      "name": "large_total",
+      "weight": 25
+    }
+  ],
+  "schema_version": 1
+}

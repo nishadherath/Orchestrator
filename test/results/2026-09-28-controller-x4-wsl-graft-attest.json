@@ -1,0 +1,31 @@
+{
+  "checks": {
+    "graft_connected": true,
+    "no_execution_tools": true,
+    "no_extra_tools": true,
+    "no_provider_call": false,
+    "safe_mode_absent": true,
+    "six_graft_tools_visible": true
+  },
+  "cli_returncode": 1,
+  "mcp_servers": [
+    {
+      "name": "graft",
+      "status": "connected"
+    }
+  ],
+  "provider_calls": null,
+  "schema_version": 1,
+  "status": "FAIL",
+  "tool_names": [
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__graft__graft_check_freshness",
+    "mcp__graft__graft_file_api",
+    "mcp__graft__graft_find_all",
+    "mcp__graft__graft_find_code",
+    "mcp__graft__graft_repo_map",
+    "mcp__graft__graft_trace_calls"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "strict-threshold-excludes-boundary",
+  "next_step": "tighten-adjacent-value-without-losing-boundary",
+  "probes": [
+    {
+      "input": {
+        "value": 10,
+        "boundary": 10
+      },
+      "observed": {
+        "state": "warn"
+      }
+    },
+    {
+      "input": {
+        "value": 9,
+        "boundary": 10
+      },
+      "observed": {
+        "state": "warn"
+      }
+    }
+  ]
+}

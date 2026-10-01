@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "single-call public smoke passes",
+  "next_step": "ship section renderer",
+  "probes": []
+}

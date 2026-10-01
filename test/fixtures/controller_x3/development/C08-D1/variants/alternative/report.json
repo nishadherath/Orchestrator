@@ -1,0 +1,13 @@
+{
+  "completion_claim": "clarification",
+  "mechanism": "incompatible-lock-order-contracts",
+  "next_step": "await-owner-lock-order-decision",
+  "question": {"missing_field": "lock_order_decision",
+               "prompt": "Can the owner authorize a coordinator, or prioritize account versus inventory lock order?"},
+  "probes": [
+    {"input": {"caller": "reservation"},
+     "observed": {"order": ["inventory", "account"]}},
+    {"input": {"caller": "settlement"},
+     "observed": {"order": ["account", "inventory"]}}
+  ]
+}

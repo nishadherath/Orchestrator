@@ -1,0 +1,49 @@
+{
+  "actor_bytes": 122290,
+  "actor_file_count": 8,
+  "actor_files": {
+    "ISSUE.md": "0ef58f97c0cbe24e719dc79ff8e25f206298c78afcc9ad459462d764be041b20",
+    "LICENSE": "7dcf4a5137118a925727b8a1690bc6ea70b156ee6739dbb51fd4d386718d6ce5",
+    "acceptance.json": "dfabae36f4d801a094600022662ccbe1f4944588e9ebf11cfbe9ce7092c43f75",
+    "public_check.py": "8e682c87a0b7c4c8f218997c7f6fc958a34d45bf3cf5f58516360c045d9e303a",
+    "sortedcontainers/__init__.py": "235d4d37c3cb23a4559073ad8596c196fc849f847022775bf364531865bac9d9",
+    "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+    "sortedcontainers/sortedlist.py": "d7bc5b2a98ca0b1f18c2398d966a3a11402a605de9e74a723cd4ec1071ecf1a8",
+    "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+  },
+  "authored_rationale": "Authored regression from the pinned upstream reducer fix; exercises constructor-based pickle contracts across collection types.",
+  "case_file": "S04_case.py",
+  "case_source_sha256": "dd2189bb67d6c48c456fd516bb33d23e65eeb27e5f2f067e738983a8cbea8ff0",
+  "editable_paths": [
+    "sortedcontainers/sorteddict.py",
+    "sortedcontainers/sortedlist.py",
+    "sortedcontainers/sortedset.py"
+  ],
+  "fix_commit": "b5395b553d1fe3aa2f2668436a005aeedb5f6259",
+  "id": "S04",
+  "issue_origin": "authored-regression",
+  "licence": "Apache-2.0",
+  "licence_file": "LICENSE",
+  "licence_sha256": "7dcf4a5137118a925727b8a1690bc6ea70b156ee6739dbb51fd4d386718d6ce5",
+  "name": "Stable, constructor-based pickle reduction",
+  "oracle_file": "S04.json",
+  "oracle_sha256": "063cf593436099d31f125a8bd19e6d9f41e9a3a04f1730650a82a04c8a561819",
+  "package_path": "sortedcontainers",
+  "partial_files": {
+    "sortedcontainers/sorteddict.py": "db93e2aecbd69421e8d407eddcd48b75e41829172355184c1459a9fbb8fea9d8",
+    "sortedcontainers/sortedlist.py": "dc792934fd05aa517ae16d41833ca939881c2936fe77b78e9ed236783e7bbd4a",
+    "sortedcontainers/sortedset.py": "e51236094246326d62837f9d85b3abcc397c68fa8378f92824f428ab444e4bb3"
+  },
+  "provenance_sha256": "08376ab8cf8f841b883d4271dee57690276837201d6b8d43dd7b5b36e2527072",
+  "reference_files": {
+    "sortedcontainers/sorteddict.py": "8747c17277e6d8d6f7719e3e61d38ff1acb4ad2bf881b86fe98ae895210fedd5",
+    "sortedcontainers/sortedlist.py": "dc792934fd05aa517ae16d41833ca939881c2936fe77b78e9ed236783e7bbd4a",
+    "sortedcontainers/sortedset.py": "e11bcea0a195950ea02e16e7d06c6476f42ed28799fe7cbb707ef45017a795e0"
+  },
+  "schema_version": 1,
+  "source_commit": "72d30a0cf5408e8eb8638a38c20747c5fc71f36b",
+  "source_python_lines": 4234,
+  "source_url": "https://github.com/grantjenks/python-sortedcontainers",
+  "task_sha256": "2e596efd5a115fb33c51bb77212874fd4c21597d24a5c10c1139406a39cb74d0",
+  "upstream_change_url": "https://github.com/grantjenks/python-sortedcontainers/commit/b5395b553d1fe3aa2f2668436a005aeedb5f6259"
+}

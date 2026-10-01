@@ -3,8 +3,8 @@
 
 The screen has one identity call and three distinct microtasks for each of the
 fifteen registry cells. This module freezes its inputs and validates an exact
-spend authorisation. Live dispatch is deliberately absent until credential
-delivery, durable accounting and the final launch path are qualified.
+spend authorisation. Subscription dispatch additionally requires a passing
+single-call isolation sentinel bound to the current WSL host.
 """
 from __future__ import annotations
 
@@ -12,11 +12,14 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 
 import model_registry
 import worker_evaluation
 import worker_wsl_attestation
+import worker_wsl_subscription_attestation as subscription_host
+import worker_wsl_subscription_sentinel as subscription_sentinel
 from worker_adapter import digest
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -97,6 +100,8 @@ def validate_fixtures(screen: Path = SCREEN) -> dict[str, str]:
 
 def build_manifest(*, credential_method: str = "unconfigured",
                    host_attestation_sha256: str,
+                   subscription_attestation_sha256: str | None = None,
+                   subscription_sentinel_sha256: str | None = None,
                    spend_notice_sha256: str | None = None,
                    screen: Path = SCREEN) -> dict:
     """Build a deterministic manifest; its default cannot authorise spending."""
@@ -104,6 +109,16 @@ def build_manifest(*, credential_method: str = "unconfigured",
         raise ScreenError("credential method is not a recognised N5 option")
     if not HEX_DIGEST.fullmatch(host_attestation_sha256):
         raise ScreenError("a current host-attestation digest is required")
+    if credential_method == "subscription":
+        if not isinstance(subscription_attestation_sha256, str) or not (
+                HEX_DIGEST.fullmatch(subscription_attestation_sha256)):
+            raise ScreenError("subscription host attestation digest is required")
+        if not isinstance(subscription_sentinel_sha256, str) or not (
+                HEX_DIGEST.fullmatch(subscription_sentinel_sha256)):
+            raise ScreenError("subscription Read sentinel digest is required")
+    elif subscription_attestation_sha256 is not None or (
+            subscription_sentinel_sha256 is not None):
+        raise ScreenError("subscription evidence is not valid for this credential method")
     if spend_notice_sha256 is not None and not HEX_DIGEST.fullmatch(spend_notice_sha256):
         raise ScreenError("spend notice digest must be SHA-256")
     files = validate_fixtures(screen)
@@ -119,8 +134,10 @@ def build_manifest(*, credential_method: str = "unconfigured",
             rows.append({"sequence": len(rows) + 1, "cell": cell, "kind": kind,
                          "task": task, "maximum_usd": cap,
                          "timeout_seconds": 300 if kind == "identity" else 900})
-    value = {"schema_version": 1, "profile": "worker-n5-cell-screen",
+    value = {"schema_version": 3, "profile": "worker-n5-cell-screen",
              "credential_method": credential_method,
+             "subscription_attestation_sha256": subscription_attestation_sha256,
+             "subscription_sentinel_sha256": subscription_sentinel_sha256,
              "spend_notice_sha256": spend_notice_sha256,
              "host_attestation_sha256": host_attestation_sha256,
              "n4_manifest_sha256": worker_evaluation.freeze(CORPUS)["manifest_sha256"],
@@ -148,6 +165,10 @@ def validate_manifest(manifest: dict, *, screen: Path = SCREEN,
     expected = build_manifest(
         credential_method=manifest.get("credential_method", ""),
         host_attestation_sha256=manifest.get("host_attestation_sha256", ""),
+        subscription_attestation_sha256=manifest.get(
+            "subscription_attestation_sha256"),
+        subscription_sentinel_sha256=manifest.get(
+            "subscription_sentinel_sha256"),
         spend_notice_sha256=manifest.get("spend_notice_sha256"), screen=screen)
     if manifest != expected:
         raise ScreenError("screen manifest or frozen inputs changed")
@@ -156,6 +177,24 @@ def validate_manifest(manifest: dict, *, screen: Path = SCREEN,
         if (not worker_wsl_attestation.validate(evidence, check_host=True)
                 or evidence["evidence_sha256"] != manifest["host_attestation_sha256"]):
             raise ScreenError("WSL host attestation is stale or differs from the screen")
+        if manifest["credential_method"] == "subscription":
+            auth_evidence = json.loads(subscription_host.OUTPUT.read_text(
+                encoding="utf-8"))
+            if (not subscription_host.validate(auth_evidence, check_host=True)
+                    or auth_evidence["evidence_sha256"] !=
+                    manifest["subscription_attestation_sha256"]):
+                raise ScreenError("subscription attestation is stale or differs")
+            sentinel_evidence = json.loads(subscription_sentinel.OUTPUT.read_text(
+                encoding="utf-8"))
+            if (not subscription_sentinel.validate(sentinel_evidence,
+                                                   check_host=False)
+                    or sentinel_evidence["evidence_sha256"] !=
+                    manifest["subscription_sentinel_sha256"]
+                    or sentinel_evidence["host_attestation_sha256"] !=
+                    evidence["evidence_sha256"]
+                    or sentinel_evidence["subscription_attestation_sha256"] !=
+                    auth_evidence["evidence_sha256"]):
+                raise ScreenError("subscription Read sentinel is stale or differs")
 
 
 def validate_authorisation(manifest: dict, approval: dict, *,
@@ -192,8 +231,27 @@ def main() -> int:
     if not worker_wsl_attestation.validate(evidence, check_host=True):
         raise ScreenError("current WSL host attestation is required before screen planning")
     notice = sha(args.spend_notice) if args.spend_notice else None
+    subscription_digest = None
+    sentinel_digest = None
+    if args.credential_method == "subscription":
+        auth_evidence = json.loads(subscription_host.OUTPUT.read_text(
+            encoding="utf-8"))
+        if not subscription_host.validate(auth_evidence, check_host=True):
+            raise ScreenError("current subscription attestation is required")
+        subscription_digest = auth_evidence["evidence_sha256"]
+        sentinel_evidence = json.loads(subscription_sentinel.OUTPUT.read_text(
+            encoding="utf-8"))
+        if not subscription_sentinel.validate(sentinel_evidence, check_host=False):
+            raise ScreenError("passing subscription Read sentinel is required")
+        if (sentinel_evidence["host_attestation_sha256"] != evidence["evidence_sha256"]
+                or sentinel_evidence["subscription_attestation_sha256"] !=
+                subscription_digest):
+            raise ScreenError("subscription Read sentinel is stale")
+        sentinel_digest = sentinel_evidence["evidence_sha256"]
     manifest = build_manifest(credential_method=args.credential_method,
                               host_attestation_sha256=evidence["evidence_sha256"],
+                              subscription_attestation_sha256=subscription_digest,
+                              subscription_sentinel_sha256=sentinel_digest,
                               spend_notice_sha256=notice)
     if args.json:
         print(json.dumps(manifest, indent=2, sort_keys=True))
@@ -205,4 +263,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (ScreenError, OSError, ValueError) as exc:
+        print(f"N5 screen planning blocked: {exc}", file=sys.stderr)
+        raise SystemExit(2) from None

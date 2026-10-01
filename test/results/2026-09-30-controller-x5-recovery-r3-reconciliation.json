@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "stage": "x5-recovery-development-feasibility",
+  "campaign": "R3",
+  "status": "stopped",
+  "manifest_sha256": "dbfb0b877f6696c74198efd4926f7eb5d049a1e0443b507d4ea4dad23327e1f5",
+  "provider_roots_started": 1,
+  "provider_roots_settled": 1,
+  "provider_calls": 1,
+  "settled_api_equivalent_usd": 0.16955,
+  "unrun": ["R01-S", "R01-A", "R02-B0", "R02-S", "R02-A"],
+  "R01_B0": {
+    "root_id": "9731135afe093e636c3fa079",
+    "executor_state": "accepted",
+    "attempt_count": 1,
+    "actual_model": "claude-sonnet-5",
+    "writer_stopped": true,
+    "identity_valid": true,
+    "unresolved_charges": [],
+    "settled_api_equivalent_usd": 0.16955,
+    "public_check_passed": true,
+    "public_recovery_eligible_after_contract_repair": false,
+    "public_stop_reason_after_contract_repair": "no publicly observable unresolved work",
+    "protected_quality": 85,
+    "protected_accepted": false,
+    "protected_critical_violation": true,
+    "oracle_read_denied": true
+  },
+  "harness_defect": "The frozen public eligibility protocol expected budget.unresolved to be Boolean false; TaskExecutor emits an empty list for a settled root. The R3 result record remains unchanged. The repaired protocol and a test fixture matching the executor contract were applied after the R3 stop, invalidating the R3 runtime package hash for further execution.",
+  "interpretation": "R01's public success has no prospective recovery trigger. The protected miss is retrospective evidence only and cannot be used to select a Controller continuation. R3 provides no paired Controller uplift estimate.",
+  "next_paid_step": "none under R3"
+}

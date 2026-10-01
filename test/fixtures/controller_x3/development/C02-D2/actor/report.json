@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "rewrite-already-correct",
+  "next_step": "deploy",
+  "probes": []
+}

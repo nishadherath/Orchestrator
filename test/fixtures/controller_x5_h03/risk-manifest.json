@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "case_id": "H03",
+  "provider_calls": 0,
+  "source_catalogue_sha256": "92e333e2dfa2d493e653a778ecd37a93aa0746aa322d50965cfcab24ed5700ea",
+  "risk": {
+    "schema_version": 1,
+    "eligible": true,
+    "source": "public_check.py",
+    "source_sha256": "1acde14ab868113620b57638aa559faa3332da44d030ed22d231558a27d11858",
+    "quote": "scripted[(\"frame\", \"framer\")] = [changed, canned[\"frame_v1\"], canned[\"frame_v2\"]]",
+    "finding": "The visible check perturbs only initial framing. A repair can pass it while critique re-entry still changes frozen criteria or commits a rejected batch.",
+    "next_check": "Run the separately frozen critique re-entry check on accepted public bytes; require a completed run and unchanged committed criteria."
+  },
+  "risk_digest": "0e84046e920fd396c3b2fab34586af78faf3f0326d30508c66f1954fa413bb21",
+  "risk_check": "test/fixtures/controller_x5_h03/risk_check.py",
+  "risk_check_sha256": "d26f0972bd84d3e3fce96279e5c4d0a3005690960f18f28d40f9835785c209df",
+  "probes": {
+    "windows": {
+      "path": "test/results/2026-09-30-controller-x5-h03-risk-probe.json",
+      "sha256": "b1f14b6723f36c94302bf189a4f32336ea80b836842fd6af2663c7a456ec58cd",
+      "python": "3.12.14"
+    },
+    "wsl": {
+      "path": "test/results/2026-09-30-controller-x5-h03-wsl-risk-probe.json",
+      "sha256": "d4f1ac952a5e0ac90a01c15489bf9309c500d782c7db237e527eefb5cbfc91e4",
+      "python": "3.14.7"
+    }
+  },
+  "stop_if_public_risk_passes": true,
+  "eligible_failure": {
+    "public_check": "pass",
+    "risk_check": "fail",
+    "receipt": "terminal identity-valid writer-stopped settled"
+  },
+  "risk_manifest_sha256": "e01d9ae066e67bde6f01bb71f8c609581ba70a5ef38a5fdc00f6463748277fff"
+}

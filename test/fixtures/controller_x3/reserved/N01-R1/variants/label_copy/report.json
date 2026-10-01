@@ -1,0 +1,29 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "stale-legacy-package-import-paths",
+  "next_step": "exercise-api-batch-and-export-contract",
+  "probes": [
+    {
+      "input": {
+        "action": "api",
+        "customer": "Ada",
+        "cents": 125
+      },
+      "observed": {
+        "label": "Ada | USD 1.25",
+        "source": "labels.format"
+      }
+    },
+    {
+      "input": {
+        "action": "batch",
+        "customer": "Zoë",
+        "cents": -5
+      },
+      "observed": {
+        "label": "Zoë | -USD 0.05",
+        "source": "labels.format"
+      }
+    }
+  ]
+}

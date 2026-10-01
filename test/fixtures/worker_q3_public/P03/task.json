@@ -1,0 +1,70 @@
+{
+  "actor_bytes": 400723,
+  "actor_file_count": 22,
+  "actor_files": {
+    "ISSUE.md": "08bdbe1006b51a57cb14cbc5fa866a637c059f8537940c8142efed8648af5ac2",
+    "LICENSE.txt": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d",
+    "acceptance.json": "703c0545e7800b27b3c86eb3c0bcdfd846808a5a4ff4e91bc7ed1d89344c3d25",
+    "click/__init__.py": "a69ee28ce4be8232a81ad71c9523b04fc42112cc522f8ced4ff9c5e92fdd6b5b",
+    "click/_compat.py": "80f36d5d0f6af86e908a5d9bf8c0b90ac1ec186710e2ee98496cbdfed966ba17",
+    "click/_termui_impl.py": "8f15a0ca9f4e2e0f51d48c801f7ca6cb9fd3f7e5bf3dbff0abf025ee45d61b1f",
+    "click/_textwrap.py": "04e69ed1143abe0dc590d8122723a81b31b599e18cc49fee9165592b1feffb4a",
+    "click/_utils.py": "919c2d4dfe6032e0a294925c792da24c2bd1bc263ed1a379ac9abc80ac3ba7c8",
+    "click/_winconsole.py": "fefc54b946b1c01868474bd458236e1d8f1551e7e231d088c94d925cfaa817e0",
+    "click/core.py": "9e3ec3d3c696c1cd00680df6c505d3cd8bbeba94bf2f567322b831ce513aab56",
+    "click/decorators.py": "e4feda6e126d010629fca1e08d4be132fe3ae044703b3aefd9e9cd9279701f24",
+    "click/exceptions.py": "3ed76cc65b55726f0296828acdfff204d2855517eeecc212b1647fd6ab7b61a3",
+    "click/formatting.py": "4557f0c2bd2bc16369806afc35a1e874fce422beffb54c9587f9c375a9cb30d7",
+    "click/globals.py": "80cf8d87a0383341c1fd2824685e4ce2770618c0c773f7e51d7bbdfe88781845",
+    "click/parser.py": "6128dbeae13fecc7fe210144b01ec72efcdb6ab2c32b2138585c5fdf22eb0480",
+    "click/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "click/shell_completion.py": "bdd632fdaf159871e1b1fd7705c1e92a817bd3bce2457f1acc6db043bcbc4f4b",
+    "click/termui.py": "cfa3f38ef4ef25c9946350df78b85fad1f1b54aa3dc67ce5d2521dbb091068f0",
+    "click/testing.py": "3d82d85b86630803fa1d15ad361169af78a627141510f16adc45b724bd0b4df0",
+    "click/types.py": "5d0b35e357b4cb3bea9c9176d72f9b5e10836cd2f345fc7e5eeb596617e2906f",
+    "click/utils.py": "bdea7aaaa324bf75a4cc0f4e0aeedfe8abbeddb7991cda68f2a26a2febb3524f",
+    "public_check.py": "95abe8ec51892eaf2fa4cd942e0b587f0a2667ced3af1161daf9df8b6c88cdb7"
+  },
+  "alternative_files": {
+    "click/__init__.py": "1487767d7092241df27960fe7b6b8e37e9818456b661cf4cbd71a61eef0e5c6d",
+    "click/core.py": "8d784ef2ab356befb68aaa046111187ca498464852e0f094a884378f8a5590eb",
+    "click/exceptions.py": "fbfc8a569924ddb399afb12bf275df779fd5d644fdcf6b8d38743ded2c94158e",
+    "click/parser.py": "2167227635c542195c0bae9b88d8a873ccd905b10c74699d6140572ba128fe6b"
+  },
+  "case_file": "P03_case.py",
+  "case_source_sha256": "a9f9e15edb9a1fb693f2ba8465aaf094784737c763c0ed3b6e0d50822431bdd4",
+  "editable_paths": [
+    "click/__init__.py",
+    "click/core.py",
+    "click/exceptions.py",
+    "click/parser.py"
+  ],
+  "fix_commit": "831c8f0948af519e45b90801d7430ff25451f972",
+  "id": "P03",
+  "issue_origin": "upstream-feature",
+  "licence": "BSD-3-Clause",
+  "licence_file": "LICENSE.txt",
+  "licence_sha256": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d",
+  "name": "Click command and option diagnostics",
+  "oracle_file": "P03.json",
+  "oracle_sha256": "aaa172e00a511de8239721fba2249f556377fb7164738d05205b0cf54ae651fa",
+  "package_path": "click",
+  "partial_files": {
+    "click/__init__.py": "a69ee28ce4be8232a81ad71c9523b04fc42112cc522f8ced4ff9c5e92fdd6b5b",
+    "click/core.py": "9e3ec3d3c696c1cd00680df6c505d3cd8bbeba94bf2f567322b831ce513aab56",
+    "click/exceptions.py": "4cdf64601ccbda51bbbffab3d4bb7490aa93dffdc299b1010d37b47b184eeee2",
+    "click/parser.py": "2167227635c542195c0bae9b88d8a873ccd905b10c74699d6140572ba128fe6b"
+  },
+  "provenance_sha256": "f1bd9446b8bae56d887619a6864b1c5328e5ecfb9e83455e30cbc3fd206acf4b",
+  "reference_files": {
+    "click/__init__.py": "1487767d7092241df27960fe7b6b8e37e9818456b661cf4cbd71a61eef0e5c6d",
+    "click/core.py": "8d784ef2ab356befb68aaa046111187ca498464852e0f094a884378f8a5590eb",
+    "click/exceptions.py": "4cdf64601ccbda51bbbffab3d4bb7490aa93dffdc299b1010d37b47b184eeee2",
+    "click/parser.py": "2167227635c542195c0bae9b88d8a873ccd905b10c74699d6140572ba128fe6b"
+  },
+  "schema_version": 1,
+  "source_commit": "19fd4d6e18bc9fce451f92f422696b11169faa57",
+  "source_python_lines": 11473,
+  "source_url": "https://github.com/pallets/click",
+  "task_sha256": "4177a184f67a3f800ee75a88f5131ce919ea8c665d3112604efd5b62182c88c6"
+}

@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "existing-guard-sufficient",
+  "next_step": "none",
+  "probes": []
+}

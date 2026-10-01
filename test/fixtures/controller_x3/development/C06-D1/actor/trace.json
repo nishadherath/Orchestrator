@@ -1,0 +1,12 @@
+{
+  "before_deploy": {"queue_lag_seconds": 12, "db_wait_ms_p95": 8, "cpu_percent": 38},
+  "after_deploy": {"queue_lag_seconds": 91, "db_wait_ms_p95": 9, "cpu_percent": 40},
+  "worker_samples": [
+    {"worker": "w-east", "server_now": 80, "worker_now": 103,
+     "expires_at": 100, "baseline_renewed": false},
+    {"worker": "w-west", "server_now": 80, "worker_now": 80,
+     "expires_at": 100, "baseline_renewed": true},
+    {"worker": "w-slow", "server_now": 103, "worker_now": 80,
+     "expires_at": 100, "baseline_renewed": true}
+  ]
+}

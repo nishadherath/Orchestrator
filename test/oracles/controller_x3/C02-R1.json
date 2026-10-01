@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "task_id": "C02-R1",
+  "diagnosis": "shadow-write-breaks-rollback-reader",
+  "cases": [
+    {"milestone": "shadow-phase new reader sees the write", "weight": 20,
+     "critical": false,
+     "input": {"phase": "shadow", "reader": "shadow", "value": 11,
+               "record": {"legacy": 4, "shadow": 4}},
+     "expected": {"read": 11}},
+    {"milestone": "cutover new reader sees the write", "weight": 20,
+     "critical": false,
+     "input": {"phase": "cutover", "reader": "shadow", "value": 13,
+               "record": {"legacy": 5, "shadow": 5}},
+     "expected": {"read": 13}},
+    {"milestone": "shadow-phase old reader remains current", "weight": 30,
+     "critical": false,
+     "input": {"phase": "shadow", "reader": "legacy", "value": 17,
+               "record": {"legacy": 6, "shadow": 6}},
+     "expected": {"read": 17}},
+    {"milestone": "cutover rollback reader remains current", "weight": 30,
+     "critical": false,
+     "input": {"phase": "cutover", "reader": "legacy", "value": 19,
+               "record": {"legacy": 7, "shadow": 7}},
+     "expected": {"read": 19}}
+  ]
+}

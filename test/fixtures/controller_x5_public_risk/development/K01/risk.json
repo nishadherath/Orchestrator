@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "eligible": true,
+  "source": "key_feed.json",
+  "source_sha256": "dc94c3c9da1530241bab8274d833aac094104150b23134ed0ef84ea69720f096",
+  "quote": "\"blue\": [\"blue-old\", \"blue-2026\", \"shared\"]",
+  "finding": "The feed reuses key ID shared across tenants; a public rotation pass does not show whether signing-key lookup is bound to the expected route tenant.",
+  "next_check": "Exercise both tenants using the shared key ID and reject a token signed by one tenant that claims the other route or issuer."
+}

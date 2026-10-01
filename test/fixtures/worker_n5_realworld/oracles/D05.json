@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "items": [
+          {
+            "id": 2,
+            "v": 3
+          }
+        ],
+        "next_offset": null
+      },
+      "input": {
+        "kind": "page_merge",
+        "limit": 2,
+        "offset": 1,
+        "pages": [
+          [
+            {
+              "id": 1,
+              "v": 1
+            }
+          ],
+          [
+            {
+              "id": 1,
+              "v": 2
+            },
+            {
+              "id": 2,
+              "v": 3
+            }
+          ]
+        ]
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "items": [
+          {
+            "id": "z"
+          }
+        ],
+        "next_offset": null
+      },
+      "input": {
+        "kind": "page_merge",
+        "limit": 1,
+        "offset": 2,
+        "pages": [
+          [
+            {
+              "id": "x"
+            },
+            {
+              "id": "y"
+            },
+            {
+              "id": "z"
+            }
+          ]
+        ]
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "items": [],
+        "next_offset": null
+      },
+      "input": {
+        "kind": "page_merge",
+        "limit": 2,
+        "offset": 2,
+        "pages": [
+          [
+            {
+              "id": "a"
+            }
+          ]
+        ]
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

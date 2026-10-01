@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "complete": true,
+        "downstream": [],
+        "root_failures": []
+      },
+      "input": {
+        "depends_on": {
+          "api": [
+            "db"
+          ]
+        },
+        "kind": "dependency_diagnosis",
+        "status": {
+          "api": "ok",
+          "db": "ok"
+        }
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "complete": false,
+        "downstream": [
+          "c"
+        ],
+        "root_failures": [
+          "a",
+          "b"
+        ]
+      },
+      "input": {
+        "depends_on": {
+          "c": [
+            "a",
+            "b"
+          ]
+        },
+        "kind": "dependency_diagnosis",
+        "status": {
+          "a": "bad",
+          "b": "bad",
+          "c": "bad"
+        }
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "complete": false,
+        "downstream": [
+          "b",
+          "c"
+        ],
+        "root_failures": [
+          "a"
+        ]
+      },
+      "input": {
+        "depends_on": {
+          "a": [],
+          "b": [
+            "a"
+          ],
+          "c": [
+            "b"
+          ]
+        },
+        "kind": "dependency_diagnosis",
+        "status": {
+          "a": "bad",
+          "b": "bad",
+          "c": "bad"
+        }
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

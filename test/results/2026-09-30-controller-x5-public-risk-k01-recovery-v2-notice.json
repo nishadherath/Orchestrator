@@ -1,0 +1,8 @@
+{
+  "approved": true,
+  "manifest_sha256": "ae329ce9d969c98a7b824a93455111725175f896b9ef14570c7d972c72798259",
+  "maximum_usd": 20.0,
+  "scope": "K01 accepted-producer recovery: no producer replay, one matched S/A review each",
+  "date": "2026-09-29",
+  "approval_source": "user approved all planned tests on 2026-09-30"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task_id": "C01-R2",
+  "diagnosis": "stale-index-overrides-authoritative-row",
+  "cases": [
+    {"milestone": "matching snapshot remains readable", "weight": 20,
+     "critical": false,
+     "input": {"key": "item-a", "rows": [
+       {"key": "item-a", "rev": 1, "value": "a1", "deleted": false}],
+       "snapshot": {"item-a": {"rev": 1, "value": "a1"}}},
+     "expected": {"status": "found", "value": "a1"}},
+    {"milestone": "other key keeps its own value", "weight": 20,
+     "critical": false,
+     "input": {"key": "item-b", "rows": [
+       {"key": "item-a", "rev": 1, "value": "a1", "deleted": false},
+       {"key": "item-b", "rev": 1, "value": "b1", "deleted": false}],
+       "snapshot": {"item-a": {"rev": 1, "value": "a1"},
+                    "item-b": {"rev": 1, "value": "b1"}}},
+     "expected": {"status": "found", "value": "b1"}},
+    {"milestone": "new row revision overrides stale snapshot", "weight": 30,
+     "critical": false,
+     "input": {"key": "item-c", "rows": [
+       {"key": "item-c", "rev": 1, "value": "c1", "deleted": false},
+       {"key": "item-c", "rev": 2, "value": "c2", "deleted": false}],
+       "snapshot": {"item-c": {"rev": 1, "value": "c1"}}},
+     "expected": {"status": "found", "value": "c2"}},
+    {"milestone": "latest tombstone prevents resurrection", "weight": 30,
+     "critical": false,
+     "input": {"key": "item-d", "rows": [
+       {"key": "item-d", "rev": 1, "value": "d1", "deleted": false},
+       {"key": "item-d", "rev": 2, "value": null, "deleted": true}],
+       "snapshot": {"item-d": {"rev": 1, "value": "d1"}}},
+     "expected": {"status": "missing"}}
+  ]
+}

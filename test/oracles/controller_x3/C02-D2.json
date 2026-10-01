@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task_id": "C02-D2",
+  "diagnosis": "versioned-envelope-fields-dropped",
+  "cases": [
+    {"milestone": "legacy envelope rewrites the target field", "weight": 20,
+     "critical": false,
+     "input": {"op": "rewrite", "name": "Ada", "record": {
+       "version": 1, "id": "legacy-7", "payload": {"name": "Eve"}}},
+     "expected": {"record": {"version": 1, "id": "legacy-7",
+       "payload": {"name": "Ada"}}}},
+    {"milestone": "newer version number survives", "weight": 20,
+     "critical": false,
+     "input": {"op": "rewrite", "name": "Bea", "record": {
+       "version": 3, "id": "next-8", "payload": {"name": "Eve", "role": "user"}}},
+     "expected": {"record": {"version": 3, "id": "next-8",
+       "payload": {"name": "Bea", "role": "user"}}}},
+    {"milestone": "known audit metadata survives", "weight": 30,
+     "critical": false,
+     "input": {"op": "rewrite", "name": "Cal", "record": {
+       "version": 2, "id": "audit-9", "payload": {"name": "Eve"},
+       "audit": {"source": "queue", "attempt": 2}}},
+     "expected": {"record": {"version": 2, "id": "audit-9",
+       "payload": {"name": "Cal"},
+       "audit": {"source": "queue", "attempt": 2}}}},
+    {"milestone": "unknown extension survives", "weight": 30,
+     "critical": false,
+     "input": {"op": "rewrite", "name": "Dee", "record": {
+       "version": 4, "id": "ext-10", "payload": {"name": "Eve"},
+       "audit": {"source": "bus"}, "trace_context": {"sampled": true}}},
+     "expected": {"record": {"version": 4, "id": "ext-10",
+       "payload": {"name": "Dee"}, "audit": {"source": "bus"},
+       "trace_context": {"sampled": true}}}}
+  ]
+}

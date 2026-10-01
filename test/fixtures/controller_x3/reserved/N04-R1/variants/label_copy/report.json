@@ -1,0 +1,42 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "feature-disable-audit-step-omitted",
+  "next_step": "verify-flag-audit-and-idempotency",
+  "probes": [
+    {
+      "input": {
+        "action": "flags",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": []
+      },
+      "observed": {
+        "flags": {
+          "beta_exports": false,
+          "search": true
+        }
+      }
+    },
+    {
+      "input": {
+        "action": "audit",
+        "flags": {
+          "beta_exports": true,
+          "search": true
+        },
+        "audit": []
+      },
+      "observed": {
+        "audit": [
+          {
+            "event": "disable",
+            "flag": "beta_exports",
+            "reason": "maintenance"
+          }
+        ]
+      }
+    }
+  ]
+}

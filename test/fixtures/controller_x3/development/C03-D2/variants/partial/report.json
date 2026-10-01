@@ -1,0 +1,30 @@
+{
+  "completion_claim": "partial",
+  "mechanism": "unfenced-outbox-delivery-lease",
+  "next_step": "verify-duplicate-ack",
+  "probes": [
+    {
+      "input": {"events": [
+        {"op": "enqueue", "id": "m2"},
+        {"op": "claim", "id": "m2", "worker": "a", "at": 10, "lease": 4},
+        {"op": "claim", "id": "m2", "worker": "b", "at": 12, "lease": 4}
+      ]},
+      "observed": {"results": [
+        {"status": "enqueued"}, {"status": "claimed", "token": 1},
+        {"status": "busy"}], "acked": []}
+    },
+    {
+      "input": {"events": [
+        {"op": "enqueue", "id": "m2"},
+        {"op": "claim", "id": "m2", "worker": "a", "at": 10, "lease": 4},
+        {"op": "claim", "id": "m2", "worker": "b", "at": 15, "lease": 4},
+        {"op": "ack", "id": "m2", "worker": "a", "token": 1, "at": 16},
+        {"op": "ack", "id": "m2", "worker": "b", "token": 2, "at": 17}
+      ]},
+      "observed": {"results": [
+        {"status": "enqueued"}, {"status": "claimed", "token": 1},
+        {"status": "claimed", "token": 2}, {"status": "stale"},
+        {"status": "acked"}], "acked": ["m2"]}
+    }
+  ]
+}

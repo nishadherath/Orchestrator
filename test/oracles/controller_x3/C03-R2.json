@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "task_id": "C03-R2",
+  "diagnosis": "sequence-watermark-confused-with-delivery-identity",
+  "cases": [
+    {"milestone": "one delivery applies once", "weight": 20,
+     "critical": false,
+     "input": {"deliveries": [
+       {"delivery_id": "d1", "customer": "alice", "sequence": 1,
+        "amount": 5}]},
+     "expected": {"totals": {"alice": 5}, "applied": ["d1"]}},
+    {"milestone": "an exact replay does not apply twice", "weight": 20,
+     "critical": false,
+     "input": {"deliveries": [
+       {"delivery_id": "d1", "customer": "alice", "sequence": 1,
+        "amount": 5},
+       {"delivery_id": "d1", "customer": "alice", "sequence": 1,
+        "amount": 5}]},
+     "expected": {"totals": {"alice": 5}, "applied": ["d1"]}},
+    {"milestone": "a replay with a changed sequence cannot duplicate an effect",
+     "weight": 25, "critical": true,
+     "input": {"deliveries": [
+       {"delivery_id": "d1", "customer": "bob", "sequence": 1,
+        "amount": 5},
+       {"delivery_id": "d1", "customer": "bob", "sequence": 3,
+        "amount": 5}]},
+     "expected": {"totals": {"bob": 5}, "applied": ["d1"]}},
+    {"milestone": "a lower sequence with a new ID still applies", "weight": 20,
+     "critical": false,
+     "input": {"deliveries": [
+       {"delivery_id": "d2", "customer": "alice", "sequence": 3,
+        "amount": 7},
+       {"delivery_id": "d1", "customer": "alice", "sequence": 2,
+        "amount": 5}]},
+     "expected": {"totals": {"alice": 12}, "applied": ["d2", "d1"]}},
+    {"milestone": "two distinct IDs may share a sequence", "weight": 15,
+     "critical": false,
+     "input": {"deliveries": [
+       {"delivery_id": "d1", "customer": "alice", "sequence": 3,
+        "amount": 4},
+       {"delivery_id": "d2", "customer": "alice", "sequence": 3,
+        "amount": 6}]},
+     "expected": {"totals": {"alice": 10}, "applied": ["d1", "d2"]}}
+  ]
+}

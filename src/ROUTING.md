@@ -316,6 +316,17 @@ constraints even when their stated rationale is false; changing a protected
 path makes acceptance fail. Paths are project-relative. The contract is frozen
 into the pending entry, so later edits to its source file cannot lower the bar.
 
+For an implementation task that must change at least one named output, set
+`require_changed_output: true` in a command contract before dispatch. The
+verifier freezes the required-output bytes at admission; a passing command
+with no output change is then a qualified failure and can use the bounded
+repair ladder. Leave the option absent for investigations and tasks where the
+correct result may be to leave working code untouched. This checks whether a
+change happened, not whether the new behaviour is correct; the command must
+still cover the task's acceptance criteria. The verification command must
+leave the named outputs unchanged; a command that creates or rewrites one
+blocks acceptance for review instead of supplying the worker's change.
+
 After writing the contract and before invoking the Agent tool, run this with the
 Bash tool:
 
@@ -342,6 +353,12 @@ Then state in one line the assessment, the resolved cell and reason
 (section 2), and the assigned name.
 
 ## 4. Qualified default escalation
+
+The operator can select the durable B0 CLI through `/worker-task`; see
+`WORKER-TASKS.md`. That root owns its attempts and budget, so do not duplicate
+its work through the Agent tool. Explicit cell requests through N3 remain
+shadow decisions and cannot rewrite B0. Q4U's N7 adjudication retained B0 and
+rejected candidate promotion; no new adaptive default was qualified.
 
 Use exactly this sequence, stopping as soon as acceptance passes:
 

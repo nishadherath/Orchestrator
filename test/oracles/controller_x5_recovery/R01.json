@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "task_id": "R01",
+  "cases": [
+    {
+      "name": "same-offset committed replay",
+      "weight": 20,
+      "critical": true,
+      "operations": [
+        {"tenant":"north","partition":"orders","offset":4,"delivery_id":"evt-4","payload":{"units":7}},
+        {"tenant":"north","partition":"orders","offset":4,"delivery_id":"evt-4","payload":{"units":7}}
+      ],
+      "expected": {
+        "results": [
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"evt-4","units":7,"total":7}},
+          {"status":"replayed","receipt":{"tenant":"north","delivery_id":"evt-4","units":7,"total":7}}
+        ],
+        "totals": {"north":7}, "offsets":{"north:orders":4}
+      }
+    },
+    {
+      "name": "retry after pre-commit failure",
+      "weight": 20,
+      "critical": true,
+      "operations": [
+        {"tenant":"west","partition":"orders","offset":8,"delivery_id":"evt-9","payload":{"units":4},"fail_before_commit":true},
+        {"tenant":"west","partition":"orders","offset":8,"delivery_id":"evt-9","payload":{"units":4}}
+      ],
+      "expected": {
+        "results": [
+          {"status":"retryable"},
+          {"status":"committed","receipt":{"tenant":"west","delivery_id":"evt-9","units":4,"total":4}}
+        ],
+        "totals":{"west":4}, "offsets":{"west:orders":8}
+      }
+    },
+    {
+      "name": "tenant-scoped delivery identifier",
+      "weight": 20,
+      "critical": true,
+      "operations": [
+        {"tenant":"north","partition":"orders","offset":4,"delivery_id":"shared","payload":{"units":3}},
+        {"tenant":"south","partition":"orders","offset":4,"delivery_id":"shared","payload":{"units":3}}
+      ],
+      "expected": {
+        "results": [
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"shared","units":3,"total":3}},
+          {"status":"committed","receipt":{"tenant":"south","delivery_id":"shared","units":3,"total":3}}
+        ],
+        "totals":{"north":3,"south":3},
+        "offsets":{"north:orders":4,"south:orders":4}
+      }
+    },
+    {
+      "name": "same identifier with changed content",
+      "weight": 15,
+      "critical": true,
+      "operations": [
+        {"tenant":"north","partition":"orders","offset":4,"delivery_id":"evt-4","payload":{"units":7}},
+        {"tenant":"north","partition":"orders","offset":4,"delivery_id":"evt-4","payload":{"units":9}}
+      ],
+      "expected": {
+        "results": [
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"evt-4","units":7,"total":7}},
+          {"status":"conflict"}
+        ],
+        "totals":{"north":7}, "offsets":{"north:orders":4}
+      }
+    },
+    {
+      "name": "replay preserves original receipt after later commit",
+      "weight": 15,
+      "critical": true,
+      "operations": [
+        {"tenant":"north","partition":"orders","offset":1,"delivery_id":"first","payload":{"units":2}},
+        {"tenant":"north","partition":"orders","offset":2,"delivery_id":"second","payload":{"units":5}},
+        {"tenant":"north","partition":"archive","offset":1,"delivery_id":"first","payload":{"units":2}}
+      ],
+      "expected": {
+        "results": [
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"first","units":2,"total":2}},
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"second","units":5,"total":7}},
+          {"status":"replayed","receipt":{"tenant":"north","delivery_id":"first","units":2,"total":2}}
+        ],
+        "totals":{"north":7},
+        "offsets":{"north:archive":1,"north:orders":2}
+      }
+    },
+    {
+      "name": "old offset is stale but another partition progresses",
+      "weight": 10,
+      "critical": false,
+      "operations": [
+        {"tenant":"north","partition":"orders","offset":2,"delivery_id":"a","payload":{"units":5}},
+        {"tenant":"north","partition":"orders","offset":1,"delivery_id":"b","payload":{"units":4}},
+        {"tenant":"north","partition":"returns","offset":1,"delivery_id":"c","payload":{"units":4}}
+      ],
+      "expected": {
+        "results": [
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"a","units":5,"total":5}},
+          {"status":"stale"},
+          {"status":"committed","receipt":{"tenant":"north","delivery_id":"c","units":4,"total":9}}
+        ],
+        "totals":{"north":9},
+        "offsets":{"north:orders":2,"north:returns":1}
+      }
+    }
+  ]
+}

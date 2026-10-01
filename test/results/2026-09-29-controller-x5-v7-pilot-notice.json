@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "stage": "controller-x5-v7-development-continuation",
+  "authorised_under_threshold": true,
+  "authority": "CLAUDE.md permits a stated-cost claude -p run without further approval at or below USD 100; operator directed autonomous X5 work",
+  "manifest_sha256": "ea3bc5f689d1b55c72137d5424e5e6d0672ef4b19e741a92207e5c8ad29ad8c7",
+  "scope": "12 paired X5 v7 development continuation episodes",
+  "maximum_pilot_usd": 60.0,
+  "episode_cap_usd": 5.0,
+  "projected_api_equivalent_usd": {
+    "low": 6.0,
+    "high": 20.0,
+    "basis": "Six settled X5 v6 pilot episodes cost USD 4.129411806; remaining Controller and host paths are uncertain"
+  },
+  "provider_calls_at_notice": 0
+}

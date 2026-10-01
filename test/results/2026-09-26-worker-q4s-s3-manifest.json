@@ -1,0 +1,25 @@
+{
+  "authorisation": {
+    "paid_calls": "operator-standing-authorised",
+    "scope": "S3 two-call canary then S4 eighteen-episode public screen under this exact manifest",
+    "stage_review": "hold-before-S3"
+  },
+  "canary_task_sha256": "49e240bd5e3070840a7528ab29612cd19b48c91fc214c3fdee0fc410eae0ce9e",
+  "cells": [
+    "worker-sonnet-low",
+    "worker-sonnet-medium"
+  ],
+  "episode_allocation_usd": 3.0,
+  "manifest_sha256": "b9ced449dd4fdc6f8c428595bbc42713c2fc02c619b104c2cf6eb9490ff956be",
+  "maximum_allocation_usd": 6.0,
+  "maximum_provider_calls": 2,
+  "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+  "profile": "worker-q4s-s3-head-only-canary",
+  "repair_cells": [],
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q4s_canary_live.py": "a8a9e8f5dca3e40a38bd0757ad55d011beba38078e0d91da9174c662a0f6084f"
+  },
+  "spend_notice_sha256": "09647d15eabc6e5815da9cae1c6d647dcdf69870dc367a8d6fe57190487358da",
+  "stop_on_failed_or_uncertain_canary": true
+}

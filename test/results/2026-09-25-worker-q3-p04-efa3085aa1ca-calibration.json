@@ -1,0 +1,229 @@
+{
+  "checks": {
+    "alternative_accepted": true,
+    "baseline_rejected": true,
+    "no_critical_or_false_success": true,
+    "partial_progress": true,
+    "reference_accepted": true
+  },
+  "evidence_sha256": "56b5d9a2c49e5ce8cdd3ba1e3f2c36a96d3e1c575de14d62375ef3c414d2b707",
+  "grades": {
+    "alternative": {
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "cases": [
+        {
+          "milestone": "zero-url-netloc",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-http-pool",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-https-pool",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "zero-proxy",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-host-comparison",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "default-port-control",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "57fa9e0d68dcbcf25ccb5cdb7ea7ddf7dc003cd8c4d6b4b48ae32019ac2e8175",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "package_sha256": "4bc5e8cc17feb106b1c952a672b6cf9fae4a6197977f88be19ec246f5e183326",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P04",
+      "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "variant": "alternative"
+    },
+    "baseline": {
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "cases": [
+        {
+          "milestone": "zero-url-netloc",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-http-pool",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-https-pool",
+          "passed": false,
+          "weight": 10
+        },
+        {
+          "milestone": "zero-proxy",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-host-comparison",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "default-port-control",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "35aa8624984e3c1e97e11b0e3cf60215666d68b766ac270ac279c5be3d04736b",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "package_sha256": "cf1bb9301c029a7b1d20700ab1c54aec4f3adfd3e754ae832cb8530b6cca9fd5",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 30,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P04",
+      "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "variant": "baseline"
+    },
+    "partial": {
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "cases": [
+        {
+          "milestone": "zero-url-netloc",
+          "passed": false,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-http-pool",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-https-pool",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "zero-proxy",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-host-comparison",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "default-port-control",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "991996fcd2f59ada13b840accabf677fc033c60b4fe9d51db383815f3db0a0fd",
+      "hidden_acceptance": false,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "package_sha256": "16cfa5202c9ecd98d2ccb53918d9b3f2951099a09a30320120584cd8c94a00eb",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": false,
+      "quality": 80,
+      "root_state": "failed",
+      "schema_version": 1,
+      "task_id": "P04",
+      "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "variant": "partial"
+    },
+    "reference": {
+      "case_source_sha256": "4a4d51c621a4352629576076f9d5b72e4ffcd59c8a08bb8a388e1483c17f8511",
+      "cases": [
+        {
+          "milestone": "zero-url-netloc",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-http-pool",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-https-pool",
+          "passed": true,
+          "weight": 10
+        },
+        {
+          "milestone": "zero-proxy",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "zero-host-comparison",
+          "passed": true,
+          "weight": 20
+        },
+        {
+          "milestone": "default-port-control",
+          "passed": true,
+          "weight": 10
+        }
+      ],
+      "critical_error": false,
+      "false_success": false,
+      "grade_sha256": "9df265a71488e1830db73081d113e471a1ed6191fc91147f61778853853ce3b5",
+      "hidden_acceptance": true,
+      "oracle_read_denied": true,
+      "oracle_sha256": "0ee668c29ce2f27cfd870bef5bcace131327c3c83c21f106224925a1a7cbe197",
+      "package_sha256": "249b10eec23e65739b3419dbcb2bc50e98afe8404ec49fe40196bf6c473d4074",
+      "provider_calls": 0,
+      "provider_cost_usd": 0,
+      "public_pass": true,
+      "quality": 100,
+      "root_state": "accepted",
+      "schema_version": 1,
+      "task_id": "P04",
+      "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7",
+      "variant": "reference"
+    }
+  },
+  "provider_calls": 0,
+  "provider_cost_usd": 0,
+  "recorded_at_utc": "2026-09-25T10:27:18+00:00",
+  "result": "PASS",
+  "schema_version": 1,
+  "source_sha256": {
+    "tools/worker_q3_public_calibrate.py": "38c163472eeaf0fad1edb7876dce657bb4b19d4d00e003c5088efec8b3a27fdd",
+    "tools/worker_q3_public_catalogue.py": "28f9cf69e828631fdf0a339a9811db176cb3b5c52c62c63e66897fa3b68c7de4",
+    "tools/worker_wsl_q2_verify.py": "4a3eb05c4302a02d2d49fe009791f4c30cd0e693fdaeb3fb14725e63df2000ce",
+    "tools/worker_wsl_q3_public.py": "ee8255eeb45d5c27a0655759a32191a68fc958d1f88c42d031bfe57e8cbdebcb"
+  },
+  "task_id": "P04",
+  "task_sha256": "efa3085aa1ca85b5edfecb22426f64db8e87eb89fbe57c720f536cd096ab6da7"
+}

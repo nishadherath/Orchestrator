@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "critical": true,
+      "expected": {
+        "allowed": [
+          true,
+          true
+        ],
+        "remaining": 0
+      },
+      "input": {
+        "capacity": 5,
+        "kind": "token_bucket",
+        "refill_per_second": 2,
+        "requests": [
+          {
+            "at": 5,
+            "cost": 4
+          },
+          {
+            "at": 7,
+            "cost": 5
+          }
+        ],
+        "start": 5
+      },
+      "milestone": "case-1",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "allowed": [
+          true,
+          false
+        ],
+        "remaining": 1
+      },
+      "input": {
+        "capacity": 3,
+        "kind": "token_bucket",
+        "refill_per_second": 0,
+        "requests": [
+          {
+            "at": 10,
+            "cost": 2
+          },
+          {
+            "at": 20,
+            "cost": 2
+          }
+        ],
+        "start": 0
+      },
+      "milestone": "case-2",
+      "weight": 1
+    },
+    {
+      "critical": false,
+      "expected": {
+        "allowed": [
+          true,
+          true,
+          false
+        ],
+        "remaining": 1
+      },
+      "input": {
+        "capacity": 4,
+        "kind": "token_bucket",
+        "refill_per_second": 1,
+        "requests": [
+          {
+            "at": 0,
+            "cost": 1
+          },
+          {
+            "at": 1,
+            "cost": 4
+          },
+          {
+            "at": 2,
+            "cost": 3
+          }
+        ],
+        "start": 0
+      },
+      "milestone": "case-3",
+      "weight": 1
+    }
+  ],
+  "schema_version": 1
+}

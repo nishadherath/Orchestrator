@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "task_id": "C02-D1",
+  "diagnosis": "dual-read-backfill-precedence",
+  "cases": [
+    {
+      "milestone": "legacy-only row remains readable", "weight": 20,
+      "critical": true,
+      "input": {"op": "read", "records": [{"id": "p1", "legacy": 11}]},
+      "expected": {"values": [{"id": "p1", "value": 11}]}
+    },
+    {
+      "milestone": "newer current value wins", "weight": 20,
+      "critical": true,
+      "input": {"op": "read", "records": [{"id": "p1", "legacy": 11, "current": 13}]},
+      "expected": {"values": [{"id": "p1", "value": 13}]}
+    },
+    {
+      "milestone": "backfill inserts missing values but preserves new writes", "weight": 20,
+      "critical": true,
+      "input": {"op": "backfill", "records": [
+        {"id": "p1", "legacy": 11},
+        {"id": "p2", "legacy": 12, "current": 14}]},
+      "expected": {"records": [
+        {"id": "p1", "legacy": 11, "current": 11},
+        {"id": "p2", "legacy": 12, "current": 14}]}
+    },
+    {
+      "milestone": "zero is a present current value", "weight": 20,
+      "critical": false,
+      "input": {"op": "read", "records": [{"id": "p1", "legacy": 11, "current": 0}]},
+      "expected": {"values": [{"id": "p1", "value": 0}]}
+    },
+    {
+      "milestone": "mixed old and new rows preserve batch order", "weight": 20,
+      "critical": false,
+      "input": {"op": "read", "records": [
+        {"id": "p1", "legacy": 1},
+        {"id": "p2", "current": 2},
+        {"id": "p3", "legacy": 3, "current": 4}]},
+      "expected": {"values": [
+        {"id": "p1", "value": 1}, {"id": "p2", "value": 2},
+        {"id": "p3", "value": 4}]}
+    }
+  ]
+}

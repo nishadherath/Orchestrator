@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "compaction-is-already-correct",
+  "next_step": "deploy",
+  "probes": []
+}

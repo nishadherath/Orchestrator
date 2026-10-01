@@ -1,0 +1,6 @@
+{
+  "completion_claim": "complete",
+  "mechanism": "single-claim-is-sufficient",
+  "next_step": "deploy",
+  "probes": []
+}

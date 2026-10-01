@@ -1,0 +1,56 @@
+{
+  "actor_file_count": 5,
+  "evaluator_zip_sha256": "be47d926f1960a63c9f1d478ac7a2ff14edd3b1375a47e3c5ffd38f6d2092bdc",
+  "grades": {
+    "baseline": {
+      "cases": {
+        "newer_put": true,
+        "stale_update": false,
+        "tombstone_blocks_resurrection": false
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 30,
+      "weights": {
+        "newer_put": 30,
+        "stale_update": 35,
+        "tombstone_blocks_resurrection": 35
+      }
+    },
+    "partial": {
+      "cases": {
+        "newer_put": true,
+        "stale_update": true,
+        "tombstone_blocks_resurrection": false
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 65,
+      "weights": {
+        "newer_put": 30,
+        "stale_update": 35,
+        "tombstone_blocks_resurrection": 35
+      }
+    },
+    "reference": {
+      "cases": {
+        "newer_put": true,
+        "stale_update": true,
+        "tombstone_blocks_resurrection": true
+      },
+      "public_pass": true,
+      "schema_version": 1,
+      "score": 100,
+      "weights": {
+        "newer_put": 30,
+        "stale_update": 35,
+        "tombstone_blocks_resurrection": 35
+      }
+    }
+  },
+  "provider_calls": 0,
+  "python_version": "3.12.14",
+  "schema_version": 1,
+  "task_id": "H08W",
+  "task_sha256": "7209c8c557afce8d48537e06cd9b0627b775745e130c1e9b99cd57aea83b8de6"
+}

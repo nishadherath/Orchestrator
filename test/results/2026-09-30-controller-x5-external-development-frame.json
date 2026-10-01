@@ -1,0 +1,280 @@
+{
+  "schema": "controller-x5-external-development-frame-v1",
+  "fetched_at_utc": "2026-09-30T00:39:01Z",
+  "created_after_or_at_utc": "2026-09-01T00:00:00Z",
+  "seed": "x5-development-frame-2026-09-30",
+  "selection": "all open non-PR issues from fixed repositories within date cutoff; one API page per repository with truncation guard; hash order",
+  "repositories": [
+    "encode/httpcore",
+    "encode/httpx",
+    "encode/starlette",
+    "agronholm/anyio",
+    "pallets/werkzeug",
+    "psf/requests",
+    "pydantic/pydantic"
+  ],
+  "count": 29,
+  "issues": [
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13817,
+      "url": "https://github.com/pydantic/pydantic/issues/13817",
+      "title": "Refcount corruption during GC when a `mode='wrap'` validator's `handler` outlives validation (shared validator tree traversed twice)",
+      "created_at_utc": "09/16/2026 15:14:16",
+      "updated_at_utc": "09/18/2026 09:20:04",
+      "priority_sha256": "01ea25d31090183616f481c4441d88d8f4f12106824cbcb0c683144db8679167"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13869,
+      "url": "https://github.com/pydantic/pydantic/issues/13869",
+      "title": "`model_construct` with `validation_alias=AliasPath(...)` and `extra='allow'` leaves the alias path keys in `model_extra`",
+      "created_at_utc": "09/25/2026 09:00:37",
+      "updated_at_utc": "09/25/2026 09:04:09",
+      "priority_sha256": "04e72ae576a68f5730d752d3d00248023ec2fdc724034850893efec2356781cc"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "number": 1356,
+      "url": "https://github.com/agronholm/anyio/issues/1356",
+      "title": "Exception raised by a start()ed child during cancellation is lost on asyncio",
+      "created_at_utc": "09/28/2026 06:32:47",
+      "updated_at_utc": "09/28/2026 06:32:47",
+      "priority_sha256": "0772d99a16b623a166352b2feb9ed3ae4ce079f40acf7e1359a11e05af341712"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "number": 3303,
+      "url": "https://github.com/pallets/werkzeug/issues/3303",
+      "title": "Deprecate WSGI functions",
+      "created_at_utc": "09/25/2026 18:48:28",
+      "updated_at_utc": "09/29/2026 17:03:08",
+      "priority_sha256": "13b1db5e34fd39915d112220cf342cd637209411c35ecb2c1933f75d3b872463"
+    },
+    {
+      "repository": "encode/starlette",
+      "number": 3579,
+      "url": "https://github.com/Kludex/starlette/issues/3579",
+      "title": "Request.url turns a // path into an authority when the scope has no host",
+      "created_at_utc": "09/24/2026 05:11:57",
+      "updated_at_utc": "09/24/2026 05:11:57",
+      "priority_sha256": "16a6646409874d13e68b56b1422c97ddf1369ef1e52d2fb0c304410bdab913fd"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13783,
+      "url": "https://github.com/pydantic/pydantic/issues/13783",
+      "title": "Enable support for typed `model_construct` besides mypy (incl. example implementation)",
+      "created_at_utc": "09/09/2026 11:02:14",
+      "updated_at_utc": "09/25/2026 20:51:45",
+      "priority_sha256": "1bb48d723ec6fb29dd4e5c73b6516eb692b6b483da6ce42a5181ee9f2e9060ad"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13799,
+      "url": "https://github.com/pydantic/pydantic/issues/13799",
+      "title": "Allow floats a 0 fractional part in JSON strict mode",
+      "created_at_utc": "09/12/2026 17:17:19",
+      "updated_at_utc": "09/17/2026 07:57:12",
+      "priority_sha256": "1e836ce1ca9bf403138445b7215ecfa41404ac7fda79ef316934506294c2852c"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13761,
+      "url": "https://github.com/pydantic/pydantic/issues/13761",
+      "title": "Support `re.Pattern` regex flags in JSON serialization",
+      "created_at_utc": "09/04/2026 11:08:04",
+      "updated_at_utc": "09/07/2026 08:25:30",
+      "priority_sha256": "1ec98aebfcf3b204a7a72cbdd40a3e1b8fefcd69f79468aa9dd06abc24272f87"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "number": 3281,
+      "url": "https://github.com/pallets/werkzeug/issues/3281",
+      "title": "pass `request` instead of `environ` where possible",
+      "created_at_utc": "09/18/2026 13:54:48",
+      "updated_at_utc": "09/25/2026 19:55:46",
+      "priority_sha256": "224dec1adc9fc3e6aa6b47874f975f5c8fa9f6925ef5051cab7d4d26ac238949"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13784,
+      "url": "https://github.com/pydantic/pydantic/issues/13784",
+      "title": "Support array unpacking in `AliasPath` for `validation_alias`",
+      "created_at_utc": "09/09/2026 12:35:39",
+      "updated_at_utc": "09/17/2026 07:35:54",
+      "priority_sha256": "24bbb343296539d081933fcacb2ef0b22870336282fe5d0fbaaebe2891f7d12d"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "number": 1310,
+      "url": "https://github.com/agronholm/anyio/issues/1310",
+      "title": "Extend concurrency helper utilities to work with async iterables for arguments",
+      "created_at_utc": "09/04/2026 13:01:34",
+      "updated_at_utc": "09/08/2026 16:37:52",
+      "priority_sha256": "26d1807d3f286a3fcab3378159202fd2f238172a253a1c04c865ee196b985180"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13762,
+      "url": "https://github.com/pydantic/pydantic/issues/13762",
+      "title": "Allow `exclude_if` to depend on the serialization context (callable with `info`, or a context marker)",
+      "created_at_utc": "09/04/2026 19:45:31",
+      "updated_at_utc": "09/07/2026 17:53:36",
+      "priority_sha256": "2b331dba558ee6be976a86a913503556df4dc3ab25073ff83df5903de6d96b34"
+    },
+    {
+      "repository": "encode/starlette",
+      "number": 3528,
+      "url": "https://github.com/Kludex/starlette/issues/3528",
+      "title": "`include_query_params` doesn't support multi valued values",
+      "created_at_utc": "09/08/2026 16:10:39",
+      "updated_at_utc": "09/09/2026 21:38:45",
+      "priority_sha256": "2cfee3d55cf8ff59ea8401f95ea91836fd077ad292f3137ccfafc5244aa8cadc"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13886,
+      "url": "https://github.com/pydantic/pydantic/issues/13886",
+      "title": "Add support for string constraints for `SecretStr` type",
+      "created_at_utc": "09/28/2026 14:47:29",
+      "updated_at_utc": "09/29/2026 20:57:54",
+      "priority_sha256": "332e2b428d139719ea18b94642191f3801531e000acebb8ded83bcc04fe6c1b5"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13781,
+      "url": "https://github.com/pydantic/pydantic/issues/13781",
+      "title": "Type alias to `None` (or `MISSING`) not supported as a discriminated union member",
+      "created_at_utc": "09/09/2026 07:01:15",
+      "updated_at_utc": "09/13/2026 14:14:23",
+      "priority_sha256": "382d9788bfe81a68aeb78e357825fc968999bbd6c0ea58906a161b5c91d48344"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "number": 1353,
+      "url": "https://github.com/agronholm/anyio/issues/1353",
+      "title": "Hypothesis async tests don't actually run on all parametrized anyio backends",
+      "created_at_utc": "09/27/2026 15:05:05",
+      "updated_at_utc": "09/27/2026 15:06:32",
+      "priority_sha256": "53746b68308004d241dcb10a4d06070d05d5af828f3ce2f89b6f51b821d9fa2e"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13791,
+      "url": "https://github.com/pydantic/pydantic/issues/13791",
+      "title": "Add pydantic skills into the package",
+      "created_at_utc": "09/10/2026 00:49:22",
+      "updated_at_utc": "09/10/2026 21:51:09",
+      "priority_sha256": "5c77be985ba07abaaa1e06b21e38caf776b370162affbeabb0db8cb989eb6e51"
+    },
+    {
+      "repository": "encode/httpcore",
+      "number": 1115,
+      "url": "https://github.com/encode/httpcore/issues/1115",
+      "title": "Interrupted response close cannot be retried",
+      "created_at_utc": "09/17/2026 09:21:40",
+      "updated_at_utc": "09/17/2026 09:21:40",
+      "priority_sha256": "5c8aeff10faffd4a67d782700dcb28bd7ae3c03fcd6222e1ac577507f084fc30"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13822,
+      "url": "https://github.com/pydantic/pydantic/issues/13822",
+      "title": "Decide about fate of custom generic classes docs example",
+      "created_at_utc": "09/16/2026 21:26:39",
+      "updated_at_utc": "09/16/2026 21:26:45",
+      "priority_sha256": "7ca8a8b4c89011e7b19c81786904b2dd7569073864cfcfeb5c493592b99612f1"
+    },
+    {
+      "repository": "psf/requests",
+      "number": 7627,
+      "url": "https://github.com/psf/requests/issues/7627",
+      "title": "Docstring examples in `from_key_val_list` show the pre-3.12 OrderedDict repr",
+      "created_at_utc": "09/17/2026 17:40:45",
+      "updated_at_utc": "09/26/2026 11:08:37",
+      "priority_sha256": "83499b124c5cde1f894e45d65ca9d978a16ef3434af9f427ae8e220315d84b98"
+    },
+    {
+      "repository": "encode/httpcore",
+      "number": 1110,
+      "url": "https://github.com/encode/httpcore/issues/1110",
+      "title": "Connection pool can close a connection it has already assigned to a queued request",
+      "created_at_utc": "09/12/2026 16:54:19",
+      "updated_at_utc": "09/12/2026 17:54:20",
+      "priority_sha256": "83f6d0ccf11871c2c9632dbd6b0c6c6aec6983546bc268f693cdc37ac0c44de1"
+    },
+    {
+      "repository": "pallets/werkzeug",
+      "number": 3285,
+      "url": "https://github.com/pallets/werkzeug/issues/3285",
+      "title": "Multipart parser still appends a stray byte near boundary",
+      "created_at_utc": "09/20/2026 10:46:20",
+      "updated_at_utc": "09/24/2026 18:04:22",
+      "priority_sha256": "85e9d4a1bac86daa41a59f91b45bda1269d05258fadd07b932ad259be62536c1"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "number": 1364,
+      "url": "https://github.com/agronholm/anyio/issues/1364",
+      "title": "connect_tcp() leaks a connected socket when an enclosing scope is cancelled after the connect succeeds",
+      "created_at_utc": "09/29/2026 15:19:04",
+      "updated_at_utc": "09/29/2026 15:19:04",
+      "priority_sha256": "9a74af4379481f7130f4d7b1d9775385a6186ce0d4eab0272243930c34e9b612"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "number": 1342,
+      "url": "https://github.com/agronholm/anyio/issues/1342",
+      "title": "Add an async interface for calling into an event loop running in another thread",
+      "created_at_utc": "09/23/2026 08:51:42",
+      "updated_at_utc": "09/23/2026 08:51:42",
+      "priority_sha256": "9e55535f2eda064423d5b730faf86c7ede39875db149a41ffa849434d7453e6c"
+    },
+    {
+      "repository": "psf/requests",
+      "number": 7630,
+      "url": "https://github.com/psf/requests/issues/7630",
+      "title": "Incorrect type annotation for iter_lines",
+      "created_at_utc": "09/24/2026 17:18:05",
+      "updated_at_utc": "09/25/2026 16:38:07",
+      "priority_sha256": "a2f6d944b3560fe8f707a5a07be9c2816d5de9a8c07e1160d9b9355ac4cda1d3"
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "number": 13754,
+      "url": "https://github.com/pydantic/pydantic/issues/13754",
+      "title": "Serialization JSON schema keys by the alias even when serialize_by_alias is False (the default)",
+      "created_at_utc": "09/02/2026 14:22:27",
+      "updated_at_utc": "09/23/2026 02:28:14",
+      "priority_sha256": "ae4eadbe3490208c5f22a119e6b8ba54bff73d0059e37288f20120138db95d2a"
+    },
+    {
+      "repository": "agronholm/anyio",
+      "number": 1344,
+      "url": "https://github.com/agronholm/anyio/issues/1344",
+      "title": "Non-daemon `to_thread` worker deadlocks interpreter exit: cleanup never fires if pending tasks aren't drained",
+      "created_at_utc": "09/23/2026 17:30:27",
+      "updated_at_utc": "09/25/2026 09:14:52",
+      "priority_sha256": "d181bf5948a910d15e0b1101b4433d3a8dc11ce2f842743c7c45cdd02aaca446"
+    },
+    {
+      "repository": "psf/requests",
+      "number": 7620,
+      "url": "https://github.com/psf/requests/issues/7620",
+      "title": "PR 5410 got merged but is not in fact merged",
+      "created_at_utc": "09/08/2026 12:06:24",
+      "updated_at_utc": "09/17/2026 10:56:59",
+      "priority_sha256": "ef429e7aa98ea7daac1798ae62580e596c7d2641c0c8dd10ce1025b0663a40b8"
+    },
+    {
+      "repository": "psf/requests",
+      "number": 7629,
+      "url": "https://github.com/psf/requests/issues/7629",
+      "title": "proxy_bypass_registry uses unanchored re.match (Windows proxy bypass)",
+      "created_at_utc": "09/23/2026 11:31:17",
+      "updated_at_utc": "09/27/2026 02:29:50",
+      "priority_sha256": "fd780adca9d753435e22b584c3b955729909c542b600020f444f6fe62442ff92"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "PROSE",
+    "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+    "status": "PASS",
+    "detail": "909 files clean"
+  },
+  {
+    "id": "HANDOFF",
+    "covers": "every handoffs/ file passes handoff.py check",
+    "status": "PASS",
+    "detail": "29 file(s) checked"
+  },
+  {
+    "id": "DIST",
+    "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+    "status": "PASS",
+    "detail": "84 files match at 2026-10-01-15ecf66-dirty"
+  },
+  {
+    "id": "RELEASE",
+    "covers": "release-candidate parity and redistribution checks run",
+    "status": "PASS",
+    "detail": "mechanical failures=[]; operator actions=['clean_build_stamp', 'publication']"
+  }
+]

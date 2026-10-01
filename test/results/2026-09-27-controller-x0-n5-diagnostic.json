@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "exit_code": 0,
+  "tests": 8,
+  "unittest_elapsed_seconds": 494.363,
+  "provider_calls": 0,
+  "evidence_origin": "Observed verbose unittest tool output, not a provider measurement",
+  "command": "python -B test/harness/worker_n5_live_screen_tests.py -v",
+  "source_sha256": {
+    "test/harness/worker_n5_live_screen_tests.py": "94a227fe4252f5993d7131b4d78bf5de869979862a43a5c55bfd58346f6c077e",
+    "tools/worker_n5_live_screen.py": "af9a8bb32716ea185412d189cbcc64b41f516e6449032fad2ceea19bf5f89af8"
+  }
+}

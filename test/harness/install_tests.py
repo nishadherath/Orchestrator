@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -15,6 +16,46 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import build_dist  # noqa: E402
 import install  # noqa: E402
+import release_check  # noqa: E402
+
+
+class ProvenanceTests(unittest.TestCase):
+    def test_git_inspection_failure_cannot_produce_a_clean_stamp(self):
+        for results in (
+            [subprocess.CompletedProcess([], 128, "", "not a repository")],
+            [subprocess.CompletedProcess([], 0, "15ecf66\n", ""),
+             subprocess.CompletedProcess([], 128, "", "permission denied")],
+        ):
+            with self.subTest(results=results), mock.patch.object(
+                    build_dist.subprocess, "run", side_effect=results):
+                with self.assertRaisesRegex(RuntimeError, "source provenance"):
+                    build_dist.version_stamp()
+
+    def test_missing_git_cannot_produce_a_stamp(self):
+        with mock.patch.object(build_dist.subprocess, "run", side_effect=FileNotFoundError):
+            with self.assertRaisesRegex(RuntimeError, "source provenance"):
+                build_dist.version_stamp()
+
+    def test_verified_git_state_retains_dirty_marker(self):
+        for status, suffix in (("", "-15ecf66"), (" M src/README.md\n", "-15ecf66-dirty")):
+            with self.subTest(status=status), mock.patch.object(
+                    build_dist.subprocess, "run", side_effect=[
+                        subprocess.CompletedProcess([], 0, "15ecf66\n", ""),
+                        subprocess.CompletedProcess([], 0, status, "")]):
+                self.assertTrue(build_dist.version_stamp().endswith(suffix))
+
+    def test_release_stamp_rejects_unknown_dirty_and_rationale_builds(self):
+        with tempfile.TemporaryDirectory() as raw, mock.patch.object(
+                release_check, "DIST", Path(raw)):
+            stamp = Path(raw) / ".claude" / "ORCHESTRATOR_VERSION"
+            stamp.parent.mkdir()
+            for value in ("", "2026-10-01-no-git", "2026-10-01-15ecf66-dirty",
+                          "2026-10-01-15ecf66-with-rationale", "arbitrary"):
+                stamp.write_text(value, encoding="utf-8")
+                with self.subTest(value=value):
+                    self.assertEqual("ACTION_REQUIRED", release_check.check_stamp()["status"])
+            stamp.write_text("2026-10-01-15ecf66\n", encoding="utf-8")
+            self.assertEqual("PASS", release_check.check_stamp()["status"])
 
 
 class InstallTests(unittest.TestCase):
@@ -42,6 +83,47 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(preview.backup_id, tx.backup_id)
         self.assertFalse(tx.conflicts, tx.public())
         return tx, install.commit(tx)
+
+    def test_installed_controller_command_and_scoped_controls(self):
+        """A fresh consumer can operate /controller without paid dispatch."""
+        _, result = self.apply(graft=True)
+        self.assertEqual("APPLIED", result["result"])
+        command = self.project / ".claude" / "commands" / "controller.md"
+        self.assertTrue(command.is_file())
+        instructions = command.read_text(encoding="utf-8")
+        self.assertIn("controller_control.py", instructions)
+        self.assertIn("cancel <rtd-decision-id>", instructions)
+        control = self.project / "tools" / "controller_control.py"
+
+        def run(*arguments: str) -> dict:
+            completed = subprocess.run(
+                [sys.executable, str(control), "--project", str(self.project),
+                 *arguments], cwd=self.project, capture_output=True, text=True)
+            self.assertEqual(0, completed.returncode, completed.stderr)
+            response = json.loads(completed.stdout)
+            self.assertIs(response["paid_work_started"], False)
+            return response
+
+        context = ("--session-id", "session-one", "--task-revision", "task-one")
+        self.assertEqual("auto", run("resolve", *context)["decision"]["mode"])
+        run("set", "--mode", "off", "--scope", "project")
+        self.assertEqual("off", run("resolve", *context)["decision"]["mode"])
+        run("set", "--mode", "on", "--scope", "session",
+            "--session-id", "session-one")
+        self.assertEqual("on", run("resolve", *context)["decision"]["mode"])
+        run("set", "--mode", "auto", "--scope", "task",
+            "--task-revision", "task-one")
+        self.assertEqual("auto", run("resolve", *context)["decision"]["mode"])
+        self.assertEqual("off", run("resolve", "--explicit", "off",
+                                    *context)["decision"]["mode"])
+        status = run("status", *context)["view"]
+        self.assertEqual("no_task_root", status["applicability"])
+        self.assertEqual("auto", status["current_intent"]["mode"])
+        self.assertIsNone(status["provider_call_confirmed"])
+        run("clear", "--scope", "task", "--task-revision", "task-one")
+        self.assertEqual("on", run("resolve", *context)["decision"]["mode"])
+        run("clear", "--scope", "session", "--session-id", "session-one")
+        self.assertEqual("off", run("resolve", *context)["decision"]["mode"])
 
     def test_clean_install_repeat_lifecycle_diagnostics_and_rollback(self):
         tx, result = self.apply()

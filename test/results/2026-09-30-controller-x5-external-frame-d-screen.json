@@ -1,0 +1,33 @@
+{
+  "schema": "controller-x5-external-frame-d-screen-v1",
+  "date_local": "2026-09-30 Australia/Sydney",
+  "protocol": "docs/stage-results/controller-x5-external-recent-frame-d-protocol-2026-09-30.md",
+  "frame": "test/results/2026-09-30-controller-x5-external-frame-d.json",
+  "frame_sha256": "9081218582efd3885dde122426c8b3f7cbc2e279c5e2c17cd2bd1a18d60afe56",
+  "body_snapshot": "test/results/2026-09-30-controller-x5-external-frame-d-selected-bodies.json",
+  "body_snapshot_sha256": "be681f65c9d7aace3b8f4e8125c5f49068dad5be528928da34e3850af2f2198b",
+  "all_open_issues": 18,
+  "processed_prefix_length": 18,
+  "provider_calls": 0,
+  "qualified_paid_cases": 0,
+  "rows": [
+    {"position": 1, "url": "https://github.com/agronholm/anyio/issues/1356", "body_sha256": "f6de890de5774768ee9a7168f55d29f66075a2c4086282a14d357cd9b740a179", "decision": "previously rejected", "reason": "E05 natural issue identifies exact task_done early-return path and cause"},
+    {"position": 2, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13616", "body_sha256": "b13faf90be1529ca3705881725d1006a43b67aa0c5f8430c3b78fdef857d0512", "decision": "previously rejected", "reason": "frame C report prescribes tstring parsing change and alternatives"},
+    {"position": 3, "url": "https://github.com/celery/celery/issues/10733", "body_sha256": "cfd640e4fea31b0f15cf1b74087bc32f8e3eecec24a247baab3ab36e32853672", "decision": "previously rejected", "reason": "frame C report gives append/pop LIFO cause and fix PR #10734"},
+    {"position": 4, "url": "https://github.com/agronholm/anyio/issues/1353", "body_sha256": "996bb6c2c00b9e37d616468f7a461b5b35b6f8df623593404b2683ddcb34f63f", "decision": "previously rejected", "reason": "E07 natural issue names exact pytest hook and missing Hypothesis re-wrap"},
+    {"position": 5, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13619", "body_sha256": "1b89fdd6f5a2ed5d14cbbda418b699e804dfbbaf818a8e50d8e9639e1d6a6c8b", "decision": "reject blind paid task", "reason": "issue identifies exact BaseRow regression commit and type(data) is tuple repair"},
+    {"position": 6, "url": "https://github.com/celery/celery/issues/10725", "body_sha256": "4f10f5463a61c3ba40d9cc8ceddf5ba448b5a833542eda0c6761f2ff6517f410", "decision": "reject blind paid task", "reason": "issue traces callback dispatch, failure recording and acknowledgement branches and announces a PR with tests"},
+    {"position": 7, "url": "https://github.com/astral-sh/ruff/issues/28989", "body_sha256": "74e3e0a78085f9dcc61a7bd7f02659afd8ba4a8872d77c3a60779e1af2334d0c", "decision": "reject blind paid task", "reason": "maintainer comment points to PR #16149 special case to extend to object(); WSL worker host has no cargo or rustc"},
+    {"position": 8, "url": "https://github.com/aio-libs/aiohttp/issues/13835", "body_sha256": "9b27b181101a769054c61f01501c8576e1150d8167dcb0cf8eb46c653fa308f8", "decision": "ineligible release request", "reason": "asks maintainers to publish already merged fixes, not a blind repair task"},
+    {"position": 9, "url": "https://github.com/astral-sh/ruff/issues/28930", "body_sha256": "0a962bfe7f1938147fdef5ca1ac41840c0b44203c342a5f663da6bc67006ec28", "decision": "ineligible documentation task", "reason": "requests correction of exact formatter example and prose"},
+    {"position": 10, "url": "https://github.com/astral-sh/ruff/issues/28942", "body_sha256": "4a6de99d6d1a055a24200bb1f21348eddbccf2f79ee8f17b7f929501ec9f8b1d", "decision": "ineligible feature request", "reason": "asks to extend useless-import-alias rule to stub files"},
+    {"position": 11, "url": "https://github.com/pydantic/pydantic/issues/13886", "body_sha256": "bf9e9f5cced23aeeafa60fb575a9fe0b5ee255db24fe33edfedd1e8202e04de0", "decision": "ineligible feature request", "reason": "requests SecretStr string-constraint support without an existing accepted contract"},
+    {"position": 12, "url": "https://github.com/pydantic/pydantic/issues/13900", "body_sha256": "dbfb9262cd72137dfbe4f3d33b7e254dc335ae08656f125b9c6ad5180bd83c54", "decision": "ineligible documentation task", "reason": "asks to publish the linked source docstring example"},
+    {"position": 13, "url": "https://github.com/aio-libs/aiohttp/issues/13868", "body_sha256": "149c3110d10e7c398265e1da99d045eb9528a42edd02683cf475abe15007a629", "decision": "reject blind paid task", "reason": "report identifies the case-sensitive deduplication set and fully specifies first-casing output; no independent consequential residual check"},
+    {"position": 14, "url": "https://github.com/agronholm/anyio/issues/1364", "body_sha256": "d110922f24268d7a47f16098a52a3da8dfbb25ba4a944fbe544c51ea859241cd", "decision": "previously rejected", "reason": "E04 natural issue includes the cleanup patch"},
+    {"position": 15, "url": "https://github.com/astral-sh/ruff/issues/28998", "body_sha256": "90288735fed9ba29ac8a08ef840f1af4b365ce3513875c55743e1fba307a6039", "decision": "ineligible policy outcome", "reason": "maintainer says rule's unsafe fix and suppression are documented expected behaviour; Rust host absent"},
+    {"position": 16, "url": "https://github.com/sqlalchemy/sqlalchemy/issues/13617", "body_sha256": "dcce997b19009fea2f8b95910317147586ba475dd6e7fb84778a12702032587f", "decision": "reject blind paid task", "reason": "issue publishes comparator-class cache key, pickling repair, tests and passing suite"},
+    {"position": 17, "url": "https://github.com/astral-sh/ruff/issues/28945", "body_sha256": "84573bd49e26196b3b348007faafe7a89f1dc232b3124409385c5b21611bffd1", "decision": "ineligible feature request", "reason": "asks for a new rule or formatter transformation"},
+    {"position": 18, "url": "https://github.com/celery/celery/issues/10724", "body_sha256": "85fc00abf6d2c3200a925fff97ff449d1cf19a105a9e0c745ed214688255ac52", "decision": "reject blind paid task", "reason": "report identifies both success-then-failure control paths and announces an accompanying PR with unit and worker tests"}
+  ]
+}

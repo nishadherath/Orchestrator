@@ -1,0 +1,18 @@
+{
+  "auth_session_present": false,
+  "frozen_request_cell": "worker-sonnet-high",
+  "guard_rejects_cell_before_auth_and_start": true,
+  "installed_launcher_predates_q1_record": true,
+  "installed_q3_launcher_sha256": "9da08e0d450c3d102b56ef69002cc9d8b5d47807b5d895560bcf212b6e190941",
+  "invocation_id": "a4cbcbe94af591785346d440ac2bbc62",
+  "ledger_mutated": false,
+  "ledger_state": "uncertain",
+  "local_hold_usd": 1.0,
+  "manifest_sha256": "d5b8c015f2945518f9d806de9b03b0ea7b6ca197a8c84d6edbdf0600296652c2",
+  "provider_invocations_inferred": 0,
+  "provider_reported_cost_usd": null,
+  "q1_record_sha256": "5a0108895d6241da0829ac0056d93ebfb1431af7609309f015f77133a5bf7b82",
+  "q1_start_present": false,
+  "q1_stop_present": false,
+  "schema_version": 1
+}

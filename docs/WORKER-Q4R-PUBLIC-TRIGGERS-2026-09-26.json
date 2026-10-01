@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "assessment_method": "operator-authored-public-issue-only",
+  "rule": "A required contract change crosses at least three distinct source modules.",
+  "rows": [
+    {
+      "task_id": "P04",
+      "triggered": true,
+      "issue_sha256": "06d58a0a20dcd737bd9911ef8202263d278e1f5de49083f5e2c18be9f6d6d9d6",
+      "citation": "test/fixtures/worker_q3_public/P04/actor/ISSUE.md:2",
+      "modules": ["urllib3/connectionpool.py", "urllib3/poolmanager.py", "urllib3/util/url.py"],
+      "mechanism": "The public issue requires explicit port zero to survive URL rendering, host comparison, pool lookup and proxy construction."
+    },
+    {
+      "task_id": "P05",
+      "triggered": true,
+      "issue_sha256": "38e4028188868d6a3c7193ef89f19c64f61785af42777510a56ddd2a05995f48",
+      "citation": "test/fixtures/worker_q3_public/P05/actor/ISSUE.md:2",
+      "modules": ["tenacity/__init__.py", "tenacity/asyncio/__init__.py", "tenacity/wait.py"],
+      "mechanism": "The public issue requires falsy waits and callable composition to work through synchronous and asynchronous retry paths."
+    },
+    {
+      "task_id": "P06",
+      "triggered": true,
+      "issue_sha256": "886d11f65eec73b7cfcbac69b9d50cbaf409ad3f71accf01eb311fd12625d1cd",
+      "citation": "test/fixtures/worker_q3_public/P06/actor/ISSUE.md:2",
+      "modules": ["jwt/api_jwk.py", "jwt/jwk_set_cache.py", "jwt/jwks_client.py"],
+      "mechanism": "The public issue links parsed JWK sets, cache identity, transformed fetches and mixed invalid entries across the three allowed modules."
+    },
+    {
+      "task_id": "P08",
+      "triggered": true,
+      "issue_sha256": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+      "citation": "test/fixtures/worker_q3_public/P08/actor/ISSUE.md:2",
+      "modules": ["platformdirs/_xdg.py", "platformdirs/api.py", "platformdirs/macos.py", "platformdirs/unix.py"],
+      "mechanism": "The public issue requires returned-path selection and directory creation scope to agree on Unix, XDG and macOS."
+    }
+  ]
+}

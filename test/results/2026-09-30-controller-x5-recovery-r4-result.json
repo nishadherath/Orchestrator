@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "stage": "x5-recovery-development-feasibility",
+  "campaign": "R4",
+  "status": "closed-no-public-recovery-headroom",
+  "manifest_sha256": "12bcbc9ae48f016196867b46b298915dae7e29ea935c8e37a73f83ad59539b23",
+  "provider_roots_started": 1,
+  "provider_roots_settled": 1,
+  "provider_calls": 1,
+  "settled_api_equivalent_usd": 0.1179006,
+  "unrun": ["R02-S", "R02-A"],
+  "R02_B0": {
+    "root_id": "872f47a723e6665f714be028",
+    "executor_state": "accepted",
+    "attempt_count": 1,
+    "actual_model": "claude-sonnet-5",
+    "writer_stopped": true,
+    "identity_valid": true,
+    "unresolved_charges": [],
+    "settled_api_equivalent_usd": 0.1179006,
+    "public_check_passed": true,
+    "public_recovery_eligible": false,
+    "public_stop_reason": "no publicly observable unresolved work",
+    "protected_quality_after_entry_decision": 100,
+    "protected_accepted": true,
+    "protected_critical_violation": false,
+    "oracle_read_denied": true
+  },
+  "interpretation": "The predeclared public-only entry rule found no recovery headroom. Neither matched continuation was created or run. R4 provides no Controller effect estimate."
+}
