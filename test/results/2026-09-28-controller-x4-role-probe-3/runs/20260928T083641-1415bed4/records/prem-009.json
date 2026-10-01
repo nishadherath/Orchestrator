@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-009",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "No check may be reported as executed and no outcome asserted as observed; proposed checks stay hypothetical.",
+  "class": "policy",
+  "source": "Problem statement: do not claim that any proposed check has been run.",
+  "confidence": 0.95,
+  "cheapest_verification": "None needed; it constrains the form of every downstream claim.",
+  "load_bearing": true,
+  "supersedes": null
+}

@@ -1,0 +1,8 @@
+{
+  "incident": "blue-key-rotation",
+  "expected_route_tenant": "blue",
+  "old_key_id": "blue-old",
+  "new_key_id": "blue-2026",
+  "old_result": "accepted",
+  "new_result": "rejected"
+}

@@ -1,0 +1,119 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.9304466,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T19:03:21.275671+00:00",
+    "currency": "USD",
+    "invocations": {
+      "aacf27e430614bdf79d007362938aa30": {
+        "allowance_units": 5000000000,
+        "charged_units": 69553400,
+        "cost_usd": 0.0695534,
+        "metadata": {
+          "decision_digest": "afb068b448a3b25ea76e718d912676f55580974dd418e4670dfc10101502da7a",
+          "revision_id": "a5a3c19af93447a70568d78306e892eb35d2e4f3a1b018bbc03b41f6693014b4",
+          "root_id": "3d09428e77bab35ba90c1278"
+        },
+        "reserved_at": "2026-09-29T19:04:14.218189+00:00",
+        "resolution": {
+          "cost_usd": 0.0695534,
+          "evidence": "receipt:97e493f316957519517515e52b8158b004eee85b52c62cfe7c625ed4da967c66",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 10343,
+            "cache_read_input_tokens": 76722,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.0695534,
+            "currency": "USD",
+            "input_tokens": 10,
+            "output_tokens": 1161
+          }
+        },
+        "started_at": "2026-09-29T19:04:14.228622+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 10343,
+          "cache_read_input_tokens": 76722,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0695534,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 1161
+        },
+        "updated_at": "2026-09-29T19:04:34.711419+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.0695534,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 22.883,
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "5f53854f317376147817a4d5d91614fb1787e02e6b12798a518c3a4ca2cb9bb6",
+  "protected_grade_after_public_entry": {
+    "candidate_edit_sha256": {
+      "click/_textwrap.py": "3379ba83b8b6d298d41cd12727b73cc1a24e4622d873a8979db16cbe072434b8",
+      "click/formatting.py": "f125b628692f8dfcfd43535b7a88cc1ee64137471f9d0243b389aa0cfea85e6b"
+    },
+    "case": "F02",
+    "cases": [
+      {
+        "critical": false,
+        "name": "styled_word",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "styled_indent",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "subsequent_styled_indent",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "paragraph_boundary",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "styled_usage",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "unstyled_wrap",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "unstyled_usage",
+        "passed": true,
+        "weight": 1
+      }
+    ],
+    "critical_errors": 0,
+    "quality": 100.0,
+    "state": "accepted"
+  },
+  "qualified": true,
+  "root_id": "3d09428e77bab35ba90c1278",
+  "snapshot": null,
+  "state": "accepted"
+}

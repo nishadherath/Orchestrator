@@ -1,0 +1,37 @@
+{
+  "type": "FrameRecord",
+  "id": "frame-002",
+  "ledger_version": 2,
+  "references": [
+    "frame-001",
+    "prob-001",
+    "meas-001",
+    "meas-002",
+    "meas-003",
+    "meas-004",
+    "meas-005",
+    "meas-006",
+    "meas-007"
+  ],
+  "goal_ladder": [
+    "Design checks that would discriminate the candidate causes of an absent receipt, given that no fixture evidence exists to run them against",
+    "Keep the candidate set open: the three named causes are now confirmed non-exhaustive, so read-side, replication and retention paths must be covered",
+    "State the invariant that acknowledgement implies a durable receipt, or say plainly that it is assumed rather than written anywhere",
+    "Give the operator a reversible containment step and an implementation direction conditional on a named check outcome"
+  ],
+  "metric_interrogation": "The single stated observable, receipt absent after acknowledgement, remains a conjunction of write-attempted, write-committed and read-correct, so it cannot discriminate cause. meas-004 makes that concrete by enumerating stale or wrong-replica reads, replication lag and retention deletion as further paths the three named causes do not cover. meas-002 sharpens the metric problem: there is not one measured instance, no job id and no observation record, so no rate, latency or error count can be computed and no distributional argument is available. Discriminating metrics stay per-job and hypothetical: acknowledgement timestamp versus write-commit timestamp, writer error outcome keyed by job id, idempotency-key hit versus miss against retry attempts, and the receipt-store read consistency mode. The absent-at-read versus absent-at-write split is still unmeasured and, per meas-001 and meas-005, unmeasurable in this fixture, so the brief must name it as an open split rather than assume the write side.",
+  "problem_type": "Causal discrimination under incomplete observation in a distributed two-store fixture",
+  "dissolution_verdict": "stands",
+  "dissolution_reason": "Measurement confirms no fixture artefact beyond the statement, so the cause cannot be determined here. That does not dissolve the problem, because the statement never asked for the cause: it asked for discriminating checks, a reversible containment step and a conditional implementation direction, all answerable from the statement alone. Four premises moved from unverified to verified and one new verified premise records the missing artefact, but the question itself is unchanged and the acceptance criteria are unrevised.",
+  "acceptance_criteria": [
+    "Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated",
+    "The candidate set is explicitly assessed for closure, including any cause outside the three named",
+    "A containment step is proposed with its reversal stated and its cost to correctness named",
+    "The implementation direction is stated as conditional on a named check result, with the condition explicit",
+    "No check is reported as run, and no outcome is asserted as observed",
+    "Every claim is traceable to the problem statement or marked as an assumption"
+  ],
+  "b0_candidate_id": "cand-001",
+  "premise_count": 11,
+  "stable": true
+}

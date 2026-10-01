@@ -1,0 +1,12 @@
+{
+  "episode_label": "sonnet-medium",
+  "files": {
+    "h11/_connection.py": "4f0d5a8e9565ac6a2a8bef7c90a08674f54d50edfae409e0f87b805a8ac93af6",
+    "h11/_headers.py": "83d086d68ea2e4f0027e7fc3f38190a9420b04640020b114dbf6d1dddb8cddaf",
+    "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+  },
+  "schema_version": 1,
+  "sequence": 3,
+  "snapshot_sha256": "a1188fbcfc02e26a89869600cbd03a84cb23f8f4639bee444c1e975ceefded72",
+  "task_id": "S03"
+}

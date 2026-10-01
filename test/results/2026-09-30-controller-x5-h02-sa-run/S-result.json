@@ -1,0 +1,86 @@
+{
+  "arm": "S",
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 3.593813599,
+    "baseline_limit_units": 4000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-30T10:13:19.352971+00:00",
+    "currency": "USD",
+    "invocations": {
+      "84d41728a4f9471488b513a89a504af1": {
+        "allowance_units": 4000000000,
+        "charged_units": 406186401,
+        "cost_usd": 0.40618640000000006,
+        "metadata": {
+          "decision_digest": "861d1a351261c963d44bc9821c011ed4408b693349067c1ef5250a27549ea9fd",
+          "revision_id": "2465a1f4ae26ebca25dca1f04c9e904b128a33937207719cb823b533f44cea94",
+          "root_id": "d5ff78592bd2003848f0904b"
+        },
+        "reserved_at": "2026-09-30T11:04:28.917433+00:00",
+        "resolution": {
+          "cost_usd": 0.40618640000000006,
+          "evidence": "receipt:98fa35cfe01024bd26943488364d0980fec92d209d0654501ff891d535473c8e",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 43128,
+            "cache_read_input_tokens": 483017,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.40618640000000006,
+            "currency": "USD",
+            "input_tokens": 36,
+            "output_tokens": 13567
+          }
+        },
+        "started_at": "2026-09-30T11:04:28.926623+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 43128,
+          "cache_read_input_tokens": 483017,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.40618640000000006,
+          "currency": "USD",
+          "input_tokens": 36,
+          "output_tokens": 13567
+        },
+        "updated_at": "2026-09-30T11:06:56.169950+00:00"
+      }
+    },
+    "limit_units": 4000000000,
+    "limit_usd": 4.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.406186401,
+    "unresolved": [],
+    "version": 1
+  },
+  "case": "H02",
+  "controller_handoff_actionable": null,
+  "controller_invocations": 0,
+  "controller_stage": null,
+  "effective_action": null,
+  "elapsed_s": 161.692,
+  "error": null,
+  "grade": {
+    "accepted": false,
+    "boundary": "Q4U isolated actor uid 65534; evaluator-owned stdin oracle",
+    "candidate_edit_sha256": "d48cdb80ef749ea3db0b3deed255f84a47456234b510ce88461a20813e29b1d4",
+    "case": "H02",
+    "catalogue_sha256": "5444b006deee658a2c57b5986fa866e23784b29dc9882e8a7ffe683e3454ac6c",
+    "checks": {
+      "forward": false,
+      "no_hook": true,
+      "public": false,
+      "reverse": false,
+      "upstream": true
+    },
+    "critical": false,
+    "quality": 30
+  },
+  "manifest_sha256": "c09983df46b2c38f5d746d7d5fb6f6bf71c3b94328f90db13d3ef9da9620a5f4",
+  "qualified": true,
+  "root_id": "d5ff78592bd2003848f0904b",
+  "state": "ready",
+  "worker_identity_valid": true
+}

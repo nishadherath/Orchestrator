@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-002",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-003"
+  ],
+  "premise_id": "prem-003",
+  "method": "Read problem.md in the working directory (the only artefact available) and checked it for any recorded field—timestamps, retry counts, writer error codes, idempotency-check logs—that could discriminate between writer failure, premature acknowledgement, or suppressed retry.",
+  "result": "problem.md contains only the seven-sentence problem statement, identical to the supplied ProblemRecord text. No underlying notes, logs, or data fields exist beyond this prose; the statement itself asserts insufficiency and there is no separate record to check that assertion against.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-2/problem.md",
+  "outcome": "supports",
+  "cost_usd": 0.09
+}

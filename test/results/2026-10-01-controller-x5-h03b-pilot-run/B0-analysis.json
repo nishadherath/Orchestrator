@@ -1,0 +1,850 @@
+{
+  "attempt_count": 1,
+  "grade": null,
+  "grade_error": "H03 protected grade failed: all_cap_usd)\n  File \"/var/lib/orchestrator-worker-n4/seed/h03-grade-twtjj5h4/tools/system_controller.py\", line 565, in __call__\n    raise AssertionError(f\"selftest script exhausted for (phase={phase!r}, role={role!r})\")\nAssertionError: selftest script exhausted for (phase='verify', role='verifier')\n",
+  "manifest_sha256": "218e0f70b4f2e80a313b07c90cd0275ce65416b4a1ce12a8c82ab8724b5c02f8",
+  "protected_stable": true,
+  "provider_calls_in_analysis": 0,
+  "receipt": {
+    "actual_model": "claude-sonnet-5",
+    "admission_token": "3a7cd2a73f3e6b3ea647ba587510c85b78f4df478073f105",
+    "billed_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-sonnet-5"
+    ],
+    "child_models": [],
+    "command_contract": {
+      "argv_sha256": "8db964c00f8311a4c0a3c9c77c52966a9348d8f7381999f80808665bc4eee263",
+      "credential_method": "subscription",
+      "filesystem_enforcement_proven": true,
+      "graft_configured": true,
+      "q4u_boundary": {
+        "actor_name": "q1-fd663a52b0c84e82955090ffd15d89ef",
+        "after_sha256": {
+          "ISSUE.md": "5c398c48914fd00207ea4204b6b07b07f6a6197ec81b9667a442f13e4de3cda7",
+          "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "public_check.py": "1acde14ab868113620b57638aa559faa3332da44d030ed22d231558a27d11858",
+          "src/System/PUBLIC_ASSESSMENT_PROMPT.md": "aaef1199bba77b60a11066e12739e7d4aaf37b90f4a3e31f1683922b3af748b9",
+          "src/System/ROLES.md": "81894a4fcc3554df5d64faa6481a7661f4983eb637f7f1dfc344b6519efc57e8",
+          "src/System/STEPS.md": "36ea1bc3181ee376481611712441347d28d2a14a2ae0289379a8f224842d5520",
+          "src/System/SYSTEM.md": "9c1ecc682103f9ee611ec51069f07e9a907799d4a68026c37f9db5b41abbe2e4",
+          "src/System/TECHNIQUES.md": "002fb8d825a66382f1011a5796c65d7f907340789e216d38691e7ac68da19340",
+          "src/System/schemas/BudgetEntry.schema.json": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
+          "src/System/schemas/CandidateRecord.schema.json": "32d20d1e5b68fbeb9d75dcecffd5b62564239940e1fbdd820ef210be892b5634",
+          "src/System/schemas/ControllerEvidencePacket.schema.json": "a1edcfe362d356738ba193a29b519b88466edaad5be220056468f30a15db5c60",
+          "src/System/schemas/CritiqueRecord.schema.json": "397f4376aa6d4eb303d4d3e0ff6b5cf5bcad82057ac07aa05a4e16b65c10fccb",
+          "src/System/schemas/EvaluationRecord.schema.json": "183cc9fa899782932da9054a6adf4d36c0a6474a043b5c8abb30bf512f12951d",
+          "src/System/schemas/FrameRecord.schema.json": "e2f1907aa81d481f9b9fe35f0bd40e52faf6b2d0266c3055ea6602aa6ec295d0",
+          "src/System/schemas/GapReport.schema.json": "e74d3b5b832c0e75e0061540ef6cb573788c56bda6976588b94c704994ba4172",
+          "src/System/schemas/MeasurementRecord.schema.json": "f5ea8277aa964a16e57c5f2bdaef835f56f4cffb602b19d1ca636e93b819cbc2",
+          "src/System/schemas/PhaseDigest.schema.json": "3252e3f87bfb99130010ec4c1f7ed565752058fead0a3a8f94249d88a134530b",
+          "src/System/schemas/PremiseRecord.schema.json": "f6abe384e4066a0f9977128e94ef4a25d3a690c3128f4a2b51fe504c50d06bb3",
+          "src/System/schemas/ProblemRecord.schema.json": "71c78494e5eb4892cf5f32d92d5eceb79d28c926344da92cbb5196e860b8a177",
+          "src/System/schemas/RigourAssessment.schema.json": "b50bfb66d6c6e8447b2654ac0486add221b0b2c3d58947e538b5a501c23f3694",
+          "src/System/schemas/RoutingDecision.schema.json": "8c62f346ff8f869fa4e9194e0723d1c48f5a079de439c70504ab8c7376817497",
+          "src/System/schemas/RoutingLedgerEntry.schema.json": "fc50a94e32861df858e1bdd238fb5ee4cfef5622562d2cbc9460ee197f45999e",
+          "src/System/schemas/SelectionRecord.schema.json": "7c7bc5178d297d4ffbf9bcb3ffadacf27735145868be3012363c514f517f28c6",
+          "src/System/schemas/SolutionRecord.schema.json": "6c40620df1102f08325c32e01024c92f6d7d1e23f7bef8bb281ea7f2eb246e82",
+          "src/cost_table.json": "faf64bf87d0fac403aa4a6b86dbd28741bdf2e2f8ca556a176ec3f452300306b",
+          "src/model_registry.json": "0ce39fb88eb4732ec1e0327d70ce74b01aa102e255e361d9b4d69a1656e7e3ec",
+          "src/routing_priors.json": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
+          "src/routing_table.json": "7b4d0558ecc230d8f55c4f0ed786e292ecdb65c3dfc8aee6ddb3012091b07626",
+          "tools/acceptance.py": "ca556812ec778b5abe9fc52acef813f2ce8f2dfc1c53e4a85e5cdaf1072de45d",
+          "tools/claudep.py": "82a611276d57631eace8d7ad6ecb634c5f87d323e0293b2695cfc6acf7646b84",
+          "tools/context_probe.py": "6bbe5bb0bbb5b00cdc50e82a97065386b05f2a5c627335f49192ebdabac6e557",
+          "tools/controller_control.py": "f86f7fe7d43f923a841126cca99d98245db47cd3f1f22a1ce9bd8426bc3dd0b4",
+          "tools/controller_dispatch.py": "71fd20b8611fe106523964db1ce83fd1a6354bae0ae8c56df9916406bf1b9305",
+          "tools/controller_integrity.py": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
+          "tools/controller_policy.py": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+          "tools/controller_profile_policy.py": "4f74897c444d81c0fae2f50c60b1979aa89e11cccc99524fe5bd52e5f53a7a8f",
+          "tools/controller_public_assessment.py": "f08379c6187887a2035ab6807275a46428897af3606f3d1eacd0b7b3928c3924",
+          "tools/controller_workflow.py": "6d69d4e01212cd58aff58d0ae0e280d7226972ec725b1f03880921175df3d20a",
+          "tools/controller_wsl_interpreter.py": "e1496d53b62558c9b2db6285e6bd66ac7da3e9d16c48fd31050186680d60953d",
+          "tools/controller_wsl_launch.py": "2a4cb4460b8ccf8cc6927f721614bca8683c6d0028ca6b520b1c3c6efaf8694e",
+          "tools/dispatch_budget.py": "132ec13a50f75b561a17ace6a4d7220f3cfd9532630da5315bedf077ff1ac41e",
+          "tools/handoff.py": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
+          "tools/managed_delegation.py": "35cb9dd8be2f0d9b285f42b01a1f2cb03dc7d8e26185f42b81a389a855c78e71",
+          "tools/model_registry.py": "675b2d607ef3e9e7a43e7cc45cb5f31fc827a969652a74d359b0670cfb9e5480",
+          "tools/route.py": "38781853708428a65da197c2ad7bda8b1b643c5ee69526bdb43e15182eb489b4",
+          "tools/system_controller.py": "7cdf8cdbad8123b2864f7d02bb3b4dd1cf0bd16b3067cc56bc5849426c9fd9a6",
+          "tools/system_prompts.py": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
+          "tools/task_executor.py": "4693718ccd9a5ef0d08207c55ea0a52155ce0396b3fab6e74c208c4067c44126",
+          "tools/validate_records.py": "beca6a70a948a9cf5b9d12193c09c2663125d86171169b9fdb4c9f509fe9b8a3",
+          "tools/worker_adapter.py": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+          "tools/worker_selector.py": "472972d1b2e9cb051a6ccaaa048bed3c6745c24a765b297bafb61cb1f581a776",
+          "tools/worker_tasks.py": "549b8552fe73f8dfa5cd2d4d1e63905561e63925f6cf51b4b30dac00492b6916"
+        },
+        "changed_paths": [
+          "tools/system_controller.py"
+        ],
+        "q1_record_sha256": "c4d4415fb40288a095fb9ea8da77d325ab364f6542d4eee66a8ceea0d06ebc89",
+        "q1_spec_sha256": "67c74ebfd685f7bf27b332e8ef100098d3d4952f91f55b03f165d1ec3b45814c"
+      },
+      "q4u_launcher_sha256": "9f017810c82c29f05874bd1e380079396c024398aa16dd1176c9cc6bd2fcc94f",
+      "requested_argv_sha256": "c0731c4a07ef3355db7e77c3d4c39fd5c3379b775f650e27256ca619c07fda5f",
+      "restricted": true,
+      "strict_mcp_config": true,
+      "structured_retry_limit": 5,
+      "transport": "wsl-q1-q4u-structured-subscription"
+    },
+    "cost_usd": 0.18423360000000003,
+    "decision_digest": "6c54b138900600822a6340e16fa1b5b2a0b776900d2011c30cd88a0f3826e929",
+    "effort_evidence": "cli-argument:low",
+    "evaluation_report": {
+      "binding": {
+        "final_revision_sha256": "90a4ce2bd79ef059c046c7f919c9b34afe1e6534cc876b99edcbeb857c871c20",
+        "invocation_id": "fd663a52b0c84e82955090ffd15d89ef",
+        "prompt_sha256": "e753c5832bdc13dbfbc19fe3efde8699d66af56aa3efa5c22b23fa1733beaab5",
+        "requested_cell": "worker-sonnet-low",
+        "revision_id": "7fd82d8715940b108688fc10886e2819e15d4d8debcf93309235df00abd1a698",
+        "stream_sha256": "421f679826117aa1272fbc405763deca26af4ccde01b291d68610ee79399df45",
+        "task_sha256": "9c4562910a2d42fe2de89125233535951937ce3421c487714975ffe841d5bff0"
+      },
+      "observability": "present",
+      "raw_sha256": "f67b54c076e596d7b2ce8141dcd106d7b94f84ba028c5c02aa41a5eb55bd88a6",
+      "raw_utf8": "{\"checks\":[{\"command\":\"python public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No shell/execution tool was available in this session to actually run `python public_check.py`; the fix below is based on static code reasoning against the script provided in public_check.py.\",\"diagnosis\":\"In phases(), the frame phase called the framer once, then if the returned FrameRecord's acceptance_criteria didn't match the frozen external contract, it immediately emitted a gap report \u2014 even though write_with_retry already retries malformed Scribe writes within MAX_RECORD_RETRIES. There was no retry path for a semantically-wrong-but-well-formed reply (changed acceptance criteria), so a scripted corrective second reply within the call ceiling was never used.\",\"evidence\":[\"public_check.py scripts three framer replies: a mismatched one, then canned frame_v1 (correct), then frame_v2, expecting outcome=='solution' and frames all equal to the frozen criterion\",\"Original code at tools/system_controller.py frame phase (~L1134-1139) returned finish(\\\"gap\\\", ...) on the first mismatch with no re-ask\"],\"remaining\":[\"Run `python public_check.py` in an environment with shell access to confirm outcome=='solution' and frames all equal ['fix the duplicate']\",\"Confirm behavior when the framer never corrects within MAX_RECORD_RETRIES (should still fall through to the gap report)\"],\"status\":\"partial\"}",
+      "report": {
+        "checks": [
+          {
+            "command": "python public_check.py",
+            "outcome": "not_run"
+          }
+        ],
+        "clarification": "No shell/execution tool was available in this session to actually run `python public_check.py`; the fix below is based on static code reasoning against the script provided in public_check.py.",
+        "diagnosis": "In phases(), the frame phase called the framer once, then if the returned FrameRecord's acceptance_criteria didn't match the frozen external contract, it immediately emitted a gap report \u2014 even though write_with_retry already retries malformed Scribe writes within MAX_RECORD_RETRIES. There was no retry path for a semantically-wrong-but-well-formed reply (changed acceptance criteria), so a scripted corrective second reply within the call ceiling was never used.",
+        "evidence": [
+          "public_check.py scripts three framer replies: a mismatched one, then canned frame_v1 (correct), then frame_v2, expecting outcome=='solution' and frames all equal to the frozen criterion",
+          "Original code at tools/system_controller.py frame phase (~L1134-1139) returned finish(\"gap\", ...) on the first mismatch with no re-ask"
+        ],
+        "remaining": [
+          "Run `python public_check.py` in an environment with shell access to confirm outcome=='solution' and frames all equal ['fix the duplicate']",
+          "Confirm behavior when the framer never corrects within MAX_RECORD_RETRIES (should still fall through to the gap report)"
+        ],
+        "status": "partial"
+      },
+      "schema_version": 2
+    },
+    "evaluation_report_digest": "06fd88fc7276e20c3343b30ae762fe01fdb51743ec78f58caf4ccf23081c26ba",
+    "evaluation_transport": {
+      "canonicalised": true,
+      "mode": "claude-code-json-schema-v2",
+      "raw_result_sha256": "f67b54c076e596d7b2ce8141dcd106d7b94f84ba028c5c02aa41a5eb55bd88a6",
+      "result_subtype": "success",
+      "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+      "structured_output_present": true,
+      "structured_retry_limit": 5
+    },
+    "finished_at": "2026-09-30T17:40:25.928389+00:00",
+    "identity_valid": true,
+    "intent_digest": "899d24792cd2d3651da0f8140e5559f4dc32a7cf9931ab4f506d1e2cebcba36d",
+    "invocation_id": "fd663a52b0c84e82955090ffd15d89ef",
+    "q4t_diagnostics": {
+      "billed_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-sonnet-5"
+      ],
+      "child_models": [],
+      "error_codes": [],
+      "event_types": {
+        "assistant": 18,
+        "rate_limit_event": 1,
+        "result": 1,
+        "system": 15,
+        "user": 10
+      },
+      "invalid_line_count": 0,
+      "num_turns": 11,
+      "real_root_models": [
+        "claude-sonnet-5"
+      ],
+      "reported_cost_usd": 0.18423360000000003,
+      "reported_usage": {
+        "cache_creation_input_tokens": 28771,
+        "cache_read_input_tokens": 176058,
+        "input_tokens": 18,
+        "output_tokens": 3259
+      },
+      "result_subtype": "success",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 241798,
+      "stdout_sha256": "421f679826117aa1272fbc405763deca26af4ccde01b291d68610ee79399df45",
+      "structured_output_field_present": true,
+      "synthetic_root_markers": []
+    },
+    "requested_cell": "worker-sonnet-low",
+    "requested_effort": "low",
+    "returncode": 0,
+    "revision_id": "7fd82d8715940b108688fc10886e2819e15d4d8debcf93309235df00abd1a698",
+    "root_models": [
+      "claude-sonnet-5"
+    ],
+    "served_effort": null,
+    "started_at": "2026-09-30T17:39:43.928672+00:00",
+    "status": "completed",
+    "stream": {
+      "invalid_line_count": 0
+    },
+    "terminal": true,
+    "timed_out": false,
+    "usage": {
+      "cache_creation_input_tokens": 28771,
+      "cache_read_input_tokens": 176058,
+      "cost_source": "provider_reported",
+      "cost_usd": 0.18423360000000003,
+      "currency": "USD",
+      "input_tokens": 18,
+      "output_tokens": 3259
+    },
+    "wall_clock_s": 41.999747,
+    "writer_stopped": true
+  },
+  "root_id": "0475ead5cd55ed149d3747cf",
+  "spent_usd": 0.184233601,
+  "state": "ready",
+  "verification": {
+    "contract": {
+      "command": [
+        "python3",
+        "-B",
+        "public_check.py"
+      ],
+      "constraints": [
+        "Only tools/system_controller.py may change"
+      ],
+      "criteria": [
+        "The isolated public check passes"
+      ],
+      "kind": "command",
+      "protected_paths": [
+        "ISSUE.md",
+        "LICENSE",
+        "public_check.py",
+        "src/System/PUBLIC_ASSESSMENT_PROMPT.md",
+        "src/System/ROLES.md",
+        "src/System/STEPS.md",
+        "src/System/SYSTEM.md",
+        "src/System/TECHNIQUES.md",
+        "src/System/schemas/BudgetEntry.schema.json",
+        "src/System/schemas/CandidateRecord.schema.json",
+        "src/System/schemas/ControllerEvidencePacket.schema.json",
+        "src/System/schemas/CritiqueRecord.schema.json",
+        "src/System/schemas/EvaluationRecord.schema.json",
+        "src/System/schemas/FrameRecord.schema.json",
+        "src/System/schemas/GapReport.schema.json",
+        "src/System/schemas/MeasurementRecord.schema.json",
+        "src/System/schemas/PhaseDigest.schema.json",
+        "src/System/schemas/PremiseRecord.schema.json",
+        "src/System/schemas/ProblemRecord.schema.json",
+        "src/System/schemas/RigourAssessment.schema.json",
+        "src/System/schemas/RoutingDecision.schema.json",
+        "src/System/schemas/RoutingLedgerEntry.schema.json",
+        "src/System/schemas/SelectionRecord.schema.json",
+        "src/System/schemas/SolutionRecord.schema.json",
+        "src/cost_table.json",
+        "src/model_registry.json",
+        "src/routing_priors.json",
+        "src/routing_table.json",
+        "tools/acceptance.py",
+        "tools/claudep.py",
+        "tools/context_probe.py",
+        "tools/controller_control.py",
+        "tools/controller_dispatch.py",
+        "tools/controller_integrity.py",
+        "tools/controller_policy.py",
+        "tools/controller_profile_policy.py",
+        "tools/controller_public_assessment.py",
+        "tools/controller_workflow.py",
+        "tools/controller_wsl_interpreter.py",
+        "tools/controller_wsl_launch.py",
+        "tools/dispatch_budget.py",
+        "tools/handoff.py",
+        "tools/managed_delegation.py",
+        "tools/model_registry.py",
+        "tools/route.py",
+        "tools/system_prompts.py",
+        "tools/task_executor.py",
+        "tools/validate_records.py",
+        "tools/worker_adapter.py",
+        "tools/worker_selector.py",
+        "tools/worker_tasks.py"
+      ],
+      "required_outputs": [
+        "tools/system_controller.py"
+      ],
+      "rubric": [],
+      "timeout_s": 30.0,
+      "version": 1
+    },
+    "contract_digest": "08575c42a533997127fbbbcf701019ebf212a3e58db42d678f64f6b38632be61",
+    "contract_version": "acceptance-v2",
+    "evidence": {
+      "artefacts": {
+        "digest": "f939a7d523c08db95b322df2199681917417c7a8a8fc2207c2c9fc8ac9ed4ac4",
+        "files": [
+          {
+            "path": "tools/system_controller.py",
+            "sha256": "7cdf8cdbad8123b2864f7d02bb3b4dd1cf0bd16b3067cc56bc5849426c9fd9a6",
+            "size": 118017
+          }
+        ],
+        "missing": []
+      },
+      "blocked_reason": null,
+      "command": {
+        "argv": [
+          "python3",
+          "-B",
+          "public_check.py"
+        ],
+        "exit_code": 1,
+        "isolation_evidence": {
+          "artefacts_digest": "f939a7d523c08db95b322df2199681917417c7a8a8fc2207c2c9fc8ac9ed4ac4",
+          "boundary": "fresh Q4U WSL namespace, uid 65534, no credentials",
+          "manifest_sha256": "ca3e655a937508b0b31bc0ba6b62d5c1ea4a01c836120621116fc6ba203608c4",
+          "protected_digest": "212ec677ecd82558dabf95d243c104f5b680b6a9845d875018982c144b712c5e",
+          "sha256": "52be812c7f07fcd08b41621ff614cb6fcfdff9bbb419e5e2406fac11ce104d93"
+        },
+        "stderr": "Traceback (most recent call last):\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/public_check.py\", line 52, in <module>\n    main()\n    ~~~~^^\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/public_check.py\", line 35, in main\n    result = controller.run_quick(\n        \"Duplicate accounts from whitespace; legacy_ids.py is frozen.\",\n        Path(folder), 5.0, 30, lambda _remaining: fake, run_id=\"public\",\n        acceptance=acceptance(),\n    )\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/tools/system_controller.py\", line 962, in run_quick\n    return _run_quick(problem_text, project, budget_usd, timeout, runner_factory, dirs, deadline,\n                      integrity_policy, frozen_acceptance, input_revision_override)\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/tools/system_controller.py\", line 1385, in _run_quick\n    return phases()\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/tools/system_controller.py\", line 1169, in phases\n    recs = call(\"verify\", \"verifier\", build_verify_prompt(problem, premise, project))\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/tools/system_controller.py\", line 1082, in call\n    return commit_reply(raw_call(phase, role, prompt,\n                        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n                                 technique=technique, call_cap_usd=call_cap_usd))\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/tools/system_controller.py\", line 1062, in raw_call\n    return runner(phase, role, prompt, timeout=call_timeout,\n                  technique=technique, call_cap_usd=call_cap_usd)\n  File \"/var/lib/orchestrator-worker-n4/actors/q1-2cc198ba50f440a3a9e6071bf9c0be37/tools/system_controller.py\", line 565, in __call__\n    raise AssertionError(f\"selftest script exhausted for (phase={phase!r}, role={role!r})\")\nAssertionError: selftest script exhausted for (phase='verify', role='verifier')\n",
+        "stdout": "",
+        "timed_out": false
+      },
+      "finished_at": "2026-09-30T17:40:26.673910+00:00",
+      "kind": "command",
+      "protected": {
+        "digest": "212ec677ecd82558dabf95d243c104f5b680b6a9845d875018982c144b712c5e",
+        "files": [
+          {
+            "path": "ISSUE.md",
+            "sha256": "5c398c48914fd00207ea4204b6b07b07f6a6197ec81b9667a442f13e4de3cda7",
+            "size": 681
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "size": 11358
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "1acde14ab868113620b57638aa559faa3332da44d030ed22d231558a27d11858",
+            "size": 2230
+          },
+          {
+            "path": "src/System/PUBLIC_ASSESSMENT_PROMPT.md",
+            "sha256": "aaef1199bba77b60a11066e12739e7d4aaf37b90f4a3e31f1683922b3af748b9",
+            "size": 3635
+          },
+          {
+            "path": "src/System/ROLES.md",
+            "sha256": "81894a4fcc3554df5d64faa6481a7661f4983eb637f7f1dfc344b6519efc57e8",
+            "size": 13869
+          },
+          {
+            "path": "src/System/STEPS.md",
+            "sha256": "36ea1bc3181ee376481611712441347d28d2a14a2ae0289379a8f224842d5520",
+            "size": 7888
+          },
+          {
+            "path": "src/System/SYSTEM.md",
+            "sha256": "9c1ecc682103f9ee611ec51069f07e9a907799d4a68026c37f9db5b41abbe2e4",
+            "size": 15175
+          },
+          {
+            "path": "src/System/TECHNIQUES.md",
+            "sha256": "002fb8d825a66382f1011a5796c65d7f907340789e216d38691e7ac68da19340",
+            "size": 11788
+          },
+          {
+            "path": "src/System/schemas/BudgetEntry.schema.json",
+            "sha256": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
+            "size": 2595
+          },
+          {
+            "path": "src/System/schemas/CandidateRecord.schema.json",
+            "sha256": "32d20d1e5b68fbeb9d75dcecffd5b62564239940e1fbdd820ef210be892b5634",
+            "size": 3547
+          },
+          {
+            "path": "src/System/schemas/ControllerEvidencePacket.schema.json",
+            "sha256": "a1edcfe362d356738ba193a29b519b88466edaad5be220056468f30a15db5c60",
+            "size": 3675
+          },
+          {
+            "path": "src/System/schemas/CritiqueRecord.schema.json",
+            "sha256": "397f4376aa6d4eb303d4d3e0ff6b5cf5bcad82057ac07aa05a4e16b65c10fccb",
+            "size": 2864
+          },
+          {
+            "path": "src/System/schemas/EvaluationRecord.schema.json",
+            "sha256": "183cc9fa899782932da9054a6adf4d36c0a6474a043b5c8abb30bf512f12951d",
+            "size": 2242
+          },
+          {
+            "path": "src/System/schemas/FrameRecord.schema.json",
+            "sha256": "e2f1907aa81d481f9b9fe35f0bd40e52faf6b2d0266c3055ea6602aa6ec295d0",
+            "size": 3766
+          },
+          {
+            "path": "src/System/schemas/GapReport.schema.json",
+            "sha256": "e74d3b5b832c0e75e0061540ef6cb573788c56bda6976588b94c704994ba4172",
+            "size": 2530
+          },
+          {
+            "path": "src/System/schemas/MeasurementRecord.schema.json",
+            "sha256": "f5ea8277aa964a16e57c5f2bdaef835f56f4cffb602b19d1ca636e93b819cbc2",
+            "size": 2132
+          },
+          {
+            "path": "src/System/schemas/PhaseDigest.schema.json",
+            "sha256": "3252e3f87bfb99130010ec4c1f7ed565752058fead0a3a8f94249d88a134530b",
+            "size": 2317
+          },
+          {
+            "path": "src/System/schemas/PremiseRecord.schema.json",
+            "sha256": "f6abe384e4066a0f9977128e94ef4a25d3a690c3128f4a2b51fe504c50d06bb3",
+            "size": 2855
+          },
+          {
+            "path": "src/System/schemas/ProblemRecord.schema.json",
+            "sha256": "71c78494e5eb4892cf5f32d92d5eceb79d28c926344da92cbb5196e860b8a177",
+            "size": 2419
+          },
+          {
+            "path": "src/System/schemas/RigourAssessment.schema.json",
+            "sha256": "b50bfb66d6c6e8447b2654ac0486add221b0b2c3d58947e538b5a501c23f3694",
+            "size": 2192
+          },
+          {
+            "path": "src/System/schemas/RoutingDecision.schema.json",
+            "sha256": "8c62f346ff8f869fa4e9194e0723d1c48f5a079de439c70504ab8c7376817497",
+            "size": 2527
+          },
+          {
+            "path": "src/System/schemas/RoutingLedgerEntry.schema.json",
+            "sha256": "fc50a94e32861df858e1bdd238fb5ee4cfef5622562d2cbc9460ee197f45999e",
+            "size": 11928
+          },
+          {
+            "path": "src/System/schemas/SelectionRecord.schema.json",
+            "sha256": "7c7bc5178d297d4ffbf9bcb3ffadacf27735145868be3012363c514f517f28c6",
+            "size": 2916
+          },
+          {
+            "path": "src/System/schemas/SolutionRecord.schema.json",
+            "sha256": "6c40620df1102f08325c32e01024c92f6d7d1e23f7bef8bb281ea7f2eb246e82",
+            "size": 2549
+          },
+          {
+            "path": "src/cost_table.json",
+            "sha256": "faf64bf87d0fac403aa4a6b86dbd28741bdf2e2f8ca556a176ec3f452300306b",
+            "size": 12598
+          },
+          {
+            "path": "src/model_registry.json",
+            "sha256": "0ce39fb88eb4732ec1e0327d70ce74b01aa102e255e361d9b4d69a1656e7e3ec",
+            "size": 6145
+          },
+          {
+            "path": "src/routing_priors.json",
+            "sha256": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
+            "size": 31735
+          },
+          {
+            "path": "src/routing_table.json",
+            "sha256": "7b4d0558ecc230d8f55c4f0ed786e292ecdb65c3dfc8aee6ddb3012091b07626",
+            "size": 1686
+          },
+          {
+            "path": "tools/acceptance.py",
+            "sha256": "ca556812ec778b5abe9fc52acef813f2ce8f2dfc1c53e4a85e5cdaf1072de45d",
+            "size": 22984
+          },
+          {
+            "path": "tools/claudep.py",
+            "sha256": "82a611276d57631eace8d7ad6ecb634c5f87d323e0293b2695cfc6acf7646b84",
+            "size": 25723
+          },
+          {
+            "path": "tools/context_probe.py",
+            "sha256": "6bbe5bb0bbb5b00cdc50e82a97065386b05f2a5c627335f49192ebdabac6e557",
+            "size": 23691
+          },
+          {
+            "path": "tools/controller_control.py",
+            "sha256": "f86f7fe7d43f923a841126cca99d98245db47cd3f1f22a1ce9bd8426bc3dd0b4",
+            "size": 18142
+          },
+          {
+            "path": "tools/controller_dispatch.py",
+            "sha256": "71fd20b8611fe106523964db1ce83fd1a6354bae0ae8c56df9916406bf1b9305",
+            "size": 27792
+          },
+          {
+            "path": "tools/controller_integrity.py",
+            "sha256": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
+            "size": 9621
+          },
+          {
+            "path": "tools/controller_policy.py",
+            "sha256": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+            "size": 11464
+          },
+          {
+            "path": "tools/controller_profile_policy.py",
+            "sha256": "4f74897c444d81c0fae2f50c60b1979aa89e11cccc99524fe5bd52e5f53a7a8f",
+            "size": 5655
+          },
+          {
+            "path": "tools/controller_public_assessment.py",
+            "sha256": "f08379c6187887a2035ab6807275a46428897af3606f3d1eacd0b7b3928c3924",
+            "size": 15696
+          },
+          {
+            "path": "tools/controller_workflow.py",
+            "sha256": "6d69d4e01212cd58aff58d0ae0e280d7226972ec725b1f03880921175df3d20a",
+            "size": 6742
+          },
+          {
+            "path": "tools/controller_wsl_interpreter.py",
+            "sha256": "e1496d53b62558c9b2db6285e6bd66ac7da3e9d16c48fd31050186680d60953d",
+            "size": 12309
+          },
+          {
+            "path": "tools/controller_wsl_launch.py",
+            "sha256": "2a4cb4460b8ccf8cc6927f721614bca8683c6d0028ca6b520b1c3c6efaf8694e",
+            "size": 2753
+          },
+          {
+            "path": "tools/dispatch_budget.py",
+            "sha256": "132ec13a50f75b561a17ace6a4d7220f3cfd9532630da5315bedf077ff1ac41e",
+            "size": 15648
+          },
+          {
+            "path": "tools/handoff.py",
+            "sha256": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
+            "size": 21292
+          },
+          {
+            "path": "tools/managed_delegation.py",
+            "sha256": "35cb9dd8be2f0d9b285f42b01a1f2cb03dc7d8e26185f42b81a389a855c78e71",
+            "size": 39950
+          },
+          {
+            "path": "tools/model_registry.py",
+            "sha256": "675b2d607ef3e9e7a43e7cc45cb5f31fc827a969652a74d359b0670cfb9e5480",
+            "size": 8929
+          },
+          {
+            "path": "tools/route.py",
+            "sha256": "38781853708428a65da197c2ad7bda8b1b643c5ee69526bdb43e15182eb489b4",
+            "size": 156633
+          },
+          {
+            "path": "tools/system_prompts.py",
+            "sha256": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
+            "size": 4385
+          },
+          {
+            "path": "tools/task_executor.py",
+            "sha256": "4693718ccd9a5ef0d08207c55ea0a52155ce0396b3fab6e74c208c4067c44126",
+            "size": 115414
+          },
+          {
+            "path": "tools/validate_records.py",
+            "sha256": "beca6a70a948a9cf5b9d12193c09c2663125d86171169b9fdb4c9f509fe9b8a3",
+            "size": 9844
+          },
+          {
+            "path": "tools/worker_adapter.py",
+            "sha256": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+            "size": 14300
+          },
+          {
+            "path": "tools/worker_selector.py",
+            "sha256": "472972d1b2e9cb051a6ccaaa048bed3c6745c24a765b297bafb61cb1f581a776",
+            "size": 11233
+          },
+          {
+            "path": "tools/worker_tasks.py",
+            "sha256": "549b8552fe73f8dfa5cd2d4d1e63905561e63925f6cf51b4b30dac00492b6916",
+            "size": 10334
+          }
+        ],
+        "missing": []
+      },
+      "protected_unchanged": true,
+      "result_digest": "3ba2483704dd1b69b3ff0e5172a7732332750ef10f1ea742969d560831846069",
+      "result_path": ".claude/acceptance/0475ead5cd55ed149d3747cf-1-1.json",
+      "revision": {
+        "diff_sha256": null,
+        "head": null,
+        "status_sha256": null
+      },
+      "started_at": "2026-09-30T17:40:25.962127+00:00"
+    },
+    "protected_baseline": {
+      "digest": "212ec677ecd82558dabf95d243c104f5b680b6a9845d875018982c144b712c5e",
+      "files": [
+        {
+          "path": "ISSUE.md",
+          "sha256": "5c398c48914fd00207ea4204b6b07b07f6a6197ec81b9667a442f13e4de3cda7",
+          "size": 681
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "size": 11358
+        },
+        {
+          "path": "public_check.py",
+          "sha256": "1acde14ab868113620b57638aa559faa3332da44d030ed22d231558a27d11858",
+          "size": 2230
+        },
+        {
+          "path": "src/System/PUBLIC_ASSESSMENT_PROMPT.md",
+          "sha256": "aaef1199bba77b60a11066e12739e7d4aaf37b90f4a3e31f1683922b3af748b9",
+          "size": 3635
+        },
+        {
+          "path": "src/System/ROLES.md",
+          "sha256": "81894a4fcc3554df5d64faa6481a7661f4983eb637f7f1dfc344b6519efc57e8",
+          "size": 13869
+        },
+        {
+          "path": "src/System/STEPS.md",
+          "sha256": "36ea1bc3181ee376481611712441347d28d2a14a2ae0289379a8f224842d5520",
+          "size": 7888
+        },
+        {
+          "path": "src/System/SYSTEM.md",
+          "sha256": "9c1ecc682103f9ee611ec51069f07e9a907799d4a68026c37f9db5b41abbe2e4",
+          "size": 15175
+        },
+        {
+          "path": "src/System/TECHNIQUES.md",
+          "sha256": "002fb8d825a66382f1011a5796c65d7f907340789e216d38691e7ac68da19340",
+          "size": 11788
+        },
+        {
+          "path": "src/System/schemas/BudgetEntry.schema.json",
+          "sha256": "c5857b1301cee30bc067f709df3614d91f2000d53f664f97d4aa5ffacb66d65e",
+          "size": 2595
+        },
+        {
+          "path": "src/System/schemas/CandidateRecord.schema.json",
+          "sha256": "32d20d1e5b68fbeb9d75dcecffd5b62564239940e1fbdd820ef210be892b5634",
+          "size": 3547
+        },
+        {
+          "path": "src/System/schemas/ControllerEvidencePacket.schema.json",
+          "sha256": "a1edcfe362d356738ba193a29b519b88466edaad5be220056468f30a15db5c60",
+          "size": 3675
+        },
+        {
+          "path": "src/System/schemas/CritiqueRecord.schema.json",
+          "sha256": "397f4376aa6d4eb303d4d3e0ff6b5cf5bcad82057ac07aa05a4e16b65c10fccb",
+          "size": 2864
+        },
+        {
+          "path": "src/System/schemas/EvaluationRecord.schema.json",
+          "sha256": "183cc9fa899782932da9054a6adf4d36c0a6474a043b5c8abb30bf512f12951d",
+          "size": 2242
+        },
+        {
+          "path": "src/System/schemas/FrameRecord.schema.json",
+          "sha256": "e2f1907aa81d481f9b9fe35f0bd40e52faf6b2d0266c3055ea6602aa6ec295d0",
+          "size": 3766
+        },
+        {
+          "path": "src/System/schemas/GapReport.schema.json",
+          "sha256": "e74d3b5b832c0e75e0061540ef6cb573788c56bda6976588b94c704994ba4172",
+          "size": 2530
+        },
+        {
+          "path": "src/System/schemas/MeasurementRecord.schema.json",
+          "sha256": "f5ea8277aa964a16e57c5f2bdaef835f56f4cffb602b19d1ca636e93b819cbc2",
+          "size": 2132
+        },
+        {
+          "path": "src/System/schemas/PhaseDigest.schema.json",
+          "sha256": "3252e3f87bfb99130010ec4c1f7ed565752058fead0a3a8f94249d88a134530b",
+          "size": 2317
+        },
+        {
+          "path": "src/System/schemas/PremiseRecord.schema.json",
+          "sha256": "f6abe384e4066a0f9977128e94ef4a25d3a690c3128f4a2b51fe504c50d06bb3",
+          "size": 2855
+        },
+        {
+          "path": "src/System/schemas/ProblemRecord.schema.json",
+          "sha256": "71c78494e5eb4892cf5f32d92d5eceb79d28c926344da92cbb5196e860b8a177",
+          "size": 2419
+        },
+        {
+          "path": "src/System/schemas/RigourAssessment.schema.json",
+          "sha256": "b50bfb66d6c6e8447b2654ac0486add221b0b2c3d58947e538b5a501c23f3694",
+          "size": 2192
+        },
+        {
+          "path": "src/System/schemas/RoutingDecision.schema.json",
+          "sha256": "8c62f346ff8f869fa4e9194e0723d1c48f5a079de439c70504ab8c7376817497",
+          "size": 2527
+        },
+        {
+          "path": "src/System/schemas/RoutingLedgerEntry.schema.json",
+          "sha256": "fc50a94e32861df858e1bdd238fb5ee4cfef5622562d2cbc9460ee197f45999e",
+          "size": 11928
+        },
+        {
+          "path": "src/System/schemas/SelectionRecord.schema.json",
+          "sha256": "7c7bc5178d297d4ffbf9bcb3ffadacf27735145868be3012363c514f517f28c6",
+          "size": 2916
+        },
+        {
+          "path": "src/System/schemas/SolutionRecord.schema.json",
+          "sha256": "6c40620df1102f08325c32e01024c92f6d7d1e23f7bef8bb281ea7f2eb246e82",
+          "size": 2549
+        },
+        {
+          "path": "src/cost_table.json",
+          "sha256": "faf64bf87d0fac403aa4a6b86dbd28741bdf2e2f8ca556a176ec3f452300306b",
+          "size": 12598
+        },
+        {
+          "path": "src/model_registry.json",
+          "sha256": "0ce39fb88eb4732ec1e0327d70ce74b01aa102e255e361d9b4d69a1656e7e3ec",
+          "size": 6145
+        },
+        {
+          "path": "src/routing_priors.json",
+          "sha256": "9e9e72fc59a777646bcd50f3cf97356cc946d824a6bca451cbd7b95811b451cf",
+          "size": 31735
+        },
+        {
+          "path": "src/routing_table.json",
+          "sha256": "7b4d0558ecc230d8f55c4f0ed786e292ecdb65c3dfc8aee6ddb3012091b07626",
+          "size": 1686
+        },
+        {
+          "path": "tools/acceptance.py",
+          "sha256": "ca556812ec778b5abe9fc52acef813f2ce8f2dfc1c53e4a85e5cdaf1072de45d",
+          "size": 22984
+        },
+        {
+          "path": "tools/claudep.py",
+          "sha256": "82a611276d57631eace8d7ad6ecb634c5f87d323e0293b2695cfc6acf7646b84",
+          "size": 25723
+        },
+        {
+          "path": "tools/context_probe.py",
+          "sha256": "6bbe5bb0bbb5b00cdc50e82a97065386b05f2a5c627335f49192ebdabac6e557",
+          "size": 23691
+        },
+        {
+          "path": "tools/controller_control.py",
+          "sha256": "f86f7fe7d43f923a841126cca99d98245db47cd3f1f22a1ce9bd8426bc3dd0b4",
+          "size": 18142
+        },
+        {
+          "path": "tools/controller_dispatch.py",
+          "sha256": "71fd20b8611fe106523964db1ce83fd1a6354bae0ae8c56df9916406bf1b9305",
+          "size": 27792
+        },
+        {
+          "path": "tools/controller_integrity.py",
+          "sha256": "8386bb383ba12ae7797c0231cbf84051364acddfee8a1957847a2dd344b613ea",
+          "size": 9621
+        },
+        {
+          "path": "tools/controller_policy.py",
+          "sha256": "523d991fd9d2bc22f0b8bc28aa4b5e862cf4ab20814abdcd322ab006dda1e816",
+          "size": 11464
+        },
+        {
+          "path": "tools/controller_profile_policy.py",
+          "sha256": "4f74897c444d81c0fae2f50c60b1979aa89e11cccc99524fe5bd52e5f53a7a8f",
+          "size": 5655
+        },
+        {
+          "path": "tools/controller_public_assessment.py",
+          "sha256": "f08379c6187887a2035ab6807275a46428897af3606f3d1eacd0b7b3928c3924",
+          "size": 15696
+        },
+        {
+          "path": "tools/controller_workflow.py",
+          "sha256": "6d69d4e01212cd58aff58d0ae0e280d7226972ec725b1f03880921175df3d20a",
+          "size": 6742
+        },
+        {
+          "path": "tools/controller_wsl_interpreter.py",
+          "sha256": "e1496d53b62558c9b2db6285e6bd66ac7da3e9d16c48fd31050186680d60953d",
+          "size": 12309
+        },
+        {
+          "path": "tools/controller_wsl_launch.py",
+          "sha256": "2a4cb4460b8ccf8cc6927f721614bca8683c6d0028ca6b520b1c3c6efaf8694e",
+          "size": 2753
+        },
+        {
+          "path": "tools/dispatch_budget.py",
+          "sha256": "132ec13a50f75b561a17ace6a4d7220f3cfd9532630da5315bedf077ff1ac41e",
+          "size": 15648
+        },
+        {
+          "path": "tools/handoff.py",
+          "sha256": "6a0ff8a6cc80efcc8bc11bdf7011f65db845d0e52df55ad683a61cb43cc743ed",
+          "size": 21292
+        },
+        {
+          "path": "tools/managed_delegation.py",
+          "sha256": "35cb9dd8be2f0d9b285f42b01a1f2cb03dc7d8e26185f42b81a389a855c78e71",
+          "size": 39950
+        },
+        {
+          "path": "tools/model_registry.py",
+          "sha256": "675b2d607ef3e9e7a43e7cc45cb5f31fc827a969652a74d359b0670cfb9e5480",
+          "size": 8929
+        },
+        {
+          "path": "tools/route.py",
+          "sha256": "38781853708428a65da197c2ad7bda8b1b643c5ee69526bdb43e15182eb489b4",
+          "size": 156633
+        },
+        {
+          "path": "tools/system_prompts.py",
+          "sha256": "e450f464fd3c2859243271e7af75e12ccd911c4004a2dbc80141c93dd17d5555",
+          "size": 4385
+        },
+        {
+          "path": "tools/task_executor.py",
+          "sha256": "4693718ccd9a5ef0d08207c55ea0a52155ce0396b3fab6e74c208c4067c44126",
+          "size": 115414
+        },
+        {
+          "path": "tools/validate_records.py",
+          "sha256": "beca6a70a948a9cf5b9d12193c09c2663125d86171169b9fdb4c9f509fe9b8a3",
+          "size": 9844
+        },
+        {
+          "path": "tools/worker_adapter.py",
+          "sha256": "2e5d6355cd380767edd69721f903221545f7ae26caefbe96d1db8d233991d838",
+          "size": 14300
+        },
+        {
+          "path": "tools/worker_selector.py",
+          "sha256": "472972d1b2e9cb051a6ccaaa048bed3c6745c24a765b297bafb61cb1f581a776",
+          "size": 11233
+        },
+        {
+          "path": "tools/worker_tasks.py",
+          "sha256": "549b8552fe73f8dfa5cd2d4d1e63905561e63925f6cf51b4b30dac00492b6916",
+          "size": 10334
+        }
+      ],
+      "missing": []
+    },
+    "review": null,
+    "status": "fail"
+  }
+}

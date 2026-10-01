@@ -1,0 +1,24 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-003",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "prem-001",
+    "prem-012"
+  ],
+  "technique": "abduce",
+  "premise_operation": "add",
+  "mechanism": "The statement lists 'premature acknowledgement' as a mechanism but does not state why acknowledgement and receipt-write are ever separable events. If the two are not bound by a shared transaction or an outbox/write-ahead record, and acknowledgement instead follows the processing decision rather than confirmed receipt persistence, a crash, delay or failure between the two leaves a gap with no compensating record. This premise explains why premature acknowledgement is architecturally possible in this design rather than merely a labelled possibility, and it is discriminating: if ack and write are shown to share a transaction boundary, premature acknowledgement collapses into writer failure as the same underlying event, narrowing the three-way hypothesis set to two before any other check is run.",
+  "claimed_gain_vs_b0": "Supplies a structural reason premature acknowledgement is possible and a check whose outcome can merge two of B0's three hypotheses, which B0 does not offer.",
+  "premises_introduced": [
+    {
+      "text": "Acknowledgement and the receipt-store write are not bound by a shared transaction, outbox or write-ahead record; acknowledgement follows the processing decision, not confirmed receipt persistence.",
+      "class": "unverified"
+    }
+  ],
+  "falsification_test": "Check whether acknowledgement emission and the receipt write occur within one atomic transaction or outbox boundary; if so, premature acknowledgement and writer failure are not distinct mechanisms and the premise is false.",
+  "cost_estimate_usd": 0.4,
+  "refines": null
+}

@@ -1,0 +1,11 @@
+{
+  "episode_label": "b0-a",
+  "files": {
+    "more_itertools/more.py": "a4c609f81be675b23a63a184ca56898777bd04ac3797306a417bb06a7f85e3ea",
+    "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+  },
+  "schema_version": 1,
+  "sequence": 10,
+  "snapshot_sha256": "9b4d482b367df3f98070097aa8ef3a01452e062f4f7f1442c3334add7031d79e",
+  "task_id": "S05"
+}

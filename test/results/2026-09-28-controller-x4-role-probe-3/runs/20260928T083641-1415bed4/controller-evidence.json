@@ -1,0 +1,96 @@
+{
+  "packet_version": 1,
+  "task_revision": "d92bb8efed7c4abbc483e3346ce7dc11031c93192d7dc7b6e9c2bba479ffce28",
+  "task_digest": "e501f929f65a92acedb84842aeb5e59217b9e9ea52193ed162827861c2c30640",
+  "acceptance_contract_digest": "297afcde2d9b197c59fff01146b9cc25f0506b51278950be9d1014bd0b532965",
+  "acceptance_source": "framer-provisional",
+  "input_snapshot_digest": "e32e75427270586cfaef1f71fbf0e3e558f97c243be3865e9136968627cdf232",
+  "outcome": "gap",
+  "readiness": "provisional-guidance",
+  "premise_ids": [
+    "prem-001",
+    "prem-011",
+    "prem-012",
+    "prem-013",
+    "prem-005",
+    "prem-006",
+    "prem-007",
+    "prem-008",
+    "prem-009",
+    "prem-015",
+    "prem-014"
+  ],
+  "candidate_ids": [
+    "cand-001"
+  ],
+  "verified_findings": [
+    {
+      "premise_id": "prem-011",
+      "text": "No concrete occurrence is available: the statement asserts only that a receipt can be absent after an acknowledgement. No job id, log excerpt or observation record exists, so the symptom is a stated possibility, not a measured event.",
+      "source": "meas-002: problem.md read in full and grepped for 'job'; only the generic phrase 'acknowledges jobs from a queue' matched, and no observation record is present.",
+      "confidence": 0.9
+    },
+    {
+      "premise_id": "prem-012",
+      "text": "The available notes do not determine the cause. problem.md contains the statement plus task instructions only, with no field, status or log excerpt selecting writer failure, premature acknowledgement or idempotency suppression.",
+      "source": "meas-003: problem.md lines 1-14 read in full; no data resolves which explanation applies.",
+      "confidence": 0.95
+    },
+    {
+      "premise_id": "prem-013",
+      "text": "The three named explanations are not exhaustive. Enumeration adds a stale or wrong-replica read, replication lag, and retention or expiry deleting a committed receipt; none collapses into the three, and the statement uses no closure language.",
+      "source": "meas-004: problem.md lines 3-6 list three causes; 'use only this statement' at line 9 scopes checks rather than the cause set; enumeration surfaced three further paths.",
+      "confidence": 0.9
+    },
+    {
+      "premise_id": "prem-015",
+      "text": "The statement declares a synthetic fixture with no production system or customer data and an investigation-brief deliverable, and no live endpoint, dataset or code binding exists in the working directory, so containment carries no live blast radius.",
+      "source": "meas-007: statement lines 5 and 10; meas-001 and meas-005: the directory holds only problem.md and run records, with no bound endpoint or dataset.",
+      "confidence": 0.9
+    },
+    {
+      "premise_id": "prem-014",
+      "text": "No fixture artefact beyond the 14-line statement exists: no writer code, idempotency branch, retry policy or log. Every check the brief proposes is therefore a design, unrunnable here, and prem-001, prem-005 and prem-006 cannot be closed.",
+      "source": "meas-001, meas-005 and meas-006: find and grep over the working directory returned only problem.md and run/record scaffolding, with no source file or policy document.",
+      "confidence": 0.9
+    }
+  ],
+  "rejected_hypotheses": [],
+  "remaining_uncertainties": [
+    {
+      "premise_id": "prem-001",
+      "text": "A job acknowledgement and its receipt write target two separate stores, so the two operations are not covered by a single commit.",
+      "next_test": "Read the fixture's writer path and confirm no shared transaction or outbox spans the queue ack and the receipt store."
+    },
+    {
+      "premise_id": "prem-005",
+      "text": "An idempotency check exists on the write path and is capable of suppressing a retry, since it is offered as a candidate cause.",
+      "next_test": "Locate the idempotency key derivation and the suppression branch in the fixture writer code."
+    },
+    {
+      "premise_id": "prem-006",
+      "text": "Retries occur on the write path, and at least some are legitimate rather than duplicates; without retries the suppression explanation is void.",
+      "next_test": "Check the fixture for a retry policy and for any record of a retry attempt on an affected job id."
+    }
+  ],
+  "safe_next_action": "none",
+  "operator_question": null,
+  "artefacts": [
+    {
+      "path": "REPORT.md",
+      "sha256": "c7d46146944585bd691e03699dd84a52c33bdd8bc501bb31046a1575a09d4be6",
+      "size": 4524
+    },
+    {
+      "path": "ledger.jsonl",
+      "sha256": "7b84a3de90ac369b3cf6581fe35d836b3b71d9fcf3fdfda540a3fc9b9f530413",
+      "size": 26172
+    }
+  ],
+  "accounting": {
+    "known_spend_usd": 1.652309002,
+    "reserved_usd": 0.0,
+    "accounting_complete": true
+  },
+  "packet_digest": "32f802df17ae15708a3fef4c56373b116472802f367da9d2ef9f67bd9e3a1fd9"
+}

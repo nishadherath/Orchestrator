@@ -1,0 +1,241 @@
+{
+  "schema_version": 2,
+  "record_type": "TaskRoot",
+  "root_id": "offline-pair-root",
+  "task_id": "offline-pair-root",
+  "state": "blocked",
+  "definition": {
+    "project_id": "d55bd832e31cab151da4bd4699de9d97",
+    "root_task_id": "offline-pair-root",
+    "task_id": "offline-pair-root",
+    "parent_task_id": null,
+    "goal": "# Ambiguous payment retry\n\nThe client can lose the response after a payment commits and retry with the\nsame idempotency key. Repair `payment.py` so a committed retry returns the\noriginal result without charging again. A key reused with a different amount\nmust be rejected, and keys belong to tenants. An attempt aborted before commit\nmust remain retryable. Keep `app.py` and the public check unchanged.\n\nSubmit a `report.json` with a completion claim, a causal diagnosis, observed\nreplay probes and a safe next step. A claim or probe earns credit only when\nthe evaluator independently reproduces the behaviour.\n",
+    "scope": [
+      "payment.py",
+      "report.json"
+    ],
+    "permissions": [
+      "read",
+      "edit"
+    ],
+    "input_revision": {
+      "git": {
+        "head": "15ecf6621d158299ed278659a769d03729ee50e0",
+        "diff_sha256": "a08df2c577a8de26c9636e2c1ae81f54ed630e871383a30883a8c082bd30c1e0",
+        "status_sha256": "420991586c95764b35aba448574e04482c8461ee365fc7398818864d9294b85f"
+      },
+      "input_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "content": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    },
+    "acceptance_definition": {
+      "contract_version": "acceptance-v2",
+      "contract": {
+        "version": 1,
+        "kind": "command",
+        "criteria": [
+          "public check passes"
+        ],
+        "constraints": [],
+        "required_outputs": [
+          "payment.py",
+          "report.json"
+        ],
+        "protected_paths": [
+          "issue.md",
+          "app.py",
+          "public_check.py"
+        ],
+        "command": [
+          "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "rubric": [],
+        "timeout_s": 10.0
+      },
+      "contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+      "protected_baseline": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    }
+  },
+  "definition_digest": "493e775e9cc631f366a0864d72af42d18598f52d4121e664ae9e4bcefecbb5e3",
+  "revision": {
+    "revision_number": 1,
+    "parent_revision_id": null,
+    "definition_digest": "493e775e9cc631f366a0864d72af42d18598f52d4121e664ae9e4bcefecbb5e3",
+    "change_reason": "initial",
+    "authority_id": "offline-pair-grant",
+    "revision_id": "c5cbe0feb8a7ed1bfdc3d0b79cac530175b6b9ba76e38073fa6ca945aab55ae4"
+  },
+  "admission": {
+    "actor": "offline-pair",
+    "authority_id": "offline-pair-grant",
+    "capability_digest": "f4e2d2835b3d28a15e084b48b67fb7ac730a363c9b46bf5c92d3b1964215534b",
+    "policy": "B0",
+    "policy_digest": "625367438cd97838c304d89369b772a18dedbd01efc68033b1feec33ff465c9d",
+    "campaign_prompt_digest": null,
+    "deadline_at": null
+  },
+  "ladder": [
+    "worker-sonnet-low",
+    "worker-sonnet-low",
+    "worker-opus-high"
+  ],
+  "axes": [
+    "structured",
+    "medium",
+    "contained"
+  ],
+  "attempts": [],
+  "journal": [
+    {
+      "sequence": 1,
+      "previous_digest": null,
+      "kind": "root_admitted",
+      "at": "2026-09-27T19:15:40.049701+00:00",
+      "data": {
+        "authority_id": "offline-pair-grant",
+        "definition_digest": "493e775e9cc631f366a0864d72af42d18598f52d4121e664ae9e4bcefecbb5e3"
+      },
+      "digest": "b1dadd4b827eaea2fe8caaa6b8919fcaf8996441e00a46b8493b6f51b34c1662"
+    },
+    {
+      "sequence": 2,
+      "previous_digest": "b1dadd4b827eaea2fe8caaa6b8919fcaf8996441e00a46b8493b6f51b34c1662",
+      "kind": "transition",
+      "at": "2026-09-27T19:15:40.049701+00:00",
+      "data": {
+        "source": "prepared",
+        "target": "ready",
+        "reason": ""
+      },
+      "digest": "26abc4380d4bf600eb9b8d57ad9bc0637c50aad406fcb374441cdc3b3c7f5d3f"
+    },
+    {
+      "sequence": 3,
+      "previous_digest": "26abc4380d4bf600eb9b8d57ad9bc0637c50aad406fcb374441cdc3b3c7f5d3f",
+      "kind": "public_assessment_admitted",
+      "at": "2026-09-27T19:15:59.023361+00:00",
+      "data": {
+        "invocation_id": "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7",
+        "packet_sha256": "4d395420d887a2a1ba526f9bd7e5abf1b95c52a5af9de287a284f6afe7347038"
+      },
+      "digest": "5639a867637bcc1bc4543e98c5803ac2c3e1a2460c6d1a4d1d463be2e960cb8c"
+    },
+    {
+      "sequence": 4,
+      "previous_digest": "5639a867637bcc1bc4543e98c5803ac2c3e1a2460c6d1a4d1d463be2e960cb8c",
+      "kind": "public_assessment_started",
+      "at": "2026-09-27T19:15:59.082390+00:00",
+      "data": {
+        "invocation_id": "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7"
+      },
+      "digest": "164fbe353e5a7787e944eb25f42717357b11a9d32141e2d059527854ad003406"
+    },
+    {
+      "sequence": 5,
+      "previous_digest": "164fbe353e5a7787e944eb25f42717357b11a9d32141e2d059527854ad003406",
+      "kind": "public_assessment_uncertain",
+      "at": "2026-09-27T19:16:02.257807+00:00",
+      "data": {
+        "invocation_id": "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7",
+        "reason": "WSL public assessment has no valid terminal success",
+        "cost_usd": null
+      },
+      "digest": "e70762c7582dd5f17ff3a8f9cc291df17422aa2530063e7cea0ddd599c5c4577"
+    },
+    {
+      "sequence": 6,
+      "previous_digest": "e70762c7582dd5f17ff3a8f9cc291df17422aa2530063e7cea0ddd599c5c4577",
+      "kind": "transition",
+      "at": "2026-09-27T19:16:02.257807+00:00",
+      "data": {
+        "source": "ready",
+        "target": "blocked",
+        "reason": "public assessment accounting or evidence uncertain"
+      },
+      "digest": "b2bb2f8d759b731af42ccba80839ebab85ab4c51420496f72078bca06923a48f"
+    },
+    {
+      "sequence": 7,
+      "previous_digest": "b2bb2f8d759b731af42ccba80839ebab85ab4c51420496f72078bca06923a48f",
+      "kind": "public_assessment_reconciled",
+      "at": "2026-09-27T19:33:27.830537+00:00",
+      "data": {
+        "invocation_id": "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7",
+        "actor": "codex-x4-investigation",
+        "evidence": "transport-diagnostic-sha256:248207a4af465ce85d28adfbb9b469b991b86ca3a261740ee15ca2ff7a982f60",
+        "cost_usd": 0.0,
+        "reconciliation_digest": "6493a18bb9a185817790a48b6b80d7ae7f42758b149cff9d68a037733a208b78"
+      },
+      "digest": "22b58b59fd05fdfbc12f1a174dbfd470bc9748e113f2f3726276d3f38e121103"
+    }
+  ],
+  "owner_generation": 0,
+  "decision_generation": 0,
+  "block": {
+    "reason": "public assessment accounting or evidence uncertain",
+    "resume_phase": null
+  },
+  "created_at": "2026-09-27T19:15:40.049701+00:00",
+  "public_assessment": {
+    "version": 1,
+    "revision_id": "c5cbe0feb8a7ed1bfdc3d0b79cac530175b6b9ba76e38073fa6ca945aab55ae4",
+    "invocation_id": "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7",
+    "packet_sha256": "4d395420d887a2a1ba526f9bd7e5abf1b95c52a5af9de287a284f6afe7347038",
+    "status": "invalid",
+    "result": null,
+    "result_digest": null,
+    "reconciliation": {
+      "actor": "codex-x4-investigation",
+      "reason": "CLI parser rejected JSON before provider dispatch",
+      "cost_usd": 0.0,
+      "evidence": "transport-diagnostic-sha256:248207a4af465ce85d28adfbb9b469b991b86ca3a261740ee15ca2ff7a982f60",
+      "writers_stopped": true
+    }
+  },
+  "record_digest": "2c9ee2f29831671aba85e5db554d42b5ea0b5e25fb85a7690895af2e3d591f5c"
+}

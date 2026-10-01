@@ -1,0 +1,100 @@
+{
+  "arm": "B",
+  "assessment_cost_usd": null,
+  "budget_spent_usd": 0.129476401,
+  "budget_unresolved": [],
+  "controller_invocations": 0,
+  "controller_profile": null,
+  "controller_role_call_count": null,
+  "controller_role_cost_usd": null,
+  "controller_run_dir": null,
+  "controller_stage": null,
+  "credential_reconciled": true,
+  "effective_action": null,
+  "elapsed_s": 87.644,
+  "error": null,
+  "grade": {
+    "accepted": false,
+    "components": {
+      "D": 0.0,
+      "E": 0.0,
+      "H": 1.0,
+      "M": 1.0,
+      "N": 0.0
+    },
+    "critical_violation": false,
+    "false_success": false,
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "restart_mid_batch",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "newer_target_survives",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "tombstone_not_resurrected",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": true,
+        "name": "restart_after_checkpoint",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": false,
+        "name": "normal_batch",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "critical": false,
+        "name": "unrelated_target",
+        "passed": true,
+        "weight": 10
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "bbfcb0a60723a0543ae84e45305354d9287396565cebeb229dadc1958d263e73",
+    "protected_edit": false,
+    "provider_calls": 0,
+    "public_check_passed": true,
+    "quality": 50.0,
+    "raw_quality": 50.0,
+    "schema_version": 1,
+    "semantic_outcome": "useful-partial",
+    "task_id": "X5-MIGRATE",
+    "verified_probes": []
+  },
+  "manifest_sha256": "1a8eb29b2f2b816dafed0f6bbe22613cc496ee9601e55a37e1bb0822a8a001bf",
+  "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-006-x5-migrate-b",
+  "required_admission_met": true,
+  "root_id": "01803ddce54f535ad6d377dd",
+  "schema_version": 1,
+  "sequence": 6,
+  "status": "completed",
+  "task_id": "X5-MIGRATE",
+  "task_state": "accepted",
+  "worker_attempt_count": 1,
+  "worker_attempts": [
+    {
+      "actual_model": "claude-sonnet-5",
+      "cost_usd": 0.12947640000000002,
+      "identity_valid": true,
+      "process_state": "terminal",
+      "requested_cell": "worker-sonnet-low",
+      "requested_effort": "low",
+      "served_effort": null,
+      "status": "completed",
+      "wall_clock_s": 77.244201
+    }
+  ]
+}

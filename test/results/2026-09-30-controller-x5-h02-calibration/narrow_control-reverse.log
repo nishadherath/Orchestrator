@@ -1,0 +1,5 @@
+...                                                                      [100%]sync factory coverage mismatch: ['test_sync_using_async_fixture']
+
+3 passed in 0.48s
+
+[stderr]

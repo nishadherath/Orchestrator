@@ -1,0 +1,139 @@
+{
+  "b0_variability": [
+    {
+      "flags_agree": true,
+      "quality_difference": 0,
+      "task_id": "P04"
+    },
+    {
+      "flags_agree": true,
+      "quality_difference": 0,
+      "task_id": "P05"
+    },
+    {
+      "flags_agree": false,
+      "quality_difference": 30,
+      "task_id": "P06"
+    },
+    {
+      "flags_agree": true,
+      "quality_difference": 0,
+      "task_id": "P08"
+    }
+  ],
+  "candidates": [
+    {
+      "comparisons": [
+        {
+          "acceptance_gain": false,
+          "baseline": "b0-a",
+          "non_negative_acceptance": true,
+          "non_negative_quality": false,
+          "quality_gain_10": false,
+          "unsupported_not_above": true
+        },
+        {
+          "acceptance_gain": false,
+          "baseline": "b0-b",
+          "non_negative_acceptance": true,
+          "non_negative_quality": false,
+          "quality_gain_10": false,
+          "unsupported_not_above": true
+        }
+      ],
+      "dominated": false,
+      "episode_label": "sonnet-xhigh",
+      "qualifies": false,
+      "summary": {
+        "accepted": 0,
+        "cost_usd": 2.834592001,
+        "critical_errors": 3,
+        "episodes": 4,
+        "mean_quality": 46.25,
+        "provider_calls": 4,
+        "unsupported_completions": 0
+      }
+    },
+    {
+      "comparisons": [
+        {
+          "acceptance_gain": true,
+          "baseline": "b0-a",
+          "non_negative_acceptance": true,
+          "non_negative_quality": true,
+          "quality_gain_10": true,
+          "unsupported_not_above": true
+        },
+        {
+          "acceptance_gain": true,
+          "baseline": "b0-b",
+          "non_negative_acceptance": true,
+          "non_negative_quality": true,
+          "quality_gain_10": false,
+          "unsupported_not_above": true
+        }
+      ],
+      "dominated": false,
+      "episode_label": "opus-high",
+      "qualifies": false,
+      "summary": {
+        "accepted": 1,
+        "cost_usd": 4.295487001,
+        "critical_errors": 0,
+        "episodes": 4,
+        "mean_quality": 82.5,
+        "provider_calls": 4,
+        "unsupported_completions": 0
+      }
+    }
+  ],
+  "decision_sha256": "07487c48f676ed83b27f48c4125f45cfbd7024c4ff390c7b9c44d211d2233f4d",
+  "limits": [
+    "Four public families are development evidence only.",
+    "No reserved-population inference is made."
+  ],
+  "manifest_sha256": "85407d17bfc1f7613c9d4829263c6cbd4b8edb4afd18f4e1fce382d6cbd9f563",
+  "policy_decision": "retain-b0",
+  "reserved_repetitions_if_q4_freezes": 2,
+  "schema_version": 1,
+  "selected_candidate": null,
+  "state_sha256": "a6b58c4aa3ce3dfeacdc82e530c62c68ef3a52a3805d0cdd15f6f205770580fb",
+  "summaries": {
+    "b0-a": {
+      "accepted": 0,
+      "cost_usd": 1.6819020009999999,
+      "critical_errors": 2,
+      "episodes": 4,
+      "mean_quality": 66.25,
+      "provider_calls": 4,
+      "unsupported_completions": 0
+    },
+    "b0-b": {
+      "accepted": 0,
+      "cost_usd": 1.037063602,
+      "critical_errors": 1,
+      "episodes": 4,
+      "mean_quality": 73.75,
+      "provider_calls": 4,
+      "unsupported_completions": 0
+    },
+    "opus-high": {
+      "accepted": 1,
+      "cost_usd": 4.295487001,
+      "critical_errors": 0,
+      "episodes": 4,
+      "mean_quality": 82.5,
+      "provider_calls": 4,
+      "unsupported_completions": 0
+    },
+    "sonnet-xhigh": {
+      "accepted": 0,
+      "cost_usd": 2.834592001,
+      "critical_errors": 3,
+      "episodes": 4,
+      "mean_quality": 46.25,
+      "provider_calls": 4,
+      "unsupported_completions": 0
+    }
+  }
+}

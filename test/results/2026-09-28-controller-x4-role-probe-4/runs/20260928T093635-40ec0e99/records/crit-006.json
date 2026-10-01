@@ -1,0 +1,23 @@
+{
+  "type": "CritiqueRecord",
+  "id": "crit-006",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "cand-003",
+    "prem-005",
+    "prem-006",
+    "prem-008"
+  ],
+  "candidate_id": "cand-003",
+  "failure_modes": [
+    "The stated pattern is already contradicted inside the cited set. prem-006 is quote-anchored to 'an idempotency check suppressed a legitimate retry' yet sits at 0.7, and prem-005 is likewise quote-anchored to the three-explanation list yet sits at 0.5. Anchoring therefore does not predict the value.",
+    "The inference is about the ledger's own authoring conventions, not about the queue or receipt system. Even if true it yields a presentational caveat, not a discriminating check, so it does not advance the acceptance criteria that carry the deliverable.",
+    "Two premises sharing the value 0.5 is a weak observation over a set of five unverified premises with coarse one-decimal granularity; coincidence is a live and cheaper explanation than a hidden generating rule.",
+    "The claimed gain asserts that B0 would read 0.5 as a calibrated risk figure, but prem-005 already states the closed world is stated, not established, so B0 has the caveat without this premise."
+  ],
+  "derivable": true,
+  "falsified_premise_claims": [],
+  "verdict": "return"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-002",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "A receipt has been observed to be absent after an acknowledgement at least once; this is the sole reported symptom.",
+  "class": "unverified",
+  "source": "Problem statement: a receipt can be absent after an acknowledgement.",
+  "confidence": 0.8,
+  "cheapest_verification": "Point to the specific job id and observation record in the fixture notes that shows ack present and receipt absent.",
+  "load_bearing": true,
+  "supersedes": null
+}

@@ -1,0 +1,12 @@
+{
+  "episode_label": "opus-high",
+  "files": {
+    "urllib3/connectionpool.py": "92b83676e675f1c9c39dcb6092e5712e3317be903bdf1de8d3933138992c1a6e",
+    "urllib3/poolmanager.py": "e38d72b5fbbefb953a3f613638708028037b66223bac0ecdbe1d5ad0e5765cca",
+    "urllib3/util/url.py": "96207a0bf50bb28404720f13de817e1ed16cee8062997fe05d0371586fb60bc2"
+  },
+  "schema_version": 1,
+  "sequence": 7,
+  "snapshot_sha256": "6272cb8f6c78c2638b1ad0e3b42e3bf5d61c100cd9dd1487be09ebe907958603",
+  "task_id": "P04"
+}

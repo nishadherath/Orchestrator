@@ -1,0 +1,20 @@
+{
+  "created_at_utc": "2026-09-25T19:08:29+00:00",
+  "manifest_sha256": "33a46768649e0a1affaa34559b52df0d366094a4d6c5ece83f83a883105cb1a1",
+  "next_sequence": 1,
+  "rows": [
+    {
+      "episode_label": "b0-a",
+      "failure_type": "LiveScreenError",
+      "sequence": 1,
+      "state": "uncertain",
+      "task_id": "P08"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "d5c3b6a7f53652ddb9d17086661de20e8d08fd20c52bbba6df797f908c4c5e4f",
+  "status": "blocked",
+  "stop_reason": "uncertain episode",
+  "total_cost_usd": 0.0,
+  "total_provider_calls": 0
+}

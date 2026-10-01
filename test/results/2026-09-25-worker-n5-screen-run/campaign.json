@@ -1,0 +1,4375 @@
+{
+  "inflight": null,
+  "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+  "next_sequence": 61,
+  "rows": [
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-sonnet-low",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "ea587f77536478cc0366345f125351175f67f0ed1c31a81acf882a26bec0b899",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "13a38162547f2749bd61c7b9501b646edf68f50bece1c6efc87188b1dc375e68",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "390a061b35c903d99bcc11b7e7326a60220a0f131befe8076aa83365ac8e933f",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0121542,
+        "decision_digest": "8aa42d3bf29e76dfe10369fe0f869c3bf66a1b6d030886aad28a9d3a4247ecb1",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T22:35:21.896110+00:00",
+        "identity_valid": true,
+        "intent_digest": "ad2885d47895a45cbf92202ccb52b1ca28adea8045cbb540fefb505d112136bc",
+        "invocation_id": "72d1ac6becef05a4e33d1ce423d385fb",
+        "requested_cell": "worker-sonnet-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:35:14.322796+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1518,
+          "cache_read_input_tokens": 20341,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0121542,
+          "currency": "USD",
+          "input_tokens": 4,
+          "output_tokens": 95
+        },
+        "wall_clock_s": 7.578,
+        "writer_stopped": true
+      },
+      "sequence": 1,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "3475e70028550d4d9c25891c6aed0c48f8a96eb86cb309c324927d74d24612b7",
+      "cell": "worker-sonnet-low",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "3475e70028550d4d9c25891c6aed0c48f8a96eb86cb309c324927d74d24612b7",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "56feb2cad4ed76f9a39a341145b47176e169f6d23c7c4bc35148aa92c21699f7",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "be844f3197bf3dbd8f8d760fc60989be9dc4a43d5ded5e46bbc9c42fa5b5ff40",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "4ca05420326dcb1f46873b378b40c9a85741f5c8f4208d79866f9da809752d56",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0351186,
+        "decision_digest": "3e04e3e7b32585b3c75188fb4f057672335f4bef0589194299b1eb4b17c3767b",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T22:36:16.526407+00:00",
+        "identity_valid": true,
+        "intent_digest": "98e8cc198f9abb8742647a01000d1d151f6f42f974d6cae3e29f9c62179dfe24",
+        "invocation_id": "e9a23d519134b0991fe6d8e6e4f7297f",
+        "requested_cell": "worker-sonnet-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:35:59.891777+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3066,
+          "cache_read_input_tokens": 55503,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0351186,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 1063
+        },
+        "wall_clock_s": 16.64,
+        "writer_stopped": true
+      },
+      "sequence": 2,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "01b27134677fa39370937361fa7705772ccb9ee8dd5ff277ebadf8fe58f86e1f",
+      "cell": "worker-sonnet-low",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "01b27134677fa39370937361fa7705772ccb9ee8dd5ff277ebadf8fe58f86e1f",
+        "case_count": 4,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 0.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "d48a993e363d68a16559edb8c9b2e6c3a17d25a971e5b9d795b27c8e61bd6d59",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "62d1593a0cd7004f9d8236e7527bd155a0a9c9ec59ec941aae2693d4d82c4a4e",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "9e1001f549ab36284a92e08c26440aaa5a37065c4f97d02bffebc5ed80677c82",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0318328,
+        "decision_digest": "93f10a6fcfbb0bb96ff738c0c5ce525987541c8b00c514a3bec2460719daaf8b",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T22:37:21.936384+00:00",
+        "identity_valid": true,
+        "intent_digest": "ec63db1b9cb2ec814e406210943051e14e19ed176526ebdca7b98c43a30c16c0",
+        "invocation_id": "572c557f9fa5274077fe3422d4bb6fdd",
+        "requested_cell": "worker-sonnet-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:37:04.765949+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2770,
+          "cache_read_input_tokens": 43104,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0318328,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 1097
+        },
+        "wall_clock_s": 17.172,
+        "writer_stopped": true
+      },
+      "sequence": 3,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-sonnet-low",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "1c06700f3caabb1b485cb4b3a99ac3fac68fd9f1ff2702a56f8b80fc2ce758bb",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "92a67373d659deb95635b9615201a4699a40ae2a0ff8c5ba29cc2175788aee07",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "139649804338899d96f3925853a7d0a75a44cafb1e681eada0292ede0a27a886",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.013809000000000002,
+        "decision_digest": "f531e46d839b0a9afcc41951a67497e53eda48b5fb272c56459a336899d411db",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T22:38:22.523015+00:00",
+        "identity_valid": true,
+        "intent_digest": "72626720d795cbb2d597d437dfd1dbd0c532844250fa5fa07d25e2fea80ec47b",
+        "invocation_id": "81b6d958c602b7a105a9d029e7770369",
+        "requested_cell": "worker-sonnet-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:38:12.809323+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1620,
+          "cache_read_input_tokens": 20415,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.013809000000000002,
+          "currency": "USD",
+          "input_tokens": 4,
+          "output_tokens": 213
+        },
+        "wall_clock_s": 9.718,
+        "writer_stopped": true
+      },
+      "sequence": 4,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-sonnet-medium",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "147be1fc78ba99dee0c856b6ca57a81a6caa467f063f5b07d33e8d22b44bfbca",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "a3862d3e1c730dadb10ee56d9762866379f6193be993cf77088a14b79174e04d",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "d59e35183ee008c1d1f17a36ca2d2160d0351c5a024ab02fa02a2d77d8de223c",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0485842,
+        "decision_digest": "ee8634830869a1a3f7869d6c6f567890c044d59374098967fc33eb4a366bfa12",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T22:39:20.110778+00:00",
+        "identity_valid": true,
+        "intent_digest": "5bad9a43a03a95be8245b5b07961d9c62d26c4af45d4d2865b4813eb70acfbe2",
+        "invocation_id": "36d33e7354a6814818ac80497fd3986d",
+        "requested_cell": "worker-sonnet-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:39:12.765672+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 11112,
+          "cache_read_input_tokens": 10736,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0485842,
+          "currency": "USD",
+          "input_tokens": 4,
+          "output_tokens": 92
+        },
+        "wall_clock_s": 7.343,
+        "writer_stopped": true
+      },
+      "sequence": 5,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "4e221cde7299ed0654499f26d7ace530f41894852e5f0a93019b2d99200014d1",
+      "cell": "worker-sonnet-medium",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "4e221cde7299ed0654499f26d7ace530f41894852e5f0a93019b2d99200014d1",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "50e71015aaf1787401e269ed88eb860278c53700915d0a0b5abee4f9735bfb0b",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "adf7897a2f610f2353454804393866e0c7e0a3b2bc6bc316de5c7adae6e672cb",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "98426f9ce394558089b9c3cc53720dfd4d239e1e52306662baee474e9422431d",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.03949299999999999,
+        "decision_digest": "72b7ce21c2fcd491b2ec242eff25ef113db401195c3958bc16e4d88c3aa7b414",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T22:40:15.404219+00:00",
+        "identity_valid": true,
+        "intent_digest": "5cfb57c81e663b879474d19f98902e154f0ff7454551dc8b35752808ba21992a",
+        "invocation_id": "ede9579ee63fc9426e83945dba5f9ecb",
+        "requested_cell": "worker-sonnet-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:39:55.859277+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3280,
+          "cache_read_input_tokens": 54995,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.03949299999999999,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 1425
+        },
+        "wall_clock_s": 19.547,
+        "writer_stopped": true
+      },
+      "sequence": 6,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "2f3edb3ec1de2654cf26225095059efdfc2f6fac2c7a3f164f10bad6cf4cc031",
+      "cell": "worker-sonnet-medium",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "2f3edb3ec1de2654cf26225095059efdfc2f6fac2c7a3f164f10bad6cf4cc031",
+        "case_count": 4,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 0.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "205d925ec0493b3699864728d75eda5c03f38f7a33ee96d0d0b7e84a7b3c6aac",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "492ff29f8c404bfee13fbdf0bc64cab46f3d8b6e9e649ed0e66dcb5e6825f321",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "b7869f7e516809fc05f6f346f94b811cee9570eb5dfe0b16e15c32aba2ca23d9",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0515572,
+        "decision_digest": "bcad63851d2d780a6f670104798b9bbfcec6be08e82aa24fe75002a4916e5044",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T22:41:32.708237+00:00",
+        "identity_valid": true,
+        "intent_digest": "05cb2a9849d93f37fde4e71019c0eb449063ee52a5e42745a2c9dd14330f99da",
+        "invocation_id": "200b7c834f1c61da11189d0afdc272bf",
+        "requested_cell": "worker-sonnet-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:41:03.041190+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 4079,
+          "cache_read_input_tokens": 43096,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0515572,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 2546
+        },
+        "wall_clock_s": 29.656,
+        "writer_stopped": true
+      },
+      "sequence": 7,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-sonnet-medium",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "1c9af1d1f5480f69e26bf5521297896b5b5edbc2cb6dc073fbc8ed36828012e3",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "39956bcf55b5eb5da3bcfbb4683c60e1487dc272c5bf3bd54cd9c56628c063b4",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "0470e69d7c54d58b839e07b7410c352ef5a239ad78bbda090b8a4b89ebac078a",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0178296,
+        "decision_digest": "42ba5824c00395b42d4c11b62c8a40c4a0bcc34e6de772acf0e9237c0b98842b",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T22:42:31.947693+00:00",
+        "identity_valid": true,
+        "intent_digest": "18e6874d24b4c140c15673c3f2cd8d801454ae40d56ade27275b632afd048d48",
+        "invocation_id": "d641ce271c4086b8ee38a6c137ab892c",
+        "requested_cell": "worker-sonnet-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:42:21.852669+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1925,
+          "cache_read_input_tokens": 31548,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0178296,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 269
+        },
+        "wall_clock_s": 10.094,
+        "writer_stopped": true
+      },
+      "sequence": 8,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-sonnet-high",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "4d81882d095fcb71ce90af2c2e4ea65ff124890d5bcb6d32a019ff99a2c5effc",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "cd2af07390aac2eeccbea89bf74c1c423880867cc430cdcf195b94809e55dcae",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "db9d11a68cb418c847e8aab904315f061be3251b9cb8cb6f0969f949cc4e8e6a",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0487648,
+        "decision_digest": "db7f6cfbe4465e0296db69e01cbcc6f8da2bd8fec25b41c3512962921fc9d354",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T22:43:28.980492+00:00",
+        "identity_valid": true,
+        "intent_digest": "8e740e421c615280fa0d72be4002b5fc3e6669d9ffb81ff5f9946673e9fa99c5",
+        "invocation_id": "0fe8070a666496f885fd4fcd5c9794ba",
+        "requested_cell": "worker-sonnet-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:43:20.781032+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 11127,
+          "cache_read_input_tokens": 10739,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0487648,
+          "currency": "USD",
+          "input_tokens": 4,
+          "output_tokens": 104
+        },
+        "wall_clock_s": 8.203,
+        "writer_stopped": true
+      },
+      "sequence": 9,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "6ab65bbbbc2cf3ba08352da0e13e178e15f4a309ddfc1c8d2c0b5ed58712f317",
+      "cell": "worker-sonnet-high",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "6ab65bbbbc2cf3ba08352da0e13e178e15f4a309ddfc1c8d2c0b5ed58712f317",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "bfb11c3f884984805bb61be687e05c958faaf33ce10e77daecb1e9cf43d4895d",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "2b87f8f4563fb31a3ffcda963bf07728cd84ec2c8f52e245bb61010714f0b841",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "98c2b89d6f69bd2b944dd927d28675a1b8d7269b5e182249eee1e35b4d120d7e",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0396088,
+        "decision_digest": "f7c5f747126fe5a8d4b52f9e1200ef01ced985c570b4375cc64c008b5a21004d",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T22:44:33.931970+00:00",
+        "identity_valid": true,
+        "intent_digest": "579693ef74df6800d1e818244d50e3181feeaac87fe31d9dc31b439a028b8170",
+        "invocation_id": "142b342d7570f300cb1c82e9f2c35642",
+        "requested_cell": "worker-sonnet-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:44:05.930522+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3418,
+          "cache_read_input_tokens": 43334,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0396088,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 1615
+        },
+        "wall_clock_s": 28.0,
+        "writer_stopped": true
+      },
+      "sequence": 10,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "f45091554e770d19bb6a950900982117eab50ce102de92ff1c9578ee846083e7",
+      "cell": "worker-sonnet-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "f45091554e770d19bb6a950900982117eab50ce102de92ff1c9578ee846083e7",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "ca4d7a8019951eca17876f7be46eafad6285afafff14dede1c6067094c9820bc",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "5678c61972b92e4fc11d7583a71d8590ce49dc3620f166e67d7940b069e85b44",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "5385a3a8c5b24cae77938531c89cc2f2b90b4ae918f48f4f495e389c459e66b7",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0529806,
+        "decision_digest": "fc26b8a3ed976d19bbbfb10c29a3f6a64754b0112b3e10f18436efd41e44af13",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T22:45:56.430050+00:00",
+        "identity_valid": true,
+        "intent_digest": "9eaa3031e60378c05b8b651ac5e406c6cc262245cc13061e1749fa28af3d228c",
+        "invocation_id": "304b6acd1071e22371274419043951eb",
+        "requested_cell": "worker-sonnet-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:45:26.203841+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 4212,
+          "cache_read_input_tokens": 43103,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0529806,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 2633
+        },
+        "wall_clock_s": 30.219,
+        "writer_stopped": true
+      },
+      "sequence": 11,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-sonnet-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "255c1c983cbccb819c78aeb3213889e117264a0e1a7d5935d855868463c448aa",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "357c6c097f9b82997b25f31f2a0b45879b261e002a5c56c24ef4ae6880d72ca7",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "11f324a8a30396dee240abbdf99532c153980c655695b7987d81df831d956dbb",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0320714,
+        "decision_digest": "b37699699318385f5653bee097f8dcd055633226086e98259df8c407a2399117",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T22:47:24.311869+00:00",
+        "identity_valid": true,
+        "intent_digest": "ff629ed610bb4cb3eaa856f9c006a2a6c2dfbea27484c68486fd65697040e3ad",
+        "invocation_id": "672367204e5e9b3ccadd1fef4d6ec239",
+        "requested_cell": "worker-sonnet-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:46:58.043861+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2275,
+          "cache_read_input_tokens": 31657,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0320714,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 1552
+        },
+        "wall_clock_s": 26.282,
+        "writer_stopped": true
+      },
+      "sequence": 12,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-sonnet-xhigh",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "d91fd61918275a23fd69ef4b678a2b2697ff393c6bbc6d3bbd4f16d9afe09369",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "6f524242f6a4733a5000fa9aa597e69bc1408b515144147b4d4d28aee2f6e153",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "f38fbca6fe72bd0d582737d4dd84de8f449f9abaeeef37f1a50a908cd42b69cb",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0490028,
+        "decision_digest": "c1a630c0e6fa306f6a9c3109566f7bd3cd6ccf6f88fa982b4e7cd0cd6ee5e9a1",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T22:48:46.456531+00:00",
+        "identity_valid": true,
+        "intent_digest": "ef97b9663419e6844bcdd2d8de0070d53d93f0cfe9579f1e553dfa15c505d01c",
+        "invocation_id": "3c944c25cb2f0c32508ec2f13359a79c",
+        "requested_cell": "worker-sonnet-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:48:37.338472+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 11144,
+          "cache_read_input_tokens": 10739,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0490028,
+          "currency": "USD",
+          "input_tokens": 4,
+          "output_tokens": 122
+        },
+        "wall_clock_s": 9.125,
+        "writer_stopped": true
+      },
+      "sequence": 13,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "fa3a4001f2a14aff3e71d6721f18b54ac45e4515e8f11b381bedf19612fefa8b",
+      "cell": "worker-sonnet-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "fa3a4001f2a14aff3e71d6721f18b54ac45e4515e8f11b381bedf19612fefa8b",
+        "case_count": 5,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary",
+          "boolean rejected",
+          "range enforced",
+          "missing rejected"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "12f776162fce04a09dceb833bac02cf3e8b3bb93275664ef3fd0abbe46339385",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "88d0b65b813dde62011a60ef2233777c2c26946ea792131929abd20080f5d0bd",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "cc29ce56904a948ea1c1420161c87251aa5b01f5c58eab9f0f497d44fe04aed9",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0586136,
+        "decision_digest": "3eb47bddd55ebb3b75d6827252be7f800c9802af4bd470e8e80473efbe2072da",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T22:50:25.175931+00:00",
+        "identity_valid": true,
+        "intent_digest": "b44fe371bed7f2ede30dce8cb8e04848b331d05528c18fdcac907840bde501d8",
+        "invocation_id": "2d91514ca4999d049a077d0819330ab5",
+        "requested_cell": "worker-sonnet-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:49:48.998010+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 4969,
+          "cache_read_input_tokens": 68548,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0586136,
+          "currency": "USD",
+          "input_tokens": 12,
+          "output_tokens": 2390
+        },
+        "wall_clock_s": 36.188,
+        "writer_stopped": true
+      },
+      "sequence": 14,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "5a966d9a6723976e62e33534b6aa868040cf06c171d40520e584734bf176c397",
+      "cell": "worker-sonnet-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "5a966d9a6723976e62e33534b6aa868040cf06c171d40520e584734bf176c397",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "e564a3342e9a4a823ff36d6ec50746d5d2e4c70a78d9e004bdd8d8f889b7c9ef",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "e745af4a4543e61780a58656c322c4e38c198ea0bb52244bdf2135d60e2d4334",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "e6ebab2163fed511e3a4ff74fd4e982d9cc583102ed1cdb968fa755a25cb01c7",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0652536,
+        "decision_digest": "e55425ea8d80b5ff1e73771839f4bbadf29d145845701f1d6ef873afcb268531",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T22:52:08.291635+00:00",
+        "identity_valid": true,
+        "intent_digest": "dde455b098342db9cde2b377c255a781eb1110497978b5b0952e255d5e62dfe5",
+        "invocation_id": "6addbdf9e7e314f0df67f42c37f226a4",
+        "requested_cell": "worker-sonnet-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:51:28.250432+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 5279,
+          "cache_read_input_tokens": 43628,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0652536,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 3425
+        },
+        "wall_clock_s": 40.047,
+        "writer_stopped": true
+      },
+      "sequence": 15,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-sonnet-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "be4a4380f05e6b9a04fa2fefb19743f4643a8b0c50a3724bc5154284a8e29331",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "591a8620fa8bab12b2420196ea27997ab9db8a791646ce7a6aea9c6afe24710a",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "a3115e2ed272ac7c26298474e61e3259036fcbd997bdafcbe2b34821061251ec",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.033348,
+        "decision_digest": "320c9d1a3712ec4ad44e04de75b3eaa67db87aa8b9dc3f0479135475706a94fe",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T22:53:39.375577+00:00",
+        "identity_valid": true,
+        "intent_digest": "f5ce180c3a2a2232e155ac9a07e5e5b08bcf0267c9389e0c708db8e69c7c00b7",
+        "invocation_id": "08fa06cfc425b68b974a6bf1aaa8ab81",
+        "requested_cell": "worker-sonnet-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:53:10.907341+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2256,
+          "cache_read_input_tokens": 31620,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.033348,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 1688
+        },
+        "wall_clock_s": 28.468,
+        "writer_stopped": true
+      },
+      "sequence": 16,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-sonnet-max",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "af7fe5a5afdeeabb6a763d40af80c66d64fd7a47f22e93520fa492b6338cd026",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "7567dc10c770e18301290dad4d350ab808ef3c1ceef5eb0a80163d872311bdb1",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "909c0170fb458d7bd8c746895065b074e7f8296446f62d980600e6f04ef46cea",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.05061,
+        "decision_digest": "d2901c30c53438a3cd416062a1570e2e92462ef4fd07f300490e2414f505ee5b",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T22:54:56.626820+00:00",
+        "identity_valid": true,
+        "intent_digest": "e4931ebb57bc788a2cc0008f9b8a553ac1cb6853e2a979b59a269a29d9c644d3",
+        "invocation_id": "3b9899721c7feb189f913002e316a81f",
+        "requested_cell": "worker-sonnet-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:54:46.298693+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 11256,
+          "cache_read_input_tokens": 10735,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.05061,
+          "currency": "USD",
+          "input_tokens": 4,
+          "output_tokens": 237
+        },
+        "wall_clock_s": 10.328,
+        "writer_stopped": true
+      },
+      "sequence": 17,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "df4da14be82a6c45708ce9b78f56aaa0a69820ea809f01868c6f3171b655236e",
+      "cell": "worker-sonnet-max",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "df4da14be82a6c45708ce9b78f56aaa0a69820ea809f01868c6f3171b655236e",
+        "case_count": 5,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary",
+          "boolean rejected",
+          "range enforced",
+          "missing rejected"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "56c85165dc40f3ae4da047af815a5b9adeb38af37d97e6b19f89a80745034d80",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "21d86bd1186d5a8d79caad83573d06f2321bf7e9f2a8677aa3c7e9e5732abb60",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "7081ae309a41709d0ed3e7c11efcd2d86a7deb4a25820e4ea4280ea1e3481e73",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.12966719999999998,
+        "decision_digest": "ea8731b9f39c5887f5d623b0fcd396c93ffaf97778ddebd4bdeaca0d407f6a83",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T22:57:03.294874+00:00",
+        "identity_valid": true,
+        "intent_digest": "db7aeb163e3f38739d08e9fcd25526e02468faad5005ebdc8ec2029d516e3c2f",
+        "invocation_id": "e4ca3bbaf64e5ce61d494df4a6b6b585",
+        "requested_cell": "worker-sonnet-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:55:48.008343+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 10381,
+          "cache_read_input_tokens": 77526,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.12966719999999998,
+          "currency": "USD",
+          "input_tokens": 12,
+          "output_tokens": 7151
+        },
+        "wall_clock_s": 75.297,
+        "writer_stopped": true
+      },
+      "sequence": 18,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "e52b4c07415f18ace221c5b946b85dbcf10853d0ba45c3be0230fc0fa5da85f4",
+      "cell": "worker-sonnet-max",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "e52b4c07415f18ace221c5b946b85dbcf10853d0ba45c3be0230fc0fa5da85f4",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "5658e475bb22a89b77fae5bd71d3372d81ce7cb5b2cbd34cd833b354d102f8c9",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "9d663e69a81ca7073cf324bb4ff3f023ba32c63519a3403c5d19c5a581bb9810",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "b803727ca06ffdb59b29dcbb94fb643042a9f18a7fb71c0c291c0e0f0984336b",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.1371664,
+        "decision_digest": "746c811f23e63b89b29eead5d4f891ae4c89a2396692b20b94a398f279e26f00",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T22:59:41.731484+00:00",
+        "identity_valid": true,
+        "intent_digest": "18b12199452244112861ad6a74d1de944de2e8c1a6d0cfd744f06561fc1a0139",
+        "invocation_id": "5f72191c572d0cf4db5f0927f159375a",
+        "requested_cell": "worker-sonnet-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T22:58:11.425515+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 10406,
+          "cache_read_input_tokens": 47502,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1371664,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 8488
+        },
+        "wall_clock_s": 90.297,
+        "writer_stopped": true
+      },
+      "sequence": 19,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-sonnet-max",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-sonnet-5",
+        "admission_token": "50fd370e7b4e42d0d2c1dcae3095c04527eb89c5e62502f72e370d4063dab687",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-sonnet-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "c4bdb54e89b973298377dbec2e493e866b761906d5da66b32854b6e86bc1283a",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "2c3d7a1824969c507c391b659adedb7076616c6926f54c40eb3cd78ffb8b7a97",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.11744399999999999,
+        "decision_digest": "0732112a4f190a80f9e046fffacb864f99f2418200c34e1d536754e00bd09857",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T23:01:54.341401+00:00",
+        "identity_valid": true,
+        "intent_digest": "f0c4dd89e62963c3dfedd74c3d43c95feeb799b1a73e3a9a5e880e1080170055",
+        "invocation_id": "575609645a039ec33c4facd73aa47c93",
+        "requested_cell": "worker-sonnet-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-sonnet-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:00:43.082890+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 8690,
+          "cache_read_input_tokens": 62180,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.11744399999999999,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 6912
+        },
+        "wall_clock_s": 71.25,
+        "writer_stopped": true
+      },
+      "sequence": 20,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-opus-low",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "30272ca3d159570959293a0f67ee02b18d847c5050f1c488d3591173ffd3e49a",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "6ac6661afd32551d8d0764a09178e5b5f06f66ec576a50b0c1ce7ad910d2f1ac",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "44e0a97d7d603443f488a9264b52fa6a7e75b442127ae08084d31aeb77dfb67b",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0972895,
+        "decision_digest": "45d0cfce3ee7fdeacc90183d66594287bf1bdaa86131334bf8b7d4b203b2de83",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:03:03.291134+00:00",
+        "identity_valid": true,
+        "intent_digest": "55bf530ef945ce0783537a489cedc1a048024dca473de840d98fe40508f36c5f",
+        "invocation_id": "7c6959bc2a7e2c52bb5dbdc114a5c22b",
+        "requested_cell": "worker-opus-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:02:52.201609+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 8344,
+          "cache_read_input_tokens": 15717,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0972895,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 196
+        },
+        "wall_clock_s": 11.094,
+        "writer_stopped": true
+      },
+      "sequence": 21,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "5c098e6aeceee823c0cb5df6a9a18ae24e53f0e5cafc3f65dfcaf42928591065",
+      "cell": "worker-opus-low",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "5c098e6aeceee823c0cb5df6a9a18ae24e53f0e5cafc3f65dfcaf42928591065",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "56274cbb42597c37b9bedf4727532ce9989e77355cba938a4f9f9a99cd6dd16e",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "fa7a15e88858f2dba97178c440d79981b597f796b538799ac97cbfd5b6be198e",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "4247324001c2b0b5d901c657e3be3d30b53c76d20fe54e59b1c36eb6102566aa",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0559915,
+        "decision_digest": "cfdca01669d926fdca2d113e05183f76b051e015da746f73b0e6bfb1086f98d3",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:04:16.094043+00:00",
+        "identity_valid": true,
+        "intent_digest": "cd853ec7b09d32e6bc8313671b715e01d9c49d4bc2ada6dcc9c27dda5fce5e1e",
+        "invocation_id": "6a1f730617dd44798ba72fb872a9abbe",
+        "requested_cell": "worker-opus-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:03:48.140676+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2229,
+          "cache_read_input_tokens": 22735,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0559915,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 848
+        },
+        "wall_clock_s": 27.954,
+        "writer_stopped": true
+      },
+      "sequence": 22,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "c96e9869930d9d68fe2cf58e76ee271f671f9fe8a77c9d26fdb1e6ae03259fad",
+      "cell": "worker-opus-low",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "c96e9869930d9d68fe2cf58e76ee271f671f9fe8a77c9d26fdb1e6ae03259fad",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "472a0c649f70f2fb066a1517f232ef95df0869ffe6586f03ffbb6d3f1b8b4f7f",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "4c9da2f16766ed700d2a63789b983b91e882d9e0cfbd30543a78b3021614da3f",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "12907c396d0dd003d0191b0fd5307a63913b911f4f520437280c6ccd4d56cf66",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.064749,
+        "decision_digest": "dd43e4c17a5285df641887f1812bbed6551aa652a503ddbb27b9f84c6cda40f7",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:05:37.073117+00:00",
+        "identity_valid": true,
+        "intent_digest": "2d8d96ef1a0112acf96fb20d5f5fe48766cfe64c74bde865c0979ded33231921",
+        "invocation_id": "212c6a63105b133fbb3671fb732199d8",
+        "requested_cell": "worker-opus-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:05:16.047639+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2372,
+          "cache_read_input_tokens": 30936,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.064749,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 975
+        },
+        "wall_clock_s": 21.031,
+        "writer_stopped": true
+      },
+      "sequence": 23,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-opus-low",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "30ce856b69dc6a93c36b6460c4fc4419021ec5cb6fbffa06e73232b60905f334",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "ccad49f75fe47c32bb64f058d46cc9a6bcfb19b4ef5694dedf1ae0b762eab25e",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "599097d54a4ed1d73060a4d89abb97d05eda07ea541d5402fda0570e915a055f",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.044080499999999995,
+        "decision_digest": "2b58aabbe16fbf7f2fa007782513d23c8e5115050b624dc9cb65ec4161c66d83",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:06:53.738997+00:00",
+        "identity_valid": true,
+        "intent_digest": "4309308593d93f0f6d33100df44299e03da0ac5e2469d9c523bbfe9503b4f9b8",
+        "invocation_id": "c01a426aca43099d6efb26ef58c73855",
+        "requested_cell": "worker-opus-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:06:38.971175+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2100,
+          "cache_read_input_tokens": 22835,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.044080499999999995,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 421
+        },
+        "wall_clock_s": 14.765,
+        "writer_stopped": true
+      },
+      "sequence": 24,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-opus-medium",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "28cbba89761684a1f2ff503e6e009fc8b331b3b5396f5cf677d7d6ad4acccc96",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "45cf8b77e867369e82c928320e97b274d4dbf42fa882a2a7cd964afbc0b81855",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "2184aa4a631956146a5c3e829783d06f4688c41539648acac6a2ebfbb43907f1",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.10372600000000001,
+        "decision_digest": "685f1e6244a3294f358a017e8ca5435255b77ad6491f5ffa469920c8c08653a0",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:08:20.891003+00:00",
+        "identity_valid": true,
+        "intent_digest": "e5752ad3c85fa74ed7ca7fc7e07ad7318ea31667ad5fdbd40da9d6d18105e7d2",
+        "invocation_id": "651570fb543f662ef09ed844b42d1571",
+        "requested_cell": "worker-opus-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:08:02.299533+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 8669,
+          "cache_read_input_tokens": 15740,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.10372600000000001,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 323
+        },
+        "wall_clock_s": 18.593,
+        "writer_stopped": true
+      },
+      "sequence": 25,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "7565a8f5121000e99c0bd46272538a327da81d5caf9fd6edf28d7e981538dbfc",
+      "cell": "worker-opus-medium",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "7565a8f5121000e99c0bd46272538a327da81d5caf9fd6edf28d7e981538dbfc",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "14002195048c40e6533f8b72068dac39c87f30e5915e4c9cebaf2b9381fe268e",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "54796de3d0d602f48dd06ac66f47cf1719ce02f2c5dcd4178ac925458d16f3d3",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "46bb756882928bde2d8bbea01374ca75c531dca1e58f2c8ad3845adb133f6f30",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0681855,
+        "decision_digest": "661a80dce57750680f9fe25c4995dfd3f54118ec71a51e902fb5bf39dc7d006e",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:09:58.187809+00:00",
+        "identity_valid": true,
+        "intent_digest": "526486dc5abb95d96af9021509aec34cdd83290b624fe10e2657cae0e61207c8",
+        "invocation_id": "d5181b707d50d958ab808c1cce79175a",
+        "requested_cell": "worker-opus-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:09:29.831400+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2504,
+          "cache_read_input_tokens": 31453,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0681855,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 1051
+        },
+        "wall_clock_s": 28.359,
+        "writer_stopped": true
+      },
+      "sequence": 26,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "a5e2cddec53316f48624015ba5ec46df16c83e3a794127557fdf0288bba39944",
+      "cell": "worker-opus-medium",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "a5e2cddec53316f48624015ba5ec46df16c83e3a794127557fdf0288bba39944",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "493325c4e53073024c7f2d92c9fa5133f543ecaa4dabdf28e3fa1277dfc8eaff",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "a33d70adbf27edddcc948de0a7bee78e27efed0af76b6299fc9a0835ce07b8aa",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "d4203c2badc9fb289bbabd9633627851460e90c96899441a53a1f26e5e2c6321",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0776355,
+        "decision_digest": "48985df685b6c242312516567284dd1ca9ea8ca3c73229a2daecac0a46d08622",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:12:37.537602+00:00",
+        "identity_valid": true,
+        "intent_digest": "aeefec106a5b37ae6c20369801accd8dc44be1bd737b532fd7e9601f6dacb30b",
+        "invocation_id": "fbe489d3f1e864efd35d66240a816be1",
+        "requested_cell": "worker-opus-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:11:58.053680+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3011,
+          "cache_read_input_tokens": 31979,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0776355,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 1214
+        },
+        "wall_clock_s": 39.484,
+        "writer_stopped": true
+      },
+      "sequence": 27,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-opus-medium",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "15cc8022bb1d43a989279b2dd39f7bdfb2100af051bc520ebcaf9a5c4bd81cb6",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "ce2ebc192dc6fbfdc649eb54b3c6cebacd54eaa3a57b65d1de8b469a0af0d5b6",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "ba26cf85c74d17baaad81c99af9434ac9c67820f991746476fcc491267d68406",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0539865,
+        "decision_digest": "a3430b0cb3ca02b9c075df7b4369f0d64d54a4234920067230b5b541ec30c949",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:15:04.289623+00:00",
+        "identity_valid": true,
+        "intent_digest": "821778ef99a7190dec9608d973a8e6c5735f03c756ec14b62c712a616c0da308",
+        "invocation_id": "a09b307dc464c2b65120fc319a592b44",
+        "requested_cell": "worker-opus-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:14:42.913921+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2043,
+          "cache_read_input_tokens": 22537,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0539865,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 846
+        },
+        "wall_clock_s": 21.375,
+        "writer_stopped": true
+      },
+      "sequence": 28,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-opus-high",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "d3f1f8b0641ffdd617d93d62fccbe9f8b15a0b3e0815b39f28fb98ba7b8e8798",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "5f7a57f8faeec16cc302e532ef04213593f68302e7a56b3616cfaea9d9d5d6d8",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "661c7e0e571369bbfce454402fce0c2477c3fcc3864fb182719f52b0070014b4",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.1057665,
+        "decision_digest": "eedb6b8960bf6be3622b3631c1771765e6745bb03e02ac23a4dac5e14d8d9663",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:17:03.473375+00:00",
+        "identity_valid": true,
+        "intent_digest": "0e81354ae566b64427abe0320b97d82b765a190bf9c24fb11d8cc62bb81be94d",
+        "invocation_id": "15db5225e1ed407008a0f3ff1aa6670c",
+        "requested_cell": "worker-opus-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:16:48.752845+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 8644,
+          "cache_read_input_tokens": 15721,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1057665,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 415
+        },
+        "wall_clock_s": 14.719,
+        "writer_stopped": true
+      },
+      "sequence": 29,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "437747030eecb50d7756acf5bbf5b2205bf21cb8072406eb11b8c28997393353",
+      "cell": "worker-opus-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "437747030eecb50d7756acf5bbf5b2205bf21cb8072406eb11b8c28997393353",
+        "case_count": 5,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary",
+          "boolean rejected",
+          "range enforced",
+          "missing rejected"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "ea936588f42ed003bb40f202045318f3f5ae018460a8e70069bfae27b33dff16",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "ff6b61066d5434d1cd1725540862f924d98ad5cbf2a5cf8470dc7b0c1ac84938",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "b9fc74c0185f2731374030bb3484562d864499d09849f46a9a1347081e3ee7b2",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.12316749999999999,
+        "decision_digest": "32bfde056f1e42b6cd42c922292085b18101a1abf94a85f507483bc771d9d440",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:18:43.851896+00:00",
+        "identity_valid": true,
+        "intent_digest": "067a02a7f10b166ea8048ed65ec3fea4ea4efb773638373ae85d2033ab5cfb26",
+        "invocation_id": "96594c8222e941d4608f8675e1535958",
+        "requested_cell": "worker-opus-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:18:00.080901+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 4362,
+          "cache_read_input_tokens": 51317,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.12316749999999999,
+          "currency": "USD",
+          "input_tokens": 12,
+          "output_tokens": 2109
+        },
+        "wall_clock_s": 43.782,
+        "writer_stopped": true
+      },
+      "sequence": 30,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "974c484d5f5a4aeb0fce05a7885858d71ff05099c463a3f9f68a7850bb7a155d",
+      "cell": "worker-opus-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "974c484d5f5a4aeb0fce05a7885858d71ff05099c463a3f9f68a7850bb7a155d",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "9a69c247fc1b88641f274d5c50e7ddc6d7fae4910746599a7e33697c7fd3ab55",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "1e549b57d64236c5f831ac9b7699f139d6df0de207a29cc9179b3b9a3c3613c9",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "a352339353fd96e1d5016ac1d2816f52a1c611897afedf2610db906fbaa3980f",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.155382,
+        "decision_digest": "bc84f4394bc04816de7a5becc954dad9928370387c8382682c75941b1a6a3967",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:20:24.015554+00:00",
+        "identity_valid": true,
+        "intent_digest": "bc4ea0fa0210613515c898f78f5b0a92b1d972c62247c6469dff94a9a3b31b2b",
+        "invocation_id": "ecb8ce2d30827beaf14a02c177bc50b7",
+        "requested_cell": "worker-opus-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:19:40.146086+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 5116,
+          "cache_read_input_tokens": 52782,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.155382,
+          "currency": "USD",
+          "input_tokens": 12,
+          "output_tokens": 3065
+        },
+        "wall_clock_s": 43.86,
+        "writer_stopped": true
+      },
+      "sequence": 31,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-opus-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "db77462fd0f3655b8cc6f14bde5bbc1516e41720d4bdda9ad2c1fa6fdcb7cb6b",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "4cfb1a18411369db668bf5acf224e4f05173e5c7011ba177c84e3bb66b70733f",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "af767ebb2bccd914992ab41c624fa65abae2b57c95f58370a64f9252560612d9",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.085671,
+        "decision_digest": "5841939c85571d98650863a8fd4b30ae1469c304c09f05331f2a9f8bacefb73d",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:22:06.483234+00:00",
+        "identity_valid": true,
+        "intent_digest": "2eabf7f5852e1407e6f746b71054db45c2a7e62d2ea997d2ce7e795e50970725",
+        "invocation_id": "b666c7c8fdf7dc9563c265ea324485c0",
+        "requested_cell": "worker-opus-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:21:27.695582+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2731,
+          "cache_read_input_tokens": 23176,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.085671,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 1825
+        },
+        "wall_clock_s": 38.782,
+        "writer_stopped": true
+      },
+      "sequence": 32,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-opus-xhigh",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "ffb14a319734f62c886969cb06cde160a073c236b238223689bddb0e83dbfdd4",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "c6f35eeb0483fa5606bf96140088c95011b59f4dcae5d02e4bade120a3beb6ea",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "f11fb29ba164170eadbf914ab2b65de8caeba6a8e08648547dcc352f5c0d839e",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.11371049999999999,
+        "decision_digest": "0bc254a20d6b15c684aa812353bf69f0518ffc20ed8b71affc87da4324f2a6fc",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T23:23:30.066815+00:00",
+        "identity_valid": true,
+        "intent_digest": "e456a17ec3440b38322a4e54aacc2d7a332b2dc933af9a179e94131282f66a0d",
+        "invocation_id": "0d5acf33baab03612aaca64f12cf2b75",
+        "requested_cell": "worker-opus-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:23:14.975464+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 8884,
+          "cache_read_input_tokens": 16099,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.11371049999999999,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 629
+        },
+        "wall_clock_s": 15.094,
+        "writer_stopped": true
+      },
+      "sequence": 33,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "2caedb32618b0e47985cff46db533285ec0f56dd99d41f4b1f35e974578daa65",
+      "cell": "worker-opus-xhigh",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "2caedb32618b0e47985cff46db533285ec0f56dd99d41f4b1f35e974578daa65",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "3e93bb931434abe212a28d62ea4f6f879f1b187f915557b875c0da42eb34115d",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "652eb3fbfefd086aa952f6e2e287693a7c97a890f72905b2687b3d4c0bd6568f",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "3ce3c88748d0f302ffd04f8180b044cae8b05f80c650e4fb7039b4a48ecb5f30",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.111059,
+        "decision_digest": "63acf2ddb091fcc167dc58a70c910c61fcb7e9eb5821ab85e0026fce91195af9",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T23:25:01.430568+00:00",
+        "identity_valid": true,
+        "intent_digest": "79c11229d9fdf0b236f86ba87a8324bc54cd57a8c3a1f6348ab1d4c408a508cf",
+        "invocation_id": "2a0f234a6179f8a2057949d418c86a38",
+        "requested_cell": "worker-opus-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:24:18.424339+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3601,
+          "cache_read_input_tokens": 31860,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.111059,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 2319
+        },
+        "wall_clock_s": 43.0,
+        "writer_stopped": true
+      },
+      "sequence": 34,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "9805346f658efe66a9327c21cc027e7ac12008da1a443f77aa7e44ad0749f156",
+      "cell": "worker-opus-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "9805346f658efe66a9327c21cc027e7ac12008da1a443f77aa7e44ad0749f156",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "c71f6e8854f1b02446e2787f966080dc357c0aa75abfbb733f12143c642215e1",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "32fe6f2dc644134e521f11d3d9d8a9280c980948bb6c868d70ea9f4d3b07ebb6",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "017ef5c97181127e57eb56d0e05a86ec668b83641ae8041c0ce57be949fe87d6",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.1201595,
+        "decision_digest": "921ca88a53429f345525f31d2f6fdc5063cbc4dc59da959880d7a8c136c4ef75",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T23:26:48.334542+00:00",
+        "identity_valid": true,
+        "intent_digest": "b807abbb2377418e1dc8b33eedcfa6f554318ca64a00493b0c1129d352ce07bc",
+        "invocation_id": "9b6a212a9829cfa5488bacab665579b3",
+        "requested_cell": "worker-opus-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:26:11.329919+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3902,
+          "cache_read_input_tokens": 40687,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1201595,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 2384
+        },
+        "wall_clock_s": 37.0,
+        "writer_stopped": true
+      },
+      "sequence": 35,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-opus-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "7949c81d656d032860fd6d148f3529f8cf7c07c3670a38ef552b91c8bdd066cf",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "0962e79f79f55d3505b99f421bbf20e8dd7652c5baa6d9fa39e2036788e16883",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "d27951154a579d86c2f6f705f28bfc0065d037f60768aeb5c6b9f48a25cb5255",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0724505,
+        "decision_digest": "35e78275290ba447311f578c72420ad24a8a75c72226cf4436bcc60286d2de07",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T23:28:40.038312+00:00",
+        "identity_valid": true,
+        "intent_digest": "6a819b7bfe62126fab5ec223277c988ec3affc61ccd4860eff77a419baecdf87",
+        "invocation_id": "8fc6a9ea1a7cd88a2c9af81e00d63d9f",
+        "requested_cell": "worker-opus-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:28:08.131379+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2391,
+          "cache_read_input_tokens": 22855,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0724505,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 1439
+        },
+        "wall_clock_s": 31.906,
+        "writer_stopped": true
+      },
+      "sequence": 36,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-opus-max",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "502e1ed8d037045095a6a6b7cd10ce856c37c85c10a97d295dbfb7b12a655e59",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "fc57cff6ea54b90dde79dffc5a804ba2691cfc6cbaf9fd7045081935e1d0348b",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "cc9dfd20fb531e9d220d60e19fef09ef29bdbf35863134ecefd767435d3d0383",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.1207805,
+        "decision_digest": "59a0d84b1b5a6c93e9e8f2dc5a74dee872f37458d8f652382c38ad958deed6ea",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T23:29:57.876817+00:00",
+        "identity_valid": true,
+        "intent_digest": "39aaf053784faf420a6d4863d54043266740d0208100470a6c624e0d9bf2a9f6",
+        "invocation_id": "9362f7248165510fc8332ba7e68ac88f",
+        "requested_cell": "worker-opus-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:29:36.705336+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 9149,
+          "cache_read_input_tokens": 24389,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1207805,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 640
+        },
+        "wall_clock_s": 21.172,
+        "writer_stopped": true
+      },
+      "sequence": 37,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "90eeef24465335eb574aa273c5ea0b44941813a703e021a161e5eb03c72c2ee8",
+      "cell": "worker-opus-max",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "90eeef24465335eb574aa273c5ea0b44941813a703e021a161e5eb03c72c2ee8",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "af570ef93518cdeddd73daf9f168d02f0d9dc7e0d20536ff8880e0836f34b316",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "1894d7912a5f8998689f9bb11555676e4f05f506e06176bcdbf10660eb4b2707",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "d8dd1cff532e61b0989c16913bfdee00622e76d340f76d51cabff45cb0a17baa",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.18168600000000001,
+        "decision_digest": "71ded0832e10ed88d7f3c721486ab58015a534103ad4ba01a766c94411999986",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T23:32:04.183935+00:00",
+        "identity_valid": true,
+        "intent_digest": "c90179683ed93eca7d13876e73b33e99fc1f9b46df58d67cf9237b50e098fd6a",
+        "invocation_id": "7122d2cff1e48ebfbe95d99bd041a692",
+        "requested_cell": "worker-opus-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:30:55.683774+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 5142,
+          "cache_read_input_tokens": 31844,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.18168600000000001,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 4528
+        },
+        "wall_clock_s": 68.5,
+        "writer_stopped": true
+      },
+      "sequence": 38,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "e5b33ba13bcb57d58adc4c1bcba536b9d01fbdcb40649521e33bfaa341912c0b",
+      "cell": "worker-opus-max",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "e5b33ba13bcb57d58adc4c1bcba536b9d01fbdcb40649521e33bfaa341912c0b",
+        "case_count": 4,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "ordered commit"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 25.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "b3d2f93206ddb16b311c249fb5db43c3bfa5db9b65ce5410eb036b5ad548c59a",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "5a9eeac80c7b6aa29bfe5145f7e206e024f59c46114ea436dbd248eb2093f14b",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "bbf9b1f687947e66a2d6c8371035cd19aa984f7fc7e3d770ccc5f682fe38aca2",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.25422849999999997,
+        "decision_digest": "541e926e8304ca56ce05a2f2d3f7c5dcdf9069113d58894c03cb6e61dad789d9",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T23:34:49.092281+00:00",
+        "identity_valid": true,
+        "intent_digest": "ba172086b304ee2e8397a22ff2b20506cf208d0fdf5d06c069e7af33c56875c4",
+        "invocation_id": "77fad8662eb87ecbdf94e7065ad66815",
+        "requested_cell": "worker-opus-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:33:18.544303+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 7480,
+          "cache_read_input_tokens": 32135,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.25422849999999997,
+          "currency": "USD",
+          "input_tokens": 8,
+          "output_tokens": 6487
+        },
+        "wall_clock_s": 90.547,
+        "writer_stopped": true
+      },
+      "sequence": 39,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-opus-max",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-opus-5",
+        "admission_token": "eb2e802b78768d58191123f1c8bf3978189c9484636ba2a8c779b872dde1e29f",
+        "billed_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-opus-5"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "f503e135a2b26a0e50d7031ac23f5489485795ebfad9ee0e2c59ba209c30c502",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "25cf1a15517536580582fa27230f8a4acc1cf89cd3cef722b87fe7fd212156e7",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.1164405,
+        "decision_digest": "f72490bd386f9c02e7e2ac8a7bd2e348abd4e9aef5740fc2fd9d5a1fa1c0847a",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-24T23:37:17.148564+00:00",
+        "identity_valid": true,
+        "intent_digest": "7f35c6a444ffa280dac11078f8b04f9aa929988265480cafae4b210ba8dda83a",
+        "invocation_id": "2735b37464754a88830f10149ba0ae1d",
+        "requested_cell": "worker-opus-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-opus-5"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:36:33.724447+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2828,
+          "cache_read_input_tokens": 23295,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1164405,
+          "currency": "USD",
+          "input_tokens": 6,
+          "output_tokens": 3015
+        },
+        "wall_clock_s": 43.422,
+        "writer_stopped": true
+      },
+      "sequence": 40,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-fable-low",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "c1ada0003caa4a395ac5078247ba58421380156a6e4f504b41eefdafb533b5c2",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "ed537f069c110edd19e74439b17cfc84f6d55af69ce8218010c7bea6e2f7c4ce",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "c627d31d46d6cc162195242dd389971a899575c2ed835c402d236e1ff5ca8659",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.18958250000000004,
+        "decision_digest": "b5ed3f1f6c3aebde15b81b2746b936a9951ff8f9341e4297c406bdc6a9350ea0",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:39:07.865117+00:00",
+        "identity_valid": true,
+        "intent_digest": "9aee5d56701ced661ab4e602ed040df4a8279d6d9c4986370c914029fd07edd8",
+        "invocation_id": "6ec057742e009d08ea1ee5289d40a9f5",
+        "requested_cell": "worker-fable-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:38:53.504239+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 8917,
+          "cache_read_input_tokens": 8566,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.18958250000000004,
+          "currency": "USD",
+          "input_tokens": 34,
+          "output_tokens": 154
+        },
+        "wall_clock_s": 14.359,
+        "writer_stopped": true
+      },
+      "sequence": 41,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "9f5aad8cc972faa3131dd68ff4f3ef1d8d0e32a48a9d67084f33693255106e00",
+      "cell": "worker-fable-low",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "9f5aad8cc972faa3131dd68ff4f3ef1d8d0e32a48a9d67084f33693255106e00",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "4f606880da4707104741806861ee12a260a5d14049c757126d4d6ed6bd1d1e3c",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "9db3d233bdfa30543b9ba4aabc45a8c4ea980b7546f421501dd9505891855b11",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "f57ff2d696d99f1ceec98a8b8cd1950c6de9a5973917dcb6343219743c0319b0",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.13241225,
+        "decision_digest": "7b6d68c1cc59acbe0049bb354c9ead0f9445e0dcd72ca1e5567f0e2ff7a61be3",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:40:33.005203+00:00",
+        "identity_valid": true,
+        "intent_digest": "41e9753fcdc45e880f6f1af0587db7b9a7ab9b5a9327136ad177a5b97964fe33",
+        "invocation_id": "4b1e11a2b7ec7403d4d88df8b00af13c",
+        "requested_cell": "worker-fable-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:40:05.006780+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2621,
+          "cache_read_input_tokens": 34233,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.13241225,
+          "currency": "USD",
+          "input_tokens": 98,
+          "output_tokens": 1387
+        },
+        "wall_clock_s": 28.0,
+        "writer_stopped": true
+      },
+      "sequence": 42,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "2c212dbb81b66442d11c18fd9fb96c17b87fc9c8bc508516cd37e410fcec5cfa",
+      "cell": "worker-fable-low",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "2c212dbb81b66442d11c18fd9fb96c17b87fc9c8bc508516cd37e410fcec5cfa",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "dbb991fe8329880e50a63a13b389ff88d91f0dcf9a6c8ebefcba87e4340d8c81",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "cdf1b6850c645af8e7a4e0cb74d16f1dd6094ee6b739e3ada54f095d52d5921e",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "92870decbde35bfe7d9e8c3493cf903e214258ac4021a26a153fa3042e6845d3",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.146046,
+        "decision_digest": "1cc60ff6503403b121f76fb4365370cba66ccdbcd5748e6760ae1798df25a794",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:41:55.187655+00:00",
+        "identity_valid": true,
+        "intent_digest": "066a62724347600c654d6bac8315cbdf17daed6430d1fff7b23446a4aed32902",
+        "invocation_id": "4d6965263130fa14e0f45234de304daa",
+        "requested_cell": "worker-fable-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:41:26.791633+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3370,
+          "cache_read_input_tokens": 64640,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.146046,
+          "currency": "USD",
+          "input_tokens": 194,
+          "output_tokens": 1188
+        },
+        "wall_clock_s": 28.406,
+        "writer_stopped": true
+      },
+      "sequence": 43,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-fable-low",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "7109ee6fa58735f91576bea1a981fba86d4045d040e609038cd8a8c2c5631f4a",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "22293d2ca950f4f782b1c7ff0123cca2ff623469c46e9cc3bf67a8f42ea32f07",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "36ae49f01b5da944f36bb1334e04351ae9ea106747c03cf05ddfadea18f4f1de",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.06786425,
+        "decision_digest": "996a51e1d2ad647ae052c979cbf4e0c81219e7c0d8875854b46ba03b4b125d39",
+        "effort_evidence": "cli-argument:low",
+        "finished_at": "2026-09-24T23:43:19.083246+00:00",
+        "identity_valid": true,
+        "intent_digest": "9065beeb9393bb976274937889b3e1ea58ef36adf77c1f17cbe602e59c8d50bc",
+        "invocation_id": "0a973af6667522e1aae5f09385743684",
+        "requested_cell": "worker-fable-low",
+        "requested_effort": "low",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:43:02.332703+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1939,
+          "cache_read_input_tokens": 25065,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.06786425,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 421
+        },
+        "wall_clock_s": 16.75,
+        "writer_stopped": true
+      },
+      "sequence": 44,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-fable-medium",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "eef2692d3e97c2ef8fd71aec029915f895038d8dfd4e2dfc17c7a2148cce2f81",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "7c2483b42d693f9027597819e31c51e812e42fc5657530927b858008b6568644",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "38846430a7894bf95f9a7397546690d2980a9fb5639468aa7d621545fb0e0652",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.04047425,
+        "decision_digest": "10ba04e63be373aceed2e675e59c38da91662c688b8b1e3d1b8e8a723387f803",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:45:08.341586+00:00",
+        "identity_valid": true,
+        "intent_digest": "a11c9e765ec1771aa5471404685488470db5a754eb5ebc6f8702ef45b7999692",
+        "invocation_id": "6fe12c50e1cdda26a5efe1884ad292b7",
+        "requested_cell": "worker-fable-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:44:54.209268+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1336,
+          "cache_read_input_tokens": 16073,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.04047425,
+          "currency": "USD",
+          "input_tokens": 34,
+          "output_tokens": 167
+        },
+        "wall_clock_s": 14.125,
+        "writer_stopped": true
+      },
+      "sequence": 45,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "0a871e6a02d3d619d83b78748254b2a8f931739f145d4621beff3076820422fd",
+      "cell": "worker-fable-medium",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "0a871e6a02d3d619d83b78748254b2a8f931739f145d4621beff3076820422fd",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "be5c2af99987e9622ae8c5c6c1c84de777f0cdfe50133c1732719336f6b98060",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "adfc2dd7c6fc1e11c8b04ecf2505474bb422e0038013eeacd9e84c529d05e3d4",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "bbcd3cd189c7c5d9ff0ebf8af33eee3d0897b961233207bf1f0e656a5be44c38",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.14095525,
+        "decision_digest": "2e2d74ff96de5bf82303f46ff39a8e7baa94b1f2b2df9307d3d4a75de0c860ef",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:46:52.449221+00:00",
+        "identity_valid": true,
+        "intent_digest": "9ed2965083bc9b7f9f423900d72701542c30b3b26e20cd174282f0a415f6cec0",
+        "invocation_id": "e3c2e7e75402b538f6e526f8ddb906f0",
+        "requested_cell": "worker-fable-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:46:22.588400+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2805,
+          "cache_read_input_tokens": 25365,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.14095525,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 1535
+        },
+        "wall_clock_s": 29.859,
+        "writer_stopped": true
+      },
+      "sequence": 46,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "2a2ddf23a20ef591cbd1385981bc23c91911617766558a0828924e50d416c8b3",
+      "cell": "worker-fable-medium",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "2a2ddf23a20ef591cbd1385981bc23c91911617766558a0828924e50d416c8b3",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "a34949d259463c08a71fee7c257bc68fb8cc5c68fa7398397e2526f6544650cc",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "5333ea28eba5c0ee7ebb51319ca46ff13213ed3008424dea353a1164676b9a46",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "7e60424dacad2c07950476cb7a0acbcebb7f39c164fb85d2d445f270238a731d",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.167294,
+        "decision_digest": "07f6da3b55c5d84174249f87c65d6fddde6ae00f3b362d6d6b4c4730d3e84d07",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:48:45.290575+00:00",
+        "identity_valid": true,
+        "intent_digest": "569766e956ca04ce46fb6ffe406557efcab9591c0dfb8650b6282b71e45629cd",
+        "invocation_id": "5ea33e84fff6bd2993e89361f865c0f3",
+        "requested_cell": "worker-fable-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:48:13.163215+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3756,
+          "cache_read_input_tokens": 54832,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.167294,
+          "currency": "USD",
+          "input_tokens": 162,
+          "output_tokens": 1514
+        },
+        "wall_clock_s": 32.125,
+        "writer_stopped": true
+      },
+      "sequence": 47,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-fable-medium",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "7d440d4469d8bd62f58111a726fd2248a0eb9435f3cb808abb98b81ef26c8884",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "66cf062deed5b49711d4dd6724c629d8c37f5cdcfd35dc308540ce2057d06507",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "ca879eef29ec8b61fba61fc6e3bb6708002ce7acd10978fe17840c73717cb2b2",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.0675805,
+        "decision_digest": "3358631924c5b98f2813b298e5111fe66698408adee8a51c31cd0b6ee29fa27f",
+        "effort_evidence": "cli-argument:medium",
+        "finished_at": "2026-09-24T23:50:23.602050+00:00",
+        "identity_valid": true,
+        "intent_digest": "292a0fdee9a7ade76edc7299ed0cc71defe6edeaa627765a3d5214bd2136fbb7",
+        "invocation_id": "cfaa6a78f0ce2f7007e78e974c66776e",
+        "requested_cell": "worker-fable-medium",
+        "requested_effort": "medium",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:50:03.708806+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1784,
+          "cache_read_input_tokens": 25090,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.0675805,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 477
+        },
+        "wall_clock_s": 19.89,
+        "writer_stopped": true
+      },
+      "sequence": 48,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-fable-high",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "a0734759a9b88e7e2344d29a63a9369dafd950eabd997dfe6f43ac0752f0e719",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "0c918312cfc9fd3342f1dbf5c8f78a1f3c2f3c29768ccbee687a92f30d6d686f",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "e104d204411e55359d1bfd662e90ac8e7496411dce28b83fa182be4d606c9f24",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.07909275000000002,
+        "decision_digest": "6e1298fb458d0806247259ab889953fd7f0c811ba76caf462eb7e879f325f8ba",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:51:48.583076+00:00",
+        "identity_valid": true,
+        "intent_digest": "e9308e362932a882d1697d95357ed35e5f372673f948f055fb715c16f3421511",
+        "invocation_id": "80023ade5e050e3821c52d2771b0f36a",
+        "requested_cell": "worker-fable-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:51:32.966091+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2224,
+          "cache_read_input_tokens": 34287,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.07909275000000002,
+          "currency": "USD",
+          "input_tokens": 98,
+          "output_tokens": 480
+        },
+        "wall_clock_s": 15.625,
+        "writer_stopped": true
+      },
+      "sequence": 49,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "3e33433ba1dc9c27cefca1b38500135dd57f54578b793bf423aaef4078d7a8c4",
+      "cell": "worker-fable-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "3e33433ba1dc9c27cefca1b38500135dd57f54578b793bf423aaef4078d7a8c4",
+        "case_count": 5,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary",
+          "boolean rejected",
+          "range enforced",
+          "missing rejected"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "4ae99db9bbac7591dff3f27c2f9d34b34de4ade07ca734cacdb2a78b9e7c3fac",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "76e0e80946fab46be71a7fe8a8ac09ce9e4f3a04f8efe694ac5d3f7390be18d7",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "19ebb0d6a0fc6fcff0579f3810aba05eba164d89848465babc86528d592d68c3",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.19458525,
+        "decision_digest": "5c42f664a8cf10a59cd57d4fe6090fd1f56715f70c2d4013681400d7957aec05",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:53:15.305196+00:00",
+        "identity_valid": true,
+        "intent_digest": "ee59d14d49360d2049a229d3585cc87a8239bbc6095c0c107ed9b1c67940402e",
+        "invocation_id": "da3e7086a69564845d5bedd29f4fad13",
+        "requested_cell": "worker-fable-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:52:34.941964+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 3802,
+          "cache_read_input_tokens": 74925,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.19458525,
+          "currency": "USD",
+          "input_tokens": 226,
+          "output_tokens": 1929
+        },
+        "wall_clock_s": 40.359,
+        "writer_stopped": true
+      },
+      "sequence": 50,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "54a94eacd4b28f5c86f7c8aeda00b50e12ea4ec31d094e06a781cbadc76b289a",
+      "cell": "worker-fable-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "54a94eacd4b28f5c86f7c8aeda00b50e12ea4ec31d094e06a781cbadc76b289a",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "7b2da11513542f09c6d1359327cb6f351206c8d831e763d9cc1ac2d078aa21f1",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "cdca4e4cde00b116569767cb7885bf777e3edcb0559d0166e452cfef07037ea5",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "aafeebc9e722a1132befd844f327a25bac397a65d9b5516312b76ad565983d07",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.20445049999999998,
+        "decision_digest": "7d92191cf91d209496c69f0322137007894aafe1e75ab1916035b1c9a5e46e5c",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:54:58.637075+00:00",
+        "identity_valid": true,
+        "intent_digest": "40d296c9b5d14fc5fc1917dc7710c9f90fc97177ec6900e42e0cb6889caf83ff",
+        "invocation_id": "5f50d9cca0dee6a39d1977a78b396608",
+        "requested_cell": "worker-fable-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:54:20.167841+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 4359,
+          "cache_read_input_tokens": 47098,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.20445049999999998,
+          "currency": "USD",
+          "input_tokens": 130,
+          "output_tokens": 2061
+        },
+        "wall_clock_s": 38.469,
+        "writer_stopped": true
+      },
+      "sequence": 51,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-fable-high",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "eade175b0bfc8a802bf2851731dc107548021f56cbd92e19b5f2079551a50eec",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "f114bd30b52a5359278ff0ca09c9a4195c4e1eb0209aa0011b3d077a9f5d74a4",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "72c1fcbe9163b033e90f20370a190fcb085659f10ed6c23fe9d1b4e6366ce8bf",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.07057250000000001,
+        "decision_digest": "57a68e0c88c407212dda4e642ec62e58af4dff16dd105d96d1d1057e714f0e2c",
+        "effort_evidence": "cli-argument:high",
+        "finished_at": "2026-09-24T23:56:14.347358+00:00",
+        "identity_valid": true,
+        "intent_digest": "e893ac80211cae2f2a6cf587ffd4582ba19a4c850499ab253d986985beb11b92",
+        "invocation_id": "a595e837d964405aae6334e5b0064a2f",
+        "requested_cell": "worker-fable-high",
+        "requested_effort": "high",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:55:58.369835+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 1799,
+          "cache_read_input_tokens": 25098,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.07057250000000001,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 531
+        },
+        "wall_clock_s": 15.984,
+        "writer_stopped": true
+      },
+      "sequence": 52,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-fable-xhigh",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "1aafc0278ce251bbb8b801d535369cb26ab4eaa26f30e24d8bb252a2041e9e61",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "bde624319b670ecb35d4dadc539b97a01b20f01372e1968dc069d224d87df472",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "3ca202c069287e03828e804bfba11995560e5036e34d4636f8cff8dd79e1909e",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.07547675,
+        "decision_digest": "b667e8faf969dba92ada2b93dc5a0ff46b6e6f30bbe09fb1d6508bc66964eb9a",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T23:57:40.857716+00:00",
+        "identity_valid": true,
+        "intent_digest": "81f2af14254ddb4f271b58fac5181834a9248ec7e9dabbbadb53c6fed7775a4d",
+        "invocation_id": "86f9520784e928c90d008aab3b9f4e03",
+        "requested_cell": "worker-fable-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:57:24.337502+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2139,
+          "cache_read_input_tokens": 25303,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.07547675,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 493
+        },
+        "wall_clock_s": 16.515,
+        "writer_stopped": true
+      },
+      "sequence": 53,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "7ff8b977be1510bb51598f6ca6fa602e9f3beff366879ac2fd2cfb6cb8dfb2f4",
+      "cell": "worker-fable-xhigh",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "7ff8b977be1510bb51598f6ca6fa602e9f3beff366879ac2fd2cfb6cb8dfb2f4",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "71606fa54588c0ac7d5f6063b0d10a306273183ba5786d71066119347341ce71",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "e12c538f3368ac853d93e948e327a65b6a5d8f7524263de7abf766dfc147ccda",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "5f10698c876a5e97372483d98daad4a081579c7edc0164eae90e73e5829c0bb5",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.26956325000000003,
+        "decision_digest": "84e2ccf48dd25715b7576f253806f92bef362fe4ca9f00cc218d2ac517a62a6a",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-24T23:59:34.791231+00:00",
+        "identity_valid": true,
+        "intent_digest": "8452a777952f466c48ab0ce28f08e39ef3c811eae958a0d8f640ae573d6d87e8",
+        "invocation_id": "8f289422089fdf78a5fda5e4dcd1a5f3",
+        "requested_cell": "worker-fable-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-24T23:58:27.495341+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 4648,
+          "cache_read_input_tokens": 35277,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.26956325000000003,
+          "currency": "USD",
+          "input_tokens": 98,
+          "output_tokens": 3314
+        },
+        "wall_clock_s": 67.297,
+        "writer_stopped": true
+      },
+      "sequence": 54,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "5b7150876cb101030e67c36935ba300f181c82034fb00a4fab7911d5ac20e2cf",
+      "cell": "worker-fable-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "5b7150876cb101030e67c36935ba300f181c82034fb00a4fab7911d5ac20e2cf",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "618092e225fb94a1446386a51d57c244bd9d2102d7ea1bba6de8ec1e62d5d12c",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "4d2b353d82a09a13160a38ddef678e5256a4286b230aaf126fd8450de6be023e",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "5f967c9f6793d8734f36ea6c8b59f9e5faf0e229b016ceae71fd555b8d55c0e2",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.27011025,
+        "decision_digest": "5e244c3bd4d83ddb73d620485472f34bfa758e2b3ccf35654f681594c6005027",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-25T00:01:51.250350+00:00",
+        "identity_valid": true,
+        "intent_digest": "36a0f8573149be568c0a9ef25263699313faf6907503c35663a9b0e121c2d7fc",
+        "invocation_id": "11d5d6cf4914b4932ec754aaaff6329b",
+        "requested_cell": "worker-fable-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-25T00:01:02.926045+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 5255,
+          "cache_read_input_tokens": 58177,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.27011025,
+          "currency": "USD",
+          "input_tokens": 162,
+          "output_tokens": 2954
+        },
+        "wall_clock_s": 48.328,
+        "writer_stopped": true
+      },
+      "sequence": 55,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-fable-xhigh",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "c6aa5d0dffabf5b1479447f7c18bd911c8a2e6bdc1baeb6afbcaa51ae474aa31",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "83906a620b6a4f491a82f6473aba994f0eaa7f7b91bba2f4c70e257f93f48410",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "14aac41336ce2dc4a13e08a055b7d0c9a6d97d416c4c5f392a55c262001b0d75",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.1261455,
+        "decision_digest": "64a2cc6a7e9c3f8ca0a5ee272273b6a39b1e9ba84220eef46cb0e2c9d0a0aba0",
+        "effort_evidence": "cli-argument:xhigh",
+        "finished_at": "2026-09-25T00:04:10.860954+00:00",
+        "identity_valid": true,
+        "intent_digest": "53defb10f512baa1789c934359d842a65469c35fc4b27d972acb485846cf3fda",
+        "invocation_id": "b61815449b80bc7def4845754d068ce3",
+        "requested_cell": "worker-fable-xhigh",
+        "requested_effort": "xhigh",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-25T00:03:38.125440+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2442,
+          "cache_read_input_tokens": 25510,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1261455,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 1383
+        },
+        "wall_clock_s": 32.734,
+        "writer_stopped": true
+      },
+      "sequence": 56,
+      "status": "graded",
+      "task": "S03"
+    },
+    {
+      "actor_app_sha256": "55d76f018dd8ad92977969916dcabd9b05463b2d745fdf0f78160bb60f29a8da",
+      "cell": "worker-fable-max",
+      "grade": null,
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "3e928dcb00da877a3cb6e89390778481a43a64b156b2df0262f150dfd558c3c5",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "8b212591d2ca8ad6d99ffdb7996f32039ceb125d0ab3b35a62373961e800e691",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "79e32cc41097ff5c46ce15590ed55736488f9db5d253b43bb0fd787132384fec",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.08502799999999999,
+        "decision_digest": "b88983e8c06406c365203f209f000c275362c010eb93256701349983998e9ec5",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-25T00:05:45.027987+00:00",
+        "identity_valid": true,
+        "intent_digest": "50db4f89778c7ffc419ac73b129b40bb4e0784ab2ceed4d1e5bc555edcae7d5d",
+        "invocation_id": "4317cee0599e7818f78024984ad23adc",
+        "requested_cell": "worker-fable-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-25T00:05:29.565718+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 2269,
+          "cache_read_input_tokens": 25308,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.08502799999999999,
+          "currency": "USD",
+          "input_tokens": 66,
+          "output_tokens": 632
+        },
+        "wall_clock_s": 15.469,
+        "writer_stopped": true
+      },
+      "sequence": 57,
+      "status": "graded",
+      "task": "I00"
+    },
+    {
+      "actor_app_sha256": "9b3f66a562fe6988e0e4bb4a7a23b90130e4ad7de09cc87283e2b01af618251f",
+      "cell": "worker-fable-max",
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "9b3f66a562fe6988e0e4bb4a7a23b90130e4ad7de09cc87283e2b01af618251f",
+        "case_count": 5,
+        "critical_error": true,
+        "false_success": true,
+        "milestones": [
+          "trimmed decimal",
+          "upper boundary"
+        ],
+        "oracle_sha256": "a19e520ce82dd4d157553579c8058773655e6c345264cfb0b79b47b267ebaec8",
+        "quality": 40.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "cc21ce9964b82f37305b6a85e1db4b7bed81d3e39235e4a3a405699744e544bb",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "7f6f96e3f360b4a9054c6da0d27008fbd55bff1b7f4268e604d39d0c5938dd7a",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "346bf197baa933e5e3cada0a49a3bb7caf3519919584eb92fadab069bf2d64fc",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.8577565,
+        "decision_digest": "b89fc17242ccc20fa7ab3555a534458f18d80ff8b2e5af156a39bc971b0e0b95",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-25T00:09:46.519937+00:00",
+        "identity_valid": true,
+        "intent_digest": "2006a47659f6d295af5b094e4da4b627268988ebd28e3fda1e386eb05e5eb9fa",
+        "invocation_id": "a2b00ec69604518cfa4828c436738651",
+        "requested_cell": "worker-fable-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-25T00:06:47.440021+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 7178,
+          "cache_read_input_tokens": 44770,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.8577565,
+          "currency": "USD",
+          "input_tokens": 100,
+          "output_tokens": 14018
+        },
+        "wall_clock_s": 179.079,
+        "writer_stopped": true
+      },
+      "sequence": 58,
+      "status": "graded",
+      "task": "S01"
+    },
+    {
+      "actor_app_sha256": "72ad53a3e5bbbcdfa0cf0d3369ff1d637bee475ea13fb00f5e0494e46aa6b435",
+      "cell": "worker-fable-max",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "72ad53a3e5bbbcdfa0cf0d3369ff1d637bee475ea13fb00f5e0494e46aa6b435",
+        "case_count": 4,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "ordered commit",
+          "duplicate rollback",
+          "negative rollback",
+          "boolean rejected"
+        ],
+        "oracle_sha256": "2007fcb5ee8214ab47034399e9dd3e09852b5ebb03264ef59199c065a6742de0",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "d0a3d5b747671935949655496d2a5783d2438b45bc05593bdd9dcd810c70f619",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "7d31ed8c6c2c82b0f9c216ca4a7c75a33b1adedef7c6d2b6e51808d7cb3c2aad",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "8d6fae0a7d5a75cb6249fd5466086f2f5bbcb0623eeb0d50d76113856366f8b9",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.61734575,
+        "decision_digest": "36c2879c7c993b18bd83f460232b15c6e5b3c29c552e180871f383db8dc22ea7",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-25T00:12:44.013769+00:00",
+        "identity_valid": true,
+        "intent_digest": "58368d4b2dd035e2b2029580e4cbc6ff23625666587bbc2f59f4599a8afe4233",
+        "invocation_id": "e77828dc27d33d9d17c5de4bc200ccfd",
+        "requested_cell": "worker-fable-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-25T00:10:56.903242+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 9315,
+          "cache_read_input_tokens": 59519,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.61734575,
+          "currency": "USD",
+          "input_tokens": 162,
+          "output_tokens": 8268
+        },
+        "wall_clock_s": 107.11,
+        "writer_stopped": true
+      },
+      "sequence": 59,
+      "status": "graded",
+      "task": "S02"
+    },
+    {
+      "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+      "cell": "worker-fable-max",
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "cdaf7a66dd9ad9132cd3fa87b9e6cb89750e657c063a89215e939c72e1035f19",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "total not unit cost",
+          "stable tie",
+          "suspect confirmed"
+        ],
+        "oracle_sha256": "bbeecdcac2ef161f21ed757baa9286ecb00a161d71f73e8da6b55a33a8744cea",
+        "quality": 100.0
+      },
+      "observed_identity_valid": true,
+      "receipt": {
+        "actual_model": "claude-fable-5-1",
+        "admission_token": "0491fb02867de62983abdb499061a07aea7f59c8f00deb940b62670dd2765484",
+        "billed_models": [
+          "claude-fable-5-1",
+          "claude-haiku-4-5-20251001"
+        ],
+        "child_models": [],
+        "command_contract": {
+          "argv_sha256": "159eb1ebf41be0c84c6523fe8839bcbb88e02e18cd37853c6fb3521992fe8de1",
+          "credential_method": "subscription",
+          "filesystem_enforcement_proven": true,
+          "graft_configured": true,
+          "host_attestation_sha256": "9addb1ab7554e617b4a7f86c7a126d33444ecffd738d0cb2ff6466503da7fd29",
+          "requested_argv_sha256": "aa189a5f9710d4b83ccad95d582cd37dcbe5803577b27b96033a27ef6479cdf9",
+          "restricted": true,
+          "strict_mcp_config": true,
+          "subscription_attestation_sha256": "b4d2f73f076a64f457a55dd4f61a9df17f9ebf14ec74563c7441109cb041d052",
+          "transport": "wsl-private-mount-pid-uid65534"
+        },
+        "cost_usd": 0.41750575,
+        "decision_digest": "be5f401410b43e332757087e72efcd9c7a211e9452eaea40e1b9cf809bbac40d",
+        "effort_evidence": "cli-argument:max",
+        "finished_at": "2026-09-25T00:15:13.787253+00:00",
+        "identity_valid": true,
+        "intent_digest": "ca786efe62386f1350510e4c7f28bc6ba7c202f933017ddaec44cd7583c1ae91",
+        "invocation_id": "10a83935421fe9d3a3af3c3360f9ce79",
+        "requested_cell": "worker-fable-max",
+        "requested_effort": "max",
+        "returncode": 0,
+        "revision_id": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "root_models": [
+          "claude-fable-5-1"
+        ],
+        "served_effort": null,
+        "started_at": "2026-09-25T00:13:58.327785+00:00",
+        "status": "completed",
+        "stream": {
+          "invalid_line_count": 0
+        },
+        "terminal": true,
+        "timed_out": false,
+        "usage": {
+          "cache_creation_input_tokens": 6794,
+          "cache_read_input_tokens": 49271,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.41750575,
+          "currency": "USD",
+          "input_tokens": 130,
+          "output_tokens": 5338
+        },
+        "wall_clock_s": 75.453,
+        "writer_stopped": true
+      },
+      "sequence": 60,
+      "status": "graded",
+      "task": "S03"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "afb73aaa54b9eba3bb43323a33bddcf28d195f29a64f7d7973b8fd93c9eb3227",
+  "status": "complete",
+  "stopped_cells": []
+}

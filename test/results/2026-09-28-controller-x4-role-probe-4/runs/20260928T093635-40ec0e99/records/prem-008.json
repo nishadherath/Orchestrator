@@ -1,0 +1,16 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-008",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-005"
+  ],
+  "text": "Evidence capable of separating the three explanations exists or can be obtained: writer error records, the ordering of acknowledgement against first write attempt, idempotency-key hit counts, and a job identifier shared by both stores.",
+  "class": "unverified",
+  "source": "Inference required for any discriminating check to be proposable at all; not stated in the problem.",
+  "confidence": 0.5,
+  "cheapest_verification": "Confirm the service emits writer errors, timestamps both operations, and carries one job id into the receipt store.",
+  "load_bearing": true,
+  "supersedes": null
+}

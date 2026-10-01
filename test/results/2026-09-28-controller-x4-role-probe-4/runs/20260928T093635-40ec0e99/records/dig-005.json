@@ -1,0 +1,10 @@
+{
+  "type": "PhaseDigest",
+  "phase": "verify",
+  "text": "Controller selects ['subtract', 'abduce']: Core task is causal discrimination among competing explanations (abduce) plus pruning to load-bearing premises given no inspectable artefact (subtract). Re-represent's trigger doesn't plainly apply; r",
+  "records_written": [],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [],
+  "id": "dig-005"
+}

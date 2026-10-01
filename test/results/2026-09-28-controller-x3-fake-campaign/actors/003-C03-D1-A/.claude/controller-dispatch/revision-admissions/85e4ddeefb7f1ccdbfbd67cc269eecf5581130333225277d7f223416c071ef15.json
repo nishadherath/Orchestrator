@@ -1,0 +1,7 @@
+{
+  "decision_id": "rtd-2999c3fdb1e63e864a1379ec",
+  "root_task_id": "offline-pair-root",
+  "schema_version": 1,
+  "status": "dispatch-intent",
+  "task_revision": "85e4ddeefb7f1ccdbfbd67cc269eecf5581130333225277d7f223416c071ef15"
+}

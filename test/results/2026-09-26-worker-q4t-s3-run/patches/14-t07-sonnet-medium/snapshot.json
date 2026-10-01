@@ -1,0 +1,12 @@
+{
+  "episode_label": "sonnet-medium",
+  "files": {
+    "eventbox/api.py": "e487d336724d2bfe8d7025ed8f8c4649719459472eb22d28633fe1e149c575de",
+    "eventbox/parser.py": "ac8220b22dbcdad465214c4715fc55499a7760efc893b27f0c90d64d30bc4e27",
+    "eventbox/state.py": "915b0333b24570e27d6789a9bd965b336cb77867f1143ae3a307091f253cc559"
+  },
+  "schema_version": 1,
+  "sequence": 14,
+  "snapshot_sha256": "0fa20ba6352a1af4f4b19aaa118e569a5452bda0406e2bca453a24be84aeeaba",
+  "task_id": "T07"
+}

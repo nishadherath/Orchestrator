@@ -1,0 +1,12 @@
+{
+  "episode_label": "opus-high",
+  "files": {
+    "jwt/api_jwk.py": "1d874fd888f7f38a9349bc36406813ecc97d24eea8115b453fdf748a4a4a5e77",
+    "jwt/jwk_set_cache.py": "036d28b173de0088e42accf510f80080175af8e6287707f3f06c1bc5561480cc",
+    "jwt/jwks_client.py": "630b911bc88eb9b85db488987411c023876f8b5aca5d286fab900bb82c7a6ffa"
+  },
+  "schema_version": 1,
+  "sequence": 13,
+  "snapshot_sha256": "9760b526121be3697b304dc4ce7ad3c3aebb5126446558d30be399bb1419d8bd",
+  "task_id": "P06"
+}

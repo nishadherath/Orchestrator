@@ -1,0 +1,124 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.886672599,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T17:51:03.388348+00:00",
+    "currency": "USD",
+    "invocations": {
+      "6691d49e74ef1bd969c1ea518b52dfba": {
+        "allowance_units": 5000000000,
+        "charged_units": 113327401,
+        "cost_usd": 0.11332740000000001,
+        "metadata": {
+          "decision_digest": "b0d8db02b2b73fda804ed367df51d4303caa4e738534def72ef97b2136a0ccf6",
+          "revision_id": "b96b10b7052a96552f0e5143b0a23077572b11f351044f710dea5496f6428f5c",
+          "root_id": "0040c9de4b95e9ed258f6433"
+        },
+        "reserved_at": "2026-09-29T17:53:02.161723+00:00",
+        "resolution": {
+          "cost_usd": 0.11332740000000001,
+          "evidence": "receipt:2dd2dc99e8daae6ccd634d070d4ef46eb4637aa61960d86f440d469750f30873",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 20675,
+            "cache_read_input_tokens": 66682,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.11332740000000001,
+            "currency": "USD",
+            "input_tokens": 10,
+            "output_tokens": 1607
+          }
+        },
+        "started_at": "2026-09-29T17:53:02.170058+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 20675,
+          "cache_read_input_tokens": 66682,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.11332740000000001,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 1607
+        },
+        "updated_at": "2026-09-29T17:53:22.548812+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.113327401,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 23.615,
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "dc2dfd1953832b107a4333b1d80d3b72cd50ad8d74d46645eb68577dbf1c2353",
+  "protected_grade_after_public_entry": {
+    "candidate_edit_sha256": {
+      "itsdangerous/timed.py": "3afbf6050e8b73605931d1e516f374835456979e4319c098bfe5f284f120c6c5",
+      "itsdangerous/url_safe.py": "6b3e1ee5f5e2fefb3e61b5a3f186709f8c2254a7de0fef8610a453e547aee0fe"
+    },
+    "cases": [
+      {
+        "milestone": "compressed-load",
+        "passed": true,
+        "weight": 30
+      },
+      {
+        "milestone": "small-preserved",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "milestone": "future-rejected",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "milestone": "small-skew-rejected",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "milestone": "expired-rejected",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "milestone": "tamper-rejected",
+        "passed": true,
+        "weight": 10
+      }
+    ],
+    "critical_error": false,
+    "false_success": false,
+    "hidden_acceptance": true,
+    "milestones": [
+      "compressed-load",
+      "small-preserved",
+      "future-rejected",
+      "small-skew-rejected",
+      "expired-rejected",
+      "tamper-rejected"
+    ],
+    "oracle_direct_read_denied": true,
+    "oracle_sha256": "70e8cede910e69dc49ce91818d4fddb6224035f13404da8e5edb1efffe3c9d86",
+    "package_sha256": "0dcdd4c94892f3f46432f85207ae9ced5d42cf80e327333bdf176913b9a2d06a",
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "public_pass": true,
+    "quality": 100.0,
+    "source_workspace_unchanged": true,
+    "task_id": "P02",
+    "variant": "candidate"
+  },
+  "qualified": true,
+  "root_id": "0040c9de4b95e9ed258f6433",
+  "snapshot": null,
+  "state": "accepted"
+}

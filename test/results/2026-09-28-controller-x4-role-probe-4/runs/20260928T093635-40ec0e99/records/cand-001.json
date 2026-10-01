@@ -1,0 +1,17 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "frame-001"
+  ],
+  "technique": "b0",
+  "premise_operation": "none",
+  "mechanism": "Answer the problem exactly as stated, taking every constraint at face value and changing nothing about the frame. Accept the three named explanations as the candidate set, accept that the notes are insufficient, accept the fixture scoping, the statement-only evidence limit, the no-claimed-execution rule, the reversibility requirement on containment and the conditional status of any implementation. Produce the brief in the order asked: for each of writer failure, premature acknowledgement and idempotency suppression, give a check over the artefacts a service of this shape would ordinarily emit, stated as the pattern that would distinguish that explanation from the other two; then one containment step whose reversal is stated; then one implementation direction expressed as conditional on a named check result. No premise is removed, re-represented or added, and no finding about a constraint's own truth is acted on. This is the straightforward competent response and the baseline every later candidate must beat.",
+  "claimed_gain_vs_b0": "None. This is the baseline against which subtract, re-represent and abduce candidates are measured.",
+  "premises_introduced": [],
+  "falsification_test": "A reviewer with only the problem statement finds a check whose confirming pattern is also produced by another of the three explanations, or finds the containment step is not reversible as described.",
+  "cost_estimate_usd": 0.35,
+  "refines": null
+}

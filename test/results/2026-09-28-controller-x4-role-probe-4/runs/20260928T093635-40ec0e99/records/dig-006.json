@@ -1,0 +1,18 @@
+{
+  "type": "PhaseDigest",
+  "phase": "generate",
+  "text": "3 candidate(s) from ['subtract', 'abduce'], plus B0.",
+  "records_written": [
+    "cand-003",
+    "cand-004",
+    "cand-005"
+  ],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [
+    "cand-003",
+    "cand-004",
+    "cand-005"
+  ],
+  "id": "dig-006"
+}

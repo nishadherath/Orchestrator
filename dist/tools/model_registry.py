@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_REGISTRY = ROOT / "src" / "model_registry.json"
 DEFAULT_COSTS = ROOT / "src" / "cost_table.json"
 ROLES = {"controller", "framer", "verifier", "generator", "critic", "selector", "librarian"}
+GENERATOR_TECHNIQUES = ("subtract", "re-represent", "abduce")
 
 
 class RegistryError(ValueError):
@@ -79,6 +80,12 @@ def validate(value: dict) -> None:
             for name in names:
                 if name not in cells or role not in cells[name]["controller_roles"]:
                     raise RegistryError(f"profile {profile_name}.{role} cannot use {name}")
+        techniques = profile.get("generator_techniques")
+        if (not isinstance(techniques, dict)
+                or set(techniques) != set(GENERATOR_TECHNIQUES)
+                or not all(isinstance(cell, str) for cell in techniques.values())
+                or set(techniques.values()) != set(assignments["generator"])):
+            raise RegistryError(f"profile {profile_name} needs a complete named Generator plan")
 
 
 def models(registry: dict | None = None) -> tuple[str, ...]:
@@ -126,6 +133,9 @@ def resolve_role_profile(name: str, registry: dict | None = None) -> dict:
         "status": profile["status"],
         "roles": {role: [resolve_cell(cell, value) for cell in cells]
                   for role, cells in profile["roles"].items()},
+        "generator_techniques": {
+            technique: resolve_cell(profile["generator_techniques"][technique], value)
+            for technique in GENERATOR_TECHNIQUES},
     }
 
 

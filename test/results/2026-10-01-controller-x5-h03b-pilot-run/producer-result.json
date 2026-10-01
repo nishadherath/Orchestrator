@@ -1,0 +1,66 @@
+{
+  "accepted_public_success": false,
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.815766399,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-30T17:33:36.609013+00:00",
+    "currency": "USD",
+    "invocations": {
+      "fd663a52b0c84e82955090ffd15d89ef": {
+        "allowance_units": 4000000000,
+        "charged_units": 184233601,
+        "cost_usd": 0.18423360000000003,
+        "metadata": {
+          "decision_digest": "6c54b138900600822a6340e16fa1b5b2a0b776900d2011c30cd88a0f3826e929",
+          "revision_id": "7fd82d8715940b108688fc10886e2819e15d4d8debcf93309235df00abd1a698",
+          "root_id": "0475ead5cd55ed149d3747cf"
+        },
+        "reserved_at": "2026-09-30T17:39:43.892445+00:00",
+        "resolution": {
+          "cost_usd": 0.18423360000000003,
+          "evidence": "receipt:6b764b2ef5b32208198d19390c57b96c31557745dccaf1c570fe40a8bffc8aea",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 28771,
+            "cache_read_input_tokens": 176058,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.18423360000000003,
+            "currency": "USD",
+            "input_tokens": 18,
+            "output_tokens": 3259
+          }
+        },
+        "started_at": "2026-09-30T17:39:43.899363+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 28771,
+          "cache_read_input_tokens": 176058,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.18423360000000003,
+          "currency": "USD",
+          "input_tokens": 18,
+          "output_tokens": 3259
+        },
+        "updated_at": "2026-09-30T17:40:25.936668+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.184233601,
+    "unresolved": [],
+    "version": 1
+  },
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "218e0f70b4f2e80a313b07c90cd0275ce65416b4a1ce12a8c82ab8724b5c02f8",
+  "public_risk": null,
+  "qualified": false,
+  "root_id": "0475ead5cd55ed149d3747cf",
+  "state": "ready",
+  "successors": null
+}

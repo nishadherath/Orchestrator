@@ -48,8 +48,12 @@ dispatch requires the later N5/N6 qualification gates.
 
 The production adapter currently does not attest a complete supported-cell
 set or capped-call enforcement through its capability record, so the shadow
-selector cannot claim a live eligible cell from that record. N5 will screen
-availability, identity and cost before an operational candidate is enabled.
+selector cannot claim a live eligible cell from that record. N5-Q4U used
+explicit WSL evaluation adapters; those corpus-specific controls do not qualify
+arbitrary consumer projects. N7 retained B0 after no canary quality gain and
+grader/dependency-seal findings. No candidate was promoted. `/worker-task
+shadow` exposes this diagnostic path with the same eligibility checks; see
+`WORKER-TASKS.md`.
 Offline fake-host tests prove the 15-cell mapping, command pinning, journal
 isolation, invalid input rejection and the failure taxonomy. They do not prove
 served effort or live model quality.

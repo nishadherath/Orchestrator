@@ -1,0 +1,29 @@
+{
+  "type": "FrameRecord",
+  "id": "frame-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "goal_ladder": [
+    "Identify which of three candidate causes explains an absent receipt after acknowledgement",
+    "Distinguish the causes by evidence rather than plausibility",
+    "Restore the invariant that an acknowledgement implies a durable receipt, or explicitly redefine it",
+    "Give the operator a reversible containment step and a conditional implementation direction"
+  ],
+  "metric_interrogation": "The only stated observable is absence of a receipt in the separate store after an acknowledgement. That metric is a conjunction of at least three independent things: whether the write was attempted, whether it durably committed, and whether the reader queried correctly. It cannot discriminate cause because all three candidate explanations produce the same observation. A rate of absent receipts is likewise non-discriminating. Discriminating metrics would be per-job: ack timestamp versus write-attempt timestamp, writer error outcome, idempotency-key hit versus miss, and receipt-store read consistency mode. Note also that receipt absence at read time and receipt absence at write time are different measurements; the notes do not say which was observed. Without that distinction a fourth explanation, a read-side or replication artefact, is not excluded and should not be assumed away.",
+  "problem_type": "Causal discrimination under incomplete observation in a distributed two-store fixture",
+  "dissolution_verdict": "stands",
+  "dissolution_reason": "A real discrimination problem remains after classification: the observation is genuinely consistent with several causes, the candidate set is not closed, and no stated premise makes the question vacuous. The scope restrictions narrow the deliverable to an investigation brief but do not remove the underlying question.",
+  "acceptance_criteria": [
+    "Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated",
+    "The candidate set is explicitly assessed for closure, including any cause outside the three named",
+    "A containment step is proposed with its reversal stated and its cost to correctness named",
+    "The implementation direction is stated as conditional on a named check result, with the condition explicit",
+    "No check is reported as run, and no outcome is asserted as observed",
+    "Every claim is traceable to the problem statement or marked as an assumption"
+  ],
+  "b0_candidate_id": "cand-001",
+  "premise_count": 10,
+  "stable": true
+}

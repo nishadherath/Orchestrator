@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-013",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-004",
+    "meas-004"
+  ],
+  "text": "The three named explanations are not exhaustive. Enumeration adds a stale or wrong-replica read, replication lag, and retention or expiry deleting a committed receipt; none collapses into the three, and the statement uses no closure language.",
+  "class": "verified",
+  "source": "meas-004: problem.md lines 3-6 list three causes; 'use only this statement' at line 9 scopes checks rather than the cause set; enumeration surfaced three further paths.",
+  "confidence": 0.9,
+  "cheapest_verification": "Already done; extend the enumeration if a fixture topology or storage description is later supplied.",
+  "load_bearing": true,
+  "supersedes": "prem-004"
+}

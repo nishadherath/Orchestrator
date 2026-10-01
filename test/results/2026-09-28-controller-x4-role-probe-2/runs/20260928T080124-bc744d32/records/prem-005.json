@@ -1,0 +1,16 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-005",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-004"
+  ],
+  "text": "The three mechanisms are treated as exhaustive and as alternatives to one another, so discriminating checks are scoped to separating them rather than to discovering a further cause.",
+  "class": "habit",
+  "source": "Inferred from the instruction to identify checks for 'the competing explanations' with no invitation to extend the set.",
+  "confidence": 0.55,
+  "cheapest_verification": "Ask whether a check outcome inconsistent with all three mechanisms is an acceptable finding or out of scope.",
+  "load_bearing": true,
+  "supersedes": null
+}

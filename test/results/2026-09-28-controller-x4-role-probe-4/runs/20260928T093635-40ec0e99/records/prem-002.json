@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-002",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "Acknowledging a job to the queue and writing its receipt are two distinct operations against two distinct stores, performed by the same service.",
+  "class": "unverified",
+  "source": "Problem statement: acknowledges jobs from a queue and writes receipts to a separate store.",
+  "confidence": 0.85,
+  "cheapest_verification": "Read the service's job-completion path and confirm the acknowledgement call and the receipt write target different systems.",
+  "load_bearing": true,
+  "supersedes": null
+}

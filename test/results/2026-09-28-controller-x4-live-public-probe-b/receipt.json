@@ -1,0 +1,47 @@
+{
+  "allowance_usd": 0.5,
+  "budget": {
+    "available_usd": 11.5,
+    "baseline_limit_units": 12000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-27T19:15:40.053216+00:00",
+    "currency": "USD",
+    "invocations": {
+      "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7": {
+        "allowance_units": 500000000,
+        "charged_units": 0,
+        "cost_usd": null,
+        "metadata": {
+          "allocation": "public-assessment",
+          "packet_sha256": "4d395420d887a2a1ba526f9bd7e5abf1b95c52a5af9de287a284f6afe7347038",
+          "revision_id": "c5cbe0feb8a7ed1bfdc3d0b79cac530175b6b9ba76e38073fa6ca945aab55ae4"
+        },
+        "reserved_at": "2026-09-27T19:15:59.040170+00:00",
+        "resolution": null,
+        "started_at": "2026-09-27T19:15:59.072280+00:00",
+        "state": "running",
+        "telemetry": null
+      }
+    },
+    "limit_units": 12000000000,
+    "limit_usd": 12.0,
+    "reserved_usd": 0.5,
+    "scope": "task_dispatch",
+    "spent_usd": 0.0,
+    "unresolved": [
+      "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7"
+    ],
+    "version": 1
+  },
+  "error": "public assessment failed closed: WSL public assessment has no valid terminal success",
+  "error_type": "ExecutorError",
+  "finished_at": "2026-09-27T19:16:02.317199+00:00",
+  "fixture": "C03-D1",
+  "outcome": "failed",
+  "public_assessment_status": "uncertain",
+  "root_id": "offline-pair-root",
+  "root_state": "blocked",
+  "schema_version": 1,
+  "started_at": "2026-09-27T19:15:40.126555+00:00"
+}

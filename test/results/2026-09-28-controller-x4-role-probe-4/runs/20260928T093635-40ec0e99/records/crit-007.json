@@ -1,0 +1,22 @@
+{
+  "type": "CritiqueRecord",
+  "id": "crit-007",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "cand-004",
+    "prem-002",
+    "prem-004"
+  ],
+  "candidate_id": "cand-004",
+  "failure_modes": [
+    "The conclusion that effective certainty is bounded by prem-002's 0.85 follows from ordinary conjunction over a conditional premise and its precondition. It needs no inferred rule about what law-class confidence measures, so the added premise is decorative.",
+    "The falsification test is not runnable within the fixture. It requires confirming the two-store precondition in a system frame-002 records as absent, and then observing whether a recorded confidence value moves, which depends on a future author's behaviour.",
+    "An equally simple explanation is left unconsidered: 0.9 may be the author's ordinary hedge on any non-measured record. The candidate does not distinguish its reading from that one, so the inference is underdetermined.",
+    "Gain over B0 is confined to phrasing strength in one sentence of the brief and touches no check, containment step or conditional implementation."
+  ],
+  "derivable": true,
+  "falsified_premise_claims": [],
+  "verdict": "return"
+}

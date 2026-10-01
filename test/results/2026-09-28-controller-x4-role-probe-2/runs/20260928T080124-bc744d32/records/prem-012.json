@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-012",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-004",
+    "meas-003"
+  ],
+  "text": "Writer failure, premature acknowledgement and idempotency suppression of a legitimate retry are the three mechanisms the statement names. They are the stated set to discriminate, but the statement does not claim they are the only possible causes.",
+  "class": "verified",
+  "source": "meas-003: grep of the statement for exclusionary or completeness language returned no match; the enumeration itself is present verbatim.",
+  "confidence": 0.9,
+  "cheapest_verification": "Already run as meas-003; re-grep the statement for exhaustiveness language.",
+  "load_bearing": true,
+  "supersedes": "prem-004"
+}

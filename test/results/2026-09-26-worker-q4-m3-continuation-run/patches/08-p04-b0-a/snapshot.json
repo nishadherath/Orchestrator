@@ -1,0 +1,12 @@
+{
+  "episode_label": "b0-a",
+  "files": {
+    "urllib3/connectionpool.py": "c9076e5afc0fb4465c25ee673f6288bb23a33f040008336d1248df23dbd56adf",
+    "urllib3/poolmanager.py": "e38d72b5fbbefb953a3f613638708028037b66223bac0ecdbe1d5ad0e5765cca",
+    "urllib3/util/url.py": "a91c84efaca37c8a792c1a016af9ea7db9ea6f25f289dab89b504f5e31d12313"
+  },
+  "schema_version": 1,
+  "sequence": 8,
+  "snapshot_sha256": "57bf87702aac884333b8e8468ecbebc9152da41f60480a1a980c7931b3a76f59",
+  "task_id": "P04"
+}

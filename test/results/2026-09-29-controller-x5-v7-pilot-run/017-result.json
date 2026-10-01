@@ -1,0 +1,82 @@
+{
+  "arm": "B",
+  "assessment_cost_usd": null,
+  "budget_spent_usd": 0.0414648,
+  "budget_unresolved": [],
+  "controller_invocations": 0,
+  "controller_profile": null,
+  "controller_role_call_count": null,
+  "controller_role_cost_usd": null,
+  "controller_run_dir": null,
+  "controller_stage": null,
+  "credential_reconciled": true,
+  "effective_action": null,
+  "elapsed_s": 28.67,
+  "error": null,
+  "grade": {
+    "accepted": false,
+    "actor_edit_violation": false,
+    "components": {
+      "D": 0.0,
+      "E": 0.0,
+      "H": 1.0,
+      "M": 1.0,
+      "N": 0.0
+    },
+    "critical_violation": false,
+    "false_success": false,
+    "functional_accepted": null,
+    "functional_score": null,
+    "measurement_version": "x3-control-v1",
+    "observed_milestones": [
+      {
+        "milestone": "ready response retains exact v1 shape",
+        "passed": true,
+        "weight": 30
+      },
+      {
+        "milestone": "failed response retains exact v1 shape",
+        "passed": true,
+        "weight": 30
+      },
+      {
+        "milestone": "unrelated record metadata is not published",
+        "passed": true,
+        "weight": 40
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "c9e05bc397826e4857693253225b653513e6ef1afa2317fcf6a9b48e626b2fb3",
+    "provider_calls": 0,
+    "public_check_passed": true,
+    "quality": 50.0,
+    "raw_quality": 50.0,
+    "schema_version": 1,
+    "semantic_outcome": "useful-partial",
+    "task_id": "C08-D2",
+    "verified_probes": []
+  },
+  "manifest_sha256": "ea3bc5f689d1b55c72137d5424e5e6d0672ef4b19e741a92207e5c8ad29ad8c7",
+  "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-017-c08-d2-b",
+  "required_admission_met": true,
+  "root_id": "fe54e4ea85c2a59a77d66b40",
+  "schema_version": 1,
+  "sequence": 17,
+  "status": "completed",
+  "task_id": "C08-D2",
+  "task_state": "accepted",
+  "worker_attempt_count": 1,
+  "worker_attempts": [
+    {
+      "actual_model": "claude-sonnet-5",
+      "cost_usd": 0.041464799999999996,
+      "identity_valid": true,
+      "process_state": "terminal",
+      "requested_cell": "worker-sonnet-low",
+      "requested_effort": "low",
+      "served_effort": null,
+      "status": "completed",
+      "wall_clock_s": 25.767354
+    }
+  ]
+}

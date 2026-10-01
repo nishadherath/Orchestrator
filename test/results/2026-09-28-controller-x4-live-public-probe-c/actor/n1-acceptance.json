@@ -1,0 +1,1 @@
+{"version": 1, "kind": "command", "criteria": ["public check passes"], "constraints": [], "required_outputs": ["payment.py", "report.json"], "protected_paths": ["issue.md", "app.py", "public_check.py"], "command": ["C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe", "-B", "public_check.py"], "timeout_s": 10}

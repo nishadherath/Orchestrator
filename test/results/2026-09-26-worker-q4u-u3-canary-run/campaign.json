@@ -1,0 +1,2762 @@
+{
+  "completed_at_utc": "2026-09-26T13:58:16+00:00",
+  "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+  "preflight_evidence_sha256": "578e3471e639571a079e6c79be49aba42d5097d6e2327fb4a52588464cd5a280",
+  "rows": [
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-e796945d8297ff380e7635bcfa658242",
+              "after_sha256": {
+                "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+                "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+                "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+                "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+                "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+                "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+                "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+                "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+                "src/dotenv/main.py": "7f76a66742bd113835102563a183e67ea550cd617a0ea51700458acf15985ffa",
+                "src/dotenv/parser.py": "24ebeebd1cfb43910df62414cc52bbdd01c83aa1c0631ca87f55e60510de4fde",
+                "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+                "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+                "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+              },
+              "changed_paths": [
+                "src/dotenv/main.py",
+                "src/dotenv/parser.py"
+              ],
+              "q1_record_sha256": "8b5cadd61316624c3f40beb36f3200a518152ce6c608b98bd18e2725dd7adf51",
+              "q1_spec_sha256": "db3c81f4f5a48ee070858c631dd43388282b17556617db6a718021ace467544b"
+            },
+            "cost_usd": 0.174754,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "52a222a6ae51a8a4fdc718e63d5d76b844895a9cdbbf064294d7dfacb765b7ab",
+                "invocation_id": "e796945d8297ff380e7635bcfa658242",
+                "prompt_sha256": "2d0f37df7029f093a43d578e0f8331235f693506e7af3a1a6f65f0bb87477ff1",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "270bc27bc96bb0298d4f18c020834869fef1fc022db5c181fe40ebeca9329258",
+                "stream_sha256": "ab47e4c6a940afd8e9e651cf9d473e493bcc637d76efa0c414556c5e1a4752db",
+                "task_sha256": "9dec26fa69e0270fcf64e2a1d60fa1ec7c0ca0997ec5343c9e500061f3d5b394"
+              },
+              "observability": "present",
+              "raw_sha256": "858a4329f00d12b6b2c224927c97ef502f7a5fce1f60ef6c23d2f72e412bbed3",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No shell/execution tool was available in this session, so tests could only be verified by manual trace, not actually executed.\",\"diagnosis\":\"Bug: _single_quoted_value/_double_quoted_value regexes in parser.py used alternation `\\\\\\\\'|[^']` without a `\\\\\\\\\\\\\\\\` case, so an escaped-backslash immediately before the closing quote was misread as an escaped quote, merging bindings. Also set_key in main.py escaped embedded quotes but never doubled literal backslashes before quoting, producing exactly that malformed pattern. Fixed both regexes to match `\\\\\\\\\\\\\\\\` first, and made set_key escape backslashes before quotes.\",\"evidence\":[\"parser.py: _single_quoted_value/_double_quoted_value now r\\\"'((?:\\\\\\\\\\\\\\\\|\\\\\\\\'|[^'])*)'\\\" and analogous double-quote form, prioritizing doubled-backslash matches\",\"main.py set_key: value_out now built via value_to_set.replace('\\\\\\\\\\\\\\\\','\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\').replace(\\\"'\\\",\\\"\\\\\\\\\\\\\\\\'\\\") before quoting\",\"Manual trace: set_key(path,'A','back\\\\\\\\') now writes 'back\\\\\\\\\\\\\\\\' which parses back to 'back\\\\\\\\' intact, and next binding's quote is no longer consumed\"],\"remaining\":[\"Actually execute python3 -B public_check.py in an environment with shell access to confirm\",\"Add/execute targeted regression tests for double-backslash and boundary cases in the real test suite\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No shell/execution tool was available in this session, so tests could only be verified by manual trace, not actually executed.",
+                "diagnosis": "Bug: _single_quoted_value/_double_quoted_value regexes in parser.py used alternation `\\\\'|[^']` without a `\\\\\\\\` case, so an escaped-backslash immediately before the closing quote was misread as an escaped quote, merging bindings. Also set_key in main.py escaped embedded quotes but never doubled literal backslashes before quoting, producing exactly that malformed pattern. Fixed both regexes to match `\\\\\\\\` first, and made set_key escape backslashes before quotes.",
+                "evidence": [
+                  "parser.py: _single_quoted_value/_double_quoted_value now r\"'((?:\\\\\\\\|\\\\'|[^'])*)'\" and analogous double-quote form, prioritizing doubled-backslash matches",
+                  "main.py set_key: value_out now built via value_to_set.replace('\\\\\\\\','\\\\\\\\\\\\\\\\').replace(\"'\",\"\\\\\\\\'\") before quoting",
+                  "Manual trace: set_key(path,'A','back\\\\') now writes 'back\\\\\\\\' which parses back to 'back\\\\' intact, and next binding's quote is no longer consumed"
+                ],
+                "remaining": [
+                  "Actually execute python3 -B public_check.py in an environment with shell access to confirm",
+                  "Add/execute targeted regression tests for double-backslash and boundary cases in the real test suite"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "65b9c56df862d8c8f7f5311742cb9c01639345374acfe7a97ade1be81bfe158d",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "858a4329f00d12b6b2c224927c97ef502f7a5fce1f60ef6c23d2f72e412bbed3",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "e796945d8297ff380e7635bcfa658242",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 17,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 36,
+                "user": 10
+              },
+              "invalid_line_count": 0,
+              "num_turns": 11,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.174754,
+              "reported_usage": {
+                "cache_creation_input_tokens": 22169,
+                "cache_read_input_tokens": 123615,
+                "input_tokens": 16,
+                "output_tokens": 5995
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 108590,
+              "stdout_sha256": "ab47e4c6a940afd8e9e651cf9d473e493bcc637d76efa0c414556c5e1a4752db",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "a2d1e4e3db1fade2906abc7a4ab44818756d348609d85864c538eaf741a9e5a3",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 22169,
+              "cache_read_input_tokens": 123615,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.174754,
+              "currency": "USD",
+              "input_tokens": 16,
+              "output_tokens": 5995
+            },
+            "verification": "pass",
+            "wall_clock_s": 76.282122,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.825246,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:44:58.266785+00:00",
+          "currency": "USD",
+          "invocations": {
+            "e796945d8297ff380e7635bcfa658242": {
+              "allowance_units": 4000000000,
+              "charged_units": 174754000,
+              "cost_usd": 0.174754,
+              "metadata": {
+                "decision_digest": "29e33616e88f1fa7093b831f3778b51107126c1ce3099c3a0ca9835804765cf9",
+                "revision_id": "270bc27bc96bb0298d4f18c020834869fef1fc022db5c181fe40ebeca9329258",
+                "root_id": "dd59c534cb82eb693f41231b"
+              },
+              "reserved_at": "2026-09-26T13:44:58.327004+00:00",
+              "resolution": {
+                "cost_usd": 0.174754,
+                "evidence": "receipt:a2d1e4e3db1fade2906abc7a4ab44818756d348609d85864c538eaf741a9e5a3",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 22169,
+                  "cache_read_input_tokens": 123615,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.174754,
+                  "currency": "USD",
+                  "input_tokens": 16,
+                  "output_tokens": 5995
+                }
+              },
+              "started_at": "2026-09-26T13:44:58.337455+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 22169,
+                "cache_read_input_tokens": 123615,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.174754,
+                "currency": "USD",
+                "input_tokens": 16,
+                "output_tokens": 5995
+              },
+              "updated_at": "2026-09-26T13:46:14.673849+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.174754,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0",
+        "evidence_sha256": "5469273bec66152d0d3eb37ad62870c78f841e7bd854de235d54ea0f6f456f20",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+              "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+              "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+              "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+              "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+              "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+              "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+              "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+              "src/dotenv/main.py": "7f76a66742bd113835102563a183e67ea550cd617a0ea51700458acf15985ffa",
+              "src/dotenv/parser.py": "24ebeebd1cfb43910df62414cc52bbdd01c83aa1c0631ca87f55e60510de4fde",
+              "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+              "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+              "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+            },
+            "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+            "grade_sha256": "f67fa56162fff9daff5db65622ca4827a44a58348b1261e3d62af97428939bb6",
+            "grader_result": {
+              "cases": {
+                "double_quote_boundary": true,
+                "plain_and_single_slash_controls": true,
+                "round_trip_double_slash": true,
+                "round_trip_quote_and_slash": true,
+                "single_quote_boundary": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "double_quote_boundary": 20,
+                "plain_and_single_slash_controls": 15,
+                "round_trip_double_slash": 20,
+                "round_trip_quote_and_slash": 20,
+                "single_quote_boundary": 25
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "D01W",
+            "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+          },
+          "hidden_grade_sha256": "f67fa56162fff9daff5db65622ca4827a44a58348b1261e3d62af97428939bb6",
+          "hidden_score": 100,
+          "public_isolation_sha256": "2cebea43fd960d5f7c9d086743261b0b989adde67a0fb521e94770d0b09ea139",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "D01W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+          "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+          "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+          "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+          "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+          "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+          "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+          "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+          "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+          "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+          "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "dd59c534cb82eb693f41231b",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 1,
+        "settlement": {
+          "charged_usd": 0.174754,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/01-d01w-b0",
+          "editable_sha256": {
+            "src/dotenv/main.py": "7f76a66742bd113835102563a183e67ea550cd617a0ea51700458acf15985ffa",
+            "src/dotenv/parser.py": "24ebeebd1cfb43910df62414cc52bbdd01c83aa1c0631ca87f55e60510de4fde"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "aab043fddd1bc58c7c7956207013cc752b08b24b5a30ea54d905345829e37c0a"
+        },
+        "task_id": "D01W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-01"
+      },
+      "episode_label": "b0",
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "D01W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-45af770adc230aa3c5373f9d39660e39",
+              "after_sha256": {
+                "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+                "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+                "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+                "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+                "event_ref/decode.py": "352a9b5abad82766b8527d512dd06c62173a303e245fbb05961f669258b4fc3a",
+                "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a",
+                "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+              },
+              "changed_paths": [
+                "event_ref/decode.py",
+                "event_ref/encode.py"
+              ],
+              "q1_record_sha256": "88a944d37d9a4e7fb661638737f75570ea862a3884cc92603adefdea18f517f6",
+              "q1_spec_sha256": "752ef333809d0866686d33e267ccb84f298286999e8dc20ea7e973581aa30bed"
+            },
+            "cost_usd": 0.092642,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "8638e8f43da6ab02612c59b4cbc3104cb74ab8a403a836956c8d32fc88b1c9b4",
+                "invocation_id": "45af770adc230aa3c5373f9d39660e39",
+                "prompt_sha256": "7d481ee9619687b4a0d0499555b4e5aa24825eeaad9e38783a043702292d35ce",
+                "requested_cell": "worker-sonnet-medium",
+                "revision_id": "4ec1a80a103bc05d65505e75cb27e65eb9a24d61877d6e4c5d6372c42f6662a1",
+                "stream_sha256": "b1f3389c015c200acbe14d2e631fd9c3c387d327e097b33a5a79cae6468af339",
+                "task_sha256": "1ef8de0a32f2667721760361f6bd3e8c98c7d711f41a3c3485fabdc9f32c070e"
+              },
+              "observability": "present",
+              "raw_sha256": "e4e6ea8ef48656015e349ea9f140e3f91a70fdf713496dfea3ae9f95b6057aa3",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No Bash/PowerShell execution tool was available in this session, so I could not actually run public_check.py to verify the fix; please run it to confirm.\",\"diagnosis\":\"Implemented escaping in encode.py (escapes \\\\ and | ) and matching state-machine decoder in decode.py that unescapes \\\\\\\\ and \\\\| and raises ValueError on trailing unpaired escape or invalid escape sequences. No shell/execution tool was available in this session to actually run public_check.py or additional test cases, so correctness is based on code review only.\",\"evidence\":[\"event_ref/encode.py now escapes backslash then pipe before joining with |\",\"event_ref/decode.py walks chars tracking escape state; raises ValueError on trailing backslash or unknown escape char\",\"Attempted to write a local test script but was blocked by filesystem permissions (EACCES), and no Bash/execution tool is exposed to me\"],\"remaining\":[\"Run public_check.py and additional escaping/error-path tests once an execution tool is available\",\"Verify round-trip encode/decode for components containing | and \\\\ and mixed cases\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No Bash/PowerShell execution tool was available in this session, so I could not actually run public_check.py to verify the fix; please run it to confirm.",
+                "diagnosis": "Implemented escaping in encode.py (escapes \\ and | ) and matching state-machine decoder in decode.py that unescapes \\\\ and \\| and raises ValueError on trailing unpaired escape or invalid escape sequences. No shell/execution tool was available in this session to actually run public_check.py or additional test cases, so correctness is based on code review only.",
+                "evidence": [
+                  "event_ref/encode.py now escapes backslash then pipe before joining with |",
+                  "event_ref/decode.py walks chars tracking escape state; raises ValueError on trailing backslash or unknown escape char",
+                  "Attempted to write a local test script but was blocked by filesystem permissions (EACCES), and no Bash/execution tool is exposed to me"
+                ],
+                "remaining": [
+                  "Run public_check.py and additional escaping/error-path tests once an execution tool is available",
+                  "Verify round-trip encode/decode for components containing | and \\ and mixed cases"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "00a7b8c4bf8f0d649cd2f1c65fc343e374c07e63588dd295a34cfc2c778b9a18",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "c5cd05531952166d622ab396066cb514a7bf417fa415c16849e4759debf11ab0",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "45af770adc230aa3c5373f9d39660e39",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 13,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 6,
+                "user": 8
+              },
+              "invalid_line_count": 0,
+              "num_turns": 9,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.092642,
+              "reported_usage": {
+                "cache_creation_input_tokens": 14233,
+                "cache_read_input_tokens": 62625,
+                "input_tokens": 12,
+                "output_tokens": 2183
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 37163,
+              "stdout_sha256": "b1f3389c015c200acbe14d2e631fd9c3c387d327e097b33a5a79cae6468af339",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "316d4e88c4918d533ae7f0553828447bda245b8325e4472cc8c1a86c20c88d39",
+            "requested_cell": "worker-sonnet-medium",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 14233,
+              "cache_read_input_tokens": 62625,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.092642,
+              "currency": "USD",
+              "input_tokens": 12,
+              "output_tokens": 2183
+            },
+            "verification": "pass",
+            "wall_clock_s": 29.25707,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.907358,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:46:56.888823+00:00",
+          "currency": "USD",
+          "invocations": {
+            "45af770adc230aa3c5373f9d39660e39": {
+              "allowance_units": 4000000000,
+              "charged_units": 92642000,
+              "cost_usd": 0.092642,
+              "metadata": {
+                "decision_digest": "7c403d50899482eb88ebfb508ba3f2bd3cddaed690b4c390afdc10b55cc60dab",
+                "revision_id": "4ec1a80a103bc05d65505e75cb27e65eb9a24d61877d6e4c5d6372c42f6662a1",
+                "root_id": "0de9f077d454966ad4540cd9"
+              },
+              "reserved_at": "2026-09-26T13:46:56.935791+00:00",
+              "resolution": {
+                "cost_usd": 0.092642,
+                "evidence": "receipt:316d4e88c4918d533ae7f0553828447bda245b8325e4472cc8c1a86c20c88d39",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 14233,
+                  "cache_read_input_tokens": 62625,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.092642,
+                  "currency": "USD",
+                  "input_tokens": 12,
+                  "output_tokens": 2183
+                }
+              },
+              "started_at": "2026-09-26T13:46:56.948362+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 14233,
+                "cache_read_input_tokens": 62625,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.092642,
+                "currency": "USD",
+                "input_tokens": 12,
+                "output_tokens": 2183
+              },
+              "updated_at": "2026-09-26T13:47:26.252160+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.092642,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "cross_component_medium",
+        "evidence_sha256": "cc90294133b3bf4054a201929c6e1ac145fcb62948a273987185e4fe2f8d1c89",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+              "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+              "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+              "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+              "event_ref/decode.py": "352a9b5abad82766b8527d512dd06c62173a303e245fbb05961f669258b4fc3a",
+              "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a",
+              "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+            },
+            "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+            "grade_sha256": "7ea0442c5825fcdd014a93de14a4062620e1c4bf037463a36789c9ea8a55eb59",
+            "grader_result": {
+              "cases": {
+                "escape_decoding": true,
+                "escape_encoding": true,
+                "plain_round_trip": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "escape_decoding": 35,
+                "escape_encoding": 35,
+                "plain_round_trip": 30
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "F07W",
+            "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+          },
+          "hidden_grade_sha256": "7ea0442c5825fcdd014a93de14a4062620e1c4bf037463a36789c9ea8a55eb59",
+          "hidden_score": 100,
+          "public_isolation_sha256": "d5b42005d784e027dbf7e6bc4c2b8225059fd2f6a87b2e2ef025a76989cf0541",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "F07W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+          "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+          "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+          "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "0de9f077d454966ad4540cd9",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 2,
+        "settlement": {
+          "charged_usd": 0.092642,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/02-f07w-cross_component_medium",
+          "editable_sha256": {
+            "event_ref/decode.py": "352a9b5abad82766b8527d512dd06c62173a303e245fbb05961f669258b4fc3a",
+            "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "7aaab3ee6e34d70b8901930439454ac6b46675dc7a8ecf1540acc066d9f847ec"
+        },
+        "task_id": "F07W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-02"
+      },
+      "episode_label": "cross_component_medium",
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "F07W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-ff221ff5d926755ef67a91d6c30843a2",
+              "after_sha256": {
+                "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+                "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+                "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+                "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+                "boltons/jsonutils.py": "2d6af33dc24dfa6b4e44d3686cc0d5a01b2ed4e38cacb945d8d93410cc3d1209",
+                "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+              },
+              "changed_paths": [
+                "boltons/jsonutils.py"
+              ],
+              "q1_record_sha256": "1a03ebdbd90e5deb23238fb9083cdf6a0b2cf9a7927193efa64cb4ea0f78f519",
+              "q1_spec_sha256": "a44c884d174f073ebfb2b64b91b906c1b2ad66a7ad6b3df4b710a84a5c89ccd0"
+            },
+            "cost_usd": 0.0747856,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "ef357a90a4741d9d7400ab5a90857b2113e0a07f85cbeb7b315ac895c4deaa85",
+                "invocation_id": "ff221ff5d926755ef67a91d6c30843a2",
+                "prompt_sha256": "1166adbcb27449e0806c32e908a212e96dba8a7c233ba460926229eed90c08e7",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "7d8aac79e2693f93dfabd4851ed392e490423383aee9aefb7be61c942979e383",
+                "stream_sha256": "4fd05b3afa755159c128e65778da646f36fa5e495385e4cb3a2a785e0a81501d",
+                "task_sha256": "6c94eebe6a4c36e1a3ed9daa70a653e40133e6db87ee953905cd2b82d595ef12"
+              },
+              "observability": "present",
+              "raw_sha256": "74e9e62b2cd4a3625ba26ed3cf3ed0bcc3c3e9192b16521b41a54f306e7a085e",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No shell/execution tool was available in this session, so the public check and custom bounded checks could not be executed; only static edits were verified by inspection.\",\"diagnosis\":\"Fixed two bugs in JSONLIterator: (1) _align_to_newline looped forever reading empty chunks at EOF when a relative seek landed in the final incomplete line with no later newline; now it detects EOF (empty read) and seeks to end, terminating. (2) Negative rel_seek was mapped via `1.0 - rel_seek` (wrong direction, and could exceed 1.0); corrected to `1.0 + rel_seek` so e.g. -0.1 maps to 0.9 (near end) instead of overshooting past EOF.\",\"evidence\":[\"boltons/jsonutils.py:_align_to_newline now returns after fo.seek(0, os.SEEK_END) when cur.read(bsize) returns empty, preventing infinite loop\",\"boltons/jsonutils.py:_init_rel_seek negative branch changed from `rel_seek = 1.0 - rel_seek` to `rel_seek = 1.0 + rel_seek`\"],\"remaining\":[\"Execute python3 -B public_check.py to confirm ordinary/positive seeking still passes\",\"Add and run bounded tests for negative rel_seek and final-incomplete-line-with-no-newline termination\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No shell/execution tool was available in this session, so the public check and custom bounded checks could not be executed; only static edits were verified by inspection.",
+                "diagnosis": "Fixed two bugs in JSONLIterator: (1) _align_to_newline looped forever reading empty chunks at EOF when a relative seek landed in the final incomplete line with no later newline; now it detects EOF (empty read) and seeks to end, terminating. (2) Negative rel_seek was mapped via `1.0 - rel_seek` (wrong direction, and could exceed 1.0); corrected to `1.0 + rel_seek` so e.g. -0.1 maps to 0.9 (near end) instead of overshooting past EOF.",
+                "evidence": [
+                  "boltons/jsonutils.py:_align_to_newline now returns after fo.seek(0, os.SEEK_END) when cur.read(bsize) returns empty, preventing infinite loop",
+                  "boltons/jsonutils.py:_init_rel_seek negative branch changed from `rel_seek = 1.0 - rel_seek` to `rel_seek = 1.0 + rel_seek`"
+                ],
+                "remaining": [
+                  "Execute python3 -B public_check.py to confirm ordinary/positive seeking still passes",
+                  "Add and run bounded tests for negative rel_seek and final-incomplete-line-with-no-newline termination"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "de46cb93d69f70fec5c840c9be84b2cd58589dec0f7753321c66303620b9413a",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "74e9e62b2cd4a3625ba26ed3cf3ed0bcc3c3e9192b16521b41a54f306e7a085e",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "ff221ff5d926755ef67a91d6c30843a2",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 14,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 9,
+                "user": 7
+              },
+              "invalid_line_count": 0,
+              "num_turns": 8,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.0747856,
+              "reported_usage": {
+                "cache_creation_input_tokens": 6898,
+                "cache_read_input_tokens": 97743,
+                "input_tokens": 14,
+                "output_tokens": 2631
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 83789,
+              "stdout_sha256": "4fd05b3afa755159c128e65778da646f36fa5e495385e4cb3a2a785e0a81501d",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "24473b360e4364d626719f8cd8b9d798e682dc960d95b87bb846cabe57fcc766",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 6898,
+              "cache_read_input_tokens": 97743,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.0747856,
+              "currency": "USD",
+              "input_tokens": 14,
+              "output_tokens": 2631
+            },
+            "verification": "pass",
+            "wall_clock_s": 34.217762,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.9252144,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:47:57.539435+00:00",
+          "currency": "USD",
+          "invocations": {
+            "ff221ff5d926755ef67a91d6c30843a2": {
+              "allowance_units": 4000000000,
+              "charged_units": 74785600,
+              "cost_usd": 0.0747856,
+              "metadata": {
+                "decision_digest": "71e4f25b7beb663c0a8664a1e17419ec964e1e39082da7e4df2f64d602db741b",
+                "revision_id": "7d8aac79e2693f93dfabd4851ed392e490423383aee9aefb7be61c942979e383",
+                "root_id": "6084949eadbeadd67fce50fc"
+              },
+              "reserved_at": "2026-09-26T13:47:57.571875+00:00",
+              "resolution": {
+                "cost_usd": 0.0747856,
+                "evidence": "receipt:24473b360e4364d626719f8cd8b9d798e682dc960d95b87bb846cabe57fcc766",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 6898,
+                  "cache_read_input_tokens": 97743,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.0747856,
+                  "currency": "USD",
+                  "input_tokens": 14,
+                  "output_tokens": 2631
+                }
+              },
+              "started_at": "2026-09-26T13:47:57.578571+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 6898,
+                "cache_read_input_tokens": 97743,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.0747856,
+                "currency": "USD",
+                "input_tokens": 14,
+                "output_tokens": 2631
+              },
+              "updated_at": "2026-09-26T13:48:31.829421+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.0747856,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "coverage_repair",
+        "evidence_sha256": "13c37705bfc8a8c3b5ce378e0f9d3ac3deedc515b7350c7eb45a6358715cab2d",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+              "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+              "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+              "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+              "boltons/jsonutils.py": "2d6af33dc24dfa6b4e44d3686cc0d5a01b2ed4e38cacb945d8d93410cc3d1209",
+              "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+            },
+            "evaluator_zip_sha256": "e997e6d9d34288a71279d6e89ff19476957ffeb04033fe7280e1cbafcc6da847",
+            "grade_sha256": "e07867a8f61fe201d81eff0ebcb0ea522a2fe9001b52141915c943ce37f629c4",
+            "grader_result": {
+              "cases": {
+                "full_forward": true,
+                "mid_final_line_terminates": true,
+                "negative_seek_matches_positive": true,
+                "positive_seek_keeps_tail": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "full_forward": 15,
+                "mid_final_line_terminates": 35,
+                "negative_seek_matches_positive": 35,
+                "positive_seek_keeps_tail": 15
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "B02W",
+            "task_sha256": "d2147f43b79e67546a49c0dc531b858d6a20dddcde7871a1dd9bc4dcacbb2004"
+          },
+          "hidden_grade_sha256": "e07867a8f61fe201d81eff0ebcb0ea522a2fe9001b52141915c943ce37f629c4",
+          "hidden_score": 100,
+          "public_isolation_sha256": "854ee7c2c4ffdb8bbb7c3fd3f22769d1898dade3a558afebdc1022984ee2624f",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "B02W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+          "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+          "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+          "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+          "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "6084949eadbeadd67fce50fc",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 3,
+        "settlement": {
+          "charged_usd": 0.0747856,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/03-b02w-coverage_repair",
+          "editable_sha256": {
+            "boltons/jsonutils.py": "2d6af33dc24dfa6b4e44d3686cc0d5a01b2ed4e38cacb945d8d93410cc3d1209"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "2f707aa6b3d228b9851b33a2328a27164e507028be92b019957196cc1d506214"
+        },
+        "task_id": "B02W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-03"
+      },
+      "episode_label": "coverage_repair",
+      "sequence": 3,
+      "state": "graded",
+      "task_id": "B02W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-c9fc3d1520664e272098f0837ff47f38",
+              "after_sha256": {
+                "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+                "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+                "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+                "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+                "reconcile.py": "30be8fb18c06d86c2e4a7248adf42da5ae44143b21227238ac87088ad664481c"
+              },
+              "changed_paths": [
+                "reconcile.py"
+              ],
+              "q1_record_sha256": "ef11e83d31cf15d0a85ed2d784382fed37c1729d00f2ad4d17f115ffe2b15f2b",
+              "q1_spec_sha256": "b1069f82fb1117c99236e8a0dfc245da4f08ee3f1ecee2f51d2d04cab4927b22"
+            },
+            "cost_usd": 0.058917800000000006,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "dd97a5c4c45a630838e0d606c3f19ac88bc024c7ca6c13d5e270ace2b3da4135",
+                "invocation_id": "c9fc3d1520664e272098f0837ff47f38",
+                "prompt_sha256": "5be83b791f5c079fe60f03a9caedfc6c9637105f0f517e1c0d90a01aa20947ca",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "bf9f0ccf02e418275127511dee8d6c0b393af2fe3ddb7273104c66e9ef46f1ce",
+                "stream_sha256": "8a474069eb0aeb71777452c44e78b33453694839485b3d31ecfdc330e04c1c9c",
+                "task_sha256": "2095281af70d6cca947568b21856f808217266e017a52411dd45d2ab6b429e6e"
+              },
+              "observability": "present",
+              "raw_sha256": "1ca561890a01d25b85ddfc45c98b55a50fe9f2066f97acad36cadf7eadb34ec3",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No Bash/shell execution tool was available in this session, and creating a new test file in the actor root failed with EACCES, so I could not run python3 -B public_check.py or add my own out-of-order/resurrection checks as requested.\",\"diagnosis\":\"Updated apply_events in reconcile.py to skip events whose revision is not strictly newer than the stored revision, and to store deletes as (revision, None) tombstones so a later stale put cannot resurrect the object. State is copied, not mutated. Could not execute public_check.py or add separate check code since no shell/Bash tool is available in this session, and writing a new test file failed with a permission error (EACCES) unrelated to the reconcile.py edit itself.\",\"evidence\":[\"reconcile.py: current = updated.get(object_id); if current is not None and revision <= current[0]: continue\",\"delete branch now sets updated[object_id] = (revision, None) instead of popping the key\",\"put branch unchanged: updated[object_id] = (revision, payload)\"],\"remaining\":[\"Run python3 -B public_check.py to confirm the existing weak check still passes\",\"Add and run out-of-order and delete/resurrection checks once a shell/file-write path is available\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No Bash/shell execution tool was available in this session, and creating a new test file in the actor root failed with EACCES, so I could not run python3 -B public_check.py or add my own out-of-order/resurrection checks as requested.",
+                "diagnosis": "Updated apply_events in reconcile.py to skip events whose revision is not strictly newer than the stored revision, and to store deletes as (revision, None) tombstones so a later stale put cannot resurrect the object. State is copied, not mutated. Could not execute public_check.py or add separate check code since no shell/Bash tool is available in this session, and writing a new test file failed with a permission error (EACCES) unrelated to the reconcile.py edit itself.",
+                "evidence": [
+                  "reconcile.py: current = updated.get(object_id); if current is not None and revision <= current[0]: continue",
+                  "delete branch now sets updated[object_id] = (revision, None) instead of popping the key",
+                  "put branch unchanged: updated[object_id] = (revision, payload)"
+                ],
+                "remaining": [
+                  "Run python3 -B public_check.py to confirm the existing weak check still passes",
+                  "Add and run out-of-order and delete/resurrection checks once a shell/file-write path is available"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "4074f0f885e85b3adb0db39687ac1c81c2155d78a65489b266b8e42dc2024050",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "11a3617ed8bd2deb38b34ee2117e779585b467abb44650fc1f580377210971e6",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "c9fc3d1520664e272098f0837ff47f38",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 11,
+                "rate_limit_event": 2,
+                "result": 1,
+                "system": 3,
+                "user": 8
+              },
+              "invalid_line_count": 0,
+              "num_turns": 9,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.058917800000000006,
+              "reported_usage": {
+                "cache_creation_input_tokens": 4947,
+                "cache_read_input_tokens": 74094,
+                "input_tokens": 12,
+                "output_tokens": 2291
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 38999,
+              "stdout_sha256": "8a474069eb0aeb71777452c44e78b33453694839485b3d31ecfdc330e04c1c9c",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "91c096fbd9eed0058165cd225990f986e4436f513ff407bd78e1f68d964eead1",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 4947,
+              "cache_read_input_tokens": 74094,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.058917800000000006,
+              "currency": "USD",
+              "input_tokens": 12,
+              "output_tokens": 2291
+            },
+            "verification": "pass",
+            "wall_clock_s": 30.261897,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.941082199,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:49:05.011257+00:00",
+          "currency": "USD",
+          "invocations": {
+            "c9fc3d1520664e272098f0837ff47f38": {
+              "allowance_units": 4000000000,
+              "charged_units": 58917801,
+              "cost_usd": 0.058917800000000006,
+              "metadata": {
+                "decision_digest": "4e024ef9a2a511ac94fe6aba2dee53603cc3877eabb9112fc05938424875f233",
+                "revision_id": "bf9f0ccf02e418275127511dee8d6c0b393af2fe3ddb7273104c66e9ef46f1ce",
+                "root_id": "60c22955d150aec1a7e1507f"
+              },
+              "reserved_at": "2026-09-26T13:49:05.059659+00:00",
+              "resolution": {
+                "cost_usd": 0.058917800000000006,
+                "evidence": "receipt:91c096fbd9eed0058165cd225990f986e4436f513ff407bd78e1f68d964eead1",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 4947,
+                  "cache_read_input_tokens": 74094,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.058917800000000006,
+                  "currency": "USD",
+                  "input_tokens": 12,
+                  "output_tokens": 2291
+                }
+              },
+              "started_at": "2026-09-26T13:49:05.071445+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 4947,
+                "cache_read_input_tokens": 74094,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.058917800000000006,
+                "currency": "USD",
+                "input_tokens": 12,
+                "output_tokens": 2291
+              },
+              "updated_at": "2026-09-26T13:49:35.388153+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.058917801,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0",
+        "evidence_sha256": "ec5e4688fa438c1116a0073175e488d93ddb7aa20eab8b387c90961793ed5b91",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+              "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+              "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+              "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+              "reconcile.py": "30be8fb18c06d86c2e4a7248adf42da5ae44143b21227238ac87088ad664481c"
+            },
+            "evaluator_zip_sha256": "be47d926f1960a63c9f1d478ac7a2ff14edd3b1375a47e3c5ffd38f6d2092bdc",
+            "grade_sha256": "4049f2ad11c27c486364c6f228eb7114e871da4f4a49c3ffedfd25b084311b1f",
+            "grader_result": {
+              "cases": {
+                "newer_put": true,
+                "stale_update": true,
+                "tombstone_blocks_resurrection": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "newer_put": 30,
+                "stale_update": 35,
+                "tombstone_blocks_resurrection": 35
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "H08W",
+            "task_sha256": "7209c8c557afce8d48537e06cd9b0627b775745e130c1e9b99cd57aea83b8de6"
+          },
+          "hidden_grade_sha256": "4049f2ad11c27c486364c6f228eb7114e871da4f4a49c3ffedfd25b084311b1f",
+          "hidden_score": 100,
+          "public_isolation_sha256": "71f309fc0ebc4cfe8dd9f350f1201ce92250f7aaff0be6fe99165412a5cb147b",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "H08W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+          "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+          "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "60c22955d150aec1a7e1507f",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 4,
+        "settlement": {
+          "charged_usd": 0.058917801,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/04-h08w-b0",
+          "editable_sha256": {
+            "reconcile.py": "30be8fb18c06d86c2e4a7248adf42da5ae44143b21227238ac87088ad664481c"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "293ab325888229252992afa66c68faa202d7f144a6d7d6711478a5bfaf0f1d1e"
+        },
+        "task_id": "H08W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-04"
+      },
+      "episode_label": "b0",
+      "sequence": 4,
+      "state": "graded",
+      "task_id": "H08W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-3bf93a309939187c28b1acae6beeabb4",
+              "after_sha256": {
+                "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+                "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+                "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+                "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+                "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+                "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+                "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+                "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+                "src/dotenv/main.py": "7f76a66742bd113835102563a183e67ea550cd617a0ea51700458acf15985ffa",
+                "src/dotenv/parser.py": "24ebeebd1cfb43910df62414cc52bbdd01c83aa1c0631ca87f55e60510de4fde",
+                "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+                "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+                "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+              },
+              "changed_paths": [
+                "src/dotenv/main.py",
+                "src/dotenv/parser.py"
+              ],
+              "q1_record_sha256": "003557ccd11368231abefc69180a8a3c8808815094d5751e6dd9bccd61c482fb",
+              "q1_spec_sha256": "db3c81f4f5a48ee070858c631dd43388282b17556617db6a718021ace467544b"
+            },
+            "cost_usd": 0.20518500000000003,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "52a222a6ae51a8a4fdc718e63d5d76b844895a9cdbbf064294d7dfacb765b7ab",
+                "invocation_id": "3bf93a309939187c28b1acae6beeabb4",
+                "prompt_sha256": "2d0f37df7029f093a43d578e0f8331235f693506e7af3a1a6f65f0bb87477ff1",
+                "requested_cell": "worker-sonnet-medium",
+                "revision_id": "469d536c9075692a7f0d43cb1355c61abd83c11c7104ecfedaca33a3ffbb53d9",
+                "stream_sha256": "4182121217756a359c2f0db72b2fc67c5d86e5113c7d190179e7b6f4a1484b3c",
+                "task_sha256": "9dec26fa69e0270fcf64e2a1d60fa1ec7c0ca0997ec5343c9e500061f3d5b394"
+              },
+              "observability": "present",
+              "raw_sha256": "656780710a545221a44da7316654e8dafc32dd9b5dd22a0ab48af63088194a93",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"This session's toolset does not include a Bash/PowerShell execution tool, so I could not run `python3 -B public_check.py` as requested. Please re-run with an execution-capable session, or confirm the manual trace is sufficient.\",\"diagnosis\":\"Fixed two bugs. (1) parser.py's single/double-quoted-value regexes treated a lone backslash before a closing quote via a single-char alternative, so an escaped-backslash pair immediately preceding the terminating quote was misread as an escaped quote, merging the next binding into the value. Added a paired-backslash alternative before the quote-escape alternative so quote boundaries terminate correctly. (2) main.py's set_key wrote raw backslashes unescaped while parser.py's decode_escapes collapses escaped-backslash pairs on read, so consecutive backslashes lost one char per pair on round-trip; backslashes are now doubled before quoting to match decode_escapes' expectations.\",\"evidence\":[\"src/dotenv/parser.py: _single_quoted_value/_double_quoted_value gained a paired-backslash alternative ahead of the quote-escape alternative in the character-class alternation\",\"src/dotenv/main.py set_key: value_out now escapes backslashes (doubling) before escaping quotes, prior to wrapping in single quotes\",\"Manually traced round-trip for values with a single backslash, with two consecutive backslashes, and for a file literal ending in an escaped-backslash-then-quote, confirming correct decode and correct binding-boundary termination\"],\"remaining\":[\"No shell/execution tool was available in this session to run public_check.py or additional automated regression tests; verification was done via manual regex/code trace only\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "This session's toolset does not include a Bash/PowerShell execution tool, so I could not run `python3 -B public_check.py` as requested. Please re-run with an execution-capable session, or confirm the manual trace is sufficient.",
+                "diagnosis": "Fixed two bugs. (1) parser.py's single/double-quoted-value regexes treated a lone backslash before a closing quote via a single-char alternative, so an escaped-backslash pair immediately preceding the terminating quote was misread as an escaped quote, merging the next binding into the value. Added a paired-backslash alternative before the quote-escape alternative so quote boundaries terminate correctly. (2) main.py's set_key wrote raw backslashes unescaped while parser.py's decode_escapes collapses escaped-backslash pairs on read, so consecutive backslashes lost one char per pair on round-trip; backslashes are now doubled before quoting to match decode_escapes' expectations.",
+                "evidence": [
+                  "src/dotenv/parser.py: _single_quoted_value/_double_quoted_value gained a paired-backslash alternative ahead of the quote-escape alternative in the character-class alternation",
+                  "src/dotenv/main.py set_key: value_out now escapes backslashes (doubling) before escaping quotes, prior to wrapping in single quotes",
+                  "Manually traced round-trip for values with a single backslash, with two consecutive backslashes, and for a file literal ending in an escaped-backslash-then-quote, confirming correct decode and correct binding-boundary termination"
+                ],
+                "remaining": [
+                  "No shell/execution tool was available in this session to run public_check.py or additional automated regression tests; verification was done via manual regex/code trace only"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "d8e2ba35a562b449bea6af2d8c67ae340c5283bda6b1a55585a250800b899ba1",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "0c900c34a0e5ec3b88f188294632f8dc0dacf2eb375ed50c7bd2f85fb99bcfa2",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "3bf93a309939187c28b1acae6beeabb4",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 16,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 72,
+                "user": 10
+              },
+              "invalid_line_count": 0,
+              "num_turns": 11,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.20518500000000003,
+              "reported_usage": {
+                "cache_creation_input_tokens": 18247,
+                "cache_read_input_tokens": 127505,
+                "input_tokens": 14,
+                "output_tokens": 10530
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 132973,
+              "stdout_sha256": "4182121217756a359c2f0db72b2fc67c5d86e5113c7d190179e7b6f4a1484b3c",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "68c8c9818e95c2468d6fdf1bd2f683201082b18e519176e3ec0a2c391e1dfd43",
+            "requested_cell": "worker-sonnet-medium",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 18247,
+              "cache_read_input_tokens": 127505,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.20518500000000003,
+              "currency": "USD",
+              "input_tokens": 14,
+              "output_tokens": 10530
+            },
+            "verification": "pass",
+            "wall_clock_s": 118.344656,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.794814999,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:50:12.625591+00:00",
+          "currency": "USD",
+          "invocations": {
+            "3bf93a309939187c28b1acae6beeabb4": {
+              "allowance_units": 4000000000,
+              "charged_units": 205185001,
+              "cost_usd": 0.20518500000000003,
+              "metadata": {
+                "decision_digest": "7906eaedf5e0e1927efe9e7bb26673f88b03faa98195ce3a2f475450b5098917",
+                "revision_id": "469d536c9075692a7f0d43cb1355c61abd83c11c7104ecfedaca33a3ffbb53d9",
+                "root_id": "f7be40bda924c6fafd8149fb"
+              },
+              "reserved_at": "2026-09-26T13:50:12.666132+00:00",
+              "resolution": {
+                "cost_usd": 0.20518500000000003,
+                "evidence": "receipt:68c8c9818e95c2468d6fdf1bd2f683201082b18e519176e3ec0a2c391e1dfd43",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 18247,
+                  "cache_read_input_tokens": 127505,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.20518500000000003,
+                  "currency": "USD",
+                  "input_tokens": 14,
+                  "output_tokens": 10530
+                }
+              },
+              "started_at": "2026-09-26T13:50:12.673598+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 18247,
+                "cache_read_input_tokens": 127505,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.20518500000000003,
+                "currency": "USD",
+                "input_tokens": 14,
+                "output_tokens": 10530
+              },
+              "updated_at": "2026-09-26T13:52:11.051522+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.205185001,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "cross_component_medium",
+        "evidence_sha256": "805da50eb88ffbf7311707dc45ed62c16878aac4a4ef05a6ddb2cde6e6b1411f",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+              "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+              "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+              "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+              "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+              "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+              "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+              "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+              "src/dotenv/main.py": "7f76a66742bd113835102563a183e67ea550cd617a0ea51700458acf15985ffa",
+              "src/dotenv/parser.py": "24ebeebd1cfb43910df62414cc52bbdd01c83aa1c0631ca87f55e60510de4fde",
+              "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+              "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+              "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+            },
+            "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+            "grade_sha256": "f67fa56162fff9daff5db65622ca4827a44a58348b1261e3d62af97428939bb6",
+            "grader_result": {
+              "cases": {
+                "double_quote_boundary": true,
+                "plain_and_single_slash_controls": true,
+                "round_trip_double_slash": true,
+                "round_trip_quote_and_slash": true,
+                "single_quote_boundary": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "double_quote_boundary": 20,
+                "plain_and_single_slash_controls": 15,
+                "round_trip_double_slash": 20,
+                "round_trip_quote_and_slash": 20,
+                "single_quote_boundary": 25
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "D01W",
+            "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+          },
+          "hidden_grade_sha256": "f67fa56162fff9daff5db65622ca4827a44a58348b1261e3d62af97428939bb6",
+          "hidden_score": 100,
+          "public_isolation_sha256": "2cebea43fd960d5f7c9d086743261b0b989adde67a0fb521e94770d0b09ea139",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "D01W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+          "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+          "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+          "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+          "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+          "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+          "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+          "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+          "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+          "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+          "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "f7be40bda924c6fafd8149fb",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 5,
+        "settlement": {
+          "charged_usd": 0.205185001,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/05-d01w-cross_component_medium",
+          "editable_sha256": {
+            "src/dotenv/main.py": "7f76a66742bd113835102563a183e67ea550cd617a0ea51700458acf15985ffa",
+            "src/dotenv/parser.py": "24ebeebd1cfb43910df62414cc52bbdd01c83aa1c0631ca87f55e60510de4fde"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "ea2e50b769a732b733160c068a06a680fba82b8c6ad88b22f6e053996bade8ca"
+        },
+        "task_id": "D01W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-05"
+      },
+      "episode_label": "cross_component_medium",
+      "sequence": 5,
+      "state": "graded",
+      "task_id": "D01W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-69182fb9bb829543ef9d91e4e93f41da",
+              "after_sha256": {
+                "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+                "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+                "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+                "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+                "event_ref/decode.py": "f2e0320218ca85a66b56908555b322b36d0705b3dce428b1e3dc0b8a0475d516",
+                "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a",
+                "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+              },
+              "changed_paths": [
+                "event_ref/decode.py",
+                "event_ref/encode.py"
+              ],
+              "q1_record_sha256": "bf1eeb9e41a362c8d3f5a6e7a63a3586e5dd03228ccbe58f3c33b1648449e8ca",
+              "q1_spec_sha256": "752ef333809d0866686d33e267ccb84f298286999e8dc20ea7e973581aa30bed"
+            },
+            "cost_usd": 0.053278599999999995,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "5e62432a582962a4b243d1d5f4ead3878f1f0e0cfb123cb48374163dff12c1a5",
+                "invocation_id": "69182fb9bb829543ef9d91e4e93f41da",
+                "prompt_sha256": "7d481ee9619687b4a0d0499555b4e5aa24825eeaad9e38783a043702292d35ce",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "d56cf0397ce19bce696e7aad260690c45a96e55b76ccf4016e8640752b840632",
+                "stream_sha256": "ee2016b214910824e7f904d7150eafc8a79b3968811ed8f98bf27a81545f73a8",
+                "task_sha256": "1ef8de0a32f2667721760361f6bd3e8c98c7d711f41a3c3485fabdc9f32c070e"
+              },
+              "observability": "present",
+              "raw_sha256": "7e5cccd1e5fbc0b7dc322124817603e20841bba70c842e051d7aa48345bd0a9f",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Implemented escaping in encode.py (backslash and pipe escaped) and a matching escape-aware parser in decode.py that raises ValueError on a trailing unpaired escape or an invalid escape sequence. Ordinary components without reserved characters remain unchanged, satisfying public_check.py's assertions.\",\"evidence\":[\"encode.py now escapes \\\\ and | via _escape() before joining with |\",\"decode.py implements a manual scanner tracking escape state, raising ValueError on trailing '\\\\' or unknown escape targets, splitting on unescaped |\"],\"remaining\":[\"No shell execution tool was available in this environment to run public_check.py or additional round-trip/edge-case tests; changes verified by code review only.\"],\"status\":\"completed\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": null,
+                "diagnosis": "Implemented escaping in encode.py (backslash and pipe escaped) and a matching escape-aware parser in decode.py that raises ValueError on a trailing unpaired escape or an invalid escape sequence. Ordinary components without reserved characters remain unchanged, satisfying public_check.py's assertions.",
+                "evidence": [
+                  "encode.py now escapes \\ and | via _escape() before joining with |",
+                  "decode.py implements a manual scanner tracking escape state, raising ValueError on trailing '\\' or unknown escape targets, splitting on unescaped |"
+                ],
+                "remaining": [
+                  "No shell execution tool was available in this environment to run public_check.py or additional round-trip/edge-case tests; changes verified by code review only."
+                ],
+                "status": "completed"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "16a50cbb75395ade924916487879cad33099bc5c51045b5d4f6695c313ea7607",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "a73f0f9f47d11336d49ea42b153fb389f37e5cbb37fa9697d7c732340cc6b67d",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "69182fb9bb829543ef9d91e4e93f41da",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 12,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 3,
+                "user": 8
+              },
+              "invalid_line_count": 0,
+              "num_turns": 9,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.053278599999999995,
+              "reported_usage": {
+                "cache_creation_input_tokens": 4446,
+                "cache_read_input_tokens": 72948,
+                "input_tokens": 12,
+                "output_tokens": 1955
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 35392,
+              "stdout_sha256": "ee2016b214910824e7f904d7150eafc8a79b3968811ed8f98bf27a81545f73a8",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "4808fb88fefb885af18ab8621f473cbcb7379bfbaa1dd2a6585b828023c0a88a",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 4446,
+              "cache_read_input_tokens": 72948,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.053278599999999995,
+              "currency": "USD",
+              "input_tokens": 12,
+              "output_tokens": 1955
+            },
+            "verification": "pass",
+            "wall_clock_s": 25.265859,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.9467214,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:52:41.232733+00:00",
+          "currency": "USD",
+          "invocations": {
+            "69182fb9bb829543ef9d91e4e93f41da": {
+              "allowance_units": 4000000000,
+              "charged_units": 53278600,
+              "cost_usd": 0.053278599999999995,
+              "metadata": {
+                "decision_digest": "d03fe5d416cd9aeb5f0b97f297fdfb6ad649cd182691322ae13821591a0d7deb",
+                "revision_id": "d56cf0397ce19bce696e7aad260690c45a96e55b76ccf4016e8640752b840632",
+                "root_id": "e63faf4dd49c3a621e8dd340"
+              },
+              "reserved_at": "2026-09-26T13:52:41.263588+00:00",
+              "resolution": {
+                "cost_usd": 0.053278599999999995,
+                "evidence": "receipt:4808fb88fefb885af18ab8621f473cbcb7379bfbaa1dd2a6585b828023c0a88a",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 4446,
+                  "cache_read_input_tokens": 72948,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.053278599999999995,
+                  "currency": "USD",
+                  "input_tokens": 12,
+                  "output_tokens": 1955
+                }
+              },
+              "started_at": "2026-09-26T13:52:41.272708+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 4446,
+                "cache_read_input_tokens": 72948,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.053278599999999995,
+                "currency": "USD",
+                "input_tokens": 12,
+                "output_tokens": 1955
+              },
+              "updated_at": "2026-09-26T13:53:06.568193+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.0532786,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0",
+        "evidence_sha256": "10c2715db490fe066e040b44060456ba69460d9e747a2a1345bc7f69c2b0f67b",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+              "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+              "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+              "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+              "event_ref/decode.py": "f2e0320218ca85a66b56908555b322b36d0705b3dce428b1e3dc0b8a0475d516",
+              "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a",
+              "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+            },
+            "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+            "grade_sha256": "748e694bda55c957b7693cec419495d03afebebbe92192a2953fb250a11cdcab",
+            "grader_result": {
+              "cases": {
+                "escape_decoding": true,
+                "escape_encoding": true,
+                "plain_round_trip": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "escape_decoding": 35,
+                "escape_encoding": 35,
+                "plain_round_trip": 30
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "F07W",
+            "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+          },
+          "hidden_grade_sha256": "748e694bda55c957b7693cec419495d03afebebbe92192a2953fb250a11cdcab",
+          "hidden_score": 100,
+          "public_isolation_sha256": "f59252d82825e73e94ca17ef83b506df011d6b0873e274bde96395e1907b44e9",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "F07W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+          "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+          "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+          "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "e63faf4dd49c3a621e8dd340",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 6,
+        "settlement": {
+          "charged_usd": 0.0532786,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/06-f07w-b0",
+          "editable_sha256": {
+            "event_ref/decode.py": "f2e0320218ca85a66b56908555b322b36d0705b3dce428b1e3dc0b8a0475d516",
+            "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "391aca5f2b644e64b400b188b7539c08e47b36b4801de032004b19696591adb4"
+        },
+        "task_id": "F07W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-06"
+      },
+      "episode_label": "b0",
+      "sequence": 6,
+      "state": "graded",
+      "task_id": "F07W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-d298283def52dfcd74d36bfc08c15a16",
+              "after_sha256": {
+                "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+                "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+                "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+                "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+                "boltons/jsonutils.py": "21879f82442e1717ca0f723cf657476f5f6dd350687bbae06888ece41817efa3",
+                "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+              },
+              "changed_paths": [
+                "boltons/jsonutils.py"
+              ],
+              "q1_record_sha256": "dd9d74462e3cd46921fe41ba83ae963ebed73c2c49b87285d348edb53e6fbe68",
+              "q1_spec_sha256": "a44c884d174f073ebfb2b64b91b906c1b2ad66a7ad6b3df4b710a84a5c89ccd0"
+            },
+            "cost_usd": 0.06478880000000001,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "e1849fd51b3756d5358cf1fdef2c31c664145015e4b92603a3fd09338ad9a21d",
+                "invocation_id": "d298283def52dfcd74d36bfc08c15a16",
+                "prompt_sha256": "1166adbcb27449e0806c32e908a212e96dba8a7c233ba460926229eed90c08e7",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "ccda70acdadf763ef3123907a922c3b65f9de6bafc5c3133fe289e0d36040643",
+                "stream_sha256": "b65db4297ad3fdb804b2235bba10e212fe6583646551bab27e2c2c7ba24752e8",
+                "task_sha256": "6c94eebe6a4c36e1a3ed9daa70a653e40133e6db87ee953905cd2b82d595ef12"
+              },
+              "observability": "present",
+              "raw_sha256": "cf4d9a8e64403a8a22ccad05973c603733cb55047677400325fdedd7149509f7",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No shell/execution tool was available in this session, so tests could not be run directly; changes were verified by code inspection only.\",\"diagnosis\":\"Two bugs fixed in boltons/jsonutils.py: (1) negative rel_seek used `1.0 - rel_seek` instead of `1.0 + rel_seek`, causing out-of-range targets that seek past EOF; corrected to properly map negative fractions to positions from the end. (2) `_align_to_newline` looped forever reading empty strings at EOF when no trailing newline existed after a seek landing in the final incomplete line; now detects EOF (empty read), discards the accumulated but useless data, seeks to end, and returns, bounding the loop and letting normal iteration terminate via StopIteration.\",\"evidence\":[\"boltons/jsonutils.py: `elif rel_seek < 0: rel_seek = 1.0 + rel_seek`\",\"boltons/jsonutils.py: _align_to_newline now returns via `fo.seek(0, os.SEEK_END); return` when `read` is empty, and accumulates `cur += read` instead of overwriting\"],\"remaining\":[\"Execute python3 -B public_check.py in an environment with a shell to confirm pass\",\"Add/execute bounded edge-case tests for negative rel_seek and no-trailing-newline final-line seek\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No shell/execution tool was available in this session, so tests could not be run directly; changes were verified by code inspection only.",
+                "diagnosis": "Two bugs fixed in boltons/jsonutils.py: (1) negative rel_seek used `1.0 - rel_seek` instead of `1.0 + rel_seek`, causing out-of-range targets that seek past EOF; corrected to properly map negative fractions to positions from the end. (2) `_align_to_newline` looped forever reading empty strings at EOF when no trailing newline existed after a seek landing in the final incomplete line; now detects EOF (empty read), discards the accumulated but useless data, seeks to end, and returns, bounding the loop and letting normal iteration terminate via StopIteration.",
+                "evidence": [
+                  "boltons/jsonutils.py: `elif rel_seek < 0: rel_seek = 1.0 + rel_seek`",
+                  "boltons/jsonutils.py: _align_to_newline now returns via `fo.seek(0, os.SEEK_END); return` when `read` is empty, and accumulates `cur += read` instead of overwriting"
+                ],
+                "remaining": [
+                  "Execute python3 -B public_check.py in an environment with a shell to confirm pass",
+                  "Add/execute bounded edge-case tests for negative rel_seek and no-trailing-newline final-line seek"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "ac8d0c203732b55799f1c08257edb476254fb2e7c2d05603cc9e4f0bfda7bdb4",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "cf4d9a8e64403a8a22ccad05973c603733cb55047677400325fdedd7149509f7",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "d298283def52dfcd74d36bfc08c15a16",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 10,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 8,
+                "user": 6
+              },
+              "invalid_line_count": 0,
+              "num_turns": 7,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.06478880000000001,
+              "reported_usage": {
+                "cache_creation_input_tokens": 6530,
+                "cache_read_input_tokens": 81639,
+                "input_tokens": 12,
+                "output_tokens": 2101
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 67404,
+              "stdout_sha256": "b65db4297ad3fdb804b2235bba10e212fe6583646551bab27e2c2c7ba24752e8",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "493ef0fe1430096fab7f12593e2166f6fd5a469a82ff8ea5ee949e8fd3ddb994",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 6530,
+              "cache_read_input_tokens": 81639,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.06478880000000001,
+              "currency": "USD",
+              "input_tokens": 12,
+              "output_tokens": 2101
+            },
+            "verification": "pass",
+            "wall_clock_s": 35.591552,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.935211199,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:53:33.879239+00:00",
+          "currency": "USD",
+          "invocations": {
+            "d298283def52dfcd74d36bfc08c15a16": {
+              "allowance_units": 4000000000,
+              "charged_units": 64788801,
+              "cost_usd": 0.06478880000000001,
+              "metadata": {
+                "decision_digest": "58cafb717a82d58687cb5083fb643aeea1e8f379f898175fba9ee82660016594",
+                "revision_id": "ccda70acdadf763ef3123907a922c3b65f9de6bafc5c3133fe289e0d36040643",
+                "root_id": "8606bea81a32485fe2a0db26"
+              },
+              "reserved_at": "2026-09-26T13:53:33.909515+00:00",
+              "resolution": {
+                "cost_usd": 0.06478880000000001,
+                "evidence": "receipt:493ef0fe1430096fab7f12593e2166f6fd5a469a82ff8ea5ee949e8fd3ddb994",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 6530,
+                  "cache_read_input_tokens": 81639,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.06478880000000001,
+                  "currency": "USD",
+                  "input_tokens": 12,
+                  "output_tokens": 2101
+                }
+              },
+              "started_at": "2026-09-26T13:53:33.916784+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 6530,
+                "cache_read_input_tokens": 81639,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.06478880000000001,
+                "currency": "USD",
+                "input_tokens": 12,
+                "output_tokens": 2101
+              },
+              "updated_at": "2026-09-26T13:54:09.534294+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.064788801,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0",
+        "evidence_sha256": "4d0e7a12c18f4510c5f34f3c74c3668e0d3ab8e42925bbbb86792df3a4021576",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+              "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+              "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+              "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+              "boltons/jsonutils.py": "21879f82442e1717ca0f723cf657476f5f6dd350687bbae06888ece41817efa3",
+              "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+            },
+            "evaluator_zip_sha256": "e997e6d9d34288a71279d6e89ff19476957ffeb04033fe7280e1cbafcc6da847",
+            "grade_sha256": "db861e39fb22d0f043984358a4be0f380d09626c1a3e7fafc6ed01eb12039a61",
+            "grader_result": {
+              "cases": {
+                "full_forward": true,
+                "mid_final_line_terminates": true,
+                "negative_seek_matches_positive": true,
+                "positive_seek_keeps_tail": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "full_forward": 15,
+                "mid_final_line_terminates": 35,
+                "negative_seek_matches_positive": 35,
+                "positive_seek_keeps_tail": 15
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "B02W",
+            "task_sha256": "d2147f43b79e67546a49c0dc531b858d6a20dddcde7871a1dd9bc4dcacbb2004"
+          },
+          "hidden_grade_sha256": "db861e39fb22d0f043984358a4be0f380d09626c1a3e7fafc6ed01eb12039a61",
+          "hidden_score": 100,
+          "public_isolation_sha256": "ac8a82f7d4519a768b39144a82195867ac63ee7f25e1d269abf9334b782a2261",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "B02W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "ea53e8bee0759d52dc023a302932f8a30f9a69f377bbc7ce21911e1c6392877f",
+          "LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+          "acceptance.json": "e5dd4d1ede71bc17102c3f20916568eaad4ff7993cbeb75793e812885419e722",
+          "boltons/__init__.py": "57d162d009438f94f8bc71c8b527fc963eb951066f890c97730d4adc27f2c160",
+          "public_check.py": "588c817f391470ccfb25a4a78152a0b7fbc492f9a0363af0301436ba3c12640e"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "8606bea81a32485fe2a0db26",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 7,
+        "settlement": {
+          "charged_usd": 0.064788801,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/07-b02w-b0",
+          "editable_sha256": {
+            "boltons/jsonutils.py": "21879f82442e1717ca0f723cf657476f5f6dd350687bbae06888ece41817efa3"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "fc28b568e1ef00eeddecc69efa73731f529838deb1a95ff14a9fc5d4f5d37bf4"
+        },
+        "task_id": "B02W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-07"
+      },
+      "episode_label": "b0",
+      "sequence": 7,
+      "state": "graded",
+      "task_id": "B02W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-9cdfac36445c192d59ac2ac577f458a5",
+              "after_sha256": {
+                "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+                "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+                "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+                "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+                "reconcile.py": "30be8fb18c06d86c2e4a7248adf42da5ae44143b21227238ac87088ad664481c"
+              },
+              "changed_paths": [
+                "reconcile.py"
+              ],
+              "q1_record_sha256": "6d355b8803c61c4fc242931d5f443ce62b635504cfad99bbc9363a0c4e280de0",
+              "q1_spec_sha256": "b1069f82fb1117c99236e8a0dfc245da4f08ee3f1ecee2f51d2d04cab4927b22"
+            },
+            "cost_usd": 0.0350836,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "dd97a5c4c45a630838e0d606c3f19ac88bc024c7ca6c13d5e270ace2b3da4135",
+                "invocation_id": "9cdfac36445c192d59ac2ac577f458a5",
+                "prompt_sha256": "5be83b791f5c079fe60f03a9caedfc6c9637105f0f517e1c0d90a01aa20947ca",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "75e0704bcbdea89acccb4d81c3a39b6ce8d80506e05eb97cce5852e44f4f6fa0",
+                "stream_sha256": "1636dce6f5d9640161e384c16903cd779cc80b3322bb52a1cbf8cdd2545955fd",
+                "task_sha256": "2095281af70d6cca947568b21856f808217266e017a52411dd45d2ab6b429e6e"
+              },
+              "observability": "present",
+              "raw_sha256": "05abcd4fdccc46e8054be1cd8a6c194129b3210deacc4ef12a562f01e231f804",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":null,\"diagnosis\":\"Updated apply_events in reconcile.py to skip events whose revision is not strictly newer than the stored revision, and to store deletes as (revision, None) tombstones instead of removing the key, preventing stale puts from resurrecting deleted objects. Input state dict is still copied, not mutated. No shell/execution tool was available in this session to actually run public_check.py or additional tests, so correctness was verified by code inspection only.\",\"evidence\":[\"reconcile.py now compares revision <= current[0] before applying any event, and stores deletes as (revision, None)\"],\"remaining\":[\"Run python3 -B public_check.py to confirm no regression\",\"Add and run out-of-order and delete/resurrection test cases\",\"Verify no execution tool available prevented actual test runs\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": null,
+                "diagnosis": "Updated apply_events in reconcile.py to skip events whose revision is not strictly newer than the stored revision, and to store deletes as (revision, None) tombstones instead of removing the key, preventing stale puts from resurrecting deleted objects. Input state dict is still copied, not mutated. No shell/execution tool was available in this session to actually run public_check.py or additional tests, so correctness was verified by code inspection only.",
+                "evidence": [
+                  "reconcile.py now compares revision <= current[0] before applying any event, and stores deletes as (revision, None)"
+                ],
+                "remaining": [
+                  "Run python3 -B public_check.py to confirm no regression",
+                  "Add and run out-of-order and delete/resurrection test cases",
+                  "Verify no execution tool available prevented actual test runs"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "ee00f643d65625f3d4fd76426f7c488bd457f44a3e782d26f6e189105f047745",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "05abcd4fdccc46e8054be1cd8a6c194129b3210deacc4ef12a562f01e231f804",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "9cdfac36445c192d59ac2ac577f458a5",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 7,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 4,
+                "user": 5
+              },
+              "invalid_line_count": 0,
+              "num_turns": 6,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.0350836,
+              "reported_usage": {
+                "cache_creation_input_tokens": 3008,
+                "cache_read_input_tokens": 45468,
+                "input_tokens": 8,
+                "output_tokens": 1256
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 25828,
+              "stdout_sha256": "1636dce6f5d9640161e384c16903cd779cc80b3322bb52a1cbf8cdd2545955fd",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "4011e9de79d44d1a215d46a8171c4be74511353a5bfab0485a4ff1b5bdb98d3a",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 3008,
+              "cache_read_input_tokens": 45468,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.0350836,
+              "currency": "USD",
+              "input_tokens": 8,
+              "output_tokens": 1256
+            },
+            "verification": "pass",
+            "wall_clock_s": 18.879343,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.9649164,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:54:37.970621+00:00",
+          "currency": "USD",
+          "invocations": {
+            "9cdfac36445c192d59ac2ac577f458a5": {
+              "allowance_units": 4000000000,
+              "charged_units": 35083600,
+              "cost_usd": 0.0350836,
+              "metadata": {
+                "decision_digest": "952c37de5584252e5c3b15548ca3f586b63987501c75aa8fc4c3d5762b394321",
+                "revision_id": "75e0704bcbdea89acccb4d81c3a39b6ce8d80506e05eb97cce5852e44f4f6fa0",
+                "root_id": "e73e9b7bb9b335a54e7adb4b"
+              },
+              "reserved_at": "2026-09-26T13:54:38.002084+00:00",
+              "resolution": {
+                "cost_usd": 0.0350836,
+                "evidence": "receipt:4011e9de79d44d1a215d46a8171c4be74511353a5bfab0485a4ff1b5bdb98d3a",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 3008,
+                  "cache_read_input_tokens": 45468,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.0350836,
+                  "currency": "USD",
+                  "input_tokens": 8,
+                  "output_tokens": 1256
+                }
+              },
+              "started_at": "2026-09-26T13:54:38.009601+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 3008,
+                "cache_read_input_tokens": 45468,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.0350836,
+                "currency": "USD",
+                "input_tokens": 8,
+                "output_tokens": 1256
+              },
+              "updated_at": "2026-09-26T13:54:56.920751+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.0350836,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "coverage_repair",
+        "evidence_sha256": "dd6b0253b00ba2447953f67b527955f16b4dbac902a1158811d95c3bc37bc456",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+              "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+              "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+              "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b",
+              "reconcile.py": "30be8fb18c06d86c2e4a7248adf42da5ae44143b21227238ac87088ad664481c"
+            },
+            "evaluator_zip_sha256": "be47d926f1960a63c9f1d478ac7a2ff14edd3b1375a47e3c5ffd38f6d2092bdc",
+            "grade_sha256": "4049f2ad11c27c486364c6f228eb7114e871da4f4a49c3ffedfd25b084311b1f",
+            "grader_result": {
+              "cases": {
+                "newer_put": true,
+                "stale_update": true,
+                "tombstone_blocks_resurrection": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "newer_put": 30,
+                "stale_update": 35,
+                "tombstone_blocks_resurrection": 35
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "H08W",
+            "task_sha256": "7209c8c557afce8d48537e06cd9b0627b775745e130c1e9b99cd57aea83b8de6"
+          },
+          "hidden_grade_sha256": "4049f2ad11c27c486364c6f228eb7114e871da4f4a49c3ffedfd25b084311b1f",
+          "hidden_score": 100,
+          "public_isolation_sha256": "71f309fc0ebc4cfe8dd9f350f1201ce92250f7aaff0be6fe99165412a5cb147b",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "H08W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "2f488be6d18e28dbd360244b3bad2bf4183f156078a8eab0d4283b2be44f3701",
+          "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "acceptance.json": "e712578be574255ec725456c62459364c5d6811c9d1d7037ea8d2636657dc7ea",
+          "public_check.py": "688e8b1541f020097b44eab131f5cd9fa7167966f1e7d51dc321e5209b2c071b"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "e73e9b7bb9b335a54e7adb4b",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 8,
+        "settlement": {
+          "charged_usd": 0.0350836,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/08-h08w-coverage_repair",
+          "editable_sha256": {
+            "reconcile.py": "30be8fb18c06d86c2e4a7248adf42da5ae44143b21227238ac87088ad664481c"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "15967dcb73ec8596109c272930b16462b4776866c31e8f360ac98ff03cf40f31"
+        },
+        "task_id": "H08W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-08"
+      },
+      "episode_label": "coverage_repair",
+      "sequence": 8,
+      "state": "graded",
+      "task_id": "H08W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-e077142ce9cd8068b874f7d27e6fde5f",
+              "after_sha256": {
+                "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+                "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+                "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+                "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+                "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+                "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+                "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+                "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+                "src/dotenv/main.py": "ba8a764604103724ea2b8c9c4fb3c9dbc1f2ee436de6768268340c3915828194",
+                "src/dotenv/parser.py": "bb4b5775ab3833148aba03666cc660c2b8b4858b3bb3b0f0ac3af740b344af2f",
+                "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+                "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+                "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+              },
+              "changed_paths": [
+                "src/dotenv/main.py",
+                "src/dotenv/parser.py"
+              ],
+              "q1_record_sha256": "8fb80cab26a3db9c38b34fa3ca7b78764edfc593c1f6ce9ba183ef56d8b09dae",
+              "q1_spec_sha256": "db3c81f4f5a48ee070858c631dd43388282b17556617db6a718021ace467544b"
+            },
+            "cost_usd": 0.19911,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "d483f955243b4a10306477318cf1f329dc61a86d75e5c51bb8cfcc2c67d2b5b4",
+                "invocation_id": "e077142ce9cd8068b874f7d27e6fde5f",
+                "prompt_sha256": "2d0f37df7029f093a43d578e0f8331235f693506e7af3a1a6f65f0bb87477ff1",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "eb6df1a393961158890c08d810594947cab0fb060860b053184c435eb39974ef",
+                "stream_sha256": "f1efe3d8663c75b76ad783f0f53cc5c1fd563348e036db03df0ef65b7ca80d3d",
+                "task_sha256": "9dec26fa69e0270fcf64e2a1d60fa1ec7c0ca0997ec5343c9e500061f3d5b394"
+              },
+              "observability": "present",
+              "raw_sha256": "82eee807f758a8c3d0cbada6d93b79f84b9b0b0693cc9dab87cc0c8e1fd16a08",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"This sandbox exposed no Bash/exec tool, so I could not run `python3 -B public_check.py`; changes are verified only by manual trace through the regex/escaping logic. Please run the check and let me know if it fails.\",\"diagnosis\":\"set_key only escaped quotes, not backslashes, so consecutive backslashes were corrupted on decode; parser.py's quoted-value regexes used a naive escape lookahead that misidentified an escaped-backslash-then-quote as an escaped-quote, swallowing the real closing quote and merging the next binding. Fixed by escaping backslashes before quotes in main.set_key, and changing parser.py's single/double quoted value regexes to pair backslash-escapes correctly and stop at the true closing quote.\",\"evidence\":[\"src/dotenv/main.py set_key: escapes backslashes before quotes then quotes are escaped, before building value_out\",\"src/dotenv/parser.py: _single_quoted_value/_double_quoted_value regexes changed to use a backslash-plus-any-char escape unit instead of the old backslash-plus-quote-only lookahead\",\"Manually traced round-trip for values with 1, 2, 4 backslashes and a value ending in a backslash right before the closing quote; all decode back to the original value and the following binding remains separate\"],\"remaining\":[\"No shell/execution tool was available in this session to actually run public_check.py or additional backslash/boundary tests\",\"Recommend running python3 -B public_check.py plus manual tests of set_key with values containing consecutive/trailing backslashes to confirm empirically\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "This sandbox exposed no Bash/exec tool, so I could not run `python3 -B public_check.py`; changes are verified only by manual trace through the regex/escaping logic. Please run the check and let me know if it fails.",
+                "diagnosis": "set_key only escaped quotes, not backslashes, so consecutive backslashes were corrupted on decode; parser.py's quoted-value regexes used a naive escape lookahead that misidentified an escaped-backslash-then-quote as an escaped-quote, swallowing the real closing quote and merging the next binding. Fixed by escaping backslashes before quotes in main.set_key, and changing parser.py's single/double quoted value regexes to pair backslash-escapes correctly and stop at the true closing quote.",
+                "evidence": [
+                  "src/dotenv/main.py set_key: escapes backslashes before quotes then quotes are escaped, before building value_out",
+                  "src/dotenv/parser.py: _single_quoted_value/_double_quoted_value regexes changed to use a backslash-plus-any-char escape unit instead of the old backslash-plus-quote-only lookahead",
+                  "Manually traced round-trip for values with 1, 2, 4 backslashes and a value ending in a backslash right before the closing quote; all decode back to the original value and the following binding remains separate"
+                ],
+                "remaining": [
+                  "No shell/execution tool was available in this session to actually run public_check.py or additional backslash/boundary tests",
+                  "Recommend running python3 -B public_check.py plus manual tests of set_key with values containing consecutive/trailing backslashes to confirm empirically"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "ea859df730beab7b191555a7b5dc44a907e88ed39f3d90ab031075597b30ee7f",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "0d377b36834f85dec66ae3b8dda8e83a12ddad7803ac3d24fcc40a521ea6ee6e",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "e077142ce9cd8068b874f7d27e6fde5f",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 17,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 54,
+                "user": 11
+              },
+              "invalid_line_count": 0,
+              "num_turns": 12,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.19911,
+              "reported_usage": {
+                "cache_creation_input_tokens": 17751,
+                "cache_read_input_tokens": 147430,
+                "input_tokens": 16,
+                "output_tokens": 9722
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 127411,
+              "stdout_sha256": "f1efe3d8663c75b76ad783f0f53cc5c1fd563348e036db03df0ef65b7ca80d3d",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "f9240cf7751af5044f813a13b5777a582554de7bdd2411a163cb5d7957060b61",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 17751,
+              "cache_read_input_tokens": 147430,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.19911,
+              "currency": "USD",
+              "input_tokens": 16,
+              "output_tokens": 9722
+            },
+            "verification": "pass",
+            "wall_clock_s": 105.166303,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.80089,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:55:25.461875+00:00",
+          "currency": "USD",
+          "invocations": {
+            "e077142ce9cd8068b874f7d27e6fde5f": {
+              "allowance_units": 4000000000,
+              "charged_units": 199110000,
+              "cost_usd": 0.19911,
+              "metadata": {
+                "decision_digest": "937f530b673835f95d3aef0c5d30df24b639e00a6751dc93f71a05829a414894",
+                "revision_id": "eb6df1a393961158890c08d810594947cab0fb060860b053184c435eb39974ef",
+                "root_id": "e71d2e038b57d8f90a662ee5"
+              },
+              "reserved_at": "2026-09-26T13:55:25.499174+00:00",
+              "resolution": {
+                "cost_usd": 0.19911,
+                "evidence": "receipt:f9240cf7751af5044f813a13b5777a582554de7bdd2411a163cb5d7957060b61",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 17751,
+                  "cache_read_input_tokens": 147430,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.19911,
+                  "currency": "USD",
+                  "input_tokens": 16,
+                  "output_tokens": 9722
+                }
+              },
+              "started_at": "2026-09-26T13:55:25.507324+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 17751,
+                "cache_read_input_tokens": 147430,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.19911,
+                "currency": "USD",
+                "input_tokens": 16,
+                "output_tokens": 9722
+              },
+              "updated_at": "2026-09-26T13:57:10.712221+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.19911,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "coverage_repair",
+        "evidence_sha256": "742898195e96fad07fb98b008eff6b30604c3d3d9eb0914ebbda87e42acb56ac",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+              "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+              "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+              "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+              "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+              "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+              "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+              "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+              "src/dotenv/main.py": "ba8a764604103724ea2b8c9c4fb3c9dbc1f2ee436de6768268340c3915828194",
+              "src/dotenv/parser.py": "bb4b5775ab3833148aba03666cc660c2b8b4858b3bb3b0f0ac3af740b344af2f",
+              "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+              "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+              "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+            },
+            "evaluator_zip_sha256": "0f53d077bfeb37ab98ee4fd493b369af4de7ed68b15525b93ba8f5cf8f7e3032",
+            "grade_sha256": "024cbab6a28198664babff5de6408d092a816f2be2e2d283be0ec81727cfa1c6",
+            "grader_result": {
+              "cases": {
+                "double_quote_boundary": true,
+                "plain_and_single_slash_controls": true,
+                "round_trip_double_slash": true,
+                "round_trip_quote_and_slash": true,
+                "single_quote_boundary": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "double_quote_boundary": 20,
+                "plain_and_single_slash_controls": 15,
+                "round_trip_double_slash": 20,
+                "round_trip_quote_and_slash": 20,
+                "single_quote_boundary": 25
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "D01W",
+            "task_sha256": "a8ef18a035bc6ac2d929e898c1aaa517771d3920d5c9bfe64dd37b20fb348669"
+          },
+          "hidden_grade_sha256": "024cbab6a28198664babff5de6408d092a816f2be2e2d283be0ec81727cfa1c6",
+          "hidden_score": 100,
+          "public_isolation_sha256": "fa2948f720cbcb5d72f90ce8ac3e3ebaea7a2462d02bacb1c029b173a0dcaca7",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "D01W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "37f73d3e5c64cad45b9ac3672406a4fed6aa5c1cb5a0ee4bf5248c537fe472b6",
+          "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+          "acceptance.json": "74488f369f92db2281c132b252dee509851b2c266e8cda908937435aac38a455",
+          "public_check.py": "0a5f0168b3d5f5d534be698292bb4279a0d35d8eed749633354dc09f4888c9ce",
+          "src/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+          "src/dotenv/__main__.py": "3744612c6ee71c8aad9491f0c1ea48a3ecdb24f371f6c7b0082446639dbc87fe",
+          "src/dotenv/cli.py": "8c547ed95b551f492d85cc9c81c55e476aaebed00392c14a4ffdda3b8007cbbb",
+          "src/dotenv/ipython.py": "74740177d3dc7425298466faed7c32dc6914a8c49d7fd5d4522358c53677b585",
+          "src/dotenv/py.typed": "f0f8f2675695a10a5156fb7bd66bafbaae6a13e8d315990af862c792175e6e67",
+          "src/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+          "src/dotenv/version.py": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "e71d2e038b57d8f90a662ee5",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 9,
+        "settlement": {
+          "charged_usd": 0.19911,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/09-d01w-coverage_repair",
+          "editable_sha256": {
+            "src/dotenv/main.py": "ba8a764604103724ea2b8c9c4fb3c9dbc1f2ee436de6768268340c3915828194",
+            "src/dotenv/parser.py": "bb4b5775ab3833148aba03666cc660c2b8b4858b3bb3b0f0ac3af740b344af2f"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "76628e662bc87d353d9ea0b2e56bdb8938494f5daa57d23aa2e299bc40751c61"
+        },
+        "task_id": "D01W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-09"
+      },
+      "episode_label": "coverage_repair",
+      "sequence": 9,
+      "state": "graded",
+      "task_id": "D01W"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "boundary": {
+              "actor_name": "q1-c9b959679bd892dde9020d0f18f5d9cc",
+              "after_sha256": {
+                "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+                "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+                "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+                "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+                "event_ref/decode.py": "542dfb0f5f6db7a908cb9e5828a9b8b17a9875e14d08b36d06bb723967920054",
+                "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a",
+                "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+              },
+              "changed_paths": [
+                "event_ref/decode.py",
+                "event_ref/encode.py"
+              ],
+              "q1_record_sha256": "f6a6264b4eb7649db8694b79c71bfaad18db92fdd5ae61eb8162c95c9dc9423d",
+              "q1_spec_sha256": "752ef333809d0866686d33e267ccb84f298286999e8dc20ea7e973581aa30bed"
+            },
+            "cost_usd": 0.0640318,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "984168e30f42776d6ffad511f5a2d0d84bf06c600a34b0ad0852539e5268826e",
+                "invocation_id": "c9b959679bd892dde9020d0f18f5d9cc",
+                "prompt_sha256": "7d481ee9619687b4a0d0499555b4e5aa24825eeaad9e38783a043702292d35ce",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "2bff8aa175b31952844e315148ba6104fa7205846ac41d1a70326b43a74c11ed",
+                "stream_sha256": "6d00d799c0401b213dc6b2ebaec7cce7da616c8e8d99b03e0b2e4d86d822c2dd",
+                "task_sha256": "1ef8de0a32f2667721760361f6bd3e8c98c7d711f41a3c3485fabdc9f32c070e"
+              },
+              "observability": "present",
+              "raw_sha256": "7e33b86c5c6a320f76f31ae37c0137b88271c0d5d82fb25b891fea23b73d2165",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No shell/Bash tool was available in this session, so I could not execute public_check.py or additional test cases; please run it to confirm the fix.\",\"diagnosis\":\"Implemented escaping in encode.py (_escape replaces backslash then pipe) and a matching stateful parser in decode.py that raises ValueError on invalid or trailing unpaired escapes. Verified by manual trace: encode([\\\"a|b\\\",\\\"c\\\\\\\\d\\\"]) -> \\\"a\\\\\\\\|b|c\\\\\\\\\\\\\\\\d\\\" and decode reverses it; \\\"tenant|event|42\\\" stays unchanged; decode(\\\"abc\\\\\\\\\\\") raises ValueError. No shell/execution tool was available to actually run public_check.py.\",\"evidence\":[\"event_ref/encode.py: _escape() replaces backslash then pipe, encode joins escaped parts with |\",\"event_ref/decode.py: stateful char scan tracks escaped flag, raises ValueError on invalid escape char or trailing escape\"],\"remaining\":[\"Execute python3 -B public_check.py and additional escaping/decode edge-case assertions in an environment with shell access\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No shell/Bash tool was available in this session, so I could not execute public_check.py or additional test cases; please run it to confirm the fix.",
+                "diagnosis": "Implemented escaping in encode.py (_escape replaces backslash then pipe) and a matching stateful parser in decode.py that raises ValueError on invalid or trailing unpaired escapes. Verified by manual trace: encode([\"a|b\",\"c\\\\d\"]) -> \"a\\\\|b|c\\\\\\\\d\" and decode reverses it; \"tenant|event|42\" stays unchanged; decode(\"abc\\\\\") raises ValueError. No shell/execution tool was available to actually run public_check.py.",
+                "evidence": [
+                  "event_ref/encode.py: _escape() replaces backslash then pipe, encode joins escaped parts with |",
+                  "event_ref/decode.py: stateful char scan tracks escaped flag, raises ValueError on invalid escape char or trailing escape"
+                ],
+                "remaining": [
+                  "Execute python3 -B public_check.py and additional escaping/decode edge-case assertions in an environment with shell access"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "d55ba59998ede0161fd7fa2def93caffefed9b090b01051d89a1bfa716aecee6",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v2",
+              "raw_result_sha256": "c208cd4e8e6b99e0c8f614e8aacca458e6ccb9e1a49c86319080ce5349d3deb6",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true,
+              "structured_retry_limit": 5
+            },
+            "identity_valid": true,
+            "invocation_id": "c9b959679bd892dde9020d0f18f5d9cc",
+            "q4t_diagnostics": {
+              "billed_models": [
+                "claude-haiku-4-5-20251001",
+                "claude-sonnet-5"
+              ],
+              "child_models": [],
+              "error_codes": [],
+              "event_types": {
+                "assistant": 13,
+                "rate_limit_event": 1,
+                "result": 1,
+                "system": 3,
+                "user": 9
+              },
+              "invalid_line_count": 0,
+              "num_turns": 10,
+              "real_root_models": [
+                "claude-sonnet-5"
+              ],
+              "reported_cost_usd": 0.0640318,
+              "reported_usage": {
+                "cache_creation_input_tokens": 4686,
+                "cache_read_input_tokens": 97824,
+                "input_tokens": 16,
+                "output_tokens": 2436
+              },
+              "result_subtype": "success",
+              "returncode": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 37361,
+              "stdout_sha256": "6d00d799c0401b213dc6b2ebaec7cce7da616c8e8d99b03e0b2e4d86d822c2dd",
+              "structured_output_field_present": true,
+              "synthetic_root_markers": []
+            },
+            "receipt_digest": "92cae9677239384ccc1114bfa16e4cc86e3430c5eb739ecf5ca387553419a676",
+            "requested_cell": "worker-sonnet-low",
+            "sequence": 1,
+            "status": "completed",
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 4686,
+              "cache_read_input_tokens": 97824,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.0640318,
+              "currency": "USD",
+              "input_tokens": 16,
+              "output_tokens": 2436
+            },
+            "verification": "pass",
+            "wall_clock_s": 34.420383,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.9359682,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T13:57:40.398231+00:00",
+          "currency": "USD",
+          "invocations": {
+            "c9b959679bd892dde9020d0f18f5d9cc": {
+              "allowance_units": 4000000000,
+              "charged_units": 64031800,
+              "cost_usd": 0.0640318,
+              "metadata": {
+                "decision_digest": "368493182e5193428a05fa68de9ad8d6932c51481a51085706acbc50498e594a",
+                "revision_id": "2bff8aa175b31952844e315148ba6104fa7205846ac41d1a70326b43a74c11ed",
+                "root_id": "4155734902a4169d27b2d090"
+              },
+              "reserved_at": "2026-09-26T13:57:40.429767+00:00",
+              "resolution": {
+                "cost_usd": 0.0640318,
+                "evidence": "receipt:92cae9677239384ccc1114bfa16e4cc86e3430c5eb739ecf5ca387553419a676",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 4686,
+                  "cache_read_input_tokens": 97824,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.0640318,
+                  "currency": "USD",
+                  "input_tokens": 16,
+                  "output_tokens": 2436
+                }
+              },
+              "started_at": "2026-09-26T13:57:40.436240+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 4686,
+                "cache_read_input_tokens": 97824,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.0640318,
+                "currency": "USD",
+                "input_tokens": 16,
+                "output_tokens": 2436
+              },
+              "updated_at": "2026-09-26T13:58:14.887562+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.0640318,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "coverage_repair",
+        "evidence_sha256": "879a0d13acfa6aa18dd3c264fd580c3676f26baa66a047d777ebae701a245621",
+        "executable_grade": {
+          "hidden_grade": {
+            "candidate_sha256": {
+              "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+              "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+              "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+              "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+              "event_ref/decode.py": "542dfb0f5f6db7a908cb9e5828a9b8b17a9875e14d08b36d06bb723967920054",
+              "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a",
+              "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+            },
+            "evaluator_zip_sha256": "8b79c64eb7bf7d36a87624f6baf49807f8c2e7c6af274a8a5e61e09d0b3467d9",
+            "grade_sha256": "b5b0e0d1e99e248070a6e7ac4cf8d1bcb5cc36625477baac83c65c13a0eb7b8f",
+            "grader_result": {
+              "cases": {
+                "escape_decoding": true,
+                "escape_encoding": true,
+                "plain_round_trip": true
+              },
+              "schema_version": 1,
+              "score": 100,
+              "weights": {
+                "escape_decoding": 35,
+                "escape_encoding": 35,
+                "plain_round_trip": 30
+              }
+            },
+            "provider_calls": 0,
+            "provider_cost_usd": 0,
+            "schema_version": 1,
+            "score": 100,
+            "task_id": "F07W",
+            "task_sha256": "a0abce036131dd8de2dfee2fe4e64f4ba7033f7b577429a9b7a51c3e2313ecbb"
+          },
+          "hidden_grade_sha256": "b5b0e0d1e99e248070a6e7ac4cf8d1bcb5cc36625477baac83c65c13a0eb7b8f",
+          "hidden_score": 100,
+          "public_isolation_sha256": "3f5048b1ad0d53f57ceaa9c76e7047fb0d46d25733404aff89b84d8157e572c6",
+          "public_pass": true,
+          "schema_version": 1,
+          "task_id": "F07W"
+        },
+        "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+        "protected_integrity": true,
+        "protected_sha256": {
+          "ISSUE.md": "26b623576946daf72faa1aece25d00192aae740b9b53740870b505d707944a3e",
+          "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "acceptance.json": "7db1dc9441625a34bc188b6584d62f6dd6d1ffa28278c614403d03650a57a424",
+          "event_ref/__init__.py": "4da588e7f586f898400ff12cef7e4a0d28f355855c83e6cc33c787cd69d0a6d0",
+          "public_check.py": "cb6928dc64b8bfbb0e5810432901a53187a066452c51797c6396cae39008f5f0"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "critical_error": false,
+          "false_success": false,
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "quality": 100,
+          "report_observability": "present",
+          "schema_version": 2,
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "4155734902a4169d27b2d090",
+        "root_state": "accepted",
+        "schema_version": 1,
+        "sequence": 10,
+        "settlement": {
+          "charged_usd": 0.0640318,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "directory": "patches/10-f07w-coverage_repair",
+          "editable_sha256": {
+            "event_ref/decode.py": "542dfb0f5f6db7a908cb9e5828a9b8b17a9875e14d08b36d06bb723967920054",
+            "event_ref/encode.py": "1ffaab9ca11b473ac5ae175f7de8eeda83570e85ebf49fbd73485589d074d43a"
+          },
+          "protected_preserved": false,
+          "schema_version": 1,
+          "snapshot_sha256": "b8909d9931947adc659b42400866bee3ed747dedb510ae09d11d6464cd8729a1"
+        },
+        "task_id": "F07W",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4u-33e0cb0d85a0-10"
+      },
+      "episode_label": "coverage_repair",
+      "sequence": 10,
+      "state": "graded",
+      "task_id": "F07W"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "217bd2ba8ad03869336a2e7277a2bfe93b32367c4c8593da3060cbbd5d7ae5d9",
+  "status": "complete",
+  "total_cost_usd": 1.022577203,
+  "total_provider_calls": 10
+}

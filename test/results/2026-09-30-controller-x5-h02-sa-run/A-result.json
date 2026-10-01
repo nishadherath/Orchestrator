@@ -1,0 +1,165 @@
+{
+  "arm": "A",
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.950393899,
+    "baseline_limit_units": 6000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-30T10:13:27.392798+00:00",
+    "currency": "USD",
+    "invocations": {
+      "controller-daeb3b7a1162d99d5e030ac4": {
+        "allowance_units": 2462005999,
+        "charged_units": 644317501,
+        "cost_usd": 0.644317501,
+        "metadata": {
+          "allocation": "controller",
+          "decision_id": "rtd-59c5269cbed5b4e688b7ff34",
+          "revision_id": "daeb3b7a1162d99d5e030ac4c0c6e0a9338ccc3425494204694905d7fbbc6067"
+        },
+        "reserved_at": "2026-09-30T11:08:16.431616+00:00",
+        "resolution": {
+          "cost_usd": 0.644317501,
+          "evidence": "controller-adapter-result",
+          "final": true,
+          "telemetry": {
+            "accounting_complete": true,
+            "outcome": "gap"
+          }
+        },
+        "started_at": "2026-09-30T11:08:16.435059+00:00",
+        "state": "settled",
+        "telemetry": {
+          "accounting_complete": true,
+          "outcome": "gap"
+        },
+        "updated_at": "2026-09-30T11:11:01.672422+00:00"
+      },
+      "controller-follow-on-daeb3b7a1162d99d5e030ac4": {
+        "allowance_units": 3500000000,
+        "charged_units": 0,
+        "cost_usd": 0.0,
+        "metadata": {
+          "allocation": "worker-verification-hold",
+          "revision_id": "daeb3b7a1162d99d5e030ac4c0c6e0a9338ccc3425494204694905d7fbbc6067"
+        },
+        "reserved_at": "2026-09-30T11:08:16.428205+00:00",
+        "resolution": {
+          "cost_usd": 0.0,
+          "evidence": "controller-validated-worker-handoff",
+          "final": true,
+          "telemetry": {}
+        },
+        "state": "settled",
+        "telemetry": {},
+        "updated_at": "2026-09-30T11:11:01.836556+00:00"
+      },
+      "d412cdfda3c7da1fc16d3ee2cfc92630": {
+        "allowance_units": 4000000000,
+        "charged_units": 367294600,
+        "cost_usd": 0.36729459999999997,
+        "metadata": {
+          "decision_digest": "0ac2143ffcae7051d3e03be31e9357fc3128fa30d5e02d01a9fe986c32cef0b2",
+          "revision_id": "daeb3b7a1162d99d5e030ac4c0c6e0a9338ccc3425494204694905d7fbbc6067",
+          "root_id": "5af440c96b4e0fce00878bec"
+        },
+        "reserved_at": "2026-09-30T11:11:01.940123+00:00",
+        "resolution": {
+          "cost_usd": 0.36729459999999997,
+          "evidence": "receipt:2ca48e1d0699b646c4272b65e6ebaefc872a8a204dbf5b147b5ee22cf7a79952",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 29681,
+            "cache_read_input_tokens": 450868,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.36729459999999997,
+            "currency": "USD",
+            "input_tokens": 32,
+            "output_tokens": 15590
+          }
+        },
+        "started_at": "2026-09-30T11:11:01.948420+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 29681,
+          "cache_read_input_tokens": 450868,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.36729459999999997,
+          "currency": "USD",
+          "input_tokens": 32,
+          "output_tokens": 15590
+        },
+        "updated_at": "2026-09-30T11:14:10.473119+00:00"
+      },
+      "public-assessment-daeb3b7a1162d99d5e030ac4": {
+        "allowance_units": 500000000,
+        "charged_units": 37994000,
+        "cost_usd": 0.037994,
+        "metadata": {
+          "allocation": "public-assessment",
+          "packet_sha256": "260ad066cb93a3a0d5c629253ec1af320445d3aa9a602ada59c3aa2c3188d226",
+          "revision_id": "daeb3b7a1162d99d5e030ac4c0c6e0a9338ccc3425494204694905d7fbbc6067"
+        },
+        "reserved_at": "2026-09-30T11:08:08.985049+00:00",
+        "resolution": {
+          "cost_usd": 0.037994,
+          "evidence": "public-assessment:260ad066cb93a3a0d5c629253ec1af320445d3aa9a602ada59c3aa2c3188d226",
+          "final": true,
+          "telemetry": {
+            "cost_usd": 0.037994,
+            "input_tokens": 4,
+            "model": "claude-sonnet-5",
+            "output_tokens": 586,
+            "provider_calls": 1
+          }
+        },
+        "started_at": "2026-09-30T11:08:08.988543+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cost_usd": 0.037994,
+          "input_tokens": 4,
+          "model": "claude-sonnet-5",
+          "output_tokens": 586,
+          "provider_calls": 1
+        },
+        "updated_at": "2026-09-30T11:08:16.336406+00:00"
+      }
+    },
+    "limit_units": 6000000000,
+    "limit_usd": 6.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 1.049606101,
+    "unresolved": [],
+    "version": 1
+  },
+  "case": "H02",
+  "controller_handoff_actionable": false,
+  "controller_invocations": 1,
+  "controller_stage": "worker-ready",
+  "effective_action": "controller",
+  "elapsed_s": 373.989,
+  "error": null,
+  "grade": {
+    "accepted": false,
+    "boundary": "Q4U isolated actor uid 65534; evaluator-owned stdin oracle",
+    "candidate_edit_sha256": "93391ebf5f190d32792fecc93d200979eb5ab0ec6e63372729300fcc73fedd84",
+    "case": "H02",
+    "catalogue_sha256": "5444b006deee658a2c57b5986fa866e23784b29dc9882e8a7ffe683e3454ac6c",
+    "checks": {
+      "forward": false,
+      "no_hook": true,
+      "public": false,
+      "reverse": false,
+      "upstream": true
+    },
+    "critical": false,
+    "quality": 30
+  },
+  "manifest_sha256": "c09983df46b2c38f5d746d7d5fb6f6bf71c3b94328f90db13d3ef9da9620a5f4",
+  "qualified": false,
+  "root_id": "5af440c96b4e0fce00878bec",
+  "state": "ready",
+  "worker_identity_valid": true
+}

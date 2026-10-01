@@ -1,0 +1,22 @@
+{
+  "type": "CritiqueRecord",
+  "id": "crit-008",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "cand-005",
+    "prem-004",
+    "prem-005"
+  ],
+  "candidate_id": "cand-005",
+  "failure_modes": [
+    "The reclassification is not a subtraction. prem-004 already states its condition in its own text and names the protocol check as its cheapest verification, so the law was never unconditional and nothing was removed to reach the zeroth check.",
+    "The claimed gain that a defective protocol would rule out all three explanations at once is unsupported. A defective outbox is a mechanism by which the writer fails or the acknowledgement precedes durability, so it can realise the named explanations rather than displace them.",
+    "The zeroth check is asserted to be cheaper and orderable first, but no cost basis is offered and the candidate's own cost estimate is the highest in the tier at 0.40, which is evidence against the cheapness claim.",
+    "Frame-002 requires each check to name its artefact and flag that artefact's existence as unverified. The completion-path inspection is described without that flag, so the candidate as written does not meet the criterion it must satisfy."
+  ],
+  "derivable": true,
+  "falsified_premise_claims": [],
+  "verdict": "return"
+}

@@ -252,9 +252,16 @@ def resolve(project: Path, *, explicit_mode: str | None = None,
             session_id: str | None = None,
             task_revision: str | None = None) -> ControlDecision:
     """Resolve precedence without mutating state or launching any work."""
+    return _resolve_state(load_state(project), explicit_mode=explicit_mode,
+                          session_id=session_id, task_revision=task_revision)
+
+
+def _resolve_state(state: dict, *, explicit_mode: str | None = None,
+                   session_id: str | None = None,
+                   task_revision: str | None = None) -> ControlDecision:
+    """Resolve against one loaded state so status fields share one revision."""
     if explicit_mode is not None and explicit_mode not in MODES:
         raise ControlError(f"explicit mode must be one of {MODES}")
-    state = load_state(project)
     if explicit_mode is not None:
         return ControlDecision(explicit_mode, "explicit", state["revision"], task_revision, session_id)
     if task_revision is not None:
@@ -270,6 +277,70 @@ def resolve(project: Path, *, explicit_mode: str | None = None,
     if state["project"] is not None:
         return ControlDecision(state["project"]["mode"], "project", state["revision"], task_revision, session_id)
     return ControlDecision(SHIPPED_DEFAULT, "shipped-default", state["revision"], task_revision, session_id)
+
+
+def _status_snapshot(project: Path, *, root_id: str | None = None,
+                     session_id: str | None = None,
+                     task_revision: str | None = None) -> tuple[dict, dict]:
+    """Report intent and the actual frozen task decision without dispatching.
+
+    A current control value is only a preview when a root has already frozen
+    its decision. Admission is distinguished from a confirmed provider call:
+    the durable root records reservation/start intent, not a billing receipt.
+    """
+    task = None
+    if root_id is not None:
+        import task_executor  # Deferred so ordinary control commands stay small.
+
+        try:
+            task = task_executor.TaskExecutor(project, None).status(root_id)
+        except (task_executor.ExecutorError, OSError, ValueError) as exc:
+            raise ControlError(f"cannot inspect task root: {exc}") from exc
+        public = task.get("public_assessment")
+        root_revision = (public["result"]["rigour"]["task_revision"]
+                         if public is not None and public.get("status") == "settled"
+                         else None)
+        if task_revision is not None and root_revision is not None \
+                and task_revision != root_revision:
+            raise ControlError("task revision differs from inspected root")
+        task_revision = root_revision or task_revision
+    state = load_state(project)
+    intent = _resolve_state(state, session_id=session_id,
+                            task_revision=task_revision)
+    routing = task.get("routing_decision") if task is not None else None
+    admission = task.get("controller_admission") if task is not None else None
+    decision = routing["decision"] if routing is not None else None
+    view = {
+        "schema_version": 1,
+        "root_id": root_id,
+        "root_state": task["state"] if task is not None else None,
+        "current_intent": intent.as_dict(),
+        "shipping_default": "B0",
+        "candidate_policy": "rigour-auto-v1",
+        "applicability": ("no_task_root" if task is None else
+                          "decision_frozen" if decision is not None else
+                          "assessment_pending" if task.get("public_assessment") is None else
+                          "assessment_unsettled" if task["public_assessment"]["status"] != "settled" else
+                          "decision_pending"),
+        "frozen_decision": decision,
+        "effective_action": decision["effective_action"] if decision is not None else None,
+        "controller_admission_status": admission["status"] if admission is not None else None,
+        "controller_invocation_admitted": admission is not None,
+        "provider_call_confirmed": None,
+        "worker_attempt_count": len(task["attempts"]) if task is not None else 0,
+        "paid_work_started": False,
+    }
+    return view, state
+
+
+def status_view(project: Path, *, root_id: str | None = None,
+                session_id: str | None = None,
+                task_revision: str | None = None) -> dict:
+    """Read-only view of current intent and an optional N1 task root."""
+    view, _ = _status_snapshot(project, root_id=root_id,
+                               session_id=session_id,
+                               task_revision=task_revision)
+    return view
 
 
 def _scope_arguments(parser: argparse.ArgumentParser) -> None:
@@ -299,7 +370,10 @@ def main(argv: list[str] | None = None) -> int:
     resolve_parser.add_argument("--explicit", choices=MODES)
     resolve_parser.add_argument("--session-id")
     resolve_parser.add_argument("--task-revision")
-    sub.add_parser("status", help="show durable state without mutation")
+    status_parser = sub.add_parser("status", help="show intent and optional task routing without mutation")
+    status_parser.add_argument("--root-id")
+    status_parser.add_argument("--session-id")
+    status_parser.add_argument("--task-revision")
     args = parser.parse_args(argv)
     try:
         if args.command == "set":
@@ -320,7 +394,11 @@ def main(argv: list[str] | None = None) -> int:
                                           session_id=args.session_id,
                                           task_revision=args.task_revision).as_dict()}
         else:
-            output = _result("status", load_state(args.project))
+            view, state = _status_snapshot(args.project, root_id=args.root_id,
+                                           session_id=args.session_id,
+                                           task_revision=args.task_revision)
+            output = _result("status", state)
+            output["view"] = view
         print(json.dumps(output, indent=2, sort_keys=True))
         return 0
     except ControlError as exc:

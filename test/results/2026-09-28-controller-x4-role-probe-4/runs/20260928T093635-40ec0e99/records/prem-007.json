@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-007",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The available notes do not discriminate among the three explanations, so the cause is currently unknown rather than merely unstated.",
+  "class": "unverified",
+  "source": "Problem statement: 'the available notes do not establish whether...'.",
+  "confidence": 0.8,
+  "cheapest_verification": "Re-read the notes for writer error records, acknowledgement ordering or idempotency hits before assuming new evidence is needed.",
+  "load_bearing": true,
+  "supersedes": null
+}

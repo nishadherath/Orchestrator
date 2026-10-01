@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-004",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-004"
+  ],
+  "premise_id": "prem-004",
+  "method": "Read problem.md verbatim and enumerate every path by which an acknowledged job could yield no readable receipt, then checked each against the three named causes (writer failure, premature ack, idempotency suppression).",
+  "result": "Statement text (lines 3-6) lists exactly three causes with no closure language ('use only this statement' at line 9 scopes checks, not the cause set). Enumeration surfaces at least three further paths not covered by the three: read-side lookup against a stale or wrong replica, replication lag between writer and reader, and retention/expiry deleting a receipt after a successful write. None of these collapse into the three named causes, so the candidate set as stated is not exhaustive.",
+  "artefact": "problem.md lines 1-14 (this task's working directory)",
+  "outcome": "supports",
+  "cost_usd": 0.0
+}

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-005",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The cause lies among exactly three explanations: the writer failed, the acknowledgement was premature, or an idempotency check suppressed a legitimate retry. This closed-world assumption is stated, not established.",
+  "class": "unverified",
+  "source": "Problem statement lists these three competing explanations and no others.",
+  "confidence": 0.5,
+  "cheapest_verification": "Enumerate every path that acknowledges a job or skips a receipt write, and look for a fourth cause such as receipt deletion, key mismatch or read-replica lag.",
+  "load_bearing": true,
+  "supersedes": null
+}

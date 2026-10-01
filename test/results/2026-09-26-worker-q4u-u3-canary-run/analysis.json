@@ -1,0 +1,63 @@
+{
+  "analysis_sha256": "7077f34ba28ed7c891787af29c814ad6e488c575827b4c9d29cfba93c6f7bad4",
+  "charged_usd": 1.022577203,
+  "manifest_sha256": "33e0cb0d85a04071ead319cce24385b4bdcb7df8b77de33d6e5f6fdc881838be",
+  "pairs": [
+    {
+      "cost_delta_usd": 0.009996799,
+      "false_success_delta": 0,
+      "latency_delta_s": -1.3737899999999996,
+      "policy": "coverage_repair",
+      "quality_delta": 0,
+      "task_id": "B02W"
+    },
+    {
+      "cost_delta_usd": 0.030431001000000013,
+      "false_success_delta": 0,
+      "latency_delta_s": 42.062534,
+      "policy": "cross_component_medium",
+      "quality_delta": 0,
+      "task_id": "D01W"
+    },
+    {
+      "cost_delta_usd": 0.024356000000000017,
+      "false_success_delta": 0,
+      "latency_delta_s": 28.884180999999998,
+      "policy": "coverage_repair",
+      "quality_delta": 0,
+      "task_id": "D01W"
+    },
+    {
+      "cost_delta_usd": 0.0393634,
+      "false_success_delta": 0,
+      "latency_delta_s": 3.991211,
+      "policy": "cross_component_medium",
+      "quality_delta": 0,
+      "task_id": "F07W"
+    },
+    {
+      "cost_delta_usd": 0.010753199999999997,
+      "false_success_delta": 0,
+      "latency_delta_s": 9.154524000000002,
+      "policy": "coverage_repair",
+      "quality_delta": 0,
+      "task_id": "F07W"
+    },
+    {
+      "cost_delta_usd": -0.023834201,
+      "false_success_delta": 0,
+      "latency_delta_s": -11.382554000000003,
+      "policy": "coverage_repair",
+      "quality_delta": 0,
+      "task_id": "H08W"
+    }
+  ],
+  "policy_decision": "retain-b0-no-clear-gain",
+  "provider_calls": 10,
+  "qualification_authority": false,
+  "schema_version": 1,
+  "settled_episodes": 10,
+  "state_sha256": "4f7bc2a4549b7b9a0c5f820993a40b59ea7f33cf46c1f8338afaacfca481c882",
+  "status": "complete",
+  "stop_reason": null
+}

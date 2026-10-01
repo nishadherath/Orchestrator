@@ -1,0 +1,49 @@
+--- a/tenacity/__init__.py
++++ b/tenacity/__init__.py
+@@ -415,7 +415,7 @@
+         self.iter_state.retry_run_result = self.retry(retry_state)
+ 
+     def _run_wait(self, retry_state: "RetryCallState") -> None:
+-        retry_state.upcoming_sleep = self.wait(retry_state)
++        retry_state.upcoming_sleep = self.wait(retry_state) if self.wait else 0
+ 
+     def _run_stop(self, retry_state: "RetryCallState") -> None:
+         self.statistics["delay_since_first_attempt"] = retry_state.seconds_since_start
+--- a/tenacity/asyncio/__init__.py
++++ b/tenacity/asyncio/__init__.py
+@@ -147,9 +147,12 @@
+ 
+     @override
+     async def _run_wait(self, retry_state: "RetryCallState") -> None:  # type: ignore[override]
+-        retry_state.upcoming_sleep = await _utils.wrap_to_async_func(self.wait)(
+-            retry_state
+-        )
++        if not self.wait:
++            retry_state.upcoming_sleep = 0
++        else:
++            retry_state.upcoming_sleep = await _utils.wrap_to_async_func(self.wait)(
++                retry_state
++            )
+ 
+     @override
+     async def _run_stop(self, retry_state: "RetryCallState") -> None:  # type: ignore[override]
+--- a/tenacity/wait.py
++++ b/tenacity/wait.py
+@@ -91,7 +91,7 @@
+ 
+     @override
+     def __call__(self, retry_state: "RetryCallState") -> float:
+-        return sum(x(retry_state=retry_state) for x in self.wait_funcs)
++        return sum(x(retry_state) for x in self.wait_funcs)
+ 
+ 
+ class wait_chain(wait_base):
+@@ -119,7 +119,7 @@
+     def __call__(self, retry_state: "RetryCallState") -> float:
+         wait_func_no = min(max(retry_state.attempt_number, 1), len(self.strategies))
+         wait_func = self.strategies[wait_func_no - 1]
+-        return wait_func(retry_state=retry_state)
++        return wait_func(retry_state)
+ 
+ 
+ class wait_exception(wait_base):

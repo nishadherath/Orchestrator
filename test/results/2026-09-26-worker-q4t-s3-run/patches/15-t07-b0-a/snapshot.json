@@ -1,0 +1,12 @@
+{
+  "episode_label": "b0-a",
+  "files": {
+    "eventbox/api.py": "58174fad5875d37cbf3fc54fed6196678fa06c43045c5f781b32d376966d7ebf",
+    "eventbox/parser.py": "a9dcb1475d473831b429d6607e63dae08efbe4b93824f124fbf373518e29a0e8",
+    "eventbox/state.py": "af2e73a6f2e7fc37b76a39084c03dfefd0d9ff77fd79b5420c83ff6c0eaeb277"
+  },
+  "schema_version": 1,
+  "sequence": 15,
+  "snapshot_sha256": "945382902d543077745dec88520390bf7cd5defa3454eb0e815dfc8a09ca7439",
+  "task_id": "T07"
+}

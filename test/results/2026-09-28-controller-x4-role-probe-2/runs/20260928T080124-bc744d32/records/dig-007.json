@@ -1,0 +1,14 @@
+{
+  "type": "PhaseDigest",
+  "phase": "close",
+  "text": "Dispatch stopped: USD 0.0000 available; no generator call dispatched. Inspect the accounting summary; stopping with a gap report.",
+  "records_written": [
+    "gap-001"
+  ],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [
+    "gap-001"
+  ],
+  "id": "dig-007"
+}

@@ -1,0 +1,22 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-004",
+  "ledger_version": 2,
+  "references": [
+    "prem-004",
+    "prem-002"
+  ],
+  "technique": "abduce",
+  "premise_operation": "add",
+  "mechanism": "Observation: prem-004 is class 'law', a category the ledger otherwise treats as near-certain (verified premises reach 0.95), yet it is recorded at 0.9, not 1.0, and its cheapest_verification targets checking for an atomic protocol rather than testing the law itself. The ledger does not state why a law-class record carries confidence below its class's ceiling. Inferred premise: 0.9 on a law-class record measures the confidence that the law's precondition applies to this instance, not the confidence in the law's general truth; the general claim (no cross-store atomicity without an explicit protocol) is certain, but whether it applies here depends on prem-002 (the two-distinct-stores premise, 0.85) actually holding. This explains why the verification check probes the precondition, not the law. If the premise holds, the brief's effective certainty that acknowledgement-without-receipt is possible by construction is bounded by prem-002's 0.85, not by prem-004's 0.9 read independently.",
+  "claimed_gain_vs_b0": "B0 would cite prem-004 at face value; this identifies its 0.9 as precondition-applicability confidence bounded by prem-002, changing how strongly the brief can assert the by-construction possibility.",
+  "premises_introduced": [
+    {
+      "text": "A law-class premise's confidence below its class ceiling measures the confidence that its precondition holds in this instance, not the confidence in the general law.",
+      "class": "unverified"
+    }
+  ],
+  "falsification_test": "Confirm prem-002 (the two-store precondition) and check whether prem-004's confidence would move toward 1.0; if it stays fixed at 0.9 regardless of prem-002's status, the premise is false.",
+  "cost_estimate_usd": 0.05,
+  "refines": null
+}

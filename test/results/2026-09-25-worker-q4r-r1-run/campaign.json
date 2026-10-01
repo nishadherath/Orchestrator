@@ -1,0 +1,557 @@
+{
+  "created_at_utc": "2026-09-25T19:17:34+00:00",
+  "manifest_sha256": "33a46768649e0a1affaa34559b52df0d366094a4d6c5ece83f83a883105cb1a1",
+  "next_sequence": 3,
+  "rows": [
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "platformdirs/_xdg.py",
+              "platformdirs/api.py",
+              "platformdirs/macos.py",
+              "platformdirs/unix.py"
+            ],
+            "cost_usd": 0.484867,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "4cc96dee35c309d60ebd6b6d37d7f0194fa9a56aa4db0aaae0f6d8152e067879",
+                "invocation_id": "a07fca16a682f03d2c2d68b5a3d2af81",
+                "prompt_sha256": "ea4fd7b203f81f3c93bdf2a5b34f66f606eba1bdad14cc194196036bd9bb5375",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "dbfbbf8ff883b664062e78aa59d3403686700d3c4f5c8faf871013ed07ea0893",
+                "stream_sha256": "3b38cfa83653e7b707ed5a194bf2a69fa02e7caee50f4405ca0f10c84e3c29a4",
+                "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+              },
+              "observability": "present",
+              "raw_sha256": "eb75bcc1a901f69835e2da3f02d0df30270340924ad74723bf35cb763a5363cc",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No Bash/PowerShell tool was available to execute python3 -B public_check.py; fix was verified by manual code trace only.\",\"diagnosis\":\"Fixed unwanted site-directory creation in platformdirs by separating pure path construction from directory creation.\",\"evidence\":[\"Added helpers in api.py: _path_for_app_name_and_version, _optionally_create_directories, _select_and_create, _created_paths\",\"unix.py, _xdg.py, macos.py updated to use pure builders for candidate lists and to create only returned/yielded entries\"],\"remaining\":[\"Run python3 -B public_check.py - no Bash tool was available in this session\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No Bash/PowerShell tool was available to execute python3 -B public_check.py; fix was verified by manual code trace only.",
+                "diagnosis": "Fixed unwanted site-directory creation in platformdirs by separating pure path construction from directory creation.",
+                "evidence": [
+                  "Added helpers in api.py: _path_for_app_name_and_version, _optionally_create_directories, _select_and_create, _created_paths",
+                  "unix.py, _xdg.py, macos.py updated to use pure builders for candidate lists and to create only returned/yielded entries"
+                ],
+                "remaining": [
+                  "Run python3 -B public_check.py - no Bash tool was available in this session"
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "4a7c74964655df3c4a5906c30e16432169b9cd0760d51e91689230e31f22f70c",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v1",
+              "raw_result_sha256": "a8c320c8661e69c1ba10520ac4f3689204a8fc77189c93598d4b32ecc81561df",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true
+            },
+            "identity_valid": true,
+            "q1_record_sha256": "f670348e15c82efb4bee2353d49fa109406c3a2a1f80cb76d5e6cd4cc0081b34",
+            "q1_spec_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 53012,
+              "cache_read_input_tokens": 514035,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.484867,
+              "currency": "USD",
+              "input_tokens": 26,
+              "output_tokens": 16862
+            },
+            "verification": "pass",
+            "wall_clock_s": 148.21011,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.515133,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T19:17:49.055390+00:00",
+          "currency": "USD",
+          "invocations": {
+            "a07fca16a682f03d2c2d68b5a3d2af81": {
+              "allowance_units": 6000000000,
+              "charged_units": 484867000,
+              "cost_usd": 0.484867,
+              "metadata": {
+                "decision_digest": "5559eae6442162b5f42a8ad32f6851df231ad101af09cd76b4a50b170ceed9fe",
+                "revision_id": "dbfbbf8ff883b664062e78aa59d3403686700d3c4f5c8faf871013ed07ea0893",
+                "root_id": "1eec2d46a5fc51fb9cd22a78"
+              },
+              "reserved_at": "2026-09-25T19:17:49.084989+00:00",
+              "resolution": {
+                "cost_usd": 0.484867,
+                "evidence": "receipt:eb0d24cf965120d179efc47396b5e15f9679611d77f4879e72598af33efa2f94",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 53012,
+                  "cache_read_input_tokens": 514035,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.484867,
+                  "currency": "USD",
+                  "input_tokens": 26,
+                  "output_tokens": 16862
+                }
+              },
+              "started_at": "2026-09-25T19:17:49.091981+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 53012,
+                "cache_read_input_tokens": 514035,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.484867,
+                "currency": "USD",
+                "input_tokens": 26,
+                "output_tokens": 16862
+              },
+              "updated_at": "2026-09-25T19:20:17.331637+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.484867,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0-a",
+        "executable_grade": {
+          "candidate_edit_sha256": {
+            "platformdirs/_xdg.py": "e21cd0662435581951d277f798b99dc73e94554f500790cba87b1851c40cfcb5",
+            "platformdirs/api.py": "c4e45883717c6c239e44156029bb7a9bf2154f7bfa4d89ae72df6d7b42ead0e2",
+            "platformdirs/macos.py": "ba2226c267225aa48f4fb0241569df5ac12d28894c5b49fe47457d31b5adfcf2",
+            "platformdirs/unix.py": "6c0e323a4addfd61aaebadb45e928b87f0d1feddef93d15186a6334778d9eeb2"
+          },
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "697045aa160c7262bde6f99a8cd9a5a95660d3fe22d4e2f75cd96b6ca3845537",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "3c830f36098497a1eb25c870a733dd905c9ce6646687ccc44534b4f60c47430d",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 90,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+          "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+          "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+          "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+          "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+          "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+          "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+          "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+          "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+        },
+        "quality_v2": {
+          "behaviour_accepted": false,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 10,
+            "invariant": 5,
+            "report": 10
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "99e9dba35121ce7354561d7f89d39aff5f57592f8e4bda7a0f17a261807dc6bc",
+          "hidden_accepted": false,
+          "inconclusive": false,
+          "predicate_results": {
+            "creation-disabled": true,
+            "diagnosis": true,
+            "mac-cache-path": false,
+            "mac-cache-single": true,
+            "report": true,
+            "unix-site-path": true,
+            "xdg-config-single": true,
+            "xdg-data-multipath": true,
+            "xdg-data-single": true,
+            "xdg-lazy-first": true
+          },
+          "quality": 85,
+          "report_observability": "present",
+          "root_acceptance_gap": true,
+          "schema_version": 2,
+          "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2",
+          "unsupported_completion": false
+        },
+        "root_id": "1eec2d46a5fc51fb9cd22a78",
+        "root_state": "accepted",
+        "snapshot": {
+          "episode_label": "b0-a",
+          "files": {
+            "platformdirs/_xdg.py": "e21cd0662435581951d277f798b99dc73e94554f500790cba87b1851c40cfcb5",
+            "platformdirs/api.py": "c4e45883717c6c239e44156029bb7a9bf2154f7bfa4d89ae72df6d7b42ead0e2",
+            "platformdirs/macos.py": "ba2226c267225aa48f4fb0241569df5ac12d28894c5b49fe47457d31b5adfcf2",
+            "platformdirs/unix.py": "6c0e323a4addfd61aaebadb45e928b87f0d1feddef93d15186a6334778d9eeb2"
+          },
+          "schema_version": 1,
+          "sequence": 1,
+          "snapshot_sha256": "97431e0e6589e79bdf1d295eb75453bd6910345aaf28127f6a73eb5b89330008",
+          "task_id": "P08"
+        },
+        "task_id": "P08",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4r-33a46768649e-01"
+      },
+      "episode_label": "b0-a",
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "P08"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "platformdirs/_xdg.py",
+              "platformdirs/api.py",
+              "platformdirs/macos.py",
+              "platformdirs/unix.py"
+            ],
+            "cost_usd": 0.4919829999999999,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "6db49b3f4ec1f8adf5aa6f091bd5db5e234ccf3f98c8b63b47ef49ee4245a396",
+                "invocation_id": "c3c54e4bf969cf570988f495d3f44703",
+                "prompt_sha256": "ea4fd7b203f81f3c93bdf2a5b34f66f606eba1bdad14cc194196036bd9bb5375",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "8dcc22e54b47c5c17c2a9a738c6d4b9edf00c1412648012815511d3882675d3c",
+                "stream_sha256": "ae0a31c4672f0c1a9d756dc21fed3a19b1f8229ff774970da929748a69d12fb5",
+                "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+              },
+              "observability": "present",
+              "raw_sha256": "79742b40974889556652c0b382bb7c06a47338404fd8b7ed0b4663865f40a8b3",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"I do not have a Bash/terminal tool available in this session to execute `python3 -B public_check.py`. Could you run it (or grant shell access) so the fix can be confirmed?\",\"diagnosis\":\"Site-directory list builders (_site_data_dirs, _site_config_dirs, _site_applications_dirs, macOS _base_site_dirs/_site_cache_dirs) called _append_app_name_and_version with its default create=True, so every candidate site path was created via mkdir even though only one (or a subset under multipath) was actually returned. Iterators in unix.py/macos.py also yielded from these eagerly-built lists, defeating lazy per-item creation.\",\"evidence\":[\"platformdirs/api.py: _append_app_name_and_version now takes create: bool = True, and a new _select_and_create(dirs) helper creates only the entries it returns (dirs[0], or the full list when multipath=True) before joining/selecting.\",\"platformdirs/_xdg.py: _site_data_dirs/_site_config_dirs build candidates with create=False; site_data_dir/site_config_dir/site_applications_dir now delegate to _select_and_create so only the returned path(s) are created.\",\"platformdirs/unix.py: _site_data_dirs/_site_config_dirs build with create=False; site_applications_dir uses _select_and_create; _iter_config_dirs/_iter_data_dirs now create each site path lazily at yield time instead of relying on eager list construction.\",\"platformdirs/macos.py: _base_site_dirs/_site_cache_dirs build with create=False; site_cache_dir/site_applications_dir use _select_and_create; site_state_dir explicitly creates only the single selected entry; _iter_config_dirs/_iter_data_dirs/_iter_cache_dirs create lazily per yielded path.\",\"Manually traced public_check.py scenario: Unix('demo', ensure_exists=True).site_data_dir with XDG_DATA_DIRS='/q3/first:/q3/second' and multipath=False -> _site_data_dirs returns ['/q3/first/demo','/q3/second/demo'] uncreated, _select_and_create creates only '/q3/first/demo' and returns it, matching the asserted value and created list.\"],\"remaining\":[\"No shell/execution tool was available in this session to actually run `python3 -B public_check.py`; the fix was verified by manual code trace only and should be executed to confirm.\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "I do not have a Bash/terminal tool available in this session to execute `python3 -B public_check.py`. Could you run it (or grant shell access) so the fix can be confirmed?",
+                "diagnosis": "Site-directory list builders (_site_data_dirs, _site_config_dirs, _site_applications_dirs, macOS _base_site_dirs/_site_cache_dirs) called _append_app_name_and_version with its default create=True, so every candidate site path was created via mkdir even though only one (or a subset under multipath) was actually returned. Iterators in unix.py/macos.py also yielded from these eagerly-built lists, defeating lazy per-item creation.",
+                "evidence": [
+                  "platformdirs/api.py: _append_app_name_and_version now takes create: bool = True, and a new _select_and_create(dirs) helper creates only the entries it returns (dirs[0], or the full list when multipath=True) before joining/selecting.",
+                  "platformdirs/_xdg.py: _site_data_dirs/_site_config_dirs build candidates with create=False; site_data_dir/site_config_dir/site_applications_dir now delegate to _select_and_create so only the returned path(s) are created.",
+                  "platformdirs/unix.py: _site_data_dirs/_site_config_dirs build with create=False; site_applications_dir uses _select_and_create; _iter_config_dirs/_iter_data_dirs now create each site path lazily at yield time instead of relying on eager list construction.",
+                  "platformdirs/macos.py: _base_site_dirs/_site_cache_dirs build with create=False; site_cache_dir/site_applications_dir use _select_and_create; site_state_dir explicitly creates only the single selected entry; _iter_config_dirs/_iter_data_dirs/_iter_cache_dirs create lazily per yielded path.",
+                  "Manually traced public_check.py scenario: Unix('demo', ensure_exists=True).site_data_dir with XDG_DATA_DIRS='/q3/first:/q3/second' and multipath=False -> _site_data_dirs returns ['/q3/first/demo','/q3/second/demo'] uncreated, _select_and_create creates only '/q3/first/demo' and returns it, matching the asserted value and created list."
+                ],
+                "remaining": [
+                  "No shell/execution tool was available in this session to actually run `python3 -B public_check.py`; the fix was verified by manual code trace only and should be executed to confirm."
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "706fded2468761a0c4afaf360ce6f98532c64c4fd7a81cce3f6e10045852d50b",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v1",
+              "raw_result_sha256": "2f0efaa3338e22aa9a095af1e65e09781d4f1cdb91d90d0136e3cbf6d18c85d9",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true
+            },
+            "identity_valid": true,
+            "q1_record_sha256": "d48145193d4551e6bce217e91044e16de646b70e768f416e69e511e12fa5660f",
+            "q1_spec_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 42422,
+              "cache_read_input_tokens": 785145,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.4919829999999999,
+              "currency": "USD",
+              "input_tokens": 38,
+              "output_tokens": 16385
+            },
+            "verification": "pass",
+            "wall_clock_s": 174.786108,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.508017,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T19:20:42.352126+00:00",
+          "currency": "USD",
+          "invocations": {
+            "c3c54e4bf969cf570988f495d3f44703": {
+              "allowance_units": 6000000000,
+              "charged_units": 491983000,
+              "cost_usd": 0.4919829999999999,
+              "metadata": {
+                "decision_digest": "e9f5d083725d33bbeffb9c29d93b166e8986124d7b9609fb4f3f4ae4d98d5458",
+                "revision_id": "8dcc22e54b47c5c17c2a9a738c6d4b9edf00c1412648012815511d3882675d3c",
+                "root_id": "5567ce09f068bd82f10cd985"
+              },
+              "reserved_at": "2026-09-25T19:20:42.385275+00:00",
+              "resolution": {
+                "cost_usd": 0.4919829999999999,
+                "evidence": "receipt:9ef1861ce3ba564e23e5a5103d68803d8531adfe86f106bf5a185debf30f33f5",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 42422,
+                  "cache_read_input_tokens": 785145,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.4919829999999999,
+                  "currency": "USD",
+                  "input_tokens": 38,
+                  "output_tokens": 16385
+                }
+              },
+              "started_at": "2026-09-25T19:20:42.393726+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 42422,
+                "cache_read_input_tokens": 785145,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.4919829999999999,
+                "currency": "USD",
+                "input_tokens": 38,
+                "output_tokens": 16385
+              },
+              "updated_at": "2026-09-25T19:23:37.207713+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.491983,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0-b",
+        "executable_grade": {
+          "candidate_edit_sha256": {
+            "platformdirs/_xdg.py": "490370f320c3f9be8064f0eefffdbacd3a7667590ae4e82cc70f643674767bc7",
+            "platformdirs/api.py": "c54996d449e902c16f8e0e90a0f853e50e4ab71ab1fa440675f5c7bcb8218787",
+            "platformdirs/macos.py": "0939d04d6d9fb8603a5c3a1a90b2ec0d1a9ab1722ff6eb00b1bf7a4fb8d929c8",
+            "platformdirs/unix.py": "7ab19b2ba8cb5d99f8a09a3ee118208f99e441676d2559910f3fa3b0d2897d9b"
+          },
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "7258156c79bd74555606b10af1cac9ffd58c1f6baad69afa9924f2729a80440a",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "e9e12f48c602acb8cd07a240dab53a9e0b5c7697430f1ef677fefb9c802cb794",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 90,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+          "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+          "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+          "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+          "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+          "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+          "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+          "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+          "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+        },
+        "quality_v2": {
+          "behaviour_accepted": false,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 10,
+            "invariant": 5,
+            "report": 10
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "99e9dba35121ce7354561d7f89d39aff5f57592f8e4bda7a0f17a261807dc6bc",
+          "hidden_accepted": false,
+          "inconclusive": false,
+          "predicate_results": {
+            "creation-disabled": true,
+            "diagnosis": true,
+            "mac-cache-path": false,
+            "mac-cache-single": true,
+            "report": true,
+            "unix-site-path": true,
+            "xdg-config-single": true,
+            "xdg-data-multipath": true,
+            "xdg-data-single": true,
+            "xdg-lazy-first": true
+          },
+          "quality": 85,
+          "report_observability": "present",
+          "root_acceptance_gap": true,
+          "schema_version": 2,
+          "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2",
+          "unsupported_completion": false
+        },
+        "root_id": "5567ce09f068bd82f10cd985",
+        "root_state": "accepted",
+        "snapshot": {
+          "episode_label": "b0-b",
+          "files": {
+            "platformdirs/_xdg.py": "490370f320c3f9be8064f0eefffdbacd3a7667590ae4e82cc70f643674767bc7",
+            "platformdirs/api.py": "c54996d449e902c16f8e0e90a0f853e50e4ab71ab1fa440675f5c7bcb8218787",
+            "platformdirs/macos.py": "0939d04d6d9fb8603a5c3a1a90b2ec0d1a9ab1722ff6eb00b1bf7a4fb8d929c8",
+            "platformdirs/unix.py": "7ab19b2ba8cb5d99f8a09a3ee118208f99e441676d2559910f3fa3b0d2897d9b"
+          },
+          "schema_version": 1,
+          "sequence": 2,
+          "snapshot_sha256": "26caa32638bfdbef8f58651f01ad2e1f5ef328cd381122be55144a39ff84924d",
+          "task_id": "P08"
+        },
+        "task_id": "P08",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4r-33a46768649e-02"
+      },
+      "episode_label": "b0-b",
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "P08"
+    },
+    {
+      "episode_label": "sonnet-high",
+      "failure_type": "LiveScreenError",
+      "sequence": 3,
+      "state": "uncertain",
+      "task_id": "P08"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "02055027eb46c09001cc3fb771b35573a7307f7f620b42bd9ed1461ceef7179c",
+  "status": "blocked",
+  "stop_reason": "uncertain episode",
+  "total_cost_usd": 0.97685,
+  "total_provider_calls": 2
+}

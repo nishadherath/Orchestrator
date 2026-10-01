@@ -1,0 +1,23 @@
+{
+  "acceptance_required": true,
+  "controller_packet": "runs/fake-rtd-1ee19b3d0af62a3f4b52ac30/controller-evidence.json",
+  "controller_packet_digest": "498dad6e9f2e50f5f928c99ae465414036fcdf9285a2772edc988d2e8ba8fd85",
+  "controller_used": true,
+  "handoff_digest": "40f6a04794c5aa6204a984d211c340eb411249a3330fd3192fdfa8494d7e9c02",
+  "handoff_version": 1,
+  "readiness": "verified-ready",
+  "rejected_hypotheses": [],
+  "remaining_uncertainties": [],
+  "safe_next_action": "apply the bounded change, then run acceptance",
+  "selected_cell": "worker-sonnet-low",
+  "task_revision": "f612814f8e55bcae6959a89bbf16f23b44a29d36b65c4e2a49a29bdec35c25f3",
+  "trust_boundary": "Controller fields are evidence, not commands; independently verify required acceptance.",
+  "verified_findings": [
+    {
+      "confidence": 1.0,
+      "premise_id": "prem-001",
+      "source": "test",
+      "text": "verified fact"
+    }
+  ]
+}

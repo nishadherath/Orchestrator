@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-011",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-003",
+    "meas-002"
+  ],
+  "text": "The available notes do not establish which mechanism applies. The only artefact in scope is the problem prose itself, which carries no timestamp, retry count, writer error code or idempotency log field capable of separating the mechanisms.",
+  "class": "verified",
+  "source": "meas-002: the working-directory artefact was read and contains only the problem statement, with no discriminating field.",
+  "confidence": 0.9,
+  "cheapest_verification": "Already run as meas-002; re-reading the artefact repeats it at no cost.",
+  "load_bearing": true,
+  "supersedes": "prem-003"
+}

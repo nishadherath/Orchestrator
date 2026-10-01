@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-008",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "No proposed check may be described as having been run, and no cause may be asserted as established.",
+  "class": "policy",
+  "source": "Problem statement's two prohibitions; imposed by the task, not entailed by the fixture.",
+  "confidence": 0.95,
+  "cheapest_verification": "Scan the output for past-tense or result-bearing statements about any check.",
+  "load_bearing": true,
+  "supersedes": null
+}

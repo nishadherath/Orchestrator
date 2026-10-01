@@ -12,6 +12,7 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
+from typing import Callable
 
 CONTRACT_VERSION = "acceptance-v2"
 MAX_CAPTURE_CHARS = 20_000
@@ -86,13 +87,18 @@ def load_contract(project: Path, path: Path) -> dict:
     if not isinstance(raw, dict):
         raise AcceptanceError("acceptance contract must be a JSON object")
     allowed = {"version", "kind", "criteria", "constraints", "required_outputs",
-               "protected_paths", "command", "rubric", "timeout_s"}
+               "protected_paths", "command", "rubric", "timeout_s",
+               "require_changed_output"}
     unknown = set(raw) - allowed
     if unknown:
         raise AcceptanceError(f"acceptance contract has unsupported field(s) {sorted(unknown)}")
     if raw.get("version") != 1 or raw.get("kind") not in ("command", "rubric"):
         raise AcceptanceError("acceptance contract needs version 1 and kind command or rubric")
     kind = raw["kind"]
+    require_changed = raw.get("require_changed_output", False)
+    if (type(require_changed) is not bool
+            or ("require_changed_output" in raw and kind != "command")):
+        raise AcceptanceError("require_changed_output must be a boolean on a command contract")
     command = _strings(raw.get("command", []), "command", allow_empty=kind == "rubric")
     rubric = _strings(raw.get("rubric", []), "rubric", allow_empty=kind == "command")
     if kind == "command" and rubric:
@@ -111,12 +117,23 @@ def load_contract(project: Path, path: Path) -> dict:
                                               "protected_paths", allow_empty=True),
         "command": command, "rubric": rubric, "timeout_s": float(timeout),
     }
+    if "require_changed_output" in raw:
+        contract["require_changed_output"] = require_changed
+    if require_changed and any(path == "." or path == ".claude"
+                               or path.startswith(".claude/")
+                               for path in contract["required_outputs"]):
+        raise AcceptanceError("require_changed_output needs named outputs outside .claude")
+    if require_changed:
+        # Keep the baseline inside the frozen contract. TaskExecutor copies this
+        # contract into its immutable definition before dispatch.
+        contract["required_baseline"] = snapshot(project, contract["required_outputs"])
     baseline = snapshot(project, contract["protected_paths"])
     if baseline["missing"]:
         raise AcceptanceError(f"protected paths are missing before dispatch: {baseline['missing']}")
-    return {"status": "pending", "contract_version": CONTRACT_VERSION,
-            "contract": contract, "contract_digest": digest(contract),
-            "protected_baseline": baseline, "evidence": None, "review": None}
+    frozen = {"status": "pending", "contract_version": CONTRACT_VERSION,
+              "contract": contract, "contract_digest": digest(contract),
+              "protected_baseline": baseline, "evidence": None, "review": None}
+    return frozen
 
 
 def snapshot(project: Path, paths: list[str]) -> dict:
@@ -142,6 +159,23 @@ def snapshot(project: Path, paths: list[str]) -> dict:
     files.sort(key=lambda row: row["path"])
     return {"files": files, "missing": sorted(set(missing)),
             "digest": digest({"files": files, "missing": sorted(set(missing))})}
+
+
+def _required_baseline(acceptance: dict) -> dict:
+    """Check the frozen output baseline before it is used to judge a change."""
+    baseline = (acceptance.get("contract") or {}).get("required_baseline")
+    if not _snapshot_intact(baseline):
+        raise AcceptanceError("frozen required-output baseline is missing or invalid")
+    return baseline
+
+
+def _snapshot_intact(value: object) -> bool:
+    return (isinstance(value, dict)
+            and set(value) == {"files", "missing", "digest"}
+            and isinstance(value["files"], list)
+            and isinstance(value["missing"], list)
+            and value["digest"] == digest({"files": value["files"],
+                                           "missing": value["missing"]}))
 
 
 def _revision(project: Path) -> dict:
@@ -182,13 +216,17 @@ def _result_valid(project: Path, acceptance: dict, result: dict) -> bool:
     evidence = result.get("acceptance")
     if not isinstance(evidence, dict):
         return False
+    if acceptance["contract"].get("require_changed_output") and not _snapshot_intact(
+            (evidence.get("evidence") or {}).get("required_output_before_command")):
+        return False
     current = snapshot(project, acceptance["contract"]["required_outputs"])
     protected = snapshot(project, acceptance["contract"]["protected_paths"])
     return (current["digest"] == (evidence.get("evidence") or {}).get("artefacts", {}).get("digest")
             and protected["digest"] == (evidence.get("evidence") or {}).get("protected", {}).get("digest"))
 
 
-def verify(project: Path, acceptance: dict, entry_id: str) -> dict:
+def verify(project: Path, acceptance: dict, entry_id: str, *,
+           command_runner: Callable[..., subprocess.CompletedProcess] | None = None) -> dict:
     """Run or stage review once, persisting evidence before ledger completion."""
     contract = acceptance.get("contract") or {}
     if digest(contract) != acceptance.get("contract_digest"):
@@ -200,16 +238,40 @@ def verify(project: Path, acceptance: dict, entry_id: str) -> dict:
         except (OSError, json.JSONDecodeError):
             prior = None
         if isinstance(prior, dict) and _result_valid(project, acceptance, prior):
-            return prior["acceptance"]
+            prior_command = ((prior["acceptance"].get("evidence") or {})
+                             .get("command") or {})
+            if command_runner is None or (
+                    isinstance(prior_command.get("isolation_evidence"), dict)
+                    and qualified(prior["acceptance"])):
+                return prior["acceptance"]
 
     started = utc_now()
+    require_changed = contract.get("require_changed_output", False)
+    before_command = (snapshot(project, contract["required_outputs"])
+                      if require_changed else None)
+    if require_changed:
+        _required_baseline(acceptance)
     command_result = {"argv": contract["command"], "exit_code": None,
                       "stdout": "", "stderr": "", "timed_out": False}
     blocked_reason = None
     if contract["kind"] == "command":
         try:
-            proc = subprocess.run(contract["command"], cwd=project, capture_output=True,
-                                  timeout=contract["timeout_s"], shell=False)
+            # Managed corpus campaigns inject an isolated host runner. The
+            # ordinary consumer path retains subprocess.run unchanged.
+            run = command_runner or subprocess.run
+            proc = run(contract["command"], cwd=project, capture_output=True,
+                       timeout=contract["timeout_s"], shell=False)
+            if (type(proc.returncode) is not int or not isinstance(proc.stdout, bytes)
+                    or not isinstance(proc.stderr, bytes)):
+                raise AcceptanceError("command runner returned an invalid process result")
+            if command_runner is not None:
+                isolation = getattr(proc, "isolation_evidence", None)
+                if (not isinstance(isolation, dict)
+                        or isolation.get("sha256") != digest({
+                            key: value for key, value in isolation.items()
+                            if key != "sha256"})):
+                    raise AcceptanceError("isolated command runner returned no sealed evidence")
+                command_result["isolation_evidence"] = isolation
             command_result.update(exit_code=proc.returncode,
                                   stdout=proc.stdout.decode("utf-8", errors="replace")[-MAX_CAPTURE_CHARS:],
                                   stderr=proc.stderr.decode("utf-8", errors="replace")[-MAX_CAPTURE_CHARS:])
@@ -224,11 +286,22 @@ def verify(project: Path, acceptance: dict, entry_id: str) -> dict:
     artefacts = snapshot(project, contract["required_outputs"])
     protected = snapshot(project, contract["protected_paths"])
     protected_unchanged = protected["digest"] == acceptance["protected_baseline"]["digest"]
+    changed = (before_command["digest"] != _required_baseline(acceptance)["digest"]
+               if require_changed else None)
+    if require_changed and before_command["digest"] != artefacts["digest"]:
+        mutation = "verification command changed required outputs"
+        blocked_reason = f"{blocked_reason}; {mutation}" if blocked_reason else mutation
+    if command_runner is not None and contract["kind"] == "command" and not blocked_reason:
+        proof = command_result["isolation_evidence"]
+        if (proof.get("artefacts_digest") != artefacts["digest"]
+                or proof.get("protected_digest") != protected["digest"]):
+            raise AcceptanceError("isolated command proof does not bind current files")
     if contract["kind"] == "rubric":
         status = "review_required"
     elif blocked_reason:
         status = "blocked"
-    elif command_result["exit_code"] == 0 and not artefacts["missing"] and protected_unchanged:
+    elif (command_result["exit_code"] == 0 and not artefacts["missing"]
+          and protected_unchanged and (not require_changed or changed)):
         status = "pass"
     else:
         status = "fail"
@@ -236,8 +309,11 @@ def verify(project: Path, acceptance: dict, entry_id: str) -> dict:
                 "command": command_result if contract["kind"] == "command" else None,
                 "artefacts": artefacts, "protected": protected,
                 "protected_unchanged": protected_unchanged,
-                "revision": _revision(project), "blocked_reason": blocked_reason,
-                "result_path": _evidence_path(project, entry_id).relative_to(project.resolve()).as_posix()}
+                 "revision": _revision(project), "blocked_reason": blocked_reason,
+                 "result_path": _evidence_path(project, entry_id).relative_to(project.resolve()).as_posix()}
+    if require_changed:
+        evidence["required_output_changed"] = changed
+        evidence["required_output_before_command"] = before_command
     evidence["result_digest"] = digest(evidence)
     resolved = {**acceptance, "status": status, "evidence": evidence}
     payload = {"version": 1, "entry_id": entry_id,
@@ -300,13 +376,43 @@ def qualified(value: object) -> bool:
         if not isinstance(recorded, str) or digest(unsigned) != recorded:
             return False
         command = evidence.get("command") or {}
+        requires_change = contract.get("require_changed_output", False)
+        if type(requires_change) is not bool:
+            return False
+        if requires_change:
+            try:
+                baseline = _required_baseline(value)
+            except AcceptanceError:
+                return False
+            before_command = evidence.get("required_output_before_command")
+            if (not _snapshot_intact(before_command)
+                    or before_command["digest"] != evidence["artefacts"].get("digest")):
+                return False
+            changed = baseline["digest"] != before_command["digest"]
+            if evidence.get("required_output_changed") is not changed:
+                return False
+        else:
+            changed = False
+        isolation = command.get("isolation_evidence")
+        if isolation is not None:
+            if (not isinstance(isolation, dict)
+                    or isolation.get("sha256") != digest({
+                        key: item for key, item in isolation.items()
+                        if key != "sha256"})
+                    or isolation.get("artefacts_digest") !=
+                    evidence["artefacts"].get("digest")
+                    or isolation.get("protected_digest") !=
+                    evidence["protected"].get("digest")):
+                return False
         passed = (command.get("exit_code") == 0 and not command.get("timed_out")
                   and not evidence["artefacts"].get("missing")
                   and evidence.get("protected_unchanged") is True
-                  and not evidence.get("blocked_reason"))
+                  and not evidence.get("blocked_reason")
+                  and (not requires_change or changed))
         failed = (isinstance(command.get("exit_code"), int)
-                  and (command["exit_code"] != 0 or bool(evidence["artefacts"].get("missing"))
-                       or evidence.get("protected_unchanged") is not True))
+                   and (command["exit_code"] != 0 or bool(evidence["artefacts"].get("missing"))
+                        or evidence.get("protected_unchanged") is not True
+                        or (requires_change and not changed)))
         return passed if value["status"] == "pass" else failed
     if contract.get("kind") != "rubric" or not isinstance(review_value, dict):
         return False

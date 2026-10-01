@@ -1,0 +1,16 @@
+{
+  "type": "BudgetEntry",
+  "id": "bud-001",
+  "ledger_version": 0,
+  "references": [],
+  "phase": "frame",
+  "role": "framer",
+  "cell": "worker-opus-high",
+  "cost_usd": 0.5328054999999999,
+  "tokens_in": 4,
+  "tokens_out": 8530,
+  "wall_clock_s": 137.10055143000002,
+  "invocation_id": "cdb99be52e544bceb99bdea7d52f9f56",
+  "accounting_status": "settled",
+  "reserved_usd": 0.0
+}

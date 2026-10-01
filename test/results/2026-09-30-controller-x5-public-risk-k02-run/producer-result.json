@@ -1,0 +1,97 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.913808399,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T21:16:34.477700+00:00",
+    "currency": "USD",
+    "invocations": {
+      "c57ce45e997e6f1aeb61ab67b134d863": {
+        "allowance_units": 5000000000,
+        "charged_units": 86191601,
+        "cost_usd": 0.08619160000000001,
+        "metadata": {
+          "decision_digest": "996d196b72875b771c27ba0b2d74b7a959d843de3fb1266d0690b3701068e924",
+          "revision_id": "2bb7e17c2c83532569db3825a5ff79aac80af5fdece32f1177eceb67f750f9d9",
+          "root_id": "8e716495f3b42546b4979f2c"
+        },
+        "reserved_at": "2026-09-29T21:54:15.388333+00:00",
+        "resolution": {
+          "cost_usd": 0.08619160000000001,
+          "evidence": "receipt:22a0568b9b1c435d8e7c2ee3b05e59044263d86a65aff9b571afcdf2a045c738",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 15027,
+            "cache_read_input_tokens": 52143,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.08619160000000001,
+            "currency": "USD",
+            "input_tokens": 10,
+            "output_tokens": 1447
+          }
+        },
+        "started_at": "2026-09-29T21:54:15.395620+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 15027,
+          "cache_read_input_tokens": 52143,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.08619160000000001,
+          "currency": "USD",
+          "input_tokens": 10,
+          "output_tokens": 1447
+        },
+        "updated_at": "2026-09-29T21:54:36.036146+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.086191601,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 26.298,
+  "eligible": true,
+  "error": null,
+  "manifest_sha256": "43dfaabcb4b3d7a6a04f4308f71827cf591ef029050886760e56801b322c1090",
+  "qualified": true,
+  "root_id": "8e716495f3b42546b4979f2c",
+  "snapshot": {
+    "actor_sha256": {
+      "ISSUE.md": "54c63b8d136a68fee18ba18cff959f7e80fe854755b4033ab0ec89555c7587b8",
+      "LICENSE.tenacity.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+      "acceptance.json": "7b8d129c21d2b9d767ab6b0c036343f1ed027d37366cb8da66b499411b77d96d",
+      "gateway.py": "6082db63dcae49b85633e5d067cc71fc64c5391c72d06fa7af15395ebfa7eb87",
+      "payment_service.py": "ec16766c25f6a0a6a15a1f192f4547a921bbb9304dc80a95ded52e11cc083778",
+      "public_check.py": "8b0810c020d2edcec2d3e0307e74fa2a2a13f543b836dd7f5765e608a540d922",
+      "retry_policy.py": "5d01b8df535ee748d2351c9afb93fd13b2bc8002c895d5985a2d22396957739d",
+      "tenacity/__init__.py": "94b0d4690fcfdc3f62c14d256ae365eae4a9ed55e856690faa94637bf0fb2289",
+      "tenacity/_utils.py": "6ecccb8012d314f5000d75a5a01a1e3257ab1a3d727a21b457e2c922fbe3e79e",
+      "tenacity/after.py": "7ba2aec841d36f880c998f6f2030695db2f4d9bd0ec858273a7b3443a3b429fa",
+      "tenacity/asyncio/__init__.py": "19baa09e95d3ad4ebe155edd99579f1509e681036610e9165bca31db3c26446f",
+      "tenacity/asyncio/retry.py": "af1d7dc2e951639ad9981ca724b9e484a800d7546d0777edfc2787be6e27310a",
+      "tenacity/before.py": "7db2c269be3697181f9ed6267a5b58052d58f615fd18a61e02972cbb3dbcc32e",
+      "tenacity/before_sleep.py": "4679592140a66a2692b2e070ac0e9076c6cc6093effe073bada55497ac1e2f5f",
+      "tenacity/nap.py": "3cf785c410dd6d4cbf5de5be03e8e9b2a61ef4bb7709c230afe4eff95629be6c",
+      "tenacity/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tenacity/retry.py": "04b41b9a78df02c9143a0199ac5437656f680f42a644edde1b7bfad471925e77",
+      "tenacity/stop.py": "bd4b852e18e886fc271da51760c39fe49ff4174f916f07f3565c280f4f2d2c71",
+      "tenacity/tornadoweb.py": "84e90c180d40ed1e96b29c7607bef40b9f9e840f823c3e883a4d32c8efdfa91d",
+      "tenacity/wait.py": "fab8c53ae00dda64008a70c03654f22e059f3d697c3c8a6029513910fa7179fc",
+      "trace.json": "5be4fb87a451c9c5842fe3c111c64e37f402c9afe152ca2ee59564f5ad024b22"
+    },
+    "next_worker_cell": "worker-sonnet-low",
+    "producer_cost_usd": 0.086191601,
+    "producer_receipt_digest": "22a0568b9b1c435d8e7c2ee3b05e59044263d86a65aff9b571afcdf2a045c738",
+    "producer_root_id": "8e716495f3b42546b4979f2c",
+    "public_check_output_sha256": "921b60a7fd52e978fbb551cacd29df2d6708879400278e1fcc70fceeb0c6f8e0",
+    "risk_digest": "8c501d6ce33f9bbc3cdd838e559419de7e49265ffc82955b1e7983a53c5d15e2",
+    "schema_version": 1,
+    "successor_worker_attempts": 1
+  },
+  "state": "accepted"
+}

@@ -1,0 +1,356 @@
+--- a/platformdirs/_xdg.py
++++ b/platformdirs/_xdg.py
+@@ -16,7 +16,9 @@
+     def user_data_dir(self) -> str:
+         """Data directory tied to the user, from ``$XDG_DATA_HOME`` if set, else platform default."""
+         if path := _xdg_dir("XDG_DATA_HOME"):
+-            return self._append_app_name_and_version(path)
++            path = self._append_app_name_and_version(path)
++            self._optionally_create_directory(path)
++            return path
+         return super().user_data_dir
+ 
+     @property
+@@ -28,14 +30,15 @@
+     @property
+     def site_data_dir(self) -> str:
+         """Data directories shared by users, from ``$XDG_DATA_DIRS`` if set, else platform default."""
+-        dirs = self._site_data_dirs
+-        return os.pathsep.join(dirs) if self.multipath else dirs[0]
++        return self._select_and_create(self._site_data_dirs)
+ 
+     @property
+     def user_config_dir(self) -> str:
+         """Config directory tied to the user, from ``$XDG_CONFIG_HOME`` if set, else platform default."""
+         if path := _xdg_dir("XDG_CONFIG_HOME"):
+-            return self._append_app_name_and_version(path)
++            path = self._append_app_name_and_version(path)
++            self._optionally_create_directory(path)
++            return path
+         return super().user_config_dir
+ 
+     @property
+@@ -47,35 +50,42 @@
+     @property
+     def site_config_dir(self) -> str:
+         """Config directories shared by users, from ``$XDG_CONFIG_DIRS`` if set, else platform default."""
+-        dirs = self._site_config_dirs
+-        return os.pathsep.join(dirs) if self.multipath else dirs[0]
++        return self._select_and_create(self._site_config_dirs)
+ 
+     @property
+     def user_cache_dir(self) -> str:
+         """Cache directory tied to the user, from ``$XDG_CACHE_HOME`` if set, else platform default."""
+         if path := _xdg_dir("XDG_CACHE_HOME"):
+-            return self._append_app_name_and_version(path)
++            path = self._append_app_name_and_version(path)
++            self._optionally_create_directory(path)
++            return path
+         return super().user_cache_dir
+ 
+     @property
+     def user_state_dir(self) -> str:
+         """State directory tied to the user, from ``$XDG_STATE_HOME`` if set, else platform default."""
+         if path := _xdg_dir("XDG_STATE_HOME"):
+-            return self._append_app_name_and_version(path)
++            path = self._append_app_name_and_version(path)
++            self._optionally_create_directory(path)
++            return path
+         return super().user_state_dir
+ 
+     @property
+     def user_runtime_dir(self) -> str:
+         """Runtime directory tied to the user, from ``$XDG_RUNTIME_DIR`` if set, else platform default."""
+         if path := _xdg_dir("XDG_RUNTIME_DIR"):
+-            return self._append_app_name_and_version(path)
++            path = self._append_app_name_and_version(path)
++            self._optionally_create_directory(path)
++            return path
+         return super().user_runtime_dir
+ 
+     @property
+     def site_runtime_dir(self) -> str:
+         """Runtime directory shared by users, from ``$XDG_RUNTIME_DIR`` if set, else platform default."""
+         if path := _xdg_dir("XDG_RUNTIME_DIR"):
+-            return self._append_app_name_and_version(path)
++            path = self._append_app_name_and_version(path)
++            self._optionally_create_directory(path)
++            return path
+         return super().site_runtime_dir
+ 
+     @property
+@@ -164,8 +174,7 @@
+     @property
+     def site_applications_dir(self) -> str:
+         """Applications directories shared by users, from ``$XDG_DATA_DIRS`` if set, else platform default."""
+-        dirs = self._site_applications_dirs
+-        return os.pathsep.join(dirs) if self.multipath else dirs[0]
++        return self._select_and_create(self._site_applications_dirs)
+ 
+ 
+ def _xdg_dir(env_var: str) -> str | None:
+--- a/platformdirs/api.py
++++ b/platformdirs/api.py
+@@ -106,9 +106,7 @@
+             params.append(self.appname)
+             if self.version:
+                 params.append(self.version)
+-        path = os.path.join(base[0], *params)  # ruff:ignore[os-path-join]
+-        self._optionally_create_directory(path)
+-        return path
++        return os.path.join(base[0], *params)  # ruff:ignore[os-path-join]
+ 
+     def _optionally_create_directory(self, path: str) -> None:
+         if self.ensure_exists:
+@@ -119,6 +117,15 @@
+             # If multipath is True, the first path is returned.
+             directory = directory.partition(os.pathsep)[0]
+         return Path(directory)
++
++    def _select_and_create(self, dirs: list[str]) -> str:
++        """Join ``dirs`` under ``multipath``, creating only the entries actually returned."""
++        if self.multipath:
++            for directory in dirs:
++                self._optionally_create_directory(directory)
++            return os.pathsep.join(dirs)
++        self._optionally_create_directory(dirs[0])
++        return dirs[0]
+ 
+     @property
+     @abstractmethod
+--- a/platformdirs/macos.py
++++ b/platformdirs/macos.py
+@@ -26,7 +26,9 @@
+     """
+ 
+     def _base_user_app_support_dir(self) -> str:
+-        return self._append_app_name_and_version(os.path.expanduser("~/Library/Application Support"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/Library/Application Support"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     def _base_site_dirs(self) -> list[str]:
+         is_homebrew = "/opt/python" in sys.base_prefix
+@@ -66,7 +68,9 @@
+     @property
+     def user_cache_dir(self) -> str:
+         """Cache directory tied to the user, e.g. ``~/Library/Caches/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/Library/Caches"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/Library/Caches"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def _site_cache_dirs(self) -> list[str]:
+@@ -79,8 +83,7 @@
+     @property
+     def site_cache_dir(self) -> str:
+         """Cache directory shared by users, e.g. ``/Library/Caches/$appname/$version``. If we're using a Python binary managed by `Homebrew <https://brew.sh>`_, the directory will be under the Homebrew prefix, e.g. ``$homebrew_prefix/var/cache/$appname/$version``. If `multipath <platformdirs.api.PlatformDirsABC.multipath>` is enabled, and we're in Homebrew, the response is a multi-path string separated by ":", e.g. ``$homebrew_prefix/var/cache/$appname/$version:/Library/Caches/$appname/$version``."""
+-        dirs = self._site_cache_dirs
+-        return os.pathsep.join(dirs) if self.multipath else dirs[0]
++        return self._select_and_create(self._site_cache_dirs)
+ 
+     @property
+     def site_cache_path(self) -> Path:
+@@ -95,17 +98,23 @@
+     @property
+     def site_state_dir(self) -> str:
+         """State directory shared by users, same as `site_data_dir`."""
+-        return self._base_site_dirs()[0]
++        path = self._base_site_dirs()[0]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def user_log_dir(self) -> str:
+         """Log directory tied to the user, e.g. ``~/Library/Logs/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/Library/Logs"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/Library/Logs"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def site_log_dir(self) -> str:
+         """Log directory shared by users, e.g. ``/Library/Logs/$appname/$version``."""
+-        return self._append_app_name_and_version("/Library/Logs")
++        path = self._append_app_name_and_version("/Library/Logs")
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def user_documents_dir(self) -> str:
+@@ -160,7 +169,9 @@
+     @property
+     def user_preference_dir(self) -> str:
+         """Preference directory tied to the user, e.g. ``~/Library/Preferences/AppName``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/Library/Preferences"))  # ruff:ignore[os-path-expanduser]  # API returns str, not Path
++        path = self._append_app_name_and_version(os.path.expanduser("~/Library/Preferences"))  # ruff:ignore[os-path-expanduser]  # API returns str, not Path
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def user_bin_dir(self) -> str:
+@@ -184,13 +195,14 @@
+     @property
+     def site_applications_dir(self) -> str:
+         """Applications directory shared by users, e.g. ``/Applications``."""
+-        dirs = self._site_applications_dirs
+-        return os.pathsep.join(dirs) if self.multipath else dirs[0]
++        return self._select_and_create(self._site_applications_dirs)
+ 
+     @property
+     def user_runtime_dir(self) -> str:
+         """Runtime directory tied to the user, e.g. ``~/Library/Caches/TemporaryItems/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/Library/Caches/TemporaryItems"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/Library/Caches/TemporaryItems"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def site_runtime_dir(self) -> str:
+@@ -199,15 +211,21 @@
+ 
+     def _iter_config_dirs(self) -> Iterator[str]:
+         yield self.user_config_dir
+-        yield from self._site_config_dirs
++        for path in self._site_config_dirs:
++            self._optionally_create_directory(path)
++            yield path
+ 
+     def _iter_data_dirs(self) -> Iterator[str]:
+         yield self.user_data_dir
+-        yield from self._site_data_dirs
++        for path in self._site_data_dirs:
++            self._optionally_create_directory(path)
++            yield path
+ 
+     def _iter_cache_dirs(self) -> Iterator[str]:
+         yield self.user_cache_dir
+-        yield from self._site_cache_dirs
++        for path in self._site_cache_dirs:
++            self._optionally_create_directory(path)
++            yield path
+ 
+ 
+ class MacOS(XDGMixin, _MacOSDefaults):
+--- a/platformdirs/unix.py
++++ b/platformdirs/unix.py
+@@ -40,7 +40,9 @@
+     @property
+     def user_data_dir(self) -> str:
+         """Data directory tied to the user, e.g. ``~/.local/share/$appname/$version`` or ``$XDG_DATA_HOME/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/.local/share"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/.local/share"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def _site_data_dirs(self) -> list[str]:
+@@ -49,7 +51,9 @@
+     @property
+     def user_config_dir(self) -> str:
+         """Config directory tied to the user, e.g. ``~/.config/$appname/$version`` or ``$XDG_CONFIG_HOME/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/.config"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/.config"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def _site_config_dirs(self) -> list[str]:
+@@ -58,22 +62,30 @@
+     @property
+     def user_cache_dir(self) -> str:
+         """Cache directory tied to the user, e.g. ``~/.cache/$appname/$version`` or ``$XDG_CACHE_HOME/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/.cache"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/.cache"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def site_cache_dir(self) -> str:
+         """Cache directory shared by users, e.g. ``/var/cache/$appname/$version``."""
+-        return self._append_app_name_and_version("/var/cache")
++        path = self._append_app_name_and_version("/var/cache")
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def user_state_dir(self) -> str:
+         """State directory tied to the user, e.g. ``~/.local/state/$appname/$version`` or ``$XDG_STATE_HOME/$appname/$version``."""
+-        return self._append_app_name_and_version(os.path.expanduser("~/.local/state"))  # ruff:ignore[os-path-expanduser]
++        path = self._append_app_name_and_version(os.path.expanduser("~/.local/state"))  # ruff:ignore[os-path-expanduser]
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def site_state_dir(self) -> str:
+         """State directory shared by users, e.g. ``/var/lib/$appname/$version``."""
+-        return self._append_app_name_and_version("/var/lib")
++        path = self._append_app_name_and_version("/var/lib")
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def user_log_dir(self) -> str:
+@@ -91,7 +103,9 @@
+         Unlike `user_log_dir`, ``opinion`` has no effect since ``/var/log`` is inherently a log directory.
+ 
+         """
+-        return self._append_app_name_and_version("/var/log")
++        path = self._append_app_name_and_version("/var/log")
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def user_documents_dir(self) -> str:
+@@ -170,8 +184,7 @@
+     @property
+     def site_applications_dir(self) -> str:
+         """Applications directory shared by users, e.g. ``/usr/share/applications``."""
+-        dirs = self._site_applications_dirs
+-        return os.pathsep.join(dirs) if self.multipath else dirs[0]
++        return self._select_and_create(self._site_applications_dirs)
+ 
+     @property
+     def user_runtime_dir(self) -> str:
+@@ -190,7 +203,9 @@
+             path = f"/run/user/{getuid()}"
+         if not os.access(path, os.W_OK):
+             path = f"{gettempdir()}/runtime-{getuid()}"
+-        return self._append_app_name_and_version(path)
++        path = self._append_app_name_and_version(path)
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def site_runtime_dir(self) -> str:
+@@ -209,7 +224,9 @@
+             path = "/var/run"
+         else:
+             path = "/run"
+-        return self._append_app_name_and_version(path)
++        path = self._append_app_name_and_version(path)
++        self._optionally_create_directory(path)
++        return path
+ 
+     @property
+     def site_data_path(self) -> Path:
+@@ -231,12 +248,16 @@
+         # dedupe in iter_config_dirs cannot drop it. Skip it here instead.
+         if not self._use_site:
+             yield self.user_config_dir
+-        yield from self._site_config_dirs
++        for path in self._site_config_dirs:
++            self._optionally_create_directory(path)
++            yield path
+ 
+     def _iter_data_dirs(self) -> Iterator[str]:
+         if not self._use_site:
+             yield self.user_data_dir
+-        yield from self._site_data_dirs
++        for path in self._site_data_dirs:
++            self._optionally_create_directory(path)
++            yield path
+ 
+     def _iter_cache_dirs(self) -> Iterator[str]:
+         if not self._use_site:

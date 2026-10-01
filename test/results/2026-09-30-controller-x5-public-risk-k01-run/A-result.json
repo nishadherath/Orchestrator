@@ -1,0 +1,130 @@
+{
+  "arm": "A",
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 0.0,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T20:32:55.580400+00:00",
+    "currency": "USD",
+    "invocations": {
+      "controller-28302992f92c968b73cc01c1": {
+        "allowance_units": 1455582199,
+        "charged_units": 854538000,
+        "cost_usd": 0.854538,
+        "metadata": {
+          "allocation": "controller",
+          "decision_id": "rtd-a455de9724f680c6e9d9ef59",
+          "revision_id": "28302992f92c968b73cc01c14524665adcb03929196134ca13a0c37eb69f0a29"
+        },
+        "reserved_at": "2026-09-29T20:51:32.176976+00:00",
+        "resolution": {
+          "cost_usd": 0.854538,
+          "evidence": "controller-adapter-result",
+          "final": true,
+          "telemetry": {
+            "accounting_complete": true,
+            "outcome": "gap"
+          }
+        },
+        "started_at": "2026-09-29T20:51:32.181312+00:00",
+        "state": "settled",
+        "telemetry": {
+          "accounting_complete": true,
+          "outcome": "gap"
+        },
+        "updated_at": "2026-09-29T20:54:59.142409+00:00"
+      },
+      "controller-follow-on-28302992f92c968b73cc01c1": {
+        "allowance_units": 3500000000,
+        "charged_units": 0,
+        "cost_usd": 0.0,
+        "metadata": {
+          "allocation": "worker-verification-hold",
+          "revision_id": "28302992f92c968b73cc01c14524665adcb03929196134ca13a0c37eb69f0a29"
+        },
+        "reserved_at": "2026-09-29T20:51:32.173648+00:00",
+        "resolution": {
+          "cost_usd": 0.0,
+          "evidence": "controller-validated-worker-handoff",
+          "final": true,
+          "telemetry": {}
+        },
+        "state": "settled",
+        "telemetry": {},
+        "updated_at": "2026-09-29T20:54:59.173778+00:00"
+      },
+      "fff64663d98bdd0679b8d50d70db0e9f": {
+        "allowance_units": 4101044199,
+        "charged_units": 0,
+        "cost_usd": null,
+        "metadata": {
+          "decision_digest": "c8a5df23d7e7353de2388bdef8a73fc5934f26a441bc80258b1a9c59111fd6c6",
+          "revision_id": "28302992f92c968b73cc01c14524665adcb03929196134ca13a0c37eb69f0a29",
+          "root_id": "f23f2c4dc9de7237f50f7d52"
+        },
+        "reserved_at": "2026-09-29T20:54:59.197403+00:00",
+        "resolution": null,
+        "started_at": "2026-09-29T20:54:59.205773+00:00",
+        "state": "running",
+        "telemetry": null
+      },
+      "public-assessment-28302992f92c968b73cc01c1": {
+        "allowance_units": 500000000,
+        "charged_units": 44417801,
+        "cost_usd": 0.04441780000000001,
+        "metadata": {
+          "allocation": "public-assessment",
+          "packet_sha256": "7c470c2bc7261e8ca4c4cecd1fe35d27396b93ce60dbe983278f2ca124173a87",
+          "revision_id": "28302992f92c968b73cc01c14524665adcb03929196134ca13a0c37eb69f0a29"
+        },
+        "reserved_at": "2026-09-29T20:51:20.448751+00:00",
+        "resolution": {
+          "cost_usd": 0.04441780000000001,
+          "evidence": "public-assessment:7c470c2bc7261e8ca4c4cecd1fe35d27396b93ce60dbe983278f2ca124173a87",
+          "final": true,
+          "telemetry": {
+            "cost_usd": 0.04441780000000001,
+            "input_tokens": 4,
+            "model": "claude-sonnet-5",
+            "output_tokens": 1147,
+            "provider_calls": 1
+          }
+        },
+        "started_at": "2026-09-29T20:51:20.452824+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cost_usd": 0.04441780000000001,
+          "input_tokens": 4,
+          "model": "claude-sonnet-5",
+          "output_tokens": 1147,
+          "provider_calls": 1
+        },
+        "updated_at": "2026-09-29T20:51:32.105181+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 4.101044199,
+    "scope": "task_dispatch",
+    "spent_usd": 0.898955801,
+    "unresolved": [
+      "fff64663d98bdd0679b8d50d70db0e9f"
+    ],
+    "version": 1
+  },
+  "controller_handoff_actionable": false,
+  "controller_invocations": 1,
+  "controller_role_cost_usd": 0.854538,
+  "controller_stage": "worker-ready",
+  "credential_reconciled": true,
+  "effective_action": "controller",
+  "elapsed_s": 220.319,
+  "error": null,
+  "manifest_sha256": "ae329ce9d969c98a7b824a93455111725175f896b9ef14570c7d972c72798259",
+  "qualified": false,
+  "root_id": "f23f2c4dc9de7237f50f7d52",
+  "state": "uncertain",
+  "worker_identity_valid": false
+}

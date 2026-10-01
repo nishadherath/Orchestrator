@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-003",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-003"
+  ],
+  "premise_id": "prem-003",
+  "method": "Read problem.md (the fixture notes) in full and checked for any field or sentence that already names a single cause among writer failure, premature acknowledgement, or idempotency suppression.",
+  "result": "problem.md, lines 1-14, contains only the statement quoted in prem-003 plus task instructions; no field, status, log excerpt or other data resolves which of the three explanations applies. The document explicitly states the notes do not establish the cause and instructs not to claim any check has been run.",
+  "artefact": "problem.md:1-14",
+  "outcome": "supports",
+  "cost_usd": 0.0
+}

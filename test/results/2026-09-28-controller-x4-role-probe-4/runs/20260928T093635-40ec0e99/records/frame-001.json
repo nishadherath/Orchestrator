@@ -1,0 +1,29 @@
+{
+  "type": "FrameRecord",
+  "id": "frame-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "goal_ladder": [
+    "Immediate: decide which of the competing explanations produced an acknowledgement with no receipt, using checks that separate them rather than confirm one.",
+    "Intermediate: contain further loss reversibly while the cause is still open, without destroying the evidence the checks need.",
+    "Higher: make the acknowledgement and the receipt write agree, so an acknowledgement implies a durable receipt.",
+    "Top: keep the fixture's job-completion record trustworthy enough that downstream consumers can rely on it."
+  ],
+  "metric_interrogation": "The implicit metric is the count of acknowledged jobs with no matching receipt. It is weak in three ways. First, it is mechanism-blind: writer failure, premature acknowledgement and idempotency suppression all produce the same missing row, so the count cannot rank the explanations. Second, it is read-time sensitive: a receipt written after the sample, or read from a lagging replica, scores as absent, so the value moves with when and where it is taken. Third, it can read zero while the defect persists, because a suppressed legitimate retry leaves an earlier receipt in place and looks correct. A useful metric set is per-mechanism and time-ordered: writer error counts by job id, the interval between acknowledgement and first write attempt, and idempotency-key hit counts split by whether a receipt already exists. Any of these needs a key present on both the acknowledgement path and the receipt store; if no shared key exists, the base metric is not computable and that fact is itself the first finding.",
+  "problem_type": "causal discrimination among competing explanations under scarce evidence",
+  "dissolution_verdict": "stands",
+  "dissolution_reason": "No premise removal makes the observation go away. Even if the three named explanations are not exhaustive, an acknowledgement without a receipt remains a stated divergence between two stores, and the statement's own admission that the notes do not establish the cause leaves a real undetermined question. The problem is not an artefact of a mistaken constraint; it is under-determined by the supplied evidence, which is a diagnosis problem rather than a dissolved one.",
+  "acceptance_criteria": [
+    "Each of the three competing explanations has at least one check that names an observable artefact and states the outcome pattern that confirms it while disconfirming the other two.",
+    "Exactly one containment step is proposed, with its reversal stated and its effect on the pending diagnosis noted, including any evidence it would destroy.",
+    "The implementation direction is stated conditionally, naming the specific check result that would authorise it.",
+    "No check is described as having been run; every result is prospective.",
+    "Only the supplied statement is used; no system detail, tool, log name or metric is asserted as existing without being flagged as an assumption.",
+    "Load-bearing unverified premises are named, including the assumption that the cause lies among the three listed explanations."
+  ],
+  "b0_candidate_id": "cand-001",
+  "premise_count": 12,
+  "stable": true
+}

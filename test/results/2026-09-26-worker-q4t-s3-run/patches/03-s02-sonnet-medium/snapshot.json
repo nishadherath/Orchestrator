@@ -1,0 +1,12 @@
+{
+  "episode_label": "sonnet-medium",
+  "files": {
+    "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+    "pluggy/_hooks.py": "83dcb40d9a203f1701ea10275f2279c24a8db753bbfd0b0b2dad74b26651fcb5",
+    "pluggy/_manager.py": "b6a11dbc73e2c51b4adc7b7e73a7093126cc0f933fb0f04be7c27ce73664510e"
+  },
+  "schema_version": 1,
+  "sequence": 3,
+  "snapshot_sha256": "93d9515409c7a37833882cebedde7bf23cc1ece75886d0719432878afb88b5ca",
+  "task_id": "S02"
+}

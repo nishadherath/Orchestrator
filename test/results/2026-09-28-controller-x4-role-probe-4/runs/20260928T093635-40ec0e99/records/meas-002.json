@@ -1,0 +1,14 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-002",
+  "ledger_version": 1,
+  "references": [
+    "prem-002"
+  ],
+  "premise_id": "prem-002",
+  "method": "Listed and read working directory /mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/results/2026-09-28-controller-x4-role-probe-4 (ls -la; cat problem.md) to check for a service job-completion path to confirm queue-ack and receipt-write target distinct systems.",
+  "result": "Directory contains only problem.md (the problem statement text) and an empty runs/ subdirectory. No service code, job-completion path, or store-access implementation exists to inspect. problem.md itself states 'there is no production system or customer data behind this fixture' and asserts the two-store claim only as prose, not as inspectable code.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-4/problem.md (full contents); ls -la of same directory",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

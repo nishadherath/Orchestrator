@@ -1,0 +1,12 @@
+{
+  "episode_label": "b0-b",
+  "files": {
+    "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+    "h11/_headers.py": "d59851d8a7869f9c6c824859d069ff63335786c09615fdea68055ebfb7c8da23",
+    "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+  },
+  "schema_version": 1,
+  "sequence": 2,
+  "snapshot_sha256": "7921b3d2b98919529fc942fe9c3cc16473e4fd2286ccf07aa3a3877f3ccc5a50",
+  "task_id": "S03"
+}

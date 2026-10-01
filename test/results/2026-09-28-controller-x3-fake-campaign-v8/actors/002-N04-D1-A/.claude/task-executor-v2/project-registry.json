@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "authorities": {
+    "offline-pair-grant": "offline-pair-root"
+  },
+  "roots": {
+    "offline-pair-root": {
+      "scope": [
+        "release_manifest.py",
+        "audit_manifest.py",
+        "report.json"
+      ],
+      "active": false,
+      "task_id": "offline-pair-root"
+    }
+  },
+  "record_digest": "e67e2f52e98083ff1a0279c76c9fe60ba22b7083709d36b11960afa2f401e49c"
+}

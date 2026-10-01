@@ -25,6 +25,12 @@ operator intent. R4's structured policy and production adapter can consume it
 at a dispatch boundary; changing a control alone still does not invoke the
 Controller or alter the qualified B0 automatic runtime.
 
+Controller uplift remains an unfinished qualification goal. The X4 workflow
+has a narrow explicit-on live integration result. Later X5 authored development
+comparisons did not establish a quality or acceptance gain over matched worker
+work. Packaging this code as a release candidate does not promote Controller,
+qualify the frontier profile or establish general host enforcement.
+
 The supporting contracts are:
 
 - `src/System/SYSTEM.md`: the full blackboard-system design, including quick
@@ -173,10 +179,24 @@ assignment is optimal.
 
 The registry also represents an `unqualified-experimental`
 `frontier-candidate` profile. It spans Sonnet, Opus and Fable and all five
-effort levels, with multiple independent Generator cells. Representation and
-fake dispatch wiring are qualified offline; live Fable identity, prices,
-quality and the frontier profile remain unqualified until R5. The production
-Controller cannot select that profile yet.
+effort levels. Its named Generator assignments are `subtract` to Sonnet high,
+`re-represent` to Opus xhigh and `abduce` to Fable high. The executable
+Controller now sends each selected technique to its named cell, including
+repair calls. A complete selected Generator cohort must fit its minimum
+allowances plus Critic/Selector floors before any Generator launches. The
+standard profile retains its prior single Generator cell. These are offline
+wiring results, not measured quality or live Fable/served-effort qualification.
+The direct R4 adapter can select the frontier profile explicitly, but neither
+profile is qualified for automatic Controller routing.
+
+The experimental N1-bound workflow uses the versioned
+`controller-profile-v1` selection rule. With no qualified comparison for the
+frontier profile, an automatic request retains `standard`; a named frontier
+request requires an explicit experimental N3 admission. Its budget check
+requires enough root allowance to reserve the Controller cap and the downstream
+worker floor. That is an admission check, not proof that the full frontier role
+schedule fits or will succeed. The selected profile, registry status, source
+of the choice and qualification claim are frozen with the routing decision.
 
 ## How the role system pursues the assigned goal
 
@@ -262,6 +282,7 @@ Examples:
 
 ```bash
 python3 tools/controller_control.py --project . status
+python3 tools/controller_control.py --project . status --root-id "<N1-root-id>" --session-id "<session>"
 python3 tools/controller_control.py --project . set --scope project --mode auto
 python3 tools/controller_control.py --project . set --scope session --session-id "<session>" --mode on
 python3 tools/controller_control.py --project . set --scope task --task-revision "<task-revision>" --mode off
@@ -269,7 +290,12 @@ python3 tools/controller_control.py --project . clear --scope task --task-revisi
 python3 tools/controller_control.py --project . resolve --session-id "<session>" --task-revision "<task-revision>"
 ```
 
-Each control CLI response states `paid_work_started: false`.
+Each control CLI response states `paid_work_started: false`. With a root id,
+`status` shows current operator intent and the frozen routing decision
+separately. It reports applicability, Controller admission status and worker
+attempt count. Admission does not prove the provider call completed or its
+final bill; `provider_call_confirmed` therefore remains unknown in this
+control-only view. Without a root, task applicability is unknown.
 `tools/controller_policy.py` consumes the resolved snapshot and preserves both
 its hypothetical recommendation and effective action. If that action is
 Controller, `tools/controller_dispatch.py` reserves the task allowance before
@@ -386,11 +412,58 @@ call, the dispatch budget reserves an allowance under an operating-system
 lock. Parallel Generators share the same durable balance. A call starts only
 after its reservation succeeds.
 
+The experimental N1-bound path records one Controller admission against the
+root task's immutable revision and charges the root budget. A different
+RoutingDecision for that revision cannot buy a second call. It holds USD 3.50
+of the same root budget for downstream worker and verification work. Worker
+dispatch from that root requires the X4 handoff bridge to revalidate the
+evidence packet, source digest, frozen decision and settled charge before
+releasing the downstream hold. The bridge has provider-free coverage, and a
+fresh explicit-`on` WSL root completed a live handoff, worker repair and
+independent acceptance through the default Controller adapter. Automatic
+routing and profile quality remain
+unqualified. Cancellation releases an unused hold.
+Earlier decision-specific dispatch records are treated as used authority when
+upgrading, so a new decision cannot silently replay them. This is an offline
+integrity control plus a narrow live integration result, not a Controller
+release.
+
+The default live Controller role host requires a project-bound `graft` server
+in `.mcp.json` before spending. It freezes a Graft-only copy of that server
+configuration and grants the role only `Read`, `Glob`, `Grep` and the six Graft
+retrieval tools. Other project MCP servers are not forwarded to the role. An
+unavailable or invalid Graft launcher leaves the frozen task decision ready
+for host repair without admitting a Controller call. An injected runner is an
+explicit test or host integration path; its presence alone does not prove
+Graft access. The role must still confirm the actual MCP connection in a live
+host qualification. The default runtime reads each role's terminal CLI-init
+evidence and rejects a handoff unless `graft` connected, all six retrieval
+tools were available, no other tools were exposed beyond `Read`, `Glob` and
+`Grep`, and the run actually called `graft_check_freshness`. A WSL Framer run
+has met that guard and completed downstream acceptance. Other role/profile
+combinations still need live qualification.
+
 Known final charges settle their reservations. A timeout, cancellation or
 lost response is not proof that the provider charged nothing, so uncertain
 calls retain their reservations until reconciled with terminal billing
-evidence. Budget exhaustion closes the run with a `gap` and a readable report
+evidence. A terminal public-assessment charge is retained even if the
+interpreter's classifications or citations are invalid; that root blocks
+without accepting the assessment. Budget exhaustion closes the run with a
+`gap` and a readable report
 rather than leaving only a traceback.
+
+The experimental public interpreter uses Claude Code in WSL with Claude.ai
+subscription authentication. A local launcher decodes the schema and fixed
+system prompt after crossing the Windows-to-WSL argument boundary; the bounded
+public packet stays on stdin. The interpreter disables tools, checks the served
+model and terminal charge, and passes the result to N1's public assessor. A
+known local CLI parser rejection with empty stdout settles as a final zero
+charge. Other missing terminal evidence keeps the reservation unresolved.
+`TaskExecutor.reconcile_public_assessment` can close a blocked assessment's
+accounting from independently retained evidence after writers stop. It never
+replays the invocation or unblocks that task revision. Live public assessments
+have settled successfully in the X4 integration trials. These runs do not
+establish automatic routing-quality uplift.
 
 This is local dispatch enforcement. It is not a provider invoice ceiling, and
 already-running calls can still incur charges after cancellation.
@@ -435,9 +508,11 @@ budget and evidence requirements.
 This boundary follows the measured economics. On the T10 benchmark, the
 Controller was correct in every run that finished, six of nine runs finished,
 and the cost per solved task was 10.8 times the floor worker's cost. In the
-subsequent paid real-world campaign, no episode reached a live Controller
-invocation. Its adapter, identity, isolation and accounting paths pass offline
-tests, but the complete paid live episode path remains unverified.
+earlier paid real-world campaign, no episode reached a live Controller
+invocation. Subsequent X4 integration and X5 authored development runs exercised
+live paths under their recorded host conditions, but did not establish Controller
+uplift. Offline adapter and accounting checks do not prove general host isolation
+or served effort. B0 remains the default.
 
 ## Implementation map
 
@@ -446,6 +521,7 @@ tests, but the complete paid live episode path remains unverified.
 | `tools/system_controller.py` | Quick-mode state machine and command-line interface |
 | `tools/controller_integrity.py` | Acceptance freeze, candidate eligibility and evidence-packet integrity |
 | `tools/model_registry.py` | Exact cell, served-identity, role-profile and measured-cost resolution |
+| `tools/controller_profile_policy.py` | Versioned, evidence-conservative role-profile selection for the experimental N1 workflow |
 | `tools/dispatch_budget.py` | Durable reservation, settlement and cancellation |
 | `tools/system_prompts.py` | Role prompt construction |
 | `tools/validate_records.py` | Schema-backed record validation |

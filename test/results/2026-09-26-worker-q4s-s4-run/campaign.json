@@ -1,0 +1,724 @@
+{
+  "manifest_sha256": "5d51db8eed091668d984351ceba87f3b7bc531803b0f82743e2623ddb9e1e144",
+  "preflight_evidence_sha256": "9a8ea70f7736278ae1628350a8c5ba94e02998dc3242a160843cc7479d8ea95b",
+  "rows": [
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "h11/_connection.py",
+              "h11/_headers.py",
+              "h11/_writers.py"
+            ],
+            "cost_usd": 0.20983860000000004,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "7b21e240be80df741de4b4c6ef411805646f4c93f111da2264ddd6fa81781fa8",
+                "invocation_id": "432ad7e4076ad7c1d9c508208322a9a8",
+                "prompt_sha256": "a064c4e0a3cf3b26aff52a7295863c1b537774f431cd2bd8a345fef64d15a869",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "3a82593c6b7777fb66b71fecabbb14bf597e2ca417e33a3a71da6de0c2151c35",
+                "stream_sha256": "85cd9732d01bd986e7665fde87bad28082afaa97b94b6bf3974ed0d65b8d9458",
+                "task_sha256": "ffbcdfe3072daa318a675b6458c32f9a7380c8e9614e8fe9be868aa468f9dc2a"
+              },
+              "observability": "present",
+              "raw_sha256": "61b6e669635f2f77a16620d179017ca71f12a1fea526e48aaa1edb5d3da8c9ba",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No shell/execution tool was provided in this session's toolset, so I could not actually run the required public_check.py command; please run it to confirm, or grant shell access so I can verify.\",\"diagnosis\":\"write_headers() in h11/_writers.py was serialising the lower-cased header name instead of the caller-supplied raw_name, discarding original casing. Additionally, set_comma_header() in h11/_headers.py always used its lower-case-only name argument both for matching and for writing new entries, so server-generated framing headers (Content-Length, Transfer-Encoding, Connection) were emitted all-lowercase. Fixed by: (1) write_headers now writes raw_name for both the Host-first pass and the remaining headers, keeping the lower-cased name only for the Host comparison; (2) set_comma_header now matches existing headers via name.lower() but preserves whatever casing is passed in for newly written values; (3) _connection.py's _clean_up_response_headers_for_sending now calls set_comma_header with conventionally-cased names (Content-Length, Transfer-Encoding, Connection) so generated framing headers have consistent, readable spelling while get_comma_header lookups remain lower-case and unaffected.\",\"evidence\":[\"h11/_writers.py write_headers now uses raw_name in both write() calls instead of the lower-cased name\",\"h11/_headers.py set_comma_header now compares found_name != name.lower() and appends (name, new_value) preserving caller casing\",\"h11/_connection.py _clean_up_response_headers_for_sending now passes b'Content-Length', b'Transfer-Encoding', b'Connection' to set_comma_header instead of lower-case variants\",\"Host-first ordering in write_headers is preserved since the comparison still uses the lower-cased name field\"],\"remaining\":[\"Run python3 -B public_check.py in an environment with shell access to confirm the fix passes the acceptance contract, since no execution tool was available in this session.\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "No shell/execution tool was provided in this session's toolset, so I could not actually run the required public_check.py command; please run it to confirm, or grant shell access so I can verify.",
+                "diagnosis": "write_headers() in h11/_writers.py was serialising the lower-cased header name instead of the caller-supplied raw_name, discarding original casing. Additionally, set_comma_header() in h11/_headers.py always used its lower-case-only name argument both for matching and for writing new entries, so server-generated framing headers (Content-Length, Transfer-Encoding, Connection) were emitted all-lowercase. Fixed by: (1) write_headers now writes raw_name for both the Host-first pass and the remaining headers, keeping the lower-cased name only for the Host comparison; (2) set_comma_header now matches existing headers via name.lower() but preserves whatever casing is passed in for newly written values; (3) _connection.py's _clean_up_response_headers_for_sending now calls set_comma_header with conventionally-cased names (Content-Length, Transfer-Encoding, Connection) so generated framing headers have consistent, readable spelling while get_comma_header lookups remain lower-case and unaffected.",
+                "evidence": [
+                  "h11/_writers.py write_headers now uses raw_name in both write() calls instead of the lower-cased name",
+                  "h11/_headers.py set_comma_header now compares found_name != name.lower() and appends (name, new_value) preserving caller casing",
+                  "h11/_connection.py _clean_up_response_headers_for_sending now passes b'Content-Length', b'Transfer-Encoding', b'Connection' to set_comma_header instead of lower-case variants",
+                  "Host-first ordering in write_headers is preserved since the comparison still uses the lower-cased name field"
+                ],
+                "remaining": [
+                  "Run python3 -B public_check.py in an environment with shell access to confirm the fix passes the acceptance contract, since no execution tool was available in this session."
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "5a2cc915d1f01c58d34fd73d592063d8392b880539174d02ed6b121e7d99d9c9",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v1",
+              "raw_result_sha256": "367bad7ef0479967ec92ecab779a31af43ef3220d4fb538b69acce635ef9da5c",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true
+            },
+            "identity_valid": true,
+            "q1_record_sha256": "720ead12d934d7a21be0b6308171c9b6b71b43271a0d17defb1d9814e39347aa",
+            "q1_spec_sha256": "6ef687b9665ef758deb2ebc9c0d1e9bf29eb8ebb58ac91cdb69878e7eb523973",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 27222,
+              "cache_read_input_tokens": 196198,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.20983860000000004,
+              "currency": "USD",
+              "input_tokens": 20,
+              "output_tokens": 6036
+            },
+            "verification": "pass",
+            "wall_clock_s": 67.69603,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.790161399,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T03:31:31.822053+00:00",
+          "currency": "USD",
+          "invocations": {
+            "432ad7e4076ad7c1d9c508208322a9a8": {
+              "allowance_units": 4000000000,
+              "charged_units": 209838601,
+              "cost_usd": 0.20983860000000004,
+              "metadata": {
+                "decision_digest": "c211223b53a6bb314320db60ce3ed2cc85096f50151c5620013fcd5a3c299848",
+                "revision_id": "3a82593c6b7777fb66b71fecabbb14bf597e2ca417e33a3a71da6de0c2151c35",
+                "root_id": "e89449dbddb38f9594646543"
+              },
+              "reserved_at": "2026-09-26T03:31:31.852914+00:00",
+              "resolution": {
+                "cost_usd": 0.20983860000000004,
+                "evidence": "receipt:ff624cf142cf5bd78cced96c6588333d05ebaca3a471df0298a1b262ef5005ef",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 27222,
+                  "cache_read_input_tokens": 196198,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.20983860000000004,
+                  "currency": "USD",
+                  "input_tokens": 20,
+                  "output_tokens": 6036
+                }
+              },
+              "started_at": "2026-09-26T03:31:31.860189+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 27222,
+                "cache_read_input_tokens": 196198,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.20983860000000004,
+                "currency": "USD",
+                "input_tokens": 20,
+                "output_tokens": 6036
+              },
+              "updated_at": "2026-09-26T03:32:39.582017+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.209838601,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0-a",
+        "executable_grade": {
+          "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "request-raw-case",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "host-first",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "generated-framing",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "header-replacement",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 100,
+          "oracle_absent_from_actor": true,
+          "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+          "public_isolated": true,
+          "public_pass": true,
+          "source_workspace_unchanged": true,
+          "task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f"
+        },
+        "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+        "protected_sha256": {
+          "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+          "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+          "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+          "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+          "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+          "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+          "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+          "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+          "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+          "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+          "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+          "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "behaviour_accepted": true,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 10,
+            "invariant": 20,
+            "report": 0
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "5ee912604cd52ffd4eeeb19e0feb212a559a9820ca72424d19cdbfdcb9497f34",
+          "hidden_accepted": true,
+          "inconclusive": false,
+          "predicate_results": {
+            "diagnosis": true,
+            "generated-framing": true,
+            "header-replacement": true,
+            "host-first": true,
+            "report": false,
+            "request-raw-case": true
+          },
+          "quality": 90,
+          "report_observability": "present",
+          "root_acceptance_gap": false,
+          "schema_version": 2,
+          "task_sha256": "ffbcdfe3072daa318a675b6458c32f9a7380c8e9614e8fe9be868aa468f9dc2a",
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "e89449dbddb38f9594646543",
+        "root_state": "accepted",
+        "sequence": 1,
+        "settlement": {
+          "charged_usd": 0.209838601,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "episode_label": "b0-a",
+          "files": {
+            "h11/_connection.py": "4f0d5a8e9565ac6a2a8bef7c90a08674f54d50edfae409e0f87b805a8ac93af6",
+            "h11/_headers.py": "1ff69a19e80564f588eaa92cb203ba3676c53553749bdba667f631dd95ea0e6a",
+            "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+          },
+          "schema_version": 1,
+          "sequence": 1,
+          "snapshot_sha256": "a8987f1aed1e81e2ad7a4b0f608e81cfe183287af9b107e9cbca380904bb6677",
+          "task_id": "S03"
+        },
+        "stage_manifest_sha256": "5d51db8eed091668d984351ceba87f3b7bc531803b0f82743e2623ddb9e1e144",
+        "task_id": "S03",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4s-5d51db8eed09-s4-01"
+      },
+      "episode_label": "b0-a",
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "S03"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "h11/_headers.py",
+              "h11/_writers.py"
+            ],
+            "cost_usd": 0.140356,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "e6eb678629528d5da3823befe83af45d1a1361f2e34bf1df3450050db3ebe9e2",
+                "invocation_id": "4e0aaee4daa312a521decbb847c89ef5",
+                "prompt_sha256": "a064c4e0a3cf3b26aff52a7295863c1b537774f431cd2bd8a345fef64d15a869",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "19a6cf93cde092c9be4515d1a5b117865d503f0dd05abda98cd7a78027f76eb5",
+                "stream_sha256": "dfbba6ed90408ab000a0a0694fcc51d8558cde6c4ac7c5b881334d0ee39ad99a",
+                "task_sha256": "ffbcdfe3072daa318a675b6458c32f9a7380c8e9614e8fe9be868aa468f9dc2a"
+              },
+              "observability": "present",
+              "raw_sha256": "4e40743b98c8cfaf7df3cb4530785c78335cb0d8cbd5b0e73f7fd1abbfe1246c",
+              "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"I do not have a shell/execution tool available in this session, so I could not actually run `python3 -B public_check.py` to confirm the fix; please run it or grant a bash tool so I can verify.\",\"diagnosis\":\"write_headers was serialising the lower-cased normalized name instead of the caller-supplied raw_name, so header spelling was lost on the wire. Fixed by writing raw_name in h11/_writers.py. Also, set_comma_header (used by _connection.py for auto-generated framing headers like Transfer-Encoding/Content-Length/Connection) was storing the lower-case matching key as the raw name for newly added values, which would have produced lower-case header names on output after the write_headers fix; added a _conventional_spelling helper in h11/_headers.py to give generated headers proper Title-Case spelling (e.g. Transfer-Encoding) while matching/storage logic remains case-insensitive via the existing lower-cased `name` field. Host-first ordering in write_headers is preserved since it still matches on the lower-cased `name` field.\",\"evidence\":[\"h11/_writers.py write_headers now emits raw_name instead of name for both the Host pass and the remaining-headers pass\",\"h11/_headers.py adds _conventional_spelling(name) and set_comma_header now inserts (_conventional_spelling(name), new_value) for generated headers instead of the raw lower-case name\",\"h11/_connection.py was not modified; it already calls set_comma_header/get_comma_header with lower-case names for matching, which is unaffected by the spelling fix\"],\"remaining\":[\"No command-execution tool was available in this session to actually run `python3 -B public_check.py` or a broader h11 test pass; the fix is based on static code inspection only and should be executed to confirm.\",\"Consider checking existing h11 test suite (not present in this actor's file listing) for any assertions on lower-case header names that might now fail due to the conventional-spelling change for generated framing headers.\"],\"status\":\"partial\"}",
+              "report": {
+                "checks": [
+                  {
+                    "command": "python3 -B public_check.py",
+                    "outcome": "not_run"
+                  }
+                ],
+                "clarification": "I do not have a shell/execution tool available in this session, so I could not actually run `python3 -B public_check.py` to confirm the fix; please run it or grant a bash tool so I can verify.",
+                "diagnosis": "write_headers was serialising the lower-cased normalized name instead of the caller-supplied raw_name, so header spelling was lost on the wire. Fixed by writing raw_name in h11/_writers.py. Also, set_comma_header (used by _connection.py for auto-generated framing headers like Transfer-Encoding/Content-Length/Connection) was storing the lower-case matching key as the raw name for newly added values, which would have produced lower-case header names on output after the write_headers fix; added a _conventional_spelling helper in h11/_headers.py to give generated headers proper Title-Case spelling (e.g. Transfer-Encoding) while matching/storage logic remains case-insensitive via the existing lower-cased `name` field. Host-first ordering in write_headers is preserved since it still matches on the lower-cased `name` field.",
+                "evidence": [
+                  "h11/_writers.py write_headers now emits raw_name instead of name for both the Host pass and the remaining-headers pass",
+                  "h11/_headers.py adds _conventional_spelling(name) and set_comma_header now inserts (_conventional_spelling(name), new_value) for generated headers instead of the raw lower-case name",
+                  "h11/_connection.py was not modified; it already calls set_comma_header/get_comma_header with lower-case names for matching, which is unaffected by the spelling fix"
+                ],
+                "remaining": [
+                  "No command-execution tool was available in this session to actually run `python3 -B public_check.py` or a broader h11 test pass; the fix is based on static code inspection only and should be executed to confirm.",
+                  "Consider checking existing h11 test suite (not present in this actor's file listing) for any assertions on lower-case header names that might now fail due to the conventional-spelling change for generated framing headers."
+                ],
+                "status": "partial"
+              },
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "03fe19e0c595222b996b4d84a062faadbc20218b3915968430223dca9334638e",
+            "evaluation_transport": {
+              "canonicalised": true,
+              "mode": "claude-code-json-schema-v1",
+              "raw_result_sha256": "6b2d06e82873ca26a09ae3a1aa640221ced9776bf4e93c3777e4089c8bf3696d",
+              "result_subtype": "success",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": true
+            },
+            "identity_valid": true,
+            "q1_record_sha256": "461325f9f55d810bab543d41ac69114d1af9c9e8b9a2d9ce56a71b22f6fe2434",
+            "q1_spec_sha256": "6ef687b9665ef758deb2ebc9c0d1e9bf29eb8ebb58ac91cdb69878e7eb523973",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 19283,
+              "cache_read_input_tokens": 159725,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.140356,
+              "currency": "USD",
+              "input_tokens": 14,
+              "output_tokens": 2994
+            },
+            "verification": "pass",
+            "wall_clock_s": 51.5907,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.859644,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T03:37:09.558488+00:00",
+          "currency": "USD",
+          "invocations": {
+            "4e0aaee4daa312a521decbb847c89ef5": {
+              "allowance_units": 4000000000,
+              "charged_units": 140356000,
+              "cost_usd": 0.140356,
+              "metadata": {
+                "decision_digest": "2612c028ac0e0cfd1adb8bb0f69b93882fcd2ec14aa1856431e4ea7066c81a9f",
+                "revision_id": "19a6cf93cde092c9be4515d1a5b117865d503f0dd05abda98cd7a78027f76eb5",
+                "root_id": "34ccdfbfc91155bdb9913999"
+              },
+              "reserved_at": "2026-09-26T03:37:09.590412+00:00",
+              "resolution": {
+                "cost_usd": 0.140356,
+                "evidence": "receipt:6d88b9b81dac2e3489d39f72313dd5e0cd2e5e4246e71c862b54307b7f8ffcd6",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 19283,
+                  "cache_read_input_tokens": 159725,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.140356,
+                  "currency": "USD",
+                  "input_tokens": 14,
+                  "output_tokens": 2994
+                }
+              },
+              "started_at": "2026-09-26T03:37:09.598810+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 19283,
+                "cache_read_input_tokens": 159725,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.140356,
+                "currency": "USD",
+                "input_tokens": 14,
+                "output_tokens": 2994
+              },
+              "updated_at": "2026-09-26T03:38:01.216631+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.140356,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0-b",
+        "executable_grade": {
+          "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "request-raw-case",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "host-first",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "generated-framing",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "header-replacement",
+              "passed": false,
+              "weight": 25
+            }
+          ],
+          "executable_score": 75,
+          "oracle_absent_from_actor": true,
+          "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+          "public_isolated": true,
+          "public_pass": true,
+          "source_workspace_unchanged": true,
+          "task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f"
+        },
+        "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+        "protected_sha256": {
+          "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+          "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+          "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+          "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+          "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+          "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+          "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+          "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+          "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+          "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+          "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+          "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "behaviour_accepted": false,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 10,
+            "invariant": 0,
+            "report": 10
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "06d91c53819289f45a1a7d70a011a722843b209281358611818f47deb7cc75b5",
+          "hidden_accepted": false,
+          "inconclusive": false,
+          "predicate_results": {
+            "diagnosis": true,
+            "generated-framing": true,
+            "header-replacement": false,
+            "host-first": true,
+            "report": true,
+            "request-raw-case": true
+          },
+          "quality": 80,
+          "report_observability": "present",
+          "root_acceptance_gap": true,
+          "schema_version": 2,
+          "task_sha256": "ffbcdfe3072daa318a675b6458c32f9a7380c8e9614e8fe9be868aa468f9dc2a",
+          "unsupported_completion": false
+        },
+        "report_observability": "present",
+        "root_id": "34ccdfbfc91155bdb9913999",
+        "root_state": "accepted",
+        "sequence": 2,
+        "settlement": {
+          "charged_usd": 0.140356,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "episode_label": "b0-b",
+          "files": {
+            "h11/_connection.py": "0891e53f7351b696494aac1ec6586f78d7c389e4760ed647f5990b6543ab975f",
+            "h11/_headers.py": "d59851d8a7869f9c6c824859d069ff63335786c09615fdea68055ebfb7c8da23",
+            "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+          },
+          "schema_version": 1,
+          "sequence": 2,
+          "snapshot_sha256": "7921b3d2b98919529fc942fe9c3cc16473e4fd2286ccf07aa3a3877f3ccc5a50",
+          "task_id": "S03"
+        },
+        "stage_manifest_sha256": "5d51db8eed091668d984351ceba87f3b7bc531803b0f82743e2623ddb9e1e144",
+        "task_id": "S03",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4s-5d51db8eed09-s4-02"
+      },
+      "episode_label": "b0-b",
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "S03"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "h11/_connection.py",
+              "h11/_headers.py",
+              "h11/_writers.py"
+            ],
+            "cost_usd": 0.2309386,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "24f0ef60b1e20153e31d7095086169a879b7beb839386af3ed934bf94cd7d738",
+                "invocation_id": "a30dbed1d5dc9fa4eb29e6be4911d258",
+                "prompt_sha256": "a064c4e0a3cf3b26aff52a7295863c1b537774f431cd2bd8a345fef64d15a869",
+                "requested_cell": "worker-sonnet-medium",
+                "revision_id": "29a2a10579db9f839f756bba238dea550ea26a70c9d8909a787f641c51cf9d1d",
+                "stream_sha256": "2e663aecb311220c0849b4b92abd22561d23c6613f35718e8782100c8dc929f7",
+                "task_sha256": "ffbcdfe3072daa318a675b6458c32f9a7380c8e9614e8fe9be868aa468f9dc2a"
+              },
+              "observability": "transport-invalid",
+              "raw_sha256": null,
+              "raw_utf8": null,
+              "report": null,
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "a71676fd797a1a27193fcf218f54b82ac9abecb21a710f114558d60cc1e87f56",
+            "evaluation_transport": {
+              "canonicalised": false,
+              "mode": "claude-code-json-schema-v1",
+              "raw_result_sha256": null,
+              "result_subtype": "error_max_structured_output_retries",
+              "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+              "structured_output_present": false
+            },
+            "identity_valid": true,
+            "q1_record_sha256": "342ef3e369ef8719680d6c061b5424191cd91ae8274369e8e7198ea31579b5a6",
+            "q1_spec_sha256": "6ef687b9665ef758deb2ebc9c0d1e9bf29eb8ebb58ac91cdb69878e7eb523973",
+            "requested_cell": "worker-sonnet-medium",
+            "requested_effort": "medium",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 32802,
+              "cache_read_input_tokens": 216368,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.2309386,
+              "currency": "USD",
+              "input_tokens": 18,
+              "output_tokens": 5511
+            },
+            "verification": null,
+            "wall_clock_s": 71.365869,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 3.7690614,
+          "baseline_limit_units": 4000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-26T03:42:48.966704+00:00",
+          "currency": "USD",
+          "invocations": {
+            "a30dbed1d5dc9fa4eb29e6be4911d258": {
+              "allowance_units": 4000000000,
+              "charged_units": 230938600,
+              "cost_usd": 0.2309386,
+              "metadata": {
+                "decision_digest": "0cde0735cb8fc715f141226a9f4927eef173798fc2fd369399c963600c0b76cf",
+                "revision_id": "29a2a10579db9f839f756bba238dea550ea26a70c9d8909a787f641c51cf9d1d",
+                "root_id": "35b20322d972c0e0574aa459"
+              },
+              "reserved_at": "2026-09-26T03:42:48.998375+00:00",
+              "resolution": {
+                "cost_usd": 0.2309386,
+                "evidence": "receipt:e0af45a02452f2d331c5d84d8f2348f1c74c35d49366a4a5c70616a21b5ec90a",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 32802,
+                  "cache_read_input_tokens": 216368,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.2309386,
+                  "currency": "USD",
+                  "input_tokens": 18,
+                  "output_tokens": 5511
+                }
+              },
+              "started_at": "2026-09-26T03:42:49.006879+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 32802,
+                "cache_read_input_tokens": 216368,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.2309386,
+                "currency": "USD",
+                "input_tokens": 18,
+                "output_tokens": 5511
+              },
+              "updated_at": "2026-09-26T03:44:00.400602+00:00"
+            }
+          },
+          "limit_units": 4000000000,
+          "limit_usd": 4.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.2309386,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "sonnet-medium",
+        "executable_grade": {
+          "case_source_sha256": "65c69ba864a51b0c3f51662a9a21bc1e374788698ba80c764bfa1387888a791e",
+          "cases": [
+            {
+              "exit_code": 0,
+              "milestone": "request-raw-case",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "host-first",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "generated-framing",
+              "passed": true,
+              "weight": 25
+            },
+            {
+              "exit_code": 0,
+              "milestone": "header-replacement",
+              "passed": true,
+              "weight": 25
+            }
+          ],
+          "executable_score": 100,
+          "oracle_absent_from_actor": true,
+          "oracle_sha256": "182a97e640c12f5c980b6eb7f2484682cec2125da3f240045d9b15c35c20a5e0",
+          "public_isolated": true,
+          "public_pass": true,
+          "source_workspace_unchanged": true,
+          "task_sha256": "061a837f4ca4c5fe1bb96a95e49b9cc48df1693677e92f06985e164e85e61b8f"
+        },
+        "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+        "protected_sha256": {
+          "ISSUE.md": "1f784754c0fecc5b389487b0ecfd063947515bc756d2fa965c6fbfd29c8a4d73",
+          "LICENSE.txt": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361",
+          "acceptance.json": "0eba987bb828859d338a199bfd91e8f057c0338f3e06a42d96418d5f04773978",
+          "h11/__init__.py": "de0629bd0897f3febe7725da03142dfec218444553cf54fecc1e4b7f88632add",
+          "h11/_abnf.py": "b4c2aa80e1244c71e9f2c3ddfe0994f50a307bfc975eb8a172deb7457db326c8",
+          "h11/_events.py": "06359cfdbb56256fcdf824543d1a3af1f285f2fbfa86570cb35f5bf68341ca67",
+          "h11/_readers.py": "9eef18854c3730d6bd771072d1812f7ea9a26c1dff87a54a2de999bfb51be7bc",
+          "h11/_receivebuffer.py": "8719682225b96f983f71d6c50333f0fadbfa6292a70c8b0de33d45516968a5c8",
+          "h11/_state.py": "ed81b5a49cd36f0c78e94fc722a295889bdfeb69ea18977483d299dd3451e62e",
+          "h11/_util.py": "0fa3df9f925cd5321d323ad412983527f29c32f0486c25c703d01a73919379d3",
+          "h11/_version.py": "0ffc88f8376a1a3aa2eb2ad78fa38b6ed8f91ae368263139a86ca1dc3b3b7b1f",
+          "public_check.py": "0ff27a6cefa22703a1a6b5e5c94179d1c5ce840dc2eb3f1d09e163503ada1794"
+        },
+        "qualification_eligible": false,
+        "quality_v2": {
+          "behaviour_accepted": true,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 0,
+            "invariant": 20,
+            "report": 0
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "b9de1ad8ff553eda9315cb3906f9da809985ae4600244b1ec2d8943936fac31a",
+          "hidden_accepted": false,
+          "inconclusive": true,
+          "predicate_results": {
+            "diagnosis": false,
+            "generated-framing": true,
+            "header-replacement": true,
+            "host-first": true,
+            "report": false,
+            "request-raw-case": true
+          },
+          "quality": 80,
+          "report_observability": "transport-invalid",
+          "root_acceptance_gap": false,
+          "schema_version": 2,
+          "task_sha256": "ffbcdfe3072daa318a675b6458c32f9a7380c8e9614e8fe9be868aa468f9dc2a",
+          "unsupported_completion": false
+        },
+        "report_observability": "transport-invalid",
+        "root_id": "35b20322d972c0e0574aa459",
+        "root_state": "blocked",
+        "sequence": 3,
+        "settlement": {
+          "charged_usd": 0.2309386,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "episode_label": "sonnet-medium",
+          "files": {
+            "h11/_connection.py": "4f0d5a8e9565ac6a2a8bef7c90a08674f54d50edfae409e0f87b805a8ac93af6",
+            "h11/_headers.py": "83d086d68ea2e4f0027e7fc3f38190a9420b04640020b114dbf6d1dddb8cddaf",
+            "h11/_writers.py": "4bc121d4a69be4573c8331024353565b31e4633f0ec125788d7f7887441efdd0"
+          },
+          "schema_version": 1,
+          "sequence": 3,
+          "snapshot_sha256": "a1188fbcfc02e26a89869600cbd03a84cb23f8f4639bee444c1e975ceefded72",
+          "task_id": "S03"
+        },
+        "stage_manifest_sha256": "5d51db8eed091668d984351ceba87f3b7bc531803b0f82743e2623ddb9e1e144",
+        "task_id": "S03",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4s-5d51db8eed09-s4-03"
+      },
+      "episode_label": "sonnet-medium",
+      "sequence": 3,
+      "state": "graded",
+      "task_id": "S03"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "963e7c1849b1b097c1b3cdd897a637a7cfed273d6fb960ecdd5162dec0eee11f",
+  "status": "blocked",
+  "stop_reason": "settled blocked root requires review",
+  "total_cost_usd": 0.581133201,
+  "total_provider_calls": 3
+}

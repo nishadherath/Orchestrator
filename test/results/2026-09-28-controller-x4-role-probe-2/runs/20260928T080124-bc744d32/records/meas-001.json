@@ -1,0 +1,14 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-001",
+  "ledger_version": 1,
+  "references": [
+    "prem-002"
+  ],
+  "premise_id": "prem-002",
+  "method": "Searched working directory (problem.md, runs/**) for a concrete acknowledged job id lacking a receipt, per cheapest_verification; no fixture author or log source is reachable in this fixture.",
+  "result": "No job id, log, or count found; problem.md and the run records contain only the problem/premise/measurement scaffolding, no underlying event data.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-2/problem.md; runs/20260928T080124-bc744d32/records/*.json",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

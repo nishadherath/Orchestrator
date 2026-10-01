@@ -1,0 +1,14 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-003",
+  "ledger_version": 1,
+  "references": [
+    "prem-003"
+  ],
+  "premise_id": "prem-003",
+  "method": "Attempted to locate an acknowledged-job log and receipt-store export to join on job id, per cheapest_verification. Searched the full working directory tree (find) for any queue/receipt data files.",
+  "result": "No queue, receipt-store, or job-id artefact exists anywhere in the working directory; only problem.md and prior run/record JSON files are present. The problem statement itself states no production system or customer data backs this fixture, so the join cannot be executed against any real data.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-4 (directory listing; contains only problem.md and runs/)",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

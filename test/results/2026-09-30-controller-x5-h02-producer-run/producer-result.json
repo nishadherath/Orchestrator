@@ -1,0 +1,45 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 0.0,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-30T08:30:26.153756+00:00",
+    "currency": "USD",
+    "invocations": {
+      "e9d9708b893c79590a77ff3e22537b6c": {
+        "allowance_units": 5000000000,
+        "charged_units": 0,
+        "cost_usd": null,
+        "metadata": {
+          "decision_digest": "f0c4ff84b5a2d3d4acd96d14d8fcaef34f6c0cc7bdb707e183f9e77a47acec59",
+          "revision_id": "75971fa6a39f14a277826e56a22bd2035b4a1521171515fc6e4fd37079dfebe7",
+          "root_id": "f1192b5708e3d0da8b85d359"
+        },
+        "reserved_at": "2026-09-30T08:31:34.976806+00:00",
+        "resolution": null,
+        "started_at": "2026-09-30T08:31:34.986290+00:00",
+        "state": "running",
+        "telemetry": null
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 5.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.0,
+    "unresolved": [
+      "e9d9708b893c79590a77ff3e22537b6c"
+    ],
+    "version": 1
+  },
+  "elapsed_s": 7.647,
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "cd86e0d93890b8465b3048de50d4658106547e197b96ae29a6f823272e3f119d",
+  "protected_grade": null,
+  "qualified": false,
+  "root_id": "f1192b5708e3d0da8b85d359",
+  "state": "uncertain"
+}

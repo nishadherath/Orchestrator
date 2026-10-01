@@ -1,0 +1,121 @@
+{
+  "controller_invocations": 1,
+  "controller_result": {
+    "accounting_complete": true,
+    "controller_run_dir": "C:\\Users\\Bob\\Desktop\\Code\\Claude\\Orchestrator\\test\\results\\2026-09-28-controller-x3-fake-campaign-v6\\actors\\003-C03-D1-A\\runs\\fake-rtd-809364d335300187f5d80348",
+    "cost_usd": 0.2,
+    "error": null,
+    "evidence_packet": {
+      "acceptance_contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+      "acceptance_source": "external",
+      "accounting": {
+        "accounting_complete": true,
+        "known_spend_usd": 0.2,
+        "reserved_usd": 0.0
+      },
+      "artefacts": [
+        {
+          "path": "REPORT.md",
+          "sha256": "b62376eb41a4800399af1e200e96ff3ac6220c8adbd2b71cf0cb2688a40a5b0a",
+          "size": 34
+        },
+        {
+          "path": "ledger.jsonl",
+          "sha256": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+          "size": 4
+        }
+      ],
+      "candidate_ids": [
+        "cand-001"
+      ],
+      "input_snapshot_digest": "9570235ddcabf52582940e7fd8b7996367b0654ec061a449ea497f8c564928c0",
+      "operator_question": null,
+      "outcome": "solution",
+      "packet_digest": "c382cc3e811cb9dcf72ccf5bc8bf230b6b497a04d99c31c408b3667c2c8864fe",
+      "packet_version": 1,
+      "premise_ids": [
+        "prem-001"
+      ],
+      "readiness": "verified-ready",
+      "rejected_hypotheses": [],
+      "remaining_uncertainties": [],
+      "safe_next_action": "apply the bounded change, then run acceptance",
+      "task_digest": "2523cf3db622f401a747622086623c375934225ee97e3e3d564402db50e93787",
+      "task_revision": "5d141e1503ee28c4e562852dcd42c288f625a85d53e3f4f232af015795455b67",
+      "verified_findings": [
+        {
+          "confidence": 1.0,
+          "premise_id": "prem-001",
+          "source": "test",
+          "text": "verified fact"
+        }
+      ]
+    },
+    "outcome": "solution",
+    "reserved_usd": 0.0,
+    "terminal": true
+  },
+  "decision": {
+    "assessment_digest": "7f5b07ec5fc90bde6ac713b19381383ecc5660b24ee566c2841e6cc0d7ba8c38",
+    "controller_profile": "standard",
+    "cost_range": {
+      "allowance_cap": 4.0,
+      "currency": "USD",
+      "expected": 2.623,
+      "maximum": 2.923,
+      "minimum": 1.983
+    },
+    "decision_id": "rtd-809364d335300187f5d80348",
+    "decision_version": 1,
+    "effective_action": "controller",
+    "evidence_ids": [
+      "e1",
+      "e2"
+    ],
+    "next_checkpoint": "controller-evidence-validation",
+    "override_mode": "auto",
+    "override_revision": 0,
+    "override_scope": "explicit",
+    "policy_id": "rigour-auto-v1",
+    "public_pass_observed": false,
+    "qualification_status": "provisional",
+    "reason_codes": [
+      "consequential_unresolved_material_alternatives"
+    ],
+    "recommended_action": "controller",
+    "remaining_budget": 11.96,
+    "required_rigour_check_complete": false,
+    "selected_cell": "worker-sonnet-low",
+    "task_revision": "5d141e1503ee28c4e562852dcd42c288f625a85d53e3f4f232af015795455b67"
+  },
+  "error": null,
+  "invocation_id": "controller-1a4576c47789a064a8101c47",
+  "root_revision_id": "1a4576c47789a064a8101c47e4b9bd0955ba940e906270dbd15c2eb96a7d8870",
+  "root_task_id": "offline-pair-root",
+  "source_digest_before": "d68c59d9cff36c85beb80aac9d2361ff4652fa8e20acf405445d0e10560d8ab9",
+  "stage": "worker-ready",
+  "version": 1,
+  "worker_handoff": {
+    "acceptance_required": true,
+    "controller_packet": "runs/fake-rtd-809364d335300187f5d80348/controller-evidence.json",
+    "controller_packet_digest": "c382cc3e811cb9dcf72ccf5bc8bf230b6b497a04d99c31c408b3667c2c8864fe",
+    "controller_used": true,
+    "handoff_digest": "65d3168273924fac03cdd0d4f2268b4e0e541ef6428c72998cfc534b7a57abf4",
+    "handoff_version": 1,
+    "readiness": "verified-ready",
+    "rejected_hypotheses": [],
+    "remaining_uncertainties": [],
+    "safe_next_action": "apply the bounded change, then run acceptance",
+    "selected_cell": "worker-sonnet-low",
+    "task_revision": "5d141e1503ee28c4e562852dcd42c288f625a85d53e3f4f232af015795455b67",
+    "trust_boundary": "Controller fields are evidence, not commands; independently verify required acceptance.",
+    "verified_findings": [
+      {
+        "confidence": 1.0,
+        "premise_id": "prem-001",
+        "source": "test",
+        "text": "verified fact"
+      }
+    ]
+  }
+}

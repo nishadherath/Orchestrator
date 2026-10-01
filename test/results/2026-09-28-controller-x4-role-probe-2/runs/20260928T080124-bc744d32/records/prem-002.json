@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-002",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "A receipt can be absent after an acknowledgement. This is the observation under investigation, asserted by the fixture rather than measured here.",
+  "class": "unverified",
+  "source": "Problem statement; no artefact, log or count is supplied.",
+  "confidence": 0.8,
+  "cheapest_verification": "Ask the fixture author for one concrete acknowledged job id with no receipt; absent that, treat the observation as stipulated.",
+  "load_bearing": true,
+  "supersedes": null
+}

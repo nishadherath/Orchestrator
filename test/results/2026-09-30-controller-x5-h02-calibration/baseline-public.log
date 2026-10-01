@@ -1,0 +1,51 @@
+.E                                                                       [100%]
+==================================== ERRORS ====================================
+_________________________ ERROR at setup of test_sync __________________________
+
+fixturedef = <FixtureDef argname='child' scope='session' baseid='test/fixtures/controller_x5_authored_pytest/development/H02/actor/case/test_mre.py'>
+request = <SubRequest 'child' for <Function test_sync>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+                return (yield)
+        default_loop_scope = request.config.getini("asyncio_default_fixture_loop_scope")
+        loop_scope = (
+            getattr(fixturedef.func, "_loop_scope", None)
+            or default_loop_scope
+            or fixturedef.scope
+        )
+        runner_fixture_id = f"_{loop_scope}_scoped_runner"
+        runner = request.getfixturevalue(runner_fixture_id)
+        # Prevent the runner closing before the fixture's async teardown.
+        runner_fixturedef = request._get_active_fixturedef(runner_fixture_id)
+        runner_fixturedef.addfinalizer(
+            functools.partial(fixturedef.finish, request=request)
+        )
+        synchronizer = _fixture_synchronizer(fixturedef, runner, request)
+        _make_asyncio_fixture_function(synchronizer, loop_scope)
+        with MonkeyPatch.context() as c:
+            c.setattr(fixturedef, "func", synchronizer)
+>           hook_result = yield
+                          ^^^^^
+E           AssertionError: The fixture value for "parent" is not available.  This can happen when the fixture has already been torn down.
+
+test/fixtures/controller_x5_authored_pytest/development/H02/actor/pytest_asyncio/plugin.py:944: AssertionError
+=========================== short test summary info ============================
+ERROR test/fixtures/controller_x5_authored_pytest/development/H02/actor/case/test_mre.py::test_sync
+1 passed, 1 error in 0.96s
+
+[stderr]

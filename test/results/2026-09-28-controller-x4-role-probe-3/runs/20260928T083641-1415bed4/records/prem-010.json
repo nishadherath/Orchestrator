@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-010",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The system is a synthetic fixture with no production traffic or customer data, so containment carries no live blast radius and the deliverable is an investigation brief, not an authorised change.",
+  "class": "unverified",
+  "source": "Problem statement: there is no production system or customer data behind this fixture; the result is an investigation brief.",
+  "confidence": 0.85,
+  "cheapest_verification": "Confirm the fixture's declared environment and that no live endpoint or real dataset is bound to it.",
+  "load_bearing": true,
+  "supersedes": null
+}

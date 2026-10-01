@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-014",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-007",
+    "meas-006"
+  ],
+  "text": "The available notes do not discriminate among the three explanations, so the cause is currently unknown rather than merely unstated.",
+  "class": "verified",
+  "source": "meas-006: problem.md read in full; it carries no writer-error record, no acknowledgement-ordering data and no idempotency-hit count, and states the notes do not establish which explanation holds.",
+  "confidence": 0.95,
+  "cheapest_verification": "Already performed by meas-006 against problem.md, the full set of available notes.",
+  "load_bearing": true,
+  "supersedes": "prem-007"
+}

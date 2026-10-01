@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 12000000000,
+  "baseline_limit_units": 12000000000,
+  "cancelled": false,
+  "created_at": "2026-09-28T03:33:10.301511+00:00",
+  "invocations": {
+    "public-assessment-2c3ba9710c7504b0da52a0fb": {
+      "state": "settled",
+      "allowance_units": 500000000,
+      "charged_units": 40000000,
+      "cost_usd": 0.04,
+      "reserved_at": "2026-09-28T03:33:10.454091+00:00",
+      "metadata": {
+        "revision_id": "2c3ba9710c7504b0da52a0fb27a5917a719bdc8b909fb7cb1b6b8abac1d7d06c",
+        "packet_sha256": "63340d5a16d9b812ad67d61ad75f3f55c16c3f7c0703839b614264ac2028c195",
+        "allocation": "public-assessment"
+      },
+      "telemetry": {
+        "provider_calls": 1,
+        "model": "claude-sonnet-5",
+        "cost_usd": 0.04,
+        "input_tokens": 100,
+        "output_tokens": 20
+      },
+      "resolution": {
+        "cost_usd": 0.04,
+        "final": true,
+        "evidence": "public-assessment:63340d5a16d9b812ad67d61ad75f3f55c16c3f7c0703839b614264ac2028c195",
+        "telemetry": {
+          "provider_calls": 1,
+          "model": "claude-sonnet-5",
+          "cost_usd": 0.04,
+          "input_tokens": 100,
+          "output_tokens": 20
+        }
+      },
+      "started_at": "2026-09-28T03:33:10.483048+00:00",
+      "updated_at": "2026-09-28T03:33:10.523171+00:00"
+    },
+    "747c737df86c6317b134ac37f30705c1": {
+      "state": "settled",
+      "allowance_units": 11960000000,
+      "charged_units": 100000000,
+      "cost_usd": 0.1,
+      "reserved_at": "2026-09-28T03:33:10.730818+00:00",
+      "metadata": {
+        "root_id": "offline-pair-root",
+        "revision_id": "2c3ba9710c7504b0da52a0fb27a5917a719bdc8b909fb7cb1b6b8abac1d7d06c",
+        "decision_digest": "1db65fab9dabd27daaa6cf5d563448f6bfa708efbed0daa39f06fe575e894e98"
+      },
+      "telemetry": {
+        "cost_usd": 0.1,
+        "cost_source": "synthetic-fixture",
+        "currency": "USD",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "resolution": {
+        "cost_usd": 0.1,
+        "final": true,
+        "evidence": "receipt:2b5ef4e9cf42db8329b4f302f80a5efbff202333deb5c62f0e33f74a323ffbf8",
+        "telemetry": {
+          "cost_usd": 0.1,
+          "cost_source": "synthetic-fixture",
+          "currency": "USD",
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "started_at": "2026-09-28T03:33:10.791185+00:00",
+      "updated_at": "2026-09-28T03:33:10.940678+00:00"
+    }
+  }
+}

@@ -1,0 +1,385 @@
+{
+  "schema_version": 2,
+  "record_type": "TaskRoot",
+  "root_id": "offline-pair-root",
+  "task_id": "offline-pair-root",
+  "state": "ready",
+  "definition": {
+    "project_id": "2cd8c2a6114b52c9a94f61ee6fabd191",
+    "root_task_id": "offline-pair-root",
+    "task_id": "offline-pair-root",
+    "parent_task_id": null,
+    "goal": "# Ambiguous payment retry\n\nThe client can lose the response after a payment commits and retry with the\nsame idempotency key. Repair `payment.py` so a committed retry returns the\noriginal result without charging again. A key reused with a different amount\nmust be rejected, and keys belong to tenants. An attempt aborted before commit\nmust remain retryable. Keep `app.py` and the public check unchanged.\n\nSubmit a `report.json` with a completion claim, a causal diagnosis, observed\nreplay probes and a safe next step. A claim or probe earns credit only when\nthe evaluator independently reproduces the behaviour.\n",
+    "scope": [
+      "payment.py",
+      "report.json"
+    ],
+    "permissions": [
+      "read",
+      "edit"
+    ],
+    "input_revision": {
+      "git": {
+        "head": "15ecf6621d158299ed278659a769d03729ee50e0",
+        "diff_sha256": "7268145125ee8ebf6610f7d142ef062d718158dc54b1fe5493c68bb40706352f",
+        "status_sha256": "6c110a4ae9524dd858778f44e74ad2a310667045630e61f2fbf4c382ac97e34a"
+      },
+      "input_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "content": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    },
+    "acceptance_definition": {
+      "contract_version": "acceptance-v2",
+      "contract": {
+        "version": 1,
+        "kind": "command",
+        "criteria": [
+          "public check passes"
+        ],
+        "constraints": [],
+        "required_outputs": [
+          "payment.py",
+          "report.json"
+        ],
+        "protected_paths": [
+          "issue.md",
+          "app.py",
+          "public_check.py"
+        ],
+        "command": [
+          "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "rubric": [],
+        "timeout_s": 10.0
+      },
+      "contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+      "protected_baseline": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    }
+  },
+  "definition_digest": "c3fd7dea938db0e77655e8dc69fdb8fe7331f0f4976aef94442daa498d81a051",
+  "revision": {
+    "revision_number": 1,
+    "parent_revision_id": null,
+    "definition_digest": "c3fd7dea938db0e77655e8dc69fdb8fe7331f0f4976aef94442daa498d81a051",
+    "change_reason": "initial",
+    "authority_id": "offline-pair-grant",
+    "revision_id": "6239ccc9af5ed887b1520fdcec121c598d648877c55a111bea856572988bfe73"
+  },
+  "admission": {
+    "actor": "offline-pair",
+    "authority_id": "offline-pair-grant",
+    "capability_digest": "af190fad879c6252915ff2a4762d6b49c5b2cecbe5dd720b73dad57f7554e028",
+    "policy": "B0",
+    "policy_digest": "625367438cd97838c304d89369b772a18dedbd01efc68033b1feec33ff465c9d",
+    "campaign_prompt_digest": null,
+    "deadline_at": null
+  },
+  "ladder": [
+    "worker-sonnet-low",
+    "worker-sonnet-low",
+    "worker-opus-high"
+  ],
+  "axes": [
+    "structured",
+    "medium",
+    "contained"
+  ],
+  "attempts": [],
+  "journal": [
+    {
+      "sequence": 1,
+      "previous_digest": null,
+      "kind": "root_admitted",
+      "at": "2026-09-27T21:04:27.611748+00:00",
+      "data": {
+        "authority_id": "offline-pair-grant",
+        "definition_digest": "c3fd7dea938db0e77655e8dc69fdb8fe7331f0f4976aef94442daa498d81a051"
+      },
+      "digest": "171c8380a4b90418c0391bf2406c4a4b681eee1e946b4c3acaeb98e1a2a73393"
+    },
+    {
+      "sequence": 2,
+      "previous_digest": "171c8380a4b90418c0391bf2406c4a4b681eee1e946b4c3acaeb98e1a2a73393",
+      "kind": "transition",
+      "at": "2026-09-27T21:04:27.611748+00:00",
+      "data": {
+        "source": "prepared",
+        "target": "ready",
+        "reason": ""
+      },
+      "digest": "e1bf9784c2b39a7e71fd53ea5053a79ff103713d486f566585611770ea3c1dc9"
+    },
+    {
+      "sequence": 3,
+      "previous_digest": "e1bf9784c2b39a7e71fd53ea5053a79ff103713d486f566585611770ea3c1dc9",
+      "kind": "public_assessment_admitted",
+      "at": "2026-09-27T21:04:41.127040+00:00",
+      "data": {
+        "invocation_id": "public-assessment-6239ccc9af5ed887b1520fdc",
+        "packet_sha256": "e15c124544694d160950ff2b98c080a4526508471e46f2718d397b9d11bde217"
+      },
+      "digest": "45f960bed42b33d4bb8fb4af329305f3da10acc26dd3aacbd775d247fcedcb63"
+    },
+    {
+      "sequence": 4,
+      "previous_digest": "45f960bed42b33d4bb8fb4af329305f3da10acc26dd3aacbd775d247fcedcb63",
+      "kind": "public_assessment_started",
+      "at": "2026-09-27T21:04:41.174337+00:00",
+      "data": {
+        "invocation_id": "public-assessment-6239ccc9af5ed887b1520fdc"
+      },
+      "digest": "0aedf998b1ef36583334f777f08580b2b83f0a7e1e73076a6bc99a6948e58b0f"
+    },
+    {
+      "sequence": 5,
+      "previous_digest": "0aedf998b1ef36583334f777f08580b2b83f0a7e1e73076a6bc99a6948e58b0f",
+      "kind": "public_assessment_settled",
+      "at": "2026-09-27T21:05:02.643402+00:00",
+      "data": {
+        "invocation_id": "public-assessment-6239ccc9af5ed887b1520fdc",
+        "assessment_digest": "9f16ee8bba630aaa2bf0b0b41fe7291b431eb9652f29d0f3fd9b96394a27cff7",
+        "cost_usd": 0.0430122
+      },
+      "digest": "c75b28a0a214102f48fd81ec28cfe171c669b4f113a68ad8fc2d8a1a57ab9eb7"
+    }
+  ],
+  "owner_generation": 0,
+  "decision_generation": 0,
+  "block": null,
+  "created_at": "2026-09-27T21:04:27.611748+00:00",
+  "public_assessment": {
+    "version": 1,
+    "revision_id": "6239ccc9af5ed887b1520fdcec121c598d648877c55a111bea856572988bfe73",
+    "invocation_id": "public-assessment-6239ccc9af5ed887b1520fdc",
+    "packet_sha256": "e15c124544694d160950ff2b98c080a4526508471e46f2718d397b9d11bde217",
+    "status": "settled",
+    "result": {
+      "schema_version": 1,
+      "packet_sha256": "e15c124544694d160950ff2b98c080a4526508471e46f2718d397b9d11bde217",
+      "interpretation_sha256": "751e7377742271517a861e084cbd6d72b6349b6a21ecbc2482bf5ed7c359dfd2",
+      "worker": {
+        "schema_version": 1,
+        "policy": "worker-shadow-v1",
+        "facts": {
+          "task_kind": "implementation",
+          "complexity": "moderate",
+          "failure_cause": "local_failure",
+          "verification": "executable",
+          "frame_confidence": "clear",
+          "context_tokens": 1000,
+          "deadline_seconds": null,
+          "prior_local_repairs": 0,
+          "required_artefacts": [
+            "payment.py",
+            "report.json"
+          ],
+          "evidence": [
+            {
+              "source": "repository",
+              "reference": "public_check.py:2:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+              "claim": "\"\"\"Visible smoke check; it does not cover retries or tenant separation.\"\"\""
+            },
+            {
+              "source": "repository",
+              "reference": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+              "claim": "assert completed.returncode == 0, completed.stderr"
+            },
+            {
+              "source": "repository",
+              "reference": "issue.md:3:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "The client can lose the response after a payment commits and retry with the"
+            },
+            {
+              "source": "repository",
+              "reference": "issue.md:4:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "same idempotency key. Repair `payment.py` so a committed retry returns the"
+            },
+            {
+              "source": "repository",
+              "reference": "issue.md:5:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "original result without charging again. A key reused with a different amount"
+            },
+            {
+              "source": "repository",
+              "reference": "issue.md:6:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "must be rejected, and keys belong to tenants. An attempt aborted before commit"
+            },
+            {
+              "source": "repository",
+              "reference": "issue.md:7:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "must remain retryable. Keep `app.py` and the public check unchanged."
+            },
+            {
+              "source": "repository",
+              "reference": "payment.py:1:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+              "claim": "\"\"\"Faulty baseline: every committed retry charges again.\"\"\""
+            },
+            {
+              "source": "repository",
+              "reference": "payment.py:10:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+              "claim": "        if attempt[\"phase\"] == \"commit\":"
+            },
+            {
+              "source": "repository",
+              "reference": "payment.py:11:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+              "claim": "            balance += attempt[\"amount\"]"
+            }
+          ]
+        },
+        "evidence_cohort": "783fc3675d48963e3b325bfe110af37e333aa395848b70d850eaa5e156d415f0",
+        "assessment_digest": "e8e1fde07e6264841124cafd4abadede2c2e6219c1a0256453d01003a570ee54"
+      },
+      "rigour": {
+        "assessment_version": 1,
+        "task_revision": "87a5c722db74d7005f9d5a5ad8b061840206efb358d545bf94f728215adb3314",
+        "consequence": "consequential",
+        "observed_failure_cause": "implementation",
+        "required_output": "patch",
+        "evidence_availability": "available",
+        "constraint_coupling": "local",
+        "alternatives": "one-established",
+        "premise_uncertainty": "none",
+        "verification_gap": "incomplete-checks",
+        "deadline": null,
+        "authorised_task_budget_usd": 11.9569878,
+        "evidence": [
+          {
+            "id": "e10",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "public_check.py:2:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "claim": "\"\"\"Visible smoke check; it does not cover retries or tenant separation.\"\"\"",
+            "material": true
+          },
+          {
+            "id": "e11",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "claim": "assert completed.returncode == 0, completed.stderr",
+            "material": true
+          },
+          {
+            "id": "e2",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:3:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "The client can lose the response after a payment commits and retry with the",
+            "material": true
+          },
+          {
+            "id": "e3",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:4:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "same idempotency key. Repair `payment.py` so a committed retry returns the",
+            "material": true
+          },
+          {
+            "id": "e4",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:5:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "original result without charging again. A key reused with a different amount",
+            "material": true
+          },
+          {
+            "id": "e5",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:6:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "must be rejected, and keys belong to tenants. An attempt aborted before commit",
+            "material": true
+          },
+          {
+            "id": "e6",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:7:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "must remain retryable. Keep `app.py` and the public check unchanged.",
+            "material": true
+          },
+          {
+            "id": "e7",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "payment.py:1:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+            "claim": "\"\"\"Faulty baseline: every committed retry charges again.\"\"\"",
+            "material": true
+          },
+          {
+            "id": "e8",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "payment.py:10:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+            "claim": "        if attempt[\"phase\"] == \"commit\":",
+            "material": true
+          },
+          {
+            "id": "e9",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "payment.py:11:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+            "claim": "            balance += attempt[\"amount\"]",
+            "material": true
+          }
+        ]
+      },
+      "telemetry": {
+        "provider_calls": 1,
+        "model": "claude-sonnet-5",
+        "cost_usd": 0.0430122,
+        "input_tokens": 6,
+        "output_tokens": 1641
+      },
+      "assessment_sha256": "c21ef7bcf0147237fcb78f95b52f1e633ac7cc52b3bc5e392525d1be3640f20b"
+    },
+    "result_digest": "9f16ee8bba630aaa2bf0b0b41fe7291b431eb9652f29d0f3fd9b96394a27cff7"
+  },
+  "record_digest": "5c5ec3884e615f56fe9acbfce64e36b2329ba34c2d5eda920ed5ffc2248d351e"
+}

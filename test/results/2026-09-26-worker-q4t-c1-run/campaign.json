@@ -1,0 +1,175 @@
+{
+  "completed_at_utc": "2026-09-26T05:09:53+00:00",
+  "manifest_sha256": "8bdacc74f21a7a8bacd31a15d8ed01fe9949b8b78a29d010767a8d84b23dd591",
+  "preflight_evidence_sha256": "ef0ad220c69570ce236d614171485109541e7eb6f421c69270d411ee123d739c",
+  "rows": [
+    {
+      "episode": {
+        "episode_label": "worker-sonnet-medium",
+        "evidence_sha256": "19b43f5e68f339869b7b989ad3c5776ffe297c99cd36cc89773e97d1cfa03588",
+        "executable_grade": {
+          "isolated": true,
+          "public_pass": true
+        },
+        "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+        "protected_sha256": {
+          "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+          "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+          "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+          "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "reason": "transport-only-canary",
+          "scored": false
+        },
+        "receipt": {
+          "actual_model": "claude-sonnet-5",
+          "boundary": {
+            "actor_name": "q1-9a01ec0efd6bc03b8d7a2a7fae1b2b1c",
+            "after_sha256": {
+              "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+              "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+              "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+              "canary_box/parse.py": "eda2e1a7f072bf683206ee4d9b23178c5cc7bc22b95d3ca3910e35b8029ed4d5",
+              "canary_box/render.py": "a2c2520c55a2592b1a7373b00a64e40caa6d68cdab9d59348b8f7e2a2c06910f",
+              "canary_box/store.py": "c0cfea55645f4aa5a10d0c857abf333af06fafc26b9453cc266f275cf34d08e1",
+              "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+            },
+            "changed_paths": [
+              "canary_box/parse.py",
+              "canary_box/render.py",
+              "canary_box/store.py"
+            ],
+            "q1_record_sha256": "4f1ee4310393e1875bd6ab18304ca7e8abf4261bf7c712cba59062d4697bde65",
+            "q1_spec_sha256": "5d8d7f16a18e816b5ff7e67d83547b72a56a69b3cb527573f37e688883d365c2"
+          },
+          "diagnostics": {
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "error_codes": [],
+            "event_types": {
+              "assistant": 15,
+              "rate_limit_event": 1,
+              "result": 1,
+              "system": 3,
+              "user": 11
+            },
+            "invalid_line_count": 0,
+            "num_turns": 12,
+            "real_root_models": [
+              "claude-sonnet-5"
+            ],
+            "reported_cost_usd": 0.0881134,
+            "reported_usage": {
+              "cache_creation_input_tokens": 14384,
+              "cache_read_input_tokens": 50257,
+              "input_tokens": 10,
+              "output_tokens": 1919
+            },
+            "result_subtype": "success",
+            "returncode": 0,
+            "stderr_bytes": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_bytes": 38901,
+            "stdout_sha256": "4e460852526a85fe30f322f7bd50434df1b9a050aa6d731faefdecaa751bdbee",
+            "structured_output_field_present": true,
+            "synthetic_root_markers": []
+          },
+          "identity_valid": true,
+          "report": {
+            "binding": {
+              "final_revision_sha256": "02731265870950f912094375a3b26b62b2976de15f6c9b6a5cefb47e145d7a4d",
+              "invocation_id": "9a01ec0efd6bc03b8d7a2a7fae1b2b1c",
+              "prompt_sha256": "8100ca904fd117ab7b0f08d1e39b530f6d19d5bdfb23cf613467a98bc28e8dcf",
+              "requested_cell": "worker-sonnet-medium",
+              "revision_id": "8f05d6ada6cc322326effe6c231a99a3",
+              "stream_sha256": "4e460852526a85fe30f322f7bd50434df1b9a050aa6d731faefdecaa751bdbee",
+              "task_sha256": "49fccad032217c095333da54c5331b93776fbab72e787725d3b9d007a138d262"
+            },
+            "observability": "present",
+            "raw_sha256": "2ef4ab8a5a3777853f61cf686f6e1999577e9cbdd637fb84df1137521d6bf7ac",
+            "raw_utf8": "{\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"clarification\":\"No Bash/shell tool was exposed to me in this session, so I could not run the required public_check.py command. Please run it or grant shell access.\",\"diagnosis\":\"Added a shared non-negative count contract: parse_count and CountStore.set_count now raise ValueError for negative input, and format_count raises ValueError for negative counts and otherwise returns \\\"<number> items\\\". Zero remains valid; public API names unchanged. No shell/Bash tool was available in this session to execute public_check.py, so the required verification run could not be performed.\",\"evidence\":[\"canary_box/parse.py: parse_count raises ValueError if int(raw) < 0, else returns count\",\"canary_box/store.py: CountStore.set_count raises ValueError if count < 0, else sets self.count\",\"canary_box/render.py: format_count raises ValueError if count < 0, else returns f\\\"{count} items\\\"\"],\"remaining\":[\"Run python3 -B public_check.py to verify the changes (no shell tool available to me)\"],\"status\":\"partial\"}",
+            "report": {
+              "checks": [
+                {
+                  "command": "python3 -B public_check.py",
+                  "outcome": "not_run"
+                }
+              ],
+              "clarification": "No Bash/shell tool was exposed to me in this session, so I could not run the required public_check.py command. Please run it or grant shell access.",
+              "diagnosis": "Added a shared non-negative count contract: parse_count and CountStore.set_count now raise ValueError for negative input, and format_count raises ValueError for negative counts and otherwise returns \"<number> items\". Zero remains valid; public API names unchanged. No shell/Bash tool was available in this session to execute public_check.py, so the required verification run could not be performed.",
+              "evidence": [
+                "canary_box/parse.py: parse_count raises ValueError if int(raw) < 0, else returns count",
+                "canary_box/store.py: CountStore.set_count raises ValueError if count < 0, else sets self.count",
+                "canary_box/render.py: format_count raises ValueError if count < 0, else returns f\"{count} items\""
+              ],
+              "remaining": [
+                "Run python3 -B public_check.py to verify the changes (no shell tool available to me)"
+              ],
+              "status": "partial"
+            },
+            "schema_version": 2
+          },
+          "report_digest": "77bd9566de5fdc28ddca26bcc34205f4e1d3347535c595898ee74511af447907",
+          "report_observability": "present",
+          "requested_cell": "worker-sonnet-medium",
+          "requested_effort": "medium",
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "status": "completed",
+          "terminal": true,
+          "transport": {
+            "canonicalised": true,
+            "mode": "claude-code-json-schema-v2",
+            "raw_result_sha256": "cfc1d4665197d0382386a4d974fd5c7bd851f3dbd264c776fd4b8170c587f1d1",
+            "result_subtype": "success",
+            "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+            "structured_output_present": true,
+            "structured_retry_limit": 5
+          },
+          "usage": {
+            "cache_creation_input_tokens": 14384,
+            "cache_read_input_tokens": 50257,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.0881134,
+            "currency": "USD",
+            "input_tokens": 10,
+            "output_tokens": 1919
+          },
+          "writer_stopped": true
+        },
+        "report_observability": "present",
+        "settlement": {
+          "charged_usd": 0.0881134,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "files": {
+            "canary_box/parse.py": "eda2e1a7f072bf683206ee4d9b23178c5cc7bc22b95d3ca3910e35b8029ed4d5",
+            "canary_box/render.py": "a2c2520c55a2592b1a7373b00a64e40caa6d68cdab9d59348b8f7e2a2c06910f",
+            "canary_box/store.py": "c0cfea55645f4aa5a10d0c857abf333af06fafc26b9453cc266f275cf34d08e1"
+          },
+          "workspace": "/var/lib/orchestrator-worker-n4/seed/q4t-8bdacc74f21a-c1-1"
+        },
+        "stage_manifest_sha256": "8bdacc74f21a7a8bacd31a15d8ed01fe9949b8b78a29d010767a8d84b23dd591",
+        "task_id": "Q4T-CANARY"
+      },
+      "episode_label": "worker-sonnet-medium",
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "Q4T-CANARY"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "f582b910d6f5759687fbad2fa6e7cbd980b358750c39981eb0d499707e08949e",
+  "status": "complete",
+  "total_cost_usd": 0.0881134,
+  "total_provider_calls": 1
+}

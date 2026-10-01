@@ -1,0 +1,12 @@
+{
+  "episode_label": "b0-a",
+  "files": {
+    "pluggy/_callers.py": "bcc9618b647069ed52a04b318bbaa93e4daef96e1fad746beb122e7fd95b3846",
+    "pluggy/_hooks.py": "af00cf8e1908c0e690851aa1f43fd14a44218a7b02ce01e3fce35ba74b2b0ae0",
+    "pluggy/_manager.py": "62ae50b0b0c1652678320b6a36cc3b0ce096d65662b3a81027dc73bf46d4d73f"
+  },
+  "schema_version": 1,
+  "sequence": 1,
+  "snapshot_sha256": "c7d4eb6342ecc62b899bf0b9799822f6493dc56b9180e3544c3cbf76e9264346",
+  "task_id": "S02"
+}

@@ -1,0 +1,40 @@
+{
+  "type": "SelectionRecord",
+  "id": "sel-001",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "cand-001",
+    "cand-003",
+    "cand-004",
+    "cand-005",
+    "crit-005",
+    "crit-006",
+    "crit-007",
+    "crit-008"
+  ],
+  "baseline_id": "cand-001",
+  "shortlist": [
+    {
+      "candidate_id": "cand-001",
+      "rank": 1,
+      "score": 1.0,
+      "basis": "Baseline. Passed critique (crit-005 notes only fixture-scoping and ordering weaknesses, not disqualifying). All three challengers were returned by critique, so B0 stands as the only entry meeting acceptance criteria."
+    }
+  ],
+  "excluded": [
+    {
+      "candidate_id": "cand-003",
+      "reason": "rejected_by_critic"
+    },
+    {
+      "candidate_id": "cand-004",
+      "reason": "rejected_by_critic"
+    },
+    {
+      "candidate_id": "cand-005",
+      "reason": "rejected_by_critic"
+    }
+  ]
+}

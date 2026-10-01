@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "entry_id": "offline-pair-root-1-1",
+  "contract_digest": "8b83f3168e9f7641d04103ec2e9f7fecda6aecb111db311c832f9807625a4854",
+  "acceptance": {
+    "contract_version": "acceptance-v2",
+    "contract": {
+      "version": 1,
+      "kind": "command",
+      "criteria": [
+        "public check passes"
+      ],
+      "constraints": [],
+      "required_outputs": [
+        "release_manifest.py",
+        "audit_manifest.py",
+        "report.json"
+      ],
+      "protected_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "command": [
+        "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "-B",
+        "public_check.py"
+      ],
+      "rubric": [],
+      "timeout_s": 10.0
+    },
+    "contract_digest": "8b83f3168e9f7641d04103ec2e9f7fecda6aecb111db311c832f9807625a4854",
+    "protected_baseline": {
+      "files": [
+        {
+          "path": "app.py",
+          "sha256": "a59258ec7dec6a76c188fcc6c46d482c662b9f6e2ab99e9b28be633b2fecd5f2",
+          "size": 594
+        },
+        {
+          "path": "issue.md",
+          "sha256": "0ca410b66ea83b5402574f08721c1f4d1de0c8b620877b5b42e7c9f4f45883df",
+          "size": 392
+        },
+        {
+          "path": "public_check.py",
+          "sha256": "9d3800dcef71366ffcd9cccfb56fbaa91185f25abc5e78620aced2c4551fd509",
+          "size": 471
+        }
+      ],
+      "missing": [],
+      "digest": "fd3672f8f3d77c4caa7e6646941f2df984e32566ad7ffe1b91a23e6b40881663"
+    },
+    "status": "pass",
+    "evidence": {
+      "kind": "command",
+      "started_at": "2026-09-28T03:02:33.005926+00:00",
+      "finished_at": "2026-09-28T03:02:33.381212+00:00",
+      "command": {
+        "argv": [
+          "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "",
+        "timed_out": false
+      },
+      "artefacts": {
+        "files": [
+          {
+            "path": "audit_manifest.py",
+            "sha256": "d9b3cc6779507f8c7c2fa8b046ad0e61a7643499ac32fa7bf8bbf4a5caf807ec",
+            "size": 245
+          },
+          {
+            "path": "release_manifest.py",
+            "sha256": "e57f5f78eec6da00d8f915b40e8330f19c1ef464e66470d8819593056e5ef246",
+            "size": 249
+          },
+          {
+            "path": "report.json",
+            "sha256": "2c94647b89e2f6fad17bde0c74d97a981985d6cbabf7bd5af7564bf8d13739b1",
+            "size": 397
+          }
+        ],
+        "missing": [],
+        "digest": "2a27694f13625547b9326c2d63ba7493e321d1fe108f3ea32e04735466f586f2"
+      },
+      "protected": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "a59258ec7dec6a76c188fcc6c46d482c662b9f6e2ab99e9b28be633b2fecd5f2",
+            "size": 594
+          },
+          {
+            "path": "issue.md",
+            "sha256": "0ca410b66ea83b5402574f08721c1f4d1de0c8b620877b5b42e7c9f4f45883df",
+            "size": 392
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "9d3800dcef71366ffcd9cccfb56fbaa91185f25abc5e78620aced2c4551fd509",
+            "size": 471
+          }
+        ],
+        "missing": [],
+        "digest": "fd3672f8f3d77c4caa7e6646941f2df984e32566ad7ffe1b91a23e6b40881663"
+      },
+      "protected_unchanged": true,
+      "revision": {
+        "head": "15ecf6621d158299ed278659a769d03729ee50e0",
+        "diff_sha256": "d042afeeb154635288ef67011d49a9d48dd320aa2cad23e42c5ba0fb80859430",
+        "status_sha256": "5bc8ce15386137fb68c51a05f32a51706ec163b5252a565f2ea6bbd53b8a9be9"
+      },
+      "blocked_reason": null,
+      "result_path": ".claude/acceptance/offline-pair-root-1-1.json",
+      "result_digest": "50d663edfdd91281bb552db3320fb95f4e53b5862bc6067882484e8416db9f47"
+    },
+    "review": null
+  },
+  "sha256": "953d95067686692a12dd5a53d65568aaa5b0a40345c8d4e2ceaefb79f3a7b262"
+}

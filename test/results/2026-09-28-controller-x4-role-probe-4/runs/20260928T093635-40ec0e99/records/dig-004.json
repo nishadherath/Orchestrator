@@ -1,0 +1,10 @@
+{
+  "type": "PhaseDigest",
+  "phase": "verify",
+  "text": "Controller classifies stable=True: Remaining unverified premises' cheapest_verification needs artifacts (code, logs, schema) that meas-002/003/004/005/007 already found don't exist in this fixture. Another pass can't move their class, ",
+  "records_written": [],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [],
+  "id": "dig-004"
+}

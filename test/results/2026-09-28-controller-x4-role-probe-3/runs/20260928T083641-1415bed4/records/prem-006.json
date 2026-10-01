@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-006",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "Retries occur on the write path, and at least some are legitimate rather than duplicates; without retries the suppression explanation is void.",
+  "class": "unverified",
+  "source": "Implied by the statement's third explanation, which requires a legitimate retry to have been suppressed.",
+  "confidence": 0.65,
+  "cheapest_verification": "Check the fixture for a retry policy and for any record of a retry attempt on an affected job id.",
+  "load_bearing": true,
+  "supersedes": null
+}

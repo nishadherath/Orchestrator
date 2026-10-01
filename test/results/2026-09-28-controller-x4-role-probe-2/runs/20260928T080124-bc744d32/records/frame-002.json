@@ -1,0 +1,33 @@
+{
+  "type": "FrameRecord",
+  "id": "frame-002",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-001",
+    "meas-001",
+    "meas-002",
+    "meas-003"
+  ],
+  "goal_ladder": [
+    "Distinguish which mechanism explains a missing receipt after acknowledgement, without assuming the three named mechanisms exhaust the space",
+    "Produce checks whose outcomes separate those mechanisms rather than confirming one, and at least one check with a branch for an outcome inconsistent with all three",
+    "Contain observable harm reversibly while the cause is unresolved",
+    "Hold any implementation direction conditional on a check result",
+    "Deliver an investigation brief, not an authorised change"
+  ],
+  "metric_interrogation": "The implied metric is diagnostic discrimination: a check earns its place only if at least one possible outcome is inconsistent with at least one competing explanation. A check that all explanations predict identically adds no information. Coverage of the explanation set is not separation between its members, so a brief listing many checks can still score zero on discrimination. meas-003 adds a second axis: the statement never asserts the three mechanisms are exhaustive or mutually exclusive, so a check whose outcome space is closed over those three can misattribute a fourth cause such as post-write receipt deletion or a stale read path. Discrimination therefore requires an explicit residual branch. Two failure modes are cheap to score well on and worthless: presenting a plausible single cause as settled, and reporting results never obtained. Both are excluded by the statement's prohibitions, so the metric must reward stated-but-unrun checks with predicted outcome mappings. Reversibility of containment is a separate axis, judged by whether the step can be withdrawn without residue, not by symptom reduction.",
+  "problem_type": "diagnostic hypothesis discrimination over an open hypothesis set under an information-only mandate",
+  "dissolution_verdict": "reframed",
+  "dissolution_reason": "The problem still has content, but its scope changed. meas-002 confirms the notes carry no discriminating field, so the insufficiency premise is now verified. meas-003 falsifies the closure assumption behind prem-004 and prem-005: the statement contains no exhaustiveness or mutual-exclusivity language, and a fourth mechanism is constructible. The task is reframed from choosing among three fixed alternatives to discriminating among three named mechanisms while leaving a residual branch admissible. Acceptance criteria are unchanged, as they were fixed at the first freeze.",
+  "acceptance_criteria": [
+    "Each of the three named explanations is addressed by at least one check whose outcomes are mapped to which explanations it would eliminate",
+    "At least one containment step is named and its reversal path is stated explicitly",
+    "Every implementation direction is stated with the specific check result that would license it",
+    "No check outcome is reported as observed, and no cause is asserted as established",
+    "Only the problem statement is used as evidence; no external system, log or dataset is cited"
+  ],
+  "b0_candidate_id": "cand-001",
+  "premise_count": 10,
+  "stable": true
+}

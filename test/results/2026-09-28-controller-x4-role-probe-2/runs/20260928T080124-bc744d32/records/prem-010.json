@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-010",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The deliverable is an investigation brief and not an authorised production change, so no step in it is licensed to be executed on the strength of the brief alone.",
+  "class": "policy",
+  "source": "Problem statement's closing sentence defining the artefact and its authority.",
+  "confidence": 0.95,
+  "cheapest_verification": "Check that no instruction in the brief is phrased as an authorisation or directive to act.",
+  "load_bearing": true,
+  "supersedes": null
+}

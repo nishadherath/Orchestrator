@@ -1,0 +1,8 @@
+{
+  "incident": "payment-response-timeout",
+  "payment_id": "order-2048",
+  "amount_cents": 2400,
+  "first_attempt": "timeout before debit",
+  "second_attempt": "receipt",
+  "requested_outcome": "one receipt and one debit"
+}

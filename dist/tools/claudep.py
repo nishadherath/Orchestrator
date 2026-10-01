@@ -95,6 +95,11 @@ def _stream_envelope(text: str) -> tuple[dict, dict]:
     final: dict = {}
     root_models: set[str] = set()
     child_models: set[str] = set()
+    assistant_text: list[str] = []
+    mcp_servers: list[dict] | None = None
+    available_tools: list[str] | None = None
+    tool_use_names: set[str] = set()
+    seen_messages: set[tuple[str, str]] = set()
     invalid_lines = 0
     event_count = 0
     for line in text.splitlines():
@@ -109,10 +114,43 @@ def _stream_envelope(text: str) -> tuple[dict, dict]:
             invalid_lines += 1
             continue
         event_count += 1
+        if event.get("type") == "system" and event.get("subtype") == "init":
+            servers = event.get("mcp_servers")
+            tools = event.get("tools")
+            if (isinstance(servers, list) and len(servers) <= 32
+                    and all(isinstance(row, dict)
+                            and isinstance(row.get("name"), str)
+                            and isinstance(row.get("status"), str)
+                            for row in servers)):
+                mcp_servers = [{"name": row["name"], "status": row["status"]}
+                               for row in servers]
+            if (isinstance(tools, list) and len(tools) <= 256
+                    and all(isinstance(name, str) for name in tools)):
+                available_tools = tools
         if event.get("type") == "assistant" and isinstance(event.get("message"), dict):
-            model = event["message"].get("model")
+            message = event["message"]
+            model = message.get("model")
             if isinstance(model, str) and model:
                 (child_models if event.get("parent_tool_use_id") else root_models).add(model)
+            # The terminal `result` is only the final assistant message on
+            # multi-message turns. Retain each complete root text message for
+            # roles whose JSON records span more than one message. Stream
+            # deltas are deliberately ignored: they would duplicate content.
+            if not event.get("parent_tool_use_id") and isinstance(message.get("content"), list):
+                # Persist names only. Tool inputs can contain private source
+                # and are unnecessary to prove which retrieval tool ran.
+                tool_use_names.update(
+                    block["name"] for block in message["content"]
+                    if isinstance(block, dict) and block.get("type") == "tool_use"
+                    and isinstance(block.get("name"), str))
+                body = "\n".join(block["text"] for block in message["content"]
+                                 if isinstance(block, dict) and
+                                 block.get("type") == "text" and
+                                 isinstance(block.get("text"), str))
+                identity = (str(message.get("id", "")), body)
+                if body and identity not in seen_messages:
+                    seen_messages.add(identity)
+                    assistant_text.append(body)
         if event.get("type") == "result":
             final = event
     billed = final.get("modelUsage", final.get("model_usage", {}))
@@ -125,6 +163,11 @@ def _stream_envelope(text: str) -> tuple[dict, dict]:
         "billed_models": billed_models,
         "auxiliary_billed_models": sorted(
             set(billed_models) - root_models - child_models),
+        "assistant_text": "\n".join(assistant_text),
+        "assistant_message_count": len(assistant_text),
+        "mcp_servers": mcp_servers,
+        "available_tools": available_tools,
+        "tool_use_names": sorted(tool_use_names),
     }
     return final, evidence
 

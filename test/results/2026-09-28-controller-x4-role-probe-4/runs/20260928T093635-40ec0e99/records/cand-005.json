@@ -1,0 +1,23 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-005",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "prem-004"
+  ],
+  "technique": "subtract",
+  "premise_operation": "remove",
+  "mechanism": "prem-004 is classed law, but it only holds in the absence of a transaction, outbox or two-phase protocol spanning both stores; that absence is assumed, not established, and prem-004's own cheapest_verification names the check for such a protocol. Reclassify prem-004 from law to unverified pending that check. Q, the problem with the unconditional law removed: the closed three-cause set in prem-005 is not exhaustive by physical necessity, only by the current absence of an atomicity protocol. S: add a zeroth check, ordered before the three named explanations, that inspects the completion path for an existing transaction, outbox table or 2PC protocol; if one exists and is merely defective, the true cause is a bug in that protocol, not writer failure, prematurity or idempotency suppression, and the three-explanation brief would be answering the wrong question.",
+  "claimed_gain_vs_b0": "Adds a cheaper zeroth check that can rule out all three named explanations at once if an existing atomicity protocol is found defective, instead of checking each in parallel with no ordering.",
+  "premises_introduced": [
+    {
+      "text": "prem-004's law status assumes no atomic commit, outbox or 2PC protocol already spans both stores; that absence is itself unverified.",
+      "class": "unverified"
+    }
+  ],
+  "falsification_test": "Inspect the job-completion path for a transaction, outbox table or two-phase protocol covering both the acknowledgement and the receipt write; if one is found, prem-004 as an unconditional law is false for this system.",
+  "cost_estimate_usd": 0.4,
+  "refines": null
+}

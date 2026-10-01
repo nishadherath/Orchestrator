@@ -1,0 +1,17 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "frame-001"
+  ],
+  "technique": "b0",
+  "premise_operation": "none",
+  "mechanism": "Take the statement exactly as given. Enumerate the three named explanations as the complete hypothesis set: writer failure, premature acknowledgement, and idempotency suppression of a legitimate retry. For each, state what the fixture would have to look like for it to be true, then name a check whose outcome differs across the three, without running it. Add one containment step chosen because it can be withdrawn, and one implementation direction written as a conditional whose antecedent is a named check result. Keep every stated prohibition in force: no claimed check results, no asserted cause, no authorised production change, no evidence beyond the statement. Make no attempt to widen or narrow the hypothesis set, to reformulate the observation, or to test whether any stated reason holds.",
+  "claimed_gain_vs_b0": "none; this is the baseline",
+  "premises_introduced": [],
+  "falsification_test": "An independent reader finds a check in the brief whose outcome is predicted the same under all three explanations, or finds an unconditional cause claim or a reported observation.",
+  "cost_estimate_usd": 0.35,
+  "refines": null
+}

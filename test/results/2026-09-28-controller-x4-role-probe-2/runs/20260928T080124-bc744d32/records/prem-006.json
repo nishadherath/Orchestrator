@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-006",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "There is no production system and no customer data behind the fixture, so no live blast radius or privacy exposure constrains the checks proposed.",
+  "class": "verified",
+  "source": "Problem statement's explicit disclaimer about the fixture.",
+  "confidence": 0.9,
+  "cheapest_verification": "Re-read the statement; the disclaimer is explicit.",
+  "load_bearing": true,
+  "supersedes": null
+}

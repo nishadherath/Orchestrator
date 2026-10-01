@@ -1,0 +1,17 @@
+{
+  "schema_version": 2,
+  "authorities": {
+    "offline-pair-grant": "offline-pair-root"
+  },
+  "roots": {
+    "offline-pair-root": {
+      "scope": [
+        "payment.py",
+        "report.json"
+      ],
+      "active": true,
+      "task_id": "offline-pair-root"
+    }
+  },
+  "record_digest": "f8525d42be080df0bbbb600714cdfee24916e8516d38baadc3d662d0c1866f3d"
+}

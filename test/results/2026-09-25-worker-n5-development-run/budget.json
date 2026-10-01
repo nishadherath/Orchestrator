@@ -1,0 +1,983 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 108000000000,
+  "baseline_limit_units": 108000000000,
+  "cancelled": false,
+  "created_at": "2026-09-25T01:55:17.544009+00:00",
+  "invocations": {
+    "30d0a168d2cc0d39ddb910bce4d3f3ff": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 206048601,
+      "cost_usd": 0.206048601,
+      "reserved_at": "2026-09-25T01:55:33.461061+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 1,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_ec729e107ef02c964b53",
+        "attempts": 3
+      },
+      "resolution": {
+        "cost_usd": 0.206048601,
+        "final": true,
+        "evidence": "root:c3e3225170cb546b5d08a18dce5bffcf0f834347e63260837104247f7a0aeda5",
+        "telemetry": {
+          "root_id": "episode_ec729e107ef02c964b53",
+          "attempts": 3
+        }
+      },
+      "started_at": "2026-09-25T01:55:50.530399+00:00",
+      "updated_at": "2026-09-25T01:59:51.371149+00:00"
+    },
+    "614992272f561f31451b08e480ae91d9": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 55663600,
+      "cost_usd": 0.0556636,
+      "reserved_at": "2026-09-25T02:00:13.746252+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 2,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_487c99049b321d545d83",
+        "attempts": 2
+      },
+      "resolution": {
+        "cost_usd": 0.0556636,
+        "final": true,
+        "evidence": "root:b5c5f45536d0560b20c3091db50777d0cecec05710027f6962d018680373a11a",
+        "telemetry": {
+          "root_id": "episode_487c99049b321d545d83",
+          "attempts": 2
+        }
+      },
+      "started_at": "2026-09-25T02:00:29.125001+00:00",
+      "updated_at": "2026-09-25T02:02:55.083343+00:00"
+    },
+    "dfae4e3996449da7991f01cf8437cea3": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 98412200,
+      "cost_usd": 0.0984122,
+      "reserved_at": "2026-09-25T02:03:13.431469+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 3,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_151662f2eec867188903",
+        "attempts": 2
+      },
+      "resolution": {
+        "cost_usd": 0.0984122,
+        "final": true,
+        "evidence": "root:9308402f964f6e2c1fdfe82157abdf65e775dbdd7de961805861e3cbaba68fc7",
+        "telemetry": {
+          "root_id": "episode_151662f2eec867188903",
+          "attempts": 2
+        }
+      },
+      "started_at": "2026-09-25T02:03:26.284493+00:00",
+      "updated_at": "2026-09-25T02:05:48.798336+00:00"
+    },
+    "2ec563ec1082f83396aa7a373e1babd1": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 23347400,
+      "cost_usd": 0.0233474,
+      "reserved_at": "2026-09-25T02:06:04.653883+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 4,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_461810d47775613e716a",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0233474,
+        "final": true,
+        "evidence": "root:16b87c7fc9bea947b840d5fa4e1f6b061db70cda639f17254a78851a49f89ca4",
+        "telemetry": {
+          "root_id": "episode_461810d47775613e716a",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:06:18.209084+00:00",
+      "updated_at": "2026-09-25T02:07:33.841213+00:00"
+    },
+    "c5c4476c0c4a2a2add3ff6c0d273437b": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 33121600,
+      "cost_usd": 0.0331216,
+      "reserved_at": "2026-09-25T02:07:49.046177+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 5,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_99a3bfab34318f7251f9",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0331216,
+        "final": true,
+        "evidence": "root:405cef3b18ae76b34f036444dff5d069c13b2cd5ee161a6bc3f792c33871fb8a",
+        "telemetry": {
+          "root_id": "episode_99a3bfab34318f7251f9",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:08:02.484709+00:00",
+      "updated_at": "2026-09-25T02:09:19.148639+00:00"
+    },
+    "d7efafd4dd2ec1fc6da0db50b64ffcde": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 202071301,
+      "cost_usd": 0.202071301,
+      "reserved_at": "2026-09-25T02:09:33.270599+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 6,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_a0ed9d17bfb86947a458",
+        "attempts": 3
+      },
+      "resolution": {
+        "cost_usd": 0.202071301,
+        "final": true,
+        "evidence": "root:3f7eaf99fa55d0e14b93c57bcee647f38c3b9082af6ff71fc167a434f8ba09c8",
+        "telemetry": {
+          "root_id": "episode_a0ed9d17bfb86947a458",
+          "attempts": 3
+        }
+      },
+      "started_at": "2026-09-25T02:09:45.130095+00:00",
+      "updated_at": "2026-09-25T02:13:39.683520+00:00"
+    },
+    "320c61e6b581471b70afc2c7c3c437b0": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 181361800,
+      "cost_usd": 0.1813618,
+      "reserved_at": "2026-09-25T02:13:54.079203+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 7,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_18d3701c15ecda0065aa",
+        "attempts": 3
+      },
+      "resolution": {
+        "cost_usd": 0.1813618,
+        "final": true,
+        "evidence": "root:b3635907fe0b3201d3ce183a75326d19fd3b35c736872d76d8790fb8eb831c5c",
+        "telemetry": {
+          "root_id": "episode_18d3701c15ecda0065aa",
+          "attempts": 3
+        }
+      },
+      "started_at": "2026-09-25T02:14:05.906917+00:00",
+      "updated_at": "2026-09-25T02:18:12.836584+00:00"
+    },
+    "3ba35bf7f7c021cf95285a4e76924997": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 21389800,
+      "cost_usd": 0.0213898,
+      "reserved_at": "2026-09-25T02:18:28.922366+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 8,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_7807187865e7c9e182e3",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0213898,
+        "final": true,
+        "evidence": "root:b33e62b6ed81b9f0d23e6865d7fa7d084ed9ab99b371c9dfde4c106ff6251416",
+        "telemetry": {
+          "root_id": "episode_7807187865e7c9e182e3",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:18:45.597307+00:00",
+      "updated_at": "2026-09-25T02:19:56.451226+00:00"
+    },
+    "89dae37095c60ea8997743e8dcc4122b": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 150326800,
+      "cost_usd": 0.1503268,
+      "reserved_at": "2026-09-25T02:20:12.990256+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 9,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_67d5edb96ae30e4c7310",
+        "attempts": 3
+      },
+      "resolution": {
+        "cost_usd": 0.1503268,
+        "final": true,
+        "evidence": "root:5269ecdf02e5d302545520344abee94f0c585bf85b2580fb2cbfb9737881cdcc",
+        "telemetry": {
+          "root_id": "episode_67d5edb96ae30e4c7310",
+          "attempts": 3
+        }
+      },
+      "started_at": "2026-09-25T02:20:25.709466+00:00",
+      "updated_at": "2026-09-25T02:24:03.940099+00:00"
+    },
+    "216bac7e26651db43f4077be777caa11": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 203927800,
+      "cost_usd": 0.2039278,
+      "reserved_at": "2026-09-25T02:24:22.383241+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 10,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_d6c16a3d812af1d7a096",
+        "attempts": 3
+      },
+      "resolution": {
+        "cost_usd": 0.2039278,
+        "final": true,
+        "evidence": "root:fa20b0baad314de927fd51f586e35a581177830b60f120ad485227822926c6c0",
+        "telemetry": {
+          "root_id": "episode_d6c16a3d812af1d7a096",
+          "attempts": 3
+        }
+      },
+      "started_at": "2026-09-25T02:24:35.711109+00:00",
+      "updated_at": "2026-09-25T02:28:52.744285+00:00"
+    },
+    "6a14d409a7edac584cc0cf9678ad13b0": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 21706801,
+      "cost_usd": 0.021706801,
+      "reserved_at": "2026-09-25T02:29:09.464127+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 11,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_c651aba1b48e96447079",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.021706801,
+        "final": true,
+        "evidence": "root:471e46665721a2249ee91b645c70b689db59b5505d751423476449e0ca89e8ff",
+        "telemetry": {
+          "root_id": "episode_c651aba1b48e96447079",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:29:25.245055+00:00",
+      "updated_at": "2026-09-25T02:30:43.592198+00:00"
+    },
+    "d2edba77c1c0ec7472c87444438dd761": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 55763601,
+      "cost_usd": 0.055763601,
+      "reserved_at": "2026-09-25T02:30:59.565748+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 12,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_d7ad0bbb1e82c1c5f27e",
+        "attempts": 2
+      },
+      "resolution": {
+        "cost_usd": 0.055763601,
+        "final": true,
+        "evidence": "root:6a44a9d8a3e6501443810b13c86b38876219f9af71cdc89c589463c0d6c2bef6",
+        "telemetry": {
+          "root_id": "episode_d7ad0bbb1e82c1c5f27e",
+          "attempts": 2
+        }
+      },
+      "started_at": "2026-09-25T02:31:14.751124+00:00",
+      "updated_at": "2026-09-25T02:33:42.940198+00:00"
+    },
+    "202b8e76a100ea41ea55e0be8f146895": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 67012600,
+      "cost_usd": 0.0670126,
+      "reserved_at": "2026-09-25T02:33:59.022157+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 13,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_dffc857422530e223ae8",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0670126,
+        "final": true,
+        "evidence": "root:ca2d352a57574b3fa8c294c9529d3fe6196a17d3a88dded5350e0e634738eefd",
+        "telemetry": {
+          "root_id": "episode_dffc857422530e223ae8",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:34:14.194007+00:00",
+      "updated_at": "2026-09-25T02:35:34.660976+00:00"
+    },
+    "ebfddc623ab5a9af3e283f5d24dd3791": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 73477401,
+      "cost_usd": 0.073477401,
+      "reserved_at": "2026-09-25T02:35:54.350510+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 14,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_d77fbff093ada5582256",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.073477401,
+        "final": true,
+        "evidence": "root:c6c41ab72c7cad4509837e210335e7839e89afec91af149a4ea220f243bf6cc9",
+        "telemetry": {
+          "root_id": "episode_d77fbff093ada5582256",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:36:08.810987+00:00",
+      "updated_at": "2026-09-25T02:37:25.871292+00:00"
+    },
+    "4e714f3ac27b88fe8ef883f36d9902c0": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 26710600,
+      "cost_usd": 0.0267106,
+      "reserved_at": "2026-09-25T02:37:42.732697+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 15,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_96f8b162657c3cd75117",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0267106,
+        "final": true,
+        "evidence": "root:98b49084520162b6f0726920f8fcfb9ddb7400faaaccb6a569df874c0e37a53d",
+        "telemetry": {
+          "root_id": "episode_96f8b162657c3cd75117",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:37:54.367711+00:00",
+      "updated_at": "2026-09-25T02:38:59.759820+00:00"
+    },
+    "934589dc70570f9f2f30f9bfc279d649": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 40287800,
+      "cost_usd": 0.0402878,
+      "reserved_at": "2026-09-25T02:39:23.661092+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 16,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_2e668859e1076018d6eb",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0402878,
+        "final": true,
+        "evidence": "root:897c7569190a5418cba14c0e212f98fc5d0b1edf733b291b158beeaaf5bea0d9",
+        "telemetry": {
+          "root_id": "episode_2e668859e1076018d6eb",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:39:42.426982+00:00",
+      "updated_at": "2026-09-25T02:41:01.523485+00:00"
+    },
+    "071fb63f240dc4978492fdc8bb7e9f8d": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 32831401,
+      "cost_usd": 0.032831401,
+      "reserved_at": "2026-09-25T02:41:16.907442+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 17,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_f0834ba94a789591a971",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.032831401,
+        "final": true,
+        "evidence": "root:cbd0252e368bfd584636b8a59c5be7cd930544462cd8ab8ff2484ce11e41bb12",
+        "telemetry": {
+          "root_id": "episode_f0834ba94a789591a971",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:41:32.822991+00:00",
+      "updated_at": "2026-09-25T02:43:17.001907+00:00"
+    },
+    "a29f69773dfaa409f960d7d666afbf71": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 50988400,
+      "cost_usd": 0.0509884,
+      "reserved_at": "2026-09-25T02:43:42.086437+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 18,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_9ca34c0dee411bf2c951",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0509884,
+        "final": true,
+        "evidence": "root:eba14caf0f294f3cdf59f0b58cc1373375d1ee9f9d169ac79f6f3acd7681002d",
+        "telemetry": {
+          "root_id": "episode_9ca34c0dee411bf2c951",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:44:00.079046+00:00",
+      "updated_at": "2026-09-25T02:45:36.847181+00:00"
+    },
+    "85719762c23a3a1f21479b921337f4d9": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 40315400,
+      "cost_usd": 0.0403154,
+      "reserved_at": "2026-09-25T02:45:57.104573+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 19,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_2751a9d4cec43328b3a9",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0403154,
+        "final": true,
+        "evidence": "root:435abf3ed4a9feffddc144c2387144e31c9e2f47c955fdad478b6f0e39e47d0a",
+        "telemetry": {
+          "root_id": "episode_2751a9d4cec43328b3a9",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:46:13.807864+00:00",
+      "updated_at": "2026-09-25T02:47:43.583106+00:00"
+    },
+    "dc891b3c865e9e48d590987ccf4ef5aa": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 39041401,
+      "cost_usd": 0.039041401,
+      "reserved_at": "2026-09-25T02:48:02.249033+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 20,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_c0e4702d8b09f621d99b",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.039041401,
+        "final": true,
+        "evidence": "root:f3c90fa4f24e22f365abfbaed76d48db12af8db4af2b1a64d39a0080ee138ed3",
+        "telemetry": {
+          "root_id": "episode_c0e4702d8b09f621d99b",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:48:19.587336+00:00",
+      "updated_at": "2026-09-25T02:50:07.021208+00:00"
+    },
+    "2675e2bb5f2d643599244ab226261741": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 47213600,
+      "cost_usd": 0.0472136,
+      "reserved_at": "2026-09-25T02:50:31.331395+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 21,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_44ee916366af73f8ca34",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0472136,
+        "final": true,
+        "evidence": "root:b7e02feea9f0f465a20a5f923d9e3e94b657ff93ed46d5541f00ceff2140f775",
+        "telemetry": {
+          "root_id": "episode_44ee916366af73f8ca34",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:50:52.095128+00:00",
+      "updated_at": "2026-09-25T02:52:57.398039+00:00"
+    },
+    "464957e10de115cfcc3f038bb27df79c": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 58700000,
+      "cost_usd": 0.0587,
+      "reserved_at": "2026-09-25T02:53:21.855605+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 22,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_25b16009ca4ea6ff76f1",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0587,
+        "final": true,
+        "evidence": "root:36fff8538aecb913c54724cf7ab5cecdc7fd8bfdaed448309995d5f34965d54a",
+        "telemetry": {
+          "root_id": "episode_25b16009ca4ea6ff76f1",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:53:41.998350+00:00",
+      "updated_at": "2026-09-25T02:55:51.932540+00:00"
+    },
+    "3d1fa2ebd5fc81dcfe583d8932174611": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 69881600,
+      "cost_usd": 0.0698816,
+      "reserved_at": "2026-09-25T02:56:24.933202+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 23,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_01ad820b2fafaf3e0f2f",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0698816,
+        "final": true,
+        "evidence": "root:be9dc91e3e17e3069dd722dd088fc676557027969a696adbc189507cefa6fd74",
+        "telemetry": {
+          "root_id": "episode_01ad820b2fafaf3e0f2f",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:56:50.452414+00:00",
+      "updated_at": "2026-09-25T02:58:52.557189+00:00"
+    },
+    "56ab69a7429012dea3eeb71ccf067565": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 42613600,
+      "cost_usd": 0.0426136,
+      "reserved_at": "2026-09-25T02:59:17.505702+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 24,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_d03ee0b254b11e95f330",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0426136,
+        "final": true,
+        "evidence": "root:0048977678ab154191533f5f70537681188205109f8513abb9e85d6cb1001c36",
+        "telemetry": {
+          "root_id": "episode_d03ee0b254b11e95f330",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T02:59:35.593702+00:00",
+      "updated_at": "2026-09-25T03:01:12.755520+00:00"
+    },
+    "79299ba60a30e5cca690d68561794cfc": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 306607250,
+      "cost_usd": 0.30660725,
+      "reserved_at": "2026-09-25T03:01:36.760748+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 25,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_c2ec4573593383354f70",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.30660725,
+        "final": true,
+        "evidence": "root:8251df8177d31596be757c07ffcc6e0aff985cc8df5ea994d9e042e1ef4dd099",
+        "telemetry": {
+          "root_id": "episode_c2ec4573593383354f70",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:01:52.218840+00:00",
+      "updated_at": "2026-09-25T03:03:36.060606+00:00"
+    },
+    "dc7c689a3165a3299724becf612ae88b": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 37934801,
+      "cost_usd": 0.037934801,
+      "reserved_at": "2026-09-25T03:03:58.104842+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 26,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_2cac34216199bcbe7eec",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.037934801,
+        "final": true,
+        "evidence": "root:ca6c26b6142ce40fc3af9b347506896c86e6809e1291da9a70c9c5078ce0c903",
+        "telemetry": {
+          "root_id": "episode_2cac34216199bcbe7eec",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:04:14.378678+00:00",
+      "updated_at": "2026-09-25T03:05:51.691124+00:00"
+    },
+    "03c428e53f5b557612df97dcc240b684": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 80490000,
+      "cost_usd": 0.08049,
+      "reserved_at": "2026-09-25T03:06:08.939128+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 27,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_a1833bd489652e3f99ee",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.08049,
+        "final": true,
+        "evidence": "root:bf7c063b1bc1323613b21e489f46bb161fffdbf8a50e490763808c1fb7532f7f",
+        "telemetry": {
+          "root_id": "episode_a1833bd489652e3f99ee",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:06:27.940647+00:00",
+      "updated_at": "2026-09-25T03:08:44.522393+00:00"
+    },
+    "ba1a8169e8f697c9544b3209c9a21c8c": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 37870601,
+      "cost_usd": 0.037870601,
+      "reserved_at": "2026-09-25T03:09:17.138314+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 28,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_f05b48119066458aeb2a",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.037870601,
+        "final": true,
+        "evidence": "root:b93700393f09a0241d8676fe3eafe283b28666753009030c4167e3b9bb4f2e9a",
+        "telemetry": {
+          "root_id": "episode_f05b48119066458aeb2a",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:09:45.445811+00:00",
+      "updated_at": "2026-09-25T03:11:03.907319+00:00"
+    },
+    "f72cf50a3d0c2e8900047f5b5a347204": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 113257500,
+      "cost_usd": 0.1132575,
+      "reserved_at": "2026-09-25T03:11:21.494413+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 29,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_0105cb6231e40ac2735f",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.1132575,
+        "final": true,
+        "evidence": "root:1e4e71e48b0f30d4b1fca8f9e343c9fba2993756f50093ab68ae5e2b12b9879b",
+        "telemetry": {
+          "root_id": "episode_0105cb6231e40ac2735f",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:11:34.566154+00:00",
+      "updated_at": "2026-09-25T03:13:17.691599+00:00"
+    },
+    "6ed50090143f5b282f7e215623b5dfd0": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 195831500,
+      "cost_usd": 0.1958315,
+      "reserved_at": "2026-09-25T03:13:37.352772+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 30,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_dad0d4a2bebf074c7767",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.1958315,
+        "final": true,
+        "evidence": "root:f911b830a90208de04c9df6c5d0951cfcc444419d0df283e9763cf9cfd3d3523",
+        "telemetry": {
+          "root_id": "episode_dad0d4a2bebf074c7767",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:13:53.482063+00:00",
+      "updated_at": "2026-09-25T03:15:37.610964+00:00"
+    },
+    "a3a84dd876d076194b45589be4ca1e82": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 117230500,
+      "cost_usd": 0.1172305,
+      "reserved_at": "2026-09-25T03:15:59.842520+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 31,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_7c38e5dcb11a5457529b",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.1172305,
+        "final": true,
+        "evidence": "root:ff01990f81f8fbb51fb1b6be96d1ed1374a19092208996d107008eb697d181f8",
+        "telemetry": {
+          "root_id": "episode_7c38e5dcb11a5457529b",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:16:23.672568+00:00",
+      "updated_at": "2026-09-25T03:18:28.968195+00:00"
+    },
+    "68b119d79c23118dd69fdb254d7b3a82": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 202626000,
+      "cost_usd": 0.202626,
+      "reserved_at": "2026-09-25T03:18:46.320569+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 32,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_ceab2a3b861e6db5f8db",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.202626,
+        "final": true,
+        "evidence": "root:3281e99bf73abd36452a0caaf00017f4e37f502baeab310a54c1010c8b7472cc",
+        "telemetry": {
+          "root_id": "episode_ceab2a3b861e6db5f8db",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:19:03.046857+00:00",
+      "updated_at": "2026-09-25T03:20:59.497590+00:00"
+    },
+    "fbe21d5259bfc0913791561c756dc3d8": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 89384000,
+      "cost_usd": 0.089384,
+      "reserved_at": "2026-09-25T03:21:24.747962+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 33,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_c3f5dc9f3a64dc86221e",
+        "attempts": 2
+      },
+      "resolution": {
+        "cost_usd": 0.089384,
+        "final": true,
+        "evidence": "root:fd39f2c73ec5b471f5f1610fa01910374221c143856dfef5a3f469bddb887917",
+        "telemetry": {
+          "root_id": "episode_c3f5dc9f3a64dc86221e",
+          "attempts": 2
+        }
+      },
+      "started_at": "2026-09-25T03:21:49.604734+00:00",
+      "updated_at": "2026-09-25T03:25:36.269889+00:00"
+    },
+    "46030d6665ea118be16b179aff96020a": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 159338251,
+      "cost_usd": 0.159338251,
+      "reserved_at": "2026-09-25T03:25:57.019387+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 34,
+        "arm": "alternative"
+      },
+      "telemetry": {
+        "root_id": "episode_bad60e1123c32e982708",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.159338251,
+        "final": true,
+        "evidence": "root:5e8f91bcbd33221f6bebb99279e18ff84608f49abbab98acc8687e9ab2b87216",
+        "telemetry": {
+          "root_id": "episode_bad60e1123c32e982708",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:26:18.440779+00:00",
+      "updated_at": "2026-09-25T03:28:15.905868+00:00"
+    },
+    "938af6807a9b67326a9180c5c3c680e1": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 33094400,
+      "cost_usd": 0.0330944,
+      "reserved_at": "2026-09-25T03:28:41.073415+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 35,
+        "arm": "B0"
+      },
+      "telemetry": {
+        "root_id": "episode_58a7495e748c087a78d7",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.0330944,
+        "final": true,
+        "evidence": "root:f27dc8cc394f1e6b031d802f6b312fd66a1ff5199daf5036d6bb73650f288565",
+        "telemetry": {
+          "root_id": "episode_58a7495e748c087a78d7",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:28:59.209880+00:00",
+      "updated_at": "2026-09-25T03:30:26.757530+00:00"
+    },
+    "1fcd75d00e0f34c4abf85a43419f9225": {
+      "state": "settled",
+      "allowance_units": 3000000000,
+      "charged_units": 145890500,
+      "cost_usd": 0.1458905,
+      "reserved_at": "2026-09-25T03:30:56.013824+00:00",
+      "metadata": {
+        "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+        "sequence": 36,
+        "arm": "candidate"
+      },
+      "telemetry": {
+        "root_id": "episode_9aa395bd182519bc103b",
+        "attempts": 1
+      },
+      "resolution": {
+        "cost_usd": 0.1458905,
+        "final": true,
+        "evidence": "root:80206e6b23ce547bcb89bf11b6249c8d72f5fdd98632c1470ea7ffbd62987164",
+        "telemetry": {
+          "root_id": "episode_9aa395bd182519bc103b",
+          "attempts": 1
+        }
+      },
+      "started_at": "2026-09-25T03:31:19.949752+00:00",
+      "updated_at": "2026-09-25T03:33:21.488646+00:00"
+    }
+  }
+}

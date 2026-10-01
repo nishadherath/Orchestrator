@@ -1,0 +1,20 @@
+{
+  "type": "CritiqueRecord",
+  "id": "crit-005",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "cand-001"
+  ],
+  "candidate_id": "cand-001",
+  "failure_modes": [
+    "Mechanism promises checks over artefacts a service of this shape would ordinarily emit, but frame-002 records that no artefact exists in the fixture. Face-value execution risks asserting log names and metrics as existing, breaching the acceptance criterion against unflagged assumptions.",
+    "Taking prem-005's closed world at face value satisfies the brief's letter but leaves the fourth-cause risk unaddressed beyond a named caveat; discrimination among three explanations is vacuous if the true cause is outside the set.",
+    "No ordering among the three checks is given, so the brief cannot state which is cheapest or which subsumes another. Acceptance permits this, but it is a weakness in the deliverable rather than a defect in the candidate.",
+    "Falsification test is stated as a reviewer judgement with only the problem statement, which is the same evidence the author had; it is weakly independent."
+  ],
+  "derivable": true,
+  "falsified_premise_claims": [],
+  "verdict": "pass"
+}

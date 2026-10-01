@@ -1,0 +1,14 @@
+{
+  "type": "PhaseDigest",
+  "phase": "select",
+  "text": "No candidate was eligible. {\"eligible_ids\": [], \"global_unverified_load_bearing\": [\"prem-002\", \"prem-003\", \"prem-005\", \"prem-006\", \"prem-008\"], \"reasons\": {\"cand-001\": [\"derivable\", \"unverified-load-bearing-premise\"], \"cand-003\": [\"critic-verdict\", \"derivable\", \"unverified-introduced-premise\", \"unverified-load-bearing-premise\", \"selector-excluded\"], \"cand-004\": [\"critic-verdict\", \"derivable\", \"unverified-introduced-premise\", \"unverified-load-bearing-premise\", \"selector-excluded\"], \"cand-005\": [\"critic-verdict\", \"derivable\", \"unverified-introduced-premise\", \"unverified-load-bearing-premise\", \"selector-excluded\"]}, \"selection_ledger_current\": true}",
+  "records_written": [
+    "sel-001"
+  ],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [
+    "sel-001"
+  ],
+  "id": "dig-008"
+}

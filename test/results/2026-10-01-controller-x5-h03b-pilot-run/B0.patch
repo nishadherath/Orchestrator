@@ -1,0 +1,21 @@
+--- before/system_controller.py
++++ after/system_controller.py
+@@ -1131,6 +1131,18 @@
+             acceptance_state = integrity.freeze_provisional(
+                 frame["acceptance_criteria"], problem["constraints"]
+             )
++        for _ in range(MAX_RECORD_RETRIES):
++            if integrity.frame_matches_acceptance(frame, acceptance_state):
++                break
++            retry = (frame_prompt + "\n\nYour previous reply changed the frozen acceptance criteria. "
++                     f"Resend the Frame using exactly these acceptance criteria: {acceptance_state['criteria']!r}")
++            frame_records = call("frame", "framer", retry)
++            accepted = write_with_retry("frame", "framer", frame_records,
++                                         {"PremiseRecord", "FrameRecord", "CandidateRecord"},
++                                         lambda rej: _retry_prompt(retry, rej))
++            frame = _one_of(accepted, "FrameRecord", "Frame")
++            b0 = _one_of([r for r in accepted if r["type"] == "CandidateRecord" and r.get("technique") == "b0"],
++                         None, "Frame's B0 candidate", allow_type_check=False)
+         if not integrity.frame_matches_acceptance(frame, acceptance_state):
+             gap = _gap_report(
+                 scribe, "no_improvement", "Restore the frozen acceptance criteria before continuing.",

@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-007",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-008"
+  ],
+  "premise_id": "prem-008",
+  "method": "Listed working directory for any service artefact (logs, schema, code) that could confirm writer-error emission, dual timestamps, or a shared job id; only problem.md (the fixture statement) is present.",
+  "result": "Directory contains problem.md and an empty runs/ folder only; no service, log, schema or code artefact exists to inspect. The problem statement itself states no production system or data underlies the fixture, so writer-error emission, operation timestamps and job-id propagation cannot be confirmed or denied from anything available.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-4 (ls output: problem.md, runs/)",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

@@ -1,0 +1,4 @@
+{
+  "editable_paths": ["payment_service.py", "retry_policy.py"],
+  "public_command": ["python3", "-B", "public_check.py"]
+}

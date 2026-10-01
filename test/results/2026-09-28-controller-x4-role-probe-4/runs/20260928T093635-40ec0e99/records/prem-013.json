@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-013",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-001",
+    "meas-001"
+  ],
+  "text": "The service is a synthetic fixture with no production system and no customer data behind it, so containment and diagnostic actions carry no external blast radius.",
+  "class": "verified",
+  "source": "meas-001: problem.md, the entire fixture definition, holds no hostname, URL, credential, connection string or dataset reference, and states the fixture is not backed by a production system.",
+  "confidence": 0.95,
+  "cheapest_verification": "Already performed by meas-001 against problem.md; no stronger check exists while problem.md is the only fixture artefact.",
+  "load_bearing": true,
+  "supersedes": "prem-001"
+}

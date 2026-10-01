@@ -1,0 +1,83 @@
+--- a/click/core.py
++++ b/click/core.py
+@@ -29,6 +29,7 @@
+ from .exceptions import Exit
+ from .exceptions import MissingParameter
+ from .exceptions import NoArgsIsHelpError
++from .exceptions import _suggest_possibilities
+ from .exceptions import UsageError
+ from .formatting import HelpFormatter
+ from .formatting import join_options
+@@ -1957,7 +1958,14 @@
+         if cmd is None and not ctx.resilient_parsing:
+             if _split_opt(cmd_name)[0]:
+                 self.parse_args(ctx, args)
+-            ctx.fail(_("No such command {name!r}.").format(name=original_cmd_name))
++
++            from difflib import get_close_matches
++
++            possibilities = get_close_matches(
++                original_cmd_name, self.list_commands(ctx)
++            )
++            message = _("No such command '{name}'.").format(name=original_cmd_name)
++            ctx.fail(message + _suggest_possibilities(possibilities))
+         return cmd_name if cmd else None, cmd, args[1:]
+ 
+     def shell_complete(self, ctx: Context, incomplete: str) -> list[CompletionItem]:
+--- a/click/exceptions.py
++++ b/click/exceptions.py
+@@ -3,7 +3,6 @@
+ import collections.abc as cabc
+ import typing as t
+ from gettext import gettext as _
+-from gettext import ngettext
+ 
+ from ._compat import get_text_stderr
+ from .globals import resolve_color_default
+@@ -21,6 +20,20 @@
+         return " / ".join(repr(x) for x in param_hint)
+ 
+     return param_hint
++
++
++def _suggest_possibilities(possibilities: cabc.Sequence[str] | None) -> str:
++    """Build a consistent " Did you mean ...?" hint for a set of close
++    name matches, or an empty string if there are none.
++    """
++    if not possibilities:
++        return ""
++
++    if len(possibilities) == 1:
++        return _(" Did you mean '{name}'?").format(name=possibilities[0])
++
++    names = ", ".join(f"'{name}'" for name in sorted(possibilities))
++    return _(" Did you mean one of {names}?").format(names=names)
+ 
+ 
+ class ClickException(Exception):
+@@ -224,23 +237,14 @@
+         ctx: Context | None = None,
+     ) -> None:
+         if message is None:
+-            message = _("No such option: {name}").format(name=option_name)
++            message = _("No such option '{name}'.").format(name=option_name)
+ 
+         super().__init__(message, ctx)
+         self.option_name = option_name
+         self.possibilities = possibilities
+ 
+     def format_message(self) -> str:
+-        if not self.possibilities:
+-            return self.message
+-
+-        possibility_str = ", ".join(sorted(self.possibilities))
+-        suggest = ngettext(
+-            "Did you mean {possibility}?",
+-            "(Possible options: {possibilities})",
+-            len(self.possibilities),
+-        ).format(possibility=possibility_str, possibilities=possibility_str)
+-        return f"{self.message} {suggest}"
++        return self.message + _suggest_possibilities(self.possibilities)
+ 
+ 
+ class BadOptionUsage(UsageError):

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-004",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The three candidate mechanisms are writer failure, premature acknowledgement, and an idempotency check suppressing a legitimate retry. They are offered as the competing explanations to discriminate.",
+  "class": "unverified",
+  "source": "Problem statement's enumeration; no argument for completeness or mutual exclusivity is given.",
+  "confidence": 0.7,
+  "cheapest_verification": "Attempt to construct a fourth mechanism, such as receipt deletion or read-path staleness, and check whether the statement excludes it.",
+  "load_bearing": true,
+  "supersedes": null
+}

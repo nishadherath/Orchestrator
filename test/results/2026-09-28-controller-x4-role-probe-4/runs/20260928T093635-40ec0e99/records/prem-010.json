@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-010",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "No proposed check may be described as having been run, and no result may be reported for it. Every check is prospective.",
+  "class": "policy",
+  "source": "Problem statement: 'Do not claim that any proposed check has been run.'",
+  "confidence": 0.95,
+  "cheapest_verification": "Scan the draft brief for any past-tense or result-bearing statement about a check.",
+  "load_bearing": true,
+  "supersedes": null
+}

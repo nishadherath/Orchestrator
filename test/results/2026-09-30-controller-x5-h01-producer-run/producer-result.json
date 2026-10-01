@@ -1,0 +1,82 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.785814,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-30T05:41:51.476397+00:00",
+    "currency": "USD",
+    "invocations": {
+      "37e5f1e124043d652441470a6d747318": {
+        "allowance_units": 5000000000,
+        "charged_units": 214186000,
+        "cost_usd": 0.214186,
+        "metadata": {
+          "decision_digest": "6b7927029e8ccbfcfd3b3ef20e867ad932e770164377d7cc106ef2d9ea744f0e",
+          "revision_id": "8262fa47a4a246259122cca349ef8f9d75bb9502e18ede4cb93b134b474c0d2c",
+          "root_id": "9c0d2f21d4f8483b134cefea"
+        },
+        "reserved_at": "2026-09-30T06:07:31.927771+00:00",
+        "resolution": {
+          "cost_usd": 0.214186,
+          "evidence": "receipt:5fa0d6aac5182dc39e8ed42802eb0b672b8e08845a3aa3bc26b3d4931767d770",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 27612,
+            "cache_read_input_tokens": 169925,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.214186,
+            "currency": "USD",
+            "input_tokens": 18,
+            "output_tokens": 6843
+          }
+        },
+        "started_at": "2026-09-30T06:07:31.975322+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 27612,
+          "cache_read_input_tokens": 169925,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.214186,
+          "currency": "USD",
+          "input_tokens": 18,
+          "output_tokens": 6843
+        },
+        "updated_at": "2026-09-30T06:08:47.423111+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.214186,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 77.924,
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "13ca8dd8babee75548b92dbc81e1c4b32cf117396cb03f5847ab8328696b00a8",
+  "protected_grade": {
+    "accepted": true,
+    "boundary": "Q1 isolated actor uid 65534; evaluator-owned comparison",
+    "candidate_edit_sha256": {
+      "httpcore/_async/connection_pool.py": "9115c0f7ebb397d896a1a60384c9dfbdc1ffa18c1e048d6be072706b12da98e5",
+      "httpcore/_sync/connection_pool.py": "f284f05e3f53793a2189ce3793115e5996e6c6bdba93cf459328e8225e8d3764"
+    },
+    "case": "H01",
+    "checks": {
+      "async_competing": true,
+      "ordinary_cleanup": true,
+      "public": true,
+      "sync_surplus": true
+    },
+    "critical": false,
+    "oracle_sha256": "5358cb7d14b544c201338d707ca7ef1223141d4acaeaebd4d0811887c1899c33",
+    "quality": 100
+  },
+  "qualified": true,
+  "root_id": "9c0d2f21d4f8483b134cefea",
+  "state": "accepted"
+}

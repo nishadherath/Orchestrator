@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-006",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "Jobs can be redelivered and retried, and an idempotency check sits on the retry path with the power to suppress a receipt write that should have occurred.",
+  "class": "unverified",
+  "source": "Problem statement: 'an idempotency check suppressed a legitimate retry'.",
+  "confidence": 0.7,
+  "cheapest_verification": "Locate the idempotency key derivation and the branch it guards, and confirm it can skip a write on a redelivered job.",
+  "load_bearing": true,
+  "supersedes": null
+}

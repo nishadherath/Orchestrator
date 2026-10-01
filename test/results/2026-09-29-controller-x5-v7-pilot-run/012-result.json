@@ -1,0 +1,93 @@
+{
+  "arm": "A",
+  "assessment_cost_usd": 0.045727399999999994,
+  "budget_spent_usd": 0.6537329,
+  "budget_unresolved": [],
+  "controller_invocations": 1,
+  "controller_profile": "standard",
+  "controller_role_call_count": 2,
+  "controller_role_cost_usd": 0.4542795,
+  "controller_run_dir": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-012-x5-feat-a/runs/dispatch-rtd-6d9f66f02f3a8f2c60a0b76a",
+  "controller_stage": "worker-ready",
+  "credential_reconciled": true,
+  "effective_action": "controller",
+  "elapsed_s": 257.452,
+  "error": null,
+  "grade": {
+    "accepted": true,
+    "components": {
+      "D": 1.0,
+      "E": 1.0,
+      "H": 1.0,
+      "M": 1.0,
+      "N": 1.0
+    },
+    "critical_violation": false,
+    "false_success": false,
+    "functional_accepted": true,
+    "functional_score": 100,
+    "host_verified_causal_kinds": [
+      "tenant",
+      "update"
+    ],
+    "measurement_version": "x5-v7-host-functional-v1",
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "tenant_boundary",
+        "passed": true,
+        "weight": 40
+      },
+      {
+        "critical": false,
+        "name": "feature_separation",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "update_invalidation",
+        "passed": true,
+        "weight": 40
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "21e2cf8ea9c10b1b11e4f7162d96332ae4e60cb72916caabcb1205a1f3f2dfa3",
+    "protected_edit": false,
+    "provider_calls": 0,
+    "public_check_passed": true,
+    "quality": 100.0,
+    "raw_quality": 100.0,
+    "reported_claim": "fix_applied_verified_by_static_trace_not_executed: features.py was edited to key the cache by (tenant, feature) and invalidate that entry on update. I traced all 4 trace.json operations by hand against the edited code and confirmed both symptoms are resolved and public_check.py's single cold-lookup assertion still holds. I did not have a code-execution tool available in this environment (only file/grep/graft tools were provided, no shell), so this has not been confirmed by actually running python3 -B against public_check.py or the trace.json scenario; the trace above is a manual, line-by-line simulation of the code, not an executed run.",
+    "reported_evidence_count": 4,
+    "schema_version": 2,
+    "semantic_outcome": "accepted-full",
+    "task_id": "X5-FEAT",
+    "v6_accepted": false,
+    "v6_report_quality": 50.0,
+    "verified_probes": []
+  },
+  "manifest_sha256": "ea3bc5f689d1b55c72137d5424e5e6d0672ef4b19e741a92207e5c8ad29ad8c7",
+  "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-012-x5-feat-a",
+  "required_admission_met": true,
+  "root_id": "f8659e566325c127a1b91b04",
+  "schema_version": 1,
+  "sequence": 12,
+  "status": "completed",
+  "task_id": "X5-FEAT",
+  "task_state": "accepted",
+  "worker_attempt_count": 1,
+  "worker_attempts": [
+    {
+      "actual_model": "claude-sonnet-5",
+      "cost_usd": 0.153726,
+      "identity_valid": true,
+      "process_state": "terminal",
+      "requested_cell": "worker-sonnet-high",
+      "requested_effort": "high",
+      "served_effort": null,
+      "status": "completed",
+      "wall_clock_s": 81.523622
+    }
+  ]
+}

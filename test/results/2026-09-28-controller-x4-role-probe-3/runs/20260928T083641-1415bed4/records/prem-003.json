@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-003",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The available notes do not determine the cause; the statement offers writer failure, premature acknowledgement and idempotency suppression of a legitimate retry as the competing explanations.",
+  "class": "unverified",
+  "source": "Problem statement: the available notes do not establish whether the writer failed, the ack was premature, or an idempotency check suppressed a retry.",
+  "confidence": 0.8,
+  "cheapest_verification": "Inventory what the fixture notes actually contain and confirm no field already resolves the cause.",
+  "load_bearing": true,
+  "supersedes": null
+}

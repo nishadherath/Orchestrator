@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "rc_verification_complete": true,
+  "publication_ready": false,
+  "full_harness_checks": 83,
+  "bundle_sha256": "df52358a030c8d0f5ad70eccb38f3f6f94070014baaa509efda19c148834e1e3",
+  "bundle_version": "2026-10-01-15ecf66-dirty",
+  "provider_calls": 0,
+  "unfinished_qualification_goals": [
+    "Controller uplift",
+    "general host enforcement",
+    "served effort",
+    "frontier profile"
+  ],
+  "publication_actions": [
+    "clean_build_stamp",
+    "publication"
+  ],
+  "evidence_sha256": {
+    "test/results/2026-10-01-rc-final-harness.json": "c653fb8ff551edc26ec485b6b422124f5f474152647fb874b96ffdf9b0eb8988",
+    "test/results/2026-10-01-rc/verification.json": "2493579e4bcdbfae330c04204979134849aed8b473df84bf228398cb418a7c3a",
+    "test/results/2026-10-01-rc-doc-checks.json": "5e5a4e67485d3f352076f00d4658ac33ad394dfbc0f73c8897420d1e1e2c6cd4",
+    "docs/stage-results/release-candidate-2026-10-01.md": "9cf4f67ff1b1966faf9ba8cc38ad1fcda308db5d1cea6772480b5c7db51e2d67",
+    "handoffs/2026-10-01-bounded-rc.md": "4d45d9e50348b2efaedec772b75f1318bd609d0420fc5b92603b3acb452eef8c",
+    "test/results/2026-10-01-rc-build.log": "29f5cff6dd76ce0d5554dcd13b9efacbf606f99223ee9ea7a0bdf18e4fa966bd",
+    "test/results/2026-10-01-rc-finalise.py": "df3e045a6950974509cdc8819ce89f090dd7eba5ca631754b62b4aae11257641"
+  }
+}

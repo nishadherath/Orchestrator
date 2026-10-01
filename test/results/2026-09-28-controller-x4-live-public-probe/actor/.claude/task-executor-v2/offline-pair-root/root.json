@@ -1,0 +1,220 @@
+{
+  "schema_version": 2,
+  "record_type": "TaskRoot",
+  "root_id": "offline-pair-root",
+  "task_id": "offline-pair-root",
+  "state": "blocked",
+  "definition": {
+    "project_id": "d5c5aa2762e5425fd3bac7de97b512f1",
+    "root_task_id": "offline-pair-root",
+    "task_id": "offline-pair-root",
+    "parent_task_id": null,
+    "goal": "# Ambiguous payment retry\n\nThe client can lose the response after a payment commits and retry with the\nsame idempotency key. Repair `payment.py` so a committed retry returns the\noriginal result without charging again. A key reused with a different amount\nmust be rejected, and keys belong to tenants. An attempt aborted before commit\nmust remain retryable. Keep `app.py` and the public check unchanged.\n\nSubmit a `report.json` with a completion claim, a causal diagnosis, observed\nreplay probes and a safe next step. A claim or probe earns credit only when\nthe evaluator independently reproduces the behaviour.\n",
+    "scope": [
+      "payment.py",
+      "report.json"
+    ],
+    "permissions": [
+      "read",
+      "edit"
+    ],
+    "input_revision": {
+      "git": {
+        "head": "15ecf6621d158299ed278659a769d03729ee50e0",
+        "diff_sha256": "a08df2c577a8de26c9636e2c1ae81f54ed630e871383a30883a8c082bd30c1e0",
+        "status_sha256": "41d0958fa3352a222595ab1df5d620ee46437746ea6773995850095702709b36"
+      },
+      "input_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "content": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    },
+    "acceptance_definition": {
+      "contract_version": "acceptance-v2",
+      "contract": {
+        "version": 1,
+        "kind": "command",
+        "criteria": [
+          "public check passes"
+        ],
+        "constraints": [],
+        "required_outputs": [
+          "payment.py",
+          "report.json"
+        ],
+        "protected_paths": [
+          "issue.md",
+          "app.py",
+          "public_check.py"
+        ],
+        "command": [
+          "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "rubric": [],
+        "timeout_s": 10.0
+      },
+      "contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+      "protected_baseline": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    }
+  },
+  "definition_digest": "b5fa2c724af62a97366592df363bffbbdd83d4fadba8e944497871c91c14013c",
+  "revision": {
+    "revision_number": 1,
+    "parent_revision_id": null,
+    "definition_digest": "b5fa2c724af62a97366592df363bffbbdd83d4fadba8e944497871c91c14013c",
+    "change_reason": "initial",
+    "authority_id": "offline-pair-grant",
+    "revision_id": "46fce1161acbc45489fd9afe605adcc74065f95c0c6a8b626a883ac17ffa6155"
+  },
+  "admission": {
+    "actor": "offline-pair",
+    "authority_id": "offline-pair-grant",
+    "capability_digest": "e0935c6a4f4fea7dfafca5fbe54264bf3ec58203c69dcbe5380c502e03f5e190",
+    "policy": "B0",
+    "policy_digest": "625367438cd97838c304d89369b772a18dedbd01efc68033b1feec33ff465c9d",
+    "campaign_prompt_digest": null,
+    "deadline_at": null
+  },
+  "ladder": [
+    "worker-sonnet-low",
+    "worker-sonnet-low",
+    "worker-opus-high"
+  ],
+  "axes": [
+    "structured",
+    "medium",
+    "contained"
+  ],
+  "attempts": [],
+  "journal": [
+    {
+      "sequence": 1,
+      "previous_digest": null,
+      "kind": "root_admitted",
+      "at": "2026-09-27T19:12:36.275982+00:00",
+      "data": {
+        "authority_id": "offline-pair-grant",
+        "definition_digest": "b5fa2c724af62a97366592df363bffbbdd83d4fadba8e944497871c91c14013c"
+      },
+      "digest": "616faacd755cd93cc5e095378ad7785ba5b88814880e1be63a11823bc538e590"
+    },
+    {
+      "sequence": 2,
+      "previous_digest": "616faacd755cd93cc5e095378ad7785ba5b88814880e1be63a11823bc538e590",
+      "kind": "transition",
+      "at": "2026-09-27T19:12:36.275982+00:00",
+      "data": {
+        "source": "prepared",
+        "target": "ready",
+        "reason": ""
+      },
+      "digest": "7c76097f2f2514325f2917e7597647448f0507910d1791754e4b2a5b61a7e0cc"
+    },
+    {
+      "sequence": 3,
+      "previous_digest": "7c76097f2f2514325f2917e7597647448f0507910d1791754e4b2a5b61a7e0cc",
+      "kind": "public_assessment_admitted",
+      "at": "2026-09-27T19:12:56.017210+00:00",
+      "data": {
+        "invocation_id": "public-assessment-46fce1161acbc45489fd9afe",
+        "packet_sha256": "5c028c81108790556e14ee932d39a7865bf773220e1b170c42e911d359738316"
+      },
+      "digest": "187d4da934323d39bd3f1747313af725c2add6444870307523a4c82fd0fcc91d"
+    },
+    {
+      "sequence": 4,
+      "previous_digest": "187d4da934323d39bd3f1747313af725c2add6444870307523a4c82fd0fcc91d",
+      "kind": "public_assessment_started",
+      "at": "2026-09-27T19:12:56.076808+00:00",
+      "data": {
+        "invocation_id": "public-assessment-46fce1161acbc45489fd9afe"
+      },
+      "digest": "89f2f76ec8e791c03631ac3548d8f025378d628df9256aa888f17b9077f7b802"
+    },
+    {
+      "sequence": 5,
+      "previous_digest": "89f2f76ec8e791c03631ac3548d8f025378d628df9256aa888f17b9077f7b802",
+      "kind": "public_assessment_uncertain",
+      "at": "2026-09-27T19:12:59.359912+00:00",
+      "data": {
+        "invocation_id": "public-assessment-46fce1161acbc45489fd9afe",
+        "reason": "WSL public assessment has no valid terminal success",
+        "cost_usd": null
+      },
+      "digest": "0aa719e2b2d813f6d0ec4c7e87c89a123161282e481489509681003bb45b350b"
+    },
+    {
+      "sequence": 6,
+      "previous_digest": "0aa719e2b2d813f6d0ec4c7e87c89a123161282e481489509681003bb45b350b",
+      "kind": "transition",
+      "at": "2026-09-27T19:12:59.359912+00:00",
+      "data": {
+        "source": "ready",
+        "target": "blocked",
+        "reason": "public assessment accounting or evidence uncertain"
+      },
+      "digest": "e8bfdb5733cb3618df4d2d8b2f1819aa37a5cde61ba221b7ec86f6a32c37ca40"
+    }
+  ],
+  "owner_generation": 0,
+  "decision_generation": 0,
+  "block": {
+    "reason": "public assessment accounting or evidence uncertain",
+    "resume_phase": null
+  },
+  "created_at": "2026-09-27T19:12:36.275982+00:00",
+  "public_assessment": {
+    "version": 1,
+    "revision_id": "46fce1161acbc45489fd9afe605adcc74065f95c0c6a8b626a883ac17ffa6155",
+    "invocation_id": "public-assessment-46fce1161acbc45489fd9afe",
+    "packet_sha256": "5c028c81108790556e14ee932d39a7865bf773220e1b170c42e911d359738316",
+    "status": "uncertain",
+    "result": null,
+    "result_digest": null
+  },
+  "record_digest": "bf794aae2ede2e7a479c802730b08d102af7b0a39cdcaa6440d6db8d72ca65f3"
+}

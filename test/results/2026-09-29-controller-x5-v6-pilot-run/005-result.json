@@ -1,0 +1,100 @@
+{
+  "arm": "A",
+  "assessment_cost_usd": 0.0494068,
+  "budget_spent_usd": 1.840148301,
+  "budget_unresolved": [],
+  "controller_invocations": 1,
+  "controller_profile": "frontier-candidate",
+  "controller_role_call_count": 1,
+  "controller_role_cost_usd": 1.225877501,
+  "controller_run_dir": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-005-x5-migrate-a/runs/dispatch-rtd-096467da9312872fbabe3fd8",
+  "controller_stage": "worker-ready",
+  "credential_reconciled": true,
+  "effective_action": "controller",
+  "elapsed_s": 450.85,
+  "error": null,
+  "grade": {
+    "accepted": false,
+    "components": {
+      "D": 0.0,
+      "E": 0.0,
+      "H": 1.0,
+      "M": 1.0,
+      "N": 0.0
+    },
+    "critical_violation": false,
+    "false_success": false,
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "restart_mid_batch",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "newer_target_survives",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "tombstone_not_resurrected",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": true,
+        "name": "restart_after_checkpoint",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": false,
+        "name": "normal_batch",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "critical": false,
+        "name": "unrelated_target",
+        "passed": true,
+        "weight": 10
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "bbfcb0a60723a0543ae84e45305354d9287396565cebeb229dadc1958d263e73",
+    "protected_edit": false,
+    "provider_calls": 0,
+    "public_check_passed": true,
+    "quality": 50.0,
+    "raw_quality": 50.0,
+    "schema_version": 1,
+    "semantic_outcome": "useful-partial",
+    "task_id": "X5-MIGRATE",
+    "verified_probes": []
+  },
+  "manifest_sha256": "1a8eb29b2f2b816dafed0f6bbe22613cc496ee9601e55a37e1bb0822a8a001bf",
+  "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-005-x5-migrate-a",
+  "required_admission_met": true,
+  "root_id": "f7354f40ddaf3ee7e0821197",
+  "schema_version": 1,
+  "sequence": 5,
+  "status": "completed",
+  "task_id": "X5-MIGRATE",
+  "task_state": "accepted",
+  "worker_attempt_count": 1,
+  "worker_attempts": [
+    {
+      "actual_model": "claude-opus-5",
+      "cost_usd": 0.564864,
+      "identity_valid": true,
+      "process_state": "terminal",
+      "requested_cell": "worker-opus-high",
+      "requested_effort": "high",
+      "served_effort": null,
+      "status": "completed",
+      "wall_clock_s": 166.107198
+    }
+  ]
+}

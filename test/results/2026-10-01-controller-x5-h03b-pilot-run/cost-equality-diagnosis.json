@@ -1,0 +1,9 @@
+{
+  "actual_public_state": "ready",
+  "counterfactual_only": true,
+  "ledger_cost_usd": 0.184233601,
+  "otherwise_accepted_with_normalised_cost": true,
+  "otherwise_accepted_with_reported_cost": false,
+  "provider_calls": 0,
+  "reported_cost_usd": 0.18423360000000003
+}

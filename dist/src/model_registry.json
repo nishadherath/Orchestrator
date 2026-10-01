@@ -57,6 +57,11 @@
   "role_profiles": {
     "standard": {
       "status": "retained-prior",
+      "generator_techniques": {
+        "subtract": "worker-sonnet-high",
+        "re-represent": "worker-sonnet-high",
+        "abduce": "worker-sonnet-high"
+      },
       "roles": {
         "controller": ["worker-sonnet-low"],
         "framer": ["worker-opus-high"],
@@ -69,6 +74,11 @@
     },
     "frontier-candidate": {
       "status": "unqualified-experimental",
+      "generator_techniques": {
+        "subtract": "worker-sonnet-high",
+        "re-represent": "worker-opus-xhigh",
+        "abduce": "worker-fable-high"
+      },
       "roles": {
         "controller": ["worker-sonnet-low"],
         "framer": ["worker-fable-xhigh"],

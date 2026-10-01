@@ -164,7 +164,7 @@ The non-negotiable in quick mode: the output names which premises are unverified
 
 **Where is the human?** Three gates in deep mode: confirm acceptance criteria and goal ladder (cheap, high leverage), approve before expensive instantiation, accept final. Never inside generation.
 
-**How does the system itself fail, and what caps it?** Ledger bloat (cap 40 premises; Framer must merge). Controller loops (hard cap of three reframes). Cost blow-up (per-phase budget caps; escalation requires headroom). Conformity leaking through the library (entries are relational forms, not verbatim solutions; a generator receives at most three retrieved patterns). Critic too strict, which is the failure your Censor had before v11: passing is the expected outcome, returns only for material defects, and the return rate is tracked and recalibrated if it exceeds roughly 40%.
+**How does the system itself fail, and what caps it?** Ledger bloat (absolute cap 40 premises across versions; quick-mode Framer emits at most 12 materially independent premises and must merge related claims). Controller loops (hard cap of three reframes). Cost blow-up (per-phase budget caps; escalation requires headroom). Conformity leaking through the library (entries are relational forms, not verbatim solutions; a generator receives at most three retrieved patterns). Critic too strict, which is the failure your Censor had before v11: passing is the expected outcome, returns only for material defects, and the return rate is tracked and recalibrated if it exceeds roughly 40%.
 
 **What is the training signal?** Which technique produced the winner, per problem type, per run. Log it from day one. Nothing else in the system improves without it.
 

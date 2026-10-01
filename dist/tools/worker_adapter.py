@@ -213,6 +213,15 @@ class WorkerAdapter:
                 "--permission-prompts=none", "--tools=Read,Edit,Write,Glob,Grep",
                 "--allowedTools=" + ",".join(graft_tools)]
 
+    def _receipt_extensions(self, request: WorkerRequest, parsed: dict,
+                            stdout: str) -> dict:
+        """Return adapter-specific evidence without widening base receipts.
+
+        Evaluation adapters may retain a bounded final report. Production
+        adapters deliberately return no model-authored text by default.
+        """
+        return {}
+
     def run(self, request: WorkerRequest) -> dict:
         cmd = self.command(request)
         root = request.actor_root.resolve()
@@ -243,7 +252,7 @@ class WorkerAdapter:
                                                     "cache_read_input_tokens", "output_tokens")}
         usage.update(cost_usd=cost, currency="USD" if cost is not None else None,
                      cost_source="provider_reported" if cost is not None else "unknown")
-        return {"admission_token": request.admission_token, "invocation_id": request.invocation_id,
+        receipt = {"admission_token": request.admission_token, "invocation_id": request.invocation_id,
                 "revision_id": request.revision_id, "decision_digest": request.decision_digest,
                 "intent_digest": request.intent_digest, "requested_cell": request.requested_cell,
                 "requested_effort": cell["effort"], "served_effort": None,
@@ -261,3 +270,8 @@ class WorkerAdapter:
                 "command_contract": {"argv_sha256": digest(cmd), "restricted": True,
                                      "strict_mcp_config": True, "graft_configured": True,
                                      "filesystem_enforcement_proven": False}}
+        extensions = self._receipt_extensions(request, parsed, stdout)
+        if not isinstance(extensions, dict) or set(extensions) & set(receipt):
+            raise CapabilityError("adapter receipt extensions are invalid")
+        receipt.update(extensions)
+        return receipt

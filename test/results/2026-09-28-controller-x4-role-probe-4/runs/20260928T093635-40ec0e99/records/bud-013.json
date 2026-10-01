@@ -1,0 +1,16 @@
+{
+  "type": "BudgetEntry",
+  "id": "bud-013",
+  "ledger_version": 0,
+  "references": [],
+  "phase": "generate",
+  "role": "generator",
+  "cell": "worker-sonnet-high",
+  "cost_usd": 0.222142,
+  "tokens_in": 4,
+  "tokens_out": 7495,
+  "wall_clock_s": 112.56277643800001,
+  "invocation_id": "fbc9d5f723204a5e8149450f9e0fcea2",
+  "accounting_status": "settled",
+  "reserved_usd": 0.0
+}

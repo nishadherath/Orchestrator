@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-001",
+  "ledger_version": 1,
+  "references": [
+    "prem-001",
+    "prob-001"
+  ],
+  "premise_id": "prem-001",
+  "method": "Inspected the fixture definition (problem.md, the only artefact defining this fixture) for any live endpoint, credential or real dataset reference.",
+  "result": "problem.md contains only an abstract narrative description of a synthetic service, queue and receipt store, with no hostnames, URLs, credentials, connection strings or dataset references of any kind. Line 7 states explicitly: 'There is no production system or customer data behind this fixture.'",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-4/problem.md",
+  "outcome": "supports",
+  "cost_usd": 0.0
+}

@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "controller_run",
+  "limit_units": 4000000000,
+  "baseline_limit_units": 4000000000,
+  "cancelled": false,
+  "created_at": "2026-09-27T21:37:23.257885+00:00",
+  "invocations": {
+    "cdb99be52e544bceb99bdea7d52f9f56": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 532805500,
+      "cost_usd": 0.5328054999999999,
+      "reserved_at": "2026-09-27T21:37:23.376923+00:00",
+      "metadata": {
+        "phase": "frame",
+        "role": "framer",
+        "cell": "worker-opus-high",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 137.10055143000002,
+        "usage": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 29588,
+          "cache_read_input_tokens": 41583,
+          "output_tokens": 8530,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\":\"PremiseRecord\",\"id\":\"prem-023\",\"ledger_version\":1,\"references\":[\"prob-001\"],\"text\":\"The run is bounded at USD 4.00 in quick mode.\",\"class\":\"policy\",\"source\":\"ProblemRecord prob-001 fields budget_usd and mode.\",\"confidence\":0.9,\"cheapest_verification\":\"Read prob-001 budget_usd and mode fields; both are explicit.\",\"load_bearing\":true,\"supersedes\":null}\n{\"type\":\"PremiseRecord\",\"id\":\"prem-024\",\"ledger_version\":1,\"references\":[\"prob-001\",\"prem-015\"],\"text\":\"The brief will be assessed on its text, since no execution against the fixture is possible.\",\"class\":\"unverified\",\"source\":\"Inferred from prem-015 and the absence of any grading statement in prob-001.\",\"confidence\":0.5,\"cheapest_verification\":\"Ask the operator how the brief is graded; absent an answer, assume text assessment and state the assumption.\",\"load_bearing\":false,\"supersedes\":null}",
+        "identity": {
+          "expected_model": "claude-opus-5",
+          "actual_model": null,
+          "identity_valid": false,
+          "root_models": [],
+          "child_models": [],
+          "billed_models": [],
+          "auxiliary_billed_models": []
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.5328054999999999,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 137.10055143000002,
+          "usage": {
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 29588,
+            "cache_read_input_tokens": 41583,
+            "output_tokens": 8530,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\":\"PremiseRecord\",\"id\":\"prem-023\",\"ledger_version\":1,\"references\":[\"prob-001\"],\"text\":\"The run is bounded at USD 4.00 in quick mode.\",\"class\":\"policy\",\"source\":\"ProblemRecord prob-001 fields budget_usd and mode.\",\"confidence\":0.9,\"cheapest_verification\":\"Read prob-001 budget_usd and mode fields; both are explicit.\",\"load_bearing\":true,\"supersedes\":null}\n{\"type\":\"PremiseRecord\",\"id\":\"prem-024\",\"ledger_version\":1,\"references\":[\"prob-001\",\"prem-015\"],\"text\":\"The brief will be assessed on its text, since no execution against the fixture is possible.\",\"class\":\"unverified\",\"source\":\"Inferred from prem-015 and the absence of any grading statement in prob-001.\",\"confidence\":0.5,\"cheapest_verification\":\"Ask the operator how the brief is graded; absent an answer, assume text assessment and state the assumption.\",\"load_bearing\":false,\"supersedes\":null}",
+          "identity": {
+            "expected_model": "claude-opus-5",
+            "actual_model": null,
+            "identity_valid": false,
+            "root_models": [],
+            "child_models": [],
+            "billed_models": [],
+            "auxiliary_billed_models": []
+          }
+        }
+      },
+      "started_at": "2026-09-27T21:37:23.407588+00:00",
+      "updated_at": "2026-09-27T21:39:40.540755+00:00"
+    },
+    "0bc2482f58f34eba908c1ebc8b9a43d0": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 196923500,
+      "cost_usd": 0.1969235,
+      "reserved_at": "2026-09-27T21:39:40.619489+00:00",
+      "metadata": {
+        "phase": "frame",
+        "role": "framer",
+        "cell": "worker-opus-high",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 35.088830830999996,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 18196,
+          "cache_read_input_tokens": 13387,
+          "output_tokens": 212,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"PremiseRecord\", \"id\": \"prem-002\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"The brief will be assessed on its text alone, since the statement forbids claiming any check was run and names no executable fixture.\", \"class\": \"unverified\", \"source\": \"Inferred from prob-001 instructions 'Do not claim that any proposed check has been run' and 'The result is an investigation brief'.\", \"confidence\": 0.7, \"cheapest_verification\": \"Ask the operator whether any grading step executes code against the fixture; if none, the premise holds.\", \"load_bearing\": true, \"supersedes\": null}",
+        "identity": {
+          "expected_model": "claude-opus-5",
+          "actual_model": null,
+          "identity_valid": false,
+          "root_models": [],
+          "child_models": [],
+          "billed_models": [],
+          "auxiliary_billed_models": []
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.1969235,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 35.088830830999996,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 18196,
+            "cache_read_input_tokens": 13387,
+            "output_tokens": 212,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"PremiseRecord\", \"id\": \"prem-002\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"The brief will be assessed on its text alone, since the statement forbids claiming any check was run and names no executable fixture.\", \"class\": \"unverified\", \"source\": \"Inferred from prob-001 instructions 'Do not claim that any proposed check has been run' and 'The result is an investigation brief'.\", \"confidence\": 0.7, \"cheapest_verification\": \"Ask the operator whether any grading step executes code against the fixture; if none, the premise holds.\", \"load_bearing\": true, \"supersedes\": null}",
+          "identity": {
+            "expected_model": "claude-opus-5",
+            "actual_model": null,
+            "identity_valid": false,
+            "root_models": [],
+            "child_models": [],
+            "billed_models": [],
+            "auxiliary_billed_models": []
+          }
+        }
+      },
+      "started_at": "2026-09-27T21:39:40.658687+00:00",
+      "updated_at": "2026-09-27T21:40:15.966958+00:00"
+    }
+  }
+}

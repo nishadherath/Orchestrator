@@ -1,0 +1,1 @@
+{"version": 1, "kind": "command", "criteria": ["public check passes"], "constraints": [], "required_outputs": ["release_manifest.py", "audit_manifest.py", "report.json"], "protected_paths": ["issue.md", "app.py", "public_check.py"], "command": ["C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe", "-B", "public_check.py"], "timeout_s": 10}

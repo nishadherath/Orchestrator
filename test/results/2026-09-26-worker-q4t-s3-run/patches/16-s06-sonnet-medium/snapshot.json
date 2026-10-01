@@ -1,0 +1,11 @@
+{
+  "episode_label": "sonnet-medium",
+  "files": {
+    "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+    "idna/core.py": "0f3470d4bed4930567852eb2dcc6aa26be87c3e1d2f6c5cb4f8a544f29518d53"
+  },
+  "schema_version": 1,
+  "sequence": 16,
+  "snapshot_sha256": "34cee6c1e77129ba7cc416135a89b4305a99ca64d4a0c068bc8a86f539ca7777",
+  "task_id": "S06"
+}

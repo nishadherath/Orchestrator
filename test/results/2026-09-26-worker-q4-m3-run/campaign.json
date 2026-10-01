@@ -1,0 +1,504 @@
+{
+  "created_at_utc": "2026-09-25T14:38:30+00:00",
+  "manifest_sha256": "18f4fcec44b81cdb6127187929f4c1fb44ec125ef5d248c835ad30f4dac2fed3",
+  "next_sequence": 3,
+  "rows": [
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "platformdirs/_xdg.py",
+              "platformdirs/api.py",
+              "platformdirs/macos.py",
+              "platformdirs/unix.py"
+            ],
+            "cost_usd": 0.9579116000000002,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "2b6c127aa6e7e16c39b6a8aeb1ca80c5c55d551e36c0633f76e4cf78dad84bea",
+                "invocation_id": "66e58bd0d7374a6a03dd6cc42e04797a",
+                "prompt_sha256": "ea4fd7b203f81f3c93bdf2a5b34f66f606eba1bdad14cc194196036bd9bb5375",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "80baa9c6f1ed260e5e2071431f004de04060b9044263e6939faf09c20b3c2bc3",
+                "stream_sha256": "06d8939cef508976b480fd44f1cc713fdb318364ae3dc871f54a73abe4b70634",
+                "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+              },
+              "observability": "worker-malformed",
+              "raw_sha256": "9e8c5a828d83ebb95cea65cc66b8bfbf8d51293bc15bbf5260812238c3e331f8",
+              "raw_utf8": "Everything is consistent \u2014 Windows/android files (not in scope) already had per-property creation independent of `_append_app_name_and_version`'s default `create=True`, so leaving that default intact preserves their behavior unmodified. All edits are confined to the four allowed files.\n\n\ud83c\udf31 graft saved ~18,903 tokens this turn.\n\n```json\n{\"status\": \"completed\", \"diagnosis\": \"ensure_exists=True created every site-directory candidate because _append_app_name_and_version() unconditionally called _optionally_create_directory() on each path it built, even for candidates in a multi-entry list (_site_data_dirs/_site_config_dirs/_site_cache_dirs/_base_site_dirs) that were never returned when multipath was False.\", \"evidence\": [\"Added create: bool = True parameter to PlatformDirsABC._append_app_name_and_version (api.py); list-building helpers now pass create=False so raw candidates aren't created.\", \"Added PlatformDirsABC._dirs_to_str(dirs) helper that creates only dirs[0] when multipath is False, or all dirs when multipath is True (matching what is actually returned), used by site_data_dir/site_config_dir/site_applications_dir in _xdg.py, unix.py and macos.py.\", \"Updated _iter_config_dirs/_iter_data_dirs/_iter_cache_dirs in unix.py and macos.py to create each site entry lazily as it is yielded, rather than eagerly via the old shared call.\", \"Manual trace of public_check.py: Unix('demo', ensure_exists=True).site_data_dir with XDG_DATA_DIRS='/q3/first:/q3/second' resolves to XDGMixin.site_data_dir -> self._dirs_to_str(['/q3/first/demo','/q3/second/demo']) (list built with create=False) -> multipath False so only '/q3/first/demo' is created and returned, matching the assertions value=='/q3/first/demo' and created==[value].\", \"android.py and windows.py were left unedited per the allowed-files restriction; their per-property _optionally_create_directory calls are independent of the list-builder change and default create=True preserves their existing single-path creation behavior.\"], \"checks\": [], \"remaining\": [\"Could not execute `python3 -B public_check.py` in this session because no shell/execution tool was available; verification was done by manual code trace only.\", \"No automated run of the existing platformdirs test suite (if any) was performed.\"], \"clarification\": \"No PowerShell/Bash execution tool was available in this session, so I was unable to actually run `python3 -B public_check.py` \u2014 please run it to confirm, or grant shell access if you'd like me to execute it directly.\"}\n```",
+              "report": null,
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "1cb1749fec3a2fc488e296af1d74eed4fc0ed58fe8c89418359c13f8cedf1538",
+            "identity_valid": true,
+            "q1_record_sha256": "1ea3513e44a999e1115c5cba79fd4a4a6d21bc010593d381cd6529e968510375",
+            "q1_spec_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 72391,
+              "cache_read_input_tokens": 2284098,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.9579116000000002,
+              "currency": "USD",
+              "input_tokens": 94,
+              "output_tokens": 21001
+            },
+            "verification": "pass",
+            "wall_clock_s": 218.092495,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.042088399,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T14:38:44.343139+00:00",
+          "currency": "USD",
+          "invocations": {
+            "66e58bd0d7374a6a03dd6cc42e04797a": {
+              "allowance_units": 6000000000,
+              "charged_units": 957911601,
+              "cost_usd": 0.9579116000000002,
+              "metadata": {
+                "decision_digest": "d9c780edb3731c19c3d780a1f78814606564fc32c0ce4cfa154910d9b4f0cf66",
+                "revision_id": "80baa9c6f1ed260e5e2071431f004de04060b9044263e6939faf09c20b3c2bc3",
+                "root_id": "fa15342f668873bdfeec3c4e"
+              },
+              "reserved_at": "2026-09-25T14:38:44.382334+00:00",
+              "resolution": {
+                "cost_usd": 0.9579116000000002,
+                "evidence": "receipt:768eae60d8059d28e9e80d15212892550f41bfbffc4e8e5fc2e0af3323f5571f",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 72391,
+                  "cache_read_input_tokens": 2284098,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.9579116000000002,
+                  "currency": "USD",
+                  "input_tokens": 94,
+                  "output_tokens": 21001
+                }
+              },
+              "started_at": "2026-09-25T14:38:44.393311+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 72391,
+                "cache_read_input_tokens": 2284098,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.9579116000000002,
+                "currency": "USD",
+                "input_tokens": 94,
+                "output_tokens": 21001
+              },
+              "updated_at": "2026-09-25T14:42:22.519251+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.957911601,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0-a",
+        "executable_grade": {
+          "candidate_edit_sha256": {
+            "platformdirs/_xdg.py": "d251965bb22c90619b316f86e31cf81f01ebad45788b9148503fd3f8e79cbcca",
+            "platformdirs/api.py": "02ce4bf3912c136bd9437e2cc763cb4ff953c2b66756759841c2aaee7ac91b56",
+            "platformdirs/macos.py": "4201cd38ce6a002c597d1657da71a0915fc1c17393a9a5daaa37736e19d6bd1c",
+            "platformdirs/unix.py": "70556859a77f09a7022ec1eabd6dd99c334c3eb355b747393dc216f4d25def38"
+          },
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "6867d622bcfb44c1ee83a0b6b3988dee6ba6d2472a04bff8958f4e8778a31c51",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "18f60b926b676039cbe79dc1fd3327d82b9e6bd88ee01d763b3cb4df11a91f58",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 90,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+          "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+          "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+          "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+          "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+          "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+          "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+          "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+          "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+        },
+        "quality_v2": {
+          "behaviour_accepted": false,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 0,
+            "invariant": 5,
+            "report": 0
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "ef803fb3c7073fe152b84b573ad39768b3e413b1fa85ae5afd2161b169060300",
+          "hidden_accepted": false,
+          "inconclusive": false,
+          "predicate_results": {
+            "creation-disabled": true,
+            "diagnosis": false,
+            "mac-cache-path": false,
+            "mac-cache-single": true,
+            "report": false,
+            "unix-site-path": true,
+            "xdg-config-single": true,
+            "xdg-data-multipath": true,
+            "xdg-data-single": true,
+            "xdg-lazy-first": true
+          },
+          "quality": 65,
+          "report_observability": "worker-malformed",
+          "root_acceptance_gap": true,
+          "schema_version": 2,
+          "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2",
+          "unsupported_completion": false
+        },
+        "root_id": "fa15342f668873bdfeec3c4e",
+        "root_state": "accepted",
+        "snapshot": {
+          "episode_label": "b0-a",
+          "files": {
+            "platformdirs/_xdg.py": "d251965bb22c90619b316f86e31cf81f01ebad45788b9148503fd3f8e79cbcca",
+            "platformdirs/api.py": "02ce4bf3912c136bd9437e2cc763cb4ff953c2b66756759841c2aaee7ac91b56",
+            "platformdirs/macos.py": "4201cd38ce6a002c597d1657da71a0915fc1c17393a9a5daaa37736e19d6bd1c",
+            "platformdirs/unix.py": "70556859a77f09a7022ec1eabd6dd99c334c3eb355b747393dc216f4d25def38"
+          },
+          "schema_version": 1,
+          "sequence": 1,
+          "snapshot_sha256": "1b8aa383bfc20b2f538acb1669fd24506a137470e8e13b2ba7b29ab26852422b",
+          "task_id": "P08"
+        },
+        "task_id": "P08",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4-m3-18f4fcec44b8-01"
+      },
+      "episode_label": "b0-a",
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "P08"
+    },
+    {
+      "episode": {
+        "attempts": [
+          {
+            "actual_model": "claude-sonnet-5",
+            "changed_paths": [
+              "platformdirs/_xdg.py",
+              "platformdirs/api.py",
+              "platformdirs/macos.py",
+              "platformdirs/unix.py"
+            ],
+            "cost_usd": 0.4411696,
+            "evaluation_report": {
+              "binding": {
+                "final_revision_sha256": "995be5f0be46bea9ae5d10ec8b6d1a92e1393f6add275d6ddbe4f6fb92750b3d",
+                "invocation_id": "49b0753d01817f829b99e7dba03c7391",
+                "prompt_sha256": "ea4fd7b203f81f3c93bdf2a5b34f66f606eba1bdad14cc194196036bd9bb5375",
+                "requested_cell": "worker-sonnet-low",
+                "revision_id": "156e584e2885e077b6b30b8d56c8c4f376e220b50b876513e17cf1f2f89a840d",
+                "stream_sha256": "a326bc85df0c8dc4b56885362a0f5d3c0601f28faf14028012f7732234a7bb76",
+                "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2"
+              },
+              "observability": "worker-malformed",
+              "raw_sha256": "ce0d82bd7ab4d71d6e871a8f00cf459f8bd7683ce68f0ccfc4b30d43bdd0d253",
+              "raw_utf8": "```json\n{\"status\":\"partial\",\"diagnosis\":\"Site-directory candidate lists (site_data_dir/site_config_dir/site_cache_dir on Unix/XDG/macOS) were built by calling _append_app_name_and_version for every candidate path, which eagerly created each one via _optionally_create_directory before the caller selected only the first (or joined) entry to return. Fixed by adding a create=False option to _append_app_name_and_version so candidate lists are built without side effects, and a new _join_and_create_selected() helper that creates only the entries actually returned (first entry when multipath is False, all entries when True). Lazy iterators (_iter_config_dirs/_iter_data_dirs/_iter_cache_dirs) were changed to create each site directory only at yield time instead of when the underlying list property was read.\",\"evidence\":[\"platformdirs/api.py: _append_app_name_and_version now takes create=True and _join_and_create_selected added\",\"platformdirs/_xdg.py: _site_data_dirs/_site_config_dirs build candidates with create=False; site_data_dir/site_config_dir use _join_and_create_selected\",\"platformdirs/unix.py: _site_data_dirs/_site_config_dirs use create=False; _iter_config_dirs/_iter_data_dirs create only the yielded path\",\"platformdirs/macos.py: _base_site_dirs and _site_cache_dirs use create=False; site_cache_dir uses _join_and_create_selected; site_state_dir explicitly creates only the selected first entry; _iter_config_dirs/_iter_data_dirs/_iter_cache_dirs create only the yielded path\",\"Manually traced public_check.py: Unix('demo', ensure_exists=True).site_data_dir with XDG_DATA_DIRS=/q3/first:/q3/second yields dirs=['/q3/first/demo','/q3/second/demo'] with no creation, then _join_and_create_selected (multipath False) creates only dirs[0] and returns it, matching both assertions (value == '/q3/first/demo' and created == [value])\",\"graft_check_freshness confirms only the 4 intended files were modified with the expected symbol-level diffs, no unintended edits\"],\"checks\":[{\"command\":\"python3 -B public_check.py\",\"outcome\":\"not_run\"}],\"remaining\":[\"Execute python3 -B public_check.py to empirically confirm the fix, since no shell/execution tool was available in this session\"],\"clarification\":\"No Bash/PowerShell execution tool was exposed in this session, so I could not literally run `python3 -B public_check.py`. I verified correctness by manually tracing the exact code path the check exercises. Can you confirm whether a shell tool should have been available, or would you like me to describe how to run it yourself?\"}\n```",
+              "report": null,
+              "schema_version": 2
+            },
+            "evaluation_report_digest": "6bcefbe01779f8ca70847ea9b06adb435fa7f929dcbee38ed4a883981dcea84e",
+            "identity_valid": true,
+            "q1_record_sha256": "7272002d72a0680350f63b184d5b4f85ce495b7bff86c626b2e744c0e486bfd2",
+            "q1_spec_sha256": "885f24522ec7b9751b5bee6a2e7723758d326e1116973ad8834e53bb9fd60391",
+            "requested_cell": "worker-sonnet-low",
+            "requested_effort": "low",
+            "sequence": 1,
+            "served_effort": null,
+            "terminal": true,
+            "usage": {
+              "cache_creation_input_tokens": 42018,
+              "cache_read_input_tokens": 723378,
+              "cost_source": "provider_reported",
+              "cost_usd": 0.4411696,
+              "currency": "USD",
+              "input_tokens": 36,
+              "output_tokens": 12702
+            },
+            "verification": "pass",
+            "wall_clock_s": 139.629136,
+            "writer_stopped": true
+          }
+        ],
+        "budget": {
+          "available_usd": 5.5588304,
+          "baseline_limit_units": 6000000000,
+          "breached": false,
+          "cancelled": false,
+          "created_at": "2026-09-25T14:42:51.303962+00:00",
+          "currency": "USD",
+          "invocations": {
+            "49b0753d01817f829b99e7dba03c7391": {
+              "allowance_units": 6000000000,
+              "charged_units": 441169600,
+              "cost_usd": 0.4411696,
+              "metadata": {
+                "decision_digest": "7098bab0448bf376579ae47595a6f630ef084f6565dc44e4aa1b4c77a776527c",
+                "revision_id": "156e584e2885e077b6b30b8d56c8c4f376e220b50b876513e17cf1f2f89a840d",
+                "root_id": "bfbea7754d66dee00055aac1"
+              },
+              "reserved_at": "2026-09-25T14:42:51.350534+00:00",
+              "resolution": {
+                "cost_usd": 0.4411696,
+                "evidence": "receipt:08abc6cdfccd7f6c6585039fc676f7a68c25c7a1692db3611dd3b22a4e4e3758",
+                "final": true,
+                "telemetry": {
+                  "cache_creation_input_tokens": 42018,
+                  "cache_read_input_tokens": 723378,
+                  "cost_source": "provider_reported",
+                  "cost_usd": 0.4411696,
+                  "currency": "USD",
+                  "input_tokens": 36,
+                  "output_tokens": 12702
+                }
+              },
+              "started_at": "2026-09-25T14:42:51.361393+00:00",
+              "state": "settled",
+              "telemetry": {
+                "cache_creation_input_tokens": 42018,
+                "cache_read_input_tokens": 723378,
+                "cost_source": "provider_reported",
+                "cost_usd": 0.4411696,
+                "currency": "USD",
+                "input_tokens": 36,
+                "output_tokens": 12702
+              },
+              "updated_at": "2026-09-25T14:45:11.027375+00:00"
+            }
+          },
+          "limit_units": 6000000000,
+          "limit_usd": 6.0,
+          "reserved_usd": 0.0,
+          "scope": "task_dispatch",
+          "spent_usd": 0.4411696,
+          "unresolved": [],
+          "version": 1
+        },
+        "episode_label": "b0-b",
+        "executable_grade": {
+          "candidate_edit_sha256": {
+            "platformdirs/_xdg.py": "4d69335cccc7c2ab617e344721389b8ce2893832e33b49dfaeec6f2ec501a54b",
+            "platformdirs/api.py": "3096a7493683c4fd68728f395c014b6407e217988b83c33c631b0300c5ab1a8f",
+            "platformdirs/macos.py": "6c61b139f76c6d4f3f956d48620e724df0083226b1951686672a8e6d4d80479a",
+            "platformdirs/unix.py": "a91edb765c70698b86714e65265d57c46288b6d139ff76c569de5428027da6ca"
+          },
+          "case_source_sha256": "c3f6730659c6db0a22b9f2754fd0c7f76c1126643f06d7b07959524a07795f08",
+          "cases": [
+            {
+              "milestone": "xdg-data-single",
+              "passed": true,
+              "weight": 20
+            },
+            {
+              "milestone": "xdg-data-multipath",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "xdg-config-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "xdg-lazy-first",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "unix-site-path",
+              "passed": true,
+              "weight": 10
+            },
+            {
+              "milestone": "mac-cache-single",
+              "passed": true,
+              "weight": 15
+            },
+            {
+              "milestone": "mac-cache-path",
+              "passed": false,
+              "weight": 10
+            },
+            {
+              "milestone": "creation-disabled",
+              "passed": true,
+              "weight": 5
+            }
+          ],
+          "critical_error": false,
+          "false_success": true,
+          "grade_sha256": "55d8ad35304aa431259316a386acca50af348a9525726b017cd6cc5616039624",
+          "hidden_acceptance": false,
+          "oracle_read_denied": true,
+          "oracle_sha256": "0cde11a821456c5411798c3900c171a658baf0713fee7a4a68ddb535f5a3fcc7",
+          "package_sha256": "dbe1c8f5d682f981ba5e86dba7cd4167409251c247eb81e147ebd14c6ee914af",
+          "provider_calls": 0,
+          "provider_cost_usd": 0,
+          "public_pass": true,
+          "quality": 90,
+          "root_state": "accepted",
+          "schema_version": 1,
+          "source_workspace_unchanged": true,
+          "task_id": "P08",
+          "task_sha256": "6e7093a4a3c25e405490ffc3209c88ddcdb396f4c360fe8792799a953baa04c1",
+          "variant": "candidate"
+        },
+        "protected_sha256": {
+          "ISSUE.md": "46aa072736f35a90062a9c0fbe5681917e2adf960a16cb9e7e61fc3e5d700952",
+          "LICENSE": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+          "acceptance.json": "5c9e7df0dca1091f5bba688cc117ff2131573a42be6ecf39d11d7ebb584226cd",
+          "platformdirs/__init__.py": "47e23ef1115abb89e41b84ba6f4b214952e30e78f186fbc0d15f9f97679c9493",
+          "platformdirs/__main__.py": "6ee225418c71b1e09733b7f2aff33076571b811c04e2cd301b1770368f364b04",
+          "platformdirs/android.py": "1cab73749bdaa6ff457d1bcca91d644272e44573a3cd764cbf0410804bd50be7",
+          "platformdirs/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "platformdirs/version.py": "fb47a47084aa736e7f7581187bbdae06e9b3b949372a898282bbbb01484e6ac9",
+          "platformdirs/windows.py": "30686758af9ac2bca373abe82a1ae5d84fb44e24a474c155afae487012463aa8",
+          "public_check.py": "c722682fb6111cc391d78ea59003cbf96a04932cbe8c8210e9490cc60548809c"
+        },
+        "quality_v2": {
+          "behaviour_accepted": false,
+          "component_scores": {
+            "behaviour": 60,
+            "diagnosis": 0,
+            "invariant": 5,
+            "report": 0
+          },
+          "contradicted_check_claims": [],
+          "critical_coverage": true,
+          "critical_error": false,
+          "grade_sha256": "ef803fb3c7073fe152b84b573ad39768b3e413b1fa85ae5afd2161b169060300",
+          "hidden_accepted": false,
+          "inconclusive": false,
+          "predicate_results": {
+            "creation-disabled": true,
+            "diagnosis": false,
+            "mac-cache-path": false,
+            "mac-cache-single": true,
+            "report": false,
+            "unix-site-path": true,
+            "xdg-config-single": true,
+            "xdg-data-multipath": true,
+            "xdg-data-single": true,
+            "xdg-lazy-first": true
+          },
+          "quality": 65,
+          "report_observability": "worker-malformed",
+          "root_acceptance_gap": true,
+          "schema_version": 2,
+          "task_sha256": "60dd923b4c1ffd0a59acb45f735e13aaecf3cff96ce898f366edf404a8e48cb2",
+          "unsupported_completion": false
+        },
+        "root_id": "bfbea7754d66dee00055aac1",
+        "root_state": "accepted",
+        "snapshot": {
+          "episode_label": "b0-b",
+          "files": {
+            "platformdirs/_xdg.py": "4d69335cccc7c2ab617e344721389b8ce2893832e33b49dfaeec6f2ec501a54b",
+            "platformdirs/api.py": "3096a7493683c4fd68728f395c014b6407e217988b83c33c631b0300c5ab1a8f",
+            "platformdirs/macos.py": "6c61b139f76c6d4f3f956d48620e724df0083226b1951686672a8e6d4d80479a",
+            "platformdirs/unix.py": "a91edb765c70698b86714e65265d57c46288b6d139ff76c569de5428027da6ca"
+          },
+          "schema_version": 1,
+          "sequence": 2,
+          "snapshot_sha256": "b926a95f56b2ddf90e10fa28799809a9a201bd23639065c71cfa1105d14dcc45",
+          "task_id": "P08"
+        },
+        "task_id": "P08",
+        "workspace": "/var/lib/orchestrator-worker-n4/seed/q4-m3-18f4fcec44b8-02"
+      },
+      "episode_label": "b0-b",
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "P08"
+    },
+    {
+      "episode_label": "sonnet-xhigh",
+      "failure_type": "LiveScreenError",
+      "sequence": 3,
+      "state": "uncertain",
+      "task_id": "P08"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "cbbb9bf0604a3bd57ea89669c30d45c39276e91306056c7de93eb65a9fe87f78",
+  "status": "blocked",
+  "stop_reason": "uncertain episode",
+  "total_cost_usd": 1.399081201,
+  "total_provider_calls": 2
+}

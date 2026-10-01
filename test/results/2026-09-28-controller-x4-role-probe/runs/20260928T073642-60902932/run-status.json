@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "execution_status": "blocked",
+  "outcome": "gap",
+  "error": null,
+  "recorded_at": "2026-09-27T21:40:16.648876+00:00",
+  "artefacts": {
+    "files": [
+      {
+        "path": "REPORT.md",
+        "sha256": "ed73853d52c9e6773b9e503799ab94df667ee2c0457936de0e1ed2e683f19913",
+        "size": 830
+      },
+      {
+        "path": "budget-status.json",
+        "sha256": "d790adeb286b78fa7945f67520f64fa328f133e891a7e2ffaa545a815dc3f683",
+        "size": 237
+      },
+      {
+        "path": "controller-evidence.json",
+        "sha256": "e4336145493d4313e27fc45e2d0b4304bf4e298f593d7e1575f5327b1944c259",
+        "size": 1321
+      },
+      {
+        "path": "ledger.jsonl",
+        "sha256": "b5dd68063a10bdbfde2d8422e544a286520819c20b0c0a9afe6d10ebf2230140",
+        "size": 2871
+      }
+    ],
+    "missing": [],
+    "digest": "0b3f05ca234a9c5574268061064ddcecc5d471a41a2bca885896a4570209dd7b"
+  }
+}

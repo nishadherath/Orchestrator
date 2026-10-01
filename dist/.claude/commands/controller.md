@@ -21,7 +21,7 @@ Do not invent either value.
 Run `python3 tools/controller_control.py --project .` with exactly one of:
 
 ```
-status
+status [--root-id <N1-root-id>] [--session-id <session-id>]
 resolve --session-id <session-id> --task-revision <task-revision>
 set --mode <mode> --scope task --task-revision <task-revision>
 set --mode <mode> --scope session --session-id <session-id>
@@ -37,7 +37,12 @@ Cancellation prevents new admissions and preserves completed evidence and
 uncertain charges. A running provider call may still finish and bill.
 
 Pass identifiers as separate quoted arguments. Do not concatenate operator text
-into a shell command. Report the resulting state revision and effective mode.
+into a shell command. For `status`, pass the active N1 root id when one exists.
+Report current intent, frozen effective action, applicability and Controller
+admission status separately. A later intent change does not alter an already
+frozen decision. Root admission is not proof of a completed provider call or
+final billing. Without a root, task applicability and dispatch are unknown.
+Report the resulting state revision and effective mode when available.
 This command changes routing intent only. It must never dispatch a worker, invoke
 the Controller, or make a paid provider call. A change takes effect at the next
 safe dispatch boundary; an already-started operation retains its prior snapshot.

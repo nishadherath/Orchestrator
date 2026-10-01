@@ -1,0 +1,5 @@
+{
+  "returncode": 1,
+  "stderr": "Error: --json-schema is not valid JSON: JSON Parse error: Unable to parse JSON string\n",
+  "stdout_tail": ""
+}

@@ -1,0 +1,11 @@
+{
+  "episode_label": "b0-b",
+  "files": {
+    "idna/codec.py": "2516e8f9fee91242dd59e887f3d67bd94478541621bca0c5ad005e357eac4431",
+    "idna/core.py": "a677dc69fea60000d7fa2f17feb0bfdc0c92cf1a0ee44814fd0fe0fbc176065c"
+  },
+  "schema_version": 1,
+  "sequence": 18,
+  "snapshot_sha256": "f2ed87d1f7c53981454f063f33e070b314e7681e6fd82f550c01f5b8b50452f9",
+  "task_id": "S06"
+}

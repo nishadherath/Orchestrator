@@ -1,0 +1,23 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-002",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "prem-012"
+  ],
+  "technique": "abduce",
+  "premise_operation": "add",
+  "mechanism": "The statement names 'idempotency suppression of a legitimate retry' as a mechanism but does not state what signal the idempotency check treats as 'already done'. If that signal is set at acknowledgement or job-claim time rather than at confirmed receipt-write completion, a job whose receipt write never happened is indistinguishable from one that succeeded, so a legitimate retry is suppressed and the receipt stays missing. This premise makes the third named mechanism internally coherent: without it, idempotency suppression could not by itself explain a missing receipt, since idempotency exists to block duplicates of confirmed work, not incomplete work. Discriminating value: it predicts that wherever suppression is the true cause, the idempotency store's dedup marker references the acknowledgement or claim event, not a confirmed receipt write.",
+  "claimed_gain_vs_b0": "Adds internal coherence to the idempotency-suppression explanation and yields a discriminating test B0 does not name: what signal the dedup marker keys on.",
+  "premises_introduced": [
+    {
+      "text": "The idempotency check's 'already processed' marker is set at acknowledgement or job-claim time, not at confirmed receipt-write completion, so a claimed-but-unwritten job is indistinguishable from a completed one.",
+      "class": "unverified"
+    }
+  ],
+  "falsification_test": "Inspect what field the idempotency dedup store keys its marker on; if it keys on confirmed receipt existence rather than acknowledgement or claim, this premise is false.",
+  "cost_estimate_usd": 0.4,
+  "refines": null
+}

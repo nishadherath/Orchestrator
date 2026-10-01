@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 12000000000,
+  "baseline_limit_units": 12000000000,
+  "cancelled": false,
+  "created_at": "2026-09-27T19:12:36.281498+00:00",
+  "invocations": {
+    "public-assessment-46fce1161acbc45489fd9afe": {
+      "state": "running",
+      "allowance_units": 500000000,
+      "charged_units": 0,
+      "cost_usd": null,
+      "reserved_at": "2026-09-27T19:12:56.031101+00:00",
+      "metadata": {
+        "revision_id": "46fce1161acbc45489fd9afe605adcc74065f95c0c6a8b626a883ac17ffa6155",
+        "packet_sha256": "5c028c81108790556e14ee932d39a7865bf773220e1b170c42e911d359738316",
+        "allocation": "public-assessment"
+      },
+      "telemetry": null,
+      "resolution": null,
+      "started_at": "2026-09-27T19:12:56.067830+00:00"
+    }
+  }
+}

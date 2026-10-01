@@ -1,0 +1,2231 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 48750000000,
+  "baseline_limit_units": 48750000000,
+  "cancelled": false,
+  "created_at": "2026-09-24T22:34:38.050594+00:00",
+  "invocations": {
+    "72d1ac6becef05a4e33d1ce423d385fb": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 12154200,
+      "cost_usd": 0.0121542,
+      "reserved_at": "2026-09-24T22:34:47.100055+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 1,
+        "cell": "worker-sonnet-low"
+      },
+      "telemetry": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 1518,
+        "cache_read_input_tokens": 20341,
+        "output_tokens": 95,
+        "cost_usd": 0.0121542,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0121542,
+        "final": true,
+        "evidence": "receipt:b9458a024144bfd8a5b4e451e3f864fc6e42bf4c3b81d9eca666a90fd52e062a",
+        "telemetry": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 1518,
+          "cache_read_input_tokens": 20341,
+          "output_tokens": 95,
+          "cost_usd": 0.0121542,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:34:47.132924+00:00",
+      "updated_at": "2026-09-24T22:35:21.913573+00:00"
+    },
+    "e9a23d519134b0991fe6d8e6e4f7297f": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 35118600,
+      "cost_usd": 0.0351186,
+      "reserved_at": "2026-09-24T22:35:32.129039+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 2,
+        "cell": "worker-sonnet-low"
+      },
+      "telemetry": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3066,
+        "cache_read_input_tokens": 55503,
+        "output_tokens": 1063,
+        "cost_usd": 0.0351186,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0351186,
+        "final": true,
+        "evidence": "receipt:04d4b6af1c5de4a3936c93e5161bc7846905dab4f09806f6699485756d76f81a",
+        "telemetry": {
+          "input_tokens": 10,
+          "cache_creation_input_tokens": 3066,
+          "cache_read_input_tokens": 55503,
+          "output_tokens": 1063,
+          "cost_usd": 0.0351186,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:35:32.157069+00:00",
+      "updated_at": "2026-09-24T22:36:16.547881+00:00"
+    },
+    "572c557f9fa5274077fe3422d4bb6fdd": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 31832800,
+      "cost_usd": 0.0318328,
+      "reserved_at": "2026-09-24T22:36:39.036800+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 3,
+        "cell": "worker-sonnet-low"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 2770,
+        "cache_read_input_tokens": 43104,
+        "output_tokens": 1097,
+        "cost_usd": 0.0318328,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0318328,
+        "final": true,
+        "evidence": "receipt:99d211ea77efecdf6651a32c3e7e540f6442745ce83fbabe0b006dcd04fe5484",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 2770,
+          "cache_read_input_tokens": 43104,
+          "output_tokens": 1097,
+          "cost_usd": 0.0318328,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:36:39.067084+00:00",
+      "updated_at": "2026-09-24T22:37:21.986607+00:00"
+    },
+    "81b6d958c602b7a105a9d029e7770369": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 13809001,
+      "cost_usd": 0.013809000000000002,
+      "reserved_at": "2026-09-24T22:37:43.409035+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 4,
+        "cell": "worker-sonnet-low"
+      },
+      "telemetry": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 1620,
+        "cache_read_input_tokens": 20415,
+        "output_tokens": 213,
+        "cost_usd": 0.013809000000000002,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.013809000000000002,
+        "final": true,
+        "evidence": "receipt:9f01884fafc3b6adbc3f8223d14225c1c1b9110661d3a34133a8daf940c144cd",
+        "telemetry": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 1620,
+          "cache_read_input_tokens": 20415,
+          "output_tokens": 213,
+          "cost_usd": 0.013809000000000002,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:37:43.437905+00:00",
+      "updated_at": "2026-09-24T22:38:22.548662+00:00"
+    },
+    "36d33e7354a6814818ac80497fd3986d": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 48584200,
+      "cost_usd": 0.0485842,
+      "reserved_at": "2026-09-24T22:38:46.413980+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 5,
+        "cell": "worker-sonnet-medium"
+      },
+      "telemetry": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 11112,
+        "cache_read_input_tokens": 10736,
+        "output_tokens": 92,
+        "cost_usd": 0.0485842,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0485842,
+        "final": true,
+        "evidence": "receipt:8e0c138b57472ac649812c348b22f93f1e69d8b638978e8e203465296c3ef671",
+        "telemetry": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 11112,
+          "cache_read_input_tokens": 10736,
+          "output_tokens": 92,
+          "cost_usd": 0.0485842,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:38:46.444018+00:00",
+      "updated_at": "2026-09-24T22:39:20.124337+00:00"
+    },
+    "ede9579ee63fc9426e83945dba5f9ecb": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 39493000,
+      "cost_usd": 0.03949299999999999,
+      "reserved_at": "2026-09-24T22:39:29.823333+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 6,
+        "cell": "worker-sonnet-medium"
+      },
+      "telemetry": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3280,
+        "cache_read_input_tokens": 54995,
+        "output_tokens": 1425,
+        "cost_usd": 0.03949299999999999,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.03949299999999999,
+        "final": true,
+        "evidence": "receipt:630153a993568ab040fb64e3922b906577c4d0c01a19b3bb5b72f9e4cc7ebec9",
+        "telemetry": {
+          "input_tokens": 10,
+          "cache_creation_input_tokens": 3280,
+          "cache_read_input_tokens": 54995,
+          "output_tokens": 1425,
+          "cost_usd": 0.03949299999999999,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:39:29.851163+00:00",
+      "updated_at": "2026-09-24T22:40:15.436317+00:00"
+    },
+    "200b7c834f1c61da11189d0afdc272bf": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 51557200,
+      "cost_usd": 0.0515572,
+      "reserved_at": "2026-09-24T22:40:37.671727+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 7,
+        "cell": "worker-sonnet-medium"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 4079,
+        "cache_read_input_tokens": 43096,
+        "output_tokens": 2546,
+        "cost_usd": 0.0515572,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0515572,
+        "final": true,
+        "evidence": "receipt:6badf388673edd1e23e8771fbee6018b121583049aecd6880bf432086492db43",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 4079,
+          "cache_read_input_tokens": 43096,
+          "output_tokens": 2546,
+          "cost_usd": 0.0515572,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:40:37.703863+00:00",
+      "updated_at": "2026-09-24T22:41:32.730715+00:00"
+    },
+    "d641ce271c4086b8ee38a6c137ab892c": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 17829600,
+      "cost_usd": 0.0178296,
+      "reserved_at": "2026-09-24T22:41:53.290748+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 8,
+        "cell": "worker-sonnet-medium"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 1925,
+        "cache_read_input_tokens": 31548,
+        "output_tokens": 269,
+        "cost_usd": 0.0178296,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0178296,
+        "final": true,
+        "evidence": "receipt:a1ccab1fec55633c87ad937842c365340a5e3f307f2207777050f0aeb3670209",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 1925,
+          "cache_read_input_tokens": 31548,
+          "output_tokens": 269,
+          "cost_usd": 0.0178296,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:41:53.323572+00:00",
+      "updated_at": "2026-09-24T22:42:31.975476+00:00"
+    },
+    "0fe8070a666496f885fd4fcd5c9794ba": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 48764800,
+      "cost_usd": 0.0487648,
+      "reserved_at": "2026-09-24T22:42:52.894184+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 9,
+        "cell": "worker-sonnet-high"
+      },
+      "telemetry": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 11127,
+        "cache_read_input_tokens": 10739,
+        "output_tokens": 104,
+        "cost_usd": 0.0487648,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0487648,
+        "final": true,
+        "evidence": "receipt:5411523def4138ecf1868bcec1b83c836c23b7b8212ece8baeba9ca4fe1087e7",
+        "telemetry": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 11127,
+          "cache_read_input_tokens": 10739,
+          "output_tokens": 104,
+          "cost_usd": 0.0487648,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:42:52.922106+00:00",
+      "updated_at": "2026-09-24T22:43:29.008308+00:00"
+    },
+    "142b342d7570f300cb1c82e9f2c35642": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 39608800,
+      "cost_usd": 0.0396088,
+      "reserved_at": "2026-09-24T22:43:38.580423+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 10,
+        "cell": "worker-sonnet-high"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3418,
+        "cache_read_input_tokens": 43334,
+        "output_tokens": 1615,
+        "cost_usd": 0.0396088,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0396088,
+        "final": true,
+        "evidence": "receipt:3278dc6851d7f3694b720beeafa34215bf8c721503ff0ad8b9cd73e8bfc399a9",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 3418,
+          "cache_read_input_tokens": 43334,
+          "output_tokens": 1615,
+          "cost_usd": 0.0396088,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:43:38.626677+00:00",
+      "updated_at": "2026-09-24T22:44:33.967983+00:00"
+    },
+    "304b6acd1071e22371274419043951eb": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 52980600,
+      "cost_usd": 0.0529806,
+      "reserved_at": "2026-09-24T22:44:54.034747+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 11,
+        "cell": "worker-sonnet-high"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 4212,
+        "cache_read_input_tokens": 43103,
+        "output_tokens": 2633,
+        "cost_usd": 0.0529806,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0529806,
+        "final": true,
+        "evidence": "receipt:6f732e573b68efaa68cfb27f7aba9fc87bec0095ecaeff07eb8b059b7e696605",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 4212,
+          "cache_read_input_tokens": 43103,
+          "output_tokens": 2633,
+          "cost_usd": 0.0529806,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:44:54.067746+00:00",
+      "updated_at": "2026-09-24T22:45:56.460290+00:00"
+    },
+    "672367204e5e9b3ccadd1fef4d6ec239": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 32071400,
+      "cost_usd": 0.0320714,
+      "reserved_at": "2026-09-24T22:46:20.874491+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 12,
+        "cell": "worker-sonnet-high"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2275,
+        "cache_read_input_tokens": 31657,
+        "output_tokens": 1552,
+        "cost_usd": 0.0320714,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0320714,
+        "final": true,
+        "evidence": "receipt:7829239732115fc6ecf417c03fadd4e47109c28d10b906acc796148b1a6910db",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2275,
+          "cache_read_input_tokens": 31657,
+          "output_tokens": 1552,
+          "cost_usd": 0.0320714,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:46:20.908474+00:00",
+      "updated_at": "2026-09-24T22:47:24.365773+00:00"
+    },
+    "3c944c25cb2f0c32508ec2f13359a79c": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 49002800,
+      "cost_usd": 0.0490028,
+      "reserved_at": "2026-09-24T22:47:55.654170+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 13,
+        "cell": "worker-sonnet-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 11144,
+        "cache_read_input_tokens": 10739,
+        "output_tokens": 122,
+        "cost_usd": 0.0490028,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0490028,
+        "final": true,
+        "evidence": "receipt:92e13883029cac4305cb5a0dfa6efe106b4ceaba6720dfa2db5b4f338159017e",
+        "telemetry": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 11144,
+          "cache_read_input_tokens": 10739,
+          "output_tokens": 122,
+          "cost_usd": 0.0490028,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:47:55.712434+00:00",
+      "updated_at": "2026-09-24T22:48:46.506151+00:00"
+    },
+    "2d91514ca4999d049a077d0819330ab5": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 58613600,
+      "cost_usd": 0.0586136,
+      "reserved_at": "2026-09-24T22:49:02.063936+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 14,
+        "cell": "worker-sonnet-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 12,
+        "cache_creation_input_tokens": 4969,
+        "cache_read_input_tokens": 68548,
+        "output_tokens": 2390,
+        "cost_usd": 0.0586136,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0586136,
+        "final": true,
+        "evidence": "receipt:c5b10684af56b7b5a8df2c7e6c0f82da4b1f30c248c38a53251d4d7b5fbdbb32",
+        "telemetry": {
+          "input_tokens": 12,
+          "cache_creation_input_tokens": 4969,
+          "cache_read_input_tokens": 68548,
+          "output_tokens": 2390,
+          "cost_usd": 0.0586136,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:49:02.103768+00:00",
+      "updated_at": "2026-09-24T22:50:25.208248+00:00"
+    },
+    "6addbdf9e7e314f0df67f42c37f226a4": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 65253600,
+      "cost_usd": 0.0652536,
+      "reserved_at": "2026-09-24T22:50:52.947870+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 15,
+        "cell": "worker-sonnet-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 5279,
+        "cache_read_input_tokens": 43628,
+        "output_tokens": 3425,
+        "cost_usd": 0.0652536,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0652536,
+        "final": true,
+        "evidence": "receipt:96551a63e871f57af3597a4c680a6c2e7853a738987869052c839370e8afd64a",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 5279,
+          "cache_read_input_tokens": 43628,
+          "output_tokens": 3425,
+          "cost_usd": 0.0652536,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:50:52.991915+00:00",
+      "updated_at": "2026-09-24T22:52:08.327925+00:00"
+    },
+    "08fa06cfc425b68b974a6bf1aaa8ab81": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 33348000,
+      "cost_usd": 0.033348,
+      "reserved_at": "2026-09-24T22:52:35.923333+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 16,
+        "cell": "worker-sonnet-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2256,
+        "cache_read_input_tokens": 31620,
+        "output_tokens": 1688,
+        "cost_usd": 0.033348,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.033348,
+        "final": true,
+        "evidence": "receipt:9b56f87e410ce7f7a38c66e611e6dae7f05a2bee75c0353ac0f794d7ab85b18e",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2256,
+          "cache_read_input_tokens": 31620,
+          "output_tokens": 1688,
+          "cost_usd": 0.033348,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:52:35.983496+00:00",
+      "updated_at": "2026-09-24T22:53:39.419683+00:00"
+    },
+    "3b9899721c7feb189f913002e316a81f": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 50610000,
+      "cost_usd": 0.05061,
+      "reserved_at": "2026-09-24T22:54:11.928553+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 17,
+        "cell": "worker-sonnet-max"
+      },
+      "telemetry": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 11256,
+        "cache_read_input_tokens": 10735,
+        "output_tokens": 237,
+        "cost_usd": 0.05061,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.05061,
+        "final": true,
+        "evidence": "receipt:87bdd0dec323e7da527c2c97d5647280d94545f6ecb0212323f9711eee3f451b",
+        "telemetry": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 11256,
+          "cache_read_input_tokens": 10735,
+          "output_tokens": 237,
+          "cost_usd": 0.05061,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:54:11.969860+00:00",
+      "updated_at": "2026-09-24T22:54:56.663129+00:00"
+    },
+    "e4ca3bbaf64e5ce61d494df4a6b6b585": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 129667200,
+      "cost_usd": 0.12966719999999998,
+      "reserved_at": "2026-09-24T22:55:08.512598+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 18,
+        "cell": "worker-sonnet-max"
+      },
+      "telemetry": {
+        "input_tokens": 12,
+        "cache_creation_input_tokens": 10381,
+        "cache_read_input_tokens": 77526,
+        "output_tokens": 7151,
+        "cost_usd": 0.12966719999999998,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.12966719999999998,
+        "final": true,
+        "evidence": "receipt:cd4288e4d4ec3a616fc26f88ac8ccd999859b2ed48e9918e929b30c0a162842d",
+        "telemetry": {
+          "input_tokens": 12,
+          "cache_creation_input_tokens": 10381,
+          "cache_read_input_tokens": 77526,
+          "output_tokens": 7151,
+          "cost_usd": 0.12966719999999998,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:55:08.533109+00:00",
+      "updated_at": "2026-09-24T22:57:03.335851+00:00"
+    },
+    "5f72191c572d0cf4db5f0927f159375a": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 137166400,
+      "cost_usd": 0.1371664,
+      "reserved_at": "2026-09-24T22:57:32.262761+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 19,
+        "cell": "worker-sonnet-max"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 10406,
+        "cache_read_input_tokens": 47502,
+        "output_tokens": 8488,
+        "cost_usd": 0.1371664,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.1371664,
+        "final": true,
+        "evidence": "receipt:7b8adcda0e0221acd7b70089ca1e2d12f32f0015a1c918844bcbffdd8e1e9124",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 10406,
+          "cache_read_input_tokens": 47502,
+          "output_tokens": 8488,
+          "cost_usd": 0.1371664,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T22:57:32.312054+00:00",
+      "updated_at": "2026-09-24T22:59:41.762052+00:00"
+    },
+    "575609645a039ec33c4facd73aa47c93": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 117444000,
+      "cost_usd": 0.11744399999999999,
+      "reserved_at": "2026-09-24T23:00:12.802492+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 20,
+        "cell": "worker-sonnet-max"
+      },
+      "telemetry": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 8690,
+        "cache_read_input_tokens": 62180,
+        "output_tokens": 6912,
+        "cost_usd": 0.11744399999999999,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.11744399999999999,
+        "final": true,
+        "evidence": "receipt:1b17b477d986112df1982daf38b148d57aecc18e0fa5c6c5884f23cdb34afbd4",
+        "telemetry": {
+          "input_tokens": 10,
+          "cache_creation_input_tokens": 8690,
+          "cache_read_input_tokens": 62180,
+          "output_tokens": 6912,
+          "cost_usd": 0.11744399999999999,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:00:12.846114+00:00",
+      "updated_at": "2026-09-24T23:01:54.375651+00:00"
+    },
+    "7c6959bc2a7e2c52bb5dbdc114a5c22b": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 97289500,
+      "cost_usd": 0.0972895,
+      "reserved_at": "2026-09-24T23:02:22.172489+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 21,
+        "cell": "worker-opus-low"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 8344,
+        "cache_read_input_tokens": 15717,
+        "output_tokens": 196,
+        "cost_usd": 0.0972895,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0972895,
+        "final": true,
+        "evidence": "receipt:e94ec35280defc0149fbee12672517aa6323faf3a967567c7b162f8f4189f72a",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 8344,
+          "cache_read_input_tokens": 15717,
+          "output_tokens": 196,
+          "cost_usd": 0.0972895,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:02:22.205646+00:00",
+      "updated_at": "2026-09-24T23:03:03.318960+00:00"
+    },
+    "6a1f730617dd44798ba72fb872a9abbe": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 55991500,
+      "cost_usd": 0.0559915,
+      "reserved_at": "2026-09-24T23:03:13.984049+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 22,
+        "cell": "worker-opus-low"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2229,
+        "cache_read_input_tokens": 22735,
+        "output_tokens": 848,
+        "cost_usd": 0.0559915,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0559915,
+        "final": true,
+        "evidence": "receipt:e7e0007113b6d5124e3a3d053dae832ca555c0108329615ca801fc580df62e91",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2229,
+          "cache_read_input_tokens": 22735,
+          "output_tokens": 848,
+          "cost_usd": 0.0559915,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:03:14.026733+00:00",
+      "updated_at": "2026-09-24T23:04:16.145710+00:00"
+    },
+    "212c6a63105b133fbb3671fb732199d8": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 64749000,
+      "cost_usd": 0.064749,
+      "reserved_at": "2026-09-24T23:04:47.607933+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 23,
+        "cell": "worker-opus-low"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 2372,
+        "cache_read_input_tokens": 30936,
+        "output_tokens": 975,
+        "cost_usd": 0.064749,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.064749,
+        "final": true,
+        "evidence": "receipt:30ef2b145e686e5070d174aaf488125121e8fbc66993c472a99f680376e9e56b",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 2372,
+          "cache_read_input_tokens": 30936,
+          "output_tokens": 975,
+          "cost_usd": 0.064749,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:04:47.639606+00:00",
+      "updated_at": "2026-09-24T23:05:37.114233+00:00"
+    },
+    "c01a426aca43099d6efb26ef58c73855": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 44080500,
+      "cost_usd": 0.044080499999999995,
+      "reserved_at": "2026-09-24T23:06:05.092512+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 24,
+        "cell": "worker-opus-low"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2100,
+        "cache_read_input_tokens": 22835,
+        "output_tokens": 421,
+        "cost_usd": 0.044080499999999995,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.044080499999999995,
+        "final": true,
+        "evidence": "receipt:c65713ab647ca92e4e580b89c57b2d4e50f30bdb6e1ed034b4e4580edfabe2c4",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2100,
+          "cache_read_input_tokens": 22835,
+          "output_tokens": 421,
+          "cost_usd": 0.044080499999999995,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:06:05.115261+00:00",
+      "updated_at": "2026-09-24T23:06:53.786863+00:00"
+    },
+    "651570fb543f662ef09ed844b42d1571": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 103726001,
+      "cost_usd": 0.10372600000000001,
+      "reserved_at": "2026-09-24T23:07:27.974934+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 25,
+        "cell": "worker-opus-medium"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 8669,
+        "cache_read_input_tokens": 15740,
+        "output_tokens": 323,
+        "cost_usd": 0.10372600000000001,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.10372600000000001,
+        "final": true,
+        "evidence": "receipt:151c048c6722effc3d8e0d706e24e8dac506a10129d743e7631946c241de8c87",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 8669,
+          "cache_read_input_tokens": 15740,
+          "output_tokens": 323,
+          "cost_usd": 0.10372600000000001,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:07:28.026956+00:00",
+      "updated_at": "2026-09-24T23:08:20.936224+00:00"
+    },
+    "d5181b707d50d958ab808c1cce79175a": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 68185500,
+      "cost_usd": 0.0681855,
+      "reserved_at": "2026-09-24T23:08:39.875799+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 26,
+        "cell": "worker-opus-medium"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 2504,
+        "cache_read_input_tokens": 31453,
+        "output_tokens": 1051,
+        "cost_usd": 0.0681855,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0681855,
+        "final": true,
+        "evidence": "receipt:32e09814e9dc1a665c2fe9852a7559a84ea2a9074219a352d9a5bcc306f5676c",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 2504,
+          "cache_read_input_tokens": 31453,
+          "output_tokens": 1051,
+          "cost_usd": 0.0681855,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:08:39.946343+00:00",
+      "updated_at": "2026-09-24T23:09:58.228670+00:00"
+    },
+    "fbe489d3f1e864efd35d66240a816be1": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 77635500,
+      "cost_usd": 0.0776355,
+      "reserved_at": "2026-09-24T23:10:29.351725+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 27,
+        "cell": "worker-opus-medium"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3011,
+        "cache_read_input_tokens": 31979,
+        "output_tokens": 1214,
+        "cost_usd": 0.0776355,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0776355,
+        "final": true,
+        "evidence": "receipt:65c988bb0b1cd44cb6cc2938e3234186ce439cbc2c0128272aced51ef7876997",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 3011,
+          "cache_read_input_tokens": 31979,
+          "output_tokens": 1214,
+          "cost_usd": 0.0776355,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:10:29.408731+00:00",
+      "updated_at": "2026-09-24T23:12:37.609961+00:00"
+    },
+    "a09b307dc464c2b65120fc319a592b44": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 53986500,
+      "cost_usd": 0.0539865,
+      "reserved_at": "2026-09-24T23:13:34.418727+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 28,
+        "cell": "worker-opus-medium"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2043,
+        "cache_read_input_tokens": 22537,
+        "output_tokens": 846,
+        "cost_usd": 0.0539865,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0539865,
+        "final": true,
+        "evidence": "receipt:e627a0464aa4093b9ee2aa074bdc6c41c5b3ec8d7cd9e3b0e41691f2b9c1978a",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2043,
+          "cache_read_input_tokens": 22537,
+          "output_tokens": 846,
+          "cost_usd": 0.0539865,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:13:34.480058+00:00",
+      "updated_at": "2026-09-24T23:15:04.358323+00:00"
+    },
+    "15db5225e1ed407008a0f3ff1aa6670c": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 105766500,
+      "cost_usd": 0.1057665,
+      "reserved_at": "2026-09-24T23:15:52.374995+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 29,
+        "cell": "worker-opus-high"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 8644,
+        "cache_read_input_tokens": 15721,
+        "output_tokens": 415,
+        "cost_usd": 0.1057665,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.1057665,
+        "final": true,
+        "evidence": "receipt:00bb5b92f7ea346f675745cc872512ad739510feed30a5a2c7e18a2cf613f883",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 8644,
+          "cache_read_input_tokens": 15721,
+          "output_tokens": 415,
+          "cost_usd": 0.1057665,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:15:52.431988+00:00",
+      "updated_at": "2026-09-24T23:17:03.523814+00:00"
+    },
+    "96594c8222e941d4608f8675e1535958": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 123167500,
+      "cost_usd": 0.12316749999999999,
+      "reserved_at": "2026-09-24T23:17:21.316389+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 30,
+        "cell": "worker-opus-high"
+      },
+      "telemetry": {
+        "input_tokens": 12,
+        "cache_creation_input_tokens": 4362,
+        "cache_read_input_tokens": 51317,
+        "output_tokens": 2109,
+        "cost_usd": 0.12316749999999999,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.12316749999999999,
+        "final": true,
+        "evidence": "receipt:aaa8a8610e86d939abd0eeeb735a2ce96d81a75688cd2ada77f3139e88196f80",
+        "telemetry": {
+          "input_tokens": 12,
+          "cache_creation_input_tokens": 4362,
+          "cache_read_input_tokens": 51317,
+          "output_tokens": 2109,
+          "cost_usd": 0.12316749999999999,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:17:21.393833+00:00",
+      "updated_at": "2026-09-24T23:18:43.903119+00:00"
+    },
+    "ecb8ce2d30827beaf14a02c177bc50b7": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 155382000,
+      "cost_usd": 0.155382,
+      "reserved_at": "2026-09-24T23:19:09.093789+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 31,
+        "cell": "worker-opus-high"
+      },
+      "telemetry": {
+        "input_tokens": 12,
+        "cache_creation_input_tokens": 5116,
+        "cache_read_input_tokens": 52782,
+        "output_tokens": 3065,
+        "cost_usd": 0.155382,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.155382,
+        "final": true,
+        "evidence": "receipt:637d8a94a9e088cbee3325ea3d096eabe38ce93f794d9bf289a31612eec5dce6",
+        "telemetry": {
+          "input_tokens": 12,
+          "cache_creation_input_tokens": 5116,
+          "cache_read_input_tokens": 52782,
+          "output_tokens": 3065,
+          "cost_usd": 0.155382,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:19:09.138243+00:00",
+      "updated_at": "2026-09-24T23:20:24.069465+00:00"
+    },
+    "b666c7c8fdf7dc9563c265ea324485c0": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 85671000,
+      "cost_usd": 0.085671,
+      "reserved_at": "2026-09-24T23:20:48.860633+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 32,
+        "cell": "worker-opus-high"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2731,
+        "cache_read_input_tokens": 23176,
+        "output_tokens": 1825,
+        "cost_usd": 0.085671,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.085671,
+        "final": true,
+        "evidence": "receipt:555368b4039a186b53aac9192f17b4a4b60cf49a51ec50ffbf00e4727eb17f83",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2731,
+          "cache_read_input_tokens": 23176,
+          "output_tokens": 1825,
+          "cost_usd": 0.085671,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:20:48.907901+00:00",
+      "updated_at": "2026-09-24T23:22:06.538471+00:00"
+    },
+    "0d5acf33baab03612aaca64f12cf2b75": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 113710500,
+      "cost_usd": 0.11371049999999999,
+      "reserved_at": "2026-09-24T23:22:40.787312+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 33,
+        "cell": "worker-opus-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 8884,
+        "cache_read_input_tokens": 16099,
+        "output_tokens": 629,
+        "cost_usd": 0.11371049999999999,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.11371049999999999,
+        "final": true,
+        "evidence": "receipt:76f495faa8ba749a06e8e1006c29fc7529d066d8763fbf1ac2600536862d0a43",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 8884,
+          "cache_read_input_tokens": 16099,
+          "output_tokens": 629,
+          "cost_usd": 0.11371049999999999,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:22:40.834437+00:00",
+      "updated_at": "2026-09-24T23:23:30.110648+00:00"
+    },
+    "2a0f234a6179f8a2057949d418c86a38": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 111059000,
+      "cost_usd": 0.111059,
+      "reserved_at": "2026-09-24T23:23:43.555764+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 34,
+        "cell": "worker-opus-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3601,
+        "cache_read_input_tokens": 31860,
+        "output_tokens": 2319,
+        "cost_usd": 0.111059,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.111059,
+        "final": true,
+        "evidence": "receipt:2ef528b8b8f68822515be5ff9167c7f0174b4b894e95bbff91352dabcb8a1d3d",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 3601,
+          "cache_read_input_tokens": 31860,
+          "output_tokens": 2319,
+          "cost_usd": 0.111059,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:23:43.604613+00:00",
+      "updated_at": "2026-09-24T23:25:01.492933+00:00"
+    },
+    "9b6a212a9829cfa5488bacab665579b3": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 120159500,
+      "cost_usd": 0.1201595,
+      "reserved_at": "2026-09-24T23:25:38.128664+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 35,
+        "cell": "worker-opus-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3902,
+        "cache_read_input_tokens": 40687,
+        "output_tokens": 2384,
+        "cost_usd": 0.1201595,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.1201595,
+        "final": true,
+        "evidence": "receipt:f6cb735925b3b60e9de7c879c0af5ad763dda95e9fa40297a35fe1d96d793c02",
+        "telemetry": {
+          "input_tokens": 10,
+          "cache_creation_input_tokens": 3902,
+          "cache_read_input_tokens": 40687,
+          "output_tokens": 2384,
+          "cost_usd": 0.1201595,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:25:38.186518+00:00",
+      "updated_at": "2026-09-24T23:26:48.373118+00:00"
+    },
+    "8fc6a9ea1a7cd88a2c9af81e00d63d9f": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 72450500,
+      "cost_usd": 0.0724505,
+      "reserved_at": "2026-09-24T23:27:15.380638+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 36,
+        "cell": "worker-opus-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2391,
+        "cache_read_input_tokens": 22855,
+        "output_tokens": 1439,
+        "cost_usd": 0.0724505,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0724505,
+        "final": true,
+        "evidence": "receipt:f2638f68a01c99d1e2eed64e0564f64ed58f806c42666998f999fd6cfb33843f",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2391,
+          "cache_read_input_tokens": 22855,
+          "output_tokens": 1439,
+          "cost_usd": 0.0724505,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:27:15.423064+00:00",
+      "updated_at": "2026-09-24T23:28:40.089349+00:00"
+    },
+    "9362f7248165510fc8332ba7e68ac88f": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 120780500,
+      "cost_usd": 0.1207805,
+      "reserved_at": "2026-09-24T23:29:04.529027+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 37,
+        "cell": "worker-opus-max"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 9149,
+        "cache_read_input_tokens": 24389,
+        "output_tokens": 640,
+        "cost_usd": 0.1207805,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.1207805,
+        "final": true,
+        "evidence": "receipt:3eecbee27bfcee835bf176559ebe33a4df960657fb97705367eb2d39cffbb3ff",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 9149,
+          "cache_read_input_tokens": 24389,
+          "output_tokens": 640,
+          "cost_usd": 0.1207805,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:29:04.569549+00:00",
+      "updated_at": "2026-09-24T23:29:57.906575+00:00"
+    },
+    "7122d2cff1e48ebfbe95d99bd041a692": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 181686001,
+      "cost_usd": 0.18168600000000001,
+      "reserved_at": "2026-09-24T23:30:10.096295+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 38,
+        "cell": "worker-opus-max"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 5142,
+        "cache_read_input_tokens": 31844,
+        "output_tokens": 4528,
+        "cost_usd": 0.18168600000000001,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.18168600000000001,
+        "final": true,
+        "evidence": "receipt:6fa9582794e14c8a140aff6747a794a746191c5a84f20bc9cb66e093836accfe",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 5142,
+          "cache_read_input_tokens": 31844,
+          "output_tokens": 4528,
+          "cost_usd": 0.18168600000000001,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:30:10.144031+00:00",
+      "updated_at": "2026-09-24T23:32:04.223443+00:00"
+    },
+    "77fad8662eb87ecbdf94e7065ad66815": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 254228500,
+      "cost_usd": 0.25422849999999997,
+      "reserved_at": "2026-09-24T23:32:35.453322+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 39,
+        "cell": "worker-opus-max"
+      },
+      "telemetry": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 7480,
+        "cache_read_input_tokens": 32135,
+        "output_tokens": 6487,
+        "cost_usd": 0.25422849999999997,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.25422849999999997,
+        "final": true,
+        "evidence": "receipt:e3c96cee3e46669ba61dca4bb71edd4c2192e403e2d6b194fc417fc9b041e230",
+        "telemetry": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 7480,
+          "cache_read_input_tokens": 32135,
+          "output_tokens": 6487,
+          "cost_usd": 0.25422849999999997,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:32:35.500880+00:00",
+      "updated_at": "2026-09-24T23:34:49.157357+00:00"
+    },
+    "2735b37464754a88830f10149ba0ae1d": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 116440500,
+      "cost_usd": 0.1164405,
+      "reserved_at": "2026-09-24T23:35:42.430854+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 40,
+        "cell": "worker-opus-max"
+      },
+      "telemetry": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2828,
+        "cache_read_input_tokens": 23295,
+        "output_tokens": 3015,
+        "cost_usd": 0.1164405,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.1164405,
+        "final": true,
+        "evidence": "receipt:d1f8b9f95803779322a63581c9713e6aaa3c9732cb1b6dc4ede709cf81268339",
+        "telemetry": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 2828,
+          "cache_read_input_tokens": 23295,
+          "output_tokens": 3015,
+          "cost_usd": 0.1164405,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:35:42.495952+00:00",
+      "updated_at": "2026-09-24T23:37:17.212013+00:00"
+    },
+    "6ec057742e009d08ea1ee5289d40a9f5": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 189582501,
+      "cost_usd": 0.18958250000000004,
+      "reserved_at": "2026-09-24T23:38:03.721759+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 41,
+        "cell": "worker-fable-low"
+      },
+      "telemetry": {
+        "input_tokens": 34,
+        "cache_creation_input_tokens": 8917,
+        "cache_read_input_tokens": 8566,
+        "output_tokens": 154,
+        "cost_usd": 0.18958250000000004,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.18958250000000004,
+        "final": true,
+        "evidence": "receipt:455086f41576af3209e4e8236105955ac91552e751d9954838b99b12ccbd2169",
+        "telemetry": {
+          "input_tokens": 34,
+          "cache_creation_input_tokens": 8917,
+          "cache_read_input_tokens": 8566,
+          "output_tokens": 154,
+          "cost_usd": 0.18958250000000004,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:38:03.795034+00:00",
+      "updated_at": "2026-09-24T23:39:07.916796+00:00"
+    },
+    "4b1e11a2b7ec7403d4d88df8b00af13c": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 132412250,
+      "cost_usd": 0.13241225,
+      "reserved_at": "2026-09-24T23:39:21.690728+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 42,
+        "cell": "worker-fable-low"
+      },
+      "telemetry": {
+        "input_tokens": 98,
+        "cache_creation_input_tokens": 2621,
+        "cache_read_input_tokens": 34233,
+        "output_tokens": 1387,
+        "cost_usd": 0.13241225,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.13241225,
+        "final": true,
+        "evidence": "receipt:f74b415e4a7266a31c946ae0f005d2221be20b6c164b6b56796c3ed6546a80bc",
+        "telemetry": {
+          "input_tokens": 98,
+          "cache_creation_input_tokens": 2621,
+          "cache_read_input_tokens": 34233,
+          "output_tokens": 1387,
+          "cost_usd": 0.13241225,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:39:21.729163+00:00",
+      "updated_at": "2026-09-24T23:40:33.041986+00:00"
+    },
+    "4d6965263130fa14e0f45234de304daa": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 146046000,
+      "cost_usd": 0.146046,
+      "reserved_at": "2026-09-24T23:40:55.302493+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 43,
+        "cell": "worker-fable-low"
+      },
+      "telemetry": {
+        "input_tokens": 194,
+        "cache_creation_input_tokens": 3370,
+        "cache_read_input_tokens": 64640,
+        "output_tokens": 1188,
+        "cost_usd": 0.146046,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.146046,
+        "final": true,
+        "evidence": "receipt:a502f3a5e77ced920d0302191272cbc5fb399290870662bf0e9f8b5880106008",
+        "telemetry": {
+          "input_tokens": 194,
+          "cache_creation_input_tokens": 3370,
+          "cache_read_input_tokens": 64640,
+          "output_tokens": 1188,
+          "cost_usd": 0.146046,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:40:55.348005+00:00",
+      "updated_at": "2026-09-24T23:41:55.238778+00:00"
+    },
+    "0a973af6667522e1aae5f09385743684": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 67864250,
+      "cost_usd": 0.06786425,
+      "reserved_at": "2026-09-24T23:42:26.802194+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 44,
+        "cell": "worker-fable-low"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 1939,
+        "cache_read_input_tokens": 25065,
+        "output_tokens": 421,
+        "cost_usd": 0.06786425,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.06786425,
+        "final": true,
+        "evidence": "receipt:304247b877541d175b4ea16b72fe293c8603f5f4cc701ac9d561169c93ce7aae",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 1939,
+          "cache_read_input_tokens": 25065,
+          "output_tokens": 421,
+          "cost_usd": 0.06786425,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:42:26.862172+00:00",
+      "updated_at": "2026-09-24T23:43:19.159717+00:00"
+    },
+    "6fe12c50e1cdda26a5efe1884ad292b7": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 40474250,
+      "cost_usd": 0.04047425,
+      "reserved_at": "2026-09-24T23:43:55.757338+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 45,
+        "cell": "worker-fable-medium"
+      },
+      "telemetry": {
+        "input_tokens": 34,
+        "cache_creation_input_tokens": 1336,
+        "cache_read_input_tokens": 16073,
+        "output_tokens": 167,
+        "cost_usd": 0.04047425,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.04047425,
+        "final": true,
+        "evidence": "receipt:07a1ffa0e8b10e4000fe5722b74ba95a00a6729cab4d9e3342c4e7c52b879686",
+        "telemetry": {
+          "input_tokens": 34,
+          "cache_creation_input_tokens": 1336,
+          "cache_read_input_tokens": 16073,
+          "output_tokens": 167,
+          "cost_usd": 0.04047425,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:43:55.848946+00:00",
+      "updated_at": "2026-09-24T23:45:08.402737+00:00"
+    },
+    "e3c2e7e75402b538f6e526f8ddb906f0": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 140955250,
+      "cost_usd": 0.14095525,
+      "reserved_at": "2026-09-24T23:45:29.439379+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 46,
+        "cell": "worker-fable-medium"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 2805,
+        "cache_read_input_tokens": 25365,
+        "output_tokens": 1535,
+        "cost_usd": 0.14095525,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.14095525,
+        "final": true,
+        "evidence": "receipt:e26e0ead9d19fbd81b2055b3f4f10e5deaff348ffa8d5ea03a04f33621197550",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 2805,
+          "cache_read_input_tokens": 25365,
+          "output_tokens": 1535,
+          "cost_usd": 0.14095525,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:45:29.515008+00:00",
+      "updated_at": "2026-09-24T23:46:52.493382+00:00"
+    },
+    "5ea33e84fff6bd2993e89361f865c0f3": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 167294000,
+      "cost_usd": 0.167294,
+      "reserved_at": "2026-09-24T23:47:23.429647+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 47,
+        "cell": "worker-fable-medium"
+      },
+      "telemetry": {
+        "input_tokens": 162,
+        "cache_creation_input_tokens": 3756,
+        "cache_read_input_tokens": 54832,
+        "output_tokens": 1514,
+        "cost_usd": 0.167294,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.167294,
+        "final": true,
+        "evidence": "receipt:4a96e645892903362c617a5bd807872569e177a7e360d351c88abef869fc41a0",
+        "telemetry": {
+          "input_tokens": 162,
+          "cache_creation_input_tokens": 3756,
+          "cache_read_input_tokens": 54832,
+          "output_tokens": 1514,
+          "cost_usd": 0.167294,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:47:23.486448+00:00",
+      "updated_at": "2026-09-24T23:48:45.344765+00:00"
+    },
+    "cfaa6a78f0ce2f7007e78e974c66776e": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 67580500,
+      "cost_usd": 0.0675805,
+      "reserved_at": "2026-09-24T23:49:22.008992+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 48,
+        "cell": "worker-fable-medium"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 1784,
+        "cache_read_input_tokens": 25090,
+        "output_tokens": 477,
+        "cost_usd": 0.0675805,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.0675805,
+        "final": true,
+        "evidence": "receipt:c428fd0e84af41676cb23e20363a180bf2bff384bf09f90a397a039cd8c20933",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 1784,
+          "cache_read_input_tokens": 25090,
+          "output_tokens": 477,
+          "cost_usd": 0.0675805,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:49:22.063087+00:00",
+      "updated_at": "2026-09-24T23:50:23.659368+00:00"
+    },
+    "80023ade5e050e3821c52d2771b0f36a": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 79092751,
+      "cost_usd": 0.07909275000000002,
+      "reserved_at": "2026-09-24T23:50:51.559640+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 49,
+        "cell": "worker-fable-high"
+      },
+      "telemetry": {
+        "input_tokens": 98,
+        "cache_creation_input_tokens": 2224,
+        "cache_read_input_tokens": 34287,
+        "output_tokens": 480,
+        "cost_usd": 0.07909275000000002,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.07909275000000002,
+        "final": true,
+        "evidence": "receipt:b459cff0ba6ed793cb3942564e0bdd909363475d3cccf50857178b6dd35c99df",
+        "telemetry": {
+          "input_tokens": 98,
+          "cache_creation_input_tokens": 2224,
+          "cache_read_input_tokens": 34287,
+          "output_tokens": 480,
+          "cost_usd": 0.07909275000000002,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:50:51.612777+00:00",
+      "updated_at": "2026-09-24T23:51:48.631592+00:00"
+    },
+    "da3e7086a69564845d5bedd29f4fad13": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 194585250,
+      "cost_usd": 0.19458525,
+      "reserved_at": "2026-09-24T23:52:00.458129+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 50,
+        "cell": "worker-fable-high"
+      },
+      "telemetry": {
+        "input_tokens": 226,
+        "cache_creation_input_tokens": 3802,
+        "cache_read_input_tokens": 74925,
+        "output_tokens": 1929,
+        "cost_usd": 0.19458525,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.19458525,
+        "final": true,
+        "evidence": "receipt:5330f0b0d30a7a114b749097446b3f9d6f9d1ed4c95f230431bf94d3f9e928d9",
+        "telemetry": {
+          "input_tokens": 226,
+          "cache_creation_input_tokens": 3802,
+          "cache_read_input_tokens": 74925,
+          "output_tokens": 1929,
+          "cost_usd": 0.19458525,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:52:00.505804+00:00",
+      "updated_at": "2026-09-24T23:53:15.354018+00:00"
+    },
+    "5f50d9cca0dee6a39d1977a78b396608": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 204450500,
+      "cost_usd": 0.20445049999999998,
+      "reserved_at": "2026-09-24T23:53:43.543054+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 51,
+        "cell": "worker-fable-high"
+      },
+      "telemetry": {
+        "input_tokens": 130,
+        "cache_creation_input_tokens": 4359,
+        "cache_read_input_tokens": 47098,
+        "output_tokens": 2061,
+        "cost_usd": 0.20445049999999998,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.20445049999999998,
+        "final": true,
+        "evidence": "receipt:d0b467667d45df800946d9d1afac0609a603845c28314c4bb42f4135cdf988ae",
+        "telemetry": {
+          "input_tokens": 130,
+          "cache_creation_input_tokens": 4359,
+          "cache_read_input_tokens": 47098,
+          "output_tokens": 2061,
+          "cost_usd": 0.20445049999999998,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:53:43.615137+00:00",
+      "updated_at": "2026-09-24T23:54:58.695065+00:00"
+    },
+    "a595e837d964405aae6334e5b0064a2f": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 70572501,
+      "cost_usd": 0.07057250000000001,
+      "reserved_at": "2026-09-24T23:55:24.004398+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 52,
+        "cell": "worker-fable-high"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 1799,
+        "cache_read_input_tokens": 25098,
+        "output_tokens": 531,
+        "cost_usd": 0.07057250000000001,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.07057250000000001,
+        "final": true,
+        "evidence": "receipt:33ff023f8775f3574ba75773af2f9430a91485717bec5d2d108345ba5cafa647",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 1799,
+          "cache_read_input_tokens": 25098,
+          "output_tokens": 531,
+          "cost_usd": 0.07057250000000001,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:55:24.059008+00:00",
+      "updated_at": "2026-09-24T23:56:14.391962+00:00"
+    },
+    "86f9520784e928c90d008aab3b9f4e03": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 75476750,
+      "cost_usd": 0.07547675,
+      "reserved_at": "2026-09-24T23:56:37.990492+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 53,
+        "cell": "worker-fable-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 2139,
+        "cache_read_input_tokens": 25303,
+        "output_tokens": 493,
+        "cost_usd": 0.07547675,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.07547675,
+        "final": true,
+        "evidence": "receipt:80e3b20223bec756b5baf116c79896568fe6a5a7cc157ea32db40b66c2d56b36",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 2139,
+          "cache_read_input_tokens": 25303,
+          "output_tokens": 493,
+          "cost_usd": 0.07547675,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:56:38.046322+00:00",
+      "updated_at": "2026-09-24T23:57:40.906922+00:00"
+    },
+    "8f289422089fdf78a5fda5e4dcd1a5f3": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 269563251,
+      "cost_usd": 0.26956325000000003,
+      "reserved_at": "2026-09-24T23:57:54.252526+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 54,
+        "cell": "worker-fable-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 98,
+        "cache_creation_input_tokens": 4648,
+        "cache_read_input_tokens": 35277,
+        "output_tokens": 3314,
+        "cost_usd": 0.26956325000000003,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.26956325000000003,
+        "final": true,
+        "evidence": "receipt:d6d04edb60e71c61d6b48b4388a5671ba7fd2267ba646495e969b42ea48afee2",
+        "telemetry": {
+          "input_tokens": 98,
+          "cache_creation_input_tokens": 4648,
+          "cache_read_input_tokens": 35277,
+          "output_tokens": 3314,
+          "cost_usd": 0.26956325000000003,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-24T23:57:54.306449+00:00",
+      "updated_at": "2026-09-24T23:59:34.858171+00:00"
+    },
+    "11d5d6cf4914b4932ec754aaaff6329b": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 270110250,
+      "cost_usd": 0.27011025,
+      "reserved_at": "2026-09-25T00:00:07.311531+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 55,
+        "cell": "worker-fable-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 162,
+        "cache_creation_input_tokens": 5255,
+        "cache_read_input_tokens": 58177,
+        "output_tokens": 2954,
+        "cost_usd": 0.27011025,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.27011025,
+        "final": true,
+        "evidence": "receipt:28d468d4d4c28182a84006cc3acdaf3ccb0220a909ebdc834e35c0d0ee652756",
+        "telemetry": {
+          "input_tokens": 162,
+          "cache_creation_input_tokens": 5255,
+          "cache_read_input_tokens": 58177,
+          "output_tokens": 2954,
+          "cost_usd": 0.27011025,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-25T00:00:07.374352+00:00",
+      "updated_at": "2026-09-25T00:01:51.319063+00:00"
+    },
+    "b61815449b80bc7def4845754d068ce3": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 126145500,
+      "cost_usd": 0.1261455,
+      "reserved_at": "2026-09-25T00:02:47.581608+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 56,
+        "cell": "worker-fable-xhigh"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 2442,
+        "cache_read_input_tokens": 25510,
+        "output_tokens": 1383,
+        "cost_usd": 0.1261455,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.1261455,
+        "final": true,
+        "evidence": "receipt:10f294ddde7295239dc595eb60fa59b9d347a586d8dcdab41f714ea5bbdfc47e",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 2442,
+          "cache_read_input_tokens": 25510,
+          "output_tokens": 1383,
+          "cost_usd": 0.1261455,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-25T00:02:47.643809+00:00",
+      "updated_at": "2026-09-25T00:04:10.944792+00:00"
+    },
+    "4317cee0599e7818f78024984ad23adc": {
+      "state": "settled",
+      "allowance_units": 250000000,
+      "charged_units": 85028000,
+      "cost_usd": 0.08502799999999999,
+      "reserved_at": "2026-09-25T00:04:48.217509+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 57,
+        "cell": "worker-fable-max"
+      },
+      "telemetry": {
+        "input_tokens": 66,
+        "cache_creation_input_tokens": 2269,
+        "cache_read_input_tokens": 25308,
+        "output_tokens": 632,
+        "cost_usd": 0.08502799999999999,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.08502799999999999,
+        "final": true,
+        "evidence": "receipt:b6aecf8cb89a91116aadce5e2cf95327569043e7a32c16b042f0ae6b768da9cc",
+        "telemetry": {
+          "input_tokens": 66,
+          "cache_creation_input_tokens": 2269,
+          "cache_read_input_tokens": 25308,
+          "output_tokens": 632,
+          "cost_usd": 0.08502799999999999,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-25T00:04:48.280936+00:00",
+      "updated_at": "2026-09-25T00:05:45.078077+00:00"
+    },
+    "a2b00ec69604518cfa4828c436738651": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 857756500,
+      "cost_usd": 0.8577565,
+      "reserved_at": "2026-09-25T00:05:59.535335+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 58,
+        "cell": "worker-fable-max"
+      },
+      "telemetry": {
+        "input_tokens": 100,
+        "cache_creation_input_tokens": 7178,
+        "cache_read_input_tokens": 44770,
+        "output_tokens": 14018,
+        "cost_usd": 0.8577565,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.8577565,
+        "final": true,
+        "evidence": "receipt:4b137b3c2aa133580790ad859596be39cd1a41899f06061f0b0f11c2095d900c",
+        "telemetry": {
+          "input_tokens": 100,
+          "cache_creation_input_tokens": 7178,
+          "cache_read_input_tokens": 44770,
+          "output_tokens": 14018,
+          "cost_usd": 0.8577565,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-25T00:05:59.599287+00:00",
+      "updated_at": "2026-09-25T00:09:46.576213+00:00"
+    },
+    "e77828dc27d33d9d17c5de4bc200ccfd": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 617345750,
+      "cost_usd": 0.61734575,
+      "reserved_at": "2026-09-25T00:10:21.485944+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 59,
+        "cell": "worker-fable-max"
+      },
+      "telemetry": {
+        "input_tokens": 162,
+        "cache_creation_input_tokens": 9315,
+        "cache_read_input_tokens": 59519,
+        "output_tokens": 8268,
+        "cost_usd": 0.61734575,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.61734575,
+        "final": true,
+        "evidence": "receipt:7eec68a93b4aadd5c3b96d553e1d9683bbab26bb8173d72b9e8f7abec2c7baaa",
+        "telemetry": {
+          "input_tokens": 162,
+          "cache_creation_input_tokens": 9315,
+          "cache_read_input_tokens": 59519,
+          "output_tokens": 8268,
+          "cost_usd": 0.61734575,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-25T00:10:21.568590+00:00",
+      "updated_at": "2026-09-25T00:12:44.085436+00:00"
+    },
+    "10a83935421fe9d3a3af3c3360f9ce79": {
+      "state": "settled",
+      "allowance_units": 1000000000,
+      "charged_units": 417505750,
+      "cost_usd": 0.41750575,
+      "reserved_at": "2026-09-25T00:13:23.001828+00:00",
+      "metadata": {
+        "manifest_sha256": "1dbb33f603f756998e30c48346b89b3359de0330b78c70c4a49bc33b9e065e94",
+        "sequence": 60,
+        "cell": "worker-fable-max"
+      },
+      "telemetry": {
+        "input_tokens": 130,
+        "cache_creation_input_tokens": 6794,
+        "cache_read_input_tokens": 49271,
+        "output_tokens": 5338,
+        "cost_usd": 0.41750575,
+        "currency": "USD",
+        "cost_source": "provider_reported"
+      },
+      "resolution": {
+        "cost_usd": 0.41750575,
+        "final": true,
+        "evidence": "receipt:bfc659d87d89b2bec258904f739ecdc79aece30cd5a6de0cf2282127743995a3",
+        "telemetry": {
+          "input_tokens": 130,
+          "cache_creation_input_tokens": 6794,
+          "cache_read_input_tokens": 49271,
+          "output_tokens": 5338,
+          "cost_usd": 0.41750575,
+          "currency": "USD",
+          "cost_source": "provider_reported"
+        }
+      },
+      "started_at": "2026-09-25T00:13:23.084143+00:00",
+      "updated_at": "2026-09-25T00:15:13.825252+00:00"
+    }
+  }
+}

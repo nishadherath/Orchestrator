@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-003",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-004"
+  ],
+  "premise_id": "prem-004",
+  "method": "Wrote the problem statement to prob-001-statement.txt and grepped for exclusionary/completeness language (delet, stale, read-path, exclu, only, exhaustive, complete).",
+  "result": "No match found. The statement only says the notes 'do not establish' which of the three named mechanisms applies; it contains no language asserting the three are exhaustive or mutually exclusive. A fourth mechanism (receipt deleted post-write, or a stale read-path lookup at check time) is constructible and not excluded by the text.",
+  "artefact": "prob-001-statement.txt (grep: no match)",
+  "outcome": "falsifies",
+  "cost_usd": 0.0
+}

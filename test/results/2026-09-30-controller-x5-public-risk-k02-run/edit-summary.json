@@ -1,0 +1,5 @@
+{
+  "manifest_sha256": "43dfaabcb4b3d7a6a04f4308f71827cf591ef029050886760e56801b322c1090",
+  "sha256": "489ba010ff8c703544b80f180ce2410e61be610beaf2b3825815f2767f69612f",
+  "summary": "--- before/payment_service.py\n+++ accepted/payment_service.py\n@@ -14,4 +14,4 @@\n     ):\n         with attempt:\n-            receipt = gateway.charge(amount_cents, payment_id)\n+            receipt = gateway.charge(amount_cents, payment_id, idempotency_key=payment_id)\n     return receipt\n--- before/retry_policy.py\n+++ accepted/retry_policy.py\n@@ -1,3 +1,3 @@\n \"\"\"Checkout retry ceiling.\"\"\"\n \n-MAX_ATTEMPTS = 1\n+MAX_ATTEMPTS = 2\n"
+}

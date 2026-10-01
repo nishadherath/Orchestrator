@@ -1,0 +1,160 @@
+{
+  "b0_variability": [
+    {
+      "flags_agree": true,
+      "origin": "pinned-upstream-regression",
+      "quality_difference": 0,
+      "task_id": "S01",
+      "trigger_positive": true
+    },
+    {
+      "flags_agree": true,
+      "origin": "pinned-upstream-regression",
+      "quality_difference": 0,
+      "task_id": "S02",
+      "trigger_positive": true
+    },
+    {
+      "flags_agree": true,
+      "origin": "pinned-upstream-regression",
+      "quality_difference": 0,
+      "task_id": "S04",
+      "trigger_positive": true
+    },
+    {
+      "flags_agree": false,
+      "origin": "pinned-upstream-regression",
+      "quality_difference": 10,
+      "task_id": "S05",
+      "trigger_positive": false
+    },
+    {
+      "flags_agree": true,
+      "origin": "pinned-upstream-regression",
+      "quality_difference": 0,
+      "task_id": "S06",
+      "trigger_positive": false
+    },
+    {
+      "flags_agree": true,
+      "origin": "authored-synthetic-cross-module-atomicity-regression",
+      "quality_difference": 0,
+      "task_id": "T07",
+      "trigger_positive": true
+    }
+  ],
+  "comparisons": [
+    {
+      "acceptance_gain": false,
+      "baseline": "b0-a",
+      "invalid_reports_not_above": true,
+      "nonnegative_acceptance": true,
+      "nonnegative_quality": true,
+      "quality_gain_10": false,
+      "unsupported_not_above": true
+    },
+    {
+      "acceptance_gain": false,
+      "baseline": "b0-b",
+      "invalid_reports_not_above": true,
+      "nonnegative_acceptance": true,
+      "nonnegative_quality": false,
+      "quality_gain_10": false,
+      "unsupported_not_above": false
+    }
+  ],
+  "decision_sha256": "ecd36d7c6c4b904305fc94d85e35610094abacf84c5caf8dc1a3bedfba741a29",
+  "limits": [
+    "Five upstream repositories plus one synthetic family.",
+    "No reserved-population inference or automatic promotion."
+  ],
+  "parent_manifest_sha256": "826c97572c991217f23d33813757cedf346bde7d4993784fe159058892167007",
+  "policy_decision": "retain-b0",
+  "reserved_repetitions_if_later_freeze": 2,
+  "schema_version": 1,
+  "stage_manifest_sha256": "6b5b5d92bab2360494dfc9c7501f4dd7044baec81ec07dc1742f73a46ba263d6",
+  "state_sha256": "b3691216a72b01535c0b83b372a1f2a2ccf210cf6b1d72104808ff7c8e493362",
+  "summaries": {
+    "all-medium-diagnostic": {
+      "cost_usd": 1.675667404,
+      "critical_errors": 0,
+      "families": 6,
+      "hidden_accepted": 5,
+      "invalid_reports": 0,
+      "mean_quality": 85.0,
+      "provider_calls": 8,
+      "unsupported_completions": 0
+    },
+    "b0-a": {
+      "cost_usd": 0.790793802,
+      "critical_errors": 0,
+      "families": 6,
+      "hidden_accepted": 4,
+      "invalid_reports": 0,
+      "mean_quality": 76.66666666666667,
+      "provider_calls": 6,
+      "unsupported_completions": 1
+    },
+    "b0-b": {
+      "cost_usd": 1.1549563029999999,
+      "critical_errors": 0,
+      "families": 6,
+      "hidden_accepted": 4,
+      "invalid_reports": 0,
+      "mean_quality": 78.33333333333333,
+      "provider_calls": 8,
+      "unsupported_completions": 0
+    },
+    "policy": {
+      "cost_usd": 1.183868205,
+      "critical_errors": 0,
+      "families": 6,
+      "hidden_accepted": 4,
+      "invalid_reports": 0,
+      "mean_quality": 76.66666666666667,
+      "provider_calls": 6,
+      "unsupported_completions": 1
+    },
+    "synthetic-t07": {
+      "cost_usd": 0.067724601,
+      "critical_errors": 0,
+      "families": 1,
+      "hidden_accepted": 1,
+      "invalid_reports": 0,
+      "mean_quality": 90.0,
+      "provider_calls": 1,
+      "unsupported_completions": 0
+    },
+    "upstream-b0-a": {
+      "cost_usd": 0.729843602,
+      "critical_errors": 0,
+      "families": 5,
+      "hidden_accepted": 3,
+      "invalid_reports": 0,
+      "mean_quality": 74.0,
+      "provider_calls": 5,
+      "unsupported_completions": 1
+    },
+    "upstream-b0-b": {
+      "cost_usd": 1.087718303,
+      "critical_errors": 0,
+      "families": 5,
+      "hidden_accepted": 3,
+      "invalid_reports": 0,
+      "mean_quality": 76.0,
+      "provider_calls": 7,
+      "unsupported_completions": 0
+    },
+    "upstream-policy": {
+      "cost_usd": 1.1161436040000001,
+      "critical_errors": 0,
+      "families": 5,
+      "hidden_accepted": 3,
+      "invalid_reports": 0,
+      "mean_quality": 74.0,
+      "provider_calls": 5,
+      "unsupported_completions": 1
+    }
+  },
+  "upstream_gain": false
+}

@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-002",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-002"
+  ],
+  "premise_id": "prem-002",
+  "method": "Read problem.md in full and grep it for 'job' to locate a specific job id or observation record showing ack-present/receipt-absent.",
+  "result": "problem.md contains only the general problem statement; it names no specific job id and no observation record. The only match for 'job' is the generic phrase 'acknowledges jobs from a queue'. No fixture notes file with concrete observations exists in this working directory.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-3/problem.md",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

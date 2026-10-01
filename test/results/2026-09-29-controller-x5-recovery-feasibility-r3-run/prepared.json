@@ -1,0 +1,8 @@
+{
+  "manifest_sha256": "dbfb0b877f6696c74198efd4926f7eb5d049a1e0443b507d4ea4dad23327e1f5",
+  "producer_roots": {
+    "R01": "9731135afe093e636c3fa079",
+    "R02": "4c2a748aecbf021f650b203d"
+  },
+  "provider_calls": 0
+}

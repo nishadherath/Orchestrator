@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 12000000000,
+  "baseline_limit_units": 12000000000,
+  "cancelled": false,
+  "created_at": "2026-09-27T19:15:40.053216+00:00",
+  "invocations": {
+    "public-assessment-c5cbe0feb8a7ed1bfdc3d0b7": {
+      "state": "settled",
+      "allowance_units": 500000000,
+      "charged_units": 0,
+      "cost_usd": 0.0,
+      "reserved_at": "2026-09-27T19:15:59.040170+00:00",
+      "metadata": {
+        "revision_id": "c5cbe0feb8a7ed1bfdc3d0b79cac530175b6b9ba76e38073fa6ca945aab55ae4",
+        "packet_sha256": "4d395420d887a2a1ba526f9bd7e5abf1b95c52a5af9de287a284f6afe7347038",
+        "allocation": "public-assessment"
+      },
+      "telemetry": {
+        "assessment_status": "reconciled-invalid",
+        "actor": "codex-x4-investigation"
+      },
+      "resolution": {
+        "cost_usd": 0.0,
+        "final": true,
+        "evidence": "transport-diagnostic-sha256:248207a4af465ce85d28adfbb9b469b991b86ca3a261740ee15ca2ff7a982f60",
+        "telemetry": {
+          "assessment_status": "reconciled-invalid",
+          "actor": "codex-x4-investigation"
+        }
+      },
+      "started_at": "2026-09-27T19:15:59.072280+00:00",
+      "updated_at": "2026-09-27T19:33:27.821463+00:00"
+    }
+  }
+}

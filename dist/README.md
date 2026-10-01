@@ -15,6 +15,17 @@ dependency; register it in the consumer project before starting work.
 Install from the `dist/` bundle, never from `src/`. The bundle is versioned in
 `.claude/ORCHESTRATOR_VERSION`; quote that version in any report.
 
+## Release scope
+
+B0 is the shipping default. The durable `/worker-task` path is an explicit
+operator choice; it does not intercept ordinary Agent-tool launches.
+Controller remains experimental and has no established quality uplift.
+Its narrow live integration and authored development results do not qualify
+automatic Controller routing or the frontier profile. General host filesystem
+isolation, descendant termination and served effort remain unproven; the live
+adapter rejects managed child execution. See `WORKER-TASKS.md` and
+`CONTROLLER.md` for supported operations and recovery.
+
 Citations to `docs/*.md` and `test/results/*.md` files anywhere in this
 document, and a bare decision number (`D<n>`), point at this bundle's
 source repository, not at files this bundle ships: they are provenance
@@ -45,6 +56,8 @@ machines need their own working Graft installation and configuration.
   agents/
     WORKER_sonnet_low.md ... WORKER_fable_max.md   (the 15 worker definitions)
   commands/
+    worker-task.md                                  (durable B0 task admission, status,
+                                                     execution and recovery)
     workers.md                                      (the /workers status command)
     controller.md                                   (inspect or set task, session, or project
                                                      Controller routing intent)
@@ -83,6 +96,7 @@ tools/
                                                      cells; no automatic dispatch)
   task_executor.py                                 (durable B0 admission, recovery, independent
                                                      acceptance and read-only rollback audit)
+  worker_tasks.py                                  (operator CLI for the durable task API)
   managed_delegation.py                            (opt-in, budgeted child DAG under one root)
   worker_adapter.py                                (one restricted Claude CLI call with explicit
                                                      actor-scoped Graft MCP configuration)
@@ -126,6 +140,8 @@ CONTROLLER.md                                       (maintained Controller funct
                                                      reference)
 WORKER-SELECTOR.md                                  (N3 assessment schema, overrides, stops,
                                                      evidence limits and B0 isolation)
+WORKER-TASKS.md                                     (interactive task commands, recovery,
+                                                     host limits and rollback)
 CLAUDE.template.md                                  (a starting CLAUDE.md for a new
                                                      project: the pointer line plus the
                                                      handoff rule that survives platform
@@ -151,12 +167,20 @@ its limits, not only the mechanics.
 Before dispatch, copy `acceptance-contract.example.json` to a task-specific
 contract and fill in its required outputs, constraints, protected paths and
 verification command or review rubric. `route.py --spawn` freezes that contract.
+For a command task that genuinely requires an edit, the optional
+`require_changed_output: true` also freezes the output baseline and rejects a
+passing no-op as a qualified failure. Leave it absent when no edit may be the
+right result. The command still needs to test the requested behaviour and
+must not modify the named outputs.
 Completion writes content-addressed evidence under `.claude/acceptance/`; only
 evidence that still matches the contract and current artefacts can affect
 capability learning. Cost records remain usable when acceptance is blocked or
 unverified.
 
-The N1 worker executor is an installable Python API for a single B0 root task.
+The N1 worker executor is an installable Python API for a single B0 root task,
+with the N8 `/worker-task` command and `tools/worker_tasks.py` CLI described in
+[`WORKER-TASKS.md`](WORKER-TASKS.md). Admission, status and control operations
+are provider-free; only `run` dispatches its fixed B0 sequence.
 It journals admissions and receipts, holds one root budget across repairs and
 linked continuations, verifies a frozen acceptance contract, and retains each
 attempt's output. The production adapter needs an explicit MCP configuration
@@ -164,8 +188,9 @@ containing only an actor-scoped Graft server. Its command requests restricted
 Claude tools and the six Graft retrieval tools; it does not use `--safe-mode`,
 which disables MCP. The offline fake tests cover execution and recovery. Live
 host enforcement and interactive Agent-tool interception have not been
-qualified, so the normal interactive routing flow does not call this executor
-automatically yet. That integration belongs to later stages.
+qualified. The operator can select this explicit durable execution path;
+ordinary Agent-tool launches remain governed by the prompt-driven route.
+Use one task owner and do not duplicate an admitted root through the Agent tool.
 
 N2 adds explicit managed child plans through `tools/managed_delegation.py`.
 The operator approves a bounded graph with dependencies, read/write scope,
@@ -215,6 +240,12 @@ python3 tools/controller_control.py --project . resolve --session-id "$CLAUDE_SE
 ```
 
 ## Qualified default and local learning
+
+The later N5-Q4U worker-routing experiments did not qualify a replacement.
+Q4U's canary had no paired quality gain; N7 also found a grader false-credit
+flaw and incomplete dependency binding. The reserved comparison was not run.
+Those research tools and results are retained in the source repository, while
+the consumer package keeps B0 and diagnostic N3 selection.
 
 The shipping policy is B0, selected by the completed reserved evaluation. It
 always runs this bounded sequence:
@@ -659,9 +690,12 @@ repository's `docs/DECISIONS.md` explains changes keyed by the commit in
 - The Controller remains installed code, but B0 has
   `controller_allowed: false`; ordinary routing cannot invoke it. An explicit
   historical or rollback invocation is a multi-call operation with its own
-  budget, identity and recovery requirements. The paid evaluation campaign
-  never reached a live Controller episode, so its complete live episode path
-  remains unverified.
+  budget, identity and recovery requirements. The experimental N1-root path
+  prevents duplicate Controller admissions and shares the root budget. Its
+  handoff bridge has offline coverage and a narrow explicit-on live integration
+  result. Later authored development comparisons did not establish Controller
+  uplift. Automatic Controller routing, frontier-profile suitability and
+  general host isolation remain unqualified.
 
 
 ## Controller spending and recovery

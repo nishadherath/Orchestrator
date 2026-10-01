@@ -23,16 +23,24 @@ import controller_integrity
 import controller_policy
 import dispatch_budget
 import system_controller
+import task_executor
+import worker_adapter
 
 
 CONTROL_ARGS = (
-    "--restricted", "--safe-mode", "--strict-mcp-config",
+    "--restricted", "--strict-mcp-config",
     "--no-session-persistence", "--permission-mode", "acceptEdits",
     "--permission-prompts", "none", "--tools", "Read,Glob,Grep",
+)
+GRAFT_READ_TOOLS = (
+    "mcp__graft__graft_check_freshness", "mcp__graft__graft_repo_map",
+    "mcp__graft__graft_find_code", "mcp__graft__graft_file_api",
+    "mcp__graft__graft_trace_calls", "mcp__graft__graft_find_all",
 )
 ROOT_RELATIVE = Path(".claude/controller-dispatch")
 CONTROLLER_CAP_USD = 4.0
 CONTROLLER_MINIMUM_USD = 1.0
+FOLLOW_ON_FLOOR_USD = 3.5  # Preserve a worker attempt plus verification margin.
 
 
 class DispatchError(RuntimeError):
@@ -78,17 +86,85 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-class ControllerRuntimeAdapter:
-    """Actual consumer runtime around run_quick, constructed without dispatch."""
+def _freeze_graft_config(project: Path, source_path: Path) -> tuple[Path, dict]:
+    """Seal only the consumer's Graft server for a restricted role launch.
 
-    def __init__(self, runner_factory: Callable[[Path], Callable] | None = None):
+    The worker's already-qualified adapter validates the projected single-
+    server configuration. Keeping this Controller preparation separate avoids
+    changing historical worker host contracts or their source-bound evidence.
+    """
+    try:
+        source = json.loads(source_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise worker_adapter.CapabilityError("Controller Graft MCP config is unavailable") from exc
+    servers = source.get("mcpServers") if isinstance(source, dict) else None
+    if not isinstance(servers, dict) or "graft" not in servers:
+        raise worker_adapter.CapabilityError("Controller project has no Graft MCP server")
+    graft_only = {"mcpServers": {"graft": servers["graft"]}}
+    sealed = project / ROOT_RELATIVE / ("graft-mcp-" +
+                worker_adapter.digest(graft_only) + ".json")
+    try:
+        _atomic_json(sealed, graft_only)
+    except OSError as exc:
+        raise worker_adapter.CapabilityError("Controller Graft config cannot be sealed") from exc
+    capability = worker_adapter.WorkerAdapter(mcp_config=sealed).capability(project)
+    return sealed, capability
+
+
+def _graft_role_host(snapshot: dict | None) -> bool:
+    """Require CLI init proof and at least one real Graft retrieval per run.
+
+    This checks terminal role telemetry rather than trusting launch flags or
+    a role's prose. Tool names are retained; tool inputs are not.
+    """
+    if snapshot is None:
+        return False
+    expected = set(GRAFT_READ_TOOLS)
+    allowed = expected | {"Read", "Glob", "Grep"}
+    used_freshness = False
+    for row in snapshot["invocations"].values():
+        telemetry = row.get("telemetry") or {}
+        available = telemetry.get("available_tools")
+        if (telemetry.get("mcp_servers") != [{"name": "graft", "status": "connected"}]
+                or not isinstance(available, list)
+                or not all(isinstance(name, str) for name in available)
+                or not expected <= set(available)
+                or not set(available) <= allowed):
+            return False
+        used_freshness |= "mcp__graft__graft_check_freshness" in (
+            telemetry.get("tool_use_names") or [])
+    return not snapshot["invocations"] or used_freshness
+
+
+class ControllerRuntimeAdapter:
+    """Actual consumer runtime around run_quick, constructed without dispatch.
+
+    The default live runner requires the consumer project's Graft server and
+    freezes a Graft-only MCP config before launching any Controller role.
+    An injected runner is a test/explicit host path, not live qualification.
+    """
+
+    def __init__(self, runner_factory: Callable[[Path], Callable] | None = None,
+                 mcp_config: Path | None = None):
         self.runner_factory = runner_factory
+        self.mcp_config = mcp_config
+
+    def capability(self, project: Path) -> dict:
+        if self.runner_factory is not None:
+            return {"injected_runner": True, "graft_enforcement_proven": False}
+        config = self.mcp_config or project / ".mcp.json"
+        _, capability = _freeze_graft_config(project, config)
+        return capability
 
     def _factory(self, project: Path, profile: str) -> Callable:
         if self.runner_factory is not None:
             return self.runner_factory(project)
+        config_path = self.mcp_config or project / ".mcp.json"
+        sealed, _ = _freeze_graft_config(project, config_path)
+        args = CONTROL_ARGS + (f"--mcp-config={sealed.resolve()}",
+                               "--allowedTools=" + ",".join(GRAFT_READ_TOOLS))
         return lambda remaining: system_controller.LiveRoleRunner(
-            project, remaining, permission_args=(), extra_args=CONTROL_ARGS,
+            project, remaining, permission_args=(), extra_args=args,
             stream_json=True, require_identity=True,
             role_profile=profile,
         )
@@ -124,15 +200,19 @@ class ControllerRuntimeAdapter:
             except dispatch_budget.BudgetError:
                 snapshot = None
         complete = bool(snapshot is not None and not snapshot["unresolved"])
+        graft_host = (True if self.runner_factory is not None
+                      else _graft_role_host(snapshot))
         return {
-            "terminal": bool(result is not None and complete),
+            "terminal": bool(result is not None and complete and graft_host),
             "outcome": result.outcome if result is not None else "error",
             "cost_usd": snapshot["spent_usd"] if snapshot is not None else None,
             "accounting_complete": complete,
             "reserved_usd": snapshot["reserved_usd"] if snapshot is not None else None,
             "controller_run_dir": str(run_dir.resolve()),
             "evidence_packet": packet,
-            "error": str(error)[:1000] if error is not None else None,
+            "graft_host_qualified": graft_host,
+            "error": (str(error)[:1000] if error is not None else
+                      None if graft_host else "Controller roles lacked connected Graft retrieval evidence"),
         }
 
 
@@ -165,7 +245,8 @@ def _project_input_digest(project: Path) -> str:
         relative = path.relative_to(project)
         if any(part in excluded for part in relative.parts):
             continue
-        if relative.parts[:2] == (".claude", "controller-dispatch"):
+        if relative.parts[:2] in {(".claude", "controller-dispatch"),
+                                  (".claude", "task-executor-v2")}:
             continue
         if path.is_symlink():
             rows.append((relative.as_posix(), "symlink:" + os.readlink(path)))
@@ -232,15 +313,61 @@ def _worker_handoff(decision: dict, packet: dict | None, packet_path: str | None
 
 
 class TaskDispatcher:
-    """Persist one candidate decision and dispatch its Controller at most once."""
+    """Persist one Controller claim per task revision, across decisions."""
 
-    def __init__(self, project: Path, adapter: ControllerAdapter):
+    def __init__(self, project: Path, adapter: ControllerAdapter,
+                 *, root_task_id: str | None = None):
         self.project = project.resolve()
         self.adapter = adapter
+        self.root_task_id = root_task_id
 
     def _paths(self, decision: dict) -> tuple[Path, Path, Path]:
         root = self.project / ROOT_RELATIVE / decision["decision_id"]
         return root, root / "dispatch-state.json", root / "task-budget.json"
+
+    def _prior_legacy_controller(self, decision: dict) -> bool:
+        """Treat pre-X2 dispatch state as spent authority during migration."""
+        base = self.project / ROOT_RELATIVE
+        if not base.is_dir():
+            return False
+        for child in base.iterdir():
+            if child.is_symlink():
+                raise DispatchError("legacy dispatch path is redirected")
+            if not child.is_dir() or child.name == decision["decision_id"]:
+                continue
+            path = child / "dispatch-state.json"
+            if path.is_symlink():
+                raise DispatchError("legacy dispatch state is redirected")
+            if not path.is_file():
+                continue
+            try:
+                old = json.loads(path.read_text(encoding="utf-8"))
+                prior_decision = old["decision"]
+                count = old["controller_invocations"]
+                if not isinstance(prior_decision, dict) or type(count) is not int:
+                    raise ValueError("invalid legacy dispatch structure")
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                raise DispatchError("legacy dispatch state needs reconciliation") from exc
+            if (old.get("root_task_id") is None
+                    and prior_decision.get("task_revision") == decision["task_revision"]
+                    and count):
+                return True
+        return False
+
+    def _claim_revision(self, decision: dict) -> None:
+        """Share one admission lock across legacy and N1-root dispatchers."""
+        path = (self.project / ROOT_RELATIVE / "revision-admissions"
+                / f"{decision['task_revision']}.json")
+        with dispatch_budget.ledger_lock(path):
+            if path.exists():
+                raise DispatchError("task revision already owns a Controller admission")
+            if self._prior_legacy_controller(decision):
+                raise DispatchError("legacy Controller admission already used this task revision")
+            _atomic_json(path, {"schema_version": 1,
+                                "task_revision": decision["task_revision"],
+                                "decision_id": decision["decision_id"],
+                                "root_task_id": self.root_task_id,
+                                "status": "dispatch-intent"})
 
     def dispatch(self, decision_value: object, *, problem_text: str,
                  acceptance_state: dict, input_revision: dict) -> dict:
@@ -252,12 +379,14 @@ class TaskDispatcher:
         with dispatch_budget.ledger_lock(state_path):
             if state_path.exists():
                 state = json.loads(state_path.read_text(encoding="utf-8"))
-                if state.get("decision") != decision:
+                if (state.get("decision") != decision
+                        or state.get("root_task_id") != self.root_task_id):
                     raise DispatchError("existing dispatch state has a different decision")
                 if state.get("stage") not in ("worker-ready", "blocked", "clarify"):
                     raise DispatchError("dispatch already started; reconcile it, never replay paid work")
                 return state
             state = {"version": 1, "decision": decision, "stage": "prepared",
+                     "root_task_id": self.root_task_id,
                      "controller_invocations": 0, "controller_result": None,
                      "worker_handoff": None, "error": None}
             _atomic_json(state_path, state)
@@ -278,21 +407,61 @@ class TaskDispatcher:
             state.update(stage="blocked", error="task budget is unknown")
             _atomic_json(state_path, state)
             return state
-        budget = dispatch_budget.DispatchBudget(budget_path, task_budget, scope="task_dispatch")
-        invocation_id = "controller-001"
+        if isinstance(self.adapter, ControllerRuntimeAdapter):
+            try:
+                self.adapter.capability(self.project)
+            except worker_adapter.CapabilityError as exc:
+                state.update(stage="blocked", error=f"Controller Graft host unavailable: {exc}")
+                _atomic_json(state_path, state)
+                return state
         try:
-            allowance = budget.reserve(invocation_id, CONTROLLER_CAP_USD, CONTROLLER_MINIMUM_USD,
-                                       {"decision_id": decision["decision_id"], "task_revision": decision["task_revision"],
-                                        "allocation": "controller"})
-            budget.start(invocation_id)
-        except dispatch_budget.BudgetError as exc:
+            if self.root_task_id is not None:
+                preview = task_executor.TaskExecutor(self.project, None).status(
+                    self.root_task_id)
+                frozen = preview["definition"]
+                if (preview["state"] != "ready"
+                        or frozen["goal"] != problem_text
+                        or frozen["input_revision"] != input_revision
+                        or frozen["acceptance_definition"]["contract_digest"]
+                        != acceptance_state.get("contract_digest")):
+                    raise DispatchError("Controller inputs do not match a ready N1 root")
+                routing = preview.get("routing_decision")
+                if routing is not None and routing["decision"] != decision:
+                    raise DispatchError("Controller decision differs from the frozen N1 routing choice")
+            self._claim_revision(decision)
+            if self.root_task_id is not None:
+                claim = task_executor.TaskExecutor(self.project, None).claim_controller(
+                    self.root_task_id, decision_id=decision["decision_id"],
+                    controller_task_revision=decision["task_revision"],
+                    problem_text=problem_text, input_revision=input_revision,
+                    acceptance_digest=acceptance_state.get("contract_digest"),
+                    maximum_usd=CONTROLLER_CAP_USD,
+                    minimum_usd=CONTROLLER_MINIMUM_USD,
+                    follow_on_floor_usd=FOLLOW_ON_FLOOR_USD)
+                budget = dispatch_budget.DispatchBudget(
+                    Path(claim["budget_path"]), scope="task_dispatch")
+                invocation_id, allowance = claim["invocation_id"], claim["allowance_usd"]
+                state["root_revision_id"] = claim["revision_id"]
+            else:
+                budget = dispatch_budget.DispatchBudget(
+                    budget_path, task_budget, scope="task_dispatch")
+                invocation_id = "controller-001"
+                allowance = budget.reserve(
+                    invocation_id, CONTROLLER_CAP_USD, CONTROLLER_MINIMUM_USD,
+                    {"decision_id": decision["decision_id"],
+                     "task_revision": decision["task_revision"],
+                     "allocation": "controller"})
+                budget.start(invocation_id)
+        except (dispatch_budget.BudgetError, task_executor.ExecutorError, DispatchError) as exc:
             state.update(stage="blocked", error=str(exc))
             _atomic_json(state_path, state)
             return state
 
-        state.update(stage="controller-dispatched", controller_invocations=1)
-        _atomic_json(state_path, state)
         before_digest = _project_input_digest(self.project)
+        state.update(stage="controller-dispatched", controller_invocations=1,
+                     invocation_id=invocation_id,
+                     source_digest_before=before_digest)
+        _atomic_json(state_path, state)
         request = ControllerRequest(
             project=self.project, problem_text=problem_text, acceptance_state=acceptance_state,
             allowance_usd=allowance, invocation_id=decision["decision_id"],
@@ -313,6 +482,11 @@ class TaskDispatcher:
                                  "accounting_complete": result.get("accounting_complete")},
                       evidence="controller-adapter-result")
         state["controller_result"] = result
+        if budget.snapshot()["cancelled"]:
+            state.update(stage="blocked",
+                         error="operator cancellation recorded; settled cost retained")
+            _atomic_json(state_path, state)
+            return state
         if not final:
             state.update(stage="blocked", error="Controller accounting is incomplete; reconcile before more work")
             _atomic_json(state_path, state)
@@ -341,11 +515,30 @@ class TaskDispatcher:
     def cancel(self, decision_id: str) -> dict:
         root = self.project / ROOT_RELATIVE / decision_id
         state_path, budget_path = root / "dispatch-state.json", root / "task-budget.json"
-        if not state_path.is_file() or not budget_path.is_file():
+        if not state_path.is_file():
+            raise DispatchError("named dispatch has no active task budget")
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        if state.get("root_task_id"):
+            try:
+                task_executor.TaskExecutor(self.project, None)._path(state["root_task_id"])
+            except task_executor.ExecutorError as exc:
+                raise DispatchError("named dispatch has an invalid N1 root") from exc
+            budget_path = (self.project / ".claude" / "task-executor-v2"
+                           / state["root_task_id"] / "budget.json")
+        if not budget_path.is_file():
             raise DispatchError("named dispatch has no active task budget")
         budget = dispatch_budget.DispatchBudget(budget_path, scope="task_dispatch")
+        if state.get("root_task_id"):
+            admission = task_executor.TaskExecutor(self.project, None).status(
+                state["root_task_id"]).get("controller_admission")
+            if admission and admission["decision_id"] == decision_id:
+                follow_on = admission["follow_on_invocation_id"]
+                snapshot = budget.snapshot()
+                if snapshot["invocations"][follow_on]["state"] != "settled":
+                    budget.settle(follow_on, 0.0, final=True,
+                                  telemetry={"status": "not_launched"},
+                                  evidence="controller-cancelled-before-worker")
         budget.cancel()
-        state = json.loads(state_path.read_text(encoding="utf-8"))
         state.update(stage="blocked", error="operator cancellation recorded; running calls may still bill")
         _atomic_json(state_path, state)
         return state

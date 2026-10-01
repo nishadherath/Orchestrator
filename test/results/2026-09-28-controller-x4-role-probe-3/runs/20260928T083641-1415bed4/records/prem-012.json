@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-012",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-003",
+    "meas-003"
+  ],
+  "text": "The available notes do not determine the cause. problem.md contains the statement plus task instructions only, with no field, status or log excerpt selecting writer failure, premature acknowledgement or idempotency suppression.",
+  "class": "verified",
+  "source": "meas-003: problem.md lines 1-14 read in full; no data resolves which explanation applies.",
+  "confidence": 0.95,
+  "cheapest_verification": "Already done; re-run only if a fixture note file is added to the working directory.",
+  "load_bearing": true,
+  "supersedes": "prem-003"
+}

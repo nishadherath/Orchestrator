@@ -1,0 +1,13 @@
+{
+  "episode_label": "sonnet-medium",
+  "files": {
+    "attr/_compat.py": "6fa19a4c9a0d9c4ae8d298b5f35899b214ce5a07cffa575b8eab397bd43bd394",
+    "attr/_make.py": "0058b1bdeff480164473be1028bf94a1a16a790ea37159664f74f9c60ceaee38",
+    "attr/_next_gen.py": "d7ffdd0cd0c795680e376af1b289192d5221a77fd560dc6946c99a12db8105ed",
+    "attr/setters.py": "b1f61fe75b443ed63f0a18f8e498cd48c400aa305c6cc223eccf42ea7b1b0088"
+  },
+  "schema_version": 1,
+  "sequence": 7,
+  "snapshot_sha256": "0ec9eca056f120494043d386d09757485a233d125a9794e1f76e275cf722ae74",
+  "task_id": "S01"
+}

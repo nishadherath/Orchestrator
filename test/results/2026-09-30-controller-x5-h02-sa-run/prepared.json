@@ -1,0 +1,8 @@
+{
+  "manifest_sha256": "c09983df46b2c38f5d746d7d5fb6f6bf71c3b94328f90db13d3ef9da9620a5f4",
+  "provider_calls": 0,
+  "roots": {
+    "A": "5af440c96b4e0fce00878bec",
+    "S": "d5ff78592bd2003848f0904b"
+  }
+}

@@ -57,7 +57,7 @@ import acceptance as acceptance_lib  # noqa: E402
 import controller_integrity as integrity  # noqa: E402
 import model_registry  # noqa: E402
 import validate_records  # noqa: E402
-from dispatch_budget import BudgetError, BudgetExhausted, DispatchBudget, units  # noqa: E402
+from dispatch_budget import BudgetError, BudgetExhausted, DispatchBudget, SCALE, units  # noqa: E402
 from route import _atomic_write_bytes, ledger_lock, LedgerLockTimeout  # noqa: E402
 from system_prompts import OUTPUT_RULE, as_jsonl, role_section, schema_summary, technique_brief  # noqa: E402
 
@@ -79,7 +79,7 @@ QUICK_CELLS: dict[str, tuple[str, str]] = {
     for role, cells in _STANDARD_PROFILE["roles"].items()
 }
 
-TECHNIQUE_FAMILIES = ("subtract", "re-represent", "abduce")
+TECHNIQUE_FAMILIES = model_registry.GENERATOR_TECHNIQUES
 
 # Which role may write which record type. CandidateRecord is split: the
 # Framer writes exactly the technique="b0" candidate, a Generator writes any
@@ -120,6 +120,8 @@ ROLE_CALL_FLOOR_USD = 0.50 # below this much budget left, no role is called:
                            # 0.9, so a call could not finish and would only
                            # spend the remainder on a partial reply (D58)
 ROLE_CALL_CAP_USD = 2.0    # Upper bound, clamped to the durable reservation.
+CLASSIFIER_CALL_CAP_USD = 0.25  # The live stability call exceeded its former
+                                # USD 0.10 cap before returning a classification.
 
 
 class RoleCallFailed(RuntimeError):
@@ -340,7 +342,9 @@ class RoleReply:
 
 
 class RoleRunner(Protocol):
-    def __call__(self, phase: str, role: str, prompt: str, *, timeout: float) -> RoleReply: ...
+    def __call__(self, phase: str, role: str, prompt: str, *, timeout: float,
+                 technique: str | None = None,
+                 call_cap_usd: float | None = None) -> RoleReply: ...
 
     def classify(self, phase: str, prompt: str, schema: dict, default: dict) -> tuple[dict, dict | None]: ...
 
@@ -352,10 +356,9 @@ class LiveRoleRunner:
     Scribe does that on write().
 
     `classify()` is the two Controller calls (task 10.5): a
-    `--json-schema`-forced call at `worker-sonnet-low`, falling back to
-    `default` on any failure (a bad shape, an exception, an empty budget)
-    rather than blocking the run over a classification the pipeline can
-    proceed without."""
+    `--json-schema`-forced call at `worker-sonnet-low`. A live failure is
+    reported as an accounted gap; it cannot masquerade as an independent
+    Controller judgement."""
 
     def __init__(self, project: Path, remaining_budget: Callable[[], float], *,
                  budget: DispatchBudget | None = None, max_output_tokens: int | None = 8192,
@@ -376,7 +379,23 @@ class LiveRoleRunner:
         self.role_profile = role_profile
         self.cells = {role: (cells[0]["model"], cells[0]["effort"])
                       for role, cells in profile["roles"].items()}
+        self.generator_cells = {
+            technique: (cell["model"], cell["effort"])
+            for technique, cell in profile["generator_techniques"].items()}
         self.deadline: float | None = None
+
+    def generator_plan(self, families: list[str]) -> dict[str, float]:
+        """Fund the complete cohort while retaining Critic/Selector floors."""
+        if (not families or not all(isinstance(family, str) for family in families)
+                or len(families) != len(set(families))
+                or any(family not in self.generator_cells for family in families)):
+            raise ValueError("Generator plan needs distinct canonical techniques")
+        future_floor = 2 * ROLE_CALL_FLOOR_USD
+        spendable = units(max(0.0, self.remaining_budget())) - units(future_floor)
+        per_call = min(units(ROLE_CALL_CAP_USD), spendable // len(families))
+        if per_call < units(ROLE_CALL_FLOOR_USD):
+            raise BudgetExhausted("complete Generator plan and Critic/Selector floors are unaffordable")
+        return {family: per_call / SCALE for family in families}
 
     @staticmethod
     def _identity(cell: str, result: claudep.ClaudeCallResult | None) -> dict:
@@ -394,7 +413,8 @@ class LiveRoleRunner:
         }
 
     def _invoke(self, phase: str, role: str, prompt: str, *, timeout: float,
-                schema: dict | None = None) -> tuple[claudep.ClaudeCallResult, str]:
+                schema: dict | None = None, technique: str | None = None,
+                call_cap_usd: float | None = None) -> tuple[claudep.ClaudeCallResult, str]:
         if self.budget is None:
             raise BudgetError("LiveRoleRunner needs a durable budget; use run_quick or pass budget=")
         if not math.isfinite(timeout) or timeout <= 0:
@@ -405,16 +425,29 @@ class LiveRoleRunner:
             timeout = min(timeout, self.deadline - time.monotonic())
             if timeout <= 0:
                 raise BudgetExhausted("Elapsed run limit reached; no further call dispatched")
-        model, effort = self.cells[role]
+        if role == "generator":
+            if technique is None and len(set(self.generator_cells.values())) > 1:
+                raise ValueError("multi-cell Generator call needs its named technique")
+            if technique is not None and technique not in self.generator_cells:
+                raise ValueError(f"unknown Generator technique: {technique}")
+            model, effort = (self.generator_cells[technique] if technique is not None
+                             else self.cells[role])
+        else:
+            if technique is not None:
+                raise ValueError("technique is only valid for Generator calls")
+            model, effort = self.cells[role]
         cell = f"worker-{model}-{effort}"
         ident = uuid.uuid4().hex
-        cap = min(0.10 if schema is not None else ROLE_CALL_CAP_USD, self.remaining_budget())
+        cap = min(CLASSIFIER_CALL_CAP_USD if schema is not None else ROLE_CALL_CAP_USD,
+                  self.remaining_budget(),
+                  call_cap_usd if call_cap_usd is not None else ROLE_CALL_CAP_USD)
         minimum = 0.0 if schema is not None else ROLE_CALL_FLOOR_USD
         if cap <= 0 or cap < minimum:
             raise BudgetExhausted(f"USD {max(0, cap):.4f} available; no {role} call dispatched")
         allowance = self.budget.reserve(ident, cap, minimum, {
             "phase": _PHASE_ALIASES.get(phase, phase), "role": role,
             "cell": f"worker-{model}-{effort}", "timeout_s": timeout,
+            "technique": technique,
             "max_output_tokens": self.max_output_tokens,
         })
         self.budget.start(ident)
@@ -476,26 +509,37 @@ class LiveRoleRunner:
                      "wall_clock_s": elapsed,
                      "usage": usage,
                      "result": result.result if result else None,
-                     "identity": identity}
+                     "identity": identity,
+                     # CLI init and tool-use names, never tool inputs, make
+                     # Graft availability and actual retrieval auditable.
+                     "mcp_servers": result.extras.get("mcp_servers") if result else None,
+                     "available_tools": result.extras.get("available_tools") if result else None,
+                     "tool_use_names": result.extras.get("tool_use_names") if result else None}
         self.budget.settle(ident, cost, final=final, telemetry=telemetry,
                            evidence="terminal-result" if final else "incomplete-usage")
 
-    def __call__(self, phase: str, role: str, prompt: str, *, timeout: float) -> RoleReply:
-        result, ident = self._invoke(phase, role, prompt, timeout=timeout)
-        records, unparsed = _parse_jsonl_reply(result.result)
+    def __call__(self, phase: str, role: str, prompt: str, *, timeout: float,
+                 technique: str | None = None,
+                 call_cap_usd: float | None = None) -> RoleReply:
+        result, ident = self._invoke(phase, role, prompt, timeout=timeout,
+                                    technique=technique, call_cap_usd=call_cap_usd)
+        complete_text = (result.extras.get("assistant_text")
+                         if self.stream_json else None)
+        records, unparsed = _parse_jsonl_reply(
+            complete_text if isinstance(complete_text, str) and complete_text
+            else result.result)
         # BudgetEntry is projected from the durable snapshot at finish/recovery;
         # returning another charge here would create a second cost owner.
         return RoleReply(records=records, budget_entry=None, unparsed=unparsed)
 
     def classify(self, phase: str, prompt: str, schema: dict, default: dict) -> tuple[dict, dict | None]:
-        try:
-            result, ident = self._invoke(phase, "controller", prompt, timeout=120, schema=schema)
-        except (BudgetExhausted, RoleCallFailed):
-            return default, None
+        result, ident = self._invoke(phase, "controller", prompt, timeout=120, schema=schema)
         try:
             return _parse_schema_result(result, schema), None
-        except RuntimeError:
-            return default, None
+        except RuntimeError as exc:
+            raise RoleOutputMismatch(
+                f"Controller classification {phase} from invocation {ident} was invalid; "
+                "usage recorded") from exc
 
 
 class FakeRoleRunner:
@@ -512,7 +556,9 @@ class FakeRoleRunner:
         self.classify_script = dict(classify_script or {})
         self.calls: list[tuple[str, str]] = []
 
-    def __call__(self, phase: str, role: str, prompt: str, *, timeout: float) -> RoleReply:
+    def __call__(self, phase: str, role: str, prompt: str, *, timeout: float,
+                 technique: str | None = None,
+                 call_cap_usd: float | None = None) -> RoleReply:
         self.calls.append((phase, role))
         queue = self.script.get((phase, role))
         if not queue:
@@ -615,8 +661,8 @@ def build_frame_prompt(problem: dict, prior_measurements: list[dict], prior_ledg
     if prior_ledger:
         reason = ("Verify found new measurements" if prior_measurements
                    else "a Critique found a ledger premise false (falsifying_premise_claims below)")
-        body.append(f"Prior ledger, for re-entry ({reason}; produce the next PremiseRecords with "
-                     "`supersedes` set for any that changed class, and one new FrameRecord; do not "
+        body.append(f"Prior ledger, for re-entry ({reason}; produce one new FrameRecord first, "
+                     "then only changed PremiseRecords with `supersedes` set for a changed class; do not "
                      "re-emit the B0 candidate):\n" + as_jsonl(prior_ledger))
         if prior_measurements:
             body.append("New measurements since the last freeze:\n" + as_jsonl(prior_measurements))
@@ -627,7 +673,17 @@ def build_frame_prompt(problem: dict, prior_measurements: list[dict], prior_ledg
     else:
         body.append("False-premise catalogue: " + catalogue)
         body.append("Input slice (the ProblemRecord):\n" + as_jsonl([problem]))
-        body.append("Produce ledger version 1: every PremiseRecord, one FrameRecord, and the B0 CandidateRecord. "
+        if problem.get("acceptance_criteria"):
+            body.append("The ProblemRecord's acceptance_criteria are externally frozen. "
+                         "Copy that JSON array into FrameRecord.acceptance_criteria exactly: "
+                         "same strings, order and spelling, with no additions. Put useful "
+                         "extra goals in goal_ladder or PremiseRecords instead.")
+        body.append("Produce ledger version 1. Emit exactly one FrameRecord first and exactly one "
+                     "B0 CandidateRecord second; then emit at most 12 concise PremiseRecords for "
+                     "materially independent claims. Merge related facts without losing any "
+                     "stated constraint. Do not turn budget, role or output-format instructions "
+                     "into causal premises. If the frame cannot fit, state the compression limit "
+                     "instead of silently dropping a constraint. "
                      "The `id` you give the B0 CandidateRecord and the `b0_candidate_id` you give the FrameRecord "
                      "must be the exact same string: whichever of the two you write first, copy it into the other "
                      "field rather than choosing separately. B0 takes every stated constraint at face value, "
@@ -1002,11 +1058,14 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
 
     # Worker threads share only the locked dispatch budget. All content
     # writes and ID assignment stay on this thread, after draining futures.
-    def raw_call(phase: str, role: str, prompt: str) -> RoleReply:
+    def raw_call(phase: str, role: str, prompt: str, *,
+                 technique: str | None = None,
+                 call_cap_usd: float | None = None) -> RoleReply:
         call_timeout = timeout if deadline is None else min(timeout, deadline - time.monotonic())
         if call_timeout <= 0:
             raise BudgetExhausted("Elapsed run limit reached; no further call dispatched")
-        return runner(phase, role, prompt, timeout=call_timeout)
+        return runner(phase, role, prompt, timeout=call_timeout,
+                      technique=technique, call_cap_usd=call_cap_usd)
 
     def commit_reply(reply: RoleReply) -> list[dict]:
         calls["n"] += 1
@@ -1022,8 +1081,11 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                                         ensure_ascii=False) + "\n")
         return reply.records
 
-    def call(phase: str, role: str, prompt: str) -> list[dict]:
-        return commit_reply(raw_call(phase, role, prompt))
+    def call(phase: str, role: str, prompt: str, *,
+             technique: str | None = None,
+             call_cap_usd: float | None = None) -> list[dict]:
+        return commit_reply(raw_call(phase, role, prompt,
+                                     technique=technique, call_cap_usd=call_cap_usd))
 
     def classify(phase: str, prompt: str, schema: dict, default: dict) -> dict:
         result, entry = runner.classify(phase, prompt, schema, default)
@@ -1034,16 +1096,38 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
         return result
 
     def write_with_retry(phase: str, role: str, records: list[dict], expected_types: set[str],
-                          retry_prompt: Callable[[list[ScribeRejection]], str] | None) -> list[dict]:
-        accepted, rejected = scribe.write(records, writer_role=role, expected_types=expected_types)
-        if rejected and retry_prompt is not None:
-            for _ in range(MAX_RECORD_RETRIES):
-                if not rejected:
-                    break
-                fix_prompt = retry_prompt(rejected)
-                fixed = call(phase, role, fix_prompt)
-                more_accepted, rejected = scribe.write(fixed, writer_role=role, expected_types=expected_types)
-                accepted += more_accepted
+                          retry_prompt: Callable[[list[ScribeRejection]], str] | None,
+                          *, framer_prompt: str | None = None) -> list[dict]:
+        accepted: list[dict] = []
+        for attempt in range(MAX_RECORD_RETRIES + 1):
+            if framer_prompt is not None and acceptance_state is not None and any(
+                    record.get("type") == "FrameRecord"
+                    and record.get("acceptance_criteria") != acceptance_state["criteria"]
+                    for record in records):
+                # A frame may add useful goals, but it cannot rewrite the
+                # externally frozen acceptance contract. Reject the *batch*
+                # before the Scribe assigns ids or freezes a ledger version.
+                rejected = [ScribeRejection(record, [
+                    "FrameRecord must copy the frozen external acceptance criteria exactly; "
+                    "the complete Framer batch was withheld"])
+                    for record in records]
+                scribe._log_rejections(rejected, role)
+                if attempt == MAX_RECORD_RETRIES:
+                    raise RoleOutputMismatch(
+                        "Framer changed frozen external acceptance criteria after correction")
+                fix_prompt = (framer_prompt + "\n\nThe previous FrameRecord changed "
+                              "externally frozen acceptance criteria. Resend the complete "
+                              "required record batch. Copy this exact JSON array into "
+                              "FrameRecord.acceptance_criteria without additions: "
+                              + json.dumps(acceptance_state["criteria"], ensure_ascii=False))
+                records = call(phase, role, fix_prompt)
+                continue
+            more_accepted, rejected = scribe.write(
+                records, writer_role=role, expected_types=expected_types)
+            accepted += more_accepted
+            if not rejected or retry_prompt is None or attempt == MAX_RECORD_RETRIES:
+                break
+            records = call(phase, role, retry_prompt(rejected))
         return accepted
 
     def phases() -> RunResult:
@@ -1064,9 +1148,11 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
             return r
 
         # ---- 2. Frame ----
-        frame_records = call("frame", "framer", build_frame_prompt(problem, [], []))
+        frame_prompt = build_frame_prompt(problem, [], [])
+        frame_records = call("frame", "framer", frame_prompt)
         accepted = write_with_retry("frame", "framer", frame_records, {"PremiseRecord", "FrameRecord", "CandidateRecord"},
-                                     lambda rej: _retry_prompt(build_frame_prompt(problem, [], []), rej))
+                                     lambda rej: _retry_prompt(frame_prompt, rej),
+                                     framer_prompt=frame_prompt)
         frame = _one_of(accepted, "FrameRecord", "Frame")
         b0 = _one_of([r for r in accepted if r["type"] == "CandidateRecord" and r.get("technique") == "b0"],
                      None, "Frame's B0 candidate", allow_type_check=False)
@@ -1104,9 +1190,11 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
             if not measurements:
                 break
             prior_ledger = [problem, frame, *scribe.premises(), b0]
-            recs = call("frame", "framer", build_frame_prompt(problem, measurements, prior_ledger))
+            frame_prompt = build_frame_prompt(problem, measurements, prior_ledger)
+            recs = call("frame", "framer", frame_prompt)
             accepted = write_with_retry("frame", "framer", recs, {"PremiseRecord", "FrameRecord"},
-                                         lambda rej: _retry_prompt(build_frame_prompt(problem, measurements, prior_ledger), rej))
+                                         lambda rej: _retry_prompt(frame_prompt, rej),
+                                         framer_prompt=frame_prompt)
             new_frame = _one_of(accepted, "FrameRecord", "Frame re-entry")
             frame = new_frame
             if not integrity.frame_matches_acceptance(frame, acceptance_state):
@@ -1142,6 +1230,13 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
         families = classify("controller-families", build_families_prompt(problem, frame), FAMILIES_SCHEMA,
                              default={"families": list(TECHNIQUE_FAMILIES), "reasoning": "fallback: run all three"})
         chosen_families = families.get("families") or list(TECHNIQUE_FAMILIES)
+        if (not isinstance(chosen_families, list)
+                or not all(isinstance(family, str) for family in chosen_families)
+                or len(chosen_families) != len(set(chosen_families))
+                or any(family not in TECHNIQUE_FAMILIES for family in chosen_families)):
+            raise RoleOutputMismatch("Controller selected an invalid Generator technique set")
+        generator_caps = (runner.generator_plan(chosen_families)
+                          if isinstance(runner, LiveRoleRunner) else {})
         write_digest(scribe, dirs, "controller-families", f"Controller selects {chosen_families}: "
                      f"{families['reasoning'][:200]}", [])
         if (r := check_budget("controller-families")):
@@ -1154,7 +1249,9 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
 
             # The budget serialises admissions; content writes remain here.
             def gen_one(family: str) -> RoleReply:
-                return raw_call("generate", "generator", build_generate_prompt(family, ledger_slice, []))
+                return raw_call("generate", "generator",
+                                build_generate_prompt(family, ledger_slice, []),
+                                technique=family, call_cap_usd=generator_caps.get(family))
 
             # Drain every future even if one fails. Its siblings have already
             # spent money and their successful candidates must remain usable.
@@ -1180,7 +1277,9 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                     for _ in range(MAX_RECORD_RETRIES):
                         if not rejected:
                             break
-                        fixed = call("generate", "generator", _retry_prompt(build_generate_prompt(family, ledger_slice, []), rejected))
+                        fixed = call("generate", "generator",
+                                     _retry_prompt(build_generate_prompt(family, ledger_slice, []), rejected),
+                                     technique=family, call_cap_usd=generator_caps.get(family))
                         accepted, rejected = scribe.write(fixed, writer_role="generator", expected_types={"CandidateRecord"})
                         generated += accepted
             candidates = [b0] + generated
@@ -1231,9 +1330,11 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
                 # freeze, and candidates would go on citing a version whose
                 # premise set the Critic has already shown is wrong.
                 prior_ledger = [problem, frame, *scribe.premises(), b0]
-                recs = call("frame", "framer", build_frame_prompt(problem, [], prior_ledger, falsified))
+                frame_prompt = build_frame_prompt(problem, [], prior_ledger, falsified)
+                recs = call("frame", "framer", frame_prompt)
                 accepted = write_with_retry("frame", "framer", recs, {"PremiseRecord", "FrameRecord"},
-                                             lambda rej: _retry_prompt(build_frame_prompt(problem, [], prior_ledger, falsified), rej))
+                                             lambda rej: _retry_prompt(frame_prompt, rej),
+                                             framer_prompt=frame_prompt)
                 frame = _one_of(accepted, "FrameRecord", "Frame re-entry (reframe)")
                 if not integrity.frame_matches_acceptance(frame, acceptance_state):
                     gap = _gap_report(
@@ -1274,8 +1375,12 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
             decision_detail = json.dumps(eligibility, sort_keys=True)
             if winner is None:
                 write_digest(scribe, dirs, "select", f"No candidate was eligible. {decision_detail}", selections)
+                pending = next((premise for premise in scribe.premises()
+                                if premise["id"] in eligibility["global_unverified_load_bearing"]), None)
+                next_test = (f"Obtain evidence for {pending['id']}: {pending['cheapest_verification']}"
+                             if pending else "Verify or replace every ineligible candidate premise.")
                 gap = _gap_report(
-                    scribe, "no_improvement", "Verify or replace every ineligible candidate premise.",
+                    scribe, "no_improvement", next_test,
                     acceptance_state["criteria"],
                 )
                 return finish("gap", gap)
@@ -1315,7 +1420,9 @@ def _run_quick(problem_text: str, project: Path, budget_usd: float, timeout: flo
         # termination values have no exact fit for "a role's output
         # never usable"; no_improvement is the closest: the run made no
         # progress toward a solution the ledger could act on.
-        gap = _gap_report(scribe, "no_improvement", next_test=str(exc))
+        gap = _gap_report(
+            scribe, "no_improvement", next_test=str(exc),
+            unmet_criteria=acceptance_state["criteria"] if acceptance_state else None)
         write_digest(scribe, dirs, "close", f"A role's output could not be used: {exc}. "
                      "Stopping with a gap report.", [gap])
         return finish("gap", gap)
@@ -1740,7 +1847,8 @@ def selftest(project: Path | None = None, verbose: bool = False) -> tuple[bool, 
         # run as a GapReport with termination budget_spent, REPORT.md and
         # all, not propagate.
         class BrokeRunner(FakeRoleRunner):
-            def __call__(self, phase, role, prompt, *, timeout):
+            def __call__(self, phase, role, prompt, *, timeout,
+                         technique=None, call_cap_usd=None):
                 if phase == "critique":
                     raise BudgetExhausted("USD 0.2000 left, under the USD 0.50 a role call needs")
                 return super().__call__(phase, role, prompt, timeout=timeout)
@@ -1855,7 +1963,9 @@ def main(argv: list[str] | None = None) -> int:
             acceptance = acceptance_lib.load_contract(args.project, args.acceptance_contract)
         except acceptance_lib.AcceptanceError as exc:
             ap.error(str(exc))
-    runner_factory = lambda remaining: LiveRoleRunner(args.project, remaining, max_output_tokens=args.max_output_tokens)  # noqa: E731
+    runner_factory = lambda remaining: LiveRoleRunner(  # noqa: E731
+        args.project, remaining, max_output_tokens=args.max_output_tokens,
+        stream_json=True, require_identity=True)
     try:
         result = run_quick(problem_text, args.project, args.budget_usd, args.timeout, runner_factory,
                            elapsed_limit_s=args.elapsed_limit_s, integrity_policy=args.integrity_policy,

@@ -1,0 +1,10 @@
+{
+  "type": "PhaseDigest",
+  "phase": "verify",
+  "text": "Controller selects ['subtract', 're-represent', 'abduce']: fallback: run all three",
+  "records_written": [],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [],
+  "id": "dig-005"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-003",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The available notes do not establish which of the three mechanisms applies. The insufficiency is stated, not demonstrated, so the notes may in fact discriminate.",
+  "class": "unverified",
+  "source": "Problem statement's claim about its own notes; the notes themselves are not in the slice.",
+  "confidence": 0.6,
+  "cheapest_verification": "Inspect the notes and test whether any recorded field already separates writer failure from premature acknowledgement.",
+  "load_bearing": true,
+  "supersedes": null
+}

@@ -1,0 +1,105 @@
+{
+  "arm": "B",
+  "assessment_cost_usd": null,
+  "budget_spent_usd": 0.190796001,
+  "budget_unresolved": [],
+  "controller_invocations": 0,
+  "controller_profile": null,
+  "controller_role_call_count": null,
+  "controller_role_cost_usd": null,
+  "controller_run_dir": null,
+  "controller_stage": null,
+  "credential_reconciled": true,
+  "effective_action": null,
+  "elapsed_s": 82.511,
+  "error": null,
+  "grade": {
+    "accepted": true,
+    "components": {
+      "D": 1.0,
+      "E": 1.0,
+      "H": 1.0,
+      "M": 1.0,
+      "N": 1.0
+    },
+    "critical_violation": false,
+    "false_success": false,
+    "functional_accepted": true,
+    "functional_score": 100,
+    "host_verified_causal_kinds": [
+      "lost_response",
+      "tenant"
+    ],
+    "measurement_version": "x5-v7-host-functional-v1",
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "lost_response_replay",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "tenant_boundary",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "payload_conflict",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": false,
+        "name": "precommit_retry",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "critical": true,
+        "name": "parallel_retry",
+        "passed": true,
+        "weight": 25
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "f8cb3581359ccdd4a3879ef4538152b23c1ce01cc86299de29e200f04ba7aeed",
+    "protected_edit": false,
+    "provider_calls": 0,
+    "public_check_passed": true,
+    "quality": 100.0,
+    "raw_quality": 100.0,
+    "reported_claim": "fixed, statically re-derived against trace.json and hand-simulated probes (no execution tool available in this session)",
+    "reported_evidence_count": 6,
+    "schema_version": 2,
+    "semantic_outcome": "accepted-full",
+    "task_id": "X5-PAY",
+    "v6_accepted": false,
+    "v6_report_quality": 50.0,
+    "verified_probes": []
+  },
+  "manifest_sha256": "ea3bc5f689d1b55c72137d5424e5e6d0672ef4b19e741a92207e5c8ad29ad8c7",
+  "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-008-x5-pay-b",
+  "required_admission_met": true,
+  "root_id": "cd057d084590548822772510",
+  "schema_version": 1,
+  "sequence": 8,
+  "status": "completed",
+  "task_id": "X5-PAY",
+  "task_state": "accepted",
+  "worker_attempt_count": 1,
+  "worker_attempts": [
+    {
+      "actual_model": "claude-sonnet-5",
+      "cost_usd": 0.19079600000000002,
+      "identity_valid": true,
+      "process_state": "terminal",
+      "requested_cell": "worker-sonnet-low",
+      "requested_effort": "low",
+      "served_effort": null,
+      "status": "completed",
+      "wall_clock_s": 77.935211
+    }
+  ]
+}

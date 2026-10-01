@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "A job acknowledgement and its receipt write target two separate stores, so the two operations are not covered by a single commit.",
+  "class": "unverified",
+  "source": "Problem statement: acknowledges jobs from a queue and writes receipts to a separate store.",
+  "confidence": 0.85,
+  "cheapest_verification": "Read the fixture's writer path and confirm no shared transaction or outbox spans the queue ack and the receipt store.",
+  "load_bearing": true,
+  "supersedes": null
+}

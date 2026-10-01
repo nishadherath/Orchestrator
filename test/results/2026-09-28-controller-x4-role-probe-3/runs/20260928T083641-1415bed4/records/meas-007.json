@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-007",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-010"
+  ],
+  "premise_id": "prem-010",
+  "method": "Grepped the supplied ProblemRecord.statement text for the fixture's environment declaration and the deliverable type.",
+  "result": "Line 5: 'there is no production system or customer data behind this fixture.' Line 10: 'The result is an investigation brief, not an authorised production change.' No live endpoint, dataset, or production binding is asserted anywhere in the statement.",
+  "artefact": "ProblemRecord.statement (prob-001), lines 5 and 10, matched via grep",
+  "outcome": "supports",
+  "cost_usd": 0.0
+}

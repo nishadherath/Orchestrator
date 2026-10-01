@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-005",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-006"
+  ],
+  "premise_id": "prem-006",
+  "method": "Searched the working directory (problem.md and prior run records) for an idempotency-key derivation or guarded write branch to inspect per the cheapest_verification.",
+  "result": "No source code, service implementation, or queue/writer artefact exists in this fixture; only the prose ProblemRecord statement and prior JSON records were found. There is no idempotency check implementation to locate or read.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-4/problem.md (no matching implementation found)",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

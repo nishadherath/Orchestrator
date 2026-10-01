@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "entry_id": "offline-pair-root-1-1",
+  "contract_digest": "b94dd3b4fcbe888eb8b76a4a1a00752b429ea498164a43f0b5eacda975e46d12",
+  "acceptance": {
+    "contract_version": "acceptance-v2",
+    "contract": {
+      "version": 1,
+      "kind": "command",
+      "criteria": [
+        "public check passes"
+      ],
+      "constraints": [],
+      "required_outputs": [
+        "payment.py",
+        "report.json"
+      ],
+      "protected_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "command": [
+        "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "-B",
+        "public_check.py"
+      ],
+      "rubric": [],
+      "timeout_s": 10.0
+    },
+    "contract_digest": "b94dd3b4fcbe888eb8b76a4a1a00752b429ea498164a43f0b5eacda975e46d12",
+    "protected_baseline": {
+      "files": [
+        {
+          "path": "app.py",
+          "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+          "size": 257
+        },
+        {
+          "path": "issue.md",
+          "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+          "size": 611
+        },
+        {
+          "path": "public_check.py",
+          "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+          "size": 630
+        }
+      ],
+      "missing": [],
+      "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+    },
+    "status": "pass",
+    "evidence": {
+      "kind": "command",
+      "started_at": "2026-09-28T03:02:39.365910+00:00",
+      "finished_at": "2026-09-28T03:02:39.799935+00:00",
+      "command": {
+        "argv": [
+          "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "",
+        "timed_out": false
+      },
+      "artefacts": {
+        "files": [
+          {
+            "path": "payment.py",
+            "sha256": "b72c0bd477788dee94e4a728e5463be07e5f79d191533e182bd0e003ac2d82be",
+            "size": 1005
+          },
+          {
+            "path": "report.json",
+            "sha256": "3c422dbb299bcf1d1809189ffd35cd0194cea891d4d8fc1968d273b2a40826e8",
+            "size": 887
+          }
+        ],
+        "missing": [],
+        "digest": "63ac6eded784d0221965380e7c159dd9c9edfe9d16f7b543378da46315f6216b"
+      },
+      "protected": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      },
+      "protected_unchanged": true,
+      "revision": {
+        "head": "15ecf6621d158299ed278659a769d03729ee50e0",
+        "diff_sha256": "d042afeeb154635288ef67011d49a9d48dd320aa2cad23e42c5ba0fb80859430",
+        "status_sha256": "2e26f4970836c9393c25531890ab13ec20b394aa614a66fa5ca3db5a57ade630"
+      },
+      "blocked_reason": null,
+      "result_path": ".claude/acceptance/offline-pair-root-1-1.json",
+      "result_digest": "e44ff0150311ed3f8c4817801f439d49d9dc5d55306b4813d8c4f04aef47b7ee"
+    },
+    "review": null
+  },
+  "sha256": "125dd9ef04ccbd3f97479d38b9e34d66507fb9ea7f4c8d3bd8b52c7ada073ef9"
+}

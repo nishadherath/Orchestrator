@@ -1,0 +1,117 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.83045,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T08:59:08.796662+00:00",
+    "currency": "USD",
+    "invocations": {
+      "4b155c92ab94525299eb00f5f6656627": {
+        "allowance_units": 5000000000,
+        "charged_units": 169550000,
+        "cost_usd": 0.16955,
+        "metadata": {
+          "decision_digest": "b455024789fb0b16f654d8e1726b3faef31c330de10ee23651298c03da51ad8f",
+          "revision_id": "32cc5a704eaeb44f219d3ca69660568e4900f2f5cfc9ebb189d6a70bfcf399cb",
+          "root_id": "9731135afe093e636c3fa079"
+        },
+        "reserved_at": "2026-09-29T14:35:56.121694+00:00",
+        "resolution": {
+          "cost_usd": 0.16955,
+          "evidence": "receipt:1ba9f751adaa4719ee7e5abfd6525e0372d5b4a53f5cd1b3e7e8acbd3845398d",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 20351,
+            "cache_read_input_tokens": 92915,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.16955,
+            "currency": "USD",
+            "input_tokens": 14,
+            "output_tokens": 6819
+          }
+        },
+        "started_at": "2026-09-29T14:35:56.131415+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 20351,
+          "cache_read_input_tokens": 92915,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.16955,
+          "currency": "USD",
+          "input_tokens": 14,
+          "output_tokens": 6819
+        },
+        "updated_at": "2026-09-29T14:37:20.415073+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.16955,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 86.995,
+  "eligible": false,
+  "manifest_sha256": "dbfb0b877f6696c74198efd4926f7eb5d049a1e0443b507d4ea4dad23327e1f5",
+  "protected_grade_after_eligibility": {
+    "accepted": false,
+    "critical_violation": true,
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "same-offset committed replay",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "retry after pre-commit failure",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "tenant-scoped delivery identifier",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "same identifier with changed content",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": true,
+        "name": "replay preserves original receipt after later commit",
+        "passed": false,
+        "weight": 15
+      },
+      {
+        "critical": false,
+        "name": "old offset is stale but another partition progresses",
+        "passed": true,
+        "weight": 10
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "016ff553bd595e2de25885dc80c631b8ecc758da0eb110efde6c498c095141bc",
+    "package_sha256": "701d0f8aeefe8532f3b6d09b858cb26d492d68e01bc52a0c63d3b0de03ba8900",
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "public_check_passed": true,
+    "quality": 85,
+    "schema_version": 1,
+    "task_id": "R01"
+  },
+  "public_stop_reason": "producer is not a settled bounded terminal attempt",
+  "qualified": false,
+  "root_id": "9731135afe093e636c3fa079",
+  "snapshot": null,
+  "state": "accepted",
+  "task_id": "R01"
+}

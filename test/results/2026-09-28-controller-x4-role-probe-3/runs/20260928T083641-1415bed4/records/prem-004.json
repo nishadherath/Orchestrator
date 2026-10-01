@@ -1,0 +1,16 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-004",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-003"
+  ],
+  "text": "The three named explanations are treated as the candidate set, but the statement does not claim the set is exhaustive; a read-side, replication or retention artefact is not excluded.",
+  "class": "unverified",
+  "source": "Inference from the statement's phrasing, which lists three causes without asserting closure.",
+  "confidence": 0.7,
+  "cheapest_verification": "Enumerate every path by which an acknowledged job yields no readable receipt and check each against the three named causes.",
+  "load_bearing": true,
+  "supersedes": null
+}

@@ -1,0 +1,100 @@
+{
+  "arm": "B",
+  "assessment_cost_usd": null,
+  "budget_spent_usd": 0.130881001,
+  "budget_unresolved": [],
+  "controller_invocations": 0,
+  "controller_profile": null,
+  "controller_role_call_count": null,
+  "controller_role_cost_usd": null,
+  "controller_run_dir": null,
+  "controller_stage": null,
+  "credential_reconciled": true,
+  "effective_action": null,
+  "elapsed_s": 70.168,
+  "error": null,
+  "grade": {
+    "accepted": false,
+    "components": {
+      "D": 0.0,
+      "E": 0.0,
+      "H": 1.0,
+      "M": 1.0,
+      "N": 0.0
+    },
+    "critical_violation": false,
+    "false_success": false,
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "oversold_last_units",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "carrier_retry",
+        "passed": true,
+        "weight": 25
+      },
+      {
+        "critical": true,
+        "name": "tenant_boundary",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": true,
+        "name": "cancel_release",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": false,
+        "name": "changed_order_conflict",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "critical": false,
+        "name": "unreserved_dispatch",
+        "passed": true,
+        "weight": 10
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "e3c1b96e73b386116ae0c6ef84c487aa1e9a2a98e3395983bce1d865dee17086",
+    "protected_edit": false,
+    "provider_calls": 0,
+    "public_check_passed": true,
+    "quality": 50.0,
+    "raw_quality": 50.0,
+    "schema_version": 1,
+    "semantic_outcome": "useful-partial",
+    "task_id": "X5-SHIP",
+    "verified_probes": []
+  },
+  "manifest_sha256": "1a8eb29b2f2b816dafed0f6bbe22613cc496ee9601e55a37e1bb0822a8a001bf",
+  "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-001-x5-ship-b",
+  "required_admission_met": true,
+  "root_id": "629ee1bd50c57111d7d42ba2",
+  "schema_version": 1,
+  "sequence": 1,
+  "status": "completed",
+  "task_id": "X5-SHIP",
+  "task_state": "accepted",
+  "worker_attempt_count": 1,
+  "worker_attempts": [
+    {
+      "actual_model": "claude-sonnet-5",
+      "cost_usd": 0.13088100000000003,
+      "identity_valid": true,
+      "process_state": "terminal",
+      "requested_cell": "worker-sonnet-low",
+      "requested_effort": "low",
+      "served_effort": null,
+      "status": "completed",
+      "wall_clock_s": 57.013116
+    }
+  ]
+}

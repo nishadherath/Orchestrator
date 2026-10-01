@@ -1,0 +1,12 @@
+{
+  "episode_label": "sonnet-xhigh",
+  "files": {
+    "jwt/api_jwk.py": "cbf41141583ed2244ea6779bd40a5ea415e0d991150d386288a2e12d35bea7b7",
+    "jwt/jwk_set_cache.py": "037f79442909503c4a2e3fcce91654912e34e407837a9130ced538938c434a85",
+    "jwt/jwks_client.py": "00ba62de23c8c80d90fb1f73539a8fbf32c47a959d8d0fbaf51e46800c419ab7"
+  },
+  "schema_version": 1,
+  "sequence": 16,
+  "snapshot_sha256": "5b846f87572f0ecd960158cc4d82c5b927fde17420f8dd489317524984b9634e",
+  "task_id": "P06"
+}

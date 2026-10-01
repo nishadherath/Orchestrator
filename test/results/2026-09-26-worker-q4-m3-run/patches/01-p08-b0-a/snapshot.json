@@ -1,0 +1,13 @@
+{
+  "episode_label": "b0-a",
+  "files": {
+    "platformdirs/_xdg.py": "d251965bb22c90619b316f86e31cf81f01ebad45788b9148503fd3f8e79cbcca",
+    "platformdirs/api.py": "02ce4bf3912c136bd9437e2cc763cb4ff953c2b66756759841c2aaee7ac91b56",
+    "platformdirs/macos.py": "4201cd38ce6a002c597d1657da71a0915fc1c17393a9a5daaa37736e19d6bd1c",
+    "platformdirs/unix.py": "70556859a77f09a7022ec1eabd6dd99c334c3eb355b747393dc216f4d25def38"
+  },
+  "schema_version": 1,
+  "sequence": 1,
+  "snapshot_sha256": "1b8aa383bfc20b2f538acb1669fd24506a137470e8e13b2ba7b29ab26852422b",
+  "task_id": "P08"
+}

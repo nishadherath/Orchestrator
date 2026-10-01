@@ -1,0 +1,15 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-004",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-005"
+  ],
+  "premise_id": "prem-005",
+  "method": "Searched the working directory (ls -la; grep -ril 'receipt|acknowledg|idempotency|queue') for any queue/receipt service implementation whose code paths could be enumerated for a fourth cause.",
+  "result": "No service source code exists in this directory: only problem.md and prior run records (rejections.jsonl, ledger.jsonl, records/*.json) that restate or reference the same three explanations from the problem statement. There is no acknowledgement/receipt-write code path to enumerate, so no fourth cause (e.g. receipt deletion, key mismatch, read-replica lag) can be confirmed or ruled out from an artefact.",
+  "artefact": "runs/20260928T093635-40ec0e99/ (directory listing); problem.md",
+  "outcome": "inconclusive",
+  "cost_usd": 0.0
+}

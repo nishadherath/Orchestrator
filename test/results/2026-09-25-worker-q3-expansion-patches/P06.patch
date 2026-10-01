@@ -1,0 +1,59 @@
+--- a/jwt/api_jwk.py
++++ b/jwt/api_jwk.py
+@@ -150,10 +150,10 @@
+         for key in keys:
+             try:
+                 self.keys.append(PyJWK(key))
+-            except PyJWTError as error:
+-                if isinstance(error, MissingCryptographyError):
+-                    raise error
+-                # skip unusable keys
++            except MissingCryptographyError:
++                raise
++            except (PyJWTError, TypeError, ValueError, AttributeError):
++                # skip malformed or unusable keys
+                 continue
+ 
+         if len(self.keys) == 0:
+--- a/jwt/jwk_set_cache.py
++++ b/jwt/jwk_set_cache.py
+@@ -1,5 +1,5 @@
+ import time
+-from typing import Optional
++from typing import Any, Optional, Union
+ 
+ from .api_jwk import PyJWKSet, PyJWTSetWithTimestamp
+ 
+@@ -9,12 +9,16 @@
+         self.jwk_set_with_timestamp: Optional[PyJWTSetWithTimestamp] = None
+         self.lifespan = lifespan
+ 
+-    def put(self, jwk_set: PyJWKSet) -> None:
+-        if jwk_set is not None:
+-            self.jwk_set_with_timestamp = PyJWTSetWithTimestamp(jwk_set)
+-        else:
++    def put(self, jwk_set: Optional[Union[PyJWKSet, dict[str, Any]]]) -> None:
++        if jwk_set is None:
+             # clear cache
+             self.jwk_set_with_timestamp = None
++            return
++
++        if not isinstance(jwk_set, PyJWKSet):
++            jwk_set = PyJWKSet.from_dict(jwk_set)
++
++        self.jwk_set_with_timestamp = PyJWTSetWithTimestamp(jwk_set)
+ 
+     def get(self) -> Optional[PyJWKSet]:
+         if self.jwk_set_with_timestamp is None or self.is_expired():
+--- a/jwt/jwks_client.py
++++ b/jwt/jwks_client.py
+@@ -192,6 +192,9 @@
+         if self.jwk_set_cache is not None and not refresh:
+             data = self.jwk_set_cache.get()
+ 
++        if isinstance(data, PyJWKSet):
++            return data
++
+         if data is None:
+             data = self.fetch_data()
+ 

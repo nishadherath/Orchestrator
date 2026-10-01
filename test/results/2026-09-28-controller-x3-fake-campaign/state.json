@@ -1,0 +1,80 @@
+{
+  "actual_provider_calls": 0,
+  "episodes": [
+    {
+      "accounting_complete": true,
+      "actual_provider_calls": 0,
+      "arm": "S",
+      "assessment_status": "settled",
+      "effective_action": "worker",
+      "public_citations_sha256": "c108ea1dc00c8d55768bc89be508a85cc6c2a0236401717f03fbfc70c1241453",
+      "public_sources_sha256": "a5f8e07f868c26db67f4930dae8ca680eb90ac88edadf855a27055d343cb8ce3",
+      "sequence": 1,
+      "synthetic_spend_usd": 0.14,
+      "task_id": "N04-D1",
+      "task_state": "accepted",
+      "worker_attempts": 1
+    },
+    {
+      "accounting_complete": true,
+      "actual_provider_calls": 0,
+      "arm": "A",
+      "assessment_status": "settled",
+      "effective_action": "worker",
+      "public_citations_sha256": "c108ea1dc00c8d55768bc89be508a85cc6c2a0236401717f03fbfc70c1241453",
+      "public_sources_sha256": "a5f8e07f868c26db67f4930dae8ca680eb90ac88edadf855a27055d343cb8ce3",
+      "sequence": 2,
+      "synthetic_spend_usd": 0.14,
+      "task_id": "N04-D1",
+      "task_state": "accepted",
+      "worker_attempts": 1
+    },
+    {
+      "accounting_complete": true,
+      "actual_provider_calls": 0,
+      "arm": "A",
+      "assessment_status": "settled",
+      "effective_action": "controller",
+      "public_citations_sha256": "0970a7baf29aebe687e3d4961aacc4a1548d21d82a9be373862d975d9dedacc4",
+      "public_sources_sha256": "1fd98666103f76d321a740707f3c3aed572ed25f680c41968a3f85ad1e74c625",
+      "sequence": 3,
+      "synthetic_spend_usd": 0.34,
+      "task_id": "C03-D1",
+      "task_state": "accepted",
+      "worker_attempts": 1
+    },
+    {
+      "accounting_complete": true,
+      "actual_provider_calls": 0,
+      "arm": "S",
+      "assessment_status": "settled",
+      "effective_action": "worker",
+      "public_citations_sha256": "0970a7baf29aebe687e3d4961aacc4a1548d21d82a9be373862d975d9dedacc4",
+      "public_sources_sha256": "1fd98666103f76d321a740707f3c3aed572ed25f680c41968a3f85ad1e74c625",
+      "sequence": 4,
+      "synthetic_spend_usd": 0.14,
+      "task_id": "C03-D1",
+      "task_state": "accepted",
+      "worker_attempts": 1
+    }
+  ],
+  "manifest_sha256": "6a485194073ba3a826986a06e83a4e81e9f633c3af4202661c9cf5e321e2723a",
+  "pairs": [
+    {
+      "a_action": "worker",
+      "s_action": "worker",
+      "same_public_evidence": true,
+      "synthetic_cost_delta_usd": 0.0,
+      "task_id": "N04-D1"
+    },
+    {
+      "a_action": "controller",
+      "s_action": "worker",
+      "same_public_evidence": true,
+      "synthetic_cost_delta_usd": 0.2,
+      "task_id": "C03-D1"
+    }
+  ],
+  "schema_version": 1,
+  "status": "completed"
+}

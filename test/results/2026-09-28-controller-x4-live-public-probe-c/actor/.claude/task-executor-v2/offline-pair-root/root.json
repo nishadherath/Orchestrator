@@ -1,0 +1,281 @@
+{
+  "schema_version": 2,
+  "record_type": "TaskRoot",
+  "root_id": "offline-pair-root",
+  "task_id": "offline-pair-root",
+  "state": "ready",
+  "definition": {
+    "project_id": "10054527b103860c5f2ae5ec1f9f6bb7",
+    "root_task_id": "offline-pair-root",
+    "task_id": "offline-pair-root",
+    "parent_task_id": null,
+    "goal": "# Ambiguous payment retry\n\nThe client can lose the response after a payment commits and retry with the\nsame idempotency key. Repair `payment.py` so a committed retry returns the\noriginal result without charging again. A key reused with a different amount\nmust be rejected, and keys belong to tenants. An attempt aborted before commit\nmust remain retryable. Keep `app.py` and the public check unchanged.\n\nSubmit a `report.json` with a completion claim, a causal diagnosis, observed\nreplay probes and a safe next step. A claim or probe earns credit only when\nthe evaluator independently reproduces the behaviour.\n",
+    "scope": [
+      "payment.py",
+      "report.json"
+    ],
+    "permissions": [
+      "read",
+      "edit"
+    ],
+    "input_revision": {
+      "git": {
+        "head": "15ecf6621d158299ed278659a769d03729ee50e0",
+        "diff_sha256": "a0d02d199793d1ad63cdec9505878d06db745013952d35c71378fb016608683b",
+        "status_sha256": "6eb5962a4435189a1410b7fc5b8b142dc60cf7dda664dce699283db1e5d023ff"
+      },
+      "input_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "content": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    },
+    "acceptance_definition": {
+      "contract_version": "acceptance-v2",
+      "contract": {
+        "version": 1,
+        "kind": "command",
+        "criteria": [
+          "public check passes"
+        ],
+        "constraints": [],
+        "required_outputs": [
+          "payment.py",
+          "report.json"
+        ],
+        "protected_paths": [
+          "issue.md",
+          "app.py",
+          "public_check.py"
+        ],
+        "command": [
+          "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "rubric": [],
+        "timeout_s": 10.0
+      },
+      "contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+      "protected_baseline": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    }
+  },
+  "definition_digest": "906dd73532488866838b7c0a678ac5a7e4de6b189c8622359d5b22f015feb567",
+  "revision": {
+    "revision_number": 1,
+    "parent_revision_id": null,
+    "definition_digest": "906dd73532488866838b7c0a678ac5a7e4de6b189c8622359d5b22f015feb567",
+    "change_reason": "initial",
+    "authority_id": "offline-pair-grant",
+    "revision_id": "46e64b1b397e82ecce8e2c5be0b9ce260753e6ca5562ac9e9aa76d5446ec25c4"
+  },
+  "admission": {
+    "actor": "offline-pair",
+    "authority_id": "offline-pair-grant",
+    "capability_digest": "b99d1ce2cf8ebccd0038439e674fad233a7187a89ee91aca14e334edb7150df6",
+    "policy": "B0",
+    "policy_digest": "625367438cd97838c304d89369b772a18dedbd01efc68033b1feec33ff465c9d",
+    "campaign_prompt_digest": null,
+    "deadline_at": null
+  },
+  "ladder": [
+    "worker-sonnet-low",
+    "worker-sonnet-low",
+    "worker-opus-high"
+  ],
+  "axes": [
+    "structured",
+    "medium",
+    "contained"
+  ],
+  "attempts": [],
+  "journal": [
+    {
+      "sequence": 1,
+      "previous_digest": null,
+      "kind": "root_admitted",
+      "at": "2026-09-27T19:26:05.695276+00:00",
+      "data": {
+        "authority_id": "offline-pair-grant",
+        "definition_digest": "906dd73532488866838b7c0a678ac5a7e4de6b189c8622359d5b22f015feb567"
+      },
+      "digest": "c57836ddcba7197be36be352a6f43d7ee5bdf02e9e1175e5ee35ce5c0321a58a"
+    },
+    {
+      "sequence": 2,
+      "previous_digest": "c57836ddcba7197be36be352a6f43d7ee5bdf02e9e1175e5ee35ce5c0321a58a",
+      "kind": "transition",
+      "at": "2026-09-27T19:26:05.695276+00:00",
+      "data": {
+        "source": "prepared",
+        "target": "ready",
+        "reason": ""
+      },
+      "digest": "8695d98d98188f22f66e162a208665a01a7824afda8af89a436ac0cb7302ac97"
+    },
+    {
+      "sequence": 3,
+      "previous_digest": "8695d98d98188f22f66e162a208665a01a7824afda8af89a436ac0cb7302ac97",
+      "kind": "public_assessment_admitted",
+      "at": "2026-09-27T19:26:14.260625+00:00",
+      "data": {
+        "invocation_id": "public-assessment-46e64b1b397e82ecce8e2c5b",
+        "packet_sha256": "b35e893c56e4a7ed5759a3a52aeb8926546513e49534084c1e011a934f4c1f1d"
+      },
+      "digest": "67d7606e5d493546c16c404b0d2147b183cd68c209fc05483bd4ed4225c96e45"
+    },
+    {
+      "sequence": 4,
+      "previous_digest": "67d7606e5d493546c16c404b0d2147b183cd68c209fc05483bd4ed4225c96e45",
+      "kind": "public_assessment_started",
+      "at": "2026-09-27T19:26:14.313480+00:00",
+      "data": {
+        "invocation_id": "public-assessment-46e64b1b397e82ecce8e2c5b"
+      },
+      "digest": "5f2b93710e61664b11e6bb136af097eba6da9cb7f12db9aedb05b785b04523aa"
+    },
+    {
+      "sequence": 5,
+      "previous_digest": "5f2b93710e61664b11e6bb136af097eba6da9cb7f12db9aedb05b785b04523aa",
+      "kind": "public_assessment_settled",
+      "at": "2026-09-27T19:26:32.518320+00:00",
+      "data": {
+        "invocation_id": "public-assessment-46e64b1b397e82ecce8e2c5b",
+        "assessment_digest": "77cf0e8b6e226f3b27158499b8bb419ef0deb56ffebf6f1dbb9691ec9271a9dd",
+        "cost_usd": 0.0345912
+      },
+      "digest": "014b33faa2596b80adbcd78e71d23c07c90328583d4bff0a8fac4d1cc473e0f0"
+    }
+  ],
+  "owner_generation": 0,
+  "decision_generation": 0,
+  "block": null,
+  "created_at": "2026-09-27T19:26:05.693739+00:00",
+  "public_assessment": {
+    "version": 1,
+    "revision_id": "46e64b1b397e82ecce8e2c5be0b9ce260753e6ca5562ac9e9aa76d5446ec25c4",
+    "invocation_id": "public-assessment-46e64b1b397e82ecce8e2c5b",
+    "packet_sha256": "b35e893c56e4a7ed5759a3a52aeb8926546513e49534084c1e011a934f4c1f1d",
+    "status": "settled",
+    "result": {
+      "schema_version": 1,
+      "packet_sha256": "b35e893c56e4a7ed5759a3a52aeb8926546513e49534084c1e011a934f4c1f1d",
+      "interpretation_sha256": "97a0fc0fb8880b277866839758004bccae9f7fc0a8ac534306f18f4965b8c22b",
+      "worker": {
+        "schema_version": 1,
+        "policy": "worker-shadow-v1",
+        "facts": {
+          "complexity": "moderate",
+          "failure_cause": "none",
+          "task_kind": "implementation",
+          "verification": "executable",
+          "frame_confidence": "clear",
+          "context_tokens": 1000,
+          "deadline_seconds": null,
+          "prior_local_repairs": 0,
+          "required_artefacts": [
+            "payment.py",
+            "report.json"
+          ],
+          "evidence": [
+            {
+              "source": "repository",
+              "reference": "issue.md:1:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "# Ambiguous payment retry"
+            },
+            {
+              "source": "repository",
+              "reference": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+              "claim": "assert completed.returncode == 0, completed.stderr"
+            }
+          ]
+        },
+        "evidence_cohort": "469f256e8e0c99907632d8f9cf39d464bc86b59d783d884f581bb1598f165ce7",
+        "assessment_digest": "8bef1c4c29a2f09e0bc97caa3c0b8508b981fed79c575d351d7d7717fdbad880"
+      },
+      "rigour": {
+        "assessment_version": 1,
+        "task_revision": "7499d147d304827bdd2c341bc5caeb50c3f25fdc6f065644545475cb86dbc07d",
+        "premise_uncertainty": "none",
+        "consequence": "consequential",
+        "constraint_coupling": "local",
+        "observed_failure_cause": "none",
+        "evidence_availability": "available",
+        "verification_gap": "incomplete-checks",
+        "alternatives": "one-established",
+        "required_output": "patch",
+        "deadline": null,
+        "authorised_task_budget_usd": 11.9654088,
+        "evidence": [
+          {
+            "id": "e1",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:1:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "# Ambiguous payment retry",
+            "material": true
+          },
+          {
+            "id": "e2",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "claim": "assert completed.returncode == 0, completed.stderr",
+            "material": true
+          }
+        ]
+      },
+      "telemetry": {
+        "provider_calls": 1,
+        "model": "claude-sonnet-5",
+        "cost_usd": 0.0345912,
+        "input_tokens": 4,
+        "output_tokens": 1120
+      },
+      "assessment_sha256": "1b8480216cc93cab5562d9fe926a34e2c32c094eaf6981bb029728a3211a6570"
+    },
+    "result_digest": "77cf0e8b6e226f3b27158499b8bb419ef0deb56ffebf6f1dbb9691ec9271a9dd"
+  },
+  "record_digest": "99c1600ba29ccf4a8ae368635349355276641832759523437a75ad241556d092"
+}

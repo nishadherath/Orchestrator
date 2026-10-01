@@ -1,0 +1,131 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.7976728,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T19:32:57.749332+00:00",
+    "currency": "USD",
+    "invocations": {
+      "23b5701b263d2238aed918425af2960b": {
+        "allowance_units": 5000000000,
+        "charged_units": 202327200,
+        "cost_usd": 0.2023272,
+        "metadata": {
+          "decision_digest": "57f5b2f4f73baf494cdfd4442a1af65e3e72e06b3365b4453184128a65bccd94",
+          "revision_id": "16eea4c0c7b36a05911a9184fdce9ad737302bcc1a30c0d4f5c1d7212884cb1b",
+          "root_id": "f8997889323c4bf335e4b1ea"
+        },
+        "reserved_at": "2026-09-29T19:33:56.336533+00:00",
+        "resolution": {
+          "cost_usd": 0.2023272,
+          "evidence": "receipt:0a8bc8bb5269d8024d83c95586ab66efe67441d68f69d0f8c60372a4fb44b5b2",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 22598,
+            "cache_read_input_tokens": 302466,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.2023272,
+            "currency": "USD",
+            "input_tokens": 26,
+            "output_tokens": 5014
+          }
+        },
+        "started_at": "2026-09-29T19:33:56.345083+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 22598,
+          "cache_read_input_tokens": 302466,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.2023272,
+          "currency": "USD",
+          "input_tokens": 26,
+          "output_tokens": 5014
+        },
+        "updated_at": "2026-09-29T19:35:22.876334+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.2023272,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 89.829,
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "0a90e8936d26b889ce944766d3b12ba4a818735e2a7e90373cf859e64dc4d07b",
+  "protected_grade_after_public_entry": {
+    "candidate_edit_sha256": {
+      "tenacity/asyncio/__init__.py": "e8b3227176fa8fc09417731bf27561437fb69e9b994a07ca803a5a5209b3cb5f",
+      "tenacity/retry.py": "83050870894005c8f24a84197d2abcde01d2e1e0854fc92a7574930d8068b61a"
+    },
+    "case": "F03",
+    "cases": [
+      {
+        "critical": true,
+        "name": "default_async_cancel",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "broad_async_cancel",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "negative_async_cancel",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "keyboard_interrupt",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "system_exit",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "ordinary_sync_retry",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "excluded_value_error",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "cancellation_during_backoff",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "ordinary_async_retry",
+        "passed": true,
+        "weight": 1
+      }
+    ],
+    "critical_errors": 0,
+    "quality": 100.0,
+    "state": "accepted"
+  },
+  "qualified": true,
+  "root_id": "f8997889323c4bf335e4b1ea",
+  "snapshot": null,
+  "state": "accepted"
+}

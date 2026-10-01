@@ -1,0 +1,18 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-014",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "meas-001",
+    "meas-005",
+    "meas-006"
+  ],
+  "text": "No fixture artefact beyond the 14-line statement exists: no writer code, idempotency branch, retry policy or log. Every check the brief proposes is therefore a design, unrunnable here, and prem-001, prem-005 and prem-006 cannot be closed.",
+  "class": "verified",
+  "source": "meas-001, meas-005 and meas-006: find and grep over the working directory returned only problem.md and run/record scaffolding, with no source file or policy document.",
+  "confidence": 0.9,
+  "cheapest_verification": "Already done; re-run find and grep if fixture code, a retry policy or logs are added to the working directory.",
+  "load_bearing": true,
+  "supersedes": null
+}

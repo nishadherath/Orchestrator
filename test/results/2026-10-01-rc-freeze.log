@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "bundle": "orchestrator-rc-df52358a030c8d0f.zip",
+  "bundle_sha256": "df52358a030c8d0f5ad70eccb38f3f6f94070014baaa509efda19c148834e1e3",
+  "bundle_files": 84,
+  "source_files": 90,
+  "checks": {
+    "reproducible_from_archived_inputs": true,
+    "deterministic_archive": true,
+    "clean_installed_fake_workflow": [
+      "PASS: isolated bundle import, B0, managed child and shadow selector",
+      "PASS: installed CLI admission, explicit shadow cell, cancellation, continuation and B0"
+    ],
+    "clean_install_rollback_preservation_and_drift_rejection": true,
+    "upgrade_installed_fake_workflow": [
+      "PASS: isolated bundle import, B0, managed child and shadow selector",
+      "PASS: installed CLI admission, explicit shadow cell, cancellation, continuation and B0"
+    ],
+    "upgrade_install_rollback_preservation_and_drift_rejection": true
+  }
+}

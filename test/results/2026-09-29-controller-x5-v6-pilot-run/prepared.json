@@ -1,0 +1,134 @@
+{
+  "episodes": [
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-001-x5-ship-b",
+      "root_id": "629ee1bd50c57111d7d42ba2",
+      "sequence": 1,
+      "task_id": "X5-SHIP"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-002-x5-ship-s",
+      "root_id": "6382c55aaf5c772917f45b81",
+      "sequence": 2,
+      "task_id": "X5-SHIP"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-003-x5-ship-a",
+      "root_id": "eb5c78c395e0c9cad400dbc2",
+      "sequence": 3,
+      "task_id": "X5-SHIP"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-004-x5-migrate-s",
+      "root_id": "dec72f5e69a399e6bec061ad",
+      "sequence": 4,
+      "task_id": "X5-MIGRATE"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-005-x5-migrate-a",
+      "root_id": "f7354f40ddaf3ee7e0821197",
+      "sequence": 5,
+      "task_id": "X5-MIGRATE"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-006-x5-migrate-b",
+      "root_id": "01803ddce54f535ad6d377dd",
+      "sequence": 6,
+      "task_id": "X5-MIGRATE"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-007-x5-pay-a",
+      "root_id": "50d0c1fa5c00f3d915379fab",
+      "sequence": 7,
+      "task_id": "X5-PAY"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-008-x5-pay-b",
+      "root_id": "e34a1fcf39c21d9d43e6b8e8",
+      "sequence": 8,
+      "task_id": "X5-PAY"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-009-x5-pay-s",
+      "root_id": "63c141d080f82a56b0263d1d",
+      "sequence": 9,
+      "task_id": "X5-PAY"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-010-x5-feat-b",
+      "root_id": "36fbc6367b98beef1e32b020",
+      "sequence": 10,
+      "task_id": "X5-FEAT"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-011-x5-feat-s",
+      "root_id": "126111120cadb8b0f19a4557",
+      "sequence": 11,
+      "task_id": "X5-FEAT"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-012-x5-feat-a",
+      "root_id": "80f147c1e6c72a55113b441a",
+      "sequence": 12,
+      "task_id": "X5-FEAT"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-013-n01-d1-s",
+      "root_id": "24fa94b9b8b061a717a5188a",
+      "sequence": 13,
+      "task_id": "N01-D1"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-014-n01-d1-a",
+      "root_id": "cd498f0958d677fde3dad685",
+      "sequence": 14,
+      "task_id": "N01-D1"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-015-n01-d1-b",
+      "root_id": "0c7f2421c75df4b2a201f262",
+      "sequence": 15,
+      "task_id": "N01-D1"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-016-c08-d2-a",
+      "root_id": "e619764fc6d3b8bc3bd6166d",
+      "sequence": 16,
+      "task_id": "C08-D2"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-017-c08-d2-b",
+      "root_id": "08addb05a0bc26a6f5798b6f",
+      "sequence": 17,
+      "task_id": "C08-D2"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v6-pilot-1a8eb29b2f2b-018-c08-d2-s",
+      "root_id": "af3c5963d3945451132681e1",
+      "sequence": 18,
+      "task_id": "C08-D2"
+    }
+  ],
+  "manifest_sha256": "1a8eb29b2f2b816dafed0f6bbe22613cc496ee9601e55a37e1bb0822a8a001bf",
+  "provider_calls": 0,
+  "schema_version": 1,
+  "status": "prepared-no-provider-call"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-003",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The brief will be assessed on its text alone, since the statement forbids claiming any check was run and names no executable fixture.",
+  "class": "unverified",
+  "source": "Inferred from prob-001 instructions 'Do not claim that any proposed check has been run' and 'The result is an investigation brief'.",
+  "confidence": 0.7,
+  "cheapest_verification": "Ask the operator whether any grading step executes code against the fixture; if none, the premise holds.",
+  "load_bearing": true,
+  "supersedes": null
+}

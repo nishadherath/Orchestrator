@@ -1,0 +1,1023 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "controller_run",
+  "limit_units": 4000000000,
+  "baseline_limit_units": 4000000000,
+  "cancelled": false,
+  "created_at": "2026-09-27T22:37:22.556368+00:00",
+  "invocations": {
+    "ebe4791f57734521bddbae1601be2b79": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 276146500,
+      "cost_usd": 0.2761465,
+      "reserved_at": "2026-09-27T22:37:22.906591+00:00",
+      "metadata": {
+        "phase": "frame",
+        "role": "framer",
+        "cell": "worker-opus-high",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 144.97290836399998,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 18340,
+          "cache_read_input_tokens": 13387,
+          "output_tokens": 3320,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"FrameRecord\", \"id\": \"frame-001\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"goal_ladder\": [\"Identify which of three candidate causes explains an absent receipt after acknowledgement\", \"Distinguish the causes by evidence rather than plausibility\", \"Restore the invariant that an acknowledgement implies a durable receipt, or explicitly redefine it\", \"Give the operator a reversible containment step and a conditional implementation direction\"], \"metric_interrogation\": \"The only stated observable is absence of a receipt in the separate store after an acknowledgement. That metric is a conjunction of at least three independent things: whether the write was attempted, whether it durably committed, and whether the reader queried correctly. It cannot discriminate cause because all three candidate explanations produce the same observation. A rate of absent receipts is likewise non-discriminating. Discriminating metrics would be per-job: ack timestamp versus write-attempt timestamp, writer error outcome, idempotency-key hit versus miss, and receipt-store read consistency mode. Note also that receipt absence at read time and receipt absence at write time are different measurements; the notes do not say which was observed. Without that distinction a fourth explanation, a read-side or replication artefact, is not excluded and should not be assumed away.\", \"problem_type\": \"Causal discrimination under incomplete observation in a distributed two-store fixture\", \"dissolution_verdict\": \"stands\", \"dissolution_reason\": \"A real discrimination problem remains after classification: the observation is genuinely consistent with several causes, the candidate set is not closed, and no stated premise makes the question vacuous. The scope restrictions narrow the deliverable to an investigation brief but do not remove the underlying question.\", \"acceptance_criteria\": [\"Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated\", \"The candidate set is explicitly assessed for closure, including any cause outside the three named\", \"A containment step is proposed with its reversal stated and its cost to correctness named\", \"The implementation direction is stated as conditional on a named check result, with the condition explicit\", \"No check is reported as run, and no outcome is asserted as observed\", \"Every claim is traceable to the problem statement or marked as an assumption\"], \"b0_candidate_id\": \"cand-b0-001\", \"premise_count\": 10, \"stable\": true}\n{\"type\": \"CandidateRecord\", \"id\": \"cand-b0-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"frame-001\"], \"technique\": \"b0\", \"premise_operation\": \"none\", \"mechanism\": \"Take the statement at face value and answer it directly. Accept the three named explanations as the candidate set: writer failure, premature acknowledgement, and idempotency suppression of a legitimate retry. For each, state the check that would separate it from the others using only evidence the fixture could plausibly hold: writer-side error and outcome logging correlated to job id, the ordering of acknowledgement and write-commit timestamps, and idempotency-key hit records against retry attempts. Propose one reversible containment step, typically deferring acknowledgement until the receipt write is confirmed, or quarantining affected job ids for replay, with its reversal being restoration of the prior acknowledgement point. State the implementation direction, most likely making acknowledgement and receipt write atomic or making the receipt the acknowledgement's precondition, and mark it conditional on the check that identifies the cause. Report the result as an investigation brief with no check claimed as run and no production change authorised.\", \"claimed_gain_vs_b0\": \"Baseline; no claimed gain over itself.\", \"premises_introduced\": [], \"falsification_test\": \"The brief fails if two of its checks return the same outcome under two different causes, or if any candidate cause has no check that distinguishes it from the others.\", \"cost_estimate_usd\": 0.35, \"refines\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-001\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"A job acknowledgement and its receipt write target two separate stores, so the two operations are not covered by a single commit.\", \"class\": \"unverified\", \"source\": \"Problem statement: acknowledges jobs from a queue and writes receipts to a separate store.\", \"confidence\": 0.85, \"cheapest_verification\": \"Read the fixture's writer path and confirm no shared transaction or outbox spans the queue ack and the receipt store.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-002\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"A receipt has been observed to be absent after an acknowledgement at least once; this is the sole reported symptom.\", \"class\": \"unverified\", \"source\": \"Problem statement: a receipt can be absent after an acknowledgement.\", \"confidence\": 0.8, \"cheapest_verification\": \"Point to the specific job id and observation record in the fixture notes that shows ack present and receipt absent.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-003\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"The available notes do not determine the cause; the statement offers writer failure, premature acknowledgement and idempotency suppression of a legitimate retry as the competing explanations.\", \"class\": \"unverified\", \"source\": \"Problem statement: the available notes do not establish whether the writer failed, the ack was premature, or an idempotency check suppressed a retry.\", \"confidence\": 0.8, \"cheapest_verification\": \"Inventory what the fixture notes actually contain and confirm no field already resolves the cause.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-004\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-003\"], \"text\": \"The three named explanations are treated as the candidate set, but the statement does not claim the set is exhaustive; a read-side, replication or retention artefact is not excluded.\", \"class\": \"unverified\", \"source\": \"Inference from the statement's phrasing, which lists three causes without asserting closure.\", \"confidence\": 0.7, \"cheapest_verification\": \"Enumerate every path by which an acknowledged job yields no readable receipt and check each against the three named causes.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-005\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"An idempotency check exists on the write path and is capable of suppressing a retry, since it is offered as a candidate cause.\", \"class\": \"unverified\", \"source\": \"Problem statement: an idempotency check suppressed a legitimate retry, offered as one explanation.\", \"confidence\": 0.7, \"cheapest_verification\": \"Locate the idempotency key derivation and the suppression branch in the fixture writer code.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-006\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"Retries occur on the write path, and at least some are legitimate rather than duplicates; without retries the suppression explanation is void.\", \"class\": \"unverified\", \"source\": \"Implied by the statement's third explanation, which requires a legitimate retry to have been suppressed.\", \"confidence\": 0.65, \"cheapest_verification\": \"Check the fixture for a retry policy and for any record of a retry attempt on an affected job id.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-007\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-002\"], \"text\": \"An acknowledgement without a durable receipt is treated as a defect, which presumes an unstated invariant that acknowledgement implies receipt durability.\", \"class\": \"habit\", \"source\": \"Inferred from framing the absence as something to diagnose; the statement never states the invariant.\", \"confidence\": 0.6, \"cheapest_verification\": \"Find a written contract, test or assertion in the fixture asserting ack implies receipt; absent one, the invariant is assumed.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-008\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"Only the supplied statement may be used as evidence; no other fixture source, log or repository file may be consulted.\", \"class\": \"policy\", \"source\": \"Problem statement: use only this statement.\", \"confidence\": 0.95, \"cheapest_verification\": \"None needed; it is an instruction, but it bounds what any check in the brief may rely on.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-009\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"No check may be reported as executed and no outcome asserted as observed; proposed checks stay hypothetical.\", \"class\": \"policy\", \"source\": \"Problem statement: do not claim that any proposed check has been run.\", \"confidence\": 0.95, \"cheapest_verification\": \"None needed; it constrains the form of every downstream claim.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-010\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"The system is a synthetic fixture with no production traffic or customer data, so containment carries no live blast radius and the deliverable is an investigation brief, not an authorised change.\", \"class\": \"unverified\", \"source\": \"Problem statement: there is no production system or customer data behind this fixture; the result is an investigation brief.\", \"confidence\": 0.85, \"cheapest_verification\": \"Confirm the fixture's declared environment and that no live endpoint or real dataset is bound to it.\", \"load_bearing\": true, \"supersedes\": null}",
+        "identity": {
+          "expected_model": "claude-opus-5",
+          "actual_model": "claude-opus-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-opus-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-opus-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.2761465,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 144.97290836399998,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 18340,
+            "cache_read_input_tokens": 13387,
+            "output_tokens": 3320,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"FrameRecord\", \"id\": \"frame-001\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"goal_ladder\": [\"Identify which of three candidate causes explains an absent receipt after acknowledgement\", \"Distinguish the causes by evidence rather than plausibility\", \"Restore the invariant that an acknowledgement implies a durable receipt, or explicitly redefine it\", \"Give the operator a reversible containment step and a conditional implementation direction\"], \"metric_interrogation\": \"The only stated observable is absence of a receipt in the separate store after an acknowledgement. That metric is a conjunction of at least three independent things: whether the write was attempted, whether it durably committed, and whether the reader queried correctly. It cannot discriminate cause because all three candidate explanations produce the same observation. A rate of absent receipts is likewise non-discriminating. Discriminating metrics would be per-job: ack timestamp versus write-attempt timestamp, writer error outcome, idempotency-key hit versus miss, and receipt-store read consistency mode. Note also that receipt absence at read time and receipt absence at write time are different measurements; the notes do not say which was observed. Without that distinction a fourth explanation, a read-side or replication artefact, is not excluded and should not be assumed away.\", \"problem_type\": \"Causal discrimination under incomplete observation in a distributed two-store fixture\", \"dissolution_verdict\": \"stands\", \"dissolution_reason\": \"A real discrimination problem remains after classification: the observation is genuinely consistent with several causes, the candidate set is not closed, and no stated premise makes the question vacuous. The scope restrictions narrow the deliverable to an investigation brief but do not remove the underlying question.\", \"acceptance_criteria\": [\"Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated\", \"The candidate set is explicitly assessed for closure, including any cause outside the three named\", \"A containment step is proposed with its reversal stated and its cost to correctness named\", \"The implementation direction is stated as conditional on a named check result, with the condition explicit\", \"No check is reported as run, and no outcome is asserted as observed\", \"Every claim is traceable to the problem statement or marked as an assumption\"], \"b0_candidate_id\": \"cand-b0-001\", \"premise_count\": 10, \"stable\": true}\n{\"type\": \"CandidateRecord\", \"id\": \"cand-b0-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"frame-001\"], \"technique\": \"b0\", \"premise_operation\": \"none\", \"mechanism\": \"Take the statement at face value and answer it directly. Accept the three named explanations as the candidate set: writer failure, premature acknowledgement, and idempotency suppression of a legitimate retry. For each, state the check that would separate it from the others using only evidence the fixture could plausibly hold: writer-side error and outcome logging correlated to job id, the ordering of acknowledgement and write-commit timestamps, and idempotency-key hit records against retry attempts. Propose one reversible containment step, typically deferring acknowledgement until the receipt write is confirmed, or quarantining affected job ids for replay, with its reversal being restoration of the prior acknowledgement point. State the implementation direction, most likely making acknowledgement and receipt write atomic or making the receipt the acknowledgement's precondition, and mark it conditional on the check that identifies the cause. Report the result as an investigation brief with no check claimed as run and no production change authorised.\", \"claimed_gain_vs_b0\": \"Baseline; no claimed gain over itself.\", \"premises_introduced\": [], \"falsification_test\": \"The brief fails if two of its checks return the same outcome under two different causes, or if any candidate cause has no check that distinguishes it from the others.\", \"cost_estimate_usd\": 0.35, \"refines\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-001\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"A job acknowledgement and its receipt write target two separate stores, so the two operations are not covered by a single commit.\", \"class\": \"unverified\", \"source\": \"Problem statement: acknowledges jobs from a queue and writes receipts to a separate store.\", \"confidence\": 0.85, \"cheapest_verification\": \"Read the fixture's writer path and confirm no shared transaction or outbox spans the queue ack and the receipt store.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-002\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"A receipt has been observed to be absent after an acknowledgement at least once; this is the sole reported symptom.\", \"class\": \"unverified\", \"source\": \"Problem statement: a receipt can be absent after an acknowledgement.\", \"confidence\": 0.8, \"cheapest_verification\": \"Point to the specific job id and observation record in the fixture notes that shows ack present and receipt absent.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-003\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"The available notes do not determine the cause; the statement offers writer failure, premature acknowledgement and idempotency suppression of a legitimate retry as the competing explanations.\", \"class\": \"unverified\", \"source\": \"Problem statement: the available notes do not establish whether the writer failed, the ack was premature, or an idempotency check suppressed a retry.\", \"confidence\": 0.8, \"cheapest_verification\": \"Inventory what the fixture notes actually contain and confirm no field already resolves the cause.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-004\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-003\"], \"text\": \"The three named explanations are treated as the candidate set, but the statement does not claim the set is exhaustive; a read-side, replication or retention artefact is not excluded.\", \"class\": \"unverified\", \"source\": \"Inference from the statement's phrasing, which lists three causes without asserting closure.\", \"confidence\": 0.7, \"cheapest_verification\": \"Enumerate every path by which an acknowledged job yields no readable receipt and check each against the three named causes.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-005\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"An idempotency check exists on the write path and is capable of suppressing a retry, since it is offered as a candidate cause.\", \"class\": \"unverified\", \"source\": \"Problem statement: an idempotency check suppressed a legitimate retry, offered as one explanation.\", \"confidence\": 0.7, \"cheapest_verification\": \"Locate the idempotency key derivation and the suppression branch in the fixture writer code.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-006\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"Retries occur on the write path, and at least some are legitimate rather than duplicates; without retries the suppression explanation is void.\", \"class\": \"unverified\", \"source\": \"Implied by the statement's third explanation, which requires a legitimate retry to have been suppressed.\", \"confidence\": 0.65, \"cheapest_verification\": \"Check the fixture for a retry policy and for any record of a retry attempt on an affected job id.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-007\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-002\"], \"text\": \"An acknowledgement without a durable receipt is treated as a defect, which presumes an unstated invariant that acknowledgement implies receipt durability.\", \"class\": \"habit\", \"source\": \"Inferred from framing the absence as something to diagnose; the statement never states the invariant.\", \"confidence\": 0.6, \"cheapest_verification\": \"Find a written contract, test or assertion in the fixture asserting ack implies receipt; absent one, the invariant is assumed.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-008\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"Only the supplied statement may be used as evidence; no other fixture source, log or repository file may be consulted.\", \"class\": \"policy\", \"source\": \"Problem statement: use only this statement.\", \"confidence\": 0.95, \"cheapest_verification\": \"None needed; it is an instruction, but it bounds what any check in the brief may rely on.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-009\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"No check may be reported as executed and no outcome asserted as observed; proposed checks stay hypothetical.\", \"class\": \"policy\", \"source\": \"Problem statement: do not claim that any proposed check has been run.\", \"confidence\": 0.95, \"cheapest_verification\": \"None needed; it constrains the form of every downstream claim.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-010\", \"ledger_version\": 1, \"references\": [\"prob-001\"], \"text\": \"The system is a synthetic fixture with no production traffic or customer data, so containment carries no live blast radius and the deliverable is an investigation brief, not an authorised change.\", \"class\": \"unverified\", \"source\": \"Problem statement: there is no production system or customer data behind this fixture; the result is an investigation brief.\", \"confidence\": 0.85, \"cheapest_verification\": \"Confirm the fixture's declared environment and that no live endpoint or real dataset is bound to it.\", \"load_bearing\": true, \"supersedes\": null}",
+          "identity": {
+            "expected_model": "claude-opus-5",
+            "actual_model": "claude-opus-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-opus-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-opus-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:37:22.954905+00:00",
+      "updated_at": "2026-09-27T22:39:48.126012+00:00"
+    },
+    "724d218a2c0b4bdfb23109d7695dbfc6": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 108532601,
+      "cost_usd": 0.10853260000000002,
+      "reserved_at": "2026-09-27T22:39:53.487143+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 72.970046271,
+        "usage": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 19235,
+          "cache_read_input_tokens": 99048,
+          "output_tokens": 945,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "Confirmed: no fixture writer path exists anywhere in the working directory \u2014 only `problem.md` (the narrative statement) and run/record scaffolding. There is no code artefact to read for the transaction-boundary check.\n\n{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-001\"], \"premise_id\": \"prem-001\", \"method\": \"Searched working directory (find, grep -ril 'writer') for a fixture writer path, transaction/outbox implementation, or any source code file to inspect.\", \"result\": \"No writer-path code or transaction/outbox implementation exists in the working directory; only problem.md (prose statement) and run/record scaffolding (ledger.jsonl, cand-001.json, frame-001.json, prem-001.json, prem-003.json, prem-005.json, prob-001.json) are present. There is no artefact showing whether the ack and receipt write share a commit or outbox.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md (full file, 14 lines); directory listing under runs/20260928T083641-1415bed4/\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.10853260000000002,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 72.970046271,
+          "usage": {
+            "input_tokens": 6,
+            "cache_creation_input_tokens": 19235,
+            "cache_read_input_tokens": 99048,
+            "output_tokens": 945,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "Confirmed: no fixture writer path exists anywhere in the working directory \u2014 only `problem.md` (the narrative statement) and run/record scaffolding. There is no code artefact to read for the transaction-boundary check.\n\n{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-001\"], \"premise_id\": \"prem-001\", \"method\": \"Searched working directory (find, grep -ril 'writer') for a fixture writer path, transaction/outbox implementation, or any source code file to inspect.\", \"result\": \"No writer-path code or transaction/outbox implementation exists in the working directory; only problem.md (prose statement) and run/record scaffolding (ledger.jsonl, cand-001.json, frame-001.json, prem-001.json, prem-003.json, prem-005.json, prob-001.json) are present. There is no artefact showing whether the ack and receipt write share a commit or outbox.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md (full file, 14 lines); directory listing under runs/20260928T083641-1415bed4/\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:39:53.690197+00:00",
+      "updated_at": "2026-09-27T22:41:06.714652+00:00"
+    },
+    "bdba9817764843b0b1636f3f6cd756f1": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 121726200,
+      "cost_usd": 0.1217262,
+      "reserved_at": "2026-09-27T22:41:06.798532+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 45.71479306100002,
+        "usage": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 20367,
+          "cache_read_input_tokens": 138846,
+          "output_tokens": 1016,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-002\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-002\"], \"premise_id\": \"prem-002\", \"method\": \"Read problem.md in full and grep it for 'job' to locate a specific job id or observation record showing ack-present/receipt-absent.\", \"result\": \"problem.md contains only the general problem statement; it names no specific job id and no observation record. The only match for 'job' is the generic phrase 'acknowledges jobs from a queue'. No fixture notes file with concrete observations exists in this working directory.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.1217262,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 45.71479306100002,
+          "usage": {
+            "input_tokens": 8,
+            "cache_creation_input_tokens": 20367,
+            "cache_read_input_tokens": 138846,
+            "output_tokens": 1016,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-002\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-002\"], \"premise_id\": \"prem-002\", \"method\": \"Read problem.md in full and grep it for 'job' to locate a specific job id or observation record showing ack-present/receipt-absent.\", \"result\": \"problem.md contains only the general problem statement; it names no specific job id and no observation record. The only match for 'job' is the generic phrase 'acknowledges jobs from a queue'. No fixture notes file with concrete observations exists in this working directory.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:41:06.831955+00:00",
+      "updated_at": "2026-09-27T22:41:52.581386+00:00"
+    },
+    "6eb618adbb1342e8b7c40f07eae6eb2e": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 100036000,
+      "cost_usd": 0.10003599999999999,
+      "reserved_at": "2026-09-27T22:41:52.660331+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 44.21320406299998,
+        "usage": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 17832,
+          "cache_read_input_tokens": 97800,
+          "output_tokens": 678,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-003\"], \"premise_id\": \"prem-003\", \"method\": \"Read problem.md (the fixture notes) in full and checked for any field or sentence that already names a single cause among writer failure, premature acknowledgement, or idempotency suppression.\", \"result\": \"problem.md, lines 1-14, contains only the statement quoted in prem-003 plus task instructions; no field, status, log excerpt or other data resolves which of the three explanations applies. The document explicitly states the notes do not establish the cause and instructs not to claim any check has been run.\", \"artefact\": \"problem.md:1-14\", \"outcome\": \"supports\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.10003599999999999,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 44.21320406299998,
+          "usage": {
+            "input_tokens": 6,
+            "cache_creation_input_tokens": 17832,
+            "cache_read_input_tokens": 97800,
+            "output_tokens": 678,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-003\"], \"premise_id\": \"prem-003\", \"method\": \"Read problem.md (the fixture notes) in full and checked for any field or sentence that already names a single cause among writer failure, premature acknowledgement, or idempotency suppression.\", \"result\": \"problem.md, lines 1-14, contains only the statement quoted in prem-003 plus task instructions; no field, status, log excerpt or other data resolves which of the three explanations applies. The document explicitly states the notes do not establish the cause and instructs not to claim any check has been run.\", \"artefact\": \"problem.md:1-14\", \"outcome\": \"supports\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:41:52.703146+00:00",
+      "updated_at": "2026-09-27T22:42:36.955287+00:00"
+    },
+    "60c832c7a8f44b91a3b57d05a7a4940b": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 104346400,
+      "cost_usd": 0.1043464,
+      "reserved_at": "2026-09-27T22:42:37.034805+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 58.345926292,
+        "usage": {
+          "input_tokens": 6,
+          "cache_creation_input_tokens": 18018,
+          "cache_read_input_tokens": 97957,
+          "output_tokens": 1033,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-004\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-004\"], \"premise_id\": \"prem-004\", \"method\": \"Read problem.md verbatim and enumerate every path by which an acknowledged job could yield no readable receipt, then checked each against the three named causes (writer failure, premature ack, idempotency suppression).\", \"result\": \"Statement text (lines 3-6) lists exactly three causes with no closure language ('use only this statement' at line 9 scopes checks, not the cause set). Enumeration surfaces at least three further paths not covered by the three: read-side lookup against a stale or wrong replica, replication lag between writer and reader, and retention/expiry deleting a receipt after a successful write. None of these collapse into the three named causes, so the candidate set as stated is not exhaustive.\", \"artefact\": \"problem.md lines 1-14 (this task's working directory)\", \"outcome\": \"supports\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.1043464,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 58.345926292,
+          "usage": {
+            "input_tokens": 6,
+            "cache_creation_input_tokens": 18018,
+            "cache_read_input_tokens": 97957,
+            "output_tokens": 1033,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-004\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-004\"], \"premise_id\": \"prem-004\", \"method\": \"Read problem.md verbatim and enumerate every path by which an acknowledged job could yield no readable receipt, then checked each against the three named causes (writer failure, premature ack, idempotency suppression).\", \"result\": \"Statement text (lines 3-6) lists exactly three causes with no closure language ('use only this statement' at line 9 scopes checks, not the cause set). Enumeration surfaces at least three further paths not covered by the three: read-side lookup against a stale or wrong replica, replication lag between writer and reader, and retention/expiry deleting a receipt after a successful write. None of these collapse into the three named causes, so the candidate set as stated is not exhaustive.\", \"artefact\": \"problem.md lines 1-14 (this task's working directory)\", \"outcome\": \"supports\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:42:37.070802+00:00",
+      "updated_at": "2026-09-27T22:43:35.481876+00:00"
+    },
+    "c49db2d330424fa59de1df9ccda18929": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 136537801,
+      "cost_usd": 0.13653780000000001,
+      "reserved_at": "2026-09-27T22:43:35.893972+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 84.164372862,
+        "usage": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 22753,
+          "cache_read_input_tokens": 141779,
+          "output_tokens": 1483,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-005\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-005\"], \"premise_id\": \"prem-005\", \"method\": \"Ran find/grep across the working directory tree for a fixture writer source file, idempotency key derivation, or suppression branch named or implied by the premise's cheapest_verification.\", \"result\": \"No writer code, idempotency-key derivation, or suppression branch exists anywhere in the working directory; only problem.md (14-line prose statement) and run/record scaffolding are present. problem.md itself states there is no production system or customer data behind this fixture. The named verification target (fixture writer code) does not exist as an artefact, so the premise's existence claim cannot be checked against code.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md; find/grep output over runs/20260928T083641-1415bed4/ showing no writer-path source file\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.13653780000000001,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 84.164372862,
+          "usage": {
+            "input_tokens": 8,
+            "cache_creation_input_tokens": 22753,
+            "cache_read_input_tokens": 141779,
+            "output_tokens": 1483,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-005\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-005\"], \"premise_id\": \"prem-005\", \"method\": \"Ran find/grep across the working directory tree for a fixture writer source file, idempotency key derivation, or suppression branch named or implied by the premise's cheapest_verification.\", \"result\": \"No writer code, idempotency-key derivation, or suppression branch exists anywhere in the working directory; only problem.md (14-line prose statement) and run/record scaffolding are present. problem.md itself states there is no production system or customer data behind this fixture. The named verification target (fixture writer code) does not exist as an artefact, so the premise's existence claim cannot be checked against code.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md; find/grep output over runs/20260928T083641-1415bed4/ showing no writer-path source file\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:43:35.966393+00:00",
+      "updated_at": "2026-09-27T22:45:00.375447+00:00"
+    },
+    "b9bab20650374621ae08ea8cce40750f": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 93855800,
+      "cost_usd": 0.09385579999999999,
+      "reserved_at": "2026-09-27T22:45:00.659097+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 63.62376098899995,
+        "usage": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 17951,
+          "cache_read_input_tokens": 59194,
+          "output_tokens": 788,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-006\"], \"premise_id\": \"prem-006\", \"method\": \"Searched working directory (grep -ril \\\"retry\\\" and ls -la) for a retry policy or a retry-attempt record on a job id, limited to problem.md and the runs/ records tree.\", \"result\": \"problem.md contains only the problem statement text (which itself lists suppressed-retry as one of three unproven explanations, not evidence of one). runs/.../records/ contains prem-003, prem-005, prem-006, cand-001, prob-001 as premise/candidate records, not fixture data; no retry policy document and no job-id-level retry attempt log exist in this directory.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md; runs/20260928T083641-1415bed4/records/\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.09385579999999999,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 63.62376098899995,
+          "usage": {
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 17951,
+            "cache_read_input_tokens": 59194,
+            "output_tokens": 788,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-006\"], \"premise_id\": \"prem-006\", \"method\": \"Searched working directory (grep -ril \\\"retry\\\" and ls -la) for a retry policy or a retry-attempt record on a job id, limited to problem.md and the runs/ records tree.\", \"result\": \"problem.md contains only the problem statement text (which itself lists suppressed-retry as one of three unproven explanations, not evidence of one). runs/.../records/ contains prem-003, prem-005, prem-006, cand-001, prob-001 as premise/candidate records, not fixture data; no retry policy document and no job-id-level retry attempt log exist in this directory.\", \"artefact\": \"test/results/2026-09-28-controller-x4-role-probe-3/problem.md; runs/20260928T083641-1415bed4/records/\", \"outcome\": \"inconclusive\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:45:00.699376+00:00",
+      "updated_at": "2026-09-27T22:46:04.377529+00:00"
+    },
+    "df2c895199584bfbb5314ddecda1c3ae": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 92001200,
+      "cost_usd": 0.0920012,
+      "reserved_at": "2026-09-27T22:46:04.499190+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "verifier",
+        "cell": "worker-sonnet-medium",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 55.458856545,
+        "usage": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 17493,
+          "cache_read_input_tokens": 59216,
+          "output_tokens": 783,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-010\"], \"premise_id\": \"prem-010\", \"method\": \"Grepped the supplied ProblemRecord.statement text for the fixture's environment declaration and the deliverable type.\", \"result\": \"Line 5: 'there is no production system or customer data behind this fixture.' Line 10: 'The result is an investigation brief, not an authorised production change.' No live endpoint, dataset, or production binding is asserted anywhere in the statement.\", \"artefact\": \"ProblemRecord.statement (prob-001), lines 5 and 10, matched via grep\", \"outcome\": \"supports\", \"cost_usd\": 0.0}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.0920012,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 55.458856545,
+          "usage": {
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 17493,
+            "cache_read_input_tokens": 59216,
+            "output_tokens": 783,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"MeasurementRecord\", \"id\": \"meas-001\", \"ledger_version\": 1, \"references\": [\"prob-001\", \"prem-010\"], \"premise_id\": \"prem-010\", \"method\": \"Grepped the supplied ProblemRecord.statement text for the fixture's environment declaration and the deliverable type.\", \"result\": \"Line 5: 'there is no production system or customer data behind this fixture.' Line 10: 'The result is an investigation brief, not an authorised production change.' No live endpoint, dataset, or production binding is asserted anywhere in the statement.\", \"artefact\": \"ProblemRecord.statement (prob-001), lines 5 and 10, matched via grep\", \"outcome\": \"supports\", \"cost_usd\": 0.0}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:46:04.558334+00:00",
+      "updated_at": "2026-09-27T22:47:00.229287+00:00"
+    },
+    "123bf7a7bfa640d7b967aeead7aa76f3": {
+      "state": "settled",
+      "allowance_units": 2000000000,
+      "charged_units": 431311500,
+      "cost_usd": 0.43131149999999996,
+      "reserved_at": "2026-09-27T22:47:00.371725+00:00",
+      "metadata": {
+        "phase": "frame",
+        "role": "framer",
+        "cell": "worker-opus-high",
+        "timeout_s": 900,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 131.150465789,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 23523,
+          "cache_read_input_tokens": 13387,
+          "output_tokens": 7299,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"type\": \"FrameRecord\", \"id\": \"frame-002\", \"ledger_version\": 2, \"references\": [\"frame-001\", \"prob-001\", \"meas-001\", \"meas-002\", \"meas-003\", \"meas-004\", \"meas-005\", \"meas-006\", \"meas-007\"], \"goal_ladder\": [\"Design checks that would discriminate the candidate causes of an absent receipt, given that no fixture evidence exists to run them against\", \"Keep the candidate set open: the three named causes are now confirmed non-exhaustive, so read-side, replication and retention paths must be covered\", \"State the invariant that acknowledgement implies a durable receipt, or say plainly that it is assumed rather than written anywhere\", \"Give the operator a reversible containment step and an implementation direction conditional on a named check outcome\"], \"metric_interrogation\": \"The single stated observable, receipt absent after acknowledgement, remains a conjunction of write-attempted, write-committed and read-correct, so it cannot discriminate cause. meas-004 makes that concrete by enumerating stale or wrong-replica reads, replication lag and retention deletion as further paths the three named causes do not cover. meas-002 sharpens the metric problem: there is not one measured instance, no job id and no observation record, so no rate, latency or error count can be computed and no distributional argument is available. Discriminating metrics stay per-job and hypothetical: acknowledgement timestamp versus write-commit timestamp, writer error outcome keyed by job id, idempotency-key hit versus miss against retry attempts, and the receipt-store read consistency mode. The absent-at-read versus absent-at-write split is still unmeasured and, per meas-001 and meas-005, unmeasurable in this fixture, so the brief must name it as an open split rather than assume the write side.\", \"problem_type\": \"Causal discrimination under incomplete observation in a distributed two-store fixture\", \"dissolution_verdict\": \"stands\", \"dissolution_reason\": \"Measurement confirms no fixture artefact beyond the statement, so the cause cannot be determined here. That does not dissolve the problem, because the statement never asked for the cause: it asked for discriminating checks, a reversible containment step and a conditional implementation direction, all answerable from the statement alone. Four premises moved from unverified to verified and one new verified premise records the missing artefact, but the question itself is unchanged and the acceptance criteria are unrevised.\", \"acceptance_criteria\": [\"Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated\", \"The candidate set is explicitly assessed for closure, including any cause outside the three named\", \"A containment step is proposed with its reversal stated and its cost to correctness named\", \"The implementation direction is stated as conditional on a named check result, with the condition explicit\", \"No check is reported as run, and no outcome is asserted as observed\", \"Every claim is traceable to the problem statement or marked as an assumption\"], \"b0_candidate_id\": \"cand-001\", \"premise_count\": 11, \"stable\": true}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-011\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-002\", \"meas-002\"], \"text\": \"No concrete occurrence is available: the statement asserts only that a receipt can be absent after an acknowledgement. No job id, log excerpt or observation record exists, so the symptom is a stated possibility, not a measured event.\", \"class\": \"verified\", \"source\": \"meas-002: problem.md read in full and grepped for 'job'; only the generic phrase 'acknowledges jobs from a queue' matched, and no observation record is present.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; any later claim of an observed instance requires a new artefact naming a job id with acknowledgement present and receipt absent.\", \"load_bearing\": true, \"supersedes\": \"prem-002\"}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-012\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-003\", \"meas-003\"], \"text\": \"The available notes do not determine the cause. problem.md contains the statement plus task instructions only, with no field, status or log excerpt selecting writer failure, premature acknowledgement or idempotency suppression.\", \"class\": \"verified\", \"source\": \"meas-003: problem.md lines 1-14 read in full; no data resolves which explanation applies.\", \"confidence\": 0.95, \"cheapest_verification\": \"Already done; re-run only if a fixture note file is added to the working directory.\", \"load_bearing\": true, \"supersedes\": \"prem-003\"}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-013\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-004\", \"meas-004\"], \"text\": \"The three named explanations are not exhaustive. Enumeration adds a stale or wrong-replica read, replication lag, and retention or expiry deleting a committed receipt; none collapses into the three, and the statement uses no closure language.\", \"class\": \"verified\", \"source\": \"meas-004: problem.md lines 3-6 list three causes; 'use only this statement' at line 9 scopes checks rather than the cause set; enumeration surfaced three further paths.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; extend the enumeration if a fixture topology or storage description is later supplied.\", \"load_bearing\": true, \"supersedes\": \"prem-004\"}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-014\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"meas-001\", \"meas-005\", \"meas-006\"], \"text\": \"No fixture artefact beyond the 14-line statement exists: no writer code, idempotency branch, retry policy or log. Every check the brief proposes is therefore a design, unrunnable here, and prem-001, prem-005 and prem-006 cannot be closed.\", \"class\": \"verified\", \"source\": \"meas-001, meas-005 and meas-006: find and grep over the working directory returned only problem.md and run/record scaffolding, with no source file or policy document.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; re-run find and grep if fixture code, a retry policy or logs are added to the working directory.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-015\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-010\", \"meas-007\", \"meas-001\"], \"text\": \"The statement declares a synthetic fixture with no production system or customer data and an investigation-brief deliverable, and no live endpoint, dataset or code binding exists in the working directory, so containment carries no live blast radius.\", \"class\": \"verified\", \"source\": \"meas-007: statement lines 5 and 10; meas-001 and meas-005: the directory holds only problem.md and run records, with no bound endpoint or dataset.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; recheck if the fixture is later bound to a runnable service or a real dataset.\", \"load_bearing\": true, \"supersedes\": \"prem-010\"}",
+        "identity": {
+          "expected_model": "claude-opus-5",
+          "actual_model": "claude-opus-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-opus-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-opus-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.43131149999999996,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 131.150465789,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 23523,
+            "cache_read_input_tokens": 13387,
+            "output_tokens": 7299,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"type\": \"FrameRecord\", \"id\": \"frame-002\", \"ledger_version\": 2, \"references\": [\"frame-001\", \"prob-001\", \"meas-001\", \"meas-002\", \"meas-003\", \"meas-004\", \"meas-005\", \"meas-006\", \"meas-007\"], \"goal_ladder\": [\"Design checks that would discriminate the candidate causes of an absent receipt, given that no fixture evidence exists to run them against\", \"Keep the candidate set open: the three named causes are now confirmed non-exhaustive, so read-side, replication and retention paths must be covered\", \"State the invariant that acknowledgement implies a durable receipt, or say plainly that it is assumed rather than written anywhere\", \"Give the operator a reversible containment step and an implementation direction conditional on a named check outcome\"], \"metric_interrogation\": \"The single stated observable, receipt absent after acknowledgement, remains a conjunction of write-attempted, write-committed and read-correct, so it cannot discriminate cause. meas-004 makes that concrete by enumerating stale or wrong-replica reads, replication lag and retention deletion as further paths the three named causes do not cover. meas-002 sharpens the metric problem: there is not one measured instance, no job id and no observation record, so no rate, latency or error count can be computed and no distributional argument is available. Discriminating metrics stay per-job and hypothetical: acknowledgement timestamp versus write-commit timestamp, writer error outcome keyed by job id, idempotency-key hit versus miss against retry attempts, and the receipt-store read consistency mode. The absent-at-read versus absent-at-write split is still unmeasured and, per meas-001 and meas-005, unmeasurable in this fixture, so the brief must name it as an open split rather than assume the write side.\", \"problem_type\": \"Causal discrimination under incomplete observation in a distributed two-store fixture\", \"dissolution_verdict\": \"stands\", \"dissolution_reason\": \"Measurement confirms no fixture artefact beyond the statement, so the cause cannot be determined here. That does not dissolve the problem, because the statement never asked for the cause: it asked for discriminating checks, a reversible containment step and a conditional implementation direction, all answerable from the statement alone. Four premises moved from unverified to verified and one new verified premise records the missing artefact, but the question itself is unchanged and the acceptance criteria are unrevised.\", \"acceptance_criteria\": [\"Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated\", \"The candidate set is explicitly assessed for closure, including any cause outside the three named\", \"A containment step is proposed with its reversal stated and its cost to correctness named\", \"The implementation direction is stated as conditional on a named check result, with the condition explicit\", \"No check is reported as run, and no outcome is asserted as observed\", \"Every claim is traceable to the problem statement or marked as an assumption\"], \"b0_candidate_id\": \"cand-001\", \"premise_count\": 11, \"stable\": true}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-011\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-002\", \"meas-002\"], \"text\": \"No concrete occurrence is available: the statement asserts only that a receipt can be absent after an acknowledgement. No job id, log excerpt or observation record exists, so the symptom is a stated possibility, not a measured event.\", \"class\": \"verified\", \"source\": \"meas-002: problem.md read in full and grepped for 'job'; only the generic phrase 'acknowledges jobs from a queue' matched, and no observation record is present.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; any later claim of an observed instance requires a new artefact naming a job id with acknowledgement present and receipt absent.\", \"load_bearing\": true, \"supersedes\": \"prem-002\"}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-012\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-003\", \"meas-003\"], \"text\": \"The available notes do not determine the cause. problem.md contains the statement plus task instructions only, with no field, status or log excerpt selecting writer failure, premature acknowledgement or idempotency suppression.\", \"class\": \"verified\", \"source\": \"meas-003: problem.md lines 1-14 read in full; no data resolves which explanation applies.\", \"confidence\": 0.95, \"cheapest_verification\": \"Already done; re-run only if a fixture note file is added to the working directory.\", \"load_bearing\": true, \"supersedes\": \"prem-003\"}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-013\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-004\", \"meas-004\"], \"text\": \"The three named explanations are not exhaustive. Enumeration adds a stale or wrong-replica read, replication lag, and retention or expiry deleting a committed receipt; none collapses into the three, and the statement uses no closure language.\", \"class\": \"verified\", \"source\": \"meas-004: problem.md lines 3-6 list three causes; 'use only this statement' at line 9 scopes checks rather than the cause set; enumeration surfaced three further paths.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; extend the enumeration if a fixture topology or storage description is later supplied.\", \"load_bearing\": true, \"supersedes\": \"prem-004\"}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-014\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"meas-001\", \"meas-005\", \"meas-006\"], \"text\": \"No fixture artefact beyond the 14-line statement exists: no writer code, idempotency branch, retry policy or log. Every check the brief proposes is therefore a design, unrunnable here, and prem-001, prem-005 and prem-006 cannot be closed.\", \"class\": \"verified\", \"source\": \"meas-001, meas-005 and meas-006: find and grep over the working directory returned only problem.md and run/record scaffolding, with no source file or policy document.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; re-run find and grep if fixture code, a retry policy or logs are added to the working directory.\", \"load_bearing\": true, \"supersedes\": null}\n{\"type\": \"PremiseRecord\", \"id\": \"prem-015\", \"ledger_version\": 2, \"references\": [\"prob-001\", \"prem-010\", \"meas-007\", \"meas-001\"], \"text\": \"The statement declares a synthetic fixture with no production system or customer data and an investigation-brief deliverable, and no live endpoint, dataset or code binding exists in the working directory, so containment carries no live blast radius.\", \"class\": \"verified\", \"source\": \"meas-007: statement lines 5 and 10; meas-001 and meas-005: the directory holds only problem.md and run records, with no bound endpoint or dataset.\", \"confidence\": 0.9, \"cheapest_verification\": \"Already done; recheck if the fixture is later bound to a runnable service or a real dataset.\", \"load_bearing\": true, \"supersedes\": \"prem-010\"}",
+          "identity": {
+            "expected_model": "claude-opus-5",
+            "actual_model": "claude-opus-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-opus-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-opus-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:47:00.414270+00:00",
+      "updated_at": "2026-09-27T22:49:11.612045+00:00"
+    },
+    "ab86e5b30a3e459c9434851f1c79b1db": {
+      "state": "settled",
+      "allowance_units": 100000000,
+      "charged_units": 103534600,
+      "cost_usd": 0.1035346,
+      "reserved_at": "2026-09-27T22:49:11.853882+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "controller",
+        "cell": "worker-sonnet-low",
+        "timeout_s": 120,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "failed",
+        "error": "claude exited 1: th\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"is_error\":true,\"num_turns\":4,\"subtype\":\"error_max_budget_usd\",\"errors\":[\"Reached maximum budget ($0.1)\"],\"type\":\"result\",\"duration_ms\":42748,\"uuid\":\"06d9aa8f-9db1-4aa2-a873-f8de2638d6e3\",\"queued_turn_count\":0,\"result_index\":0}",
+        "wall_clock_s": 49.127333013,
+        "usage": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 18700,
+          "cache_read_input_tokens": 61338,
+          "output_tokens": 214,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.1035346,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "failed",
+          "error": "claude exited 1: th\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"is_error\":true,\"num_turns\":4,\"subtype\":\"error_max_budget_usd\",\"errors\":[\"Reached maximum budget ($0.1)\"],\"type\":\"result\",\"duration_ms\":42748,\"uuid\":\"06d9aa8f-9db1-4aa2-a873-f8de2638d6e3\",\"queued_turn_count\":0,\"result_index\":0}",
+          "wall_clock_s": 49.127333013,
+          "usage": {
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 18700,
+            "cache_read_input_tokens": 61338,
+            "output_tokens": 214,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:49:11.894255+00:00",
+      "updated_at": "2026-09-27T22:50:01.069096+00:00"
+    },
+    "58b3cbe1274c4b4eb9e833f1fe92d932": {
+      "state": "settled",
+      "allowance_units": 100000000,
+      "charged_units": 84280400,
+      "cost_usd": 0.08428039999999999,
+      "reserved_at": "2026-09-27T22:50:01.216092+00:00",
+      "metadata": {
+        "phase": "verify",
+        "role": "controller",
+        "cell": "worker-sonnet-low",
+        "timeout_s": 120,
+        "technique": null,
+        "max_output_tokens": 8192
+      },
+      "telemetry": {
+        "status": "completed",
+        "error": "",
+        "wall_clock_s": 75.48470438300001,
+        "usage": {
+          "input_tokens": 4,
+          "cache_creation_input_tokens": 16762,
+          "cache_read_input_tokens": 59177,
+          "output_tokens": 341,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null,
+          "cache_creation": null,
+          "inference_geo": null,
+          "iterations": null,
+          "speed": null
+        },
+        "result": "{\"families\":[\"subtract\",\"re-represent\",\"abduce\"],\"reasoning\":\"All apply: subtract strips the conjunctive metric; re-represent decomposes absent-receipt into write/commit/read and other paths; abduce infers discriminating causes for the observation.\"}",
+        "identity": {
+          "expected_model": "claude-sonnet-5",
+          "actual_model": "claude-sonnet-5",
+          "identity_valid": true,
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "child_models": [],
+          "billed_models": [
+            "claude-haiku-4-5-20251001",
+            "claude-sonnet-5"
+          ],
+          "auxiliary_billed_models": [
+            "claude-haiku-4-5-20251001"
+          ]
+        }
+      },
+      "resolution": {
+        "cost_usd": 0.08428039999999999,
+        "final": true,
+        "evidence": "terminal-result",
+        "telemetry": {
+          "status": "completed",
+          "error": "",
+          "wall_clock_s": 75.48470438300001,
+          "usage": {
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 16762,
+            "cache_read_input_tokens": 59177,
+            "output_tokens": 341,
+            "output_tokens_details": null,
+            "server_tool_use": null,
+            "service_tier": null,
+            "cache_creation": null,
+            "inference_geo": null,
+            "iterations": null,
+            "speed": null
+          },
+          "result": "{\"families\":[\"subtract\",\"re-represent\",\"abduce\"],\"reasoning\":\"All apply: subtract strips the conjunctive metric; re-represent decomposes absent-receipt into write/commit/read and other paths; abduce infers discriminating causes for the observation.\"}",
+          "identity": {
+            "expected_model": "claude-sonnet-5",
+            "actual_model": "claude-sonnet-5",
+            "identity_valid": true,
+            "root_models": [
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "auxiliary_billed_models": [
+              "claude-haiku-4-5-20251001"
+            ]
+          }
+        }
+      },
+      "started_at": "2026-09-27T22:50:01.257946+00:00",
+      "updated_at": "2026-09-27T22:51:16.799155+00:00"
+    }
+  }
+}

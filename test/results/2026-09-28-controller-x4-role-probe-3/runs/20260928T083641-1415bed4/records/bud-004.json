@@ -1,0 +1,16 @@
+{
+  "type": "BudgetEntry",
+  "id": "bud-004",
+  "ledger_version": 0,
+  "references": [],
+  "phase": "verify",
+  "role": "verifier",
+  "cell": "worker-sonnet-medium",
+  "cost_usd": 0.10003599999999999,
+  "tokens_in": 6,
+  "tokens_out": 678,
+  "wall_clock_s": 44.21320406299998,
+  "invocation_id": "6eb618adbb1342e8b7c40f07eae6eb2e",
+  "accounting_status": "settled",
+  "reserved_usd": 0.0
+}

@@ -1,0 +1,113 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.8729916,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T18:36:34.659860+00:00",
+    "currency": "USD",
+    "invocations": {
+      "1cfb3b00d35bbc9fc73e7c0ace5d0ab3": {
+        "allowance_units": 5000000000,
+        "charged_units": 127008400,
+        "cost_usd": 0.1270084,
+        "metadata": {
+          "decision_digest": "66e7ea15d8d0e48bc0bf58f0f9b7f959807b37f4eb62e5f9b95194e94b751b64",
+          "revision_id": "5f68c67a435c1ea1fcb94f97b2251f40ca1e49df2b0e89d8a3375e8ac451b0ed",
+          "root_id": "ed5beb0fb180d7e38a6a33bc"
+        },
+        "reserved_at": "2026-09-29T18:38:02.962777+00:00",
+        "resolution": {
+          "cost_usd": 0.1270084,
+          "evidence": "receipt:d7ae8c614d8020be839f988684267bb135c01f421015e29b2b170ad1c0281090",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 12833,
+            "cache_read_input_tokens": 214782,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.1270084,
+            "currency": "USD",
+            "input_tokens": 26,
+            "output_tokens": 3140
+          }
+        },
+        "started_at": "2026-09-29T18:38:02.971337+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 12833,
+          "cache_read_input_tokens": 214782,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1270084,
+          "currency": "USD",
+          "input_tokens": 26,
+          "output_tokens": 3140
+        },
+        "updated_at": "2026-09-29T18:38:38.742199+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.1270084,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 37.472,
+  "eligible": false,
+  "error": null,
+  "manifest_sha256": "8343b56df813cc152addb429a31739c8527e7c2f0faf4b69e8e904197e627d68",
+  "protected_grade_after_public_entry": {
+    "candidate_edit_sha256": {
+      "attr/_make.py": "cd6322d8473916ac4012808369095282eca1dd948a0be5ef1602507fa6a7ce7d",
+      "attr/validators.py": "6490febfaca4dde5e7539ca840c2ee87432a332264ea71655844b6a9a4725f84"
+    },
+    "case": "F01",
+    "cases": [
+      {
+        "critical": true,
+        "name": "inherited_aliases",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "generator_transformer",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "nested_validation_suppression",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": true,
+        "name": "prior_state_survives_exception",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "explicit_alias_still_works",
+        "passed": true,
+        "weight": 1
+      },
+      {
+        "critical": false,
+        "name": "ordinary_validation_still_runs",
+        "passed": true,
+        "weight": 1
+      }
+    ],
+    "critical_errors": 0,
+    "quality": 100.0,
+    "state": "accepted"
+  },
+  "qualified": true,
+  "root_id": "ed5beb0fb180d7e38a6a33bc",
+  "snapshot": null,
+  "state": "accepted"
+}

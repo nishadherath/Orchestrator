@@ -1,0 +1,23 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-004",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-002",
+    "prem-013"
+  ],
+  "technique": "abduce",
+  "premise_operation": "add",
+  "mechanism": "prem-013 admits a residual mechanism beyond the three named ones but leaves it abstract. One concrete instance: the check that reports the receipt as absent may read from a replica, cache or secondary index that lags the primary store, so a receipt that was in fact written successfully appears missing at check time with no write-side failure at all. This premise explains the observation without invoking writer failure, premature acknowledgement or idempotency suppression, and it is cheap to check first because, if true, it dissolves the need to discriminate among the other three for this instance.",
+  "claimed_gain_vs_b0": "Turns prem-013's abstract residual branch into a concrete, cheap-to-check-first hypothesis that can dissolve the need to discriminate among B0's three named mechanisms.",
+  "premises_introduced": [
+    {
+      "text": "The check that reports receipt absence reads from a replica, cache or secondary index that can lag the primary receipt store, so a written receipt can appear absent at check time.",
+      "class": "unverified"
+    }
+  ],
+  "falsification_test": "Re-run the absence check against a read guaranteed consistent with the primary receipt store, or wait past known replication lag; if the receipt is still absent, this premise is false.",
+  "cost_estimate_usd": 0.35,
+  "refines": null
+}

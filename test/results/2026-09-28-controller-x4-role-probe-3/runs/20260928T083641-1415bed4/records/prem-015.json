@@ -1,0 +1,18 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-015",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-010",
+    "meas-007",
+    "meas-001"
+  ],
+  "text": "The statement declares a synthetic fixture with no production system or customer data and an investigation-brief deliverable, and no live endpoint, dataset or code binding exists in the working directory, so containment carries no live blast radius.",
+  "class": "verified",
+  "source": "meas-007: statement lines 5 and 10; meas-001 and meas-005: the directory holds only problem.md and run records, with no bound endpoint or dataset.",
+  "confidence": 0.9,
+  "cheapest_verification": "Already done; recheck if the fixture is later bound to a runnable service or a real dataset.",
+  "load_bearing": true,
+  "supersedes": "prem-010"
+}

@@ -1,0 +1,1 @@
+A synthetic service acknowledges jobs from a queue and writes receipts to a separate store. A receipt can be absent after an acknowledgement, but the available notes do not establish whether the writer failed, the acknowledgement was premature, or an idempotency check suppressed a legitimate retry.

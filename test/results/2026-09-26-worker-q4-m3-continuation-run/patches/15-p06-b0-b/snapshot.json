@@ -1,0 +1,12 @@
+{
+  "episode_label": "b0-b",
+  "files": {
+    "jwt/api_jwk.py": "549a52ef467e4e78cb464795205caa7f08fc91ad73e22fd4b948e6b3a294a326",
+    "jwt/jwk_set_cache.py": "e5979ce3602d771627e2ac15f08515de6032439c6af2d725a9f0d9887a7cfe4a",
+    "jwt/jwks_client.py": "a592ecc58c80c55bc0b343169879cb63ac3f19b67cb218022e50fa32b5f99a41"
+  },
+  "schema_version": 1,
+  "sequence": 15,
+  "snapshot_sha256": "4d6a98ebb20906ee322ad16c944808790d070febdf434d5954af84e29732f059",
+  "task_id": "P06"
+}

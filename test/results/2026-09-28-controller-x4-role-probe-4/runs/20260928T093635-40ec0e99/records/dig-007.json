@@ -1,0 +1,20 @@
+{
+  "type": "PhaseDigest",
+  "phase": "critique",
+  "text": "4 critique(s) for 4 candidate(s).",
+  "records_written": [
+    "crit-005",
+    "crit-006",
+    "crit-007",
+    "crit-008"
+  ],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [
+    "crit-005",
+    "crit-006",
+    "crit-007",
+    "crit-008"
+  ],
+  "id": "dig-007"
+}

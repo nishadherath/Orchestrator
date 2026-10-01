@@ -1,0 +1,13 @@
+{
+  "episode_label": "sonnet-xhigh",
+  "files": {
+    "platformdirs/_xdg.py": "de615b3d0c92faa6866b6c170d8b2c384f7d90694560d5997b07de1fab4270d9",
+    "platformdirs/api.py": "9e10cb6b53bb56567252e5b4ea5a88de496ac35bf40397d1d023b338b1451a80",
+    "platformdirs/macos.py": "2359562d06ff1cf9eeb17156a3474e96289794f5f0d7dbe11ba49e619c53e5e4",
+    "platformdirs/unix.py": "a7a09da2b6c963dcaaaa8f95efd3e84a27eb4e9d2638a67f4d82f7876e6652e1"
+  },
+  "schema_version": 1,
+  "sequence": 3,
+  "snapshot_sha256": "b7373c4b27a74f4d109502f536a6827847bd9214857db83c87db9049ffb14445",
+  "task_id": "P08"
+}

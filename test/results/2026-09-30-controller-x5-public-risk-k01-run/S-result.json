@@ -1,0 +1,71 @@
+{
+  "arm": "S",
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.8990702,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T20:32:54.939396+00:00",
+    "currency": "USD",
+    "invocations": {
+      "3b237b5c2db33abf6206eb1ae71b4d0e": {
+        "allowance_units": 5000000000,
+        "charged_units": 100929800,
+        "cost_usd": 0.1009298,
+        "metadata": {
+          "decision_digest": "c7ce02b2efbaa8f704af0aa5c044b18fd8ff47086680ed9adbe46ab3a0fd5758",
+          "revision_id": "b811757be11e02c38b729c6e5e07faf9a542ed12dfb4417c78b005bc4e2278a7",
+          "root_id": "5b959d3cea1295a519cc9217"
+        },
+        "reserved_at": "2026-09-29T20:49:48.151118+00:00",
+        "resolution": {
+          "cost_usd": 0.1009298,
+          "evidence": "receipt:1b550c5bdb6c9f4db56e68c6dc222ca70e6507ff20ec904da4f07251d0283dd8",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 8898,
+            "cache_read_input_tokens": 93334,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.1009298,
+            "currency": "USD",
+            "input_tokens": 14,
+            "output_tokens": 4523
+          }
+        },
+        "started_at": "2026-09-29T20:49:48.160109+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 8898,
+          "cache_read_input_tokens": 93334,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1009298,
+          "currency": "USD",
+          "input_tokens": 14,
+          "output_tokens": 4523
+        },
+        "updated_at": "2026-09-29T20:50:38.544656+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.1009298,
+    "unresolved": [],
+    "version": 1
+  },
+  "controller_handoff_actionable": null,
+  "controller_invocations": 0,
+  "controller_role_cost_usd": null,
+  "controller_stage": null,
+  "credential_reconciled": true,
+  "effective_action": null,
+  "elapsed_s": 50.843,
+  "error": null,
+  "manifest_sha256": "ae329ce9d969c98a7b824a93455111725175f896b9ef14570c7d972c72798259",
+  "qualified": true,
+  "root_id": "5b959d3cea1295a519cc9217",
+  "state": "accepted",
+  "worker_identity_valid": true
+}

@@ -1,0 +1,14 @@
+{
+  "type": "MeasurementRecord",
+  "id": "meas-006",
+  "ledger_version": 1,
+  "references": [
+    "prem-007"
+  ],
+  "premise_id": "prem-007",
+  "method": "Read problem.md in the working directory (the full available notes) and checked for explicit writer-error records, acknowledgement-ordering data, or idempotency-hit logs.",
+  "result": "problem.md contains only the problem statement text; it explicitly states the notes 'do not establish whether the writer failed, the acknowledgement was premature, or an idempotency check suppressed a legitimate retry.' No writer error records, ordering data, or idempotency hit logs are present anywhere in the file.",
+  "artefact": "test/results/2026-09-28-controller-x4-role-probe-4/problem.md",
+  "outcome": "supports",
+  "cost_usd": 0.0
+}

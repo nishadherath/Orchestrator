@@ -1,0 +1,266 @@
+{
+  "completed_at_utc": "2026-09-26T01:22:55+00:00",
+  "manifest_sha256": "b9ced449dd4fdc6f8c428595bbc42713c2fc02c619b104c2cf6eb9490ff956be",
+  "preflight_evidence_sha256": "a80bfc49a13a7199d22e2d545746e2f572cf6a63f8d2cb1052b6d5e5ad8ec132",
+  "rows": [
+    {
+      "episode": {
+        "episode_label": "worker-sonnet-low",
+        "executable_grade": {
+          "isolated": true,
+          "public_pass": true
+        },
+        "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+        "protected_sha256": {
+          "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+          "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+          "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+          "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "reason": "transport-only-canary",
+          "scored": false
+        },
+        "receipt": {
+          "actual_model": "claude-sonnet-5",
+          "boundary": {
+            "actor_name": "q1-611ee603a6bec20276aa68193e6af4ca",
+            "after_sha256": {
+              "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+              "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+              "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+              "canary_box/parse.py": "5b44146295de628d112b6581e50c0492f79d8de8b6800175a59a96071001e9b3",
+              "canary_box/render.py": "279a88f12699053971a83d59193984b6c1028033a555635ae436776cf84e6409",
+              "canary_box/store.py": "3884f3578e4d7d0833f31e52eb210516be0324f6f14f67887185c18bf7b61d83",
+              "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+            },
+            "changed_paths": [
+              "canary_box/parse.py",
+              "canary_box/render.py",
+              "canary_box/store.py"
+            ],
+            "q1_record_sha256": "c3097073f7cc8f48a2dba85d5e26ed5e6cec1ecd94e2f970610b4c4648a1a770",
+            "q1_spec_sha256": "5d8d7f16a18e816b5ff7e67d83547b72a56a69b3cb527573f37e688883d365c2"
+          },
+          "diagnostics": {
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "error_codes": [],
+            "event_types": {
+              "assistant": 13,
+              "rate_limit_event": 1,
+              "result": 1,
+              "system": 3,
+              "user": 10
+            },
+            "invalid_line_count": 0,
+            "num_turns": 11,
+            "real_root_models": [
+              "claude-sonnet-5"
+            ],
+            "reported_cost_usd": 0.07766260000000001,
+            "reported_usage": {
+              "cache_creation_input_tokens": 13366,
+              "cache_read_input_tokens": 35983,
+              "input_tokens": 8,
+              "output_tokens": 1572
+            },
+            "result_subtype": "success",
+            "returncode": 0,
+            "stderr_bytes": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_bytes": 33314,
+            "stdout_sha256": "13ea1d8eabda803356aee99e3076b66b0ab3cc544a6b62e34afb5d6414d38cfb",
+            "structured_output_field_present": true,
+            "synthetic_root_markers": []
+          },
+          "identity_valid": true,
+          "report_digest": "05de48f5e21dfecb38ceeb2c3f7c0e16011b1106f75d84e0c4e98a1779bf7e51",
+          "report_observability": "present",
+          "requested_cell": "worker-sonnet-low",
+          "requested_effort": "low",
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "status": "completed",
+          "terminal": true,
+          "transport": {
+            "canonicalised": true,
+            "mode": "claude-code-json-schema-v1",
+            "raw_result_sha256": "41b3f1c7196d2eb205978f42d5f0375ee362a30e7ef2e0eafbbd6cf9baf07fff",
+            "result_subtype": "success",
+            "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+            "structured_output_present": true
+          },
+          "usage": {
+            "cache_creation_input_tokens": 13366,
+            "cache_read_input_tokens": 35983,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.07766260000000001,
+            "currency": "USD",
+            "input_tokens": 8,
+            "output_tokens": 1572
+          },
+          "writer_stopped": true
+        },
+        "report_observability": "present",
+        "settlement": {
+          "charged_usd": 0.07766260000000001,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "files": {
+            "canary_box/parse.py": "5b44146295de628d112b6581e50c0492f79d8de8b6800175a59a96071001e9b3",
+            "canary_box/render.py": "279a88f12699053971a83d59193984b6c1028033a555635ae436776cf84e6409",
+            "canary_box/store.py": "3884f3578e4d7d0833f31e52eb210516be0324f6f14f67887185c18bf7b61d83"
+          },
+          "workspace": "/var/lib/orchestrator-worker-n4/seed/q4s-b9ced449dd4f-s3-1"
+        },
+        "stage_manifest_sha256": "b9ced449dd4fdc6f8c428595bbc42713c2fc02c619b104c2cf6eb9490ff956be",
+        "task_id": "Q4S-CANARY"
+      },
+      "episode_label": "worker-sonnet-low",
+      "sequence": 1,
+      "state": "graded",
+      "task_id": "Q4S-CANARY"
+    },
+    {
+      "episode": {
+        "episode_label": "worker-sonnet-medium",
+        "executable_grade": {
+          "isolated": true,
+          "public_pass": true
+        },
+        "parent_manifest_sha256": "c8e5b7e6370eb46011551d48d56a8bc9905eb13b50ac3798f8ab414ac50bd8b1",
+        "protected_sha256": {
+          "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+          "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+          "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+          "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+        },
+        "qualification_eligible": true,
+        "quality_v2": {
+          "reason": "transport-only-canary",
+          "scored": false
+        },
+        "receipt": {
+          "actual_model": "claude-sonnet-5",
+          "boundary": {
+            "actor_name": "q1-c5bb29819d7b0edcf8c850459e172744",
+            "after_sha256": {
+              "ISSUE.md": "72988629d9faab96f1a322c5d871f1e9f0e31b6259a5952d84aa33adbcb2e71d",
+              "acceptance.json": "d29995e2d0338a8620e05fc2e7a25540702dc63e3c455bc03a1ef98628266bbd",
+              "canary_box/__init__.py": "b442131d773a49be68d34865843f8770deda050996bb066775b06bdbc8a15195",
+              "canary_box/parse.py": "eda2e1a7f072bf683206ee4d9b23178c5cc7bc22b95d3ca3910e35b8029ed4d5",
+              "canary_box/render.py": "a2c2520c55a2592b1a7373b00a64e40caa6d68cdab9d59348b8f7e2a2c06910f",
+              "canary_box/store.py": "c0cfea55645f4aa5a10d0c857abf333af06fafc26b9453cc266f275cf34d08e1",
+              "public_check.py": "021088bf162db2150b97507093689ee4221ddb3de65229aa3631d04c38e0da52"
+            },
+            "changed_paths": [
+              "canary_box/parse.py",
+              "canary_box/render.py",
+              "canary_box/store.py"
+            ],
+            "q1_record_sha256": "5dc6292592de400b24f0800adf7be9c23bc30cae885acd68259a90b658e712ab",
+            "q1_spec_sha256": "5d8d7f16a18e816b5ff7e67d83547b72a56a69b3cb527573f37e688883d365c2"
+          },
+          "diagnostics": {
+            "billed_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-sonnet-5"
+            ],
+            "child_models": [],
+            "error_codes": [],
+            "event_types": {
+              "assistant": 13,
+              "rate_limit_event": 1,
+              "result": 1,
+              "system": 3,
+              "user": 10
+            },
+            "invalid_line_count": 0,
+            "num_turns": 11,
+            "real_root_models": [
+              "claude-sonnet-5"
+            ],
+            "reported_cost_usd": 0.0774906,
+            "reported_usage": {
+              "cache_creation_input_tokens": 13348,
+              "cache_read_input_tokens": 35983,
+              "input_tokens": 8,
+              "output_tokens": 1562
+            },
+            "result_subtype": "success",
+            "returncode": 0,
+            "stderr_bytes": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_bytes": 33701,
+            "stdout_sha256": "631e42bb64a45ca2dd38f6462f2ac80127eb035f5f1433cf12945346ce48ad7e",
+            "structured_output_field_present": true,
+            "synthetic_root_markers": []
+          },
+          "identity_valid": true,
+          "report_digest": "6375f7329f07a75c2382d731a6e431e3c7011542d8948a300214d4301ed2f090",
+          "report_observability": "present",
+          "requested_cell": "worker-sonnet-medium",
+          "requested_effort": "medium",
+          "root_models": [
+            "claude-sonnet-5"
+          ],
+          "status": "completed",
+          "terminal": true,
+          "transport": {
+            "canonicalised": true,
+            "mode": "claude-code-json-schema-v1",
+            "raw_result_sha256": "95aff2c67de6ad363076d65ac9fb79ac68c7fcdb1f759d8ca616aa332a463a78",
+            "result_subtype": "success",
+            "schema_sha256": "a51d1711c663a1132c6da51c39734850d3f9c65cb2699c4475aec8cfd376f444",
+            "structured_output_present": true
+          },
+          "usage": {
+            "cache_creation_input_tokens": 13348,
+            "cache_read_input_tokens": 35983,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.0774906,
+            "currency": "USD",
+            "input_tokens": 8,
+            "output_tokens": 1562
+          },
+          "writer_stopped": true
+        },
+        "report_observability": "present",
+        "settlement": {
+          "charged_usd": 0.0774906,
+          "cost_settled": true,
+          "provider_calls": 1,
+          "writer_stopped": true
+        },
+        "snapshot": {
+          "files": {
+            "canary_box/parse.py": "eda2e1a7f072bf683206ee4d9b23178c5cc7bc22b95d3ca3910e35b8029ed4d5",
+            "canary_box/render.py": "a2c2520c55a2592b1a7373b00a64e40caa6d68cdab9d59348b8f7e2a2c06910f",
+            "canary_box/store.py": "c0cfea55645f4aa5a10d0c857abf333af06fafc26b9453cc266f275cf34d08e1"
+          },
+          "workspace": "/var/lib/orchestrator-worker-n4/seed/q4s-b9ced449dd4f-s3-2"
+        },
+        "stage_manifest_sha256": "b9ced449dd4fdc6f8c428595bbc42713c2fc02c619b104c2cf6eb9490ff956be",
+        "task_id": "Q4S-CANARY"
+      },
+      "episode_label": "worker-sonnet-medium",
+      "sequence": 2,
+      "state": "graded",
+      "task_id": "Q4S-CANARY"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "3d8fa90542a8b280d1435e793f73706d447dff4e8f1696b086dd5c14e220fe2e",
+  "status": "complete",
+  "total_cost_usd": 0.15515320000000002,
+  "total_provider_calls": 2
+}

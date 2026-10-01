@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-003",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "At least one job has been acknowledged with no corresponding receipt present in the receipt store. This is reported, not measured in this run.",
+  "class": "unverified",
+  "source": "Problem statement: 'A receipt can be absent after an acknowledgement.'",
+  "confidence": 0.8,
+  "cheapest_verification": "Join acknowledged job ids to receipt-store keys over a fixed window and count unmatched acknowledgements.",
+  "load_bearing": true,
+  "supersedes": null
+}

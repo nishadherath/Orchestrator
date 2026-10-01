@@ -1,0 +1,12 @@
+{
+  "type": "ProblemRecord",
+  "statement": "# Bounded queue diagnosis\n\nA synthetic service acknowledges jobs from a queue and writes receipts to a\nseparate store. A receipt can be absent after an acknowledgement, but the\navailable notes do not establish whether the writer failed, the acknowledgement\nwas premature, or an idempotency check suppressed a legitimate retry. There\nis no production system or customer data behind this fixture.\n\nUse only this statement. Identify discriminating checks for the competing\nexplanations, a reversible containment step, and an implementation direction\nthat should remain conditional until a check resolves the cause. Do not claim\nthat any proposed check has been run. The result is an investigation brief,\nnot an authorised production change.",
+  "context": "",
+  "constraints": [],
+  "budget_usd": 4.0,
+  "mode": "quick",
+  "acceptance_criteria": [],
+  "ledger_version": 0,
+  "references": [],
+  "id": "prob-001"
+}

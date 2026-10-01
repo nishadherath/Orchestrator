@@ -1,0 +1,12 @@
+{
+  "episode_label": "opus-high",
+  "files": {
+    "tenacity/__init__.py": "b10db4a063cc7e71547bf7796c1be1740316dd84e49be764f7b9ead27b45b619",
+    "tenacity/asyncio/__init__.py": "5cdb9c5313365d25cdb82ae141aa4654dcac9405a7e5bca1ad979a3c7b477303",
+    "tenacity/wait.py": "d3cc78732cdbf74ecf3d02dc51a33c4c5d6da8d3b66141948015608b6d2cfca2"
+  },
+  "schema_version": 1,
+  "sequence": 10,
+  "snapshot_sha256": "088231f03daee5b460c3450c63b775195d62a58dc3b8f0a33475a4323f26402b",
+  "task_id": "P05"
+}

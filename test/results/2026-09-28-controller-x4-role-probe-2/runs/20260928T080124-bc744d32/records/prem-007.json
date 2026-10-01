@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-007",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "Only this statement may be used as evidence. No repository, log store or external source may be consulted or cited.",
+  "class": "policy",
+  "source": "Problem statement instruction 'Use only this statement'; a task rule, not a property of the system.",
+  "confidence": 0.95,
+  "cheapest_verification": "None needed for compliance; the rule's rationale is unstated and is not checked here.",
+  "load_bearing": true,
+  "supersedes": null
+}

@@ -1,0 +1,699 @@
+{
+  "schema_version": 2,
+  "record_type": "TaskRoot",
+  "root_id": "offline-pair-root",
+  "task_id": "offline-pair-root",
+  "state": "accepted",
+  "definition": {
+    "project_id": "c875d01e3df87b972c5540fbf4c6ad5e",
+    "root_task_id": "offline-pair-root",
+    "task_id": "offline-pair-root",
+    "parent_task_id": null,
+    "goal": "# Ambiguous payment retry\n\nThe client can lose the response after a payment commits and retry with the\nsame idempotency key. Repair `payment.py` so a committed retry returns the\noriginal result without charging again. A key reused with a different amount\nmust be rejected, and keys belong to tenants. An attempt aborted before commit\nmust remain retryable. Keep `app.py` and the public check unchanged.\n\nSubmit a `report.json` with a completion claim, a causal diagnosis, observed\nreplay probes and a safe next step. A claim or probe earns credit only when\nthe evaluator independently reproduces the behaviour.\n",
+    "scope": [
+      "payment.py",
+      "report.json"
+    ],
+    "permissions": [
+      "read",
+      "edit"
+    ],
+    "input_revision": {
+      "git": {
+        "head": null,
+        "diff_sha256": null,
+        "status_sha256": null
+      },
+      "input_paths": [
+        "issue.md",
+        "app.py",
+        "public_check.py"
+      ],
+      "content": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    },
+    "acceptance_definition": {
+      "contract_version": "acceptance-v2",
+      "contract": {
+        "version": 1,
+        "kind": "command",
+        "criteria": [
+          "public check passes"
+        ],
+        "constraints": [],
+        "required_outputs": [
+          "payment.py",
+          "report.json"
+        ],
+        "protected_paths": [
+          "issue.md",
+          "app.py",
+          "public_check.py"
+        ],
+        "command": [
+          "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "-B",
+          "public_check.py"
+        ],
+        "rubric": [],
+        "timeout_s": 10.0
+      },
+      "contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+      "protected_baseline": {
+        "files": [
+          {
+            "path": "app.py",
+            "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+            "size": 257
+          },
+          {
+            "path": "issue.md",
+            "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "size": 611
+          },
+          {
+            "path": "public_check.py",
+            "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "size": 630
+          }
+        ],
+        "missing": [],
+        "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+      }
+    }
+  },
+  "definition_digest": "2e6038b8cdfd56130973a9f649942b6a65b735213fa117e1b01398f07145b28b",
+  "revision": {
+    "revision_number": 1,
+    "parent_revision_id": null,
+    "definition_digest": "2e6038b8cdfd56130973a9f649942b6a65b735213fa117e1b01398f07145b28b",
+    "change_reason": "initial",
+    "authority_id": "offline-pair-grant",
+    "revision_id": "528c0861098c8750420e5a0871561ce1fabb07e46dc10d035cb9b281df49786e"
+  },
+  "admission": {
+    "actor": "offline-pair",
+    "authority_id": "offline-pair-grant",
+    "capability_digest": "0136f98a3597342838fb2a57cf1c8e64d058cb08d31d207a2aaeea9150f5af27",
+    "policy": "B0",
+    "policy_digest": "625367438cd97838c304d89369b772a18dedbd01efc68033b1feec33ff465c9d",
+    "campaign_prompt_digest": null,
+    "deadline_at": null
+  },
+  "ladder": [
+    "worker-sonnet-low",
+    "worker-sonnet-low",
+    "worker-opus-high"
+  ],
+  "axes": [
+    "structured",
+    "medium",
+    "contained"
+  ],
+  "attempts": [
+    {
+      "schema_version": 2,
+      "record_type": "AttemptResult",
+      "sequence": 1,
+      "reason": "fixed_floor",
+      "invocation_id": "8c44daccd87b203298be1ec200dbf23b",
+      "admission_token": "fa566e2dcfde27bc0022c7723a7c40a0fb7df1f8954b5420",
+      "revision_id": "528c0861098c8750420e5a0871561ce1fabb07e46dc10d035cb9b281df49786e",
+      "decision_digest": "48c55040a1744a6ef827c4b24304fc567696ab9434a1132722de76fca8d37842",
+      "requested_cell": "worker-sonnet-low",
+      "process_state": "terminal",
+      "receipt": {
+        "admission_token": "fa566e2dcfde27bc0022c7723a7c40a0fb7df1f8954b5420",
+        "invocation_id": "8c44daccd87b203298be1ec200dbf23b",
+        "revision_id": "528c0861098c8750420e5a0871561ce1fabb07e46dc10d035cb9b281df49786e",
+        "decision_digest": "48c55040a1744a6ef827c4b24304fc567696ab9434a1132722de76fca8d37842",
+        "intent_digest": "bc406073ac73c3dfdfc6e946a12de08d32b57efd5f6e79aba3420e9926e708f8",
+        "requested_cell": "worker-sonnet-low",
+        "actual_model": "claude-sonnet-5",
+        "identity_valid": true,
+        "child_models": [],
+        "status": "completed",
+        "terminal": true,
+        "writer_stopped": true,
+        "cost_usd": 0.1,
+        "usage": {
+          "cost_usd": 0.1,
+          "cost_source": "synthetic-fixture",
+          "currency": "USD",
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        },
+        "effort_evidence": "cli-argument:low",
+        "started_at": "2026-09-28T00:00:00Z",
+        "finished_at": "2026-09-28T00:00:01Z",
+        "wall_clock_s": 1.0
+      },
+      "receipt_digest": "f2fc0e17d65ad0ffc9cd2338d0f454f51d94ec1d93bda3d4fe5b65afbc04cc2d",
+      "verification": {
+        "contract_version": "acceptance-v2",
+        "contract": {
+          "version": 1,
+          "kind": "command",
+          "criteria": [
+            "public check passes"
+          ],
+          "constraints": [],
+          "required_outputs": [
+            "payment.py",
+            "report.json"
+          ],
+          "protected_paths": [
+            "issue.md",
+            "app.py",
+            "public_check.py"
+          ],
+          "command": [
+            "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+            "-B",
+            "public_check.py"
+          ],
+          "rubric": [],
+          "timeout_s": 10.0
+        },
+        "contract_digest": "8dbd878f80f33bd0d807121bbd758afa75c408117a5978120e1d0a6c3f12e881",
+        "protected_baseline": {
+          "files": [
+            {
+              "path": "app.py",
+              "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+              "size": 257
+            },
+            {
+              "path": "issue.md",
+              "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "size": 611
+            },
+            {
+              "path": "public_check.py",
+              "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+              "size": 630
+            }
+          ],
+          "missing": [],
+          "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+        },
+        "status": "pass",
+        "evidence": {
+          "kind": "command",
+          "started_at": "2026-09-28T05:31:50.185614+00:00",
+          "finished_at": "2026-09-28T05:31:50.551536+00:00",
+          "command": {
+            "argv": [
+              "C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "-B",
+              "public_check.py"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "",
+            "timed_out": false
+          },
+          "artefacts": {
+            "files": [
+              {
+                "path": "payment.py",
+                "sha256": "b72c0bd477788dee94e4a728e5463be07e5f79d191533e182bd0e003ac2d82be",
+                "size": 1005
+              },
+              {
+                "path": "report.json",
+                "sha256": "3c422dbb299bcf1d1809189ffd35cd0194cea891d4d8fc1968d273b2a40826e8",
+                "size": 887
+              }
+            ],
+            "missing": [],
+            "digest": "63ac6eded784d0221965380e7c159dd9c9edfe9d16f7b543378da46315f6216b"
+          },
+          "protected": {
+            "files": [
+              {
+                "path": "app.py",
+                "sha256": "dea02a1c092c773ff42a0cdc47cf168a80c66a520453db3fee55464bb403f6e1",
+                "size": 257
+              },
+              {
+                "path": "issue.md",
+                "sha256": "b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+                "size": 611
+              },
+              {
+                "path": "public_check.py",
+                "sha256": "bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+                "size": 630
+              }
+            ],
+            "missing": [],
+            "digest": "21dad71b962d3dc544c9d45b10560b178d58b3addaa0b35e519ab93b57547740"
+          },
+          "protected_unchanged": true,
+          "revision": {
+            "head": null,
+            "diff_sha256": null,
+            "status_sha256": null
+          },
+          "blocked_reason": null,
+          "result_path": ".claude/acceptance/offline-pair-root-1-1.json",
+          "result_digest": "81639890ededb12fc060d1150217238f7ea82cfb4c6800c15bfdae2b4deec468"
+        },
+        "review": null
+      },
+      "allowance_usd": 11.96,
+      "intent_digest": "bc406073ac73c3dfdfc6e946a12de08d32b57efd5f6e79aba3420e9926e708f8",
+      "artefact_snapshot": {
+        "files": [
+          {
+            "path": ".claude/task-executor-v2/offline-pair-root/artefacts/offline-pair-root-1-1/payment.py",
+            "sha256": "b72c0bd477788dee94e4a728e5463be07e5f79d191533e182bd0e003ac2d82be",
+            "size": 1005
+          },
+          {
+            "path": ".claude/task-executor-v2/offline-pair-root/artefacts/offline-pair-root-1-1/report.json",
+            "sha256": "3c422dbb299bcf1d1809189ffd35cd0194cea891d4d8fc1968d273b2a40826e8",
+            "size": 887
+          }
+        ],
+        "missing": [],
+        "digest": "67a16bfeb86fc20514ce9b333724a4e1b4d2e0578bed51e590f4c107f2685876"
+      }
+    }
+  ],
+  "journal": [
+    {
+      "sequence": 1,
+      "previous_digest": null,
+      "kind": "root_admitted",
+      "at": "2026-09-28T05:31:49.750710+00:00",
+      "data": {
+        "authority_id": "offline-pair-grant",
+        "definition_digest": "2e6038b8cdfd56130973a9f649942b6a65b735213fa117e1b01398f07145b28b"
+      },
+      "digest": "e57b6836a29d51fe57fdea7de54eae6773dd33c0c0b095f6d609a52561ed7415"
+    },
+    {
+      "sequence": 2,
+      "previous_digest": "e57b6836a29d51fe57fdea7de54eae6773dd33c0c0b095f6d609a52561ed7415",
+      "kind": "transition",
+      "at": "2026-09-28T05:31:49.750710+00:00",
+      "data": {
+        "source": "prepared",
+        "target": "ready",
+        "reason": ""
+      },
+      "digest": "2517d6ea218b448a62ecbc52176d1d108fd578684e30b6a96a97520348fd0f18"
+    },
+    {
+      "sequence": 3,
+      "previous_digest": "2517d6ea218b448a62ecbc52176d1d108fd578684e30b6a96a97520348fd0f18",
+      "kind": "public_assessment_admitted",
+      "at": "2026-09-28T05:31:49.830158+00:00",
+      "data": {
+        "invocation_id": "public-assessment-528c0861098c8750420e5a08",
+        "packet_sha256": "0010c7f2fb2335bb755db55fae548d18a765fa6c5407c54613cadd46cf370813"
+      },
+      "digest": "f5720065f337023ca0f56ca83e4093b2e9f9054f3063b60af0deaf514416455f"
+    },
+    {
+      "sequence": 4,
+      "previous_digest": "f5720065f337023ca0f56ca83e4093b2e9f9054f3063b60af0deaf514416455f",
+      "kind": "public_assessment_started",
+      "at": "2026-09-28T05:31:49.877538+00:00",
+      "data": {
+        "invocation_id": "public-assessment-528c0861098c8750420e5a08"
+      },
+      "digest": "481e52999fe09e03f062875da50a05364911d45f88b12a2b28100994b182c827"
+    },
+    {
+      "sequence": 5,
+      "previous_digest": "481e52999fe09e03f062875da50a05364911d45f88b12a2b28100994b182c827",
+      "kind": "public_assessment_settled",
+      "at": "2026-09-28T05:31:49.942004+00:00",
+      "data": {
+        "invocation_id": "public-assessment-528c0861098c8750420e5a08",
+        "assessment_digest": "9e548d9a92a128713f10e2a6be5c89f5e3b2b01a1d0933c0a2e702ffcf5471f0",
+        "cost_usd": 0.04
+      },
+      "digest": "34d53c3888bca527964ffbc55eb3089032c387af4a07b6f7c749378aabea46fb"
+    },
+    {
+      "sequence": 6,
+      "previous_digest": "34d53c3888bca527964ffbc55eb3089032c387af4a07b6f7c749378aabea46fb",
+      "kind": "routing_decision_frozen",
+      "at": "2026-09-28T05:31:49.984658+00:00",
+      "data": {
+        "decision_id": "rtd-f2215446f42b4e11148952b9",
+        "effective_action": "worker",
+        "control_revision": 0,
+        "profile_policy": "controller-profile-v1",
+        "profile_source": "automatic-retained"
+      },
+      "digest": "1be4e5803f3b1cafd74d337b99d1c079f530905982836e74e3a7cc30f4f22fd3"
+    },
+    {
+      "sequence": 7,
+      "previous_digest": "1be4e5803f3b1cafd74d337b99d1c079f530905982836e74e3a7cc30f4f22fd3",
+      "kind": "decision",
+      "at": "2026-09-28T05:31:50.031490+00:00",
+      "data": {
+        "decision": {
+          "revision_id": "528c0861098c8750420e5a0871561ce1fabb07e46dc10d035cb9b281df49786e",
+          "sequence": 1,
+          "policy": "B0",
+          "cell": "worker-sonnet-low",
+          "cell_resolution": {
+            "name": "worker-sonnet-low",
+            "model": "sonnet",
+            "effort": "low",
+            "cli_model": "claude-sonnet-5",
+            "expected_provider_model": "claude-sonnet-5",
+            "availability": {
+              "status": "observed",
+              "evidence": "test/results/2026-09-17-live-calibration-adjudication.json"
+            },
+            "identity": {
+              "status": "observed",
+              "observed_provider_ids": [
+                "claude-sonnet-5"
+              ]
+            },
+            "pricing": {
+              "status": "unknown",
+              "as_of": null,
+              "input_per_million_usd": null,
+              "output_per_million_usd": null
+            },
+            "context_limit_tokens": 1000000,
+            "output_limit_tokens": null,
+            "direct_worker": true,
+            "controller_roles": [
+              "controller",
+              "framer",
+              "verifier",
+              "generator",
+              "critic",
+              "selector",
+              "librarian"
+            ],
+            "qualification": {
+              "status": "offline-wiring",
+              "evidence": "test/harness/model_registry_tests.py",
+              "live_quality": "unqualified"
+            }
+          },
+          "generation": 1
+        },
+        "decision_digest": "48c55040a1744a6ef827c4b24304fc567696ab9434a1132722de76fca8d37842"
+      },
+      "digest": "d3047e685acef36edb2d4b826f43984dcdb4454eb295c7350eee2c0ea9da1bb3"
+    },
+    {
+      "sequence": 8,
+      "previous_digest": "d3047e685acef36edb2d4b826f43984dcdb4454eb295c7350eee2c0ea9da1bb3",
+      "kind": "reservation_intent",
+      "at": "2026-09-28T05:31:50.031490+00:00",
+      "data": {
+        "invocation_id": "8c44daccd87b203298be1ec200dbf23b"
+      },
+      "digest": "659341bd76613bcfb4d080dc8f4e5fba936ce4fffb504b8d2eed702a5193b8b1"
+    },
+    {
+      "sequence": 9,
+      "previous_digest": "659341bd76613bcfb4d080dc8f4e5fba936ce4fffb504b8d2eed702a5193b8b1",
+      "kind": "reserved",
+      "at": "2026-09-28T05:31:50.047560+00:00",
+      "data": {
+        "invocation_id": "8c44daccd87b203298be1ec200dbf23b",
+        "allowance_usd": 11.96
+      },
+      "digest": "7d1867019297c4c9f0ee3c178f39f9201fa7b3fa1cfb521ec55fe9972f498ee2"
+    },
+    {
+      "sequence": 10,
+      "previous_digest": "7d1867019297c4c9f0ee3c178f39f9201fa7b3fa1cfb521ec55fe9972f498ee2",
+      "kind": "transition",
+      "at": "2026-09-28T05:31:50.047560+00:00",
+      "data": {
+        "source": "ready",
+        "target": "admitted",
+        "reason": ""
+      },
+      "digest": "0aaa259ff2d64c08e192bc7685bb3c4a38e5b11f679553f98166352326825dc1"
+    },
+    {
+      "sequence": 11,
+      "previous_digest": "0aaa259ff2d64c08e192bc7685bb3c4a38e5b11f679553f98166352326825dc1",
+      "kind": "host_intent",
+      "at": "2026-09-28T05:31:50.079690+00:00",
+      "data": {
+        "intent": {
+          "invocation_id": "8c44daccd87b203298be1ec200dbf23b",
+          "revision_id": "528c0861098c8750420e5a0871561ce1fabb07e46dc10d035cb9b281df49786e",
+          "decision_digest": "48c55040a1744a6ef827c4b24304fc567696ab9434a1132722de76fca8d37842",
+          "admission_token": "fa566e2dcfde27bc0022c7723a7c40a0fb7df1f8954b5420",
+          "owner_generation": 1
+        }
+      },
+      "digest": "23ef2d200e99be632281c57837b3c898a7e1eac8f4e4f2ec29e618c8036b4ed3"
+    },
+    {
+      "sequence": 12,
+      "previous_digest": "23ef2d200e99be632281c57837b3c898a7e1eac8f4e4f2ec29e618c8036b4ed3",
+      "kind": "transition",
+      "at": "2026-09-28T05:31:50.079690+00:00",
+      "data": {
+        "source": "admitted",
+        "target": "running",
+        "reason": ""
+      },
+      "digest": "69ceb065827f2e8014050db5f4a419d3bff08f0a54fa9842b8ec329991048818"
+    },
+    {
+      "sequence": 13,
+      "previous_digest": "69ceb065827f2e8014050db5f4a419d3bff08f0a54fa9842b8ec329991048818",
+      "kind": "receipt",
+      "at": "2026-09-28T05:31:50.130795+00:00",
+      "data": {
+        "invocation_id": "8c44daccd87b203298be1ec200dbf23b",
+        "receipt_digest": "f2fc0e17d65ad0ffc9cd2338d0f454f51d94ec1d93bda3d4fe5b65afbc04cc2d"
+      },
+      "digest": "628d46d8b39f58986dc3e947607110e1f973fe6ad1269790d387213b67a0841b"
+    },
+    {
+      "sequence": 14,
+      "previous_digest": "628d46d8b39f58986dc3e947607110e1f973fe6ad1269790d387213b67a0841b",
+      "kind": "settled",
+      "at": "2026-09-28T05:31:50.157634+00:00",
+      "data": {
+        "invocation_id": "8c44daccd87b203298be1ec200dbf23b"
+      },
+      "digest": "e8fcd54fb2104164429f200e2fe574a9606283e2e9de13abf6b9d4f8ef64ccf4"
+    },
+    {
+      "sequence": 15,
+      "previous_digest": "e8fcd54fb2104164429f200e2fe574a9606283e2e9de13abf6b9d4f8ef64ccf4",
+      "kind": "transition",
+      "at": "2026-09-28T05:31:50.158630+00:00",
+      "data": {
+        "source": "running",
+        "target": "verifying",
+        "reason": ""
+      },
+      "digest": "2d9357e0ab6bc7a504f9ffdf6f1360af4e04dfeb25b48b4a7e4da9a47733d400"
+    },
+    {
+      "sequence": 16,
+      "previous_digest": "2d9357e0ab6bc7a504f9ffdf6f1360af4e04dfeb25b48b4a7e4da9a47733d400",
+      "kind": "verified",
+      "at": "2026-09-28T05:31:51.121002+00:00",
+      "data": {
+        "entry_id": "offline-pair-root-1-1",
+        "status": "pass"
+      },
+      "digest": "dc65a7df545714aa57cf265e632fa798c3468885851cadc60486a28ab6ed10fe"
+    },
+    {
+      "sequence": 17,
+      "previous_digest": "dc65a7df545714aa57cf265e632fa798c3468885851cadc60486a28ab6ed10fe",
+      "kind": "transition",
+      "at": "2026-09-28T05:31:51.122004+00:00",
+      "data": {
+        "source": "verifying",
+        "target": "accepted",
+        "reason": ""
+      },
+      "digest": "4d1ed8a84913b4531625fb85a018b14ac1af4a3c39b62af60b5e5edc31847606"
+    }
+  ],
+  "owner_generation": 1,
+  "decision_generation": 1,
+  "block": null,
+  "created_at": "2026-09-28T05:31:49.750710+00:00",
+  "public_assessment": {
+    "version": 1,
+    "revision_id": "528c0861098c8750420e5a0871561ce1fabb07e46dc10d035cb9b281df49786e",
+    "invocation_id": "public-assessment-528c0861098c8750420e5a08",
+    "packet_sha256": "0010c7f2fb2335bb755db55fae548d18a765fa6c5407c54613cadd46cf370813",
+    "status": "settled",
+    "result": {
+      "schema_version": 1,
+      "packet_sha256": "0010c7f2fb2335bb755db55fae548d18a765fa6c5407c54613cadd46cf370813",
+      "interpretation_sha256": "9e59b54b9dc7b3ed0e6fba32b05ae8d7ff6fdee27f9a5cdade1dff785d13821d",
+      "worker": {
+        "schema_version": 1,
+        "policy": "worker-shadow-v1",
+        "facts": {
+          "failure_cause": "none",
+          "complexity": "complex",
+          "task_kind": "implementation",
+          "frame_confidence": "clear",
+          "verification": "executable",
+          "context_tokens": 1000,
+          "deadline_seconds": null,
+          "prior_local_repairs": 0,
+          "required_artefacts": [
+            "payment.py",
+            "report.json"
+          ],
+          "evidence": [
+            {
+              "source": "repository",
+              "reference": "issue.md:1:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+              "claim": "# Ambiguous payment retry"
+            },
+            {
+              "source": "repository",
+              "reference": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+              "claim": "assert completed.returncode == 0, completed.stderr"
+            }
+          ]
+        },
+        "evidence_cohort": "5083959f074f694e7a212ebb46e032d7710344b47f34a5619e2c3bfe808899a1",
+        "assessment_digest": "91275be36350d2a57799d8e282a34a4e475938c6d01cc9c5ec7b0556a2bee1e3"
+      },
+      "rigour": {
+        "assessment_version": 1,
+        "task_revision": "c600ff99fe61e14c4b1bd79e610bdd9b893a3a5a81f8fa054785d97c8b6f1b1e",
+        "premise_uncertainty": "specific-checkable",
+        "consequence": "consequential",
+        "required_output": "patch",
+        "evidence_availability": "available",
+        "alternatives": "several-material",
+        "observed_failure_cause": "none",
+        "verification_gap": "incomplete-checks",
+        "constraint_coupling": "cross-module",
+        "deadline": null,
+        "authorised_task_budget_usd": 11.96,
+        "evidence": [
+          {
+            "id": "e1",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "issue.md:1:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+            "claim": "# Ambiguous payment retry",
+            "material": true
+          },
+          {
+            "id": "e2",
+            "provenance": "model-inference",
+            "observed_at": "2026-09-28T00:00:00Z",
+            "scope": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+            "claim": "assert completed.returncode == 0, completed.stderr",
+            "material": false
+          }
+        ]
+      },
+      "telemetry": {
+        "provider_calls": 1,
+        "model": "claude-sonnet-5",
+        "cost_usd": 0.04,
+        "input_tokens": 100,
+        "output_tokens": 20
+      },
+      "assessment_sha256": "4064852b8e49c5ab732e5856ef22f982b4ef6dc8f32ff5df1c04f8b2228aadd7"
+    },
+    "result_digest": "9e548d9a92a128713f10e2a6be5c89f5e3b2b01a1d0933c0a2e702ffcf5471f0"
+  },
+  "routing_decision": {
+    "version": 2,
+    "decision": {
+      "decision_version": 1,
+      "task_revision": "c600ff99fe61e14c4b1bd79e610bdd9b893a3a5a81f8fa054785d97c8b6f1b1e",
+      "policy_id": "rigour-auto-v1",
+      "assessment_digest": "3d0a4a12ebebcfa34e4ad071b94d37e74caca7a13d66abee10fd3b1f7a0d8945",
+      "recommended_action": "controller",
+      "effective_action": "worker",
+      "selected_cell": "worker-sonnet-low",
+      "controller_profile": "standard",
+      "override_mode": "off",
+      "override_scope": "explicit",
+      "override_revision": 0,
+      "reason_codes": [
+        "consequential_unresolved_material_alternatives",
+        "operator_excluded_controller"
+      ],
+      "evidence_ids": [
+        "e1",
+        "e2"
+      ],
+      "qualification_status": "provisional",
+      "cost_range": {
+        "currency": "USD",
+        "minimum": 1.983,
+        "expected": 2.623,
+        "maximum": 2.923,
+        "allowance_cap": 4.0
+      },
+      "remaining_budget": 11.96,
+      "next_checkpoint": "worker-visible-acceptance",
+      "public_pass_observed": false,
+      "required_rigour_check_complete": false,
+      "decision_id": "rtd-f2215446f42b4e11148952b9"
+    },
+    "decision_digest": "c08052a88affba84d93074f11c70b1781c4117aa4017cb2fd60eefbfa41c841c",
+    "control": {
+      "mode": "off",
+      "source": "explicit",
+      "state_revision": 0,
+      "task_revision": "c600ff99fe61e14c4b1bd79e610bdd9b893a3a5a81f8fa054785d97c8b6f1b1e",
+      "session_id": null
+    },
+    "profile_selection": {
+      "schema_version": 1,
+      "policy_id": "controller-profile-v1",
+      "profile": "standard",
+      "registry_status": "retained-prior",
+      "source": "automatic-retained",
+      "remaining_usd_at_selection": 11.96,
+      "controller_allowance_usd": 4.0,
+      "follow_on_floor_usd": 3.5,
+      "experimental_admission": false,
+      "qualification_claim": "retained-prior-only"
+    }
+  },
+  "record_digest": "9e7c2b294b89e28150e6030127644a01c4a83749ef736a38ab67fd45b596762a"
+}

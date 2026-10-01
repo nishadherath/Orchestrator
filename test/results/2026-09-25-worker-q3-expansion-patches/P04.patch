@@ -1,0 +1,55 @@
+--- a/urllib3/connectionpool.py
++++ b/urllib3/connectionpool.py
+@@ -582,9 +582,9 @@
+             host = _normalize_host(host, scheme=scheme)
+ 
+         # Use explicit default port for comparison when none is given
+-        if self.port and not port:
++        if self.port is not None and port is None:
+             port = port_by_scheme.get(scheme)
+-        elif not self.port and port == port_by_scheme.get(scheme):
++        elif self.port is None and port == port_by_scheme.get(scheme):
+             port = None
+ 
+         return (scheme, host, port) == (self.scheme, self.host, self.port)
+@@ -1139,7 +1139,8 @@
+     """
+     scheme, _, host, port, *_ = parse_url(url)
+     scheme = scheme or "http"
+-    port = port or port_by_scheme.get(scheme, 80)
++    if port is None:
++        port = port_by_scheme.get(scheme, 80)
+     if scheme == "https":
+         return HTTPSConnectionPool(host, port=port, **kw)  # type: ignore[arg-type]
+     else:
+--- a/urllib3/poolmanager.py
++++ b/urllib3/poolmanager.py
+@@ -309,7 +309,7 @@
+ 
+         request_context = self._merge_pool_kwargs(pool_kwargs)
+         request_context["scheme"] = scheme or "http"
+-        if not port:
++        if port is None:
+             port = port_by_scheme.get(request_context["scheme"].lower(), 80)
+         request_context["port"] = port
+         request_context["host"] = host
+@@ -596,7 +596,7 @@
+             if proxy_ssl_context is None:
+                 proxy_ssl_context = connection_pool_kw.get("ssl_context")
+ 
+-        if not proxy.port:
++        if proxy.port is None:
+             port = port_by_scheme.get(proxy.scheme, 80)
+             proxy = proxy._replace(port=port)
+ 
+--- a/urllib3/util/url.py
++++ b/urllib3/util/url.py
+@@ -156,7 +156,7 @@
+         """
+         if self.host is None:
+             return None
+-        if self.port:
++        if self.port is not None:
+             return f"{self.host}:{self.port}"
+         return self.host
+ 

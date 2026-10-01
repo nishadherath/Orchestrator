@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The run is bounded at USD 4.00 in quick mode.",
+  "class": "policy",
+  "source": "ProblemRecord prob-001 fields budget_usd and mode.",
+  "confidence": 0.9,
+  "cheapest_verification": "Read prob-001 budget_usd and mode fields; both are explicit.",
+  "load_bearing": true,
+  "supersedes": null
+}

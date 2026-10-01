@@ -1,0 +1,5 @@
+{
+  "manifest_sha256": "01acedc8859bfffd2cf5e6f044af389ae2bbbd727733ec6788c38f58c267bcd4",
+  "sha256": "3b7ba70362e2bdc051f3c6c02688565247ad6758dbde3f7da0620d83d1fd8870",
+  "summary": "--- before/auth_gateway.py\n+++ accepted/auth_gateway.py\n@@ -3,5 +3,5 @@\n import jwt\n \n-from tenant_keys import KEYS_BY_KID\n+from tenant_keys import TENANT_KEYS\n \n \n@@ -12,5 +12,5 @@\n     \"\"\"Return verified claims for the tenant selected by the request route.\"\"\"\n     kid = jwt.get_unverified_header(token)[\"kid\"]\n-    key = KEYS_BY_KID[kid]\n+    key = TENANT_KEYS[expected_tenant][kid]\n     claims = jwt.decode(token, key, algorithms=[\"HS256\"], audience=AUDIENCE)\n     if claims.get(\"tenant\") != expected_tenant:\n--- before/tenant_keys.py\n+++ accepted/tenant_keys.py\n@@ -11,5 +11,2 @@\n              \"shared\": BLUE_SHARED},\n }\n-\n-# Legacy lookup retained from the gateway's single-issuer deployment.\n-KEYS_BY_KID = {\"shared\": RED_SHARED, \"blue-old\": BLUE_OLD}\n"
+}

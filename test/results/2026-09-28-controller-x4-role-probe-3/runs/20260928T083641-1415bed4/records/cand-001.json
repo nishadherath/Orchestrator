@@ -1,0 +1,17 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "frame-001"
+  ],
+  "technique": "b0",
+  "premise_operation": "none",
+  "mechanism": "Take the statement at face value and answer it directly. Accept the three named explanations as the candidate set: writer failure, premature acknowledgement, and idempotency suppression of a legitimate retry. For each, state the check that would separate it from the others using only evidence the fixture could plausibly hold: writer-side error and outcome logging correlated to job id, the ordering of acknowledgement and write-commit timestamps, and idempotency-key hit records against retry attempts. Propose one reversible containment step, typically deferring acknowledgement until the receipt write is confirmed, or quarantining affected job ids for replay, with its reversal being restoration of the prior acknowledgement point. State the implementation direction, most likely making acknowledgement and receipt write atomic or making the receipt the acknowledgement's precondition, and mark it conditional on the check that identifies the cause. Report the result as an investigation brief with no check claimed as run and no production change authorised.",
+  "claimed_gain_vs_b0": "Baseline; no claimed gain over itself.",
+  "premises_introduced": [],
+  "falsification_test": "The brief fails if two of its checks return the same outcome under two different causes, or if any candidate cause has no check that distinguishes it from the others.",
+  "cost_estimate_usd": 0.35,
+  "refines": null
+}

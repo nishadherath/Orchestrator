@@ -1,0 +1,32 @@
+{
+  "type": "PhaseDigest",
+  "phase": "verify",
+  "text": "7 measurement(s); ledger v2, stable=True.",
+  "records_written": [
+    "frame-002",
+    "prem-013",
+    "prem-014",
+    "meas-001",
+    "meas-002",
+    "meas-003",
+    "meas-004",
+    "meas-005",
+    "meas-006",
+    "meas-007"
+  ],
+  "trimmed": [],
+  "ledger_version": 2,
+  "references": [
+    "frame-002",
+    "prem-013",
+    "prem-014",
+    "meas-001",
+    "meas-002",
+    "meas-003",
+    "meas-004",
+    "meas-005",
+    "meas-006",
+    "meas-007"
+  ],
+  "id": "dig-003"
+}

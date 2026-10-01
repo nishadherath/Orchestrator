@@ -1,0 +1,25 @@
+{
+  "type": "CandidateRecord",
+  "id": "cand-003",
+  "ledger_version": 2,
+  "references": [
+    "prem-005",
+    "prem-008",
+    "prem-002",
+    "prem-003",
+    "prem-006"
+  ],
+  "technique": "abduce",
+  "premise_operation": "add",
+  "mechanism": "Observation: among class-unverified premises, confidence clusters at two distinct levels. Premises anchored to a direct quote from the statement (prem-002 0.85, prem-003 0.8, prem-006 0.7) sit at 0.7-0.85. Premises that are inferences required to make the brief tractable but stated as 'not stated in the problem' (prem-005, the closed-world assumption, and prem-008, the assumption that discriminating evidence exists) both sit at exactly 0.5. The ledger records these numbers but never states a rule generating them, so nothing explains why two independently-authored inferential premises land on the identical value 0.5 while quote-anchored premises spread across a range. Inferred premise: confidence in this ledger encodes textual-anchoring strength (quoted-in-source versus inference-required) rather than a calibrated real-world probability, with 0.5 the default ceiling for load-bearing inferences the source text does not state. If true, the brief must not read prem-005's 0.5 as 'we estimate 50% real-world odds of a fourth cause' and must flag both figures as anchoring artefacts, not risk estimates, wherever acceptance criteria require naming load-bearing unverified premises.",
+  "claimed_gain_vs_b0": "B0 would use prem-005's 0.5 confidence as-is; this flags it as a textual-anchoring artefact rather than a calibrated risk figure, changing how the brief must phrase the closed-world caveat.",
+  "premises_introduced": [
+    {
+      "text": "Confidence values for unverified premises in this ledger measure quote-versus-inference anchoring strength, not calibrated real-world probability; inference-required premises default to 0.5.",
+      "class": "unverified"
+    }
+  ],
+  "falsification_test": "List every class-unverified premise's source field, mark it quoted or inferred, and check whether quoted ones are all >=0.7 and inferred ones are all ==0.5; one counterexample refutes.",
+  "cost_estimate_usd": 0.05,
+  "refines": null
+}

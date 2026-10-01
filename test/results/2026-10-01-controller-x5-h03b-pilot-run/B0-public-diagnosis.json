@@ -1,0 +1,76 @@
+{
+  "calls": [
+    [
+      "frame",
+      "framer"
+    ],
+    [
+      "frame",
+      "framer"
+    ],
+    [
+      "verify",
+      "verifier"
+    ],
+    [
+      "verify",
+      "verifier"
+    ]
+  ],
+  "committed_record_count": 12,
+  "exception": "AssertionError: selftest script exhausted for (phase='verify', role='verifier')",
+  "frames": [
+    {
+      "acceptance_criteria": [
+        "fix the duplicate",
+        "check every related path"
+      ],
+      "b0_candidate_id": "cand-001",
+      "dissolution_reason": "n/a",
+      "dissolution_verdict": "stands",
+      "goal_ladder": [
+        "one account per person"
+      ],
+      "id": "frame-001",
+      "ledger_version": 1,
+      "metric_interrogation": "n/a",
+      "premise_count": 2,
+      "problem_type": "constraint-with-checkable-justification",
+      "references": [
+        "prob-001",
+        "prem-001",
+        "prem-002",
+        "cand-001"
+      ],
+      "stable": false,
+      "type": "FrameRecord"
+    },
+    {
+      "acceptance_criteria": [
+        "fix the duplicate"
+      ],
+      "b0_candidate_id": "cand-001",
+      "dissolution_reason": "n/a",
+      "dissolution_verdict": "stands",
+      "goal_ladder": [
+        "one account per person"
+      ],
+      "id": "frame-002",
+      "ledger_version": 1,
+      "metric_interrogation": "n/a",
+      "premise_count": 2,
+      "problem_type": "constraint-with-checkable-justification",
+      "references": [
+        "prob-001",
+        "prem-001",
+        "prem-002",
+        "cand-001"
+      ],
+      "stable": false,
+      "type": "FrameRecord"
+    }
+  ],
+  "provider_calls": 0,
+  "public_stdout": "",
+  "source_sha256": "7cdf8cdbad8123b2864f7d02bb3b4dd1cf0bd16b3067cc56bc5849426c9fd9a6"
+}

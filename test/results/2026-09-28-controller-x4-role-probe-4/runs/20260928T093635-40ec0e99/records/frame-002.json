@@ -1,0 +1,37 @@
+{
+  "type": "FrameRecord",
+  "id": "frame-002",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "frame-001",
+    "meas-001",
+    "meas-002",
+    "meas-003",
+    "meas-004",
+    "meas-005",
+    "meas-006",
+    "meas-007"
+  ],
+  "goal_ladder": [
+    "Immediate: decide which of the competing explanations produced an acknowledgement with no receipt, using checks that separate them rather than confirm one.",
+    "Intermediate: contain further loss reversibly while the cause is still open, without destroying the evidence the checks need.",
+    "Higher: make the acknowledgement and the receipt write agree, so an acknowledgement implies a durable receipt.",
+    "Top: keep the fixture's job-completion record trustworthy enough that downstream consumers can rely on it."
+  ],
+  "metric_interrogation": "Structure unchanged, one branch now settled by measurement. The implicit metric, the count of acknowledged jobs with no matching receipt, is still mechanism-blind, read-time sensitive, and able to read zero while the defect persists. Version 1 said any per-mechanism metric needs a job key present on both the acknowledgement path and the receipt store, and that if no shared key exists the base metric is not computable and that fact is itself the first finding. That branch is now the live one: meas-002 to meas-005 and meas-007 found no service code, no queue or receipt data, no logs and no schema anywhere in the fixture, only problem.md. No metric over this fixture is computable at all. Every check in the brief must therefore be written as an instruction to whoever holds the real system, naming the artefact it needs and the outcome pattern that discriminates, and must flag that the artefact's existence is itself unverified. The measurable content of this run is confined to the prose statement.",
+  "problem_type": "causal discrimination among competing explanations with no inspectable artefact",
+  "dissolution_verdict": "stands",
+  "dissolution_reason": "Still stands, and for a sharper reason. Nothing was falsified: meas-001 and meas-006 support the fixture-scoping and notes-insufficiency premises, and the five remaining checks returned inconclusive only because no artefact exists to inspect. Inconclusive is not refutation, so the stated divergence between the two stores remains a real undetermined question. The measurements narrow the deliverable rather than dissolve the problem: the output is an investigation design over artefacts assumed to exist, not a diagnosis.",
+  "acceptance_criteria": [
+    "Each of the three competing explanations has at least one check that names an observable artefact and states the outcome pattern that confirms it while disconfirming the other two.",
+    "Exactly one containment step is proposed, with its reversal stated and its effect on the pending diagnosis noted, including any evidence it would destroy.",
+    "The implementation direction is stated conditionally, naming the specific check result that would authorise it.",
+    "No check is described as having been run; every result is prospective.",
+    "Only the supplied statement is used; no system detail, tool, log name or metric is asserted as existing without being flagged as an assumption.",
+    "Load-bearing unverified premises are named, including the assumption that the cause lies among the three listed explanations."
+  ],
+  "b0_candidate_id": "cand-001",
+  "premise_count": 12,
+  "stable": true
+}

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "A synthetic service acknowledges jobs from a queue and writes receipts to a separate store, so acknowledgement and receipt persistence are distinct operations against distinct systems.",
+  "class": "verified",
+  "source": "Problem statement, first sentence; the separation is definitional to the fixture.",
+  "confidence": 0.95,
+  "cheapest_verification": "Re-read the statement; the two stores are named separately.",
+  "load_bearing": true,
+  "supersedes": null
+}

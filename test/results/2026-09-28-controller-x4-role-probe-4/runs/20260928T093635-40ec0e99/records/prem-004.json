@@ -1,0 +1,16 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-004",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-002"
+  ],
+  "text": "Without an atomic commit, outbox or equivalent protocol spanning both stores, an acknowledgement can durably succeed while the receipt write does not, so acknowledgement-without-receipt is possible by construction.",
+  "class": "law",
+  "source": "Distributed systems: independent stores give no cross-store atomicity absent an explicit protocol.",
+  "confidence": 0.9,
+  "cheapest_verification": "Check the completion path for a transaction, outbox table or two-phase protocol covering both the acknowledgement and the receipt write.",
+  "load_bearing": true,
+  "supersedes": null
+}

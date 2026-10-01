@@ -1,0 +1,80 @@
+{
+  "allowance_usd": 0.5,
+  "budget": {
+    "available_usd": 11.9569878,
+    "baseline_limit_units": 12000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-27T21:04:27.617290+00:00",
+    "currency": "USD",
+    "invocations": {
+      "public-assessment-6239ccc9af5ed887b1520fdc": {
+        "allowance_units": 500000000,
+        "charged_units": 43012200,
+        "cost_usd": 0.0430122,
+        "metadata": {
+          "allocation": "public-assessment",
+          "packet_sha256": "e15c124544694d160950ff2b98c080a4526508471e46f2718d397b9d11bde217",
+          "revision_id": "6239ccc9af5ed887b1520fdcec121c598d648877c55a111bea856572988bfe73"
+        },
+        "reserved_at": "2026-09-27T21:04:41.139882+00:00",
+        "resolution": {
+          "cost_usd": 0.0430122,
+          "evidence": "public-assessment:e15c124544694d160950ff2b98c080a4526508471e46f2718d397b9d11bde217",
+          "final": true,
+          "telemetry": {
+            "cost_usd": 0.0430122,
+            "input_tokens": 6,
+            "model": "claude-sonnet-5",
+            "output_tokens": 1641,
+            "provider_calls": 1
+          }
+        },
+        "started_at": "2026-09-27T21:04:41.166324+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cost_usd": 0.0430122,
+          "input_tokens": 6,
+          "model": "claude-sonnet-5",
+          "output_tokens": 1641,
+          "provider_calls": 1
+        },
+        "updated_at": "2026-09-27T21:05:02.592005+00:00"
+      }
+    },
+    "limit_units": 12000000000,
+    "limit_usd": 12.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.0430122,
+    "unresolved": [],
+    "version": 1
+  },
+  "citation_count": 11,
+  "classifications": {
+    "alternatives": "one-established",
+    "consequence": "consequential",
+    "constraint_coupling": "local",
+    "evidence_availability": "available",
+    "observed_failure_cause": "implementation",
+    "premise_uncertainty": "none",
+    "required_output": "patch",
+    "verification_gap": "incomplete-checks"
+  },
+  "finished_at": "2026-09-27T21:05:02.681790+00:00",
+  "fixture": "C03-D1",
+  "outcome": "assessed",
+  "prompt_sha256": "6b891a1b800dad50d807415f1dcdd081fea24fc40119708457a90275a92bdc56",
+  "public_assessment_status": "settled",
+  "root_id": "offline-pair-root",
+  "root_state": "ready",
+  "schema_version": 1,
+  "started_at": "2026-09-27T21:04:27.721824+00:00",
+  "telemetry": {
+    "cost_usd": 0.0430122,
+    "input_tokens": 6,
+    "model": "claude-sonnet-5",
+    "output_tokens": 1641,
+    "provider_calls": 1
+  }
+}

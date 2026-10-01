@@ -1,0 +1,15 @@
+{
+  "active_writer_pids": [],
+  "auth_session_present": false,
+  "case": "H02",
+  "invocation_id": "e9d9708b893c79590a77ff3e22537b6c",
+  "manifest_sha256": "cd86e0d93890b8465b3048de50d4658106547e197b96ae29a6f823272e3f119d",
+  "provider_call_observed": false,
+  "reproduced_prelaunch_failure": "isolated Graft build EFBIG under 1 MB RLIMIT_FSIZE",
+  "root_id": "f1192b5708e3d0da8b85d359",
+  "schema_version": 1,
+  "settled_api_equivalent_usd": 0.0,
+  "stage_manifest_present": true,
+  "start_receipt_present": false,
+  "stop_receipt_present": false
+}

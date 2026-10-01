@@ -1,0 +1,11 @@
+{
+  "type": "GapReport",
+  "best_candidate_id": null,
+  "unmet_criteria": [],
+  "unverified_load_bearing": [],
+  "next_cheapest_test": "Frame: expected exactly one record, got 0 (after Scribe validation and retry); see this run's rejections.jsonl for what was rejected and why",
+  "termination": "no_improvement",
+  "ledger_version": 0,
+  "references": [],
+  "id": "gap-001"
+}

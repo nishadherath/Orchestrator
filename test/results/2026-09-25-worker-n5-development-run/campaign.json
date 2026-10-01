@@ -1,0 +1,995 @@
+{
+  "inflight": null,
+  "manifest_sha256": "cd88664ef034fc982e27fc99386ca140e32127f78ab65d6982d91232555ddc09",
+  "next_sequence": 37,
+  "rows": [
+    {
+      "actor_app_sha256": "d4dee62a473759c0d1064636cc5dfd52cf9d36a0ab699f6a57906223df28b068",
+      "arm": "B0",
+      "attempts": 3,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "d4dee62a473759c0d1064636cc5dfd52cf9d36a0ab699f6a57906223df28b068",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "e199ae1bf45734e3bc15945f77bc9aa06f73e8f9762d21c1386da08aa4fe148a",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "root_record_digest": "c3e3225170cb546b5d08a18dce5bffcf0f834347e63260837104247f7a0aeda5",
+      "root_state": "accepted",
+      "sequence": 1,
+      "spent_usd": 0.206048601,
+      "task_id": "D01"
+    },
+    {
+      "actor_app_sha256": "f733a7ca458afc0c40998668f24a8de9a19d1aa57b86a0df50c79469c45b90ef",
+      "arm": "candidate",
+      "attempts": 2,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "f733a7ca458afc0c40998668f24a8de9a19d1aa57b86a0df50c79469c45b90ef",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "e199ae1bf45734e3bc15945f77bc9aa06f73e8f9762d21c1386da08aa4fe148a",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "b5c5f45536d0560b20c3091db50777d0cecec05710027f6962d018680373a11a",
+      "root_state": "accepted",
+      "sequence": 2,
+      "spent_usd": 0.0556636,
+      "task_id": "D01"
+    },
+    {
+      "actor_app_sha256": "0d45531ec12f4b4d2a8830f659bb85d7f34ad498c717c6467faa0d37ca0bbee8",
+      "arm": "alternative",
+      "attempts": 2,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "0d45531ec12f4b4d2a8830f659bb85d7f34ad498c717c6467faa0d37ca0bbee8",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "e199ae1bf45734e3bc15945f77bc9aa06f73e8f9762d21c1386da08aa4fe148a",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium"
+      ],
+      "root_record_digest": "9308402f964f6e2c1fdfe82157abdf65e775dbdd7de961805861e3cbaba68fc7",
+      "root_state": "accepted",
+      "sequence": 3,
+      "spent_usd": 0.0984122,
+      "task_id": "D01"
+    },
+    {
+      "actor_app_sha256": "c2c9adbe2cb3918a30cfdaf89372ccf2cb7d5990cf1d20383d24163b80cef8fd",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "c2c9adbe2cb3918a30cfdaf89372ccf2cb7d5990cf1d20383d24163b80cef8fd",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "f09cbec794083fd1d51a09dc5875e62db73e6176df442efb2e96b0e27ba48d98",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "16b87c7fc9bea947b840d5fa4e1f6b061db70cda639f17254a78851a49f89ca4",
+      "root_state": "accepted",
+      "sequence": 4,
+      "spent_usd": 0.0233474,
+      "task_id": "D02"
+    },
+    {
+      "actor_app_sha256": "1025d581e7fdb7531e50518919a522c1a42fa9b61e06071e2997260513f1972a",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "1025d581e7fdb7531e50518919a522c1a42fa9b61e06071e2997260513f1972a",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "f09cbec794083fd1d51a09dc5875e62db73e6176df442efb2e96b0e27ba48d98",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-medium"
+      ],
+      "root_record_digest": "405cef3b18ae76b34f036444dff5d069c13b2cd5ee161a6bc3f792c33871fb8a",
+      "root_state": "accepted",
+      "sequence": 5,
+      "spent_usd": 0.0331216,
+      "task_id": "D02"
+    },
+    {
+      "actor_app_sha256": "b6596a7395fa24411585bd15bd6bcbd59c520393a54fcbcbed5a9e5d14436969",
+      "arm": "B0",
+      "attempts": 3,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "b6596a7395fa24411585bd15bd6bcbd59c520393a54fcbcbed5a9e5d14436969",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "f09cbec794083fd1d51a09dc5875e62db73e6176df442efb2e96b0e27ba48d98",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "root_record_digest": "3f7eaf99fa55d0e14b93c57bcee647f38c3b9082af6ff71fc167a434f8ba09c8",
+      "root_state": "accepted",
+      "sequence": 6,
+      "spent_usd": 0.202071301,
+      "task_id": "D02"
+    },
+    {
+      "actor_app_sha256": "d0d79692078e7bc64b7adcb4659315ab2e2c6213bccbf963b55ab5d504beb857",
+      "arm": "alternative",
+      "attempts": 3,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "d0d79692078e7bc64b7adcb4659315ab2e2c6213bccbf963b55ab5d504beb857",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "872bbfd79fa62ffd5b39071e92a3ea856a398f71fffbade51ea5cc5518157a24",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium",
+        "worker-opus-high"
+      ],
+      "root_record_digest": "b3635907fe0b3201d3ce183a75326d19fd3b35c736872d76d8790fb8eb831c5c",
+      "root_state": "accepted",
+      "sequence": 7,
+      "spent_usd": 0.1813618,
+      "task_id": "D03"
+    },
+    {
+      "actor_app_sha256": "3c8dbc72d167d2f122b95f57fab2761cab910c3b0aa377814390e46b1ef58bab",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": false,
+        "actor_app_sha256": "3c8dbc72d167d2f122b95f57fab2761cab910c3b0aa377814390e46b1ef58bab",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": true,
+        "milestones": [
+          "case-1",
+          "case-2"
+        ],
+        "oracle_sha256": "872bbfd79fa62ffd5b39071e92a3ea856a398f71fffbade51ea5cc5518157a24",
+        "quality": 66.67
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "b33e62b6ed81b9f0d23e6865d7fa7d084ed9ab99b371c9dfde4c106ff6251416",
+      "root_state": "accepted",
+      "sequence": 8,
+      "spent_usd": 0.0213898,
+      "task_id": "D03"
+    },
+    {
+      "actor_app_sha256": "b9051ae707695049e1faa24327540f86d57eaa207e2f162892866a571cf833eb",
+      "arm": "candidate",
+      "attempts": 3,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "b9051ae707695049e1faa24327540f86d57eaa207e2f162892866a571cf833eb",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "872bbfd79fa62ffd5b39071e92a3ea856a398f71fffbade51ea5cc5518157a24",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "root_record_digest": "5269ecdf02e5d302545520344abee94f0c585bf85b2580fb2cbfb9737881cdcc",
+      "root_state": "accepted",
+      "sequence": 9,
+      "spent_usd": 0.1503268,
+      "task_id": "D03"
+    },
+    {
+      "actor_app_sha256": "a49b5593a53791f355305e4a2b798674e90e7f4fc5a1b531504f49480b807cee",
+      "arm": "B0",
+      "attempts": 3,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "a49b5593a53791f355305e4a2b798674e90e7f4fc5a1b531504f49480b807cee",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "9b5a008174ee229adb26bcba0950b19b9a437466a6fe724234abe22950c3d515",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low",
+        "worker-opus-high"
+      ],
+      "root_record_digest": "fa20b0baad314de927fd51f586e35a581177830b60f120ad485227822926c6c0",
+      "root_state": "accepted",
+      "sequence": 10,
+      "spent_usd": 0.2039278,
+      "task_id": "D04"
+    },
+    {
+      "actor_app_sha256": "2edf8b5036d1c414d3c43d97a2b017c0d3fcca84d00483e99139e506eec4c1a0",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "2edf8b5036d1c414d3c43d97a2b017c0d3fcca84d00483e99139e506eec4c1a0",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "9b5a008174ee229adb26bcba0950b19b9a437466a6fe724234abe22950c3d515",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "471e46665721a2249ee91b645c70b689db59b5505d751423476449e0ca89e8ff",
+      "root_state": "accepted",
+      "sequence": 11,
+      "spent_usd": 0.021706801,
+      "task_id": "D04"
+    },
+    {
+      "actor_app_sha256": "78ecb8d166cc66199bca97815bb256405b62cc0ed00edf604bd265a6358ac31f",
+      "arm": "alternative",
+      "attempts": 2,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "78ecb8d166cc66199bca97815bb256405b62cc0ed00edf604bd265a6358ac31f",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "9b5a008174ee229adb26bcba0950b19b9a437466a6fe724234abe22950c3d515",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-medium",
+        "worker-sonnet-medium"
+      ],
+      "root_record_digest": "6a44a9d8a3e6501443810b13c86b38876219f9af71cdc89c589463c0d6c2bef6",
+      "root_state": "accepted",
+      "sequence": 12,
+      "spent_usd": 0.055763601,
+      "task_id": "D04"
+    },
+    {
+      "actor_app_sha256": "69907585f85ebeeab3e150eeea7967e5f2298d88164895a49319829c3fdd40bf",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "69907585f85ebeeab3e150eeea7967e5f2298d88164895a49319829c3fdd40bf",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "1c52fa7ea949d94fad16f7f0554926564feb0044f9fe16436c9e2cd91177c0b9",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-high"
+      ],
+      "root_record_digest": "ca2d352a57574b3fa8c294c9529d3fe6196a17d3a88dded5350e0e634738eefd",
+      "root_state": "accepted",
+      "sequence": 13,
+      "spent_usd": 0.0670126,
+      "task_id": "D05"
+    },
+    {
+      "actor_app_sha256": "3e4dc69f809beb828e0b5ef7ce046b186b36da03696bd8eeafaf2e0df6a49935",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "3e4dc69f809beb828e0b5ef7ce046b186b36da03696bd8eeafaf2e0df6a49935",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "1c52fa7ea949d94fad16f7f0554926564feb0044f9fe16436c9e2cd91177c0b9",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-xhigh"
+      ],
+      "root_record_digest": "c6c41ab72c7cad4509837e210335e7839e89afec91af149a4ea220f243bf6cc9",
+      "root_state": "accepted",
+      "sequence": 14,
+      "spent_usd": 0.073477401,
+      "task_id": "D05"
+    },
+    {
+      "actor_app_sha256": "e8626c5158e8396124fe6d28c8c5bc5ef8fd6031e2730045be217e10b20a88af",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "e8626c5158e8396124fe6d28c8c5bc5ef8fd6031e2730045be217e10b20a88af",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "1c52fa7ea949d94fad16f7f0554926564feb0044f9fe16436c9e2cd91177c0b9",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "98b49084520162b6f0726920f8fcfb9ddb7400faaaccb6a569df874c0e37a53d",
+      "root_state": "accepted",
+      "sequence": 15,
+      "spent_usd": 0.0267106,
+      "task_id": "D05"
+    },
+    {
+      "actor_app_sha256": "1fdea5724be73b4041a27bed0b521ec2445e660505ec4cf409ea82635ee399c2",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "1fdea5724be73b4041a27bed0b521ec2445e660505ec4cf409ea82635ee399c2",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "106451aaa215fbaf5dfae0832a9a7b08fc986969c7c7d0eddbbb293022ac516e",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-xhigh"
+      ],
+      "root_record_digest": "897c7569190a5418cba14c0e212f98fc5d0b1edf733b291b158beeaaf5bea0d9",
+      "root_state": "accepted",
+      "sequence": 16,
+      "spent_usd": 0.0402878,
+      "task_id": "D06"
+    },
+    {
+      "actor_app_sha256": "f4fb43601b95e26c045586b75760c26c0714acb362cd99f5f07639c151b76883",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "f4fb43601b95e26c045586b75760c26c0714acb362cd99f5f07639c151b76883",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "106451aaa215fbaf5dfae0832a9a7b08fc986969c7c7d0eddbbb293022ac516e",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "cbd0252e368bfd584636b8a59c5be7cd930544462cd8ab8ff2484ce11e41bb12",
+      "root_state": "accepted",
+      "sequence": 17,
+      "spent_usd": 0.032831401,
+      "task_id": "D06"
+    },
+    {
+      "actor_app_sha256": "f4fb43601b95e26c045586b75760c26c0714acb362cd99f5f07639c151b76883",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "f4fb43601b95e26c045586b75760c26c0714acb362cd99f5f07639c151b76883",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "106451aaa215fbaf5dfae0832a9a7b08fc986969c7c7d0eddbbb293022ac516e",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-high"
+      ],
+      "root_record_digest": "eba14caf0f294f3cdf59f0b58cc1373375d1ee9f9d169ac79f6f3acd7681002d",
+      "root_state": "accepted",
+      "sequence": 18,
+      "spent_usd": 0.0509884,
+      "task_id": "D06"
+    },
+    {
+      "actor_app_sha256": "a73f7dbbce754fcd70364be0cff63e11d34bba750da760aeee6fe4f2fe1afe4b",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "a73f7dbbce754fcd70364be0cff63e11d34bba750da760aeee6fe4f2fe1afe4b",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "cd086b5f373bd44c0600c5a578bdbc0bc9ca69623b7b26121747274157cb142e",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "435abf3ed4a9feffddc144c2387144e31c9e2f47c955fdad478b6f0e39e47d0a",
+      "root_state": "accepted",
+      "sequence": 19,
+      "spent_usd": 0.0403154,
+      "task_id": "D07"
+    },
+    {
+      "actor_app_sha256": "d78584a5762a1c0c83c0c025a33da5a44fd9fc7d4943b85a907d8fa133b70c0e",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "d78584a5762a1c0c83c0c025a33da5a44fd9fc7d4943b85a907d8fa133b70c0e",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "cd086b5f373bd44c0600c5a578bdbc0bc9ca69623b7b26121747274157cb142e",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-high"
+      ],
+      "root_record_digest": "f3c90fa4f24e22f365abfbaed76d48db12af8db4af2b1a64d39a0080ee138ed3",
+      "root_state": "accepted",
+      "sequence": 20,
+      "spent_usd": 0.039041401,
+      "task_id": "D07"
+    },
+    {
+      "actor_app_sha256": "5332850b30a4a9224db1d0831abd9b8b23684829db77a2bea67c71dc0e480135",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "5332850b30a4a9224db1d0831abd9b8b23684829db77a2bea67c71dc0e480135",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "cd086b5f373bd44c0600c5a578bdbc0bc9ca69623b7b26121747274157cb142e",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-xhigh"
+      ],
+      "root_record_digest": "b7e02feea9f0f465a20a5f923d9e3e94b657ff93ed46d5541f00ceff2140f775",
+      "root_state": "accepted",
+      "sequence": 21,
+      "spent_usd": 0.0472136,
+      "task_id": "D07"
+    },
+    {
+      "actor_app_sha256": "e2b0bf44ec927e11cfa67b990f6a884a843092a249d9431398daed866fefd45c",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "e2b0bf44ec927e11cfa67b990f6a884a843092a249d9431398daed866fefd45c",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "f3164f9540fffbc1ec31c9b93625b7f90b9af08647286a9ab22fceee5372e7e3",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-high"
+      ],
+      "root_record_digest": "36fff8538aecb913c54724cf7ab5cecdc7fd8bfdaed448309995d5f34965d54a",
+      "root_state": "accepted",
+      "sequence": 22,
+      "spent_usd": 0.0587,
+      "task_id": "D08"
+    },
+    {
+      "actor_app_sha256": "29f39eceed811c508d1689717835d768a11514642267bda459cd55a146b0b22d",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "29f39eceed811c508d1689717835d768a11514642267bda459cd55a146b0b22d",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "f3164f9540fffbc1ec31c9b93625b7f90b9af08647286a9ab22fceee5372e7e3",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-xhigh"
+      ],
+      "root_record_digest": "be9dc91e3e17e3069dd722dd088fc676557027969a696adbc189507cefa6fd74",
+      "root_state": "accepted",
+      "sequence": 23,
+      "spent_usd": 0.0698816,
+      "task_id": "D08"
+    },
+    {
+      "actor_app_sha256": "6790b49e25cebea083ec81bb16d19ae97c1872e6877bf3ee3e11ecdfcf85f84a",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "6790b49e25cebea083ec81bb16d19ae97c1872e6877bf3ee3e11ecdfcf85f84a",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "f3164f9540fffbc1ec31c9b93625b7f90b9af08647286a9ab22fceee5372e7e3",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "0048977678ab154191533f5f70537681188205109f8513abb9e85d6cb1001c36",
+      "root_state": "accepted",
+      "sequence": 24,
+      "spent_usd": 0.0426136,
+      "task_id": "D08"
+    },
+    {
+      "actor_app_sha256": "daecb466f178abee34e9045f744ed25fdaa54b3377029009aef9a8338166e96e",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "daecb466f178abee34e9045f744ed25fdaa54b3377029009aef9a8338166e96e",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "2dd8aee554be2fc4e8f73a855dce57ffc71ed57fa12afca53e9349d4f8dcdba0",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-fable-high"
+      ],
+      "root_record_digest": "8251df8177d31596be757c07ffcc6e0aff985cc8df5ea994d9e042e1ef4dd099",
+      "root_state": "accepted",
+      "sequence": 25,
+      "spent_usd": 0.30660725,
+      "task_id": "D09"
+    },
+    {
+      "actor_app_sha256": "e1b4eecd16e5c71b14be5995f96afc0a9dd0e8e046a34e152567c91231a908bb",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "e1b4eecd16e5c71b14be5995f96afc0a9dd0e8e046a34e152567c91231a908bb",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "2dd8aee554be2fc4e8f73a855dce57ffc71ed57fa12afca53e9349d4f8dcdba0",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "ca6c26b6142ce40fc3af9b347506896c86e6809e1291da9a70c9c5078ce0c903",
+      "root_state": "accepted",
+      "sequence": 26,
+      "spent_usd": 0.037934801,
+      "task_id": "D09"
+    },
+    {
+      "actor_app_sha256": "1c27c2244a4d0bac2c9485bf4d629558010d1920b8d279aa78a3c46bb5745598",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "1c27c2244a4d0bac2c9485bf4d629558010d1920b8d279aa78a3c46bb5745598",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "2dd8aee554be2fc4e8f73a855dce57ffc71ed57fa12afca53e9349d4f8dcdba0",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-opus-high"
+      ],
+      "root_record_digest": "bf7c063b1bc1323613b21e489f46bb161fffdbf8a50e490763808c1fb7532f7f",
+      "root_state": "accepted",
+      "sequence": 27,
+      "spent_usd": 0.08049,
+      "task_id": "D09"
+    },
+    {
+      "actor_app_sha256": "bc8d9c70aecb53f12ce7e3a1413755bb521d42f1aeec36140ff41831dbc45b69",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "bc8d9c70aecb53f12ce7e3a1413755bb521d42f1aeec36140ff41831dbc45b69",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "e1b588b8510d35ab9785cecccfd4632fe1f657c0261cf9bb8f9028cf3a0cc84b",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "b93700393f09a0241d8676fe3eafe283b28666753009030c4167e3b9bb4f2e9a",
+      "root_state": "accepted",
+      "sequence": 28,
+      "spent_usd": 0.037870601,
+      "task_id": "D10"
+    },
+    {
+      "actor_app_sha256": "faab2db956f8fe14ff270b728f0d5986314dca0307d924aa8492374b3277dfb0",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "faab2db956f8fe14ff270b728f0d5986314dca0307d924aa8492374b3277dfb0",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "e1b588b8510d35ab9785cecccfd4632fe1f657c0261cf9bb8f9028cf3a0cc84b",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-opus-high"
+      ],
+      "root_record_digest": "1e4e71e48b0f30d4b1fca8f9e343c9fba2993756f50093ab68ae5e2b12b9879b",
+      "root_state": "accepted",
+      "sequence": 29,
+      "spent_usd": 0.1132575,
+      "task_id": "D10"
+    },
+    {
+      "actor_app_sha256": "bfcf931646d5fe1e5a3596564f14c5915bf8227cfb534ef41582ab435b8ff7f9",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "bfcf931646d5fe1e5a3596564f14c5915bf8227cfb534ef41582ab435b8ff7f9",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "e1b588b8510d35ab9785cecccfd4632fe1f657c0261cf9bb8f9028cf3a0cc84b",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-fable-high"
+      ],
+      "root_record_digest": "f911b830a90208de04c9df6c5d0951cfcc444419d0df283e9763cf9cfd3d3523",
+      "root_state": "accepted",
+      "sequence": 30,
+      "spent_usd": 0.1958315,
+      "task_id": "D10"
+    },
+    {
+      "actor_app_sha256": "fe7b718aa457b4ee6886a952b7608119ec8757bb4f46329a1a609b86f4fa28b0",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "fe7b718aa457b4ee6886a952b7608119ec8757bb4f46329a1a609b86f4fa28b0",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "4a854ef484d1d6265d8f9a38d390bc7ac62d7d564f3d3fd4128c92d5af8e2e0d",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-opus-high"
+      ],
+      "root_record_digest": "ff01990f81f8fbb51fb1b6be96d1ed1374a19092208996d107008eb697d181f8",
+      "root_state": "accepted",
+      "sequence": 31,
+      "spent_usd": 0.1172305,
+      "task_id": "D11"
+    },
+    {
+      "actor_app_sha256": "5db8819cd9357b650dcc2f314afe387708a3377551ae574f516beb172f410fbf",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "5db8819cd9357b650dcc2f314afe387708a3377551ae574f516beb172f410fbf",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "4a854ef484d1d6265d8f9a38d390bc7ac62d7d564f3d3fd4128c92d5af8e2e0d",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-fable-high"
+      ],
+      "root_record_digest": "3281e99bf73abd36452a0caaf00017f4e37f502baeab310a54c1010c8b7472cc",
+      "root_state": "accepted",
+      "sequence": 32,
+      "spent_usd": 0.202626,
+      "task_id": "D11"
+    },
+    {
+      "actor_app_sha256": "a7ab379d87a3dec271b5d5849c60c52346d4ad71e281c2c54fe13710eba618fe",
+      "arm": "B0",
+      "attempts": 2,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "a7ab379d87a3dec271b5d5849c60c52346d4ad71e281c2c54fe13710eba618fe",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "4a854ef484d1d6265d8f9a38d390bc7ac62d7d564f3d3fd4128c92d5af8e2e0d",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low",
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "fd39f2c73ec5b471f5f1610fa01910374221c143856dfef5a3f469bddb887917",
+      "root_state": "accepted",
+      "sequence": 33,
+      "spent_usd": 0.089384,
+      "task_id": "D11"
+    },
+    {
+      "actor_app_sha256": "de1329d7c61ae708a16e27dabf6dde14965663e2fcc79a16343e3bc3542db3a4",
+      "arm": "alternative",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "de1329d7c61ae708a16e27dabf6dde14965663e2fcc79a16343e3bc3542db3a4",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "26cb41e46b441b3ea8bff67086685bb2eb669be16b5f6676bca059def224b3ad",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-fable-high"
+      ],
+      "root_record_digest": "5e8f91bcbd33221f6bebb99279e18ff84608f49abbab98acc8687e9ab2b87216",
+      "root_state": "accepted",
+      "sequence": 34,
+      "spent_usd": 0.159338251,
+      "task_id": "D12"
+    },
+    {
+      "actor_app_sha256": "474fcb9491d1cf3c03532a65ca99b9f55aa4ad968ea0cab61054372de19b4ed2",
+      "arm": "B0",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "474fcb9491d1cf3c03532a65ca99b9f55aa4ad968ea0cab61054372de19b4ed2",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "26cb41e46b441b3ea8bff67086685bb2eb669be16b5f6676bca059def224b3ad",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-sonnet-low"
+      ],
+      "root_record_digest": "f27dc8cc394f1e6b031d802f6b312fd66a1ff5199daf5036d6bb73650f288565",
+      "root_state": "accepted",
+      "sequence": 35,
+      "spent_usd": 0.0330944,
+      "task_id": "D12"
+    },
+    {
+      "actor_app_sha256": "d600e1e392ed128b48dbda4d13fda657379efd9a277a4e9bb2fbc70955b296f1",
+      "arm": "candidate",
+      "attempts": 1,
+      "grade": {
+        "acceptance": true,
+        "actor_app_sha256": "d600e1e392ed128b48dbda4d13fda657379efd9a277a4e9bb2fbc70955b296f1",
+        "case_count": 3,
+        "critical_error": false,
+        "false_success": false,
+        "milestones": [
+          "case-1",
+          "case-2",
+          "case-3"
+        ],
+        "oracle_sha256": "26cb41e46b441b3ea8bff67086685bb2eb669be16b5f6676bca059def224b3ad",
+        "quality": 100.0
+      },
+      "requested_cells": [
+        "worker-opus-high"
+      ],
+      "root_record_digest": "80206e6b23ce547bcb89bf11b6249c8d72f5fdd98632c1470ea7ffbd62987164",
+      "root_state": "accepted",
+      "sequence": 36,
+      "spent_usd": 0.1458905,
+      "task_id": "D12"
+    }
+  ],
+  "schema_version": 1,
+  "state_sha256": "358fb59d2d1d7197170e095b589c019b32ec262020f9a0615399e249651e9102",
+  "status": "complete"
+}

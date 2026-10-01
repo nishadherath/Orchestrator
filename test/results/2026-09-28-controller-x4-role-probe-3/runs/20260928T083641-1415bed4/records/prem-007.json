@@ -1,0 +1,16 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-007",
+  "ledger_version": 1,
+  "references": [
+    "prob-001",
+    "prem-002"
+  ],
+  "text": "An acknowledgement without a durable receipt is treated as a defect, which presumes an unstated invariant that acknowledgement implies receipt durability.",
+  "class": "habit",
+  "source": "Inferred from framing the absence as something to diagnose; the statement never states the invariant.",
+  "confidence": 0.6,
+  "cheapest_verification": "Find a written contract, test or assertion in the fixture asserting ack implies receipt; absent one, the invariant is assumed.",
+  "load_bearing": true,
+  "supersedes": null
+}

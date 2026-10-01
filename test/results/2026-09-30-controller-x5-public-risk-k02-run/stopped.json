@@ -1,0 +1,17 @@
+{
+  "S_and_A_provider_calls": 0,
+  "manifest_sha256": "43dfaabcb4b3d7a6a04f4308f71827cf591ef029050886760e56801b322c1090",
+  "producer_reported_api_equivalent_usd": 0.086191601,
+  "producer_root_id": "8e716495f3b42546b4979f2c",
+  "protected_oracle_executed": false,
+  "public_next_check": {
+    "after_debit_retry_one_debit": true,
+    "distinct_ids_independent": true,
+    "evidence_script": "test/results/2026-09-30-controller-x5-public-risk-k02-next-check.py",
+    "same_id_stable_receipt": true
+  },
+  "reason": "accepted public source and predeclared public next check close the duplicate-debit premise",
+  "replay_allowed": false,
+  "risk_digest": "8c501d6ce33f9bbc3cdd838e559419de7e49265ffc82955b1e7983a53c5d15e2",
+  "schema_version": 1
+}

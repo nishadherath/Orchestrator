@@ -1,0 +1,13 @@
+{
+  "episode_label": "b0-a",
+  "files": {
+    "attr/_compat.py": "4a210c94e51481d5d28acfee2a4197d8ce3ebc3872e5f14f1ff014a216b04c01",
+    "attr/_make.py": "85b7ec12420f80b975951912f0423ee7d794717982ee7b5d0b29f54e274cdcf3",
+    "attr/_next_gen.py": "d542369643752f3d9f95c5cc0304f082badcc648c3a61800926126ac499ca2e4",
+    "attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34"
+  },
+  "schema_version": 1,
+  "sequence": 8,
+  "snapshot_sha256": "241c26572d223aea9084da66f28efcb3602a71606f359e5b923dcb01adc08152",
+  "task_id": "S01"
+}

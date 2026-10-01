@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-013",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-005",
+    "meas-003"
+  ],
+  "text": "Treating the three mechanisms as exhaustive and mutually exclusive is unwarranted. A fourth mechanism, such as a receipt deleted after a successful write or a stale read at check time, is constructible and not excluded, so a residual outcome must stay admissible.",
+  "class": "verified",
+  "source": "meas-003: the statement contains no exclusionary or completeness language; the habit was falsified rather than confirmed.",
+  "confidence": 0.85,
+  "cheapest_verification": "Already run as meas-003; construct one further mechanism and test the statement for text excluding it.",
+  "load_bearing": true,
+  "supersedes": "prem-005"
+}

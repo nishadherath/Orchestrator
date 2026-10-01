@@ -1,0 +1,12 @@
+{
+  "episode_label": "sonnet-xhigh",
+  "files": {
+    "urllib3/connectionpool.py": "305cacb1662f9219d9665b567667c7cb09c9b9c61fa18ea0c12350df2802fb1c",
+    "urllib3/poolmanager.py": "e38d72b5fbbefb953a3f613638708028037b66223bac0ecdbe1d5ad0e5765cca",
+    "urllib3/util/url.py": "a91c84efaca37c8a792c1a016af9ea7db9ea6f25f289dab89b504f5e31d12313"
+  },
+  "schema_version": 1,
+  "sequence": 6,
+  "snapshot_sha256": "a161c9279ba8723a85658eb0a033c70f186c247522396b130de986b035174802",
+  "task_id": "P04"
+}

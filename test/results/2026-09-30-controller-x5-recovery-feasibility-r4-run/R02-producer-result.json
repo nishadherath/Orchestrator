@@ -1,0 +1,123 @@
+{
+  "attempt_count": 1,
+  "budget": {
+    "available_usd": 4.8820994,
+    "baseline_limit_units": 5000000000,
+    "breached": false,
+    "cancelled": false,
+    "created_at": "2026-09-29T15:43:56.278573+00:00",
+    "currency": "USD",
+    "invocations": {
+      "f339effe8092d6fa35d278d96421fa66": {
+        "allowance_units": 5000000000,
+        "charged_units": 117900600,
+        "cost_usd": 0.1179006,
+        "metadata": {
+          "decision_digest": "fb1b1555d6aabe1ca950122f98412f7c3c8d9b6562c241d96cc11bc96123f688",
+          "revision_id": "c04cc1aeaaa91ed5bfee8ca43a129ca2353757569219b96e243352f6033e37d2",
+          "root_id": "872f47a723e6665f714be028"
+        },
+        "reserved_at": "2026-09-29T15:49:29.445927+00:00",
+        "resolution": {
+          "cost_usd": 0.1179006,
+          "evidence": "receipt:36d6fe5e338606f5f9ef81d5a9c72f0b17015dd60ccf27570d6ef2df3c9a13ca",
+          "final": true,
+          "telemetry": {
+            "cache_creation_input_tokens": 17164,
+            "cache_read_input_tokens": 85433,
+            "cost_source": "provider_reported",
+            "cost_usd": 0.1179006,
+            "currency": "USD",
+            "input_tokens": 14,
+            "output_tokens": 3077
+          }
+        },
+        "started_at": "2026-09-29T15:49:29.457041+00:00",
+        "state": "settled",
+        "telemetry": {
+          "cache_creation_input_tokens": 17164,
+          "cache_read_input_tokens": 85433,
+          "cost_source": "provider_reported",
+          "cost_usd": 0.1179006,
+          "currency": "USD",
+          "input_tokens": 14,
+          "output_tokens": 3077
+        },
+        "updated_at": "2026-09-29T15:50:01.640007+00:00"
+      }
+    },
+    "limit_units": 5000000000,
+    "limit_usd": 5.0,
+    "reserved_usd": 0.0,
+    "scope": "task_dispatch",
+    "spent_usd": 0.1179006,
+    "unresolved": [],
+    "version": 1
+  },
+  "elapsed_s": 35.837,
+  "eligible": false,
+  "manifest_sha256": "12bcbc9ae48f016196867b46b298915dae7e29ea935c8e37a73f83ad59539b23",
+  "protected_grade_after_eligibility": {
+    "accepted": true,
+    "critical_violation": false,
+    "observed_milestones": [
+      {
+        "critical": true,
+        "name": "changed default replaces cached decision",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "same flag and user stay tenant-specific",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "kill overrides an enabled user",
+        "passed": true,
+        "weight": 20
+      },
+      {
+        "critical": true,
+        "name": "kill removal restores current override",
+        "passed": true,
+        "weight": 15
+      },
+      {
+        "critical": false,
+        "name": "negative override beats enabled default",
+        "passed": true,
+        "weight": 10
+      },
+      {
+        "critical": false,
+        "name": "unset flag is disabled",
+        "passed": true,
+        "weight": 5
+      },
+      {
+        "critical": false,
+        "name": "different flags do not share decisions",
+        "passed": true,
+        "weight": 10
+      }
+    ],
+    "oracle_read_denied": true,
+    "oracle_sha256": "4258f8cf6b5a46637c05ef390e3fcc595a8389641d0b4c27d7fd839d1a12367a",
+    "package_sha256": "7d0d99a23af1e7157768ee1c6a7ad2c7a23d506a96c4a6b1ffb03ec6661f2ab6",
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "public_check_passed": true,
+    "quality": 100,
+    "schema_version": 1,
+    "task_id": "R02"
+  },
+  "public_stop_reason": "no publicly observable unresolved work",
+  "qualified": true,
+  "root_id": "872f47a723e6665f714be028",
+  "snapshot": null,
+  "state": "accepted",
+  "task_id": "R02"
+}

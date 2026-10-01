@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-005",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "An idempotency check exists on the write path and is capable of suppressing a retry, since it is offered as a candidate cause.",
+  "class": "unverified",
+  "source": "Problem statement: an idempotency check suppressed a legitimate retry, offered as one explanation.",
+  "confidence": 0.7,
+  "cheapest_verification": "Locate the idempotency key derivation and the suppression branch in the fixture writer code.",
+  "load_bearing": true,
+  "supersedes": null
+}

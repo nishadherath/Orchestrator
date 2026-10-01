@@ -1,0 +1,17 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-011",
+  "ledger_version": 2,
+  "references": [
+    "prob-001",
+    "prem-002",
+    "meas-002"
+  ],
+  "text": "No concrete occurrence is available: the statement asserts only that a receipt can be absent after an acknowledgement. No job id, log excerpt or observation record exists, so the symptom is a stated possibility, not a measured event.",
+  "class": "verified",
+  "source": "meas-002: problem.md read in full and grepped for 'job'; only the generic phrase 'acknowledges jobs from a queue' matched, and no observation record is present.",
+  "confidence": 0.9,
+  "cheapest_verification": "Already done; any later claim of an observed instance requires a new artefact naming a job id with acknowledgement present and receipt absent.",
+  "load_bearing": true,
+  "supersedes": "prem-002"
+}

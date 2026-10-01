@@ -1,0 +1,15 @@
+{
+  "active_writer_pids": [],
+  "auth_session_present": false,
+  "case": "H02b",
+  "invocation_id": "6afb7533b0646c9c30b8c71cb8481160",
+  "manifest_sha256": "75eb7fe26ce4ee5d9cb123181317a85cb549006c881b79d9f4bdad88d04f317b",
+  "provider_call_observed": false,
+  "reproduced_prelaunch_failure": "Q4U launcher rejects USD 5 single-call allowance above USD 4 ceiling",
+  "root_id": "d7f201d528a9f05d15f59aa5",
+  "schema_version": 1,
+  "settled_api_equivalent_usd": 0.0,
+  "stage_manifest_present": true,
+  "start_receipt_present": false,
+  "stop_receipt_present": false
+}

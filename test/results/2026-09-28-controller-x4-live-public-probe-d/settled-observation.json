@@ -1,0 +1,83 @@
+{
+  "public_assessment_status": "settled",
+  "rigour": {
+    "alternatives": "one-established",
+    "consequence": "recoverable",
+    "constraint_coupling": "local",
+    "evidence_availability": "available",
+    "observed_failure_cause": "none",
+    "premise_uncertainty": "none",
+    "required_output": "patch",
+    "verification_gap": "incomplete-checks"
+  },
+  "root_state": "ready",
+  "source": "persisted N1 root; no provider call",
+  "spent_usd": 0.0387786,
+  "unresolved": [],
+  "worker": {
+    "complexity": "moderate",
+    "context_tokens": 1000,
+    "deadline_seconds": null,
+    "evidence": [
+      {
+        "claim": "\"\"\"Visible smoke check; it does not cover retries or tenant separation.\"\"\"",
+        "reference": "public_check.py:2:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+        "source": "repository"
+      },
+      {
+        "claim": "assert completed.returncode == 0, completed.stderr",
+        "reference": "public_check.py:12:bedfb77fa5755c85cb5f9c2049d8ff87a766363cd327c1ffb9a4fbb4d71b6095",
+        "source": "repository"
+      },
+      {
+        "claim": "The client can lose the response after a payment commits and retry with the",
+        "reference": "issue.md:3:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+        "source": "repository"
+      },
+      {
+        "claim": "same idempotency key. Repair `payment.py` so a committed retry returns the",
+        "reference": "issue.md:4:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+        "source": "repository"
+      },
+      {
+        "claim": "original result without charging again. A key reused with a different amount",
+        "reference": "issue.md:5:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+        "source": "repository"
+      },
+      {
+        "claim": "must be rejected, and keys belong to tenants. An attempt aborted before commit",
+        "reference": "issue.md:6:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+        "source": "repository"
+      },
+      {
+        "claim": "must remain retryable. Keep `app.py` and the public check unchanged.",
+        "reference": "issue.md:7:b77489c87cc2a93ae3210c9f0c6462d45b4779c66090d16e86c9d354fbccb602",
+        "source": "repository"
+      },
+      {
+        "claim": "\"\"\"Faulty baseline: every committed retry charges again.\"\"\"",
+        "reference": "payment.py:1:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+        "source": "repository"
+      },
+      {
+        "claim": "        if attempt[\"phase\"] == \"commit\":",
+        "reference": "payment.py:10:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+        "source": "repository"
+      },
+      {
+        "claim": "            balance += attempt[\"amount\"]",
+        "reference": "payment.py:11:368d79a168ec44cf9393a359515369298a82f3da3b143231d8647b3295d2ee8a",
+        "source": "repository"
+      }
+    ],
+    "failure_cause": "none",
+    "frame_confidence": "clear",
+    "prior_local_repairs": 0,
+    "required_artefacts": [
+      "payment.py",
+      "report.json"
+    ],
+    "task_kind": "implementation",
+    "verification": "executable"
+  }
+}

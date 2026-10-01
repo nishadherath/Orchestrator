@@ -1,0 +1,13 @@
+{
+  "episode_label": "opus-high",
+  "files": {
+    "platformdirs/_xdg.py": "d5d9d48e48f31a4a429b5ee9f47bc6df2bee7002d3f5f19f62bbda7d8883b226",
+    "platformdirs/api.py": "3e54b67dc412ee982ed72993e5bc782fe5df3938e7113717cd2001d9d1ce5ca0",
+    "platformdirs/macos.py": "a632f18ff58f158d141eccb0962dbd4a4ee5139923439812148a03626c8a3941",
+    "platformdirs/unix.py": "ec8945ba47f1990b453500485925179091c7338ec3089042d1352ef6659cf2c6"
+  },
+  "schema_version": 1,
+  "sequence": 4,
+  "snapshot_sha256": "37fde1050a97e714597fbd22ff87eed8f121f2d6ba55b5d47a2fa2a6773cc13d",
+  "task_id": "P08"
+}

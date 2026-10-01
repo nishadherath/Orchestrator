@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-009",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "Only the supplied statement may be used as evidence. No repository, external system, prior fixture or assumed implementation detail may be introduced as fact.",
+  "class": "policy",
+  "source": "Problem statement: 'Use only this statement.'",
+  "confidence": 0.95,
+  "cheapest_verification": "Re-read the statement and confirm the constraint's wording; it is an instruction, so it is true by issuance rather than by test.",
+  "load_bearing": true,
+  "supersedes": null
+}

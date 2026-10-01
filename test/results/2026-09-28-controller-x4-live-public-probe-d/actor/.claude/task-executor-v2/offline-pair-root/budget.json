@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 12000000000,
+  "baseline_limit_units": 12000000000,
+  "cancelled": false,
+  "created_at": "2026-09-27T20:52:59.983098+00:00",
+  "invocations": {
+    "public-assessment-f63526671f38090a6c03fafe": {
+      "state": "settled",
+      "allowance_units": 500000000,
+      "charged_units": 38778600,
+      "cost_usd": 0.038778599999999996,
+      "reserved_at": "2026-09-27T20:53:03.896529+00:00",
+      "metadata": {
+        "revision_id": "f63526671f38090a6c03fafefaa206e040311694289edf2bea09d4b08755045f",
+        "packet_sha256": "19d3643b0404b92c0b9523385d2e0e3165cd2d07af7fb879b34307252397795b",
+        "allocation": "public-assessment"
+      },
+      "telemetry": {
+        "provider_calls": 1,
+        "model": "claude-sonnet-5",
+        "cost_usd": 0.038778599999999996,
+        "input_tokens": 4,
+        "output_tokens": 972
+      },
+      "resolution": {
+        "cost_usd": 0.038778599999999996,
+        "final": true,
+        "evidence": "public-assessment:19d3643b0404b92c0b9523385d2e0e3165cd2d07af7fb879b34307252397795b",
+        "telemetry": {
+          "provider_calls": 1,
+          "model": "claude-sonnet-5",
+          "cost_usd": 0.038778599999999996,
+          "input_tokens": 4,
+          "output_tokens": 972
+        }
+      },
+      "started_at": "2026-09-27T20:53:03.922170+00:00",
+      "updated_at": "2026-09-27T20:53:16.911256+00:00"
+    }
+  }
+}

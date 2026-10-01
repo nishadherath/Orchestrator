@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-012",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The deliverable is an investigation brief with no production-change authority, and the implementation direction stays conditional until a check resolves the cause.",
+  "class": "policy",
+  "source": "Problem statement: conditional implementation direction; 'not an authorised production change'.",
+  "confidence": 0.95,
+  "cheapest_verification": "Confirm the implementation direction names the check result that would authorise it and is not written as a decided change.",
+  "load_bearing": true,
+  "supersedes": null
+}

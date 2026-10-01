@@ -1,0 +1,11 @@
+{
+  "episode_label": "sonnet-medium",
+  "files": {
+    "more_itertools/more.py": "42cad53881f8803601e2cb530218a8dd8daacf76a4600a9372c91ede4e903b73",
+    "more_itertools/recipes.py": "ea9ac19767d3949d72bd0fc24f51aff33f24a693201b5d8e595a0d58ef8f4b1c"
+  },
+  "schema_version": 1,
+  "sequence": 12,
+  "snapshot_sha256": "aaeb9c4ea1fa8d056a7181db876e2c1d95085f034430de3fdde45f1c946df1b5",
+  "task_id": "S05"
+}

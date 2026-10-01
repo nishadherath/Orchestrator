@@ -1,0 +1,92 @@
+{
+  "episodes": [
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-007-x5-pay-a",
+      "root_id": "66f69336dfbefdad1d29362a",
+      "sequence": 7,
+      "task_id": "X5-PAY"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-008-x5-pay-b",
+      "root_id": "cd057d084590548822772510",
+      "sequence": 8,
+      "task_id": "X5-PAY"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-009-x5-pay-s",
+      "root_id": "73878ecea327c967de4e7dbe",
+      "sequence": 9,
+      "task_id": "X5-PAY"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-010-x5-feat-b",
+      "root_id": "a192de4fd766ef83bf2a7384",
+      "sequence": 10,
+      "task_id": "X5-FEAT"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-011-x5-feat-s",
+      "root_id": "c0422e16626ff8a85348c1fc",
+      "sequence": 11,
+      "task_id": "X5-FEAT"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-012-x5-feat-a",
+      "root_id": "f8659e566325c127a1b91b04",
+      "sequence": 12,
+      "task_id": "X5-FEAT"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-013-n01-d1-s",
+      "root_id": "fac6a9946a8788a47a42c4c3",
+      "sequence": 13,
+      "task_id": "N01-D1"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-014-n01-d1-a",
+      "root_id": "dbb9b874d6f711149f4e2c47",
+      "sequence": 14,
+      "task_id": "N01-D1"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-015-n01-d1-b",
+      "root_id": "55d3ff247c500728b2490bca",
+      "sequence": 15,
+      "task_id": "N01-D1"
+    },
+    {
+      "arm": "A",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-016-c08-d2-a",
+      "root_id": "65008a76c5e85aab77b49107",
+      "sequence": 16,
+      "task_id": "C08-D2"
+    },
+    {
+      "arm": "B",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-017-c08-d2-b",
+      "root_id": "fe54e4ea85c2a59a77d66b40",
+      "sequence": 17,
+      "task_id": "C08-D2"
+    },
+    {
+      "arm": "S",
+      "project": "/var/lib/orchestrator-worker-n4/seed/x5-v7-pilot-ea3bc5f689d1-018-c08-d2-s",
+      "root_id": "a636509955ee1241157e7aca",
+      "sequence": 18,
+      "task_id": "C08-D2"
+    }
+  ],
+  "manifest_sha256": "ea3bc5f689d1b55c72137d5424e5e6d0672ef4b19e741a92207e5c8ad29ad8c7",
+  "provider_calls": 0,
+  "schema_version": 1,
+  "status": "prepared-no-provider-call"
+}

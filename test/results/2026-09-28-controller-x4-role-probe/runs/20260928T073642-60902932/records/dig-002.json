@@ -1,0 +1,14 @@
+{
+  "type": "PhaseDigest",
+  "phase": "close",
+  "text": "A role's output could not be used: Frame: expected exactly one record, got 0 (after Scribe validation and retry); see this run's rejections.jsonl for what was rejected and why. Stopping with a gap report.",
+  "records_written": [
+    "gap-001"
+  ],
+  "trimmed": [],
+  "ledger_version": 0,
+  "references": [
+    "gap-001"
+  ],
+  "id": "dig-002"
+}

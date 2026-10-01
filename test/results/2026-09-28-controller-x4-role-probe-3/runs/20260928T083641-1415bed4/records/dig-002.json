@@ -1,0 +1,36 @@
+{
+  "type": "PhaseDigest",
+  "phase": "frame",
+  "text": "Ledger v1: 10 premises, problem type 'Causal discrimination under incomplete observation in a distributed two-store fixture', dissolution 'stands'.",
+  "records_written": [
+    "frame-001",
+    "cand-001",
+    "prem-001",
+    "prem-002",
+    "prem-003",
+    "prem-004",
+    "prem-005",
+    "prem-006",
+    "prem-007",
+    "prem-008",
+    "prem-009",
+    "prem-010"
+  ],
+  "trimmed": [],
+  "ledger_version": 1,
+  "references": [
+    "frame-001",
+    "cand-001",
+    "prem-001",
+    "prem-002",
+    "prem-003",
+    "prem-004",
+    "prem-005",
+    "prem-006",
+    "prem-007",
+    "prem-008",
+    "prem-009",
+    "prem-010"
+  ],
+  "id": "dig-002"
+}

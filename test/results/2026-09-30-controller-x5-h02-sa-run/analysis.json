@@ -1,0 +1,40 @@
+{
+  "A": {
+    "candidate_sha256": "93391ebf5f190d32792fecc93d200979eb5ab0ec6e63372729300fcc73fedd84",
+    "controller_handoff_readiness": "provisional-guidance",
+    "controller_outcome": "gap",
+    "controller_role_calls": 2,
+    "controller_role_identity_valid": true,
+    "controller_safe_next_action": "Restore the frozen acceptance criteria before continuing.",
+    "cost_by_allocation_usd": {
+      "controller": 0.644317501,
+      "public-assessment": 0.037994,
+      "worker": 0.36729459999999997,
+      "worker-verification-hold": 0.0
+    },
+    "public_passed": false,
+    "qualification_failure": "controller_handoff_not_actionable",
+    "qualified": false,
+    "quality": 30,
+    "spent_usd": 1.049606101
+  },
+  "S": {
+    "candidate_sha256": "d48cdb80ef749ea3db0b3deed255f84a47456234b510ce88461a20813e29b1d4",
+    "public_passed": false,
+    "qualified": true,
+    "quality": 30,
+    "spent_usd": 0.406186401
+  },
+  "case_id": "H02",
+  "evidence_sha256": "56a3ede7aec20b2b4842290b7c84160052882b6a7b04b5bca0ed97ebf56ef89a",
+  "incremental_A_cost_usd": 0.6434197,
+  "interpretation": "A and S both failed public and protected completion; A's Controller stopped at a provisional gap and yielded no actionable repair handoff.",
+  "manifest_sha256": "c09983df46b2c38f5d746d7d5fb6f6bf71c3b94328f90db13d3ef9da9620a5f4",
+  "observed_quality_delta_A_minus_S": 0,
+  "origin": "authored development adaptation",
+  "pair_cost_usd": 1.455792502,
+  "primary_uplift_qualified": false,
+  "producer_cost_usd": 0.5318208,
+  "promotion_case": false,
+  "schema_version": 1
+}

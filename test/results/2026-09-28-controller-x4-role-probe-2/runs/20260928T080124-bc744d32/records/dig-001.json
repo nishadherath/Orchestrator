@@ -1,0 +1,14 @@
+{
+  "type": "PhaseDigest",
+  "phase": "intake",
+  "text": "Problem recorded verbatim; nothing judged yet.",
+  "records_written": [
+    "prob-001"
+  ],
+  "trimmed": [],
+  "ledger_version": 0,
+  "references": [
+    "prob-001"
+  ],
+  "id": "dig-001"
+}

@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "scope": "task_dispatch",
+  "limit_units": 12000000000,
+  "baseline_limit_units": 12000000000,
+  "cancelled": false,
+  "created_at": "2026-09-28T05:56:57.763566+00:00",
+  "invocations": {
+    "public-assessment-722ae5cdaafe597c2d53e6ce": {
+      "state": "settled",
+      "allowance_units": 500000000,
+      "charged_units": 40000000,
+      "cost_usd": 0.04,
+      "reserved_at": "2026-09-28T05:56:57.863752+00:00",
+      "metadata": {
+        "revision_id": "722ae5cdaafe597c2d53e6ce2e9c138ca06aa1ed43bb6f15168eb85efd923eed",
+        "packet_sha256": "0ecb9014c04ecb9fb442c5615311190a5ca02c2dceacd6220051c17f328b111b",
+        "allocation": "public-assessment"
+      },
+      "telemetry": {
+        "provider_calls": 1,
+        "model": "claude-sonnet-5",
+        "cost_usd": 0.04,
+        "input_tokens": 100,
+        "output_tokens": 20
+      },
+      "resolution": {
+        "cost_usd": 0.04,
+        "final": true,
+        "evidence": "public-assessment:0ecb9014c04ecb9fb442c5615311190a5ca02c2dceacd6220051c17f328b111b",
+        "telemetry": {
+          "provider_calls": 1,
+          "model": "claude-sonnet-5",
+          "cost_usd": 0.04,
+          "input_tokens": 100,
+          "output_tokens": 20
+        }
+      },
+      "started_at": "2026-09-28T05:56:57.883627+00:00",
+      "updated_at": "2026-09-28T05:56:57.910204+00:00"
+    },
+    "controller-follow-on-722ae5cdaafe597c2d53e6ce": {
+      "state": "settled",
+      "allowance_units": 3500000000,
+      "charged_units": 0,
+      "cost_usd": 0.0,
+      "reserved_at": "2026-09-28T05:56:58.070727+00:00",
+      "metadata": {
+        "revision_id": "722ae5cdaafe597c2d53e6ce2e9c138ca06aa1ed43bb6f15168eb85efd923eed",
+        "allocation": "worker-verification-hold"
+      },
+      "telemetry": {},
+      "resolution": {
+        "cost_usd": 0.0,
+        "final": true,
+        "evidence": "controller-validated-worker-handoff",
+        "telemetry": {}
+      },
+      "updated_at": "2026-09-28T05:56:58.452154+00:00"
+    },
+    "controller-722ae5cdaafe597c2d53e6ce": {
+      "state": "settled",
+      "allowance_units": 4000000000,
+      "charged_units": 200000000,
+      "cost_usd": 0.2,
+      "reserved_at": "2026-09-28T05:56:58.094978+00:00",
+      "metadata": {
+        "decision_id": "rtd-4ab2d70371af1b9de74ae6f9",
+        "revision_id": "722ae5cdaafe597c2d53e6ce2e9c138ca06aa1ed43bb6f15168eb85efd923eed",
+        "allocation": "controller"
+      },
+      "telemetry": {
+        "outcome": "solution",
+        "accounting_complete": true
+      },
+      "resolution": {
+        "cost_usd": 0.2,
+        "final": true,
+        "evidence": "controller-adapter-result",
+        "telemetry": {
+          "outcome": "solution",
+          "accounting_complete": true
+        }
+      },
+      "started_at": "2026-09-28T05:56:58.116588+00:00",
+      "updated_at": "2026-09-28T05:56:58.230654+00:00"
+    },
+    "c44445119266cbd93832c56d9f8cf9fc": {
+      "state": "settled",
+      "allowance_units": 11760000000,
+      "charged_units": 100000000,
+      "cost_usd": 0.1,
+      "reserved_at": "2026-09-28T05:56:58.576936+00:00",
+      "metadata": {
+        "root_id": "offline-pair-root",
+        "revision_id": "722ae5cdaafe597c2d53e6ce2e9c138ca06aa1ed43bb6f15168eb85efd923eed",
+        "decision_digest": "5c2efe429953eeddf6ea7a472b974d556ca6141a459116f01ce3bad3af143315"
+      },
+      "telemetry": {
+        "cost_usd": 0.1,
+        "cost_source": "synthetic-fixture",
+        "currency": "USD",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "resolution": {
+        "cost_usd": 0.1,
+        "final": true,
+        "evidence": "receipt:d22379d3186136567ed293050a715056a55ded1bebdd7aea7fab95fa7be063cf",
+        "telemetry": {
+          "cost_usd": 0.1,
+          "cost_source": "synthetic-fixture",
+          "currency": "USD",
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "started_at": "2026-09-28T05:56:58.617483+00:00",
+      "updated_at": "2026-09-28T05:56:58.727583+00:00"
+    }
+  }
+}

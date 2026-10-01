@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-011",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The containment step must be reversible, meaning it can be undone without residue while the cause is still undetermined.",
+  "class": "policy",
+  "source": "Problem statement: 'a reversible containment step'.",
+  "confidence": 0.9,
+  "cheapest_verification": "State the exact reversal for the proposed step and identify any evidence or state it would destroy irrecoverably.",
+  "load_bearing": true,
+  "supersedes": null
+}

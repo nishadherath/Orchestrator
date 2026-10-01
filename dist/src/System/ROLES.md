@@ -123,12 +123,19 @@ criteria, B0's id, premise count, stability), and exactly one
 exception to generators owning `CandidateRecords`, and the schema says
 so.
 
-**Contract.** Every statement in the problem becomes a premise with a
-class; nothing is carried as true because it was stated. A constraint
+**Contract.** Every materially independent claim in the problem is classified
+as a premise; related claims are merged without losing a constraint. Budget,
+output-format and role instructions are not causal premises. In quick mode,
+produce at most 12 concise `PremiseRecords`; if that cannot represent the
+material frame, report the compression limit rather than silently omitting a
+constraint. Emit the `FrameRecord` and B0 `CandidateRecord` before the
+premises so a bounded response contains the indispensable frame first.
+Nothing is carried as true because it was stated. A constraint
 with a stated reason is `unverified` until the reason is checked, and its
 cheapest verification names the check. Acceptance criteria are fixed at
-the first freeze and not revised after candidates exist. At most 40
-premises; merge above that. On re-entry, a premise that changed class is
+the first freeze and not revised after candidates exist. The ledger's
+absolute ceiling is 40 premises across versions; quick-mode output uses
+the 12-record limit above. On re-entry, a premise that changed class is
 a new `PremiseRecord` with `supersedes` set, never an edit. If the
 premises as classified leave no problem, the dissolution verdict says so
 and the run ends with a reframe.

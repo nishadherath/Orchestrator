@@ -1,0 +1,30 @@
+# Controller run, 2026-09-28 08:51, 20260928T083641-1415bed4
+
+Outcome: gap. Calls: 11. Cost: USD 1.6523. Run directory: `/mnt/c/Users/Bob/Desktop/Code/Claude/Orchestrator/test/results/2026-09-28-controller-x4-role-probe-3/runs/20260928T083641-1415bed4`.
+
+```json
+{
+  "type": "GapReport",
+  "best_candidate_id": null,
+  "unmet_criteria": [
+    "Each candidate cause is paired with at least one check whose outcomes differ across causes, with the discriminating outcome stated",
+    "The candidate set is explicitly assessed for closure, including any cause outside the three named",
+    "A containment step is proposed with its reversal stated and its cost to correctness named",
+    "The implementation direction is stated as conditional on a named check result, with the condition explicit",
+    "No check is reported as run, and no outcome is asserted as observed",
+    "Every claim is traceable to the problem statement or marked as an assumption"
+  ],
+  "unverified_load_bearing": [
+    "prem-001",
+    "prem-005",
+    "prem-006"
+  ],
+  "next_cheapest_test": "none",
+  "termination": "budget_spent",
+  "ledger_version": 2,
+  "references": [
+    "frame-002"
+  ],
+  "id": "gap-001"
+}
+```

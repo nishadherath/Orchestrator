@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-008",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "Only the supplied statement may be used as evidence; no other fixture source, log or repository file may be consulted.",
+  "class": "policy",
+  "source": "Problem statement: use only this statement.",
+  "confidence": 0.95,
+  "cheapest_verification": "None needed; it is an instruction, but it bounds what any check in the brief may rely on.",
+  "load_bearing": true,
+  "supersedes": null
+}

@@ -1,0 +1,15 @@
+{
+  "type": "PremiseRecord",
+  "id": "prem-001",
+  "ledger_version": 1,
+  "references": [
+    "prob-001"
+  ],
+  "text": "The service is a synthetic fixture with no production system and no customer data behind it, so containment and diagnostic actions carry no external blast radius.",
+  "class": "unverified",
+  "source": "Problem statement: 'There is no production system or customer data behind this fixture.'",
+  "confidence": 0.8,
+  "cheapest_verification": "Inspect the fixture definition for any live endpoint, credential or real dataset reference before executing any containment step.",
+  "load_bearing": true,
+  "supersedes": null
+}

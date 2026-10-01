@@ -1,0 +1,88 @@
+{
+  "packet_version": 1,
+  "task_revision": "cb1ff7a995916f6a47ae889c7984a9474768a289f72867bf0b00b76b9a2d8e5b",
+  "task_digest": "e501f929f65a92acedb84842aeb5e59217b9e9ea52193ed162827861c2c30640",
+  "acceptance_contract_digest": "1a6fff266623660be4089fc3f3b4c9af3c909e40d99438be91b1d12cb36ebf6d",
+  "acceptance_source": "framer-provisional",
+  "input_snapshot_digest": "b34a7324bdd3e0f9e65b5acd02a6e3d6c23bad5264a34bbee405cd8338f79d4b",
+  "outcome": "gap",
+  "readiness": "provisional-guidance",
+  "premise_ids": [
+    "prem-001",
+    "prem-002",
+    "prem-011",
+    "prem-012",
+    "prem-013",
+    "prem-006",
+    "prem-007",
+    "prem-008",
+    "prem-009",
+    "prem-010"
+  ],
+  "candidate_ids": [
+    "cand-001",
+    "cand-002",
+    "cand-003",
+    "cand-004"
+  ],
+  "verified_findings": [
+    {
+      "premise_id": "prem-001",
+      "text": "A synthetic service acknowledges jobs from a queue and writes receipts to a separate store, so acknowledgement and receipt persistence are distinct operations against distinct systems.",
+      "source": "Problem statement, first sentence; the separation is definitional to the fixture.",
+      "confidence": 0.95
+    },
+    {
+      "premise_id": "prem-011",
+      "text": "The available notes do not establish which mechanism applies. The only artefact in scope is the problem prose itself, which carries no timestamp, retry count, writer error code or idempotency log field capable of separating the mechanisms.",
+      "source": "meas-002: the working-directory artefact was read and contains only the problem statement, with no discriminating field.",
+      "confidence": 0.9
+    },
+    {
+      "premise_id": "prem-012",
+      "text": "Writer failure, premature acknowledgement and idempotency suppression of a legitimate retry are the three mechanisms the statement names. They are the stated set to discriminate, but the statement does not claim they are the only possible causes.",
+      "source": "meas-003: grep of the statement for exclusionary or completeness language returned no match; the enumeration itself is present verbatim.",
+      "confidence": 0.9
+    },
+    {
+      "premise_id": "prem-013",
+      "text": "Treating the three mechanisms as exhaustive and mutually exclusive is unwarranted. A fourth mechanism, such as a receipt deleted after a successful write or a stale read at check time, is constructible and not excluded, so a residual outcome must stay admissible.",
+      "source": "meas-003: the statement contains no exclusionary or completeness language; the habit was falsified rather than confirmed.",
+      "confidence": 0.85
+    },
+    {
+      "premise_id": "prem-006",
+      "text": "There is no production system and no customer data behind the fixture, so no live blast radius or privacy exposure constrains the checks proposed.",
+      "source": "Problem statement's explicit disclaimer about the fixture.",
+      "confidence": 0.9
+    }
+  ],
+  "rejected_hypotheses": [],
+  "remaining_uncertainties": [
+    {
+      "premise_id": "prem-002",
+      "text": "A receipt can be absent after an acknowledgement. This is the observation under investigation, asserted by the fixture rather than measured here.",
+      "next_test": "Ask the fixture author for one concrete acknowledged job id with no receipt; absent that, treat the observation as stipulated."
+    }
+  ],
+  "safe_next_action": "none",
+  "operator_question": null,
+  "artefacts": [
+    {
+      "path": "REPORT.md",
+      "sha256": "71880713acf0caea612889bcfd668cccfcbb4d4365be536a03d6d6fc4ad42a62",
+      "size": 3648
+    },
+    {
+      "path": "ledger.jsonl",
+      "sha256": "b91168b124e29fb9b89efa538230b7d4b3d625c5dd3f799ab0640d3f54e0204d",
+      "size": 25857
+    }
+  ],
+  "accounting": {
+    "known_spend_usd": 1.703501602,
+    "reserved_usd": 0.0,
+    "accounting_complete": true
+  },
+  "packet_digest": "49252f554ea80239dd38dda99558d1e76417fb4eb47ceae57378d0e4d92d6d6d"
+}
