@@ -1,5 +1,5 @@
 {
-  "bundle_version": "2026-10-02-f9f141c",
+  "bundle_version": "2026-10-02-c249287-dirty",
   "configuration": {
     "backup_root": ".claude/orchestrator-install/backups",
     "claude_markers": [
@@ -22,7 +22,7 @@
   },
   "files": {
     ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-    ".claude/ORCHESTRATOR_VERSION": "fdbf62af593a0c54a4e518fd8a3fe48b6a7513df961a91863e656b2ef7571f89",
+    ".claude/ORCHESTRATOR_VERSION": "f9dae5342dfb20369b307035163f48d8c7f54da957626ea098cd9860d54f2f36",
     ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
     ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
     ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -45,7 +45,7 @@
     "CONTROLLER.md": "ec4f33a4a4857dd19646e12c8e673a02feec3a6f7956f6c60de38bd788dc2bc9",
     "MANAGED-DELEGATION.md": "f615d129d29a43c52fda4f5b3a077874d36583807dc2df7c249438ecf159f0bc",
     "ORCHESTRATOR-REFERENCE.md": "7f0c609947537ca378288e01716fa8cd97190367acc9a87cab41fe73e06e6e41",
-    "ORCHESTRATOR.md": "8df82d0a443368a9d803f344d7456d1c8e3d48bf0f17221f46f6ed9d05f81689",
+    "ORCHESTRATOR.md": "df7e31fad71b1efb10bd1d49d97698b49e388e273bf2f0518d58a87da65a6c92",
     "SELF-LEARNING.md": "1caf46f97cf1e9f7c418de530bc62759ba6484e7a5659a8e6d47c1eea0d6f77b",
     "WORKER-SELECTOR.md": "dd0ac2520cafbe555d5f6625b5eccf41616947377ac72ca77f3b682e8a892be4",
     "WORKER-TASKS.md": "ac7963cd0d0dbf9dad991351b23bf55e574e81a5b3656f65d87aa7da5482f13d",

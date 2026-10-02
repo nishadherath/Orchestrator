@@ -34,6 +34,20 @@ isolation, descendant termination and served effort remain unproven; the live
 adapter rejects managed child execution. See `WORKER-TASKS.md` and
 `CONTROLLER.md` for supported operations and recovery.
 
+The latest authored X5 v7 development comparison completed 12 episodes. All
+four suitable task pairs passed protected functionality in the baseline (B),
+ordinary continuation (S) and Controller continuation (A). A showed no measured
+quality or acceptance gain over S, cost 2.67 times as much and took 1.84 times
+its mean elapsed time. Four pairs do not establish general task or production
+performance. The result supports keeping B0 as the default and Controller
+experimental ([source result](docs/stage-results/controller-x5-v7-result-2026-09-29.md)).
+
+As of 2026-10-02, work on new comparative claims remained at the offline
+qualification stage. That plan targets measurement, cost reconciliation,
+shared public feedback, host scoped identity and recovery; it has not started.
+These research changes are not part of this installed bundle
+([source analysis](docs/POST-RC-QUALIFICATION-ANALYSIS-2026-10-02.md)).
+
 Citations to `docs/*.md` and `test/results/*.md` files anywhere in this
 document, and a bare decision number (`D<n>`), point at this bundle's
 source repository, not at files this bundle ships: they are provenance

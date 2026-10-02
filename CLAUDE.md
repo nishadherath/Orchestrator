@@ -14,6 +14,10 @@ sonnet when unknown. Also load `ai-prompting.<class>.md`, `python.<class>.md`
 for `tools/` or `test/harness/`, and `bash.<class>.md` for fixture `grade.sh`
 work. The harness sets the class; never infer it from model quality.
 
+Read the Operator engineering standards in `AGENTS.md` in every session and
+carry applicable standards into worker briefs. They are the operator's durable
+quality, design, honesty and efficiency requirements.
+
 Be direct, honest and economical with tokens. Verify assumptions and distinguish
 observations, inferences and untested risks. Use Australian English, no em
 dashes, and plain declarative prose.

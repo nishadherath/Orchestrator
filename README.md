@@ -8,10 +8,11 @@ result file it rests on, and anything unverified says so in the same
 sentence. `docs/AUDIT-2026-09-16.md` is the audit this file was written
 after; where the two disagree, the audit is the record of what was checked.
 
-The project and redistributable are licensed under Apache-2.0. The active work
-is the [bounded release candidate](docs/RELEASE-CANDIDATE-2026-10-01.md): review
-shipping changes, verify the exact package and document its supported scope.
-Publication remains an explicit operator action.
+The project and redistributable are licensed under Apache-2.0. The bounded
+release candidate passed its recorded offline and installation gates. Its
+publication remains an explicit operator action. The latest accepted project
+work is the [offline qualification package](docs/OFFLINE-QUALIFICATION-IMPLEMENTATION-PLAN-2026-10-02.md),
+which repairs the measurement path before any new live comparison.
 
 B0 remains the shipping default. Controller is experimental, and **Controller
 uplift remains an unfinished qualification goal**. RC completion does not
@@ -42,6 +43,34 @@ hidden-grader false-credit flaw and incomplete dependency binding. The consumer
 bundle retains B0 and diagnostic selection. No new paid experiment is part of
 the bounded RC.
 
+## Current assessment and work
+
+The recorded release candidate is bundle `2026-10-02-f9f141c`. Its full
+offline harness passed 83/83 checks, and the 85-file archive passed its
+installation, upgrade, rollback and reproducibility checks. Its recorded
+SHA-256 is checked against the archive in
+[`release-candidate-model-identity-2026-10-02.md`](docs/stage-results/release-candidate-model-identity-2026-10-02.md).
+The release record still requires a clean build stamp and publication. The
+current working bundle has its own dirty stamp; it is not that frozen archive.
+
+B0 is the best-supported policy in the measured comparisons, within their
+tested scope. In the authored X5 v7 development comparison, the four suitable
+task pairs passed protected functionality in B, S and A, with no measured
+quality or acceptance gain from A. A cost 2.67 times S and took 1.84 times its
+mean elapsed time. This is a small development set, not evidence of general
+Controller value or production performance
+([v7 result](docs/stage-results/controller-x5-v7-result-2026-09-29.md)).
+Earlier reserved real-world evidence also favoured B0 over B1, as described
+below. Controller therefore remains experimental, with no automatic promotion.
+
+The operator accepted a new, offline-first measurement programme. Stages O0–O6
+will qualify evaluator outcomes, cost admission, equal public feedback,
+host-scoped identity evidence, recovery, source sealing and independent review.
+The [implementation plan](docs/OFFLINE-QUALIFICATION-IMPLEMENTATION-PLAN-2026-10-02.md)
+and its initial [O0 handoff](handoffs/2026-10-02-offline-qualification-o0.md)
+are ready; implementation has not started. The separate Q2–Q6 live-feasibility
+and policy programme remains conditional. Closed campaigns stay closed.
+
 ## What it achieves
 
 The bundle in `dist/` installs into any Claude Code project and makes the
@@ -51,7 +80,8 @@ failure, then permits one `worker-opus-high` fallback. It records outcomes for
 cost, capability and overflow diagnostics; history does not change this
 reserved-qualified default. Fifteen worker definitions cover three
 models (sonnet, opus, fable) at five effort levels (low to max), one
-definition per cell, generated from one persona (D3).
+definition per cell, generated from one persona (D3), with a separate
+Haiku provider-default route.
 
 What has been measured, which is the part to hold on to:
 
@@ -267,8 +297,12 @@ read for provenance rather than as current instructions.
   `tools/graft_deep_refresh.ps1`, which loads credentials from the Windows user
   environment, applies the local forced-tool compatibility adapter without
   logging content, resumes the cache and removes its temporary files. The
-  current graph covers 2,284 structural nodes and has no stale or pending
-  meanings (`docs/GRAFT.md`).
+  `graft_check_freshness` on 2026-10-02 reported a stale local index: 81
+  changed files, 1,224 files absent from its graph and 309 stale semantic
+  summaries. Scoped retrieval returned source spans but did not refresh the
+  semantic summaries. Recheck freshness before relying on the index; its token
+  estimates compare against whole-file reads and are not measured usage or
+  savings (`docs/GRAFT.md`).
 
 ## Map
 
@@ -305,9 +339,12 @@ read for provenance rather than as current instructions.
 - How often the fixed repair and Opus fallback are needed in an ordinary
   consumer project. The evaluation campaign measured its frozen corpus, but no
   independent consumer ledger has been aggregated. Unverified.
-- Whether a live Controller invocation can satisfy the complete qualified
-  episode contract. Its adapter and accounting paths pass offline tests, but
-  no paid campaign episode reached the Controller. Unverified.
+- Whether Controller improves verified outcomes beyond ordinary repair on a
+  representative task population. The authored v7 study completed matched
+  baseline, ordinary continuation and Controller continuation episodes, but
+  found no gain on its four suitable task pairs. Further evaluation depends on
+  the measurement and admission repairs in the offline plan. Unverified beyond
+  those authored cases.
 - Provider-side invoice caps, live token-ceiling enforcement and billed savings
   from the reduced recurring context remain unverified. Local reservations and
   static token reductions do not prove those external effects.

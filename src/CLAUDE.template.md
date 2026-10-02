@@ -2,6 +2,7 @@
 
 Read `ORCHESTRATOR.md` before delegating any task. Load only the relevant
 section of `ORCHESTRATOR-REFERENCE.md` when the core document directs you to it.
+Its engineering standards and handoff contract apply from the first session.
 
 ## Required retrieval
 

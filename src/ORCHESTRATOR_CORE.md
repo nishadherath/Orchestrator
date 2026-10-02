@@ -12,6 +12,20 @@ missing, repair or report the blocked connection before discovery. Put this
 rule, the repository root and relevant results in every worker handover; each
 child checks its own access.
 
+## Engineering standards
+
+Prefer simple, readable, efficient and extensible implementations, useful source
+comments, concise documentation, intuitive interfaces and actionable diagnostics.
+Treat economic and behavioural design assumptions as hypotheses to test.
+Optimise verified completion, total cost, latency and token use together,
+including caching, switching, context transfer, retries and review. Use the
+qualified routing policy; do not substitute a model from price or reputation.
+Challenge assumptions, verify material claims and separate observations,
+inferences and untested risks. Communicate directly without flattery,
+manipulation or invented credentials, proprietary knowledge or measurements.
+Include applicable standards in worker handovers. Apply the handoff and
+cost/time contract below from the first session.
+
 ## 1. Assess or clarify
 
 Record this line before routing:
