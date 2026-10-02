@@ -517,19 +517,24 @@ def _selftest() -> int:
         else:
             raise AssertionError("timeout did not raise ClaudeCallError")
 
+    import model_registry
+    registry = model_registry.load()
+    sonnet_id = model_registry.historical_provider_id("sonnet", registry)
+    auxiliary_haiku_id = model_registry.historical_provider_id("haiku", registry)
+    assert sonnet_id and auxiliary_haiku_id
     stream = "\n".join(json.dumps(row) for row in (
         {"type": "assistant", "parent_tool_use_id": None,
-         "message": {"model": "claude-sonnet-5"}},
+         "message": {"model": sonnet_id}},
         {"type": "result", "subtype": "success", "result": "ok",
          "total_cost_usd": 0.02, "usage": {"input_tokens": 7, "output_tokens": 1},
-         "modelUsage": {"claude-sonnet-5": {}, "claude-haiku-4-5-20251001": {}}},
+         "modelUsage": {sonnet_id: {}, auxiliary_haiku_id: {}}},
     )) + "\n"
     with mock.patch.object(subprocess, "run", return_value=subprocess.CompletedProcess(
             args=[], returncode=0, stdout=stream, stderr="")):
         streamed = call_claude("test", cwd=Path.cwd(), stream_json=True)
     assert streamed.raw["type"] == "result"
-    assert streamed.extras["root_models"] == ["claude-sonnet-5"]
-    assert streamed.extras["auxiliary_billed_models"] == ["claude-haiku-4-5-20251001"]
+    assert streamed.extras["root_models"] == [sonnet_id]
+    assert streamed.extras["auxiliary_billed_models"] == [auxiliary_haiku_id]
     assert "--output-format stream-json --verbose" in streamed.cmd_shown
 
     print("PASS: claudep selftest (5 scenarios; no claude -p calls)")

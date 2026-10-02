@@ -133,9 +133,10 @@ def select(assessment: dict, *, supported_cells: set[str],
     if facts["context_tokens"] > model_registry.resolve_cell(prior, registry)["context_limit_tokens"]:
         stop = "decompose"
     rows = []
-    for model in registry["model_order"]:
-        for effort in registry["effort_order"]:
-            name = f"worker-{model}-{effort}"
+    for model in registry["route_model_order"]:
+        supported_efforts = registry["models"][model]["supported_efforts"]
+        for effort in supported_efforts or [None]:
+            name = f"worker-{model}-{effort or 'default'}"
             cell = model_registry.resolve_cell(name, registry)
             projection = model_registry.projected_cost(name, registry=registry)
             reasons = []
@@ -157,7 +158,7 @@ def select(assessment: dict, *, supported_cells: set[str],
                 reasons.append("cost_or_wall_unknown")
                 if facts["deadline_seconds"] is not None:
                     reasons.append("wall_unknown_with_deadline")
-            if cell["availability"]["status"] != "observed":
+            if cell["availability"]["status"] not in {"configured", "observed"}:
                 reasons.append("availability_unverified")
             operational_reasons = list(reasons)
             if name != prior and requested is None:
@@ -174,7 +175,7 @@ def select(assessment: dict, *, supported_cells: set[str],
                         and projection["cost_per_run_usd"] > ceiling):
                     reasons.append("projection_exceeds_override_ceiling")
                 # An explicit experimental request may inspect a configured
-                # but unverified model; it never asserts live availability.
+                # route; it never asserts that the account serves that ID.
                 if "availability_unverified" in reasons:
                     reasons.remove("availability_unverified")
                 if "cost_or_wall_unknown" in reasons and ceiling is not None:

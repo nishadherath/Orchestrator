@@ -26,13 +26,22 @@ Follow `docs/RELEASE-CANDIDATE-2026-10-01.md` and
 `handoffs/2026-10-01-bounded-rc.md`. The shipping review, corrected supported claims, frozen bundle, installed
 lifecycle checks and full offline gate passed. A 2026-10-02 supplement records
 exact Sonnet and Opus account-served IDs and a checked rebuild at
-`docs/stage-results/release-candidate-model-identity-2026-10-02.md`. That
-bundle passes build, full offline harness and install lifecycle checks, but has
-a dirty stamp; publication remains an operator action. B0 remains default and
-Controller experimental. Controller uplift and the separate real-world policy
-pilot remain deferred from this RC. Do not start further paid X5 screens as
-part of RC completion. The programme history below is evidence, not a direction
-to restart research.
+`docs/stage-results/release-candidate-model-identity-2026-10-02.md`. The later
+clean-source commit is `f9f141c`, with checked bundle stamp
+`2026-10-02-f9f141c`. Its recorded full offline harness and exact-bundle
+installation checks passed; publication remains an operator action. B0 remains
+default and Controller experimental. The outstanding qualification analysis is
+`docs/POST-RC-QUALIFICATION-ANALYSIS-2026-10-02.md`; it proposes new work and does
+not reopen completed v7 or historical real-world campaigns. The operator accepted
+the next offline qualification deliverable; its manual stage handovers and gates
+are in `docs/OFFLINE-QUALIFICATION-IMPLEMENTATION-PLAN-2026-10-02.md`, starting at
+`handoffs/2026-10-02-offline-qualification-o0.md`. The plan is prepared; O0-O6
+implementation has not started. Automatic session/delegation capability is
+documented in `docs/DEVELOPMENT-SESSION-CONTROLS-2026-10-02.md`; no launch was
+requested. Controller uplift and the separate real-world policy pilot remain
+deferred from this RC. Do not
+start further paid X5 screens as part of RC completion. The programme history
+below is evidence, not a direction to restart research.
 
 Stages 0-7 of `docs/IMPROVEMENTS-ACTION-PLAN-2026-09-17.md` are complete.
 The active programme is `docs/WORKER-ROUTING-ACTION-PLAN-2026-09-19.md`.

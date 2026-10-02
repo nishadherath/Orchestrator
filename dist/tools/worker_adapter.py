@@ -204,14 +204,16 @@ class WorkerAdapter:
                        "mcp__graft__graft_repo_map", "mcp__graft__graft_find_code",
                        "mcp__graft__graft_file_api", "mcp__graft__graft_trace_calls",
                        "mcp__graft__graft_find_all")
-        return ["claude", "-p", self.prompt(request), "--output-format=stream-json",
-                "--verbose", "--model", cell["cli_model"],
-                "--effort", cell["effort"],
-                "--max-budget-usd", str(request.allowance_usd), "--restricted",
-                "--strict-mcp-config", f"--mcp-config={self.mcp_config.resolve()}",
-                "--no-session-persistence", "--permission-mode=acceptEdits",
-                "--permission-prompts=none", "--tools=Read,Edit,Write,Glob,Grep",
-                "--allowedTools=" + ",".join(graft_tools)]
+        command = ["claude", "-p", self.prompt(request), "--output-format=stream-json",
+                   "--verbose", "--model", cell["cli_model"]]
+        if cell["effort"]:
+            command.extend(["--effort", cell["effort"]])
+        command.extend(["--max-budget-usd", str(request.allowance_usd), "--restricted",
+                        "--strict-mcp-config", f"--mcp-config={self.mcp_config.resolve()}",
+                        "--no-session-persistence", "--permission-mode=acceptEdits",
+                        "--permission-prompts=none", "--tools=Read,Edit,Write,Glob,Grep",
+                        "--allowedTools=" + ",".join(graft_tools)])
+        return command
 
     def _receipt_extensions(self, request: WorkerRequest, parsed: dict,
                             stdout: str) -> dict:
@@ -256,7 +258,8 @@ class WorkerAdapter:
                 "revision_id": request.revision_id, "decision_digest": request.decision_digest,
                 "intent_digest": request.intent_digest, "requested_cell": request.requested_cell,
                 "requested_effort": cell["effort"], "served_effort": None,
-                "effort_evidence": f"cli-argument:{cell['effort']}", "actual_model": actual,
+                "effort_evidence": (f"cli-argument:{cell['effort']}" if cell["effort"]
+                                    else "provider-default"), "actual_model": actual,
                 "identity_valid": identity_valid, "root_models": parsed["root_models"],
                 "child_models": parsed["child_models"], "billed_models": parsed["billed_models"],
                 "status": "interrupted" if not terminal else

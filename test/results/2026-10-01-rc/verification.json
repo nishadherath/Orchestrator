@@ -1,11 +1,11 @@
 {
-  "baseline_archive_sha256": "30ad5b3c0160b505dded6fb060fd5e0dca98e6ef06432789018d6d638fba0f6b",
+  "baseline_archive_sha256": "8d7c21d4594b05bae7da18b0360af57993d0c3ec208e5de441da54a59e7572e8",
   "baseline_bundle_version": "2026-10-01-549ae6a",
   "bundle": {
-    "file": "orchestrator-rc-0b7d6c1e406500c4.zip",
+    "file": "orchestrator-rc-783861afe26a8b65.zip",
     "files": {
       ".claude/B0_BRIEF.md": "ba971199811f02d12bbf98871e66b51a6d1eed102eb0a98347e226c083524b71",
-      ".claude/ORCHESTRATOR_VERSION": "bb73b3cbed59bbfe1720f6aada3481b1d52d2c94a2b604124bde7cf88addcd38",
+      ".claude/ORCHESTRATOR_VERSION": "fdbf62af593a0c54a4e518fd8a3fe48b6a7513df961a91863e656b2ef7571f89",
       ".claude/agents/WORKER_fable_high.md": "1165f1db1c820d5c9ef997bb6d4297ba996c570835b9991190cbb76436ddcd88",
       ".claude/agents/WORKER_fable_low.md": "5ad870ea304f788dfb80b9b85431e4345eedd6f3007f1b48b2b1fa06442dbdfa",
       ".claude/agents/WORKER_fable_max.md": "12293c42903a1ef43c36dbaa5c4398d54922594ec7cb2e7175d511c67f29dcac",
@@ -30,13 +30,13 @@
       "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
       "MANAGED-DELEGATION.md": "f615d129d29a43c52fda4f5b3a077874d36583807dc2df7c249438ecf159f0bc",
       "ORCHESTRATOR-REFERENCE.md": "7f0c609947537ca378288e01716fa8cd97190367acc9a87cab41fe73e06e6e41",
-      "ORCHESTRATOR.md": "99920d282153d038f2fac72b1db6172c4cdcc5b6bd8a43940d4ca789b8a56c3b",
+      "ORCHESTRATOR.md": "8df82d0a443368a9d803f344d7456d1c8e3d48bf0f17221f46f6ed9d05f81689",
       "README.md": "ccd9dab73ff6cfe9d37eadcddb326e7d32d04580a04217efed56181574d6ac56",
       "SELF-LEARNING.md": "1caf46f97cf1e9f7c418de530bc62759ba6484e7a5659a8e6d47c1eea0d6f77b",
       "WORKER-SELECTOR.md": "dd0ac2520cafbe555d5f6625b5eccf41616947377ac72ca77f3b682e8a892be4",
       "WORKER-TASKS.md": "ac7963cd0d0dbf9dad991351b23bf55e574e81a5b3656f65d87aa7da5482f13d",
       "acceptance-contract.example.json": "89367ba16624a46e2d98d63cd3f2a06dd0673e2af3f51c77540ef58bc0c39039",
-      "bundle-manifest.json": "9a10c2e256fd2869c3c0495e82904b06b0bd080da82dd65000c75dfa30942ee1",
+      "bundle-manifest.json": "5bb531d4e0822cc20c6cb1846342cfcb098843de7c8174a93bd84b4a5666e12a",
       "install.py": "1ea464054fe7e90da277e775343b67cf06f3ae5093bcfaa88169467acc4da8d7",
       "preflight.py": "10c0682d70ddf9c5c1e8da25f6c072fc24d436b183b3cb53c8f36f67f0715d53",
       "settings.fragment.json": "5f29e1b5d3e39224d8e5716ca79b7b76e2bb7025d61e6603ecf9edf0031cee7a",
@@ -90,9 +90,9 @@
       "tools/worker_selector.py": "6472c037a1ddfc545365d79c22d83e0401ac587417930ccdcf508278b658d498",
       "tools/worker_tasks.py": "549b8552fe73f8dfa5cd2d4d1e63905561e63925f6cf51b4b30dac00492b6916"
     },
-    "sha256": "0b7d6c1e406500c412eaf01411838f48d32c518ffa5b30172347e212088339c2"
+    "sha256": "783861afe26a8b65fa93194d9d3fbcaeedac9bc72278d5c2c1fe4fb3051d63ed"
   },
-  "bundle_version": "2026-10-02-b0f4f65-dirty",
+  "bundle_version": "2026-10-02-f9f141c",
   "candidate_kind": "unpublished-dirty-source-rc",
   "checks": {
     "clean_install_rollback_preservation_and_drift_rejection": true,
@@ -116,8 +116,8 @@
   "release_check": {
     "checks": {
       "clean_build_stamp": {
-        "detail": "2026-10-02-b0f4f65-dirty",
-        "status": "ACTION_REQUIRED"
+        "detail": "2026-10-02-f9f141c",
+        "status": "PASS"
       },
       "generated_workers": {
         "detail": "all registry-defined worker definitions match",
@@ -142,7 +142,6 @@
     },
     "mechanical_failures": [],
     "operator_actions": [
-      "clean_build_stamp",
       "publication"
     ],
     "release_ready": false,
@@ -152,7 +151,7 @@
   "reproducibility_scope": "Pure bundle assembly from archived inputs; full offline harness runs in the source checkout.",
   "result": "PASS",
   "schema_version": 1,
-  "source_head": "b0f4f6562865b7a9c6b6e5bc507770f8f82094e6",
+  "source_head": "f9f141cb38e48e15b96e5eef69b81e33be00d3b6",
   "source_inputs": {
     "file": "orchestrator-source-b636703bba2d8d1e.zip",
     "files": {

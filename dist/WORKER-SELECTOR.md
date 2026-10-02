@@ -18,7 +18,7 @@ schema cannot prove provenance by inspecting arbitrary text.
 Call `select(assessment, supported_cells=..., remaining_usd=...,
 budget_enforced=..., override=...)`. The host must positively declare its
 supported cells and capped-call capability; the registry alone is not live
-host proof. Every one of the 15 model/effort cells receives a row with
+host proof. Every registry cell receives a row with
 availability, qualification, historical or unknown cost projection, deadline
 fit, eligibility and rejection reasons. The default prior is Sonnet low for
 routine work, Sonnet high for moderate work and Opus high for complex work.
@@ -57,3 +57,11 @@ shadow` exposes this diagnostic path with the same eligibility checks; see
 Offline fake-host tests prove the 15-cell mapping, command pinning, journal
 isolation, invalid input rejection and the failure taxonomy. They do not prove
 served effort or live model quality.
+
+The registry holds the current Anthropic model ID for each model class and
+their published identity verification. Account-served identity remains a
+separate status until a live response confirms it. Sonnet, Opus and Fable use
+the selected effort. `worker-haiku-default` uses Haiku's provider-default
+effort and deliberately sends no `--effort` argument. It is available only as
+an explicit cell choice; it is not added to the automatic prior or evidence of
+live quality.
