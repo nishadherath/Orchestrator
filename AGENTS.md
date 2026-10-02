@@ -25,6 +25,19 @@ not identify this session's model or provide equivalent Codex workers.
 Use only model and effort controls the current host exposes. Never claim
 that a requested model, effort, price or capability was verified when it was not.
 
+## Development model calibration
+
+Before recommending or assigning a development model/effort, read
+`docs/DEVELOPMENT-MODEL-CALIBRATION.md`. It is the single source of truth for
+current task-selection rules, stage assignments and escalation. Plans link
+to it; handoffs record its revision/row and a resolved setting snapshot.
+Do not recreate defaults from old conversations, dated reviews or Claude
+persona classes. Explicit operator choices take precedence. Update the
+calibration only with recorded rationale/evidence, and distinguish accepted
+recommendations from measured performance. This does not authorise launches
+or alter the Anthropic worker registry. Recheck pending handoff snapshots
+against the calibration before use; preserve historical executed evidence.
+
 ## Session continuity and cost
 
 Follow `src/LIFECYCLE.md`'s Handoffs contract for development sessions too.

@@ -1,6 +1,6 @@
 # Handoff: offline-qualification-o0
 
-<!-- handoff.py new --slug offline-qualification-o0 --reason model-change --to-model gpt-6-astra --to-effort high --project . -->
+<!-- handoff.py new --slug offline-qualification-o0 --reason model-change --to-model gpt-6.1-sol --to-effort high --project . -->
 Written 2026-10-02. Current session model/effort not independently observed.
 Reason: prepare the operator's next model-change checkpoint; no switch executed.
 
@@ -21,12 +21,20 @@ B0, experimental Controller status, the frozen RC and historical evidence.
 V7 and the older W programme are complete; H03b remains closed with no private
 score. Create a new research version and reuse existing execution/accounting.
 O0 must freeze interfaces before independent implementation can overlap.
+Current selection authority is `docs/DEVELOPMENT-MODEL-CALIBRATION.md`.
+This handoff resolves revision DMC-1, stage O0, task row C3. Its explicit target
+below is a transition snapshot, not another selection rule. Read the current
+calibration before use; resolve any revision/row mismatch and revalidate this
+pending handoff. Preserve an explicit operator override rather than silently
+changing it. Other stages use their own current calibration rows.
 
 ## Files and links that matter
 
 Repository root: `C:\Users\Bob\Desktop\Code\Claude\Orchestrator`.
 
+- [Canonical calibration](../docs/DEVELOPMENT-MODEL-CALIBRATION.md).
 - [Stage plan](../docs/OFFLINE-QUALIFICATION-IMPLEMENTATION-PLAN-2026-10-02.md).
+- [Model allocation review](../docs/MODEL-ALLOCATION-REVIEW-2026-10-02.md).
 - [Analysis and historical evidence](../docs/POST-RC-QUALIFICATION-ANALYSIS-2026-10-02.md).
 - [Host controls and parallel boundaries](../docs/DEVELOPMENT-SESSION-CONTROLS-2026-10-02.md).
 - [Root engineering rules](../CLAUDE.md), [Graft](../docs/GRAFT.md),
@@ -90,8 +98,9 @@ return for the operator's next stage selection.
 
 ## Model and effort to set
 
-In the Codex model picker select **GPT-6 Astra**, **High**. Host identifiers:
-`gpt-6-astra`, `high`. Continue with: "Read
+Snapshot: DMC-1 / O0 / C3.
+In the Codex model picker select **GPT-6.1 Sol**, **High**. Host identifiers:
+`gpt-6.1-sol`, `high`. Continue with: "Read
 handoffs/2026-10-02-offline-qualification-o0.md and execute O0 only."
 This is a requested setting, not a claim about the active model. Do not use a
 Claude `/model` command or worker class as a substitute for Codex host controls.
@@ -99,14 +108,14 @@ Claude `/model` command or worker class as a substitute for Codex host controls.
 ## Cost projection
 
 Development API-equivalent scenario, dated 2026-10-02:
-[OpenAI pricing](https://developers.openai.com/api/docs/pricing) lists Astra
-Standard USD 10 input, 1 cache read, 12.5 cache write and 50 output per million
+[OpenAI model comparison](https://developers.openai.com/api/docs/models/compare)
+lists Sol 6.1 Standard USD 2 input, 0.1 cache read, 2.5 cache write and 10 output per million
 tokens. Assume 100K-300K cache-write input, 200K-1M cache-read input and 20K-80K
 output including billed reasoning across the stage. Categories are disjoint;
 all requests stay below the long-context threshold. Arithmetic gives USD
-2.45-8.75 at Standard. Allowing up to 25% additional retry usage and 2x Fast
-rates gives a planning range of approximately USD 2.45-21.88. If caching fails,
-the conservative upper sensitivity case is about USD 50.63. Recalculate if
+0.47-1.65 at Standard. Allowing up to 25% additional retry usage and 2x Fast
+rates gives a planning range of approximately USD 0.47-4.13. If caching fails,
+the conservative upper sensitivity case is about USD 10.13. Recalculate if
 actual tokens, tier or context length differ. These are estimates, not spending
 ceilings or observed Codex charges. Desktop plan billing/usage is unavailable.
 External paid tools and semantic refresh are excluded and need separate costing.

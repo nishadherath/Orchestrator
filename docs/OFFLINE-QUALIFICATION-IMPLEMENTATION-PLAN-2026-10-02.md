@@ -43,29 +43,26 @@ the next handoff, report its target and estimates, then wait for the operator's
 continuation. A stage boundary does not inherently require a fresh chat, but
 the operator can select one using its handoff.
 
-| Stage | Priority and dependency | Deliverable | Recommended development model / effort | Planning elapsed time |
+Model and effort assignments are owned only by
+[development model calibration](DEVELOPMENT-MODEL-CALIBRATION.md), currently
+revision DMC-1. Read its stage row before each handover. This plan owns scope,
+sequence and acceptance; it does not maintain another model-selection table.
+
+| Stage | Priority and dependency | Deliverable | Calibration row | Planning elapsed time |
 | :--- | :--- | :--- | :--- | :--- |
-| O0 | P0; first | Frozen contracts, threat boundary, acceptance matrix and ownership | GPT-6 Astra / High | 45-90 minutes |
-| O1 | P0; O0 passes | Bounded evaluator and negative-control qualification | GPT-6.1 Sol / High | 2-4 hours |
-| O2 | P0; O0 passes | Canonical admission and identical public feedback | GPT-6.1 Sol / High | 1.5-3 hours |
-| O3 | P0; O0 passes | Campaign-local identity evidence and preflight | GPT-6.1 Sol / High | 1.5-3 hours |
-| O4 | P1; O1-O3 pass | Integrated fake campaign, seals and offline regression | GPT-6.1 Sol / Extra high | 1.5-3 hours |
-| O5 | P1; O4 passes | Independent adversarial review and finding closure | GPT-6 Astra / Extra high | 1-2 hours |
-| O6 | P1; O5 passes | Qualification dossier and next-campaign readiness disposition | GPT-6.1 Sol / Medium | 30-60 minutes |
+| O0 | P0; first | Frozen contracts, threat boundary, acceptance matrix and ownership | O0 | 45-90 minutes |
+| O1 | P0; O0 passes | Bounded evaluator and negative-control qualification | O1 | 2-4 hours |
+| O2 | P0; O0 passes | Canonical admission and identical public feedback | O2 | 1.5-3 hours |
+| O3 | P0; O0 passes | Campaign-local identity evidence and preflight | O3 | 1.5-3 hours |
+| O4 | P1; O1-O3 pass | Integrated fake campaign, seals and offline regression | O4 | 1.5-3 hours |
+| O5 | P1; O4 passes | Independent adversarial review and finding closure | O5 | 1-2 hours |
+| O6 | P1; O5 passes | Assemble reviewed dossier and readiness disposition | O6 | 30-60 minutes |
 
-Host identifiers are `gpt-6-astra` and `gpt-6.1-sol`; Extra high is `xhigh`.
-These are development-session recommendations, not additions to the Anthropic
-worker registry. Available host controls support these combinations as of this
-plan; launch success and actual execution have not been tested here.
-
-Astra is reserved for contract design and challenging the integrated result.
-Sol handles bounded implementation. Higher effort at integration is justified by
-cross-module invariants and interruption behaviour. Medium suffices for O6 only
-after the substantive findings are closed. These choices are engineering
-judgements informed by [OpenAI's model-selection guidance](https://developers.openai.com/api/docs/guides/model-selection),
-not measured quality comparisons on this repository. No stage needs Max or Ultra
-by default. Increase effort only for a concrete unresolved reasoning problem;
-repeated retries with unchanged evidence are not an escalation strategy.
+The calibration records the accepted Luna-first and Sol-first decisions,
+Astra escalation triggers, evidence limits and update procedure. The
+[dated allocation review](MODEL-ALLOCATION-REVIEW-2026-10-02.md) is supporting
+rationale. No comparative model run or launch has been performed. All stage
+acceptance gates below remain mandatory regardless of the assigned model.
 
 Manual order: O0, O1, O2, O3, O4, O5, O6. Optional authorised parallel order:
 O0, then O1/O2/O3 together, then O4, O5, O6. Detailed controls are in
@@ -110,6 +107,11 @@ infrastructure error, timeout and cancellation. Decide which deadlines belong
 to the actor scenario versus the evaluator host. Score availability must be
 explicit; missing is never silently zero or pass. Freeze how partial criteria
 aggregate, including critical violations, before observing new model outcomes.
+
+Make O2/O3 briefs executable by their calibrated implementation model: name the canonical money helper, complete
+decision tables, exact schemas, allowed shared APIs and independent expected
+outcomes. An unfinished design contract does not pass O0 merely because the
+next implementation model could try to infer it.
 
 Freeze two public branches and their shared feedback schema. Define S as an
 ordinary continuation and A as Controller followed by the same worker
@@ -278,6 +280,11 @@ SKIP. Save the integrated candidate for O5 without a concurrent writer.
 
 ## 8. O5: independent review and corrections
 
+Use calibration row O5 in a fresh review context. Derive the critical failure
+conditions from original requirements before reading the implementer's
+conclusions. Use the canonical calibration's escalation rules if a critical
+question remains unresolved.
+
 Use a fresh review context with the frozen contract, candidate revision, tests
 and raw evidence. Avoid carrying implementation deliberation into the review.
 A model change alone is not independence, and a separate chat still shares
@@ -305,6 +312,11 @@ not qualify decision. A failed review is a useful result and returns to the
 relevant stage rather than weakening the gate.
 
 ## 9. O6: package the result and stop at the paid boundary
+
+The O6 assignee assembles decisions already made in O0 and reviewed in O5. The schedule,
+cost notice and readiness disposition below must have reviewed inputs. New
+statistical, trust-boundary or authorisation judgements return to the relevant
+design/review owner; unresolved inputs remain explicit blockers.
 
 Produce a concise operator runbook, schema descriptions, evidence index,
 requirements-to-test map, supported-host statement, known limitations and a
@@ -391,10 +403,14 @@ never infer the current session's setting from the persona file.
 
 ## 12. Cost, elapsed time and tradeoffs
 
-These are planning assumptions dated 2026-10-02, not measured development costs
-or spending ceilings. At [OpenAI Standard API rates](https://developers.openai.com/api/docs/pricing),
+These are planning assumptions dated 2026-10-02, derived from calibration
+revision DMC-1, not measured development costs or spending ceilings. They are
+a dated budget snapshot, not model-selection authority. Recompute them when
+the calibration changes. At [OpenAI Standard API rates](https://developers.openai.com/api/docs/pricing),
 per million tokens, Astra input/cache-read/cache-write/output rates are
-USD 10/1/12.5/50; Sol rates are USD 2/0.1/2.5/10. Fast rates are twice Standard.
+USD 10/1/12.5/50; Sol rates are USD 2/0.1/2.5/10.
+[Luna rates](https://developers.openai.com/api/docs/models/gpt-6-luna) are USD
+0.1/0.01/0.125/0.5. Fast rates are twice Standard.
 The [Astra model page](https://developers.openai.com/api/docs/models/gpt-6-astra)
 describes the long-context premium above 272K input tokens per request. Refresh
 the relevant rates and tier before each handover. Desktop plan usage is not
@@ -404,12 +420,16 @@ For budgeting, assume each stage consumes 100K-300K cache-write input tokens,
 200K-1M cache-read tokens and 20K-80K output tokens including billed reasoning,
 across multiple calls. Treat input categories as disjoint: no double charging
 ordinary input and writes. Assume no request exceeds the short-context threshold.
-At Standard rates this is USD 2.45-8.75 per Astra stage and USD 0.47-1.65 per
-Sol stage. The seven-stage two-Astra/five-Sol envelope is USD 7.25-25.75 before
-retries. Allowing up to 25% extra usage and Fast processing gives an illustrative
-overall envelope of about USD 7-65. With no cache reuse, conservatively charging
-all repeated input as writes raises the upper sensitivity case to about USD 152.
-These arithmetic scenarios are not a promise about tokens or duration.
+At Standard rates this is USD 2.45-8.75 per Astra stage, USD 0.47-1.65 per
+Sol stage and USD 0.0245-0.0875 per Luna stage. The current four-Sol/three-Luna
+allocation is about USD 1.95-6.86 before retries. Allowing up to 25% extra usage
+and Fast processing gives an illustrative envelope of about USD 2-18. With no
+cache reuse, conservatively charging all repeated input as writes raises the
+upper sensitivity case to about USD 42.02. The prior two-Astra/two-Sol/three-Luna
+allocation was about USD 5.91-21.06 at Standard before retries. These comparisons
+assume identical token volumes; review and escalation can reduce or erase the
+savings. Additional Astra or fallback sessions must be costed in their handoffs.
+These arithmetic scenarios are not measured costs or speedups.
 
 Local shell tests and local Graft retrieval have no experimental provider call
 in this plan; their output still consumes development context. External paid
@@ -423,6 +443,8 @@ reduces the mathematical critical path to 5.75-11.5 hours; allow roughly 6-13
 hours for coordination and integration. These are low-confidence scheduling
 estimates. Parallel execution may consume more tokens and create merge/review
 work. It does not accelerate the ordered contract, integration and review gates.
+The model revisions retain these scheduling allowances until execution supplies
+evidence; lower token prices do not demonstrate shorter end-to-end elapsed time.
 
 The main design tradeoffs are deliberate:
 
@@ -440,10 +462,9 @@ The main design tradeoffs are deliberate:
 ## 13. What follows, conditionally
 
 O6 does not establish uplift. The subsequent Q2-Q6 programme remains described
-in the post-RC analysis. Its suggested development settings are Sol High for
-bounded live feasibility and execution, Astra High for prospective comparison
-design and interpretation, Astra Extra high for independent confirmation and
-promotion review, and Sol High for any approved consumer integration.
+in the post-RC analysis. Assign its future development tasks using the current
+calibration's task rows and escalation policy, after checking the actual scope.
+No model choice here preauthorises a later campaign or review.
 
 Progression is new bounded feasibility, fair paired development, comparison with
 a simpler use of extra compute, independently frozen confirmation, then a
@@ -462,5 +483,5 @@ validation passed: the existing harness's prose check reported 920 authored
 files clean, all 51 local links across the four qualification documents resolved,
 `tools/handoff.py check` accepted the O0 handoff, and scoped `git diff --check`
 passed. This is documentation verification, not a fresh full runtime test run.
-The next manual setting is **GPT-6 Astra,
-High**, followed by the O0 handoff.
+Resolve the next manual setting from calibration row O0 and verify the O0
+handoff snapshot before use.

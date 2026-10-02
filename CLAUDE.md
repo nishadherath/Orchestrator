@@ -336,6 +336,12 @@ only from a separate consumer project installed from `dist/`.
 
 ## Development handoffs and delegation
 
+Read `docs/DEVELOPMENT-MODEL-CALIBRATION.md` before recommending or assigning
+a development model/effort. It alone owns current selection calibration;
+record its revision/row in each handoff. Plans and dated reviews are references,
+not competing defaults. Explicit operator selections take precedence. Resolve
+stale pending handoff settings before use and preserve executed history.
+
 Before changing model or effort, starting a fresh session, or launching any
 agent or subagent, create a concise handoff with `tools/handoff.py new`, fill
 every section, validate it with `tools/handoff.py check`, and notify the
@@ -344,9 +350,11 @@ ranges, token/cache assumptions, uncertainty and any separate paid experiment
 subtotal. Unknown cost is not zero. The receiving session reads the named file
 first. A completed stage alone does not require a switch.
 
-When development work is delegated, record the assessment line, resolve it with
+For Claude Code development delegation, record the assessment line, resolve it with
 `python3 tools/route.py --from-line "<line>" --project . --explain`, and launch
 the named cell. This is repository-development routing, not product dogfooding.
+For Codex development, use the calibration and exposed host controls; do not
+treat Claude worker cells as Codex model selections.
 
 ## Load-bearing invariants
 

@@ -5,6 +5,10 @@ This is a capability record and proposed operating procedure. No launch was
 performed to test it. The user expressly asked whether automation was possible
 and requested a manual staged plan, not an automatic launch.
 
+Current model-selection authority is
+[development model calibration](DEVELOPMENT-MODEL-CALIBRATION.md). This file
+records host operations and boundaries, not another assignment policy.
+
 ## Direct answer
 
 Yes. The tools exposed to this session can create a new Codex chat with an
@@ -33,8 +37,9 @@ tree, including the lead. This permits up to three children concurrently. It is
 not evidence of an account-wide four-chat limit, nor a guaranteed future limit.
 Separate chat launches have their own availability and resource constraints.
 
-Both recommended models, `gpt-6-astra` and `gpt-6.1-sol`, expose High and Extra
-high through these host controls. Sol also exposes Medium. Host schemas are
+At observation the host exposed `gpt-6.1-sol`, `gpt-6-luna` and
+`gpt-6-astra` with High and Extra high, and Luna with Medium. This records
+available parameters, not current task assignments. Host schemas are
 the authority for accepted parameters; they do not reveal the model currently
 executing this conversation or independently verify provider-side reasoning.
 
@@ -49,9 +54,9 @@ governs execution here.
 
 Follow the [offline qualification plan](OFFLINE-QUALIFICATION-IMPLEMENTATION-PLAN-2026-10-02.md).
 Freeze O0 before parallel work. If the user later authorises this route and
-its named model/effort choices, assign O1 evaluator, O2 admission/feedback and
-O3 identity evidence to three Sol High subagents. The lead coordinates contract
-questions and reviews outputs. O4 integration starts after all three gates pass;
+its resolved model/effort choices, assign O1 evaluator, O2 admission/feedback
+and O3 identity evidence using their current calibration rows. The lead
+coordinates contract questions and reviews outputs. O4 integration starts after all three gates pass;
 O5 independent review follows the integrated freeze. Do not launch nested
 delegation simply because another slot becomes available.
 
@@ -80,8 +85,9 @@ the required acceptance standard and expose integration defects before use.
 ## How authorisation would work later
 
 The default remains operator-selected stage handovers. A later instruction can
-explicitly authorise the parallel O1-O3 subagents and the named Sol High setting,
-or request a new O0 chat on Astra High. That avoids manually choosing each
+explicitly authorise the parallel O1-O3 subagents with the exact settings
+resolved from a named calibration revision, or request a new O0 chat with
+its resolved model and effort. That avoids manually choosing each
 child's settings while preserving the project's notification and handoff rules.
 It does not authorise paid research, publication, or arbitrary future agents.
 
