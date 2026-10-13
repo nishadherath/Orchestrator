@@ -1,0 +1,26 @@
+[
+  {
+    "id": "PROSE",
+    "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+    "status": "PASS",
+    "detail": "925 files clean"
+  },
+  {
+    "id": "CONTEXT",
+    "covers": "prompt reduction preserves the operating contract",
+    "status": "PASS",
+    "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.590s\n\nOK"
+  },
+  {
+    "id": "DIST",
+    "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+    "status": "PASS",
+    "detail": "85 files match at 2026-10-13-82a077a-dirty"
+  },
+  {
+    "id": "DIAGNOSTICS",
+    "covers": "operational status and detailed explanation pass",
+    "status": "PASS",
+    "detail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.171s\n\nOK"
+  }
+]

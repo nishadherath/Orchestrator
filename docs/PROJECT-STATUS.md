@@ -2,6 +2,7 @@
 
 Updated: 2026-10-13, Australia/Sydney. Status: assessment and Graft retrieval
 repair scopes complete.
+The separately requested portable Graft skill package is also complete.
 
 ## Completed work
 
@@ -18,6 +19,11 @@ repair scopes complete.
   repeatable local refresh helper. Preserved the old semantic cache and added
   a separate, opt-in evaluation-corpus index. See [the runbook](GRAFT.md) and
   [verified findings](FINDINGS.md#graft-retrieval-repair-2026-10-13).
+- Updated the installed `graft-setup` skill for Graft 0.21.1 and created the
+  independent [portable skill source package](../packages/graft-setup/README.md),
+  including bounded diagnostic/refresh/MCP scripts, documentation, tests,
+  licensing and a deterministic redistributable ZIP with an integrity manifest.
+  The old installed skill is preserved in the ignored local backup area.
 
 ## Verification
 
@@ -40,13 +46,22 @@ repair scopes complete.
   and [offline checks](../test/results/2026-10-13-graft-offline-normal.json).
 - The live commit-time freshness recheck passed in 111.939 seconds. Its latency
   remains variable; this result is below the existing 180-second timeout.
+- Portable skill: 18 offline tests passed on Windows and 18 on native WSL/Linux
+  Python. Real Windows Graft 0.21.1 passed 14 acceptance steps over Git, non-Git
+  build-source and structured Markdown layouts, including the manual-build
+  scope-widening behaviour. Stock skill validation, installed-file parity and
+  deterministic archive verification passed. Results and limits are in
+  [package verification](../packages/graft-setup/verification.json).
 
 ## Current and remaining work
 
-No implementation stage is running. Remaining work in the agreed assessment
-and Graft retrieval repair scopes: none. Remaining-time estimate for those
-scopes: zero after delivery. The commit containing this record includes the
-Graft retrieval repair and its verification evidence.
+No implementation stage is running. The requested portable Graft skill is
+installed, packaged and included in the commit containing this record. Remaining
+work in that scope: none; remaining-time estimate is zero after delivery.
+No consumer bundle implementation or O0-O6 stage has started.
+
+Remaining work in the prior assessment and Graft retrieval repair scopes: none.
+The earlier commit includes the retrieval repair and its verification evidence.
 No session/model switch, agent launch or new experimental provider call occurred.
 Actual development-session API-equivalent cost is unavailable, not zero.
 

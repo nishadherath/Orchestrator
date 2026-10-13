@@ -1,0 +1,6 @@
+interface:
+  display_name: "Graft Setup and Repair"
+  short_description: "Scope, diagnose and repair Graft repository retrieval"
+  default_prompt: "Use $graft-setup to inspect this project's Graft installation, repair the diagnosed issue and verify scoped MCP retrieval."
+policy:
+  allow_implicit_invocation: true

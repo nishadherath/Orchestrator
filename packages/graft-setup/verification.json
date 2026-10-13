@@ -1,0 +1,62 @@
+{
+  "recorded_at": "2026-10-13T10:35:56.022884+00:00",
+  "skill_version": "1.0.0",
+  "graft_version": "0.21.1",
+  "provider_calls": 0,
+  "offline_tests": {
+    "Windows": {
+      "python": "3.14.7",
+      "tests": 18,
+      "status": "PASS"
+    },
+    "WSL/Linux": {
+      "python": "3.14.7",
+      "tests": 18,
+      "status": "PASS"
+    }
+  },
+  "real_graft_integration": {
+    "platform": "Windows",
+    "steps": 14,
+    "status": "PASS",
+    "layouts": [
+      "Git app project",
+      "non-Git build source",
+      "structured Markdown"
+    ],
+    "manual_build_scope_widening_verified": true
+  },
+  "skill_validation": "PASS",
+  "installed_parity": {
+    "status": "PASS",
+    "files": 13
+  },
+  "deterministic_release": {
+    "archive": "graft-setup-1.0.0.zip",
+    "sha256": "b534e461708f24c1065f0790b3502ef24cf31316876e6302c61ffd9fb17d1c21",
+    "status": "PASS",
+    "verified_on": "Windows",
+    "posix_archive_check": "Earlier cross-platform archive check passed; final read-only rerun was blocked by WSL startup ERROR_TIMEOUT and a bounded 45-second retry."
+  },
+  "evidence": {
+    "git-identity-initial-failure.json": "70edb07e3182d47e0b303571af5b7ebf98d125329bd967de9e39c93b35166a25",
+    "installed-parity.json": "fa93d4b981d7f4b051117fcc78c13e723a3cf3a0cddb7d4548ac59443522555b",
+    "integration-initial-failure.json": "5eb1494906ecb36695abb7f6082c668677084b45b7857f9fcbefb23518059d6d",
+    "integration-windows.json": "0764c0fe07aff012c8a0f1b47b21a99d7fef39f66db237e8c7cd357feddc087b",
+    "repository-offline.json": "097b58ffe6c736133fb2a7380cc7da1fddcae7e7f207de1f4ba2cc267920041f",
+    "unit-posix.log": "e654cc8dfaba61c846455361b127ebf71b929aef80a80578d6a4d0462f63b01f",
+    "unit-windows.log": "1aa740c6c6c17ff84a9bd1295662e9c02a2bf708bc21616d5f570d18e993a5e6"
+  },
+  "limitations": [
+    "Real Graft integration was run on Windows; native WSL Node/Graft was unavailable. POSIX helper behaviour was tested with a controlled CLI.",
+    "macOS and Python 3.12 were not executed; Python 3.12 is the stated API floor.",
+    "No paid deep pass, semantic provider repair, new host chat or general filesystem isolation qualification.",
+    "Refresh locks coordinate the helper only; pause other automatic refresh clients before cache replacement.",
+    "The complete Orchestrator harness was not rerun; relevant existing checks passed and consumer source/bundle were unchanged.",
+    "Final POSIX archive rerun was blocked by a WSL service startup timeout; the final POSIX offline suite passed. No shared service was restarted."
+  ],
+  "corrected_test_setup": [
+    "Initial non-Git fixture inherited an ignored parent Git tree; corrected using a canonical Git ceiling.",
+    "Git identity assertion initially decoded a Unicode path with the Windows locale; corrected to explicit UTF-8."
+  ]
+}

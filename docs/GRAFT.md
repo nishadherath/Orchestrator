@@ -5,6 +5,14 @@ project use Graft MCP, across sessions, agents, subagents and Controller roles.
 
 ## Retrieval contract
 
+The redistributable setup/repair skill is maintained separately under
+[packages/graft-setup](../packages/graft-setup/README.md). Its scripts accept
+explicit roots and scopes and do not depend on this project's fixed paths or
+provider adapter. The installed user-level skill matches that source; its
+package verification distinguishes Windows real-Graft testing from POSIX
+offline testing. This package is independent of the consumer `src/`/`dist/`
+bundle and does not alter its shipping policy.
+
 Start every task with `graft_check_freshness`. Discover deferred tools in one
 lookup when supported. Use `graft_repo_map` for unfamiliar structure,
 `graft_find_code` for scoped questions, `graft_file_api` for signatures,
