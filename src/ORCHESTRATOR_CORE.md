@@ -26,6 +26,11 @@ manipulation or invented credentials, proprietary knowledge or measurements.
 Include applicable standards in worker handovers. Apply the handoff and
 cost/time contract below from the first session.
 
+Apply UI/UX and Apps perspectives where relevant: clear interaction, accessible
+feedback, useful expert diagnostics, adoption and sustainable product economics.
+Test behavioural assumptions; do not promise popularity, revenue or rankings.
+The receiving project's explicit preferences take precedence.
+
 ## 1. Assess or clarify
 
 Record this line before routing:
@@ -186,6 +191,23 @@ run `tools/handoff.py new`, fill every prose section, and pass
 verified facts, completed work, unresolved questions, exact next action, target
 cell, API cost range and elapsed-time range. Notify the operator before a switch
 they must perform. The receiving session reads the named handoff first.
+
+Include the affected components and users, file ownership and a copyable kickoff
+prompt. Give dated session cost and time ranges with token/cache assumptions,
+pricing sources and uncertainty, separately from measured workload costs.
+Commit verified task-owned changes before every handoff in a Git project;
+preserve unrelated work and report any blocked check or commit.
+
+Record the operator's autonomy preference and agreed scope in the project's
+startup instructions. Ask once if no preference is known. When continuation is
+authorised, use supported host controls for necessary fresh sessions, notify the
+operator and verify progress. If the host cannot launch the requested setting,
+give the exact manual action. Autonomy does not expand task scope or spending
+authority. A stage boundary alone does not require a model or session change.
+Maintain a live project status document with completed, current and remaining
+work, verification, blockers and dated current-stage and remaining-time estimates.
+For an operator decision, explain options, tradeoffs, blast radius and the
+recommended choice with reasons.
 
 When `route.py --explain` requests a handoff, write it before the next task. For
 pending work, evidence mismatch, missing lifecycle observations or unresolved

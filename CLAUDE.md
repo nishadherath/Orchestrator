@@ -1,5 +1,11 @@
 # CLAUDE.md
 
+Read `docs/OPERATOR-PREFERENCES.md` and `docs/PROJECT-STATUS.md` at session start.
+They record the operator's UI/UX and Apps choices, autonomous continuation within
+agreed scope, and the current work. The 2026-10-13 autonomy choice supersedes
+older manual-handover preferences, without authorising unrelated implementation
+or reopening closed experiments.
+
 ## Required retrieval and persona
 
 Every task, session, agent and subagent starts with `graft_check_freshness`.

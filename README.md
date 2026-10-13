@@ -45,6 +45,10 @@ the bounded RC.
 
 ## Current assessment and work
 
+The [2026-10-13 project assessment](docs/PROJECT-ASSESSMENT-2026-10-13.md)
+reviews deliverables, execution, evidence limits and prioritised improvements.
+See [live project status](docs/PROJECT-STATUS.md) for the current task and checks.
+
 The recorded release candidate is bundle `2026-10-02-f9f141c`. Its full
 offline harness passed 83/83 checks, and the 85-file archive passed its
 installation, upgrade, rollback and reproducibility checks. Its recorded

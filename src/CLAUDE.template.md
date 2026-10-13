@@ -4,6 +4,15 @@ Read `ORCHESTRATOR.md` before delegating any task. Load only the relevant
 section of `ORCHESTRATOR-REFERENCE.md` when the core document directs you to it.
 Its engineering standards and handoff contract apply from the first session.
 
+## Operator preferences and status
+
+Apply the UI/UX and Apps perspectives in `ORCHESTRATOR.md` unless the operator
+selects different ones. Record project-specific quality standards, the autonomy
+preference and agreed scope here so new sessions load them. Ask about autonomy
+once if it is not already known; do not repeatedly request existing authority.
+Maintain `docs/PROJECT-STATUS.md` with completed, current and remaining work,
+verification, blockers and dated time estimates. Read it on session start.
+
 ## Required retrieval
 
 Every task, session, agent and subagent starts with `graft_check_freshness`.
@@ -42,3 +51,9 @@ dated direct API cost range and elapsed-time range for the session work. Notify
 the operator before any switch or launch they must perform. The receiving
 session reads the named handoff first. `ORCHESTRATOR.md` contains the operating
 contract; its reference-loading section identifies when more detail is needed.
+
+Include blast radius, file ownership and the exact kickoff prompt. Commit
+verified task-owned changes before handing off in a Git project. With established
+autonomy authority, launch necessary follow-on sessions using supported host
+controls and report progress; otherwise provide the exact manual action.
+Do not infer new implementation or paid-experiment authority from a review plan.

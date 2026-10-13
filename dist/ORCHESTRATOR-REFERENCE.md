@@ -552,6 +552,16 @@ transition, notify the operator with the file, model and effort, direct
 API cost range and elapsed time range. When the host cannot perform the
 switch or launch, state the exact operator action needed.
 
+Also record the blast radius, file ownership and exact kickoff prompt. Commit
+verified task-owned changes before each handoff in a Git project, preserving
+unrelated changes. If verification or committing is blocked, report that state.
+Use an established autonomy preference to perform necessary supported host
+transitions within the agreed scope; ask once when no preference is recorded.
+Keep the operator informed and verify the receiving session's progress. Maintain
+a live project status document with completed, current and remaining work,
+verification, blockers and dated estimates. Explain options, tradeoffs, affected
+components and the recommended choice for decisions requiring the operator.
+
 The computed cost lines cover the named workload, not the whole
 development session. Add a session API-equivalent estimate in prose above
 them: dated official pricing source, expected input, output (including

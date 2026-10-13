@@ -1,5 +1,11 @@
 # Project instructions
 
+Read `docs/OPERATOR-PREFERENCES.md` for the operator's standing preferences and
+`docs/PROJECT-STATUS.md` for current work. Apply both from the first session.
+The selected additional perspectives are UI/UX and Apps. Autonomous continuation
+is authorised within the agreed task scope; follow the documented handoff,
+commit, cost and status contract before a necessary session or agent transition.
+
 ## Required retrieval: Graft MCP
 
 Use Graft MCP on every task in this project, in every session, agent and

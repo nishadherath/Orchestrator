@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-10-13T07:51:48.645014+00:00",
+  "source_base": "82a077a",
+  "checked_build": {
+    "command": "tools/build_dist.py",
+    "exit_code": 0,
+    "log": "test/results/2026-10-13-project-assessment-build.log",
+    "log_sha256": "27ee7f6987a5451c60a729b0ccb69507bb9607cb210da4f30588af5fc89401e6",
+    "scope": "Existing full harness gate with only the builder-defined pre-build parity exceptions; those checks are rerun below. Individual full-run counts were not retained by the builder.",
+    "log_format": "UTF-8, LF, one terminal newline; diagnostic content preserved."
+  },
+  "bundle_version": "2026-10-13-82a077a-dirty",
+  "post_build_result": "PASS",
+  "checks": [
+    {
+      "id": "DIST",
+      "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+      "status": "PASS",
+      "detail": "85 files match at 2026-10-13-82a077a-dirty"
+    },
+    {
+      "id": "RELEASE",
+      "covers": "release-candidate parity and redistribution checks run",
+      "status": "PASS",
+      "detail": "mechanical failures=[]; operator actions=['clean_build_stamp', 'publication']"
+    },
+    {
+      "id": "CONTEXT",
+      "covers": "prompt reduction preserves the operating contract",
+      "status": "PASS",
+      "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.090s\n\nOK"
+    },
+    {
+      "id": "PROSE",
+      "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+      "status": "PASS",
+      "detail": "925 files clean"
+    }
+  ],
+  "experimental_provider_calls": 0,
+  "limitations": [
+    "No new live model comparison or host-isolation qualification.",
+    "Graft MCP timed out; Graft CLI retrieval succeeded with important source verified directly."
+  ],
+  "final_document_checks": {
+    "recorded_at": "2026-10-13T07:56:53.745863+00:00",
+    "prose": [
+      {
+        "id": "PROSE",
+        "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+        "status": "PASS",
+        "detail": "925 files clean"
+      }
+    ],
+    "local_links_checked": 26,
+    "missing_links": [],
+    "git_diff_check_exit": 0,
+    "git_diff_check_output": "",
+    "line_ending_correction": "Normalised the newly written status file to LF; reran the existing prose check."
+  }
+}

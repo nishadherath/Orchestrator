@@ -1,0 +1,22 @@
+refusing to build: harness did not produce parseable --json output (exit 1)
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File "d:\Code\Claude\Orchestrator\test\harness\check.py", line 1834, in <module>
+    result = main(sys.argv[1:])
+             ^^^^^^^^^^^^^^^^^^
+  File "d:\Code\Claude\Orchestrator\test\harness\check.py", line 1740, in main
+    check_controller_x0(report)
+  File "d:\Code\Claude\Orchestrator\test\harness\check.py", line 811, in check_controller_x0
+    proc = subprocess.run([sys.executable, str(tests)], cwd=REPO_ROOT,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bob\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bob\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bob\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 1630, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['C:\\Users\\Bob\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe', 'd:\\Code\\Claude\\Orchestrator\\test\\harness\\controller_x0_tests.py']' timed out after 60 seconds
