@@ -1,0 +1,83 @@
+{
+  "python": "3.14.7 (main, Sep  5 2026, 05:55:41) [GCC 16.2.0]",
+  "probes": [
+    {
+      "name": "mounted stat",
+      "samples": 20,
+      "total_seconds": 0.0942,
+      "median_seconds": 0.0046,
+      "maximum_seconds": 0.0055
+    },
+    {
+      "name": "mounted read",
+      "samples": 20,
+      "total_seconds": 0.1235,
+      "median_seconds": 0.0061,
+      "maximum_seconds": 0.0071
+    },
+    {
+      "name": "mounted resolve",
+      "samples": 20,
+      "total_seconds": 0.3541,
+      "median_seconds": 0.018,
+      "maximum_seconds": 0.022
+    },
+    {
+      "name": "mounted parent list",
+      "samples": 20,
+      "total_seconds": 0.1676,
+      "median_seconds": 0.0087,
+      "maximum_seconds": 0.0104
+    },
+    {
+      "name": "native stat",
+      "samples": 20,
+      "total_seconds": 0.0001,
+      "median_seconds": 0.0,
+      "maximum_seconds": 0.0
+    },
+    {
+      "name": "native read",
+      "samples": 20,
+      "total_seconds": 0.0004,
+      "median_seconds": 0.0,
+      "maximum_seconds": 0.0001
+    },
+    {
+      "name": "native resolve",
+      "samples": 20,
+      "total_seconds": 0.0003,
+      "median_seconds": 0.0,
+      "maximum_seconds": 0.0001
+    },
+    {
+      "name": "native parent list",
+      "samples": 20,
+      "total_seconds": 0.0005,
+      "median_seconds": 0.0,
+      "maximum_seconds": 0.0001
+    },
+    {
+      "name": "mounted Python import default",
+      "samples": 5,
+      "total_seconds": 0.7247,
+      "median_seconds": 0.1478,
+      "maximum_seconds": 0.1801
+    },
+    {
+      "name": "mounted Python import no_bytecode",
+      "samples": 5,
+      "total_seconds": 0.7214,
+      "median_seconds": 0.1485,
+      "maximum_seconds": 0.1729
+    },
+    {
+      "name": "mounted Python import native_pycache",
+      "samples": 5,
+      "total_seconds": 1.1554,
+      "median_seconds": 0.1481,
+      "maximum_seconds": 0.6067
+    }
+  ],
+  "ok": true
+}

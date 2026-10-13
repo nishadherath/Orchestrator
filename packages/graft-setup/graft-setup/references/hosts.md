@@ -124,3 +124,44 @@ version, not every Unix host.
 
 Primary host references: [Microsoft WSL commands](https://learn.microsoft.com/en-us/windows/wsl/basic-commands)
 and [WSL troubleshooting](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting-guide).
+
+## WSL mounted projects
+
+`diagnose.py` reports the Linux filesystem type and mount point containing the
+resolved project. Use that evidence rather than assuming every `/mnt/` path
+uses the same transport. Windows junctions can give one checkout several paths;
+prefer its actual physical drive path when comparing measurements.
+
+Separate cold WSL startup, Python/Node startup, file metadata, file reads and
+Graft work. Compare repeated operations with a native temporary-file control.
+Keep test deadlines unchanged. A serial passing rerun does not explain earlier
+intermittent stalls, and faster averages do not establish bounded tail latency.
+Preserve failures and record whether source, fixtures and caches were mounted.
+
+On the tested WSL 3.0.3 x64 host, the legacy 9P/DrvFs boundary had slower metadata
+and reads. An authorised, backed-up `[wsl2]` `virtiofs=true` trial switched the
+same Windows drives to VirtioFS. This is an experimental, user-wide WSL 2
+setting, not a portable default or an automatic action of these helpers. Check
+the installed version's documented prerequisites and active distro workloads.
+Do not change antivirus protection, filesystem permissions or unrelated storage
+settings to make a test pass.
+
+When a transport change is in scope, save the exact existing `.wslconfig`, merge
+only the reviewed setting and reset WSL when affected workloads can stop.
+Finish inspections before resetting; do not overlap a reset with another WSL
+request. Use an explicit Linux startup cwd such as `--cd /`. A platform boot
+bound should cover its configured startup interval; keep separate 3/20-second
+test bounds intact. Confirm the actual mount type with `findmnt --json -T
+/absolute/project`; a setting or warning containing "virtiofs" is insufficient.
+Restore the saved configuration if boot, mount or filesystem checks fail.
+
+Verify Windows-to-Linux and Linux-to-Windows edit visibility, atomic replacement
+and removal, then run real scoped refresh and MCP addition/removal from the
+mounted project. The package integration runner's `--parent` must point to that
+mount so fixtures and caches stay there. Its offline suite accepts
+`GRAFT_TEST_PARENT` for the same purpose. Passing tests on native copies alone
+does not qualify a Windows-mounted project. Inspect Git ownership checks and
+symlink behaviour too; retain platform-specific skips and errors explicitly.
+
+Primary references: [Microsoft filesystem considerations](https://learn.microsoft.com/en-us/windows/wsl/filesystems)
+and [WSL configuration](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).

@@ -1,0 +1,30 @@
+{
+  "commands": [
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "elapsed_seconds": 0.89,
+      "output": ""
+    },
+    {
+      "args": [
+        "-d",
+        "kali-linux",
+        "--exec",
+        "/usr/bin/findmnt",
+        "-T",
+        "/mnt/d/Code/Claude/Orchestrator",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "elapsed_seconds": 37.184,
+      "output": "TARGET SOURCE FSTYPE OPTIONS\n/mnt/d D:\\    9p     rw,noatime,aname=drvfs;path=D:\\;uid=1000;gid=1000;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd,rfd=6,wfd=6\n"
+    }
+  ],
+  "ok": true
+}

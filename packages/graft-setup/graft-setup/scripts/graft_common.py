@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import shutil
 import subprocess
 import time
@@ -32,7 +33,8 @@ def local_path(root: Path, value: str) -> Path:
     if posix.is_absolute() or not posix.parts or any(p in {"..", "."} or ":" in p for p in posix.parts):
         raise GraftError("Paths must be non-empty, relative to the project, with no parent traversal.")
     path = root.joinpath(*posix.parts)
-    if not path.resolve().is_relative_to(root) or path.resolve() == root:
+    resolved = path.resolve()
+    if not resolved.is_relative_to(root) or resolved == root:
         raise GraftError("The selected path escapes the project or selects its root.")
     return path
 
@@ -140,6 +142,29 @@ def launcher_identity(command: list[str]) -> dict:
             "reason": "Package entry is not directly resolvable; use an explicit Node/CLI launcher to record identity."}
 
 
+def filesystem_info(root: Path, mount_table: Path = Path("/proc/self/mountinfo")) -> dict:
+    """Observe Linux mount transport without invoking tools or changing it."""
+    try:
+        lines = mount_table.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return {"available": False, "reason": "Linux mount information is unavailable on this host."}
+    selected = None
+    for line in lines:
+        before, separator, after = line.partition(" - ")
+        fields, filesystem = before.split(), after.split()
+        if not separator or len(fields) < 6 or len(filesystem) < 2:
+            continue
+        decode = lambda value: re.sub(r"\\([0-7]{3})", lambda match: chr(int(match[1], 8)), value)
+        target = Path(decode(fields[4]))
+        if root.is_relative_to(target) and (selected is None or len(target.parts) > len(selected[0].parts)):
+            selected = (target, filesystem[0], decode(filesystem[1]))
+    if selected is None:
+        return {"available": False, "reason": "No mount contains the selected project."}
+    target, kind, source = selected
+    return {"available": True, "mount_point": str(target), "filesystem_type": kind,
+            "source": source, "host_shared": kind in {"9p", "virtiofs", "drvfs"}}
+
+
 def startup_review_needed(root: Path, cache: Path, version: str) -> bool:
     """0.21.1 MCP boot may replay wiring, including prior global writes."""
     if version != TESTED_VERSION:
@@ -178,10 +203,15 @@ def graph_summary(cache: Path, root: Path) -> dict:
         if not isinstance(nodes, list) or not isinstance(edges, list):
             raise ValueError("invalid graph lists")
         files = {n["path"] for n in nodes if n["kind"] == "file"}
+        validated = set()
         for node in nodes:
             if not isinstance(node.get("path"), str):
                 raise ValueError("invalid node path")
-            local_path(root, node["path"])
+            # Symbols share file paths. Resolve each distinct path once per
+            # snapshot, preserving all escape checks without repeated host I/O.
+            if node["path"] not in validated:
+                local_path(root, node["path"])
+                validated.add(node["path"])
         groups: dict[str, int] = {}
         states: dict[str, int] = {}
         for value in files:

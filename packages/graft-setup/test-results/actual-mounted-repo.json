@@ -1,0 +1,4 @@
+{
+  "ok": false,
+  "error": "Freshness check returned no usable structural result. Check scope, launcher and cache."
+}

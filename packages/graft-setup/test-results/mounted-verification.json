@@ -1,0 +1,30 @@
+{
+  "script_source": "Windows-mounted project, no native source copy",
+  "fixture_parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-verification",
+  "acceptance_deadlines_changed": false,
+  "runs": [
+    {
+      "name": "mounted offline 1",
+      "exit_code": 0,
+      "elapsed_seconds": 26.158
+    },
+    {
+      "name": "mounted offline 2",
+      "exit_code": 0,
+      "elapsed_seconds": 27.725
+    },
+    {
+      "name": "mounted real fork Graft",
+      "exit_code": 0,
+      "elapsed_seconds": 46.939
+    }
+  ],
+  "filesystem": {
+    "available": true,
+    "mount_point": "/mnt/d",
+    "filesystem_type": "virtiofs",
+    "source": "drvfs",
+    "host_shared": true
+  },
+  "ok": true
+}

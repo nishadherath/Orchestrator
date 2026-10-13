@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import time
 
-from graft_common import GraftError, arguments, capabilities, check, failure, graph_summary, launcher, local_path, repo_path, report, startup_review_needed
+from graft_common import GraftError, arguments, capabilities, check, failure, filesystem_info, graph_summary, launcher, local_path, repo_path, report, startup_review_needed
 
 
 def main() -> int:
@@ -18,6 +18,7 @@ def main() -> int:
         command = launcher(args.launcher_json)
         start = time.monotonic()
         value = {"ok": True, "repo": str(root), "cache": str(cache),
+                 "filesystem": filesystem_info(root),
                  "launcher": command, "capabilities": capabilities(command, root, args.timeout),
                  "graph": graph_summary(cache, root), "provider_calls": 0}
         value["mcp_startup_upkeep_review_needed"] = startup_review_needed(root, cache, value["capabilities"]["version"])

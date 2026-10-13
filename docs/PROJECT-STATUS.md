@@ -32,6 +32,9 @@ The separately requested portable Graft skill package is also complete.
   uses locally synced fork output while Linux uses the published npm archive.
   Updated the installed skill and package to 1.0.2 with build identity diagnostics
   and [the provenance investigation](../packages/graft-setup/PROVENANCE.md).
+- Remediated the tested WSL mounted-project path with a backed-up VirtioFS
+  transport setting and updated the installed skill/package to 1.0.3. The
+  project stayed on its Windows drive; see [the report](../packages/graft-setup/MOUNTED-FILESYSTEM.md).
 
 ## Verification
 
@@ -54,9 +57,8 @@ The separately requested portable Graft skill package is also complete.
   and [offline checks](../test/results/2026-10-13-graft-offline-normal.json).
 - The live commit-time freshness recheck passed in 111.939 seconds. Its latency
   remains variable; this result is below the existing 180-second timeout.
-- Portable skill 1.0.2: 20 offline tests passed on Windows and 20 on native
-  WSL/Linux Python. The Linux suite used byte-identical source on the native
-  filesystem at unchanged deadlines after mounted-source timeout failures.
+- Portable skill 1.0.3: 22 offline tests passed on Windows and two runs of 22
+  passed from Windows-mounted WSL source and fixtures at unchanged deadlines.
   Real Windows fork Graft 0.21.1 passed 14 acceptance steps; the published
   Linux package passed 12 source/MCP scenarios and one unsupported-option refusal.
   An isolated Linux fork snapshot passed 14 steps, including structured Markdown.
@@ -68,6 +70,18 @@ The separately requested portable Graft skill package is also complete.
   The published CLI on Windows also lacks the optional flags. An isolated fork
   snapshot passed all 14 native Linux acceptance steps, including structured
   Markdown. Active Graft installs and fork source were preserved.
+- Mounted-project remediation: 14 real fork and 13 published-package acceptance
+  steps passed with source/cache fixtures on VirtioFS. Cross-host edit/rename/
+  deletion visibility and two cold starts passed; configuration rollback is
+  saved locally. The first transport trial failed its boot bound and was
+  restored before the successful sequential trial. Historical stall spikes
+  were not reproduced in the initial serial baseline; no internal 9P defect or
+  universal latency bound is claimed. VirtioFS is experimental and user-wide;
+  Docker was stopped and its workloads were not qualified.
+- Eliminated redundant diagnostic path resolution. The actual mounted index's
+  graph-summary time fell from 30.560 to 2.266 seconds with escape checks preserved. An
+  explicitly scoped native cache for the actual project passed fresh structure
+  checks at 346 files/3,948 nodes; the prior Windows cache remains intact.
 
 ## Current and remaining work
 
@@ -89,6 +103,9 @@ The same-version capability investigation is also complete. The fork's compiled
 output replaces npm `dist/` while preserving package version metadata; the
 observed capability difference is explained. The 1.0.2 package preserves the
 intentional fork and records build identity rather than equalising installations.
+The requested mounted-filesystem remediation and mounted-project verification
+are complete. The 1.0.3 skill reports actual mount transport and documents the
+tested configuration, rollback and remaining limits.
 
 The recommended next scope is instruction-history cleanup, followed by the
 existing O0-O6 offline qualification plan. These remain recommendations; the

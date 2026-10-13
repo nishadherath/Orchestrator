@@ -4,9 +4,11 @@ test_dry_run_does_not_mutate_project (test_helpers.Helpers.test_dry_run_does_not
 test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) ... ok
 test_foreign_refresh_locks_are_not_broken (test_helpers.Helpers.test_foreign_refresh_locks_are_not_broken) ... ok
 test_freshness_false_positive_and_semantic_only_drift (test_helpers.Helpers.test_freshness_false_positive_and_semantic_only_drift) ... ok
+test_large_symbol_graph_validates_files_once_and_rejects_escape (test_helpers.Helpers.test_large_symbol_graph_validates_files_once_and_rejects_escape) ... ok
 test_linked_cache_is_not_followed_for_diagnostics (test_helpers.Helpers.test_linked_cache_is_not_followed_for_diagnostics) ... ok
 test_mcp_protocol_failures_and_deadline_under_notification_spam (test_helpers.Helpers.test_mcp_protocol_failures_and_deadline_under_notification_spam) ... ok
 test_mcp_stderr_is_drained (test_helpers.Helpers.test_mcp_stderr_is_drained) ... ok
+test_mount_transport_selects_deepest_real_path_and_decodes_spaces (test_helpers.Helpers.test_mount_transport_selects_deepest_real_path_and_decodes_spaces) ... ok
 test_no_paid_option_and_child_overrides_are_local (test_helpers.Helpers.test_no_paid_option_and_child_overrides_are_local) ... ok
 test_publication_failure_restores_old_cache_or_reports_preserved_backup (test_helpers.Helpers.test_publication_failure_restores_old_cache_or_reports_preserved_backup) ... ok
 test_release_determinism_no_caches_and_integrity (test_helpers.Helpers.test_release_determinism_no_caches_and_integrity) ... ok
@@ -20,6 +22,6 @@ test_traversal_root_and_escaped_links_are_rejected (test_helpers.Helpers.test_tr
 test_wrong_fingerprint_identity_is_not_reused (test_helpers.Helpers.test_wrong_fingerprint_identity_is_not_reused) ... ok
 
 ----------------------------------------------------------------------
-Ran 20 tests in 82.791s
+Ran 22 tests in 33.457s
 
 OK

@@ -1,0 +1,19 @@
+{
+  "backup": ".graft/wslconfig-before-mount-fix-2026-10-14.ini",
+  "setting": "wsl2.virtiofs=true",
+  "configuration_before": "[wsl2]",
+  "configuration_after": "[wsl2]\r\nvirtiofs=true\r\n",
+  "commands": [
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 25.342,
+      "output": ""
+    }
+  ],
+  "ok": false,
+  "error": "Command '['wsl.exe', '-d', 'kali-linux', '--exec', '/usr/bin/findmnt', '-T', '/mnt/d/Code/Claude/Orchestrator', '-o', 'TARGET,SOURCE,FSTYPE,OPTIONS']' timed out after 45 seconds",
+  "configuration_restored": true
+}

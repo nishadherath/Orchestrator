@@ -1,0 +1,14 @@
+{
+  "files": 346,
+  "nodes": 3948,
+  "path_validations": 3948,
+  "distinct_paths": 346,
+  "elapsed_seconds": 30.56,
+  "filesystem": {
+    "available": true,
+    "mount_point": "/mnt/d",
+    "filesystem_type": "virtiofs",
+    "source": "drvfs",
+    "host_shared": true
+  }
+}

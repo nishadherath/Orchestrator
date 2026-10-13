@@ -26,7 +26,7 @@ FAKE = Path(__file__).with_name("fake_graft.py")
 
 class Helpers(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="graft portable & spaces ")
+        self.temp = tempfile.TemporaryDirectory(prefix="graft portable & spaces ", dir=os.environ.get("GRAFT_TEST_PARENT"))
         self.root = Path(self.temp.name)
         (self.root / "src").mkdir()
         (self.root / "src/app.py").write_text("def compute():\n    return 'distinctive literal'\n", encoding="utf-8")
@@ -34,6 +34,37 @@ class Helpers(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def test_mount_transport_selects_deepest_real_path_and_decodes_spaces(self):
+        table = self.root / "mountinfo"
+        table.write_text("1 0 8:1 / / rw - ext4 /dev/root rw\n"
+                         "2 1 0:1 / /mnt/d rw - 9p D:\\134 rw\n"
+                         "3 2 0:2 / /mnt/d/project\\040space rw - virtiofs drvfs rw\n"
+                         "malformed\n", encoding="utf-8")
+        selected = common.filesystem_info(Path("/mnt/d/project space/app"), table)
+        self.assertEqual(selected["filesystem_type"], "virtiofs")
+        self.assertEqual(Path(selected["mount_point"]), Path("/mnt/d/project space"))
+        self.assertTrue(selected["host_shared"])
+        other = common.filesystem_info(Path("/mnt/d/project space-other"), table)
+        self.assertEqual(other["filesystem_type"], "9p")
+        self.assertEqual(other["source"], "D:\\")
+        self.assertFalse(common.filesystem_info(self.root, self.root / "missing")["available"])
+
+    def test_large_symbol_graph_validates_files_once_and_rejects_escape(self):
+        cache = self.root / "graft"
+        (cache / ".graph").mkdir(parents=True)
+        nodes = [{"kind": "file", "path": "src/app.py"}]
+        nodes.extend({"kind": "function", "path": "src/app.py"} for _ in range(2000))
+        wiring = cache / ".graph/wiring.json"
+        wiring.write_text(json.dumps({"nodes": nodes, "edges": []}), encoding="utf-8")
+        with patch.object(common, "local_path", wraps=common.local_path) as validate:
+            report = common.graph_summary(cache, self.root)
+            self.assertEqual(report["nodes"], 2001)
+            self.assertEqual(validate.call_count, 1)
+        nodes.append({"kind": "function", "path": "../escaped.py"})
+        wiring.write_text(json.dumps({"nodes": nodes, "edges": []}), encoding="utf-8")
+        with self.assertRaises(common.GraftError):
+            common.graph_summary(cache, self.root)
 
     def test_acceptance_rejects_interoperability_runtime(self):
         spec = importlib.util.spec_from_file_location("integration_acceptance", PACKAGE / "tests/integration.py")

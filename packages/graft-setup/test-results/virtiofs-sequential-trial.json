@@ -1,0 +1,42 @@
+{
+  "setting": "wsl2.virtiofs=true",
+  "boot_bound_seconds": 90,
+  "acceptance_deadlines_changed": false,
+  "commands": [
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.121,
+      "output": ""
+    },
+    {
+      "args": [
+        "-d",
+        "kali-linux",
+        "--cd",
+        "/",
+        "--exec",
+        "/usr/bin/findmnt",
+        "--json",
+        "-T",
+        "/mnt/d/Code/Claude/Orchestrator",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 9.006,
+      "output": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/mnt/d\",\n         \"source\": \"drvfs[/d0d78c01-c58f-4bc9-916d-4c9e9a534c38]\",\n         \"fstype\": \"virtiofs\",\n         \"options\": \"rw,noatime\"\n      }\n   ]\n}\n"
+    }
+  ],
+  "mount": {
+    "target": "/mnt/d",
+    "source": "drvfs[/d0d78c01-c58f-4bc9-916d-4c9e9a534c38]",
+    "fstype": "virtiofs",
+    "options": "rw,noatime"
+  },
+  "ok": true
+}

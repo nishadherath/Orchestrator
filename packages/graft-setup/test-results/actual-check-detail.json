@@ -1,0 +1,5 @@
+{
+  "exit_code": 1,
+  "stdout_prefix": "{\n  \"context\": {\n    \"ok\": false,\n    \"missing\": true,\n    \"contentDrift\": [],\n    \"removed\": [],\n    \"coverage\": [],\n    \"indexDrift\": []\n  },\n  \"graph\": {\n    \"ok\": false,\n    \"missing\": false,\n    \"added\": [\n      \"packages/graft-setup/build_packa",
+  "stderr_prefix": ""
+}

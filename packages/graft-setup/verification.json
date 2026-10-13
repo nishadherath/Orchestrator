@@ -1,19 +1,21 @@
 {
-  "recorded_at": "2026-10-13T18:59:24.276068+00:00",
-  "skill_version": "1.0.2",
+  "recorded_at": "2026-10-13T20:50:37.420186+00:00",
+  "skill_version": "1.0.3",
   "graft_version": "0.21.1",
   "provider_calls": 0,
   "offline_tests": {
     "Windows": {
       "python": "3.14.7",
-      "tests": 20,
+      "tests": 22,
       "status": "PASS"
     },
-    "WSL/Linux": {
+    "WSL/Linux Windows-mounted": {
       "python": "3.14.7",
-      "tests": 20,
+      "tests": 22,
+      "runs": 2,
       "status": "PASS",
-      "source_location": "Native filesystem with all 17 source file hashes verified; mounted-source failures retained"
+      "source_and_fixtures": "Windows-mounted project, no native copy",
+      "deadlines_changed": false
     }
   },
   "real_graft_integration": {
@@ -39,8 +41,15 @@
           "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
           "package_version": "0.21.1",
           "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
-          "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+          "cli_sha256": "cb273239344d288c9eefd8f64dd018dddbf075b747adf0bec008f565998a76c2",
           "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+        }
+      },
+      "workspace": {
+        "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration\\graft portable & unicode \u03a9 x7e2lnk9",
+        "filesystem": {
+          "available": false,
+          "reason": "Linux mount information is unavailable on this host."
         }
       },
       "structured_indexing": "PASS",
@@ -48,38 +57,7 @@
       "mcp_tools": 6,
       "automatic_addition_removal_and_retained_scope": "PASS"
     },
-    "Linux published npm": {
-      "steps": 13,
-      "status": "PASS",
-      "python": "3.14.7",
-      "runtime": {
-        "platform": "linux",
-        "arch": "x64",
-        "node": "v22.23.0",
-        "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
-      },
-      "capabilities": {
-        "version": "0.21.1",
-        "tested_version": "0.21.1",
-        "version_matches": true,
-        "supports_structured": false,
-        "supports_documents": false,
-        "supports_deep_documents": false,
-        "identity": {
-          "available": true,
-          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft",
-          "package_version": "0.21.1",
-          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js",
-          "cli_sha256": "5d744a3aad0bb9580e3ae6ecd9a06c1e818521bb331acb4f457732554bcbf2af",
-          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
-        }
-      },
-      "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
-      "manual_build_scope_widening_verified": true,
-      "mcp_tools": 6,
-      "automatic_addition_removal_and_retained_scope": "PASS"
-    },
-    "Linux isolated fork snapshot": {
+    "Windows-mounted Linux fork": {
       "steps": 14,
       "status": "PASS",
       "python": "3.14.7",
@@ -105,7 +83,58 @@
           "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
         }
       },
+      "workspace": {
+        "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-verification/graft portable & unicode \u03a9 dycimb__",
+        "filesystem": {
+          "available": true,
+          "mount_point": "/mnt/d",
+          "filesystem_type": "virtiofs",
+          "source": "drvfs",
+          "host_shared": true
+        }
+      },
       "structured_indexing": "PASS",
+      "manual_build_scope_widening_verified": true,
+      "mcp_tools": 6,
+      "automatic_addition_removal_and_retained_scope": "PASS"
+    },
+    "Windows-mounted Linux published npm": {
+      "steps": 13,
+      "status": "PASS",
+      "python": "3.14.7",
+      "runtime": {
+        "platform": "linux",
+        "arch": "x64",
+        "node": "v22.23.0",
+        "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+      },
+      "capabilities": {
+        "version": "0.21.1",
+        "tested_version": "0.21.1",
+        "version_matches": true,
+        "supports_structured": false,
+        "supports_documents": false,
+        "supports_deep_documents": false,
+        "identity": {
+          "available": true,
+          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft",
+          "package_version": "0.21.1",
+          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js",
+          "cli_sha256": "5d744a3aad0bb9580e3ae6ecd9a06c1e818521bb331acb4f457732554bcbf2af",
+          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+        }
+      },
+      "workspace": {
+        "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-published-verification/graft portable & unicode \u03a9 pen2_s19",
+        "filesystem": {
+          "available": true,
+          "mount_point": "/mnt/d",
+          "filesystem_type": "virtiofs",
+          "source": "drvfs",
+          "host_shared": true
+        }
+      },
+      "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
       "manual_build_scope_widening_verified": true,
       "mcp_tools": 6,
       "automatic_addition_removal_and_retained_scope": "PASS"
@@ -132,42 +161,61 @@
     "files": 13
   },
   "deterministic_release": {
-    "archive": "graft-setup-1.0.2.zip",
-    "sha256": "18a955b8fac293d189019ea0e43e89545a070dcc23e08748961978f95c06de1f",
+    "archive": "graft-setup-1.0.3.zip",
+    "sha256": "ffb5251ee080f05ddfde9c24e7960cf0efc882c22cea8d19998d5c7b14807c4c",
     "status": "PASS",
     "verified_on": [
       "Windows",
-      "WSL/Linux"
+      "WSL/Linux Windows-mounted"
     ]
   },
   "evidence": {
+    "actual-check-detail.json": "8c17d6a8bf45bf7223b6e70ead629ff0aeb94c8e918e0f3edc901e3604db563b",
+    "actual-mounted-core-diagnose.json": "8e345f415870fdb714661ea26aff34d99b8d8df7b3f099eff81cfa9832048832",
+    "actual-mounted-core-refresh.json": "1413c701983e77155875ed0e6e5c06458b0262bfa941958597c0ecfab514437f",
+    "actual-mounted-repo.json": "751dc65d2969a1dd14816f02ee5aa4997ff3718697b2f3feef5cce9880c305b7",
     "build-provenance.json": "8eb2f750ea7f27652ecabec4d0b48fc411c91fcd90150a0ac9812ba60185a89b",
+    "cross-host-visibility.json": "81fe4dbfd712f219615c34bde4c65c63ec96bd78d4ccbee1a29c3c725d7d89bb",
     "git-identity-initial-failure.json": "70edb07e3182d47e0b303571af5b7ebf98d125329bd967de9e39c93b35166a25",
-    "installed-parity.json": "b1a2a18f42fbcbddfc4d81bcdcc99d995cddd03ebffdd2b1ce1932e411234d9f",
+    "graph-paths-after.json": "4121072278a9b8df81689ba6f880a7b1a4734d273465b853f9b9051f4b9ee70e",
+    "graph-paths-before.json": "6ab7b16432c5d4f33dbe7b77585fe76ae4d28384a85f6806b46b6efc9d6aebda",
+    "installed-parity.json": "ad58cc0dcb6546cf68fb379acf111fbde8e52b5101197cd2030a30f3e6ddbb3b",
     "integration-initial-failure.json": "5eb1494906ecb36695abb7f6082c668677084b45b7857f9fcbefb23518059d6d",
+    "integration-mounted-fork.json": "ae89e664633914ef994108c459f76aac71a084a0f6b2b3823f62e7783cf9a7c2",
+    "integration-mounted-published.json": "a2ff66825a04c4bef0a1118bbb70d402131bb4219b495db034e0c2046cd3d65f",
     "integration-posix-fork-layout-initial-failure.json": "e61bda1b880b4d0b849f9d88091c592a5ff1e565faf8b487acac7144b37b3a5e",
     "integration-posix-fork.json": "3937b619efc166084bed6bd243b2b1b82c8f95f5530032a7f57c1290c6f84ba6",
     "integration-posix-initial-failure.json": "b6f907df8afe184b05ae5ef8143ee5369acb38b6fe282063d1e2ef07a4c3d0e3",
     "integration-posix.json": "d88b69c139989ec7fcecdb3a53b3bdd8f8580d5b5eaa5ab65d43111b524eda99",
-    "integration-windows.json": "591b6c3cebbff31b5518279ff2d368df4ab1ded89f26e1cc6d9a5a1b3b9b2010",
-    "repository-offline.json": "5d2f16519e6a79ef1b1373d0cb4372d3a23168c8992840d50f7b09599d475e79",
+    "integration-windows.json": "f962bbc3915c66ab2bf40c9b0f3504e3ae2a3835ba436670507d4f3114ceb6a2",
+    "mounted-baseline.json": "3e3f58a33712bd64eaf4ab71a08a00982e06b7b0e632eb05e82cb2ebc00b0bd3",
+    "mounted-io-after.json": "1de1890a0ad54a24e5e36c9990fd0eb049fbd5fa678b957ff7fc7639dc748867",
+    "mounted-io-before.json": "66b1837661f5967287469b55260d49e3d851e671a62a43aaa686d11a77d08b60",
+    "mounted-verification.json": "46043ce4ad10fb1f329ca61b2d3fa8190a7c2dab29df05bb1e0507356d476993",
+    "repository-offline.json": "c27915564ccb78f9aa14370040e9a0e081d066de535b796042b27bce076e8292",
     "runtime-posix-fork.json": "2a42683c7584142e890dc6514654c5dc7f1f0a41722717d178a7f29ca5a34f1c",
     "runtime-posix.json": "f9347123ff3faf9ef676960b51f7f7a8877a5607758782682dd27e2feb7b7b78",
+    "transport-rollback.json": "84f044fa35032fa1823cfb5bc7636748cc35caea09fd94a861c149b7680c6608",
+    "unit-mounted-1.log": "a0f5b7587612d1d7490c11048097c1d6b8a995eb446ef22667d1cd8e8f0d4637",
+    "unit-mounted-2.log": "c072ef12353ed8725a76c4b484dde6b6e7db24e4fc5fb62fa3729c7f0442fc89",
+    "unit-mounted-baseline.log": "c9cec6c1ff557c65c1b1c571aa97d7892c13c118790f3099d7422d5dcb87bac1",
     "unit-posix-mounted-initial-failure.log": "b047f617a6b31a49d27c4c90438d9f14eab95ba15ff237e6dab87d6fa834dacd",
     "unit-posix-mounted-retry-failure.log": "d6d34c6eb0e82301678f3244ee7100c9591b52dd5cf3805b1bbe164463a03433",
     "unit-posix-source.json": "5289855cc613d69bb1508c8c76ff84d2b92e6e2afa45696c27efd68f7b7c65cb",
     "unit-posix.log": "9d6ffbaf2e714ff710081ab9c634916f8b1de46681aa37eebdcedca2a2d8c5d4",
-    "unit-windows.log": "c778d5f8f75d9e8c8aef5e4a5ec4783b99742e1c55f7f5f9ab3c83e8d714106a",
+    "unit-windows.log": "3e2383718cd9a31d0708275b85fb74fe0f3ae29c695b452d14ed24b0f4627930",
+    "virtiofs-cold-starts.json": "84884a9abdb4cde4f40ced936d8a88e49812ea18c4592385418424214db3fdda",
+    "virtiofs-sequential-trial.json": "4e9ac20f41741b3a3c12d2c779ab0e1d9de843b6b40781e5e3be844d94223966",
+    "virtiofs-trial.json": "b7e6dbe8d4beed08d0f91b911571a22b5ef21c9430979a5859fa19115918adf2",
     "wsl-startup.json": "f9d6b422cb90c4cebeca4cb44602e0f2f5af5348a5c8f3cccfa57337ce4659db"
   },
   "limitations": [
-    "Historical WSL CreateVm timeout had disappeared before intervention; its root cause and permanent prevention remain unproven.",
-    "Mounted Windows source triggered Linux test subprocess timeouts in two retained runs. Byte-identical source on native Linux passed at unchanged limits; underlying mounted-filesystem stalls remain unexplained.",
-    "The published npm Graft 0.21.1 lacks optional structured/document flags on both platforms; the local fork advertises them. Structured Markdown passed on both tested platforms with fork code; optional binary-document rendering was not exercised.",
-    "Observed fork HEAD is checkout context, not an embedded build attestation. Exact historical sync invocation was not recovered.",
-    "CLI and package JSON diagnostic digests do not verify every module or dependency; full published-member comparisons were performed separately for this investigation.",
-    "macOS and Python 3.12 were not executed; Python 3.12 is the stated API floor.",
-    "No paid deep pass, semantic provider repair, new host chat or general filesystem isolation qualification.",
+    "Earlier multi-second stall spikes were not reproduced in the initial serial baseline; the exact internal 9P defect or historical host-load cause remains unproven.",
+    "VirtioFS is experimental and affects all WSL 2 distros for this user. Docker was stopped and Docker workloads were not qualified.",
+    "The first transport trial failed its 45-second boot bound and restored configuration. A sequential trial with explicit Linux cwd and a separate 90-second platform boot bound succeeded; acceptance test deadlines stayed unchanged.",
+    "A native check against the old Windows cache produced unusable output naming added files beyond intended scope. That failure is retained; a separate explicitly scoped native cache for the actual project passed.",
+    "Filesystem and diagnostic averages improved, but no universal latency bound is established.",
+    "Binary-document rendering, paid deep passes, macOS, Python 3.12, new host chats and general filesystem isolation remain unqualified.",
     "Refresh locks coordinate the helper only; pause other automatic refresh clients before cache replacement.",
     "The complete Orchestrator harness was not rerun; relevant existing checks passed and consumer source/bundle were unchanged."
   ],
@@ -184,5 +232,51 @@
     "cause": "Local fork dist sync preserves published package metadata, so both labels remain 0.21.1",
     "published_cli_on_windows": "PASS; optional flags absent",
     "fork_on_native_linux": "PASS; structured Markdown indexed"
+  },
+  "mounted_filesystem": {
+    "status": "PASS",
+    "wsl_version": "3.0.3.0",
+    "setting": "wsl2.virtiofs=true",
+    "experimental": true,
+    "scope": "User-wide WSL 2 configuration",
+    "transport_before": "9p",
+    "transport_after": "virtiofs",
+    "rollback": ".graft/wslconfig-before-mount-fix-2026-10-14.ini",
+    "cold_starts": 2,
+    "cross_host_visibility": "PASS",
+    "test_deadlines_changed": false,
+    "source_location_changed": false,
+    "antivirus_or_permissions_changed": false,
+    "historical_spike_root_cause": "Not established; serial baseline passed before transport change, but boundary latency was measured and targeted."
+  },
+  "graph_summary_performance": {
+    "before_seconds": 30.56,
+    "after_seconds": 2.266,
+    "validations_before": 3948,
+    "validations_after": 346,
+    "files": 346,
+    "nodes": 3948,
+    "escape_checks_preserved": true
+  },
+  "actual_mounted_project": {
+    "status": "PASS",
+    "cache": ".graft/wsl-core",
+    "scope": [
+      "src",
+      "tools",
+      "test/harness"
+    ],
+    "files": 346,
+    "nodes": 3948,
+    "structural_fresh": true,
+    "semantic": "absent",
+    "original_windows_cache_preserved": true,
+    "ignore_configuration_preserved": true
+  },
+  "historical_evidence": {
+    "unit-posix.log": "1.0.2 native-source test run",
+    "unit-posix-source.json": "1.0.2 native-source hashes",
+    "integration-posix.json": "1.0.2 published Linux acceptance",
+    "integration-posix-fork.json": "1.0.2 native fork acceptance"
   }
 }

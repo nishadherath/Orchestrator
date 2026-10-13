@@ -3,7 +3,7 @@
 This source package updates the existing `graft-setup` skill for the installed
 Graft 0.21.1 and generalises the structural retrieval repair into configurable
 Python helpers. It is independent of Orchestrator's consumer bundle and its
-machine-specific Graft launchers. The skill is version 1.0.2.
+machine-specific Graft launchers. The skill is version 1.0.3.
 
 ## Contents and installation
 
@@ -112,4 +112,26 @@ All 20 offline tests passed on Windows and native Linux. The Linux suite used
 byte-identical source on the native filesystem with its original deadlines;
 two runs from mounted Windows source hit timeouts, and both failure logs remain.
 The underlying mounted-filesystem stalls were not repaired or fully diagnosed
-by this build-provenance investigation.
+by that build-provenance investigation; the separate 1.0.3 work is documented
+in [the mounted-filesystem report](MOUNTED-FILESYSTEM.md).
+
+## Version 1.0.3 mounted-project verification
+
+WSL now uses the backed-up, experimental VirtioFS setting on the tested host.
+The project remains Windows-mounted. Two runs passed all 22 offline tests with
+mounted helper source and fixtures, at unchanged deadlines. Real fork Graft
+passed 14 mounted-project acceptance steps; the published build passed 13,
+including safe refusal of its unsupported structured option. Cross-host edit,
+atomic replacement, creation and deletion checks passed. The setting survived
+two cold starts; Windows regressions and archive parity also passed.
+
+Diagnostics report the actual project mount type. The skill explains a reviewed
+transport trial and rollback; it does not set WSL configuration on other hosts.
+The old spikes were intermittent and were not reproduced in the serial baseline.
+The recorded results qualify this remediation, not an internal kernel diagnosis
+or a universal latency guarantee.
+
+The helper also eliminates duplicate symbol-path resolution: diagnostics on
+the actual mounted index improved from 30.560 to 2.266 seconds while retaining
+escape checks. A separate explicitly scoped native project cache passed fresh
+structure checks; the original Windows cache was preserved.

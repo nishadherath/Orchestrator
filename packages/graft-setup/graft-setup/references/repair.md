@@ -9,6 +9,7 @@
 | Structure is fresh but meanings are stale | Inspect semantic state and previous deep-pass errors | Preserve meanings or choose an explicit structural-only fallback; investigate provider separately |
 | Every lookup rebuilds | Compare selected launcher and fingerprint/extractor identities; inspect missing sidecars | Use matching executables and regenerate verified fingerprints |
 | Same version exposes different flags | Compare entry digests, package provenance and actual help; inspect local fork syncs | Select the intended build and test its capabilities; preserve an intentional fork |
+| WSL mounted files intermittently stall | Inspect actual transport; compare metadata, reads and runtime startup with native controls | Review a backed-up transport change when supported, then verify mounted source and caches at unchanged deadlines |
 | No files are indexed | Check source prefixes, Git visibility, skip names and parser support | Correct scope or include a real skipped source directory; do not label an empty graph healthy |
 
 ## Diagnostic and refresh contracts
@@ -17,6 +18,8 @@
 It records build flags and, for a directly resolved Graft entry, local CLI and
 package JSON digests. `version_matches` compares only the reported label.
 Entry digests do not attest the whole installation; wrappers can remain unknown.
+Graph path safety is checked for every distinct indexed path once per snapshot,
+so many symbols in one file do not multiply mounted-filesystem resolution work.
 `--check` adds bounded structural re-extraction. It does not start MCP or
 rebuild the cache. The report identifies missing meanings independently of
 structural freshness. Graph layouts outside the tested contract produce a

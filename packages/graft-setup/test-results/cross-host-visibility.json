@@ -1,0 +1,38 @@
+{
+  "checks": [
+    {
+      "mode": "read",
+      "ok": true,
+      "elapsed_seconds": 2.321
+    },
+    {
+      "mode": "read",
+      "ok": true,
+      "elapsed_seconds": 0.226
+    },
+    {
+      "mode": "replace",
+      "ok": true,
+      "elapsed_seconds": 0.252
+    },
+    {
+      "mode": "Windows observes Linux atomic replacement",
+      "ok": true
+    },
+    {
+      "mode": "absent",
+      "ok": true,
+      "elapsed_seconds": 0.24
+    },
+    {
+      "mode": "create",
+      "ok": true,
+      "elapsed_seconds": 0.266
+    },
+    {
+      "mode": "Windows observes Linux creation",
+      "ok": true
+    }
+  ],
+  "ok": true
+}

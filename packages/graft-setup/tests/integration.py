@@ -15,7 +15,7 @@ from pathlib import Path
 PACKAGE = Path(__file__).resolve().parents[1]
 SCRIPTS = PACKAGE / "graft-setup/scripts"
 sys.path.insert(0, str(SCRIPTS))
-from graft_common import child_env, graph_summary, launcher
+from graft_common import child_env, filesystem_info, graph_summary, launcher
 
 
 def main() -> int:
@@ -51,6 +51,7 @@ def main() -> int:
             raise RuntimeError("Git is required to verify both Git and non-Git layouts")
         with tempfile.TemporaryDirectory(prefix="graft portable & unicode Ω ", dir=args.parent) as temp:
             parent = Path(temp)
+            results["workspace"] = {"parent": str(parent.resolve()), "filesystem": filesystem_info(parent.resolve())}
             # A requested --parent may be inside an ignored directory of an
             # outer Git checkout. Keep the non-Git fixture genuinely non-Git.
             env["GIT_CEILING_DIRECTORIES"] = str(parent.resolve())
