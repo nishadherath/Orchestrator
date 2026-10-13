@@ -1,0 +1,56 @@
+{
+  "commands": [
+    [
+      "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "D:\\Code\\Claude\\Orchestrator\\packages\\graft-setup\\tests\\concurrent_worker.py",
+      "--parent",
+      ".graft\\concurrency-windows",
+      "--runtime-json",
+      ".graft\\runtime-concurrent-windows.json",
+      "--output",
+      "packages\\graft-setup\\test-results\\concurrency-virtiofs-defender-windows.json",
+      "--load-workers",
+      "4",
+      "--load-interval-ms",
+      "1",
+      "--load-seconds",
+      "120",
+      "--unit-only",
+      "--trace"
+    ],
+    [
+      "wsl.exe",
+      "-d",
+      "kali-linux",
+      "--cd",
+      "/",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/concurrent_worker.py",
+      "--parent",
+      "/mnt/d/Code/Claude/Orchestrator/.graft/concurrency-linux",
+      "--runtime-json",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/runtime-posix-fork.json",
+      "--output",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/concurrency-virtiofs-defender-linux.json",
+      "--load-workers",
+      "4",
+      "--load-interval-ms",
+      "1",
+      "--load-seconds",
+      "120",
+      "--unit-only",
+      "--trace"
+    ]
+  ],
+  "serial": false,
+  "workers_per_host": 4,
+  "started_unix": 1791931985.532711,
+  "elapsed_seconds": 128.521,
+  "exit_codes": [
+    0,
+    0
+  ],
+  "ok": true,
+  "wsl_configuration_changed": false
+}

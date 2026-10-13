@@ -1,0 +1,6 @@
+{
+  "ok": false,
+  "error": "Cannot start performance recording: 0x80070005.",
+  "seconds": 20,
+  "protection_changed": false
+}

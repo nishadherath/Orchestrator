@@ -1,0 +1,241 @@
+test_acceptance_rejects_interoperability_runtime (test_helpers.Helpers.test_acceptance_rejects_interoperability_runtime) ... ok
+  elapsed_seconds=0.369487
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=6.199151
+test_dry_run_does_not_mutate_project (test_helpers.Helpers.test_dry_run_does_not_mutate_project) ... ok
+  elapsed_seconds=2.181804
+test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) ... Timeout (0:00:10)!
+Thread 0x000089b8 [Thread-8 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x0000b304 [Thread-7 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x00009b48 (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1133 in join
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1662 in _communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1221 in communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 557 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 108 in cli
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 114 in refresh
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 147 in test_failed_build_empty_missing_fingerprint_and_drift_preserve_active
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 615 in _callTestMethod
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 669 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 725 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\runner.py", line 257 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\timed_unittest.py", line 21 in <module>
+Timeout (0:00:10)!
+Thread 0x000077f0 [Thread-14 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x0000a9f0 [Thread-13 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x00009b48 (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1133 in join
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1662 in _communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1221 in communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 557 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 108 in cli
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 114 in refresh
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 152 in test_failed_build_empty_missing_fingerprint_and_drift_preserve_active
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 615 in _callTestMethod
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 669 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 725 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\runner.py", line 257 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\timed_unittest.py", line 21 in <module>
+ok
+  elapsed_seconds=16.512870
+test_foreign_refresh_locks_are_not_broken (test_helpers.Helpers.test_foreign_refresh_locks_are_not_broken) ... Timeout (0:00:10)!
+Thread 0x0000c17c [Thread-22 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x0000c344 [Thread-21 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x00009b48 (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1133 in join
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1662 in _communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1221 in communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 557 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 108 in cli
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 114 in refresh
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 219 in test_foreign_refresh_locks_are_not_broken
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 615 in _callTestMethod
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 669 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 725 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\runner.py", line 257 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\timed_unittest.py", line 21 in <module>
+ok
+  elapsed_seconds=6.264280
+test_freshness_false_positive_and_semantic_only_drift (test_helpers.Helpers.test_freshness_false_positive_and_semantic_only_drift) ... ok
+  elapsed_seconds=0.004309
+test_large_symbol_graph_validates_files_once_and_rejects_escape (test_helpers.Helpers.test_large_symbol_graph_validates_files_once_and_rejects_escape) ... ok
+  elapsed_seconds=0.315067
+test_linked_cache_is_not_followed_for_diagnostics (test_helpers.Helpers.test_linked_cache_is_not_followed_for_diagnostics) ... ok
+  elapsed_seconds=3.209477
+test_mcp_protocol_failures_and_deadline_under_notification_spam (test_helpers.Helpers.test_mcp_protocol_failures_and_deadline_under_notification_spam) ... ok
+  elapsed_seconds=0.825344
+test_mcp_stderr_is_drained (test_helpers.Helpers.test_mcp_stderr_is_drained) ... ok
+  elapsed_seconds=0.667309
+test_mount_transport_selects_deepest_real_path_and_decodes_spaces (test_helpers.Helpers.test_mount_transport_selects_deepest_real_path_and_decodes_spaces) ... ok
+  elapsed_seconds=0.052843
+test_no_paid_option_and_child_overrides_are_local (test_helpers.Helpers.test_no_paid_option_and_child_overrides_are_local) ... ok
+  elapsed_seconds=0.020527
+test_publication_failure_restores_old_cache_or_reports_preserved_backup (test_helpers.Helpers.test_publication_failure_restores_old_cache_or_reports_preserved_backup) ... Timeout (0:00:10)!
+Thread 0x0000c54c [Thread-36 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x0000c4f8 [Thread-35 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x00009b48 (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1133 in join
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1662 in _communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1221 in communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 557 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 108 in cli
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 114 in refresh
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 167 in test_publication_failure_restores_old_cache_or_reports_preserved_backup
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 615 in _callTestMethod
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 669 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 725 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\runner.py", line 257 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\timed_unittest.py", line 21 in <module>
+ok
+  elapsed_seconds=11.851763
+test_release_determinism_no_caches_and_integrity (test_helpers.Helpers.test_release_determinism_no_caches_and_integrity) ... ok
+  elapsed_seconds=0.304440
+test_same_version_different_build_identity_and_capabilities (test_helpers.Helpers.test_same_version_different_build_identity_and_capabilities) ... ok
+  elapsed_seconds=0.037260
+test_scope_and_literal_paths_with_spaces_and_metacharacters (test_helpers.Helpers.test_scope_and_literal_paths_with_spaces_and_metacharacters) ... Timeout (0:00:10)!
+Thread 0x00008f6c [Thread-56 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x0000b810 [Thread-55 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x00009b48 (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1133 in join
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1662 in _communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1221 in communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 557 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 108 in cli
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 114 in refresh
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 117 in test_scope_and_literal_paths_with_spaces_and_metacharacters
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 615 in _callTestMethod
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 669 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 725 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\runner.py", line 257 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\timed_unittest.py", line 21 in <module>
+ok
+  elapsed_seconds=3.354779
+test_semantic_failure_is_not_conflated_with_structure (test_helpers.Helpers.test_semantic_failure_is_not_conflated_with_structure) ... ok
+  elapsed_seconds=3.358822
+test_source_directory_is_never_replaced_as_cache (test_helpers.Helpers.test_source_directory_is_never_replaced_as_cache) ... ok
+  elapsed_seconds=0.973499
+test_startup_wiring_upkeep_requires_review (test_helpers.Helpers.test_startup_wiring_upkeep_requires_review) ... ok
+  elapsed_seconds=2.218590
+test_timeout_has_bounded_actionable_failure (test_helpers.Helpers.test_timeout_has_bounded_actionable_failure) ... Timeout (0:00:10)!
+Thread 0x000093dc [Thread-64 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x000049f0 [Thread-63 (_readerthread)] (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1614 in _readerthread
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082 in _bootstrap_inner
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1044 in _bootstrap
+
+Thread 0x00009b48 (most recent call first):
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1133 in join
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1662 in _communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 1221 in communicate
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 557 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 108 in cli
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 114 in refresh
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\test_helpers.py", line 254 in test_timeout_has_bounded_actionable_failure
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 615 in _callTestMethod
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 669 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\case.py", line 725 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 122 in run
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\suite.py", line 84 in __call__
+  File "C:\Users\Bob\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\runner.py", line 257 in run
+  File "D:\Code\Claude\Orchestrator\packages\graft-setup\tests\timed_unittest.py", line 21 in <module>
+ok
+  elapsed_seconds=1.050257
+test_traversal_root_and_escaped_links_are_rejected (test_helpers.Helpers.test_traversal_root_and_escaped_links_are_rejected) ... ok
+  elapsed_seconds=0.012825
+test_wrong_fingerprint_identity_is_not_reused (test_helpers.Helpers.test_wrong_fingerprint_identity_is_not_reused) ... ok
+  elapsed_seconds=7.799742
+
+----------------------------------------------------------------------
+Ran 22 tests in 67.590s
+
+OK

@@ -1,0 +1,544 @@
+{
+  "unit_runs": [
+    {
+      "log": "concurrency-9p-load-1-linux.unit.log",
+      "tests": 22,
+      "seconds": 131.462,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-load-1-windows.unit.log",
+      "tests": 22,
+      "seconds": 75.9,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-load-2-linux.unit.log",
+      "tests": null,
+      "seconds": null,
+      "status": "CRASH",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-load-2-windows.unit.log",
+      "tests": 22,
+      "seconds": 67.59,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-serial-linux.unit.log",
+      "tests": 22,
+      "seconds": 30.915,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-serial-windows.unit.log",
+      "tests": 22,
+      "seconds": 27.748,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-traced-linux.unit.log",
+      "tests": 22,
+      "seconds": 91.924,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-9p-traced-windows.unit.log",
+      "tests": 22,
+      "seconds": 63.696,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-bootstrap16-linux.unit.log",
+      "tests": 2,
+      "seconds": 64.493,
+      "status": "FAIL",
+      "timeout_20": true
+    },
+    {
+      "log": "concurrency-virtiofs-bootstrap16-windows.unit.log",
+      "tests": 2,
+      "seconds": 47.39,
+      "status": "FAIL",
+      "timeout_20": true
+    },
+    {
+      "log": "concurrency-virtiofs-defender-linux.unit.log",
+      "tests": 22,
+      "seconds": 95.466,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-defender-windows.unit.log",
+      "tests": 22,
+      "seconds": 60.249,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-isolated16-linux.unit.log",
+      "tests": 2,
+      "seconds": 60.794,
+      "status": "FAIL",
+      "timeout_20": true
+    },
+    {
+      "log": "concurrency-virtiofs-isolated16-windows.unit.log",
+      "tests": 2,
+      "seconds": 26.919,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-load-1-linux.unit.log",
+      "tests": 22,
+      "seconds": 134.021,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-load-1-windows.unit.log",
+      "tests": 22,
+      "seconds": 142.883,
+      "status": "FAIL",
+      "timeout_20": true
+    },
+    {
+      "log": "concurrency-virtiofs-paced-linux.unit.log",
+      "tests": 22,
+      "seconds": 45.409,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-paced-windows.unit.log",
+      "tests": 22,
+      "seconds": 46.275,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-pressure16-linux.unit.log",
+      "tests": 4,
+      "seconds": 101.842,
+      "status": "FAIL",
+      "timeout_20": true
+    },
+    {
+      "log": "concurrency-virtiofs-pressure16-windows.unit.log",
+      "tests": 4,
+      "seconds": 74.837,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-serial-linux.unit.log",
+      "tests": 22,
+      "seconds": 55.083,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-serial-windows.unit.log",
+      "tests": 22,
+      "seconds": 34.638,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-traced-linux.unit.log",
+      "tests": 22,
+      "seconds": 107.113,
+      "status": "PASS",
+      "timeout_20": false
+    },
+    {
+      "log": "concurrency-virtiofs-traced-windows.unit.log",
+      "tests": 22,
+      "seconds": 81.335,
+      "status": "PASS",
+      "timeout_20": false
+    }
+  ],
+  "wait_state_counts": {
+    "concurrency-9p-load-1-waits.json": {
+      "hrtimer_nanosleep": 668,
+      "poll_schedule_timeout.constprop.0": 329,
+      "unavailable": 18,
+      "p9_client_rpc": 208,
+      "0": 277,
+      "futex_do_wait": 6,
+      "kernel_clone": 5
+    },
+    "concurrency-9p-serial-waits.json": {
+      "hrtimer_nanosleep": 77,
+      "poll_schedule_timeout.constprop.0": 120,
+      "0": 51,
+      "p9_client_rpc": 23,
+      "futex_do_wait": 15,
+      "anon_pipe_read": 1,
+      "do_epoll_wait": 2,
+      "unavailable": 1
+    },
+    "concurrency-virtiofs-load-1-waits.json": {
+      "hrtimer_nanosleep": 601,
+      "poll_schedule_timeout.constprop.0": 361,
+      "0": 354,
+      "request_wait_answer": 194,
+      "kernel_clone": 2,
+      "futex_do_wait": 6,
+      "unavailable": 1
+    }
+  },
+  "longest_traced_stages": {
+    "concurrency-9p-traced-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.033266,
+        "process_cpu_seconds": 0.007574
+      },
+      "local_path": {
+        "wall_seconds": 0.059347,
+        "process_cpu_seconds": 0.001667
+      },
+      "graph_summary": {
+        "wall_seconds": 0.596884,
+        "process_cpu_seconds": 0.020617
+      },
+      "capabilities": {
+        "wall_seconds": 1.018029,
+        "process_cpu_seconds": 0.00545
+      },
+      "run": {
+        "wall_seconds": 0.767731,
+        "process_cpu_seconds": 0.006443
+      },
+      "no_links": {
+        "wall_seconds": 0.329274,
+        "process_cpu_seconds": 0.013027
+      }
+    },
+    "concurrency-9p-traced-windows.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.003998,
+        "process_cpu_seconds": 0.0
+      },
+      "local_path": {
+        "wall_seconds": 0.003072,
+        "process_cpu_seconds": 0.0
+      },
+      "graph_summary": {
+        "wall_seconds": 0.031794,
+        "process_cpu_seconds": 0.0
+      },
+      "capabilities": {
+        "wall_seconds": 1.45354,
+        "process_cpu_seconds": 0.015625
+      },
+      "run": {
+        "wall_seconds": 0.764637,
+        "process_cpu_seconds": 0.015625
+      },
+      "no_links": {
+        "wall_seconds": 0.003807,
+        "process_cpu_seconds": 0.0
+      }
+    },
+    "concurrency-virtiofs-bootstrap16-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.199598,
+        "process_cpu_seconds": 0.003411
+      },
+      "local_path": {
+        "wall_seconds": 0.734022,
+        "process_cpu_seconds": 0.002357
+      },
+      "graph_summary": {
+        "wall_seconds": 1.886473,
+        "process_cpu_seconds": 0.039326
+      },
+      "capabilities": {
+        "wall_seconds": 5.546295,
+        "process_cpu_seconds": 0.101524
+      },
+      "run": {
+        "wall_seconds": 3.430746,
+        "process_cpu_seconds": 0.004145
+      },
+      "no_links": {
+        "wall_seconds": 1.475633,
+        "process_cpu_seconds": 0.013036
+      }
+    },
+    "concurrency-virtiofs-bootstrap16-windows.trace.json": {},
+    "concurrency-virtiofs-defender-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.075052,
+        "process_cpu_seconds": 0.002563
+      },
+      "local_path": {
+        "wall_seconds": 0.134633,
+        "process_cpu_seconds": 0.003916
+      },
+      "graph_summary": {
+        "wall_seconds": 0.551743,
+        "process_cpu_seconds": 0.023894
+      },
+      "capabilities": {
+        "wall_seconds": 1.45708,
+        "process_cpu_seconds": 0.007398
+      },
+      "run": {
+        "wall_seconds": 0.868925,
+        "process_cpu_seconds": 0.002024
+      },
+      "no_links": {
+        "wall_seconds": 0.319073,
+        "process_cpu_seconds": 0.013127
+      }
+    },
+    "concurrency-virtiofs-defender-windows.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.004196,
+        "process_cpu_seconds": 0.0
+      },
+      "local_path": {
+        "wall_seconds": 0.003636,
+        "process_cpu_seconds": 0.0
+      },
+      "graph_summary": {
+        "wall_seconds": 0.014938,
+        "process_cpu_seconds": 0.015625
+      },
+      "capabilities": {
+        "wall_seconds": 1.177515,
+        "process_cpu_seconds": 0.078125
+      },
+      "run": {
+        "wall_seconds": 0.628291,
+        "process_cpu_seconds": 0.046875
+      },
+      "no_links": {
+        "wall_seconds": 0.003768,
+        "process_cpu_seconds": 0.0
+      }
+    },
+    "concurrency-virtiofs-isolated16-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.901493,
+        "process_cpu_seconds": 0.003821
+      },
+      "local_path": {
+        "wall_seconds": 0.840526,
+        "process_cpu_seconds": 0.002976
+      },
+      "graph_summary": {
+        "wall_seconds": 3.220378,
+        "process_cpu_seconds": 0.019796
+      },
+      "capabilities": {
+        "wall_seconds": 2.098137,
+        "process_cpu_seconds": 0.006188
+      },
+      "run": {
+        "wall_seconds": 2.50083,
+        "process_cpu_seconds": 0.00264
+      },
+      "no_links": {
+        "wall_seconds": 2.192805,
+        "process_cpu_seconds": 0.01164
+      }
+    },
+    "concurrency-virtiofs-isolated16-windows.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.009313,
+        "process_cpu_seconds": 0.0
+      },
+      "local_path": {
+        "wall_seconds": 0.010137,
+        "process_cpu_seconds": 0.0
+      },
+      "graph_summary": {
+        "wall_seconds": 0.128609,
+        "process_cpu_seconds": 0.03125
+      },
+      "capabilities": {
+        "wall_seconds": 2.523373,
+        "process_cpu_seconds": 0.0625
+      },
+      "run": {
+        "wall_seconds": 1.391787,
+        "process_cpu_seconds": 0.015625
+      },
+      "no_links": {
+        "wall_seconds": 0.014709,
+        "process_cpu_seconds": 0.0
+      }
+    },
+    "concurrency-virtiofs-paced-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.038348,
+        "process_cpu_seconds": 0.002276
+      },
+      "local_path": {
+        "wall_seconds": 0.030832,
+        "process_cpu_seconds": 0.002279
+      },
+      "graph_summary": {
+        "wall_seconds": 0.202268,
+        "process_cpu_seconds": 0.017543
+      },
+      "capabilities": {
+        "wall_seconds": 0.523464,
+        "process_cpu_seconds": 0.004492
+      },
+      "run": {
+        "wall_seconds": 0.445031,
+        "process_cpu_seconds": 0.002273
+      },
+      "no_links": {
+        "wall_seconds": 0.121178,
+        "process_cpu_seconds": 0.009429
+      }
+    },
+    "concurrency-virtiofs-paced-windows.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.003324,
+        "process_cpu_seconds": 0.0
+      },
+      "local_path": {
+        "wall_seconds": 0.002237,
+        "process_cpu_seconds": 0.0
+      },
+      "graph_summary": {
+        "wall_seconds": 0.011372,
+        "process_cpu_seconds": 0.0
+      },
+      "capabilities": {
+        "wall_seconds": 1.485569,
+        "process_cpu_seconds": 0.0625
+      },
+      "run": {
+        "wall_seconds": 0.921376,
+        "process_cpu_seconds": 0.0
+      },
+      "no_links": {
+        "wall_seconds": 0.003571,
+        "process_cpu_seconds": 0.0
+      }
+    },
+    "concurrency-virtiofs-pressure16-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 1.084195,
+        "process_cpu_seconds": 0.004505
+      },
+      "local_path": {
+        "wall_seconds": 0.984979,
+        "process_cpu_seconds": 0.003978
+      },
+      "graph_summary": {
+        "wall_seconds": 0.819952,
+        "process_cpu_seconds": 0.018575
+      },
+      "capabilities": {
+        "wall_seconds": 3.307538,
+        "process_cpu_seconds": 0.009279
+      },
+      "run": {
+        "wall_seconds": 3.718543,
+        "process_cpu_seconds": 0.004879
+      },
+      "no_links": {
+        "wall_seconds": 0.510815,
+        "process_cpu_seconds": 0.010331
+      }
+    },
+    "concurrency-virtiofs-pressure16-windows.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.044498,
+        "process_cpu_seconds": 0.0
+      },
+      "local_path": {
+        "wall_seconds": 0.063137,
+        "process_cpu_seconds": 0.015625
+      },
+      "graph_summary": {
+        "wall_seconds": 0.221761,
+        "process_cpu_seconds": 0.0
+      },
+      "capabilities": {
+        "wall_seconds": 3.030522,
+        "process_cpu_seconds": 0.0625
+      },
+      "run": {
+        "wall_seconds": 2.150322,
+        "process_cpu_seconds": 0.0
+      },
+      "no_links": {
+        "wall_seconds": 0.073399,
+        "process_cpu_seconds": 0.0
+      }
+    },
+    "concurrency-virtiofs-traced-linux.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.143632,
+        "process_cpu_seconds": 0.004
+      },
+      "local_path": {
+        "wall_seconds": 0.200825,
+        "process_cpu_seconds": 0.00258
+      },
+      "graph_summary": {
+        "wall_seconds": 0.575183,
+        "process_cpu_seconds": 0.02371
+      },
+      "capabilities": {
+        "wall_seconds": 1.473714,
+        "process_cpu_seconds": 0.006803
+      },
+      "run": {
+        "wall_seconds": 1.237781,
+        "process_cpu_seconds": 0.002716
+      },
+      "no_links": {
+        "wall_seconds": 0.357237,
+        "process_cpu_seconds": 0.013232
+      }
+    },
+    "concurrency-virtiofs-traced-windows.trace.json": {
+      "repo_path": {
+        "wall_seconds": 0.008567,
+        "process_cpu_seconds": 0.0
+      },
+      "local_path": {
+        "wall_seconds": 0.018347,
+        "process_cpu_seconds": 0.0
+      },
+      "graph_summary": {
+        "wall_seconds": 0.130659,
+        "process_cpu_seconds": 0.0
+      },
+      "capabilities": {
+        "wall_seconds": 2.598065,
+        "process_cpu_seconds": 0.015625
+      },
+      "run": {
+        "wall_seconds": 1.519558,
+        "process_cpu_seconds": 0.015625
+      },
+      "no_links": {
+        "wall_seconds": 0.032979,
+        "process_cpu_seconds": 0.0
+      }
+    }
+  },
+  "interpretation": "Nested stage times overlap. Process CPU is wrapper CPU only and excludes child process CPU. Instrumented timings are diagnostic, not an unperturbed benchmark."
+}

@@ -1,23 +1,25 @@
 {
   "ok": true,
   "skill": "graft-setup",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "tested_graft": "0.21.1",
   "files": {
-    "SKILL.md": "2b31500e362af2993db7907bff609e61d7b517a33bac329f0519f7df0b53b45b",
-    "VERSION": "f5e5c9534532840fcd45bb002e69ed85c61dba2753450e26b448b7df1481e24d",
+    "SKILL.md": "b754a788f621bf4e2ca9b36c269c32bc3aa756023b36f5587c18c35dba6d7f96",
+    "VERSION": "d1b77b88f4b9f675a900e4143ac768a21218623cfe1703ca43162388c3271bd6",
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
     "scripts/graft_common.py": "b7c24b664c941b40bfe342fba14ce17e6ba1a50d086d0bc395de2faae0256fd9",
     "scripts/diagnose.py": "a439998f7bb57da405e4d147e81f7e642786f384ec4a6bfe6388db54e223fd25",
     "scripts/refresh.py": "3aedc3ab10b5fe0b96187ce9c93f3d3ee098fede92f4c9bfbd4f08728492be94",
     "scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
+    "scripts/fs_probe.py": "97bea149afc0a19f83e269a2113554e8da150192d02a925fee3bb308a95983d0",
+    "scripts/trace.py": "1e399bf537ad1aa4c006a9acd28b0e85aebda35e58b921060915871f9d1bb699",
     "references/version-0211.md": "86d3eb5992fb700e83d9f93a322f714433c2462099966565c4dee728e41c7706",
     "references/repair.md": "3aec356fdc21fbb1c669b03b97848d83963368cf55ce1847e6e572094bc11551",
     "references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
-    "references/hosts.md": "67a7948acfa4ed4914b7f18a4c279577cb222db8cdd4b8a446e4a4bdbeb78d1f",
-    "references/installation.md": "76e58c85bd0d1295892e09af64f4e9195247474f6dee09621c829497c4a30774"
+    "references/hosts.md": "d81e3f21a4184a0682ec485c151ea5975d107de8ec574237e39ec1664749643c",
+    "references/installation.md": "a891f6ea34399304957a10a1aafb847aba7d9985e74acebeb1d41b48fac764bf"
   },
   "installed_destination": "existing user graft-setup skill directory",
-  "backup": ".graft/installed-skill-backup-2026-10-14-7db920e3"
+  "backup": ".graft/installed-skill-backup-2026-10-14-9673126a"
 }

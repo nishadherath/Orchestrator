@@ -165,3 +165,76 @@ symlink behaviour too; retain platform-specific skips and errors explicitly.
 
 Primary references: [Microsoft filesystem considerations](https://learn.microsoft.com/en-us/windows/wsl/filesystems)
 and [WSL configuration](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).
+
+### Concurrent Windows and WSL load
+
+VirtioFS did not eliminate the tested concurrent-load slowdown. A native
+Windows helper exceeded its unchanged 20-second deadline with VirtioFS active;
+Linux helpers waited for filesystem replies on both transports. Treat this as
+a host/load investigation when Windows is affected too, rather than assuming
+one Linux transport is defective. Keep each host's test repositories and caches
+separate so shared-cache races do not contaminate the experiment.
+
+Run the portable probe in an existing, approved, ignored scratch directory:
+
+```sh
+python scripts/fs_probe.py --parent /project/.graft/probes --seconds 20 --workers 1 --output /project/.graft/fs-latency.json
+python scripts/trace.py diagnose --repo /project --check 2> /project/.graft/diagnose.trace.jsonl
+```
+
+The probe creates 16 small files per worker in its own temporary subdirectory,
+then measures stat, read, path resolution, write/replace, create/remove and bare
+native Python startup. It removes only its owned scratch tree on normal exit.
+It never changes a mount, antivirus policy, Graft cache or provider setting.
+Start with its conservative defaults; higher worker counts and shorter pauses
+deliberately create load and can reproduce the problem. The requested duration
+limits work scheduling; an individual filesystem call or cleanup can take
+longer. Use a separate process supervisor when a hard execution bound matters.
+Inspect any owned leftovers after forced termination before removing them.
+Linux pressure data is absent on other hosts, not evidence of zero pressure.
+
+The trace wrapper accepts only this skill's diagnose, refresh and probe_mcp
+helpers. It retains their arguments, JSON stdout, exit status and safety checks,
+and writes stage timings plus Python frame locations to stderr. It does not
+log argument values, environment values or source bodies. Capture/drain stderr
+when embedding it. Stage timings nest, and wrapper process CPU excludes child
+CPU; neither should be summed as independent work. Tracing adds overhead.
+
+The bootstrap marker precedes filesystem-backed imports. If import metadata
+appears in slow samples, `trace.py diagnose --isolate-imports <arguments>` is an
+optional control: it removes this helper directory from normal import search
+and loads the trusted common module explicitly. Other configured paths remain.
+It preserves helper cwd, source/cache selection and safety checks. The tested
+control improved some timings but still hit a Linux deadline under high load;
+do not present it as sufficient prevention or a security isolation boundary.
+
+Compare serial and simultaneous runs on the same source/fixture placement,
+then repeat with byte-verified native source and fixtures. Record operation
+counts, median and tail latency, mount type, startup times and failures. A
+changed worker pause is a load intervention, not a timeout increase. Pacing
+file churn reduced the measured slowdown while protection remained enabled;
+serialise heavy refreshes or reduce competing metadata work when practical.
+Native copies are diagnostic controls, not an instruction to relocate a project.
+
+On Windows, inspect CPU, paging, disk queues and process CPU counters. Defender
+was a substantial CPU consumer here, but CPU correlation alone does not prove
+a specific scan blocked a helper. Its supported performance recorder requires
+Windows administrator elevation, distinct from a tool sandbox permission.
+An authorised `New-MpPerformanceRecording -RecordTo <local.etl> -Seconds 20`
+can be analysed with `Get-MpPerformanceReport`. Preserve another active
+recording instead of cancelling it. Record actual trace start/end times:
+collection/stop overhead can exceed the requested interval. Scan durations can
+overlap and are not application I/O latency or CPU time. Entries ending at the
+recording boundary need particular care. Do not infer causation from those
+entries or disable protection to make a benchmark pass. Raw ETL may include
+unrelated file paths; keep it local and share only reviewed, scoped evidence.
+
+Use public `/proc` wait state when permitted. Repeated protected stack/syscall
+reads from a sibling can cause ptrace denials and audit work; do not weaken
+security policy to remove that measurement limitation. One periodic C traceback
+experiment crashed the tested Python runtime, so the package uses Python frame
+sampling and timing instead. That crash is not evidence of a Graft timeout.
+
+See [Microsoft's Defender analyzer guidance](https://learn.microsoft.com/en-us/defender-endpoint/tune-performance-defender-antivirus)
+for the optional Windows recording. The package's outer concurrency report
+contains the tested host, exact outcomes and remaining causal uncertainty.

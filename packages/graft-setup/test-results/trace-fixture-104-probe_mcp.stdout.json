@@ -1,0 +1,97 @@
+{
+  "ok": true,
+  "server": {
+    "name": "graft",
+    "version": "0.21.1"
+  },
+  "checks": [
+    {
+      "name": "initialize",
+      "ok": true,
+      "elapsed_seconds": 3.805
+    },
+    {
+      "name": "tools",
+      "ok": true,
+      "elapsed_seconds": 0.011
+    },
+    {
+      "name": "freshness",
+      "ok": true,
+      "elapsed_seconds": 1.199
+    },
+    {
+      "name": "source",
+      "ok": true,
+      "elapsed_seconds": 0.99
+    },
+    {
+      "name": "api",
+      "ok": true,
+      "elapsed_seconds": 0.642
+    },
+    {
+      "name": "literal",
+      "ok": true,
+      "elapsed_seconds": 0.97
+    },
+    {
+      "name": "callers",
+      "ok": true,
+      "elapsed_seconds": 0.392
+    },
+    {
+      "name": "map",
+      "ok": true,
+      "elapsed_seconds": 0.726
+    },
+    {
+      "name": "detect_addition",
+      "ok": true,
+      "elapsed_seconds": 4.569
+    },
+    {
+      "name": "automatic_addition",
+      "ok": true,
+      "elapsed_seconds": 13.497
+    },
+    {
+      "name": "automatic_removal",
+      "ok": true,
+      "elapsed_seconds": 6.73
+    },
+    {
+      "name": "final_freshness",
+      "ok": true,
+      "elapsed_seconds": 1.744
+    }
+  ],
+  "graph": {
+    "present": true,
+    "files": 1,
+    "nodes": 3,
+    "edges": 3,
+    "languages": [
+      "python"
+    ],
+    "file_groups": {
+      "src/main.py": 1
+    },
+    "summary_states": {
+      "pending": 3
+    },
+    "fingerprints": [
+      {
+        "name": "fingerprint.68537c8950eb6b5f.json",
+        "extractor": "68537c8950eb6b5f",
+        "only_dirs": [
+          "src"
+        ],
+        "files": 1
+      }
+    ],
+    "semantic_manifest": false
+  },
+  "provider_calls": 0,
+  "automatic_refresh_exercised": true
+}

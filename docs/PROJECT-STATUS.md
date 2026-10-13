@@ -3,6 +3,8 @@
 Updated: 2026-10-14, Australia/Sydney. Status: assessment and Graft retrieval
 repair scopes complete.
 The separately requested portable Graft skill package is also complete.
+Concurrent-load qualification is documented; VirtioFS is not sufficient
+prevention, and the unique Windows blocking component remains unproven.
 
 ## Completed work
 
@@ -35,6 +37,11 @@ The separately requested portable Graft skill package is also complete.
 - Remediated the tested WSL mounted-project path with a backed-up VirtioFS
   transport setting and updated the installed skill/package to 1.0.3. The
   project stayed on its Windows drive; see [the report](../packages/graft-setup/MOUNTED-FILESYSTEM.md).
+- Reproduced concurrent-load 20-second failures with VirtioFS active on native
+  Windows and Linux. Updated the skill/package to 1.0.4 with portable filesystem,
+  bootstrap and stage diagnostics, controlled import-search and paced-load
+  comparisons, retained failures and reviewed Defender evidence. See
+  [the investigation](../packages/graft-setup/CONCURRENCY.md).
 
 ## Verification
 
@@ -106,6 +113,12 @@ intentional fork and records build identity rather than equalising installations
 The requested mounted-filesystem remediation and mounted-project verification
 are complete. The 1.0.3 skill reports actual mount transport and documents the
 tested configuration, rollback and remaining limits.
+The concurrent investigation supersedes any interpretation that VirtioFS
+permanently prevents stalls. All 25 final helper regressions passed on Windows
+and Windows-mounted native Linux. Pacing reduced measured contention; the
+historical 3-second MCP failure and exact Windows wait/scan trigger remain
+unattributed. Experimental provider calls were zero. No additional programme
+scope or session/model transition was started.
 
 The recommended next scope is instruction-history cleanup, followed by the
 existing O0-O6 offline qualification plan. These remain recommendations; the

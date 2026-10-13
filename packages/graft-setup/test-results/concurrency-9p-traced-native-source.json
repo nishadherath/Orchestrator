@@ -1,0 +1,38 @@
+{
+  "source_package": "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup",
+  "files": {
+    "graft-setup/SKILL.md": "2b31500e362af2993db7907bff609e61d7b517a33bac329f0519f7df0b53b45b",
+    "graft-setup/VERSION": "d1b77b88f4b9f675a900e4143ac768a21218623cfe1703ca43162388c3271bd6",
+    "graft-setup/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "graft-setup/agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
+    "graft-setup/scripts/graft_common.py": "b7c24b664c941b40bfe342fba14ce17e6ba1a50d086d0bc395de2faae0256fd9",
+    "graft-setup/scripts/diagnose.py": "a439998f7bb57da405e4d147e81f7e642786f384ec4a6bfe6388db54e223fd25",
+    "graft-setup/scripts/refresh.py": "3aedc3ab10b5fe0b96187ce9c93f3d3ee098fede92f4c9bfbd4f08728492be94",
+    "graft-setup/scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
+    "graft-setup/scripts/fs_probe.py": "5f666eddfbef9e9813901083f94d1037a218a870e0b31a13682a9cd3c8d67297",
+    "graft-setup/scripts/trace.py": "c71bb0e2eb135294bc504006cb5011f15d121e23c1000e4fedfe12b67be70bf5",
+    "graft-setup/references/version-0211.md": "86d3eb5992fb700e83d9f93a322f714433c2462099966565c4dee728e41c7706",
+    "graft-setup/references/repair.md": "3aec356fdc21fbb1c669b03b97848d83963368cf55ce1847e6e572094bc11551",
+    "graft-setup/references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
+    "graft-setup/references/hosts.md": "67a7948acfa4ed4914b7f18a4c279577cb222db8cdd4b8a446e4a4bdbeb78d1f",
+    "graft-setup/references/installation.md": "76e58c85bd0d1295892e09af64f4e9195247474f6dee09621c829497c4a30774",
+    "build_package.py": "4b4973da8e02189a125a08b3b5f3fb4c2b86c8d786bae12770c17e13c94990cd",
+    "tests/test_helpers.py": "78d56d44713e3e54f3baf63676512eac015bfc1ab8a086a750345280c0f5317d",
+    "tests/fake_graft.py": "298a50d1b786a83791ba705de3363b2939bb4d69ec92c9ca091f7961b931419c",
+    "tests/integration.py": "45f7b888fb104943bec5d86bd30c81e7269ca1c86b41c8889c3db6f31b6907e5",
+    "tests/timed_unittest.py": "667618e890f6c38b94a91719a66ad898c295502585dc50b5908483e092a54642"
+  },
+  "acceptance_deadlines_changed": false,
+  "started_unix": 1791932348.8732028,
+  "exit_code": 0,
+  "elapsed_seconds": 24.887,
+  "source_hashes_verified": true,
+  "filesystem": {
+    "available": true,
+    "mount_point": "/",
+    "filesystem_type": "ext4",
+    "source": "/dev/sdd",
+    "host_shared": false
+  },
+  "ok": true
+}

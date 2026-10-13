@@ -1,0 +1,22 @@
+{
+  "platform": "linux",
+  "started_unix": 1791930314.1742382,
+  "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/concurrency-linux",
+  "load_workers": 0,
+  "acceptance_deadlines_changed": false,
+  "runs": [
+    {
+      "name": "unit",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 31.389
+    },
+    {
+      "name": "real_graft",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 45.397
+    }
+  ],
+  "ok": true
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "pid": 41336,
+    "name": "python",
+    "cpu_seconds_delta": 2.359375,
+    "working_set_bytes": 12857344
+  },
+  {
+    "pid": 33336,
+    "name": "node",
+    "cpu_seconds_delta": 1.71875,
+    "working_set_bytes": 106868736
+  },
+  {
+    "pid": 7540,
+    "name": "msedge",
+    "cpu_seconds_delta": 0.546875,
+    "working_set_bytes": 705925120
+  },
+  {
+    "pid": 50600,
+    "name": "pwsh",
+    "cpu_seconds_delta": 0.359375,
+    "working_set_bytes": 93421568
+  },
+  {
+    "pid": 21228,
+    "name": "msedge",
+    "cpu_seconds_delta": 0.359375,
+    "working_set_bytes": 1439698944
+  },
+  {
+    "pid": 50392,
+    "name": "dllhost",
+    "cpu_seconds_delta": 0.34375,
+    "working_set_bytes": 12554240
+  },
+  {
+    "pid": 49992,
+    "name": "python",
+    "cpu_seconds_delta": 0.21875,
+    "working_set_bytes": 22736896
+  },
+  {
+    "pid": 10292,
+    "name": "msedge",
+    "cpu_seconds_delta": 0.203125,
+    "working_set_bytes": 301305856
+  },
+  {
+    "pid": 17080,
+    "name": "chrome",
+    "cpu_seconds_delta": 0.140625,
+    "working_set_bytes": 416829440
+  },
+  {
+    "pid": 2020,
+    "name": "claude",
+    "cpu_seconds_delta": 0.109375,
+    "working_set_bytes": 370348032
+  },
+  {
+    "pid": 29604,
+    "name": "chrome",
+    "cpu_seconds_delta": 0.09375,
+    "working_set_bytes": 384667648
+  },
+  {
+    "pid": 50844,
+    "name": "claude",
+    "cpu_seconds_delta": 0.0625,
+    "working_set_bytes": 281505792
+  },
+  {
+    "pid": 3000,
+    "name": "code-sidecar",
+    "cpu_seconds_delta": 0.0625,
+    "working_set_bytes": 189853696
+  },
+  {
+    "pid": 41480,
+    "name": "claude",
+    "cpu_seconds_delta": 0.046875,
+    "working_set_bytes": 342855680
+  },
+  {
+    "pid": 12308,
+    "name": "Far",
+    "cpu_seconds_delta": 0.046875,
+    "working_set_bytes": 23543808
+  }
+]

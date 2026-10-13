@@ -30,7 +30,7 @@ class Helpers(unittest.TestCase):
         self.root = Path(self.temp.name)
         (self.root / "src").mkdir()
         (self.root / "src/app.py").write_text("def compute():\n    return 'distinctive literal'\n", encoding="utf-8")
-        self.command = [sys.executable, str(FAKE)]
+        self.command = [sys.executable, *(["-P"] if os.environ.get("GRAFT_TEST_ISOLATE_IMPORTS") == "1" else []), str(FAKE)]
 
     def tearDown(self):
         self.temp.cleanup()
@@ -105,13 +105,77 @@ class Helpers(unittest.TestCase):
 
     def cli(self, name, *extra, mode=""):
         env = dict(os.environ, FAKE_GRAFT_MODE=mode)
-        result = subprocess.run([sys.executable, str(SCRIPTS / name), "--repo", str(self.root),
-            "--launcher-json", json.dumps(self.command), *extra], capture_output=True,
-            text=True, encoding="utf-8", env=env, timeout=20)
+        trace_dir = os.environ.get("GRAFT_TEST_TRACE_DIR")
+        prefix = [sys.executable, str(SCRIPTS / "trace.py"), Path(name).stem] if trace_dir else [sys.executable, str(SCRIPTS / name)]
+        if trace_dir and os.environ.get("GRAFT_TEST_ISOLATE_IMPORTS") == "1":
+            prefix.append("--isolate-imports")
+        command = [*prefix, "--repo", str(self.root),
+            "--launcher-json", json.dumps(self.command), *extra]
+        before_spawn = time.time()
+        parent_header = json.dumps({"trace": True, "phase": "parent_start", "started_unix": before_spawn}) + "\n"
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", env=env, timeout=20)
+        except subprocess.TimeoutExpired as exc:
+            if trace_dir:
+                destination = Path(trace_dir)
+                destination.mkdir(exist_ok=True, parents=True)
+                partial = exc.stderr or b""
+                if isinstance(partial, str):
+                    partial = partial.encode("utf-8")
+                (destination / (self.root.name + "-timeout.log")).write_bytes(parent_header.encode() + partial)
+            raise
+        if trace_dir:
+            destination = Path(trace_dir)
+            destination.mkdir(exist_ok=True, parents=True)
+            with (destination / (self.root.name + ".log")).open("ab") as capture:
+                capture.write(parent_header.encode() + result.stderr.encode())
         return result, json.loads(result.stdout)
 
     def refresh(self, *extra, mode=""):
         return self.cli("refresh.py", "--only-dir", "src", *extra, mode=mode)
+
+    def test_trace_preserves_json_and_dry_run_without_logging_arguments(self):
+        before = sorted(p.relative_to(self.root) for p in self.root.rglob("*"))
+        for options in ([], ["--isolate-imports"]):
+            result = subprocess.run([sys.executable, str(SCRIPTS / "trace.py"), "refresh", *options, "--repo", str(self.root),
+                                     "--launcher-json", json.dumps(self.command), "--only-dir", "src", "--dry-run"],
+                                    capture_output=True, text=True, encoding="utf-8", timeout=20,
+                                    env=dict(os.environ, GRAFT_API_KEY="private-test-sentinel"))
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertTrue(json.loads(result.stdout)["dry_run"])
+            events = [json.loads(line) for line in result.stderr.splitlines()]
+            self.assertTrue(any(event.get("stage") == "capabilities" and event.get("phase") == "end" for event in events))
+            self.assertTrue(any(event.get("phase") == "imports_end" for event in events))
+            self.assertNotIn("private-test-sentinel", result.stderr)
+            self.assertNotIn("distinctive literal", result.stderr)
+            self.assertEqual(before, sorted(p.relative_to(self.root) for p in self.root.rglob("*")))
+
+    def test_filesystem_probe_owns_and_cleans_scratch_and_refuses_invalid_load(self):
+        report = self.root / "filesystem-report.json"
+        before = sorted(p.relative_to(self.root) for p in self.root.rglob("*"))
+        command = [sys.executable, str(SCRIPTS / "fs_probe.py"), "--parent", str(self.root), "--seconds", "3",
+                   "--workers", "2", "--output", str(report)]
+        rejected = subprocess.run([*command, "--workers", "0"], capture_output=True, timeout=20)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertEqual(before, sorted(p.relative_to(self.root) for p in self.root.rglob("*")))
+        accepted = subprocess.run(command, capture_output=True, timeout=20)
+        self.assertEqual(accepted.returncode, 0, accepted.stderr.decode(errors="replace"))
+        data = json.loads(report.read_text(encoding="utf-8"))
+        self.assertTrue(data["ok"])
+        self.assertTrue(all(value["count"] > 0 for value in data["operations"].values()))
+        self.assertFalse(any(p.name.startswith("graft-fs-probe-") for p in self.root.iterdir()))
+        report.unlink()
+        self.assertEqual(before, sorted(p.relative_to(self.root) for p in self.root.rglob("*")))
+
+    def test_timeout_trace_capture_accepts_platform_text_and_bytes(self):
+        directory = self.root / "trace-output"
+        for partial in (b'{"trace":true}\n', '{"trace":true}\n'):
+            with patch.dict(os.environ, GRAFT_TEST_TRACE_DIR=str(directory)), \
+                 patch.object(subprocess, "run", side_effect=subprocess.TimeoutExpired(["fixture"], 20, stderr=partial)):
+                with self.assertRaises(subprocess.TimeoutExpired):
+                    self.refresh()
+            output = (directory / (self.root.name + "-timeout.log")).read_bytes()
+            self.assertTrue(output.endswith(b'{"trace":true}\n'))
 
     def test_scope_and_literal_paths_with_spaces_and_metacharacters(self):
         result, report = self.refresh()

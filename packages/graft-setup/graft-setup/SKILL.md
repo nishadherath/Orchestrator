@@ -47,6 +47,9 @@ python scripts/diagnose.py --repo /absolute/project --check --timeout 180
 Inspect file groups, graph size, fingerprint scopes and launcher version.
 On Linux, inspect the reported project filesystem too. For WSL mounted-drive
 stalls, read the [filesystem guidance](references/hosts.md#wsl-mounted-projects).
+Use `scripts/fs_probe.py` for disposable-file latency measurements and
+`scripts/trace.py` for helper stage timing when a failure is intermittent.
+Their bounds, effects and concurrent-host controls are in that guidance.
 Compare `capabilities.identity` and advertised flags when installations differ;
 the version label can survive replacement of compiled files by a local fork.
 See the [build provenance notes](references/version-0211.md#build-provenance).

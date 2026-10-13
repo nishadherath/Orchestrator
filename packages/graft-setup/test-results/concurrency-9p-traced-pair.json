@@ -1,0 +1,56 @@
+{
+  "commands": [
+    [
+      "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "D:\\Code\\Claude\\Orchestrator\\packages\\graft-setup\\tests\\concurrent_worker.py",
+      "--parent",
+      "D:\\Code\\Claude\\Orchestrator\\.graft\\concurrency-windows",
+      "--runtime-json",
+      "D:\\Code\\Claude\\Orchestrator\\.graft\\runtime-concurrent-windows.json",
+      "--output",
+      "D:\\Code\\Claude\\Orchestrator\\packages\\graft-setup\\test-results\\concurrency-9p-traced-windows.json",
+      "--load-workers",
+      "4",
+      "--load-interval-ms",
+      "1",
+      "--load-seconds",
+      "120",
+      "--unit-only",
+      "--trace"
+    ],
+    [
+      "wsl.exe",
+      "-d",
+      "kali-linux",
+      "--cd",
+      "/",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/concurrent_worker.py",
+      "--parent",
+      "/mnt/d/Code/Claude/Orchestrator/.graft/concurrency-linux",
+      "--runtime-json",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/runtime-posix-fork.json",
+      "--output",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/concurrency-9p-traced-linux.json",
+      "--load-workers",
+      "4",
+      "--load-interval-ms",
+      "1",
+      "--load-seconds",
+      "120",
+      "--unit-only",
+      "--trace"
+    ]
+  ],
+  "serial": false,
+  "workers_per_host": 4,
+  "started_unix": 1791932343.053854,
+  "elapsed_seconds": 125.08,
+  "exit_codes": [
+    0,
+    0
+  ],
+  "ok": true,
+  "wsl_configuration_changed": false
+}

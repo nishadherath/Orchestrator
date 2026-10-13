@@ -1,0 +1,7 @@
+test_acceptance_rejects_interoperability_runtime (test_helpers.Helpers.test_acceptance_rejects_interoperability_runtime) ... ok
+  elapsed_seconds=0.375241
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=8.399597
+test_dry_run_does_not_mutate_project (test_helpers.Helpers.test_dry_run_does_not_mutate_project) ... Timeout (0:00:10)!
+Thread 0x00007f3daa432200 [python3] (most recent call first):
+  File "/usr/lib/python3.14/pathlib/__init__.py", line

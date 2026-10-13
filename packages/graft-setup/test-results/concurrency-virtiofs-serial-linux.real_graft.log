@@ -1,0 +1,424 @@
+{
+  "platform": "Linux",
+  "python": "3.14.7",
+  "provider_calls": 0,
+  "steps": [
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 5.23,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 3.191,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 6.081,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "checks": [
+        {
+          "name": "initialize",
+          "ok": true,
+          "elapsed_seconds": 0.976
+        },
+        {
+          "name": "tools",
+          "ok": true,
+          "elapsed_seconds": 0.003
+        },
+        {
+          "name": "freshness",
+          "ok": true,
+          "elapsed_seconds": 0.528
+        },
+        {
+          "name": "source",
+          "ok": true,
+          "elapsed_seconds": 0.25
+        },
+        {
+          "name": "api",
+          "ok": true,
+          "elapsed_seconds": 0.141
+        },
+        {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.142
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.207
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.143
+        },
+        {
+          "name": "detect_addition",
+          "ok": true,
+          "elapsed_seconds": 0.184
+        },
+        {
+          "name": "automatic_addition",
+          "ok": true,
+          "elapsed_seconds": 0.621
+        },
+        {
+          "name": "automatic_removal",
+          "ok": true,
+          "elapsed_seconds": 0.559
+        },
+        {
+          "name": "final_freshness",
+          "ok": true,
+          "elapsed_seconds": 0.145
+        }
+      ]
+    },
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 4.731,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 4.111,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "checks": [
+        {
+          "name": "initialize",
+          "ok": true,
+          "elapsed_seconds": 1.24
+        },
+        {
+          "name": "tools",
+          "ok": true,
+          "elapsed_seconds": 0.001
+        },
+        {
+          "name": "freshness",
+          "ok": true,
+          "elapsed_seconds": 0.217
+        },
+        {
+          "name": "source",
+          "ok": true,
+          "elapsed_seconds": 0.08
+        },
+        {
+          "name": "api",
+          "ok": true,
+          "elapsed_seconds": 0.017
+        },
+        {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.022
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.019
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.021
+        }
+      ]
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 5.146,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 7.785,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "native bare build",
+      "layout": "app project",
+      "ok": true,
+      "scope_widened": true,
+      "files_before": 1,
+      "files_after": 2
+    },
+    {
+      "script": "refresh.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 4.505,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 5.245,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "checks": [
+        {
+          "name": "initialize",
+          "ok": true,
+          "elapsed_seconds": 0.814
+        },
+        {
+          "name": "tools",
+          "ok": true,
+          "elapsed_seconds": 0.002
+        },
+        {
+          "name": "freshness",
+          "ok": true,
+          "elapsed_seconds": 0.12
+        },
+        {
+          "name": "source",
+          "ok": true,
+          "elapsed_seconds": 0.155
+        },
+        {
+          "name": "api",
+          "ok": true,
+          "elapsed_seconds": 0.107
+        },
+        {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.105
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.101
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.093
+        },
+        {
+          "name": "detect_addition",
+          "ok": true,
+          "elapsed_seconds": 0.115
+        },
+        {
+          "name": "automatic_addition",
+          "ok": true,
+          "elapsed_seconds": 0.622
+        },
+        {
+          "name": "automatic_removal",
+          "ok": true,
+          "elapsed_seconds": 0.577
+        },
+        {
+          "name": "final_freshness",
+          "ok": true,
+          "elapsed_seconds": 0.145
+        }
+      ]
+    },
+    {
+      "script": "refresh.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 6.677,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 4.946,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "refresh.py",
+      "layout": "structured documents",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 7.802,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "markdown"
+        ]
+      },
+      "graft_version": "0.21.1"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "structured documents",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 8.755,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "markdown"
+        ]
+      },
+      "graft_version": "0.21.1"
+    }
+  ],
+  "runtime": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.0",
+    "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+  },
+  "launcher": [
+    "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+    "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82/dist/cli.js"
+  ],
+  "workspace": {
+    "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/concurrency-linux/graft portable & unicode \u03a9 0h073znd",
+    "filesystem": {
+      "available": true,
+      "mount_point": "/mnt/d",
+      "filesystem_type": "virtiofs",
+      "source": "drvfs",
+      "host_shared": true
+    }
+  },
+  "capabilities": {
+    "version": "0.21.1",
+    "tested_version": "0.21.1",
+    "version_matches": true,
+    "supports_structured": true,
+    "supports_documents": true,
+    "supports_deep_documents": true,
+    "identity": {
+      "available": true,
+      "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82",
+      "package_version": "0.21.1",
+      "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82/dist/cli.js",
+      "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+      "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+    }
+  },
+  "structured_indexing": "PASS",
+  "ok": true
+}

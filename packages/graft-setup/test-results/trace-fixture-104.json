@@ -1,0 +1,24 @@
+{
+  "provider_calls": 0,
+  "runs": [
+    {
+      "operation": "refresh",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 26.541
+    },
+    {
+      "operation": "diagnose",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 12.868
+    },
+    {
+      "operation": "probe_mcp",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 55.9
+    }
+  ],
+  "ok": true
+}

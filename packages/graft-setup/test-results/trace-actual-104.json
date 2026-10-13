@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "exit_code": 1,
+  "error": "Command timed out. Measure scope and choose an explicit larger timeout if justified.",
+  "original_graft_command_bound_seconds": 180,
+  "trace_elapsed_seconds": 260.139766,
+  "provider_calls": 0,
+  "experimental_driver_report_error": "Assumed success-only filesystem field; corrected by interpreting preserved helper output without rerunning."
+}

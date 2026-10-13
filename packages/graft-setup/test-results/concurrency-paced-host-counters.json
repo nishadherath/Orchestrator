@@ -1,0 +1,48 @@
+{
+  "Timestamp": "2026-10-14T10:05:49.2338722+11:00",
+  "CounterSamples": [
+    {
+      "Path": "\\\\bobs-x1\\processor(_total)\\% processor time",
+      "InstanceName": "_total",
+      "CookedValue": 47.800973715895914,
+      "RawValue": 2276860716145,
+      "SecondValue": 134364063492343836,
+      "MultipleCount": 1,
+      "CounterType": 558957824,
+      "Timestamp": "2026-10-14T10:05:49.234+11:00",
+      "Timestamp100NSec": 134364459492340000,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\process(msmpeng)\\% processor time",
+      "InstanceName": "msmpeng",
+      "CookedValue": 96.95937373922034,
+      "RawValue": 898081250000,
+      "SecondValue": 134364063492343836,
+      "MultipleCount": 1,
+      "CounterType": 542180608,
+      "Timestamp": "2026-10-14T10:05:49.234+11:00",
+      "Timestamp100NSec": 134364459492340000,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\physicaldisk(_total)\\current disk queue length",
+      "InstanceName": "_total",
+      "CookedValue": 0.0,
+      "RawValue": 0,
+      "SecondValue": 0,
+      "MultipleCount": 1,
+      "CounterType": 65536,
+      "Timestamp": "2026-10-14T10:05:49.234+11:00",
+      "Timestamp100NSec": 134364459492340000,
+      "Status": 0,
+      "DefaultScale": 1,
+      "TimeBase": 10000000
+    }
+  ],
+  "Readings": "\\\\bobs-x1\\processor(_total)\\% processor time :\n47.800973715895914\n\n\\\\bobs-x1\\process(msmpeng)\\% processor time :\n96.95937373922034\n\n\\\\bobs-x1\\physicaldisk(_total)\\current disk queue length :\n0\n\n"
+}

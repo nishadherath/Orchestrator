@@ -27,6 +27,7 @@ python scripts/diagnose.py --repo /absolute/project --check
 python scripts/refresh.py --repo /absolute/project --only-dir app --only-dir tests --dry-run
 python scripts/refresh.py --repo /absolute/project --only-dir app --only-dir tests
 python scripts/probe_mcp.py --repo /absolute/project --file app/core.py --symbol compute --needle distinctive_literal
+python scripts/trace.py diagnose --repo /absolute/project --check 2> /approved/diagnostic.trace.jsonl
 ```
 
 For an optional corpus, use `--cache .graft/corpus` consistently on refresh,

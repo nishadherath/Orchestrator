@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 SKILL = ROOT / "graft-setup"
 FILES = ("SKILL.md", "VERSION", "LICENSE", "agents/openai.yaml",
-         "scripts/graft_common.py", "scripts/diagnose.py", "scripts/refresh.py", "scripts/probe_mcp.py",
+         "scripts/graft_common.py", "scripts/diagnose.py", "scripts/refresh.py", "scripts/probe_mcp.py", "scripts/fs_probe.py", "scripts/trace.py",
          "references/version-0211.md", "references/repair.md", "references/deep.md",
          "references/hosts.md", "references/installation.md")
 

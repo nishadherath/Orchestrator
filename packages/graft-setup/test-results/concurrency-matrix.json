@@ -1,0 +1,144 @@
+{
+  "started_at": "2026-10-13T22:22:32.940010+00:00",
+  "original_configuration_hex": "5b77736c325d0d0a76697274696f66733d747275650d0a",
+  "commands": [
+    {
+      "args": [
+        "--list",
+        "--verbose"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.08,
+      "output": "  NAME              STATE           VERSION\r\n* kali-linux        Stopped         2\r\n  docker-desktop    Stopped         2\r\n"
+    },
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.102,
+      "output": ""
+    },
+    {
+      "args": [
+        "-d",
+        "kali-linux",
+        "--cd",
+        "/",
+        "--exec",
+        "/usr/bin/findmnt",
+        "--json",
+        "-T",
+        "/mnt/d/Code/Claude/Orchestrator",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 7.2,
+      "output": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/mnt/d\",\n         \"source\": \"D:\\\\\",\n         \"fstype\": \"9p\",\n         \"options\": \"rw,noatime,aname=drvfs;path=D:\\\\;uid=1000;gid=1000;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd,rfd=6,wfd=6\"\n      }\n   ]\n}\n"
+    },
+    {
+      "args": [
+        "--list",
+        "--verbose"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.203,
+      "output": "  NAME              STATE           VERSION\r\n* kali-linux        Stopped         2\r\n  docker-desktop    Stopped         2\r\n"
+    },
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.293,
+      "output": ""
+    },
+    {
+      "args": [
+        "-d",
+        "kali-linux",
+        "--cd",
+        "/",
+        "--exec",
+        "/usr/bin/findmnt",
+        "--json",
+        "-T",
+        "/mnt/d/Code/Claude/Orchestrator",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 10.169,
+      "output": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/mnt/d\",\n         \"source\": \"drvfs[/ac6180a5-4e20-44b9-a249-6735b6337be6]\",\n         \"fstype\": \"virtiofs\",\n         \"options\": \"rw,noatime\"\n      }\n   ]\n}\n"
+    }
+  ],
+  "phases": [
+    {
+      "label": "serial",
+      "transport": "9p",
+      "load_workers_per_host": 0,
+      "concurrent_windows_linux": false,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "elapsed_seconds": 230.725
+    },
+    {
+      "label": "load-1",
+      "transport": "9p",
+      "load_workers_per_host": 4,
+      "concurrent_windows_linux": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "elapsed_seconds": 258.806
+    },
+    {
+      "label": "load-2",
+      "transport": "9p",
+      "load_workers_per_host": 4,
+      "concurrent_windows_linux": true,
+      "exit_codes": [
+        0,
+        1
+      ],
+      "elapsed_seconds": 255.819
+    },
+    {
+      "label": "serial",
+      "transport": "virtiofs",
+      "load_workers_per_host": 0,
+      "concurrent_windows_linux": false,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "elapsed_seconds": 355.38
+    }
+  ],
+  "provider_calls": 0,
+  "mounts": {
+    "9p": {
+      "target": "/mnt/d",
+      "source": "D:\\",
+      "fstype": "9p",
+      "options": "rw,noatime,aname=drvfs;path=D:\\;uid=1000;gid=1000;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd,rfd=6,wfd=6"
+    },
+    "virtiofs": {
+      "target": "/mnt/d",
+      "source": "drvfs[/ac6180a5-4e20-44b9-a249-6735b6337be6]",
+      "fstype": "virtiofs",
+      "options": "rw,noatime"
+    }
+  },
+  "configuration_restored": true
+}

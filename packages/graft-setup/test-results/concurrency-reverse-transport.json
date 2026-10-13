@@ -1,0 +1,83 @@
+{
+  "commands": [
+    {
+      "args": [
+        "--list",
+        "--verbose"
+      ],
+      "elapsed_seconds": 0.102,
+      "exit_code": 0,
+      "output": "  NAME              STATE           VERSION\r\n* kali-linux        Stopped         2\r\n  docker-desktop    Stopped         2\r\n"
+    },
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "elapsed_seconds": 0.079,
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "args": [
+        "-d",
+        "kali-linux",
+        "--cd",
+        "/",
+        "--exec",
+        "/usr/bin/findmnt",
+        "--json",
+        "-T",
+        "/mnt/d/Code/Claude/Orchestrator",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "elapsed_seconds": 7.385,
+      "exit_code": 0,
+      "output": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/mnt/d\",\n         \"source\": \"D:\\\\\",\n         \"fstype\": \"9p\",\n         \"options\": \"rw,noatime,aname=drvfs;path=D:\\\\;uid=1000;gid=1000;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd,rfd=6,wfd=6\"\n      }\n   ]\n}\n"
+    },
+    {
+      "args": [
+        "--shutdown"
+      ],
+      "elapsed_seconds": 13.642,
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "args": [
+        "-d",
+        "kali-linux",
+        "--cd",
+        "/",
+        "--exec",
+        "/usr/bin/findmnt",
+        "--json",
+        "-T",
+        "/mnt/d/Code/Claude/Orchestrator",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "elapsed_seconds": 7.148,
+      "exit_code": 0,
+      "output": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/mnt/d\",\n         \"source\": \"drvfs[/3d3531fd-2c0f-43b3-8de0-3a2048e0f42b]\",\n         \"fstype\": \"virtiofs\",\n         \"options\": \"rw,noatime\"\n      }\n   ]\n}\n"
+    }
+  ],
+  "configuration_restored": true,
+  "completed": true,
+  "mounts": {
+    "9p": {
+      "target": "/mnt/d",
+      "source": "D:\\",
+      "fstype": "9p",
+      "options": "rw,noatime,aname=drvfs;path=D:\\;uid=1000;gid=1000;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd,rfd=6,wfd=6"
+    },
+    "virtiofs": {
+      "target": "/mnt/d",
+      "source": "drvfs[/3d3531fd-2c0f-43b3-8de0-3a2048e0f42b]",
+      "fstype": "virtiofs",
+      "options": "rw,noatime"
+    }
+  },
+  "native_exit_code": 0,
+  "pair_exit_code": 0
+}

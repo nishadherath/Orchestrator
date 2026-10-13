@@ -3,7 +3,12 @@
 This source package updates the existing `graft-setup` skill for the installed
 Graft 0.21.1 and generalises the structural retrieval repair into configurable
 Python helpers. It is independent of Orchestrator's consumer bundle and its
-machine-specific Graft launchers. The skill is version 1.0.3.
+machine-specific Graft launchers. The skill is version 1.0.4.
+
+The [concurrent-load investigation](CONCURRENCY.md) reproduces deadline failures
+with VirtioFS active. Version 1.0.4 adds portable filesystem and stage/bootstrap
+diagnostics, paced-load controls and preserved evidence. The exact Windows
+blocking component and historical 3-second failure remain unproven.
 
 ## Contents and installation
 
@@ -62,6 +67,12 @@ preserves the prior active cache and publishes by local rename. It retains the
 host-wiring stamp even on a clean build, to avoid unintended startup defaults.
 See [the repair contract](graft-setup/references/repair.md) for ignore/settings
 side effects, concurrency assumptions, rollback and cleanup limits.
+
+The portable `fs_probe.py` measures disposable-file operations and native
+Python startup. `trace.py` retains helper JSON stdout and records timing/frame
+locations on stderr. Read their effects and bounds in the skill's
+[concurrent-load guidance](graft-setup/references/hosts.md#concurrent-windows-and-wsl-load).
+They neither change host settings nor apply antivirus exclusions.
 
 The original project's oversized mixed index, filesystem restrictions and
 stale optional meanings were distinct failures. Scope reduction contributed
@@ -135,3 +146,20 @@ The helper also eliminates duplicate symbol-path resolution: diagnostics on
 the actual mounted index improved from 30.560 to 2.266 seconds while retaining
 escape checks. A separate explicitly scoped native project cache passed fresh
 structure checks; the original Windows cache was preserved.
+
+## Version 1.0.4 concurrent qualification
+
+The [concurrent investigation](CONCURRENCY.md) reproduces 20-second failures on
+both native Windows and Linux with VirtioFS active. Load-sensitive metadata,
+runtime imports and subprocess delays contribute; the unique Windows blocking
+component remains unproven. Pacing reduced contention without changing
+protection or deadlines. The optional import-search control was not sufficient
+prevention. A full-project traced freshness check also timed out at its existing
+180-second bound, and that result is retained alongside small real-Graft passes.
+
+All 25 final regressions passed on Windows and Windows-mounted native Linux.
+The new scripts retain helper safety/JSON behaviour and provide filesystem,
+bootstrap and stage evidence. The deterministic 1.0.4 ZIP contains 15 reviewed
+skill files; machine-specific experiments and sensitive raw ETL stay outside
+the archive. The outer package tracks the portable test runners and reviewed
+success/failure evidence.

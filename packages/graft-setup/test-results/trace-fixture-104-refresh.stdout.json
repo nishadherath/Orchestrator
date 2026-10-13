@@ -1,0 +1,64 @@
+{
+  "ok": true,
+  "repo": "/mnt/d/Code/Claude/Orchestrator/.graft/trace-fixture-104/real-graft-y7_6ywjb",
+  "cache": "/mnt/d/Code/Claude/Orchestrator/.graft/trace-fixture-104/real-graft-y7_6ywjb/graft",
+  "scope": [
+    "src"
+  ],
+  "whole_repo": false,
+  "clean": false,
+  "capabilities": {
+    "version": "0.21.1",
+    "tested_version": "0.21.1",
+    "version_matches": true,
+    "supports_structured": true,
+    "supports_documents": true,
+    "supports_deep_documents": true,
+    "identity": {
+      "available": true,
+      "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82",
+      "package_version": "0.21.1",
+      "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82/dist/cli.js",
+      "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+      "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+    }
+  },
+  "provider_calls": 0,
+  "dry_run": false,
+  "graph": {
+    "present": true,
+    "files": 1,
+    "nodes": 3,
+    "edges": 3,
+    "languages": [
+      "python"
+    ],
+    "file_groups": {
+      "src/main.py": 1
+    },
+    "summary_states": {
+      "pending": 3
+    },
+    "fingerprints": [
+      {
+        "name": "fingerprint.68537c8950eb6b5f.json",
+        "extractor": "68537c8950eb6b5f",
+        "only_dirs": [
+          "src"
+        ],
+        "files": 1
+      }
+    ],
+    "semantic_manifest": false
+  },
+  "freshness": {
+    "structural_fresh": true,
+    "semantic": "absent",
+    "stale_summaries": 0,
+    "pending_summaries": 3,
+    "exit_code": 0,
+    "elapsed_seconds": 3.564
+  },
+  "backup": null,
+  "elapsed_seconds": 13.751
+}

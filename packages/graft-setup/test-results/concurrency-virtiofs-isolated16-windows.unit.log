@@ -1,0 +1,9 @@
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=14.045601
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=12.872817
+
+----------------------------------------------------------------------
+Ran 2 tests in 26.919s
+
+OK

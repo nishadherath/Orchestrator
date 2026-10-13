@@ -1,0 +1,62 @@
+{
+  "Timestamp": "2026-10-14T09:43:16.6484753+11:00",
+  "CounterSamples": [
+    {
+      "Path": "\\\\bobs-x1\\processor(_total)\\% processor time",
+      "InstanceName": "_total",
+      "CookedValue": 99.87230958722489,
+      "RawValue": 2272342187500,
+      "SecondValue": 134364049966484753,
+      "MultipleCount": 1,
+      "CounterType": 558957824,
+      "Timestamp": "2026-10-14T09:43:16.648+11:00",
+      "Timestamp100NSec": 134364445966480000,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\memory\\available mbytes",
+      "InstanceName": null,
+      "CookedValue": 2987.0,
+      "RawValue": 2987,
+      "SecondValue": 0,
+      "MultipleCount": 1,
+      "CounterType": 65792,
+      "Timestamp": "2026-10-14T09:43:16.648+11:00",
+      "Timestamp100NSec": 134364445966480000,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\physicaldisk(_total)\\avg. disk sec/transfer",
+      "InstanceName": "_total",
+      "CookedValue": 0.00033612366863905327,
+      "RawValue": 204523754007,
+      "SecondValue": 58999342,
+      "MultipleCount": 1,
+      "CounterType": 805438464,
+      "Timestamp": "2026-10-14T09:43:16.648+11:00",
+      "Timestamp100NSec": 134364445966480000,
+      "Status": 0,
+      "DefaultScale": 3,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\physicaldisk(_total)\\current disk queue length",
+      "InstanceName": "_total",
+      "CookedValue": 0.0,
+      "RawValue": 0,
+      "SecondValue": 0,
+      "MultipleCount": 1,
+      "CounterType": 65536,
+      "Timestamp": "2026-10-14T09:43:16.648+11:00",
+      "Timestamp100NSec": 134364445966480000,
+      "Status": 0,
+      "DefaultScale": 1,
+      "TimeBase": 10000000
+    }
+  ],
+  "Readings": "\\\\bobs-x1\\processor(_total)\\% processor time :\n99.87230958722489\n\n\\\\bobs-x1\\memory\\available mbytes :\n2987\n\n\\\\bobs-x1\\physicaldisk(_total)\\avg. disk sec/transfer :\n0.00033612366863905327\n\n\\\\bobs-x1\\physicaldisk(_total)\\current disk queue length :\n0\n\n"
+}

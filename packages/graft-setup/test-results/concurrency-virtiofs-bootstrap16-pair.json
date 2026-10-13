@@ -1,0 +1,68 @@
+{
+  "commands": [
+    [
+      "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "D:\\Code\\Claude\\Orchestrator\\packages\\graft-setup\\tests\\concurrent_worker.py",
+      "--parent",
+      ".graft\\concurrency-windows",
+      "--runtime-json",
+      ".graft\\runtime-concurrent-windows.json",
+      "--output",
+      "packages\\graft-setup\\test-results\\concurrency-virtiofs-bootstrap16-windows.json",
+      "--load-workers",
+      "16",
+      "--load-interval-ms",
+      "1",
+      "--load-seconds",
+      "120",
+      "--unit-only",
+      "--trace",
+      "--unit-case",
+      "test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring",
+      "--repeat",
+      "2"
+    ],
+    [
+      "wsl.exe",
+      "-d",
+      "kali-linux",
+      "--cd",
+      "/",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/concurrent_worker.py",
+      "--parent",
+      "/mnt/d/Code/Claude/Orchestrator/.graft/concurrency-linux",
+      "--runtime-json",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/runtime-posix-fork.json",
+      "--output",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/concurrency-virtiofs-bootstrap16-linux.json",
+      "--load-workers",
+      "16",
+      "--load-interval-ms",
+      "1",
+      "--load-seconds",
+      "120",
+      "--unit-only",
+      "--trace",
+      "--unit-case",
+      "test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring",
+      "--repeat",
+      "2"
+    ]
+  ],
+  "serial": false,
+  "workers_per_host": 16,
+  "started_unix": 1791933630.735393,
+  "elapsed_seconds": 134.302,
+  "exit_codes": [
+    1,
+    1
+  ],
+  "ok": false,
+  "wsl_configuration_changed": false,
+  "warm_probe": {
+    "seconds": 59.79,
+    "output": "Python 3.14.7"
+  }
+}

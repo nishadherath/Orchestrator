@@ -1,0 +1,50 @@
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_is_feature_enabled: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:25:10 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[Wed Oct 14 09:25:11 2026] Failed to connect to system scope bus via local transport: No such file or directory
+[Wed Oct 14 09:25:14 2026] WSL (161) ERROR: CheckConnection: getaddrinfo() failed: -5
+[Wed Oct 14 09:26:20 2026] __report_access: 83 callbacks suppressed
+[Wed Oct 14 09:26:25 2026] __report_access: 83 callbacks suppressed
+[Wed Oct 14 09:26:30 2026] __report_access: 85 callbacks suppressed
+[Wed Oct 14 09:27:42 2026] __report_access: 54 callbacks suppressed
+[Wed Oct 14 09:27:47 2026] __report_access: 95 callbacks suppressed
+[Wed Oct 14 09:27:52 2026] __report_access: 98 callbacks suppressed
+[Wed Oct 14 09:27:57 2026] __report_access: 96 callbacks suppressed
+[Wed Oct 14 09:28:02 2026] __report_access: 111 callbacks suppressed
+[Wed Oct 14 09:28:07 2026] __report_access: 99 callbacks suppressed
+[Wed Oct 14 09:28:12 2026] __report_access: 82 callbacks suppressed
+[Wed Oct 14 09:28:17 2026] __report_access: 75 callbacks suppressed
+[Wed Oct 14 09:28:22 2026] __report_access: 108 callbacks suppressed
+[Wed Oct 14 09:28:28 2026] __report_access: 49 callbacks suppressed
+[Wed Oct 14 09:28:33 2026] __report_access: 106 callbacks suppressed
+[Wed Oct 14 09:28:38 2026] __report_access: 25 callbacks suppressed
+[Wed Oct 14 09:28:43 2026] __report_access: 44 callbacks suppressed
+[Wed Oct 14 09:28:48 2026] __report_access: 46 callbacks suppressed
+[Wed Oct 14 09:28:53 2026] __report_access: 65 callbacks suppressed
+[Wed Oct 14 09:30:17 2026] WSL (2 - init-systemd(kali-linux)) ERROR: InitTerminateInstanceInternal:2901: systemctl poweroff did not terminate the instance in 10000 ms, calling reboot(RB_POWER_OFF)
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_is_feature_enabled: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[Wed Oct 14 09:30:50 2026] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[Wed Oct 14 09:30:51 2026] Failed to connect to system scope bus via local transport: No such file or directory
+[Wed Oct 14 09:31:10 2026] CPU: 10 UID: 1000 PID: 2452 Comm: python3 Not tainted 6.18.54.1-microsoft-standard-WSL2 #1 PREEMPT(none)
+[Wed Oct 14 09:31:10 2026] RIP: 0033:0x668a4b
+[Wed Oct 14 09:31:10 2026] Code: fd fd fd fd fd fd fd 48 39 c7 0f 94 c2 48 39 cf 41 0f 94 c0 44 08 c2 0f 85 a4 e6 e1 ff 48 81 ff ff fe ff ff 0f 87 97 e6 e1 ff <48> 8b 57 08 48 81 fa ff 00 00 00 0f 86 86 e6 e1 ff 48 39 f2 0f 84
+[Wed Oct 14 09:31:10 2026] RSP: 002b:00007f3da9e11cb8 EFLAGS: 00010217
+[Wed Oct 14 09:31:10 2026] RAX: dddddddddddddddd RBX: 00007f3d00000004 RCX: fdfdfdfdfdfdfdfd
+[Wed Oct 14 09:31:10 2026] RDX: dddddddddddddd00 RSI: cdcdcdcdcdcdcdcd RDI: 00007f3d00000004
+[Wed Oct 14 09:31:10 2026] RBP: 000000003159b500 R08: 0000000000000000 R09: 0000000000000000
+[Wed Oct 14 09:31:10 2026] R10: 0000000000000000 R11: 00007f3da9e126c0 R12: 0000000000000000
+[Wed Oct 14 09:31:10 2026] R13: 0000000000000064 R14: 00007f3daa269750 R15: 00007f3daa2697d8
+[Wed Oct 14 09:31:10 2026] FS:  00007f3da9e126c0 GS:  0000000000000000

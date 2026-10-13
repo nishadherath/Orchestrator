@@ -1,0 +1,23 @@
+{
+  "platform": "win32",
+  "started_unix": 1791930650.2000039,
+  "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\concurrency-windows",
+  "load_workers": 4,
+  "acceptance_deadlines_changed": false,
+  "runs": [
+    {
+      "name": "unit",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 69.991
+    },
+    {
+      "name": "real_graft",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 183.404
+    }
+  ],
+  "load_exit_code": 0,
+  "ok": true
+}

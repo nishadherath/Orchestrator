@@ -1,0 +1,4 @@
+{
+  "ok": false,
+  "error": "Command timed out. Measure scope and choose an explicit larger timeout if justified."
+}

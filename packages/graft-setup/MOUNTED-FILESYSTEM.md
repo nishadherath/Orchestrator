@@ -1,5 +1,9 @@
 # WSL mounted-project remediation, 2026-10-14
 
+This records the serial 1.0.3 qualification. The later
+[concurrent-load investigation](CONCURRENCY.md) reproduced deadline failures
+with VirtioFS active; the transport change is not sufficient prevention.
+
 The Windows project remains on its original NTFS data drive. WSL now accesses
 that drive through VirtioFS instead of the legacy 9P/DrvFs transport. The
 authorised change is one user-wide `.wslconfig` setting: `[wsl2]` followed by

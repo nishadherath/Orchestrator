@@ -1,0 +1,13 @@
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=19.224244
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=17.965898
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=20.482749
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
+  elapsed_seconds=17.146293
+
+----------------------------------------------------------------------
+Ran 4 tests in 74.837s
+
+OK

@@ -1,0 +1,320 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\concurrency-windows",
+  "workers": 16,
+  "interval_ms": 1.0,
+  "requested_seconds": 120.0,
+  "started_unix": 1791933646.2400665,
+  "pressure_before": {},
+  "filesystem": {
+    "available": false,
+    "reason": "Linux mount information is unavailable on this host."
+  },
+  "slow_operations": [
+    {
+      "operation": "read",
+      "seconds": 0.531939,
+      "offset_seconds": 35.121326
+    },
+    {
+      "operation": "read",
+      "seconds": 0.801221,
+      "offset_seconds": 44.923858
+    },
+    {
+      "operation": "read",
+      "seconds": 0.599372,
+      "offset_seconds": 76.086265
+    },
+    {
+      "operation": "replace",
+      "seconds": 0.514979,
+      "offset_seconds": 82.941568
+    },
+    {
+      "operation": "read",
+      "seconds": 0.519743,
+      "offset_seconds": 84.287819
+    },
+    {
+      "operation": "read",
+      "seconds": 0.516775,
+      "offset_seconds": 57.039818
+    },
+    {
+      "operation": "read",
+      "seconds": 0.50262,
+      "offset_seconds": 68.083152
+    },
+    {
+      "operation": "read",
+      "seconds": 0.566494,
+      "offset_seconds": 75.787828
+    },
+    {
+      "operation": "resolve",
+      "seconds": 0.573449,
+      "offset_seconds": 78.897037
+    },
+    {
+      "operation": "read",
+      "seconds": 0.607001,
+      "offset_seconds": 36.606561
+    },
+    {
+      "operation": "read",
+      "seconds": 0.635782,
+      "offset_seconds": 44.46556
+    },
+    {
+      "operation": "read",
+      "seconds": 0.598622,
+      "offset_seconds": 49.207305
+    },
+    {
+      "operation": "read",
+      "seconds": 0.533374,
+      "offset_seconds": 83.788487
+    },
+    {
+      "operation": "read",
+      "seconds": 0.557084,
+      "offset_seconds": 34.796709
+    },
+    {
+      "operation": "read",
+      "seconds": 0.608281,
+      "offset_seconds": 21.298696
+    },
+    {
+      "operation": "read",
+      "seconds": 0.502843,
+      "offset_seconds": 30.560864
+    },
+    {
+      "operation": "read",
+      "seconds": 0.565161,
+      "offset_seconds": 81.823225
+    }
+  ],
+  "errors": [],
+  "operations": {
+    "stat": {
+      "count": 43865,
+      "median_seconds": 0.000226,
+      "p95_seconds": 0.002626,
+      "p99_seconds": 0.008872,
+      "max_seconds": 0.211265
+    },
+    "read": {
+      "count": 43865,
+      "median_seconds": 0.005213,
+      "p95_seconds": 0.062292,
+      "p99_seconds": 0.168402,
+      "max_seconds": 0.801221
+    },
+    "resolve": {
+      "count": 43865,
+      "median_seconds": 0.002061,
+      "p95_seconds": 0.016498,
+      "p99_seconds": 0.074507,
+      "max_seconds": 0.573449
+    },
+    "replace": {
+      "count": 43865,
+      "median_seconds": 0.005638,
+      "p95_seconds": 0.037331,
+      "p99_seconds": 0.110551,
+      "max_seconds": 0.514979
+    },
+    "unlink": {
+      "count": 43865,
+      "median_seconds": 0.003401,
+      "p95_seconds": 0.01743,
+      "p99_seconds": 0.092215,
+      "max_seconds": 0.446813
+    }
+  },
+  "child_startups": [
+    {
+      "seconds": 2.799583,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.494089,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.609436,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.034269,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.131607,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.756933,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.214044,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.317603,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.365326,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.063151,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.985436,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.369195,
+      "exit_code": 0
+    },
+    {
+      "seconds": 3.422882,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.613722,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.081266,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.668669,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.250272,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.310288,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.081255,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.297922,
+      "exit_code": 0
+    },
+    {
+      "seconds": 3.597304,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 2.212822,
+      "exit_code": 0
+    },
+    {
+      "seconds": 3.109039,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.717597,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.451585,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.469567,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.776549,
+      "exit_code": 0
+    },
+    {
+      "seconds": 3.42097,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.70765,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.967797,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.253877,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.584778,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.867142,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.094212,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.758971,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.675664,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.779193,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.546679,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.143128,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.620755,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.304785,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.384512,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.133252,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.189885,
+      "exit_code": 0
+    }
+  ],
+  "pressure_after": {},
+  "elapsed_seconds": 120.662,
+  "ok": false
+}

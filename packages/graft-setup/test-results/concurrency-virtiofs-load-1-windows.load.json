@@ -1,0 +1,354 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\concurrency-windows",
+  "workers": 4,
+  "interval_ms": 1.0,
+  "requested_seconds": 120.0,
+  "started_unix": 1791931275.6239228,
+  "pressure_before": {},
+  "filesystem": {
+    "available": false,
+    "reason": "Linux mount information is unavailable on this host."
+  },
+  "slow_operations": [],
+  "errors": [],
+  "operations": {
+    "stat": {
+      "count": 18136,
+      "median_seconds": 0.000209,
+      "p95_seconds": 0.000949,
+      "p99_seconds": 0.003874,
+      "max_seconds": 0.067186
+    },
+    "read": {
+      "count": 18136,
+      "median_seconds": 0.004937,
+      "p95_seconds": 0.03754,
+      "p99_seconds": 0.09063,
+      "max_seconds": 0.484981
+    },
+    "resolve": {
+      "count": 18136,
+      "median_seconds": 0.001073,
+      "p95_seconds": 0.008356,
+      "p99_seconds": 0.028516,
+      "max_seconds": 0.106952
+    },
+    "replace": {
+      "count": 18136,
+      "median_seconds": 0.003697,
+      "p95_seconds": 0.016979,
+      "p99_seconds": 0.046713,
+      "max_seconds": 0.183806
+    },
+    "unlink": {
+      "count": 18136,
+      "median_seconds": 0.002148,
+      "p95_seconds": 0.010731,
+      "p99_seconds": 0.03516,
+      "max_seconds": 0.127894
+    }
+  },
+  "child_startups": [
+    {
+      "seconds": 1.011349,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.972156,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.800081,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.175341,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.051016,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.953547,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.861528,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.142828,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.505868,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.464739,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.903044,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.116291,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.139802,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.655828,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.134115,
+      "exit_code": 0
+    },
+    {
+      "seconds": 3.182665,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.157943,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.615706,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.296275,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.645275,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.508148,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.905738,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.030973,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.853962,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.716483,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.011072,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.996498,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.593673,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.768238,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.111152,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.50324,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.506011,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.965884,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.57552,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.552276,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.901692,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.676995,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.810192,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.036775,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.880607,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.833866,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.664518,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.585908,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.705711,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.16829,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.560458,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.716344,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.891283,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.460525,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.603957,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.744606,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.848968,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.144508,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.475666,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.568689,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.472519,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.396447,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.589037,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.456433,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.767362,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.228217,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.385527,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.653351,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.651064,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.255981,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.917889,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.764928,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.489281,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.353556,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.598415,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.464376,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.378018,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.120734,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.876763,
+      "exit_code": 0
+    }
+  ],
+  "pressure_after": {},
+  "elapsed_seconds": 120.666,
+  "ok": true
+}

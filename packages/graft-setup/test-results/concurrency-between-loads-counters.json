@@ -1,0 +1,62 @@
+{
+  "Timestamp": "2026-10-14T09:44:49.437698+11:00",
+  "CounterSamples": [
+    {
+      "Path": "\\\\bobs-x1\\processor(_total)\\% processor time",
+      "InstanceName": "_total",
+      "CookedValue": 61.72620302224292,
+      "RawValue": 2272475104166,
+      "SecondValue": 134364050894386933,
+      "MultipleCount": 1,
+      "CounterType": 558957824,
+      "Timestamp": "2026-10-14T09:44:49.438+11:00",
+      "Timestamp100NSec": 134364446894380000,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\processor information(_total)\\% processor utility",
+      "InstanceName": "_total",
+      "CookedValue": 46.94896697724456,
+      "RawValue": 4600571609793,
+      "SecondValue": 2781903082,
+      "MultipleCount": 1,
+      "CounterType": 1073874176,
+      "Timestamp": "2026-10-14T09:44:49.437698+11:00",
+      "Timestamp100NSec": 134364446894376980,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\processor information(_total)\\% processor performance",
+      "InstanceName": "_total",
+      "CookedValue": 73.4472773172514,
+      "RawValue": 4600571642329,
+      "SecondValue": 2206566214,
+      "MultipleCount": 1,
+      "CounterType": 1073874176,
+      "Timestamp": "2026-10-14T09:44:49.437698+11:00",
+      "Timestamp100NSec": 134364446894376980,
+      "Status": 0,
+      "DefaultScale": 0,
+      "TimeBase": 10000000
+    },
+    {
+      "Path": "\\\\bobs-x1\\physicaldisk(_total)\\current disk queue length",
+      "InstanceName": "_total",
+      "CookedValue": 0.0,
+      "RawValue": 0,
+      "SecondValue": 0,
+      "MultipleCount": 1,
+      "CounterType": 65536,
+      "Timestamp": "2026-10-14T09:44:49.438+11:00",
+      "Timestamp100NSec": 134364446894380000,
+      "Status": 0,
+      "DefaultScale": 1,
+      "TimeBase": 10000000
+    }
+  ],
+  "Readings": "\\\\bobs-x1\\processor(_total)\\% processor time :\n61.72620302224292\n\n\\\\bobs-x1\\processor information(_total)\\% processor utility :\n46.94896697724456\n\n\\\\bobs-x1\\processor information(_total)\\% processor performance :\n73.4472773172514\n\n\\\\bobs-x1\\physicaldisk(_total)\\current disk queue length :\n0\n\n"
+}
