@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-10-13, Australia/Sydney. Status: assessment and Graft retrieval
+Updated: 2026-10-14, Australia/Sydney. Status: assessment and Graft retrieval
 repair scopes complete.
 The separately requested portable Graft skill package is also complete.
 
@@ -24,6 +24,10 @@ The separately requested portable Graft skill package is also complete.
   including bounded diagnostic/refresh/MCP scripts, documentation, tests,
   licensing and a deterministic redistributable ZIP with an integrity manifest.
   The old installed skill is preserved in the ignored local backup area.
+- Recovered and verified WSL startup with three bounded cold starts after an
+  idle VM reset. Installed an isolated native Linux runtime and verified the
+  skill against real npm-distributed Graft 0.21.1. Updated the package and
+  installed skill to 1.0.1, including WSL guidance and platform identity checks.
 
 ## Verification
 
@@ -46,11 +50,13 @@ The separately requested portable Graft skill package is also complete.
   and [offline checks](../test/results/2026-10-13-graft-offline-normal.json).
 - The live commit-time freshness recheck passed in 111.939 seconds. Its latency
   remains variable; this result is below the existing 180-second timeout.
-- Portable skill: 18 offline tests passed on Windows and 18 on native WSL/Linux
-  Python. Real Windows Graft 0.21.1 passed 14 acceptance steps over Git, non-Git
-  build-source and structured Markdown layouts, including the manual-build
-  scope-widening behaviour. Stock skill validation, installed-file parity and
-  deterministic archive verification passed. Results and limits are in
+- Portable skill 1.0.1: 19 offline tests passed on Windows and 19 on native
+  WSL/Linux Python. Real Windows Graft 0.21.1 passed 14 acceptance steps;
+  native Linux Node 22.23.0 and Graft 0.21.1 passed 12 source/MCP scenarios and
+  one unsupported-option refusal. The Linux npm build lacks `--structured`;
+  the same version label does not establish equal optional capabilities.
+  Stock skill validation, 13-file installed parity and identical deterministic
+  archive checks on Windows and Linux passed. Results and limits are in
   [package verification](../packages/graft-setup/verification.json).
 
 ## Current and remaining work
@@ -64,6 +70,11 @@ Remaining work in the prior assessment and Graft retrieval repair scopes: none.
 The earlier commit includes the retrieval repair and its verification evidence.
 No session/model switch, agent launch or new experimental provider call occurred.
 Actual development-session API-equivalent cost is unavailable, not zero.
+
+The 2026-10-14 WSL verification scope is complete. The startup timeout had
+already disappeared before intervention; three post-reset cold starts passed
+in 6.7-6.9 seconds. Its root cause and permanent prevention remain unproven.
+The separate native-runtime gap was corrected without changing VM settings.
 
 The recommended next scope is instruction-history cleanup, followed by the
 existing O0-O6 offline qualification plan. These remain recommendations; the

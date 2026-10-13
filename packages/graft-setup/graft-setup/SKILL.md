@@ -6,7 +6,7 @@ license: Apache-2.0
 
 # Graft setup and retrieval repair
 
-Target `@nanonets/graft`, not other products named Graft. Revised on 2026-10-13
+Target `@nanonets/graft`, not other products named Graft. Revised on 2026-10-14
 from the earlier 0.18.0 setup guidance and verified against installed
 **Graft 0.21.1**. Python helpers
 need Python 3.12 or newer, use only its standard library, and never request an
@@ -18,6 +18,7 @@ LLM pass. Graft and its Node runtime are separately installed dependencies.
   replacing them. Read [repair guidance](references/repair.md).
 - For new setup or host registration, read [host wiring](references/hosts.md).
   Preserve existing configuration and use the current project/worktree root.
+  For WSL startup or inherited Windows shims, use its WSL diagnostic section.
 - For a paid meaning tier, read [deep-pass guidance](references/deep.md).
   Existing operator authorisation remains valid within its stated scope.
 - For installing or redistributing this skill, read
@@ -67,8 +68,10 @@ python scripts/refresh.py --repo /absolute/project --only-dir src --only-dir tes
 Use `--whole-repo` deliberately for a small project, or `--cache .graft/corpus`
 with separate source prefixes for a corpus. `--include-dir build` re-admits a
 built-in skipped directory when it contains real source. `tools` is not in the
-installed 0.21.1 skip list. `--structured` explicitly enables supported prose
-and configuration formats; review which documents enter that scope first.
+Windows 0.21.1 skip list. Skip policies can differ across installations.
+When advertised by `build --help`, `--structured` explicitly enables supported
+prose and configuration formats; review which documents enter that scope first.
+The tested npm-distributed POSIX 0.21.1 lacks that option.
 
 The helper builds in a private staging directory, verifies structure and scope,
 then preserves the old cache under `.graft/backups/` before publishing. It

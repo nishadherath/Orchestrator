@@ -3,7 +3,7 @@
 This source package updates the existing `graft-setup` skill for the installed
 Graft 0.21.1 and generalises the structural retrieval repair into configurable
 Python helpers. It is independent of Orchestrator's consumer bundle and its
-machine-specific Graft launchers. The skill is version 1.0.0.
+machine-specific Graft launchers. The skill is version 1.0.1.
 
 ## Contents and installation
 
@@ -44,6 +44,12 @@ removes only its own temporary workspace. It accepts `--parent` for a host
 whose default temporary directory is restricted. Neither suite makes a paid
 provider request. Run filesystem-mutating tests in a permitted normal shell.
 
+For native POSIX acceptance, run with native Python and Node. Supply `--node`
+when Node is outside PATH and use that same executable as the first launcher
+argument. The runner records Node's platform and rejects Windows shims inside
+WSL. See [WSL diagnostics](graft-setup/references/hosts.md#wsl-startup-and-native-posix-verification)
+for the separate VM startup boundary and bounded recovery checks.
+
 Validate skill frontmatter with the host's skill-creator validator when
 available. The release builder also checks the required frontmatter, internal
 reference links and file allowlist. Changing source requires rebuilding the
@@ -65,3 +71,24 @@ It preserves authorisation boundaries for any later paid deep pass.
 
 Licensing follows this repository's Apache-2.0 licence, included with the skill.
 Graft is a separate upstream dependency and is not bundled or relicensed here.
+
+## Recorded verification, 2026-10-14
+
+Version 1.0.1 passed 19 offline tests on Windows and 19 on native WSL/Linux
+Python 3.14.7. Real Graft 0.21.1 passed 14 Windows acceptance steps and 13 Linux
+steps with native Node 22.23.0. Linux acceptance covers 12 source/MCP scenarios
+and one unsupported-option refusal, including retained scope, separate caches,
+clean replacement and actual automatic source addition/removal. The npm Linux
+build lacks `--structured`; document indexing is only verified on the existing
+Windows build. Both report 0.21.1, so capability checks remain necessary.
+
+The historical WSL startup timeout was no longer reproducible on the first
+probe. After resetting the idle shared VM, three bounded cold starts passed in
+6.7-6.9 seconds. Its root cause and permanent prevention are not established.
+The missing native runtime and inherited Windows shim were corrected using an
+isolated Linux installation; no VM configuration or Windows runtime was changed.
+
+The same 1.0.1 archive passed deterministic checks on Windows and Linux, and
+all 13 installed skill files match the source. Detailed results, the initial
+POSIX capability failure and SHA-256 evidence are in [verification.json](verification.json)
+and `test-results/`. The original 1.0.0 release remains available for comparison.

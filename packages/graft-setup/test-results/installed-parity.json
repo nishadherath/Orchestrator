@@ -1,23 +1,23 @@
 {
   "ok": true,
   "skill": "graft-setup",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tested_graft": "0.21.1",
   "files": {
-    "SKILL.md": "099aed46a2941c2b3681ab5e8f93c953254aa1fff2c780ae8994bf2f31d94294",
-    "VERSION": "59854984853104df5c353e2f681a15fc7924742f9a2e468c29af248dce45ce03",
+    "SKILL.md": "ae41af2eba4f4b045f8e839da68c6f089c2e2ba55043db09b1ffd7fd62cc4442",
+    "VERSION": "44e161e4495cac2cf7858043e9e6418e9579f0ddcfae826f9a372622968ce066",
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
     "scripts/graft_common.py": "72196f067ed0d8506beaa84282bc01b9e12095f6260b674b31234ab81fdbc89d",
     "scripts/diagnose.py": "826a60931451524274a5d2b2885b7b02afe507a97e26876b32b4c64b3c84a251",
     "scripts/refresh.py": "3aedc3ab10b5fe0b96187ce9c93f3d3ee098fede92f4c9bfbd4f08728492be94",
     "scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
-    "references/version-0211.md": "185ed86d06aa4a00ed02bcbc2f38c352eb6d9443f44aa9c4fd676e2e9157a4bc",
+    "references/version-0211.md": "2d2e518149cf757f56aa1fc62fe5272b089ca4b19b9cb785ae879dcaf7b746b9",
     "references/repair.md": "2d4e65c9ac74d84a2612fc93cfe4224374367b4f8b45d30de12108df36c835b5",
     "references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
-    "references/hosts.md": "782fa3bb21bd06a8710e4796d1a4d438a88928d92fea25b2844b1e2a16d66938",
+    "references/hosts.md": "08dd8b7a1e15c227782e7d644b1542aa0bf7132cf48dfd947a1c29937507e0c5",
     "references/installation.md": "76e58c85bd0d1295892e09af64f4e9195247474f6dee09621c829497c4a30774"
   },
   "installed_destination": "existing user graft-setup skill directory",
-  "backup": ".graft/installed-skill-backup-2026-10-13-37ef1b38"
+  "backup": ".graft/installed-skill-backup-2026-10-14-fdea2877"
 }

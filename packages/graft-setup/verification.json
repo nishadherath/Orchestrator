@@ -1,62 +1,117 @@
 {
-  "recorded_at": "2026-10-13T10:35:56.022884+00:00",
-  "skill_version": "1.0.0",
+  "recorded_at": "2026-10-13T18:27:18.745891+00:00",
+  "skill_version": "1.0.1",
   "graft_version": "0.21.1",
   "provider_calls": 0,
   "offline_tests": {
     "Windows": {
       "python": "3.14.7",
-      "tests": 18,
+      "tests": 19,
       "status": "PASS"
     },
     "WSL/Linux": {
       "python": "3.14.7",
-      "tests": 18,
+      "tests": 19,
       "status": "PASS"
     }
   },
   "real_graft_integration": {
-    "platform": "Windows",
-    "steps": 14,
-    "status": "PASS",
-    "layouts": [
-      "Git app project",
-      "non-Git build source",
-      "structured Markdown"
-    ],
-    "manual_build_scope_widening_verified": true
+    "Windows": {
+      "steps": 14,
+      "status": "PASS",
+      "python": "3.14.7",
+      "runtime": {
+        "platform": "win32",
+        "arch": "x64",
+        "node": "v26.7.0",
+        "execPath": "C:\\nvm4w\\nodejs\\node.exe"
+      },
+      "capabilities": {
+        "version": "0.21.1",
+        "tested_version": "0.21.1",
+        "version_matches": true,
+        "supports_structured": true
+      },
+      "structured_indexing": "PASS",
+      "manual_build_scope_widening_verified": true,
+      "mcp_tools": 6,
+      "automatic_addition_removal_and_retained_scope": "PASS"
+    },
+    "WSL/Linux": {
+      "steps": 13,
+      "status": "PASS",
+      "python": "3.14.7",
+      "runtime": {
+        "platform": "linux",
+        "arch": "x64",
+        "node": "v22.23.0",
+        "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+      },
+      "capabilities": {
+        "version": "0.21.1",
+        "tested_version": "0.21.1",
+        "version_matches": true,
+        "supports_structured": false
+      },
+      "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
+      "manual_build_scope_widening_verified": true,
+      "mcp_tools": 6,
+      "automatic_addition_removal_and_retained_scope": "PASS"
+    }
   },
+  "wsl_startup": {
+    "status": "PASS",
+    "wsl_version": "3.0.3.0",
+    "cold_starts": 3,
+    "elapsed_seconds": [
+      6.882,
+      6.943,
+      6.72
+    ],
+    "action": "Reset idle shared VM with wsl --shutdown, then run bounded direct Linux probes",
+    "root_cause": "Not established: the historical timeout was no longer reproducible before intervention.",
+    "configuration_changes": [],
+    "service_restart": false
+  },
+  "native_runtime_repair": "Installed checksum-verified native Linux Node and npm Graft 0.21.1 in an isolated user prefix; explicit launcher avoids inherited Windows shims.",
   "skill_validation": "PASS",
   "installed_parity": {
     "status": "PASS",
     "files": 13
   },
   "deterministic_release": {
-    "archive": "graft-setup-1.0.0.zip",
-    "sha256": "b534e461708f24c1065f0790b3502ef24cf31316876e6302c61ffd9fb17d1c21",
+    "archive": "graft-setup-1.0.1.zip",
+    "sha256": "86801ec0d70294afea86284f22995c59d10b6885281412f06c39e51d7ce938f1",
     "status": "PASS",
-    "verified_on": "Windows",
-    "posix_archive_check": "Earlier cross-platform archive check passed; final read-only rerun was blocked by WSL startup ERROR_TIMEOUT and a bounded 45-second retry."
+    "verified_on": [
+      "Windows",
+      "WSL/Linux"
+    ]
   },
   "evidence": {
     "git-identity-initial-failure.json": "70edb07e3182d47e0b303571af5b7ebf98d125329bd967de9e39c93b35166a25",
-    "installed-parity.json": "fa93d4b981d7f4b051117fcc78c13e723a3cf3a0cddb7d4548ac59443522555b",
+    "installed-parity.json": "b0f9a263533debc867cb0ed95552c79f1652e09dc919721c407070ae47b1694f",
     "integration-initial-failure.json": "5eb1494906ecb36695abb7f6082c668677084b45b7857f9fcbefb23518059d6d",
-    "integration-windows.json": "0764c0fe07aff012c8a0f1b47b21a99d7fef39f66db237e8c7cd357feddc087b",
-    "repository-offline.json": "097b58ffe6c736133fb2a7380cc7da1fddcae7e7f207de1f4ba2cc267920041f",
-    "unit-posix.log": "e654cc8dfaba61c846455361b127ebf71b929aef80a80578d6a4d0462f63b01f",
-    "unit-windows.log": "1aa740c6c6c17ff84a9bd1295662e9c02a2bf708bc21616d5f570d18e993a5e6"
+    "integration-posix-initial-failure.json": "b6f907df8afe184b05ae5ef8143ee5369acb38b6fe282063d1e2ef07a4c3d0e3",
+    "integration-posix.json": "fcd8f2e5ecd08cbed010849db316ccede8e6b27929e91b0c95516e72f41e8d87",
+    "integration-windows.json": "c488c7a6c380ff4c205ceffcf9b3928529030f5e7acb4968787eae05a0b1ad6b",
+    "repository-offline.json": "493f3b2069bb038abaa059b356cd05b6c46e6224abe47f5d23876efcc6eb49ec",
+    "runtime-posix.json": "f9347123ff3faf9ef676960b51f7f7a8877a5607758782682dd27e2feb7b7b78",
+    "unit-posix.log": "8bf6982bd9f7ea77737905fa042ee1d4ca08baf5ff01b8a4426673afc8411a12",
+    "unit-windows.log": "0bd23449b340b8b6336418be7c5daeaa6dd807ea6c78d8aa7908b1ddd0bbef07",
+    "wsl-startup.json": "f9d6b422cb90c4cebeca4cb44602e0f2f5af5348a5c8f3cccfa57337ce4659db"
   },
   "limitations": [
-    "Real Graft integration was run on Windows; native WSL Node/Graft was unavailable. POSIX helper behaviour was tested with a controlled CLI.",
+    "Historical WSL CreateVm timeout had disappeared before intervention; its root cause and permanent prevention remain unproven.",
+    "The npm-distributed Linux Graft 0.21.1 lacks --structured; safe refusal passed there, while structured indexing passed only on the existing Windows build.",
     "macOS and Python 3.12 were not executed; Python 3.12 is the stated API floor.",
     "No paid deep pass, semantic provider repair, new host chat or general filesystem isolation qualification.",
     "Refresh locks coordinate the helper only; pause other automatic refresh clients before cache replacement.",
-    "The complete Orchestrator harness was not rerun; relevant existing checks passed and consumer source/bundle were unchanged.",
-    "Final POSIX archive rerun was blocked by a WSL service startup timeout; the final POSIX offline suite passed. No shared service was restarted."
+    "The complete Orchestrator harness was not rerun; relevant existing checks passed and consumer source/bundle were unchanged."
   ],
   "corrected_test_setup": [
     "Initial non-Git fixture inherited an ignored parent Git tree; corrected using a canonical Git ceiling.",
     "Git identity assertion initially decoded a Unicode path with the Windows locale; corrected to explicit UTF-8."
-  ]
+  ],
+  "initial_posix_failure": "Optional structured indexing was unsupported in the npm-distributed package; retained failure evidence and verified rejection without project mutation."
 }

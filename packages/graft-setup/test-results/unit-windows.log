@@ -1,3 +1,4 @@
+test_acceptance_rejects_interoperability_runtime (test_helpers.Helpers.test_acceptance_rejects_interoperability_runtime) ... ok
 test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ok
 test_dry_run_does_not_mutate_project (test_helpers.Helpers.test_dry_run_does_not_mutate_project) ... ok
 test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) ... ok
@@ -18,6 +19,6 @@ test_traversal_root_and_escaped_links_are_rejected (test_helpers.Helpers.test_tr
 test_wrong_fingerprint_identity_is_not_reused (test_helpers.Helpers.test_wrong_fingerprint_identity_is_not_reused) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 27.529s
+Ran 19 tests in 34.764s
 
 OK

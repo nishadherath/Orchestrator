@@ -1,0 +1,100 @@
+{
+  "recorded_date": "2026-10-14",
+  "historical_error": "Wsl/Service/CreateInstance/CreateVm/ERROR_TIMEOUT",
+  "initial_probe_seconds": 7.386,
+  "initial_probe_ok": true,
+  "actions": [
+    {
+      "command": [
+        "wsl.exe",
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.122,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 12.973,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--shutdown"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 12.936,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "cold_starts": [
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "kali-linux",
+        "--exec",
+        "/usr/bin/python3",
+        "-c",
+        "import json,platform; print(json.dumps({\"system\":platform.system(),\"python\":platform.python_version()}))"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.882,
+      "stdout": "{\"system\": \"Linux\", \"python\": \"3.14.7\"}",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "kali-linux",
+        "--exec",
+        "/usr/bin/python3",
+        "-c",
+        "import json,platform; print(json.dumps({\"system\":platform.system(),\"python\":platform.python_version()}))"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.943,
+      "stdout": "{\"system\": \"Linux\", \"python\": \"3.14.7\"}",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "-d",
+        "kali-linux",
+        "--exec",
+        "/usr/bin/python3",
+        "-c",
+        "import json,platform; print(json.dumps({\"system\":platform.system(),\"python\":platform.python_version()}))"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.72,
+      "stdout": "{\"system\": \"Linux\", \"python\": \"3.14.7\"}",
+      "stderr": ""
+    }
+  ],
+  "root_cause": "Not established: the historical timeout was no longer reproducible before intervention.",
+  "configuration_changes": [],
+  "service_restart": false,
+  "initial_state": {
+    "command": [
+      "wsl.exe",
+      "--list",
+      "--verbose"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.116,
+    "stdout": "NAME              STATE           VERSION\r\n* kali-linux        Stopped         2\r\n  docker-desktop    Stopped         2",
+    "stderr": ""
+  },
+  "ok": true
+}

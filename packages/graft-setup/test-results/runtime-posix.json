@@ -1,0 +1,16 @@
+{
+  "node": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.0",
+    "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+  },
+  "graft_version": "0.21.1",
+  "node_archive_sha256": "14d7de44f235534799f8b171a4050d9a6a4bc99c87e053a25d3d54afa580aa20",
+  "node_archive_url": "https://nodejs.org/dist/v22.23.0/node-v22.23.0-linux-x64.tar.xz",
+  "launcher": [
+    "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+    "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js"
+  ],
+  "install_exit_code": 0
+}

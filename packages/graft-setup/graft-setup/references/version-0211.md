@@ -1,8 +1,11 @@
 # Installed Graft 0.21.1: verified behaviour
 
 Verified on 2026-10-13 using the installed package's CLI help and implementation,
-then exercised against isolated repositories. These are version-specific notes;
-read the current CLI help after changing installations.
+then exercised against isolated repositories on Windows and, on 2026-10-14,
+native WSL/Linux Node. These are version-specific notes;
+read the current CLI help after changing installations. The existing Windows
+installation and npm-distributed Linux package both report 0.21.1 but expose
+different optional capabilities. Version equality alone is insufficient.
 
 - `build` produces the local wiring graph and cards without an LLM call.
   `--deep` separately requests concept reads/synthesis and symbol meanings.
@@ -11,15 +14,18 @@ read the current CLI help after changing installations.
   graph; every scripted/manual refresh should pass its intended scope explicitly.
 - `--include-dir` takes a bare directory name, not a path. Overrides live in
   `.graft/config.json`. They lift Graft's skip policy, not Git ignore rules.
-- The installed skip set contains `node_modules`, `dist`, `build`, `_build`,
+- The Windows installation's skip set contains `node_modules`, `dist`, `build`, `_build`,
   `out`, `target`, `vendor`, `coverage`, `__pycache__` and `venv`. It does not
   contain `tools`. Ordinary dot directories remain excluded. Structured mode
   narrowly admits workflow YAML under `.github/workflows`.
 - Git-visible files are preferred when Git works. Filesystem fallback has
   different ignore behaviour. Keep caches hidden or explicitly outside source
   scope when Git visibility is unavailable.
-- `--structured` admits Markdown, JSON, YAML, TOML and INI and is persisted.
-  The installed help also exposes optional `--documents` and `--deep-documents`.
+- Where available, `--structured` admits Markdown, JSON, YAML, TOML and INI and
+  is persisted. The Windows help also exposes `--documents` and `--deep-documents`.
+  The npm-distributed Linux 0.21.1 exposes none of these three flags. The helper
+  rejects `--structured` before project mutation when help lacks support; POSIX
+  acceptance verifies that refusal rather than claiming document indexing passed.
   Document rendering needs additional upstream dependencies; this package does
   not install or exercise them. The helpers do not request document deep passes.
 - `--no-gitignore` and `--no-ignore` prevent build-time ignore-file changes.

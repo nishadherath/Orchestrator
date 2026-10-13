@@ -35,6 +35,21 @@ class Helpers(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_acceptance_rejects_interoperability_runtime(self):
+        spec = importlib.util.spec_from_file_location("integration_acceptance", PACKAGE / "tests/integration.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        output = self.root / "acceptance.json"
+        observed = "linux" if os.name == "nt" else "win32"
+        probe = subprocess.CompletedProcess([], 0, json.dumps({"platform": observed}), "")
+        with patch.object(sys, "argv", ["integration.py", "--node", "selected-node", "--output", str(output)]), \
+             patch.object(module.subprocess, "run", return_value=probe), contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(module.main(), 1)
+        report = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(report["steps"], [])
+        self.assertIn("platform differs", report["error"])
+        self.assertFalse((self.root / ".graft").exists())
+
     def cli(self, name, *extra, mode=""):
         env = dict(os.environ, FAKE_GRAFT_MODE=mode)
         result = subprocess.run([sys.executable, str(SCRIPTS / name), "--repo", str(self.root),

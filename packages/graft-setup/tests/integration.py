@@ -21,6 +21,7 @@ from graft_common import child_env, graph_summary, launcher
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--launcher-json")
+    parser.add_argument("--node", help="Native Node executable used to prove the runtime platform")
     parser.add_argument("--parent", type=Path)
     parser.add_argument("--output", type=Path, default=PACKAGE / "integration-result.json")
     args = parser.parse_args()
@@ -30,13 +31,31 @@ def main() -> int:
     if args.parent:
         args.parent.mkdir(parents=True, exist_ok=True)
     try:
+        node = shutil.which(args.node or "node") or args.node
+        if not node:
+            raise RuntimeError("Native Node is unavailable; pass --node and an aligned --launcher-json")
+        runtime = subprocess.run([node, "-p", "JSON.stringify({platform:process.platform,arch:process.arch,node:process.version,execPath:process.execPath})"],
+                                 capture_output=True, text=True, encoding="utf-8", timeout=30, check=True)
+        results["runtime"] = json.loads(runtime.stdout)
+        expected = {"Windows": "win32", "Linux": "linux", "Darwin": "darwin"}.get(platform.system())
+        if results["runtime"]["platform"] != expected:
+            raise RuntimeError("Node platform differs from Python; a Windows interoperability shim is not native POSIX verification")
+        command = launcher(args.launcher_json)
+        executable = shutil.which(command[0]) or command[0]
+        if args.launcher_json and Path(executable).resolve() != Path(node).resolve():
+            raise RuntimeError("Explicit launcher must begin with the verified --node executable")
+        results["launcher"] = command
+        # Ensure child tools using an env shebang find the same native runtime.
+        env["PATH"] = str(Path(node).resolve().parent) + os.pathsep + os.environ.get("PATH", "")
+        if not shutil.which("git", path=env["PATH"]):
+            raise RuntimeError("Git is required to verify both Git and non-Git layouts")
         with tempfile.TemporaryDirectory(prefix="graft portable & unicode Ω ", dir=args.parent) as temp:
             parent = Path(temp)
             # A requested --parent may be inside an ignored directory of an
             # outer Git checkout. Keep the non-Git fixture genuinely non-Git.
             env["GIT_CEILING_DIRECTORIES"] = str(parent.resolve())
 
-            def execute(name: str, root: Path, *options: str):
+            def execute(name: str, root: Path, *options: str, expect_error: str | None = None):
                 command = [sys.executable, str(SCRIPTS / name), "--repo", str(root), *options]
                 if args.launcher_json:
                     command.extend(["--launcher-json", args.launcher_json])
@@ -53,6 +72,13 @@ def main() -> int:
                 if "checks" in data:
                     step["checks"] = data["checks"]
                 results["steps"].append(step)
+                if expect_error:
+                    assert result.returncode != 0 and data.get("ok") is False
+                    assert expect_error in data.get("error", "")
+                    step["reported_ok"] = step["ok"]
+                    step["ok"] = True
+                    step["expected_rejection"] = expect_error
+                    return data
                 if result.returncode or not data.get("ok"):
                     raise RuntimeError(f"{name} failed in {root.name}: {data.get('error', 'acceptance failed')}")
                 return data
@@ -68,6 +94,7 @@ def main() -> int:
                                          env=env, capture_output=True, text=True, encoding="utf-8", check=True)
                 assert Path(visible.stdout.strip()).resolve() == first.resolve(), "Git root identity differs from the fixture"
             core = execute("refresh.py", first, "--only-dir", "app")
+            results["capabilities"] = core["capabilities"]
             assert core["graph"]["files"] == 1
             execute("diagnose.py", first, "--check")
             execute("probe_mcp.py", first, "--file", "app/main.py", "--symbol", "compute",
@@ -105,9 +132,18 @@ def main() -> int:
             third = parent / "structured documents"
             (third / "docs").mkdir(parents=True)
             (third / "docs/overview.md").write_text("# Overview\n\nA distinctive_document_literal.\n", encoding="utf-8")
-            documents = execute("refresh.py", third, "--cache", ".graft/docs", "--only-dir", "docs", "--structured")
-            assert documents["graph"]["files"] == 1
-            execute("diagnose.py", third, "--cache", ".graft/docs", "--check")
+            if core["capabilities"]["supports_structured"]:
+                documents = execute("refresh.py", third, "--cache", ".graft/docs", "--only-dir", "docs", "--structured")
+                assert documents["graph"]["files"] == 1
+                execute("diagnose.py", third, "--cache", ".graft/docs", "--check")
+                results["structured_indexing"] = "PASS"
+            else:
+                before = {p.relative_to(third).as_posix(): p.read_bytes() for p in third.rglob("*") if p.is_file()}
+                execute("refresh.py", third, "--cache", ".graft/docs", "--only-dir", "docs", "--structured",
+                        expect_error="does not support --structured")
+                after = {p.relative_to(third).as_posix(): p.read_bytes() for p in third.rglob("*") if p.is_file()}
+                assert before == after and not (third / ".graft").exists()
+                results["structured_indexing"] = "UNSUPPORTED; rejection without project mutation verified"
         results["ok"] = True
     except (OSError, RuntimeError, ValueError, AssertionError, subprocess.SubprocessError) as exc:
         results["ok"] = False
