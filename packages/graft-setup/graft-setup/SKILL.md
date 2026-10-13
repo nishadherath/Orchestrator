@@ -45,6 +45,9 @@ python scripts/diagnose.py --repo /absolute/project --check --timeout 180
 ```
 
 Inspect file groups, graph size, fingerprint scopes and launcher version.
+Compare `capabilities.identity` and advertised flags when installations differ;
+the version label can survive replacement of compiled files by a local fork.
+See the [build provenance notes](references/version-0211.md#build-provenance).
 Freshness re-extracts indexed source and can be much slower than ordinary
 retrieval. Distinguish startup failure, request timeout, structural drift,
 semantic drift and blocked filesystem operations. Measure before changing a
@@ -68,10 +71,10 @@ python scripts/refresh.py --repo /absolute/project --only-dir src --only-dir tes
 Use `--whole-repo` deliberately for a small project, or `--cache .graft/corpus`
 with separate source prefixes for a corpus. `--include-dir build` re-admits a
 built-in skipped directory when it contains real source. `tools` is not in the
-Windows 0.21.1 skip list. Skip policies can differ across installations.
+tested local fork's 0.21.1 skip list. Skip policies can differ across builds.
 When advertised by `build --help`, `--structured` explicitly enables supported
 prose and configuration formats; review which documents enter that scope first.
-The tested npm-distributed POSIX 0.21.1 lacks that option.
+The published npm 0.21.1 lacks that option on both tested platforms.
 
 The helper builds in a private staging directory, verifies structure and scope,
 then preserves the old cache under `.graft/backups/` before publishing. It

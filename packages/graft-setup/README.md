@@ -3,7 +3,7 @@
 This source package updates the existing `graft-setup` skill for the installed
 Graft 0.21.1 and generalises the structural retrieval repair into configurable
 Python helpers. It is independent of Orchestrator's consumer bundle and its
-machine-specific Graft launchers. The skill is version 1.0.1.
+machine-specific Graft launchers. The skill is version 1.0.2.
 
 ## Contents and installation
 
@@ -72,15 +72,15 @@ It preserves authorisation boundaries for any later paid deep pass.
 Licensing follows this repository's Apache-2.0 licence, included with the skill.
 Graft is a separate upstream dependency and is not bundled or relicensed here.
 
-## Recorded verification, 2026-10-14
+## Version 1.0.1 verification, 2026-10-14
 
 Version 1.0.1 passed 19 offline tests on Windows and 19 on native WSL/Linux
 Python 3.14.7. Real Graft 0.21.1 passed 14 Windows acceptance steps and 13 Linux
 steps with native Node 22.23.0. Linux acceptance covers 12 source/MCP scenarios
 and one unsupported-option refusal, including retained scope, separate caches,
 clean replacement and actual automatic source addition/removal. The npm Linux
-build lacks `--structured`; document indexing is only verified on the existing
-Windows build. Both report 0.21.1, so capability checks remain necessary.
+build lacks `--structured`; that run verified its safe refusal. Both report
+0.21.1, so capability checks remain necessary.
 
 The historical WSL startup timeout was no longer reproducible on the first
 probe. After resetting the idle shared VM, three bounded cold starts passed in
@@ -92,3 +92,24 @@ The same 1.0.1 archive passed deterministic checks on Windows and Linux, and
 all 13 installed skill files match the source. Detailed results, the initial
 POSIX capability failure and SHA-256 evidence are in [verification.json](verification.json)
 and `test-results/`. The original 1.0.0 release remains available for comparison.
+
+## Version 1.0.2 build provenance
+
+The [investigation](PROVENANCE.md) established that the Windows global install
+contains the operator's local fork output: all 739 compiled files match.
+The Linux install matches all 620 published npm files. The fork's sync preserves
+package metadata at version 0.21.1, which explains the identical version labels.
+The published CLI lacks the extra flags on Windows too. An isolated copy of the
+fork passed all 14 native Linux acceptance steps, including structured Markdown.
+
+Diagnostics now report CLI/package digests, resolved paths and optional flags.
+These identify the selected entry; full archive provenance remains a separate
+comparison. The intentional fork and active Graft installations are preserved.
+The package's verification record includes the regression suite, both builds,
+the control probes, retained initial failures and the 1.0.2 release manifest.
+
+All 20 offline tests passed on Windows and native Linux. The Linux suite used
+byte-identical source on the native filesystem with its original deadlines;
+two runs from mounted Windows source hit timeouts, and both failure logs remain.
+The underlying mounted-filesystem stalls were not repaired or fully diagnosed
+by this build-provenance investigation.

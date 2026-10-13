@@ -1,0 +1,23 @@
+{
+  "package": "graft-setup",
+  "version": "1.0.2",
+  "tested_graft": "0.21.1",
+  "archive": "graft-setup-1.0.2.zip",
+  "archive_sha256": "18a955b8fac293d189019ea0e43e89545a070dcc23e08748961978f95c06de1f",
+  "archive_bytes": 79721,
+  "files": {
+    "graft-setup/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "graft-setup/SKILL.md": "153f3019b4cb3a4c20a81d2080b262a74b2a0d62166bdc6b0c921fa6d38bad0c",
+    "graft-setup/VERSION": "9fd28642d3aca191e5c7fc2383cfd6fabb2aac8743f029dabb8989ac584e31bc",
+    "graft-setup/agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
+    "graft-setup/references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
+    "graft-setup/references/hosts.md": "08dd8b7a1e15c227782e7d644b1542aa0bf7132cf48dfd947a1c29937507e0c5",
+    "graft-setup/references/installation.md": "76e58c85bd0d1295892e09af64f4e9195247474f6dee09621c829497c4a30774",
+    "graft-setup/references/repair.md": "7d9938c3e8fab69a10d55f231a12b6fe5dce9247e146426208a16f65ddfdc6df",
+    "graft-setup/references/version-0211.md": "86d3eb5992fb700e83d9f93a322f714433c2462099966565c4dee728e41c7706",
+    "graft-setup/scripts/diagnose.py": "826a60931451524274a5d2b2885b7b02afe507a97e26876b32b4c64b3c84a251",
+    "graft-setup/scripts/graft_common.py": "8a01c5b37f53ea35a494856ccebe5013f6032bf70403283993ef3544e3669944",
+    "graft-setup/scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
+    "graft-setup/scripts/refresh.py": "3aedc3ab10b5fe0b96187ce9c93f3d3ee098fede92f4c9bfbd4f08728492be94"
+  }
+}

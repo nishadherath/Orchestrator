@@ -28,6 +28,10 @@ The separately requested portable Graft skill package is also complete.
   idle VM reset. Installed an isolated native Linux runtime and verified the
   skill against real npm-distributed Graft 0.21.1. Updated the package and
   installed skill to 1.0.1, including WSL guidance and platform identity checks.
+- Established the cause of Graft's same-version capability mismatch: Windows
+  uses locally synced fork output while Linux uses the published npm archive.
+  Updated the installed skill and package to 1.0.2 with build identity diagnostics
+  and [the provenance investigation](../packages/graft-setup/PROVENANCE.md).
 
 ## Verification
 
@@ -50,14 +54,20 @@ The separately requested portable Graft skill package is also complete.
   and [offline checks](../test/results/2026-10-13-graft-offline-normal.json).
 - The live commit-time freshness recheck passed in 111.939 seconds. Its latency
   remains variable; this result is below the existing 180-second timeout.
-- Portable skill 1.0.1: 19 offline tests passed on Windows and 19 on native
-  WSL/Linux Python. Real Windows Graft 0.21.1 passed 14 acceptance steps;
-  native Linux Node 22.23.0 and Graft 0.21.1 passed 12 source/MCP scenarios and
-  one unsupported-option refusal. The Linux npm build lacks `--structured`;
-  the same version label does not establish equal optional capabilities.
+- Portable skill 1.0.2: 20 offline tests passed on Windows and 20 on native
+  WSL/Linux Python. The Linux suite used byte-identical source on the native
+  filesystem at unchanged deadlines after mounted-source timeout failures.
+  Real Windows fork Graft 0.21.1 passed 14 acceptance steps; the published
+  Linux package passed 12 source/MCP scenarios and one unsupported-option refusal.
+  An isolated Linux fork snapshot passed 14 steps, including structured Markdown.
   Stock skill validation, 13-file installed parity and identical deterministic
   archive checks on Windows and Linux passed. Results and limits are in
   [package verification](../packages/graft-setup/verification.json).
+- Build provenance: all 620 published Linux package members match the verified
+  npm archive; all 739 Windows compiled files match the fork's built output.
+  The published CLI on Windows also lacks the optional flags. An isolated fork
+  snapshot passed all 14 native Linux acceptance steps, including structured
+  Markdown. Active Graft installs and fork source were preserved.
 
 ## Current and remaining work
 
@@ -75,6 +85,10 @@ The 2026-10-14 WSL verification scope is complete. The startup timeout had
 already disappeared before intervention; three post-reset cold starts passed
 in 6.7-6.9 seconds. Its root cause and permanent prevention remain unproven.
 The separate native-runtime gap was corrected without changing VM settings.
+The same-version capability investigation is also complete. The fork's compiled
+output replaces npm `dist/` while preserving package version metadata; the
+observed capability difference is explained. The 1.0.2 package preserves the
+intentional fork and records build identity rather than equalising installations.
 
 The recommended next scope is instruction-history cleanup, followed by the
 existing O0-O6 offline qualification plan. These remain recommendations; the

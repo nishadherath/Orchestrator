@@ -8,11 +8,15 @@
 | Build fails on atomic rename or permission | Test the same bounded build in the appropriate normal host environment | Preserve cache, use the host permission mechanism; retain the failed result |
 | Structure is fresh but meanings are stale | Inspect semantic state and previous deep-pass errors | Preserve meanings or choose an explicit structural-only fallback; investigate provider separately |
 | Every lookup rebuilds | Compare selected launcher and fingerprint/extractor identities; inspect missing sidecars | Use matching executables and regenerate verified fingerprints |
+| Same version exposes different flags | Compare entry digests, package provenance and actual help; inspect local fork syncs | Select the intended build and test its capabilities; preserve an intentional fork |
 | No files are indexed | Check source prefixes, Git visibility, skip names and parser support | Correct scope or include a real skipped source directory; do not label an empty graph healthy |
 
 ## Diagnostic and refresh contracts
 
 `diagnose.py` reads cache metadata and invokes only version/help by default.
+It records build flags and, for a directly resolved Graft entry, local CLI and
+package JSON digests. `version_matches` compares only the reported label.
+Entry digests do not attest the whole installation; wrappers can remain unknown.
 `--check` adds bounded structural re-extraction. It does not start MCP or
 rebuild the cache. The report identifies missing meanings independently of
 structural freshness. Graph layouts outside the tested contract produce a

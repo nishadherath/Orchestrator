@@ -1,0 +1,26 @@
+{
+  "platform": "Linux",
+  "python": "3.14.7",
+  "provider_calls": 0,
+  "steps": [
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 1,
+      "ok": false,
+      "elapsed_seconds": 2.669
+    }
+  ],
+  "runtime": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.0",
+    "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+  },
+  "launcher": [
+    "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+    "/home/wsl/.local/share/graft-verification/fork-snapshot-bf802a82/dist/cli.js"
+  ],
+  "ok": false,
+  "error": "refresh.py failed in app project: Graft version/help failed. Check the selected launcher before changing the index."
+}

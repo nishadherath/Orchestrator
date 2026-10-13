@@ -50,6 +50,28 @@ class Helpers(unittest.TestCase):
         self.assertIn("platform differs", report["error"])
         self.assertFalse((self.root / ".graft").exists())
 
+    def test_same_version_different_build_identity_and_capabilities(self):
+        reports = []
+        for name, structured in (("published", False), ("fork", True)):
+            package = self.root / name
+            (package / "dist").mkdir(parents=True)
+            (package / "package.json").write_bytes(b'{"name":"@nanonets/graft","version":"0.21.1"}\n')
+            entry = package / "dist/cli.js"
+            entry.write_bytes(name.encode())
+            flags = "--only-dir --no-gitignore --no-ignore" + (" --structured --documents --deep-documents" if structured else "")
+            with patch.object(common, "run", side_effect=[subprocess.CompletedProcess([], 0, "0.21.1", ""),
+                                                        subprocess.CompletedProcess([], 0, flags, "")]):
+                reports.append(common.capabilities(["node", str(entry)], self.root, 30))
+        published, fork = reports
+        self.assertEqual(published["version"], fork["version"])
+        self.assertEqual(published["identity"]["package_json_sha256"], fork["identity"]["package_json_sha256"])
+        self.assertNotEqual(published["identity"]["cli_sha256"], fork["identity"]["cli_sha256"])
+        self.assertFalse(published["supports_structured"])
+        self.assertTrue(fork["supports_structured"])
+        self.assertTrue(fork["supports_documents"])
+        self.assertTrue(fork["supports_deep_documents"])
+        self.assertFalse(common.launcher_identity([sys.executable, str(FAKE)])["available"])
+
     def cli(self, name, *extra, mode=""):
         env = dict(os.environ, FAKE_GRAFT_MODE=mode)
         result = subprocess.run([sys.executable, str(SCRIPTS / name), "--repo", str(self.root),

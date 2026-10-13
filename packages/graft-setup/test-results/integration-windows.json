@@ -8,7 +8,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 34.23,
+      "elapsed_seconds": 25.684,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -24,7 +24,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 8.783,
+      "elapsed_seconds": 18.511,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -40,7 +40,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 12.128,
+      "elapsed_seconds": 26.044,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -53,62 +53,62 @@
         {
           "name": "initialize",
           "ok": true,
-          "elapsed_seconds": 3.178
+          "elapsed_seconds": 5.608
         },
         {
           "name": "tools",
           "ok": true,
-          "elapsed_seconds": 0.002
+          "elapsed_seconds": 0.039
         },
         {
           "name": "freshness",
           "ok": true,
-          "elapsed_seconds": 0.264
+          "elapsed_seconds": 0.73
         },
         {
           "name": "source",
           "ok": true,
-          "elapsed_seconds": 0.189
+          "elapsed_seconds": 0.56
         },
         {
           "name": "api",
           "ok": true,
-          "elapsed_seconds": 0.144
+          "elapsed_seconds": 0.434
         },
         {
           "name": "literal",
           "ok": true,
-          "elapsed_seconds": 0.167
+          "elapsed_seconds": 0.339
         },
         {
           "name": "callers",
           "ok": true,
-          "elapsed_seconds": 0.239
+          "elapsed_seconds": 0.406
         },
         {
           "name": "map",
           "ok": true,
-          "elapsed_seconds": 0.163
+          "elapsed_seconds": 0.399
         },
         {
           "name": "detect_addition",
           "ok": true,
-          "elapsed_seconds": 0.173
+          "elapsed_seconds": 0.423
         },
         {
           "name": "automatic_addition",
           "ok": true,
-          "elapsed_seconds": 0.493
+          "elapsed_seconds": 1.395
         },
         {
           "name": "automatic_removal",
           "ok": true,
-          "elapsed_seconds": 0.511
+          "elapsed_seconds": 1.084
         },
         {
           "name": "final_freshness",
           "ok": true,
-          "elapsed_seconds": 0.199
+          "elapsed_seconds": 0.513
         }
       ]
     },
@@ -117,7 +117,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 11.256,
+      "elapsed_seconds": 30.764,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -133,7 +133,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 10.073,
+      "elapsed_seconds": 26.371,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -146,42 +146,42 @@
         {
           "name": "initialize",
           "ok": true,
-          "elapsed_seconds": 3.802
+          "elapsed_seconds": 8.808
         },
         {
           "name": "tools",
           "ok": true,
-          "elapsed_seconds": 0.002
+          "elapsed_seconds": 0.01
         },
         {
           "name": "freshness",
           "ok": true,
-          "elapsed_seconds": 0.252
+          "elapsed_seconds": 0.908
         },
         {
           "name": "source",
           "ok": true,
-          "elapsed_seconds": 0.025
+          "elapsed_seconds": 0.051
         },
         {
           "name": "api",
           "ok": true,
-          "elapsed_seconds": 0.003
+          "elapsed_seconds": 0.038
         },
         {
           "name": "literal",
           "ok": true,
-          "elapsed_seconds": 0.006
+          "elapsed_seconds": 0.106
         },
         {
           "name": "callers",
           "ok": true,
-          "elapsed_seconds": 0.003
+          "elapsed_seconds": 0.012
         },
         {
           "name": "map",
           "ok": true,
-          "elapsed_seconds": 0.006
+          "elapsed_seconds": 0.021
         }
       ]
     },
@@ -190,7 +190,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 10.995,
+      "elapsed_seconds": 30.049,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -206,7 +206,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 14.506,
+      "elapsed_seconds": 46.907,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -230,7 +230,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 8.432,
+      "elapsed_seconds": 46.039,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -246,7 +246,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 7.098,
+      "elapsed_seconds": 43.806,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -259,62 +259,62 @@
         {
           "name": "initialize",
           "ok": true,
-          "elapsed_seconds": 1.605
+          "elapsed_seconds": 9.016
         },
         {
           "name": "tools",
           "ok": true,
-          "elapsed_seconds": 0.001
+          "elapsed_seconds": 0.017
         },
         {
           "name": "freshness",
           "ok": true,
-          "elapsed_seconds": 0.152
+          "elapsed_seconds": 0.65
         },
         {
           "name": "source",
           "ok": true,
-          "elapsed_seconds": 0.102
+          "elapsed_seconds": 0.441
         },
         {
           "name": "api",
           "ok": true,
-          "elapsed_seconds": 0.085
+          "elapsed_seconds": 0.375
         },
         {
           "name": "literal",
           "ok": true,
-          "elapsed_seconds": 0.085
+          "elapsed_seconds": 0.355
         },
         {
           "name": "callers",
           "ok": true,
-          "elapsed_seconds": 0.094
+          "elapsed_seconds": 0.348
         },
         {
           "name": "map",
           "ok": true,
-          "elapsed_seconds": 0.103
+          "elapsed_seconds": 0.359
         },
         {
           "name": "detect_addition",
           "ok": true,
-          "elapsed_seconds": 0.097
+          "elapsed_seconds": 0.38
         },
         {
           "name": "automatic_addition",
           "ok": true,
-          "elapsed_seconds": 0.29
+          "elapsed_seconds": 1.132
         },
         {
           "name": "automatic_removal",
           "ok": true,
-          "elapsed_seconds": 0.366
+          "elapsed_seconds": 1.14
         },
         {
           "name": "final_freshness",
           "ok": true,
-          "elapsed_seconds": 0.124
+          "elapsed_seconds": 0.438
         }
       ]
     },
@@ -323,7 +323,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 7.392,
+      "elapsed_seconds": 28.174,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -339,7 +339,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 6.046,
+      "elapsed_seconds": 18.883,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -355,7 +355,7 @@
       "layout": "structured documents",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 7.661,
+      "elapsed_seconds": 20.145,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -371,7 +371,7 @@
       "layout": "structured documents",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 5.336,
+      "elapsed_seconds": 7.152,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -397,7 +397,17 @@
     "version": "0.21.1",
     "tested_version": "0.21.1",
     "version_matches": true,
-    "supports_structured": true
+    "supports_structured": true,
+    "supports_documents": true,
+    "supports_deep_documents": true,
+    "identity": {
+      "available": true,
+      "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
+      "package_version": "0.21.1",
+      "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
+      "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+      "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+    }
   },
   "structured_indexing": "PASS",
   "ok": true

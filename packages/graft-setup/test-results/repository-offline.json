@@ -9,7 +9,7 @@
     "id": "CONTEXT",
     "covers": "prompt reduction preserves the operating contract",
     "status": "PASS",
-    "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.637s\n\nOK"
+    "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.238s\n\nOK"
   },
   {
     "id": "DIST",
@@ -21,6 +21,6 @@
     "id": "DIAGNOSTICS",
     "covers": "operational status and detailed explanation pass",
     "status": "PASS",
-    "detail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.211s\n\nOK"
+    "detail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.743s\n\nOK"
   }
 ]

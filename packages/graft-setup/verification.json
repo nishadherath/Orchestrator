@@ -1,22 +1,23 @@
 {
-  "recorded_at": "2026-10-13T18:27:18.745891+00:00",
-  "skill_version": "1.0.1",
+  "recorded_at": "2026-10-13T18:59:24.276068+00:00",
+  "skill_version": "1.0.2",
   "graft_version": "0.21.1",
   "provider_calls": 0,
   "offline_tests": {
     "Windows": {
       "python": "3.14.7",
-      "tests": 19,
+      "tests": 20,
       "status": "PASS"
     },
     "WSL/Linux": {
       "python": "3.14.7",
-      "tests": 19,
-      "status": "PASS"
+      "tests": 20,
+      "status": "PASS",
+      "source_location": "Native filesystem with all 17 source file hashes verified; mounted-source failures retained"
     }
   },
   "real_graft_integration": {
-    "Windows": {
+    "Windows local fork": {
       "steps": 14,
       "status": "PASS",
       "python": "3.14.7",
@@ -30,14 +31,24 @@
         "version": "0.21.1",
         "tested_version": "0.21.1",
         "version_matches": true,
-        "supports_structured": true
+        "supports_structured": true,
+        "supports_documents": true,
+        "supports_deep_documents": true,
+        "identity": {
+          "available": true,
+          "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
+          "package_version": "0.21.1",
+          "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
+          "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+        }
       },
       "structured_indexing": "PASS",
       "manual_build_scope_widening_verified": true,
       "mcp_tools": 6,
       "automatic_addition_removal_and_retained_scope": "PASS"
     },
-    "WSL/Linux": {
+    "Linux published npm": {
       "steps": 13,
       "status": "PASS",
       "python": "3.14.7",
@@ -51,9 +62,50 @@
         "version": "0.21.1",
         "tested_version": "0.21.1",
         "version_matches": true,
-        "supports_structured": false
+        "supports_structured": false,
+        "supports_documents": false,
+        "supports_deep_documents": false,
+        "identity": {
+          "available": true,
+          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft",
+          "package_version": "0.21.1",
+          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js",
+          "cli_sha256": "5d744a3aad0bb9580e3ae6ecd9a06c1e818521bb331acb4f457732554bcbf2af",
+          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+        }
       },
       "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
+      "manual_build_scope_widening_verified": true,
+      "mcp_tools": 6,
+      "automatic_addition_removal_and_retained_scope": "PASS"
+    },
+    "Linux isolated fork snapshot": {
+      "steps": 14,
+      "status": "PASS",
+      "python": "3.14.7",
+      "runtime": {
+        "platform": "linux",
+        "arch": "x64",
+        "node": "v22.23.0",
+        "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+      },
+      "capabilities": {
+        "version": "0.21.1",
+        "tested_version": "0.21.1",
+        "version_matches": true,
+        "supports_structured": true,
+        "supports_documents": true,
+        "supports_deep_documents": true,
+        "identity": {
+          "available": true,
+          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82",
+          "package_version": "0.21.1",
+          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82/dist/cli.js",
+          "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+        }
+      },
+      "structured_indexing": "PASS",
       "manual_build_scope_widening_verified": true,
       "mcp_tools": 6,
       "automatic_addition_removal_and_retained_scope": "PASS"
@@ -80,8 +132,8 @@
     "files": 13
   },
   "deterministic_release": {
-    "archive": "graft-setup-1.0.1.zip",
-    "sha256": "86801ec0d70294afea86284f22995c59d10b6885281412f06c39e51d7ce938f1",
+    "archive": "graft-setup-1.0.2.zip",
+    "sha256": "18a955b8fac293d189019ea0e43e89545a070dcc23e08748961978f95c06de1f",
     "status": "PASS",
     "verified_on": [
       "Windows",
@@ -89,21 +141,31 @@
     ]
   },
   "evidence": {
+    "build-provenance.json": "8eb2f750ea7f27652ecabec4d0b48fc411c91fcd90150a0ac9812ba60185a89b",
     "git-identity-initial-failure.json": "70edb07e3182d47e0b303571af5b7ebf98d125329bd967de9e39c93b35166a25",
-    "installed-parity.json": "b0f9a263533debc867cb0ed95552c79f1652e09dc919721c407070ae47b1694f",
+    "installed-parity.json": "b1a2a18f42fbcbddfc4d81bcdcc99d995cddd03ebffdd2b1ce1932e411234d9f",
     "integration-initial-failure.json": "5eb1494906ecb36695abb7f6082c668677084b45b7857f9fcbefb23518059d6d",
+    "integration-posix-fork-layout-initial-failure.json": "e61bda1b880b4d0b849f9d88091c592a5ff1e565faf8b487acac7144b37b3a5e",
+    "integration-posix-fork.json": "3937b619efc166084bed6bd243b2b1b82c8f95f5530032a7f57c1290c6f84ba6",
     "integration-posix-initial-failure.json": "b6f907df8afe184b05ae5ef8143ee5369acb38b6fe282063d1e2ef07a4c3d0e3",
-    "integration-posix.json": "fcd8f2e5ecd08cbed010849db316ccede8e6b27929e91b0c95516e72f41e8d87",
-    "integration-windows.json": "c488c7a6c380ff4c205ceffcf9b3928529030f5e7acb4968787eae05a0b1ad6b",
-    "repository-offline.json": "493f3b2069bb038abaa059b356cd05b6c46e6224abe47f5d23876efcc6eb49ec",
+    "integration-posix.json": "d88b69c139989ec7fcecdb3a53b3bdd8f8580d5b5eaa5ab65d43111b524eda99",
+    "integration-windows.json": "591b6c3cebbff31b5518279ff2d368df4ab1ded89f26e1cc6d9a5a1b3b9b2010",
+    "repository-offline.json": "5d2f16519e6a79ef1b1373d0cb4372d3a23168c8992840d50f7b09599d475e79",
+    "runtime-posix-fork.json": "2a42683c7584142e890dc6514654c5dc7f1f0a41722717d178a7f29ca5a34f1c",
     "runtime-posix.json": "f9347123ff3faf9ef676960b51f7f7a8877a5607758782682dd27e2feb7b7b78",
-    "unit-posix.log": "8bf6982bd9f7ea77737905fa042ee1d4ca08baf5ff01b8a4426673afc8411a12",
-    "unit-windows.log": "0bd23449b340b8b6336418be7c5daeaa6dd807ea6c78d8aa7908b1ddd0bbef07",
+    "unit-posix-mounted-initial-failure.log": "b047f617a6b31a49d27c4c90438d9f14eab95ba15ff237e6dab87d6fa834dacd",
+    "unit-posix-mounted-retry-failure.log": "d6d34c6eb0e82301678f3244ee7100c9591b52dd5cf3805b1bbe164463a03433",
+    "unit-posix-source.json": "5289855cc613d69bb1508c8c76ff84d2b92e6e2afa45696c27efd68f7b7c65cb",
+    "unit-posix.log": "9d6ffbaf2e714ff710081ab9c634916f8b1de46681aa37eebdcedca2a2d8c5d4",
+    "unit-windows.log": "c778d5f8f75d9e8c8aef5e4a5ec4783b99742e1c55f7f5f9ab3c83e8d714106a",
     "wsl-startup.json": "f9d6b422cb90c4cebeca4cb44602e0f2f5af5348a5c8f3cccfa57337ce4659db"
   },
   "limitations": [
     "Historical WSL CreateVm timeout had disappeared before intervention; its root cause and permanent prevention remain unproven.",
-    "The npm-distributed Linux Graft 0.21.1 lacks --structured; safe refusal passed there, while structured indexing passed only on the existing Windows build.",
+    "Mounted Windows source triggered Linux test subprocess timeouts in two retained runs. Byte-identical source on native Linux passed at unchanged limits; underlying mounted-filesystem stalls remain unexplained.",
+    "The published npm Graft 0.21.1 lacks optional structured/document flags on both platforms; the local fork advertises them. Structured Markdown passed on both tested platforms with fork code; optional binary-document rendering was not exercised.",
+    "Observed fork HEAD is checkout context, not an embedded build attestation. Exact historical sync invocation was not recovered.",
+    "CLI and package JSON diagnostic digests do not verify every module or dependency; full published-member comparisons were performed separately for this investigation.",
     "macOS and Python 3.12 were not executed; Python 3.12 is the stated API floor.",
     "No paid deep pass, semantic provider repair, new host chat or general filesystem isolation qualification.",
     "Refresh locks coordinate the helper only; pause other automatic refresh clients before cache replacement.",
@@ -111,7 +173,16 @@
   ],
   "corrected_test_setup": [
     "Initial non-Git fixture inherited an ignored parent Git tree; corrected using a canonical Git ceiling.",
-    "Git identity assertion initially decoded a Unicode path with the Windows locale; corrected to explicit UTF-8."
+    "Git identity assertion initially decoded a Unicode path with the Windows locale; corrected to explicit UTF-8.",
+    "Isolated Linux fork snapshot initially omitted a nested npm dependency from module resolution; corrected the fixture layout without installing new dependencies."
   ],
-  "initial_posix_failure": "Optional structured indexing was unsupported in the npm-distributed package; retained failure evidence and verified rejection without project mutation."
+  "initial_posix_failure": "Optional structured indexing was unsupported in the npm-distributed package; retained failure evidence and verified rejection without project mutation.",
+  "build_provenance": {
+    "status": "PASS",
+    "published_members_matching_linux": 620,
+    "fork_dist_members_matching_windows": 739,
+    "cause": "Local fork dist sync preserves published package metadata, so both labels remain 0.21.1",
+    "published_cli_on_windows": "PASS; optional flags absent",
+    "fork_on_native_linux": "PASS; structured Markdown indexed"
+  }
 }

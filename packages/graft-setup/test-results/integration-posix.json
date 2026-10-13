@@ -8,7 +8,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 4.976,
+      "elapsed_seconds": 12.203,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -24,7 +24,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 1.828,
+      "elapsed_seconds": 9.02,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -40,7 +40,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 1.944,
+      "elapsed_seconds": 7.361,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -53,62 +53,62 @@
         {
           "name": "initialize",
           "ok": true,
-          "elapsed_seconds": 0.478
+          "elapsed_seconds": 1.95
         },
         {
           "name": "tools",
           "ok": true,
-          "elapsed_seconds": 0.001
+          "elapsed_seconds": 0.002
         },
         {
           "name": "freshness",
           "ok": true,
-          "elapsed_seconds": 0.03
+          "elapsed_seconds": 0.137
         },
         {
           "name": "source",
           "ok": true,
-          "elapsed_seconds": 0.019
+          "elapsed_seconds": 0.045
         },
         {
           "name": "api",
-          "ok": true,
-          "elapsed_seconds": 0.006
-        },
-        {
-          "name": "literal",
-          "ok": true,
-          "elapsed_seconds": 0.006
-        },
-        {
-          "name": "callers",
-          "ok": true,
-          "elapsed_seconds": 0.032
-        },
-        {
-          "name": "map",
-          "ok": true,
-          "elapsed_seconds": 0.007
-        },
-        {
-          "name": "detect_addition",
-          "ok": true,
-          "elapsed_seconds": 0.007
-        },
-        {
-          "name": "automatic_addition",
-          "ok": true,
-          "elapsed_seconds": 0.026
-        },
-        {
-          "name": "automatic_removal",
           "ok": true,
           "elapsed_seconds": 0.017
         },
         {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.02
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.132
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.019
+        },
+        {
+          "name": "detect_addition",
+          "ok": true,
+          "elapsed_seconds": 0.023
+        },
+        {
+          "name": "automatic_addition",
+          "ok": true,
+          "elapsed_seconds": 0.109
+        },
+        {
+          "name": "automatic_removal",
+          "ok": true,
+          "elapsed_seconds": 0.069
+        },
+        {
           "name": "final_freshness",
           "ok": true,
-          "elapsed_seconds": 0.006
+          "elapsed_seconds": 0.018
         }
       ]
     },
@@ -117,7 +117,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 4.131,
+      "elapsed_seconds": 13.364,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -133,7 +133,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 2.232,
+      "elapsed_seconds": 8.409,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -146,42 +146,42 @@
         {
           "name": "initialize",
           "ok": true,
-          "elapsed_seconds": 0.491
+          "elapsed_seconds": 2.686
         },
         {
           "name": "tools",
           "ok": true,
-          "elapsed_seconds": 0.001
+          "elapsed_seconds": 0.011
         },
         {
           "name": "freshness",
           "ok": true,
-          "elapsed_seconds": 0.032
+          "elapsed_seconds": 0.158
         },
         {
           "name": "source",
           "ok": true,
-          "elapsed_seconds": 0.015
+          "elapsed_seconds": 0.053
         },
         {
           "name": "api",
           "ok": true,
-          "elapsed_seconds": 0.001
+          "elapsed_seconds": 0.013
         },
         {
           "name": "literal",
           "ok": true,
-          "elapsed_seconds": 0.002
+          "elapsed_seconds": 0.014
         },
         {
           "name": "callers",
           "ok": true,
-          "elapsed_seconds": 0.002
+          "elapsed_seconds": 0.004
         },
         {
           "name": "map",
           "ok": true,
-          "elapsed_seconds": 0.002
+          "elapsed_seconds": 0.014
         }
       ]
     },
@@ -190,7 +190,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 2.092,
+      "elapsed_seconds": 6.484,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -206,7 +206,7 @@
       "layout": "app project",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 2.224,
+      "elapsed_seconds": 7.849,
       "graph": {
         "files": 1,
         "nodes": 3,
@@ -230,7 +230,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 2.539,
+      "elapsed_seconds": 4.391,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -246,7 +246,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 1.943,
+      "elapsed_seconds": 2.5,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -259,22 +259,22 @@
         {
           "name": "initialize",
           "ok": true,
-          "elapsed_seconds": 0.462
+          "elapsed_seconds": 0.55
         },
         {
           "name": "tools",
           "ok": true,
-          "elapsed_seconds": 0.001
+          "elapsed_seconds": 0.002
         },
         {
           "name": "freshness",
           "ok": true,
-          "elapsed_seconds": 0.031
+          "elapsed_seconds": 0.047
         },
         {
           "name": "source",
           "ok": true,
-          "elapsed_seconds": 0.021
+          "elapsed_seconds": 0.023
         },
         {
           "name": "api",
@@ -289,7 +289,7 @@
         {
           "name": "callers",
           "ok": true,
-          "elapsed_seconds": 0.006
+          "elapsed_seconds": 0.007
         },
         {
           "name": "map",
@@ -299,22 +299,22 @@
         {
           "name": "detect_addition",
           "ok": true,
-          "elapsed_seconds": 0.007
+          "elapsed_seconds": 0.008
         },
         {
           "name": "automatic_addition",
           "ok": true,
-          "elapsed_seconds": 0.042
+          "elapsed_seconds": 0.043
         },
         {
           "name": "automatic_removal",
           "ok": true,
-          "elapsed_seconds": 0.015
+          "elapsed_seconds": 0.021
         },
         {
           "name": "final_freshness",
           "ok": true,
-          "elapsed_seconds": 0.005
+          "elapsed_seconds": 0.006
         }
       ]
     },
@@ -323,7 +323,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 2.216,
+      "elapsed_seconds": 3.742,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -339,7 +339,7 @@
       "layout": "non git build-source",
       "exit_code": 0,
       "ok": true,
-      "elapsed_seconds": 1.593,
+      "elapsed_seconds": 2.723,
       "graph": {
         "files": 1,
         "nodes": 2,
@@ -355,7 +355,7 @@
       "layout": "structured documents",
       "exit_code": 1,
       "ok": true,
-      "elapsed_seconds": 1.208,
+      "elapsed_seconds": 2.374,
       "reported_ok": false,
       "expected_rejection": "does not support --structured"
     }
@@ -374,7 +374,17 @@
     "version": "0.21.1",
     "tested_version": "0.21.1",
     "version_matches": true,
-    "supports_structured": false
+    "supports_structured": false,
+    "supports_documents": false,
+    "supports_deep_documents": false,
+    "identity": {
+      "available": true,
+      "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft",
+      "package_version": "0.21.1",
+      "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js",
+      "cli_sha256": "5d744a3aad0bb9580e3ae6ecd9a06c1e818521bb331acb4f457732554bcbf2af",
+      "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+    }
   },
   "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
   "ok": true

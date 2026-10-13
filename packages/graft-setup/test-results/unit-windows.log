@@ -10,6 +10,7 @@ test_mcp_stderr_is_drained (test_helpers.Helpers.test_mcp_stderr_is_drained) ...
 test_no_paid_option_and_child_overrides_are_local (test_helpers.Helpers.test_no_paid_option_and_child_overrides_are_local) ... ok
 test_publication_failure_restores_old_cache_or_reports_preserved_backup (test_helpers.Helpers.test_publication_failure_restores_old_cache_or_reports_preserved_backup) ... ok
 test_release_determinism_no_caches_and_integrity (test_helpers.Helpers.test_release_determinism_no_caches_and_integrity) ... ok
+test_same_version_different_build_identity_and_capabilities (test_helpers.Helpers.test_same_version_different_build_identity_and_capabilities) ... ok
 test_scope_and_literal_paths_with_spaces_and_metacharacters (test_helpers.Helpers.test_scope_and_literal_paths_with_spaces_and_metacharacters) ... ok
 test_semantic_failure_is_not_conflated_with_structure (test_helpers.Helpers.test_semantic_failure_is_not_conflated_with_structure) ... ok
 test_source_directory_is_never_replaced_as_cache (test_helpers.Helpers.test_source_directory_is_never_replaced_as_cache) ... ok
@@ -19,6 +20,6 @@ test_traversal_root_and_escaped_links_are_rejected (test_helpers.Helpers.test_tr
 test_wrong_fingerprint_identity_is_not_reused (test_helpers.Helpers.test_wrong_fingerprint_identity_is_not_reused) ... ok
 
 ----------------------------------------------------------------------
-Ran 19 tests in 34.764s
+Ran 20 tests in 82.791s
 
 OK

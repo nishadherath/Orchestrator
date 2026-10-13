@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -105,7 +106,38 @@ def capabilities(command: list[str], root: Path, timeout: float) -> dict:
         raise GraftError("Installed Graft lacks required scope/ignore flags. Read its help; do not apply this repair blindly.")
     return {"version": version.stdout.strip(), "tested_version": TESTED_VERSION,
             "version_matches": version.stdout.strip() == TESTED_VERSION,
-            "supports_structured": "--structured" in help_result.stdout}
+            "supports_structured": "--structured" in help_result.stdout,
+            "supports_documents": "--documents" in help_result.stdout,
+            "supports_deep_documents": "--deep-documents" in help_result.stdout,
+            "identity": launcher_identity(command)}
+
+
+def launcher_identity(command: list[str]) -> dict:
+    """Record local entry-point bytes, without inferring release provenance."""
+    # Do not traverse arbitrary wrapper/runtime arguments. A mounted path can
+    # be slow to resolve, and only an actual Graft entry can establish identity.
+    candidates = [Path(value) for value in command[1:] if Path(value).name == "cli.js"]
+    if Path(command[0]).name in {"graft", "graft.js", "cli.js"}:
+        candidates.append(Path(shutil.which(command[0]) or command[0]))
+    for candidate in candidates:
+        try:
+            entry = candidate.resolve()
+            if entry.name != "cli.js" or entry.parent.name != "dist" or not entry.is_file():
+                continue
+            package = entry.parent.parent / "package.json"
+            raw = package.read_bytes()
+            metadata = json.loads(raw)
+            if not isinstance(metadata, dict) or metadata.get("name") != "@nanonets/graft":
+                continue
+            return {"available": True, "package_root": str(package.parent),
+                    "package_version": metadata.get("version"), "cli_path": str(entry),
+                    "cli_sha256": hashlib.sha256(entry.read_bytes()).hexdigest(),
+                    "package_json_sha256": hashlib.sha256(raw).hexdigest()}
+        except (OSError, ValueError):
+            continue
+    # Wrappers are valid launchers, but do not reveal their eventual package.
+    return {"available": False,
+            "reason": "Package entry is not directly resolvable; use an explicit Node/CLI launcher to record identity."}
 
 
 def startup_review_needed(root: Path, cache: Path, version: str) -> bool:

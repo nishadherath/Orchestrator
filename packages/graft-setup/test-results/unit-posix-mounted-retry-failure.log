@@ -1,0 +1,143 @@
+test_acceptance_rejects_interoperability_runtime (test_helpers.Helpers.test_acceptance_rejects_interoperability_runtime) ... ok
+test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring) ... ERROR
+test_dry_run_does_not_mutate_project (test_helpers.Helpers.test_dry_run_does_not_mutate_project) ... ok
+test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) ...
+  test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) (mode='structural-stale') ... ERROR
+  test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) (mode='outside-scope') ... FAIL
+test_foreign_refresh_locks_are_not_broken (test_helpers.Helpers.test_foreign_refresh_locks_are_not_broken) ... ERROR
+test_freshness_false_positive_and_semantic_only_drift (test_helpers.Helpers.test_freshness_false_positive_and_semantic_only_drift) ... ok
+test_linked_cache_is_not_followed_for_diagnostics (test_helpers.Helpers.test_linked_cache_is_not_followed_for_diagnostics) ... ok
+test_mcp_protocol_failures_and_deadline_under_notification_spam (test_helpers.Helpers.test_mcp_protocol_failures_and_deadline_under_notification_spam) ... ok
+test_mcp_stderr_is_drained (test_helpers.Helpers.test_mcp_stderr_is_drained) ... ERROR
+test_no_paid_option_and_child_overrides_are_local (test_helpers.Helpers.test_no_paid_option_and_child_overrides_are_local) ... ok
+test_publication_failure_restores_old_cache_or_reports_preserved_backup (test_helpers.Helpers.test_publication_failure_restores_old_cache_or_reports_preserved_backup) ... ok
+test_release_determinism_no_caches_and_integrity (test_helpers.Helpers.test_release_determinism_no_caches_and_integrity) ... ok
+test_same_version_different_build_identity_and_capabilities (test_helpers.Helpers.test_same_version_different_build_identity_and_capabilities) ... ok
+test_scope_and_literal_paths_with_spaces_and_metacharacters (test_helpers.Helpers.test_scope_and_literal_paths_with_spaces_and_metacharacters) ... ok
+test_semantic_failure_is_not_conflated_with_structure (test_helpers.Helpers.test_semantic_failure_is_not_conflated_with_structure) ... ok
+test_source_directory_is_never_replaced_as_cache (test_helpers.Helpers.test_source_directory_is_never_replaced_as_cache) ... ok
+test_startup_wiring_upkeep_requires_review (test_helpers.Helpers.test_startup_wiring_upkeep_requires_review) ... ok
+test_timeout_has_bounded_actionable_failure (test_helpers.Helpers.test_timeout_has_bounded_actionable_failure) ... ok
+test_traversal_root_and_escaped_links_are_rejected (test_helpers.Helpers.test_traversal_root_and_escaped_links_are_rejected) ... ok
+test_wrong_fingerprint_identity_is_not_reused (test_helpers.Helpers.test_wrong_fingerprint_identity_is_not_reused) ... ok
+
+======================================================================
+ERROR: test_backups_and_clean_meaning_fallback_preserve_wiring (test_helpers.Helpers.test_backups_and_clean_meaning_fallback_preserve_wiring)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 101, in test_backups_and_clean_meaning_fallback_preserve_wiring
+    self.refresh()
+    ~~~~~~~~~~~~^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 83, in refresh
+    return self.cli("refresh.py", "--only-dir", "src", *extra, mode=mode)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 77, in cli
+    result = subprocess.run([sys.executable, str(SCRIPTS / name), "--repo", str(self.root),
+        "--launcher-json", json.dumps(self.command), *extra], capture_output=True,
+        text=True, encoding="utf-8", env=env, timeout=20)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/graft-setup/scripts/refresh.py', '--repo', '/tmp/graft portable & spaces 126g58yo', '--launcher-json', '["/usr/bin/python3", "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/fake_graft.py"]', '--only-dir', 'src']' timed out after 20 seconds
+
+======================================================================
+ERROR: test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) (mode='structural-stale')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 121, in test_failed_build_empty_missing_fingerprint_and_drift_preserve_active
+    result, value = self.refresh(mode=mode)
+                    ~~~~~~~~~~~~^^^^^^^^^^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 83, in refresh
+    return self.cli("refresh.py", "--only-dir", "src", *extra, mode=mode)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 77, in cli
+    result = subprocess.run([sys.executable, str(SCRIPTS / name), "--repo", str(self.root),
+        "--launcher-json", json.dumps(self.command), *extra], capture_output=True,
+        text=True, encoding="utf-8", env=env, timeout=20)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/graft-setup/scripts/refresh.py', '--repo', '/tmp/graft portable & spaces 8rx0l1qj', '--launcher-json', '["/usr/bin/python3", "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/fake_graft.py"]', '--only-dir', 'src']' timed out after 20 seconds
+
+======================================================================
+ERROR: test_foreign_refresh_locks_are_not_broken (test_helpers.Helpers.test_foreign_refresh_locks_are_not_broken)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 184, in test_foreign_refresh_locks_are_not_broken
+    self.refresh()
+    ~~~~~~~~~~~~^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 83, in refresh
+    return self.cli("refresh.py", "--only-dir", "src", *extra, mode=mode)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 77, in cli
+    result = subprocess.run([sys.executable, str(SCRIPTS / name), "--repo", str(self.root),
+        "--launcher-json", json.dumps(self.command), *extra], capture_output=True,
+        text=True, encoding="utf-8", env=env, timeout=20)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/graft-setup/scripts/refresh.py', '--repo', '/tmp/graft portable & spaces _xx8g88n', '--launcher-json', '["/usr/bin/python3", "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/fake_graft.py"]', '--only-dir', 'src']' timed out after 20 seconds
+
+======================================================================
+ERROR: test_mcp_stderr_is_drained (test_helpers.Helpers.test_mcp_stderr_is_drained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/graft-setup/scripts/probe_mcp.py", line 63, in call
+    response = self.events.get(timeout=remaining)
+  File "/usr/lib/python3.14/queue.py", line 209, in get
+    raise Empty
+_queue.Empty
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 244, in test_mcp_stderr_is_drained
+    self.assertEqual(client.call("initialize", {}, 3)["serverInfo"]["name"], "graft")
+                     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/graft-setup/scripts/probe_mcp.py", line 65, in call
+    raise GraftError("MCP request timed out. Inspect startup versus freshness latency separately.") from exc
+graft_common.GraftError: MCP request timed out. Inspect startup versus freshness latency separately.
+
+======================================================================
+FAIL: test_failed_build_empty_missing_fingerprint_and_drift_preserve_active (test_helpers.Helpers.test_failed_build_empty_missing_fingerprint_and_drift_preserve_active) (mode='outside-scope')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/test_helpers.py", line 125, in test_failed_build_empty_missing_fingerprint_and_drift_preserve_active
+    self.assertFalse((self.root / ".graft/skill-refresh.lock").exists())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 20 tests in 251.139s
+
+FAILED (failures=1, errors=4)
