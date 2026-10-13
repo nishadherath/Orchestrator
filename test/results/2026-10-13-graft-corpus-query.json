@@ -1,0 +1,15 @@
+{
+  "file": "test/fixtures/controller_x3/development/C01-D2/actor/cache_key.py",
+  "entries": [
+    {
+      "name": "compose",
+      "kind": "function",
+      "span": "L4-L5",
+      "signature": "def compose(namespace, token)"
+    }
+  ],
+  "saved": {
+    "files": 1,
+    "baselineChars": 123
+  }
+}

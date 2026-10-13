@@ -1,0 +1,26 @@
+[
+  {
+    "id": "PROSE",
+    "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+    "status": "PASS",
+    "detail": "925 files clean"
+  },
+  {
+    "id": "CONTEXT",
+    "covers": "prompt reduction preserves the operating contract",
+    "status": "PASS",
+    "detail": "Failed to find real location of C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe\n......\n----------------------------------------------------------------------\nRan 6 tests in 0.624s\n\nOK"
+  },
+  {
+    "id": "DIST",
+    "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+    "status": "PASS",
+    "detail": "85 files match at 2026-10-13-82a077a-dirty"
+  },
+  {
+    "id": "DIAGNOSTICS",
+    "covers": "operational status and detailed explanation pass",
+    "status": "FAIL",
+    "detail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\tempfile.py\", line 956, in _rmtree\n    _shutil.rmtree(name, onexc=onexc)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\shutil.py\", line 852, in rmtree\n    _rmtree_impl(path, dir_fd, onexc)\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\shutil.py\", line 711, in _rmtree_unsafe\n    onexc(os.rmdir, path, err)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\tempfile.py\", line 928, in onexc\n    _resetperms(path)\n    ~~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\tempfile.py\", line 283, in _resetperms\n    _dont_follow_symlinks(_os.chmod, path, 0o700)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\tempfile.py\", line 272, in _dont_follow_symlinks\n    func(path, *args, follow_symlinks=False)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [WinError 5] Access is denied: 'C:\\\\Users\\\\Bob\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{c127ccaf-3d26-48a3-8795-a2dddd136380}\\\\AC\\\\Temp\\\\diagnostics-test-xrik1ua2'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.233s\n\nFAILED (errors=10)"
+  }
+]

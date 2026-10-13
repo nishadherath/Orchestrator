@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-13",
+  "tool": "graft_check_freshness",
+  "elapsed_ms": 111939,
+  "structural_result": "graph check: OK",
+  "structural_nodes": 3948,
+  "semantic_manifest": "absent",
+  "semantic_nodes_pending": 3948,
+  "tool_is_error": false,
+  "configured_timeout_seconds": 180,
+  "limitation": "An individual live MCP timing; freshness latency remains variable."
+}

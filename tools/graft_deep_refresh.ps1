@@ -144,7 +144,8 @@ try {
     $env:GRAFT_BASE_URL = "http://127.0.0.1:$proxyPort"
     Push-Location $repoRoot
     try {
-        & $node $graft build --deep .
+        # Keep paid summaries on the same source set as everyday MCP retrieval.
+        & $node $graft build --deep --only-dir src --only-dir tools --only-dir test/harness .
         if ($LASTEXITCODE -ne 0) { throw "Graft deep refresh failed with exit code $LASTEXITCODE." }
     } finally {
         Pop-Location

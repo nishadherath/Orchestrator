@@ -14,6 +14,6 @@ cwd = "C:/Users/Bob/Desktop/Code/Claude/Orchestrator"
 enabled = true
 required = true
 startup_timeout_sec = 30
-# A freshness walk includes the executable X3 corpus (1,700+ source files).
-# Its measured local check can exceed the former 60-second MCP limit.
+# Everyday retrieval uses the scoped core index documented in docs/GRAFT.md.
+# Retain the existing limit for the full structural freshness check.
 tool_timeout_sec = 180

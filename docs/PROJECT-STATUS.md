@@ -1,6 +1,7 @@
 # Project status
 
-Updated: 2026-10-13, Australia/Sydney. Status: assessment scope complete.
+Updated: 2026-10-13, Australia/Sydney. Status: assessment and Graft retrieval
+repair scopes complete.
 
 ## Completed work
 
@@ -13,6 +14,10 @@ Updated: 2026-10-13, Australia/Sydney. Status: assessment scope complete.
   normal checked builder. Runtime Python and the shipping policy are unchanged.
 - Reviewed the final scope and retained successful and failed verification logs.
   The Git commit containing this record records task completion.
+- Repaired everyday Graft retrieval with a scoped structural index and a
+  repeatable local refresh helper. Preserved the old semantic cache and added
+  a separate, opt-in evaluation-corpus index. See [the runbook](GRAFT.md) and
+  [verified findings](FINDINGS.md#graft-retrieval-repair-2026-10-13).
 
 ## Verification
 
@@ -27,17 +32,27 @@ Updated: 2026-10-13, Australia/Sydney. Status: assessment scope complete.
   and [build log](../test/results/2026-10-13-project-assessment-build.log).
 - The initial restricted-shell X0 timeout is retained in the failure log.
   Normal-host isolated X0 passed 6/6 in 11.4 seconds; no gate was weakened.
+- Graft repair: fresh MCP processes for both configured launchers passed source
+  retrieval. All six tools, edit detection, automatic refresh, deletion and
+  retained scope passed. The relevant offline harness checks passed on the
+  normal host; the full harness was not rerun for this local setup change.
+- Repair evidence: [MCP verification](../test/results/2026-10-13-graft-mcp-verification.json)
+  and [offline checks](../test/results/2026-10-13-graft-offline-normal.json).
+- The live commit-time freshness recheck passed in 111.939 seconds. Its latency
+  remains variable; this result is below the existing 180-second timeout.
 
 ## Current and remaining work
 
 No implementation stage is running. Remaining work in the agreed assessment
-scope: none. Remaining-time estimate for that scope: zero after delivery.
+and Graft retrieval repair scopes: none. Remaining-time estimate for those
+scopes: zero after delivery. The commit containing this record includes the
+Graft retrieval repair and its verification evidence.
 No session/model switch, agent launch or new experimental provider call occurred.
 Actual development-session API-equivalent cost is unavailable, not zero.
 
-The recommended next scope is Graft retrieval repair and instruction-history
-cleanup, followed by the existing O0-O6 offline qualification plan. These are
-recommendations; this assessment did not start them. The report contains model
+The recommended next scope is instruction-history cleanup, followed by the
+existing O0-O6 offline qualification plan. These remain recommendations; the
+Graft repair did not start them. The report contains model
 assignments, dependencies, blast radius and dated cost/time assumptions.
 
 ## Product baseline and unresolved limits
@@ -47,7 +62,9 @@ O0-O6 is planned and has not started. Publication is not established here.
 The frozen RC remains `2026-10-02-f9f141c`; this task generated the distinct
 working bundle `2026-10-13-82a077a-dirty`.
 
-Graft MCP recovery remains unresolved after 180-second timeouts. Equivalent
-Graft CLI retrieval succeeded, and important source was verified directly.
-Semantic freshness is stale. No paid deep pass was run. General host isolation,
+Graft MCP structural retrieval is repaired. The core index covers 346 Python
+files with 3,948 nodes and 12,453 edges; evaluation source uses a separate local
+index. The active index has no semantic tier, and the old stale semantic cache
+is preserved. Its historical paid-summary failure remains unresolved. No paid
+deep pass was run. General host isolation,
 live managed children and served effort are not newly qualified by these checks.

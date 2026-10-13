@@ -1,0 +1,77 @@
+{
+  "recorded_at": "2026-10-13T08:27:02.022263+00:00",
+  "graft_version": "0.21.1",
+  "provider_calls": 0,
+  "core": {
+    "files": 346,
+    "nodes": 3948,
+    "edges": 12453,
+    "languages": [
+      "python"
+    ],
+    "scope": [
+      "src",
+      "tools",
+      "test/harness"
+    ]
+  },
+  "corpus": {
+    "files": 2061,
+    "nodes": 24826,
+    "edges": 44935,
+    "languages": [
+      "c",
+      "javascript",
+      "python"
+    ],
+    "scope": [
+      "test/fixtures",
+      "test/results"
+    ]
+  },
+  "cache_backups": [
+    {
+      "path": ".graft/repair-backup-2026-10-13",
+      "nodes": 29108,
+      "wiring_sha256": "28d4cd541647c1a22d45ce8cd6b849be5d3c5cb8d4f02a3609d39ec8862b96d9",
+      "semantic_manifest_present": true
+    },
+    {
+      "path": ".graft/scoped-before-clean-rebuild-2026-10-13",
+      "nodes": 3948,
+      "wiring_sha256": "bc15752e7beb4123dd229a451568d6ea3567b49d5adefa0deefbf9fa32a09729",
+      "semantic_manifest_present": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "test/results/2026-10-13-graft-mcp-verification.json",
+      "sha256": "7c3c8382f028d78a6ea72144d268f482f7e1e3a2e48897d252b9092b2ded39d2"
+    },
+    {
+      "path": "test/results/2026-10-13-graft-offline-normal.json",
+      "sha256": "599441899e8a1a2bd76d6921e05deedad994c498aec97826281bee28ea2b3bb3"
+    },
+    {
+      "path": "test/results/2026-10-13-graft-offline.json",
+      "sha256": "91da3b45879e0d0bd1bac5bf30a780de0b20813c860899e92175842d1d3d6ae5"
+    },
+    {
+      "path": "test/results/2026-10-13-graft-corpus-query.json",
+      "sha256": "1fefa6dc1ec9ea445863694464082d424ed23e9985d6744d06aa07361e5bb571"
+    }
+  ],
+  "limitations": [
+    "Meaning tier intentionally absent from active indexes; historical paid summary failure not exercised.",
+    "Fresh MCP processes were tested; a new Codex or Claude chat was not launched.",
+    "Restricted-shell cache atomic rename and diagnostic temporary-directory operations failed; normal-host verification passed.",
+    "Only the relevant existing offline harness checks were rerun; no consumer runtime or generated bundle changes."
+  ],
+  "final_checks": {
+    "prose": "PASS",
+    "git_diff_check": "PASS",
+    "cache_ignore": "PASS",
+    "powershell_syntax": "PASS"
+  },
+  "evidence_encoding": "UTF-8 with LF line endings; hashes describe the committed evidence bytes."
+}

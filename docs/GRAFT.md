@@ -28,11 +28,54 @@ targeted search. Do not report them as measured monetary savings.
 
 ## Configuration and inheritance
 
+The 2026-10-13 repair uses an everyday structural index over `src/`, `tools/`
+and `test/harness/`. Rebuild it with `powershell -NoProfile -ExecutionPolicy
+Bypass -File tools/graft_refresh.ps1`. Graft 0.21.1 records this scope in the
+graph fingerprint and preserves it during MCP automatic refresh. A bare manual
+`graft build` can widen it again, so use the helper for manual rebuilds. The
+deep-refresh helper now passes the same explicit scope.
+
+Run cache rebuilds in a normal host shell. The restricted shell used during
+this repair rejected Graft's atomic cache rename; the same operation succeeded
+on the normal host. This limitation does not require a longer MCP timeout.
+
+Evaluation actors, fixture variants and result copies are outside the everyday
+index. For that work, run `tools/graft_refresh.ps1 -Corpus`, then query with
+`graft --dir .graft/corpus ask "your query" --source .` or the equivalent
+`grep`, `skeleton` and `callers` commands. This opt-in index is local and
+separate from the default MCP graph. Scope every claim of exhaustive retrieval
+to the selected index. Markdown, configuration, PowerShell and shell scripts
+remain direct-read material in this code-only setup.
+
+The old full index and semantic cache are preserved under
+`.graft/repair-backup-2026-10-13/`; the intermediate scoped cache is under
+`.graft/scoped-before-clean-rebuild-2026-10-13/`. Both locations are ignored by
+Git. The clean everyday cache deliberately has no semantic tier. Its exact
+source spans, signatures and structural dependencies remain available without
+provider calls. The historical semantic-refresh failure is not resolved or
+hidden by claiming that summaries are current.
+
+In this state, `graft_check_freshness` prints `graft check: NO GRAPH` for the
+absent semantic manifest and `graph check: OK` for the fresh structural graph.
+The first message is about the optional meaning tier. Confirm the structural
+result separately; do not run a paid deep pass just to suppress that message.
+
+Verification on 2026-10-13 passed all six tools in a fresh MCP process, both
+configured launchers, and automatic source addition/removal. The separate
+corpus index covers 2,061 files with 24,826 nodes and 44,935 edges in C,
+JavaScript and Python; a fixture API query returned its verified source span.
+The [MCP evidence](../test/results/2026-10-13-graft-mcp-verification.json) and
+[corpus query](../test/results/2026-10-13-graft-corpus-query.json) record the
+checks. See [findings](FINDINGS.md#graft-retrieval-repair-2026-10-13) for timings
+and remaining limits, and [the repair summary](../test/results/2026-10-13-graft-repair-summary.json)
+for index scope and backup digests.
+
 - `.codex/config.toml` keeps the existing local Node/Graft launcher, enables
   Graft and requires successful MCP startup. The existing zero optional
   startup grace remains; Graft has a 30-second startup timeout. Its MCP tool
-  timeout is 180 seconds because the executable X3 corpus expanded the local
-  freshness walk beyond the former 60-second limit. A live session may need
+  timeout remains 180 seconds. It was raised when the executable X3 corpus
+  expanded the local freshness walk; the everyday index now excludes that
+  corpus instead of raising the timeout again. A live session may need
   restart before a changed MCP timeout takes effect.
 - `.mcp.json` registers the same installed package for Claude Code. Its root
   argument uses `${CLAUDE_PROJECT_DIR:-.}` per Claude Code's expansion rules.

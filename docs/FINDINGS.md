@@ -1,5 +1,44 @@
 # Findings: verified behaviour of Claude Code
 
+## Graft retrieval repair, 2026-10-13
+
+Verified with local Graft 0.21.1: the installed MCP launcher starts and exposes
+all six tools. A direct unscoped freshness smoke exceeded 45 seconds. The
+prior assessment had recorded 180-second MCP timeouts. The restricted shell
+also rejected Graft's atomic cache rename; normal-host builds succeeded.
+
+The repaired everyday index covers 346 Python files under `src/`, `tools/`
+and `test/harness/`: 3,948 nodes and 12,453 edges. Fresh MCP processes using
+the configured Codex and Claude launchers retrieved real project source.
+The six-tool check passed. Freshness took 46.713 seconds initially and 28.561
+seconds after the edit/removal test. Ordinary retrieval took 0.893-2.333
+seconds in that process. An added source file was reported stale, refreshed
+automatically and removed from the graph after deletion; scope stayed intact.
+These are individual timings, not a controlled performance benchmark.
+
+The live MCP freshness recheck before committing the repair took 111.939
+seconds and passed. Latency remains variable and freshness is still costly,
+although this call stayed within the configured 180-second limit. Do not
+generalise the earlier fresh-process timings into a guaranteed response time.
+
+Graft 0.21.1 preserves `--only-dir` during automatic refresh, but a bare manual
+build can widen the graph. `tools/graft_refresh.ps1` passes an explicit core
+scope; `-Corpus` builds a separate evaluation index. The paid deep helper now
+passes the core scope too. No deep pass was run. The old full semantic cache
+is preserved locally; the active core graph has no meaning tier. The historical
+forced-tool summary failure remains untested by this structural repair.
+
+The evidence supports index scope as a contributor to retrieval delay. It does
+not isolate every contributor to the previous timeouts. Relevant existing
+offline checks passed on the normal host: prose, context contract (6 tests),
+distribution parity (85 files) and diagnostics (5 tests). Restricted-shell
+diagnostic failures are retained separately. The complete offline harness was
+not rerun for this local setup change; consumer source and bundle are unchanged.
+
+Evidence: [fresh MCP and refresh checks](../test/results/2026-10-13-graft-mcp-verification.json),
+[normal-host offline checks](../test/results/2026-10-13-graft-offline-normal.json)
+and [repair runbook](GRAFT.md).
+
 ## WSL structured schema transport, 2026-09-28
 
 On the installed WSL Claude Code 2.1.273, a raw JSON `--json-schema` argument
