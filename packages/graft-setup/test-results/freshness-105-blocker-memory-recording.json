@@ -1,0 +1,14 @@
+{
+    "started_at":  "2026-10-14T00:50:24.0777720Z",
+    "ok":  false,
+    "protection_changed":  false,
+    "seconds":  30,
+    "mode":  "memory",
+    "profiles":  [
+                     "CPU",
+                     "Minifilter"
+                 ],
+    "large_merge_aborted":  true,
+    "error":  "",
+    "ended_at":  "2026-10-14T00:50:26.9978590Z"
+}

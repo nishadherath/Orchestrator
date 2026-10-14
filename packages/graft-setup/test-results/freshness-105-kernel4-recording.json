@@ -1,0 +1,15 @@
+{
+    "started_at":  "2026-10-14T01:40:22.4982047Z",
+    "ok":  true,
+    "protection_changed":  false,
+    "seconds":  30,
+    "max_trace_megabytes":  1024,
+    "buffer_megabytes":  256,
+    "other_sessions_stopped":  false,
+    "handshake":  true,
+    "start_exit":  0,
+    "workload_released":  true,
+    "stop_exit":  0,
+    "merge_exit":  0,
+    "ended_at":  "2026-10-14T01:43:13.8332796Z"
+}

@@ -1,0 +1,46 @@
+{
+  "records": [
+    {
+      "local_file": ".graft/kernel2-merged.etl",
+      "bytes": 80964556,
+      "sha256": "350ae8d10601204778484315d25a20c481306696af82e9b4e5b6efd4aedc17cb",
+      "redistributed": false
+    },
+    {
+      "local_file": ".graft/kernel4-bounded.etl",
+      "bytes": 1073741824,
+      "sha256": "836c8fa74ae1982e81ec3ba17fb63aa66b6170b969aa4aec15b4a3bf22a3cf0c",
+      "redistributed": false
+    },
+    {
+      "local_file": ".graft/kernel4-merged.etl",
+      "bytes": 198496504,
+      "sha256": "928d1dd235973a753ce32931fa4a6476261839af1d65da0209b135c96ad06e14",
+      "redistributed": false
+    },
+    {
+      "local_file": ".graft/kernel5-bounded.etl",
+      "bytes": 536870912,
+      "sha256": "386b23f146281834976fc0b1ceb2526ce08084cceba0486289e7f16558141df0",
+      "redistributed": false
+    },
+    {
+      "local_file": ".graft/kernel5-merged.etl",
+      "bytes": 63307693,
+      "sha256": "288e9e65318b9687931e87cb9e70dd47c2754d8116c681218729aa11d4433362",
+      "redistributed": false
+    },
+    {
+      "local_file": ".graft/kernel5-with-rundown.etl",
+      "bytes": 144527741,
+      "sha256": "a863207e8f3c803abd3abc3579ab26ba011cc198eefa8596495d64a70c9f6ea0",
+      "redistributed": false
+    }
+  ],
+  "unfinished_wpr_merge": {
+    "redistributed": false,
+    "sha256": null,
+    "reason": "Unfinalised oversized 16.6 GB merge; metadata and failure retained, not analysed"
+  },
+  "protection_changed": false
+}

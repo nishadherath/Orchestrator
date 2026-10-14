@@ -1,0 +1,6 @@
+
+> @nanonets/graft@0.21.1 build
+> tsc -p tsconfig.json && tsc -p viewer/tsconfig.json && node scripts/build-viewer.mjs
+
+viewer bundle → dist/viewer/
+grammar queries → dist/graph/queries/ (16 .scm)

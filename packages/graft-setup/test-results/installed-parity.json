@@ -1,25 +1,32 @@
 {
   "ok": true,
   "skill": "graft-setup",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "tested_graft": "0.21.1",
   "files": {
-    "SKILL.md": "b754a788f621bf4e2ca9b36c269c32bc3aa756023b36f5587c18c35dba6d7f96",
-    "VERSION": "d1b77b88f4b9f675a900e4143ac768a21218623cfe1703ca43162388c3271bd6",
+    "SKILL.md": "9de0f1b78ef869c0920772b25d7fd8f8911116db09ba001cdf4a56f720aefdaf",
+    "VERSION": "8c54bfab7f1ae9bd1a7148eae41e7b0a8f4ad3726e0cac70f823a2d45db9e60c",
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
-    "scripts/graft_common.py": "b7c24b664c941b40bfe342fba14ce17e6ba1a50d086d0bc395de2faae0256fd9",
-    "scripts/diagnose.py": "a439998f7bb57da405e4d147e81f7e642786f384ec4a6bfe6388db54e223fd25",
-    "scripts/refresh.py": "3aedc3ab10b5fe0b96187ce9c93f3d3ee098fede92f4c9bfbd4f08728492be94",
+    "scripts/graft_common.py": "ae3a49209d0c5d13443d537a1d7b2f2d1a6b739facefff23d01768903df14f4c",
+    "scripts/diagnose.py": "9d5284c3add892ca6ab1a3faec0f56c10fe759b3c989783b2f8b5ca399c4f83f",
+    "scripts/refresh.py": "e6aee9fba4d9a9ae80103aca35bd057164f653e46b35dddc0c32b0312d685cff",
     "scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
     "scripts/fs_probe.py": "97bea149afc0a19f83e269a2113554e8da150192d02a925fee3bb308a95983d0",
     "scripts/trace.py": "1e399bf537ad1aa4c006a9acd28b0e85aebda35e58b921060915871f9d1bb699",
-    "references/version-0211.md": "86d3eb5992fb700e83d9f93a322f714433c2462099966565c4dee728e41c7706",
+    "references/version-0211.md": "258adbc91bb45d4d3e238f6700dd1e21a84e1c98a058598afab9a1fbf0f6448a",
     "references/repair.md": "3aec356fdc21fbb1c669b03b97848d83963368cf55ce1847e6e572094bc11551",
     "references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
-    "references/hosts.md": "d81e3f21a4184a0682ec485c151ea5975d107de8ec574237e39ec1664749643c",
-    "references/installation.md": "a891f6ea34399304957a10a1aafb847aba7d9985e74acebeb1d41b48fac764bf"
+    "references/hosts.md": "da07f2d95c83eca8852ec5e4db14a916b8ca734f24c5980f60cb37e63e82633c",
+    "references/installation.md": "e09f04a315ae53ddbbab5772cedba51f29e71b215bc67c720b7c11fbe602cbb8",
+    "references/freshness.md": "b10a8467a2e7b8c40a1516453b7f6ed605e34d03711be66899073abf74dc28bf",
+    "scripts/runtime_probe.mjs": "dd27f1048e7584352f4cfe90b728d2da88876665d3794487b162a8f7e04c50a2",
+    "scripts/apply_source_patch.py": "4ef36b41519afef9b576e7c08ad749c8cd2bd93fec2d9c9856c2e09e5bcede4d",
+    "scripts/filter_trace.py": "b8771b6e1204de657f132189c55a9a3a444e6d1cba6e49e032f1ab6f54fba027",
+    "assets/graft-scoped-walk.patch": "f34c1548bfc97dfb39817f7adf4888fae5268084b5ae8ae7fae7f4adb4683791",
+    "assets/graft-scoped-walk.json": "bd71999a6eb001982010786641202a192daa2b10442ad325f46c2f83f45cc210",
+    "assets/GRAFT-LICENSE.txt": "d671f52607b002fad21b4a09cf3a7bd6c507e95abfd90040c775fdd4d83e3d7c"
   },
   "installed_destination": "existing user graft-setup skill directory",
-  "backup": ".graft/installed-skill-backup-2026-10-14-9673126a"
+  "backup": ".graft/installed-skill-backup-2026-10-14-d304af86"
 }

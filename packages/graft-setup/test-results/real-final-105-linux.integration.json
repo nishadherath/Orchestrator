@@ -1,0 +1,92 @@
+{
+  "platform": "Linux",
+  "python": "3.14.7",
+  "provider_calls": 0,
+  "steps": [
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 10.853,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 6.169,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "app project",
+      "exit_code": 1,
+      "ok": false,
+      "elapsed_seconds": 4.585,
+      "checks": []
+    }
+  ],
+  "runtime": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.0",
+    "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+  },
+  "launcher": [
+    "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+    "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js"
+  ],
+  "workspace": {
+    "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/skill-mounted-integration/graft portable & unicode \u03a9 7ve_mad3",
+    "filesystem": {
+      "available": true,
+      "mount_point": "/mnt/d",
+      "filesystem_type": "virtiofs",
+      "source": "drvfs",
+      "host_shared": true
+    }
+  },
+  "capabilities": {
+    "version": "0.21.1-nishadherath",
+    "tested_version": "0.21.1",
+    "version_matches": false,
+    "supports_structured": true,
+    "supports_documents": true,
+    "supports_deep_documents": true,
+    "identity": {
+      "available": true,
+      "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification",
+      "package_version": "0.21.1-nishadherath",
+      "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js",
+      "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+      "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+      "runtime_features": {
+        "available": true,
+        "extractor_stamp": "b7973c42b807124f",
+        "preserves_foreign_scope": true,
+        "prunes_scoped_walk": true,
+        "hash_checked_memo": true
+      }
+    }
+  },
+  "ok": false,
+  "error": "probe_mcp.py failed in app project: MCP startup may replay existing host wiring, including global entries. Review it first; --allow-startup-upkeep acknowledges that review."
+}

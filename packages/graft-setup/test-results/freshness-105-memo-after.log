@@ -1,0 +1,12 @@
+✔ check reuses only same-extractor byte-verified parses; detects same-stat edits, additions and removals (1821.188ms)
+✔ foreign extractor supplies scope policy without accepting its cached hashes (156.2867ms)
+✔ scoped enumeration never stats or opens excluded trees (filesystem) (298.9484ms)
+✔ scoped enumeration never stats or opens excluded trees (Git) (564.3923ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4332.9862

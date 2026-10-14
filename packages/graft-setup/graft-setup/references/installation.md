@@ -2,7 +2,8 @@
 
 This skill is distributed as a ZIP containing one `graft-setup/` directory.
 It includes Python scripts, references, UI metadata, a version and the Apache
-2.0 licence. It contains no Graft executable, graph cache, machine-specific
+2.0 licence, plus a guarded Graft source patch under its own MIT licence.
+It contains no Graft executable, graph cache, machine-specific
 configuration, keys, provider adapter or project source snapshots.
 
 Verify the ZIP SHA-256 against its adjacent manifest before extracting it.

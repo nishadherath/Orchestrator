@@ -1,0 +1,192 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "parent": "D:\\Code\\Claude\\Orchestrator\\.graft",
+  "workers": 16,
+  "interval_ms": 1.0,
+  "requested_seconds": 60.0,
+  "started_unix": 1791942437.321092,
+  "pressure_before": {},
+  "filesystem": {
+    "available": false,
+    "reason": "Linux mount information is unavailable on this host."
+  },
+  "slow_operations": [
+    {
+      "operation": "read",
+      "seconds": 0.514513,
+      "offset_seconds": 59.319351
+    },
+    {
+      "operation": "read",
+      "seconds": 0.571619,
+      "offset_seconds": 28.493596
+    },
+    {
+      "operation": "read",
+      "seconds": 0.570517,
+      "offset_seconds": 27.723079
+    },
+    {
+      "operation": "replace",
+      "seconds": 0.527851,
+      "offset_seconds": 42.90833
+    },
+    {
+      "operation": "read",
+      "seconds": 0.515103,
+      "offset_seconds": 23.530534
+    },
+    {
+      "operation": "read",
+      "seconds": 0.544878,
+      "offset_seconds": 29.215212
+    },
+    {
+      "operation": "replace",
+      "seconds": 0.55925,
+      "offset_seconds": 56.377623
+    },
+    {
+      "operation": "read",
+      "seconds": 0.631284,
+      "offset_seconds": 26.760261
+    },
+    {
+      "operation": "read",
+      "seconds": 0.547468,
+      "offset_seconds": 27.848751
+    },
+    {
+      "operation": "read",
+      "seconds": 0.768734,
+      "offset_seconds": 30.744096
+    },
+    {
+      "operation": "read",
+      "seconds": 0.736287,
+      "offset_seconds": 52.689168
+    },
+    {
+      "operation": "read",
+      "seconds": 0.521065,
+      "offset_seconds": 57.337931
+    },
+    {
+      "operation": "unlink",
+      "seconds": 0.546029,
+      "offset_seconds": 58.716225
+    }
+  ],
+  "errors": [],
+  "operations": {
+    "stat": {
+      "count": 10583,
+      "median_seconds": 0.000732,
+      "p95_seconds": 0.005806,
+      "p99_seconds": 0.037569,
+      "max_seconds": 0.287246
+    },
+    "read": {
+      "count": 10583,
+      "median_seconds": 0.014147,
+      "p95_seconds": 0.112826,
+      "p99_seconds": 0.228797,
+      "max_seconds": 0.768734
+    },
+    "resolve": {
+      "count": 10583,
+      "median_seconds": 0.006172,
+      "p95_seconds": 0.055509,
+      "p99_seconds": 0.114845,
+      "max_seconds": 0.352671
+    },
+    "replace": {
+      "count": 10583,
+      "median_seconds": 0.011216,
+      "p95_seconds": 0.075536,
+      "p99_seconds": 0.183943,
+      "max_seconds": 0.55925
+    },
+    "unlink": {
+      "count": 10583,
+      "median_seconds": 0.008082,
+      "p95_seconds": 0.065682,
+      "p99_seconds": 0.160188,
+      "max_seconds": 0.546029
+    }
+  },
+  "child_startups": [
+    {
+      "seconds": 1.764419,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.976125,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.645628,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.812714,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.774811,
+      "exit_code": 0
+    },
+    {
+      "seconds": 1.797355,
+      "exit_code": 0
+    },
+    {
+      "seconds": 2.36712,
+      "exit_code": 0
+    },
+    {
+      "seconds": 3.206064,
+      "exit_code": 0
+    },
+    {
+      "seconds": 4.342471,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 4.214268,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 3.696472,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 4.187385,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 3.580878,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 4.113688,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 3.490438,
+      "exit_code": 0
+    },
+    {
+      "seconds": 4.401148,
+      "timeout_seconds": 3
+    },
+    {
+      "seconds": 3.236508,
+      "exit_code": 0
+    }
+  ],
+  "pressure_after": {},
+  "elapsed_seconds": 65.975,
+  "ok": false
+}

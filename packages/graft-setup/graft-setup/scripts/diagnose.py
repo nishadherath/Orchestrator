@@ -24,7 +24,7 @@ def main() -> int:
         value["mcp_startup_upkeep_review_needed"] = startup_review_needed(root, cache, value["capabilities"]["version"])
         value["ok"] = bool(value["graph"].get("files"))
         if args.check:
-            value["freshness"] = check(command, root, cache, args.timeout)
+            value["freshness"] = check(command, root, cache, args.timeout, value["capabilities"]["identity"])
             value["ok"] = value["freshness"]["structural_fresh"]
         value["elapsed_seconds"] = round(time.monotonic() - start, 3)
         report(value, args.output)

@@ -25,6 +25,16 @@ FAKE = Path(__file__).with_name("fake_graft.py")
 
 
 class Helpers(unittest.TestCase):
+    def test_foreign_extractor_cannot_silently_widen_freshness_scope(self):
+        cache = self.root / "graft"
+        (cache / ".cache").mkdir(parents=True)
+        (cache / ".cache/fingerprint.foreign.json").write_text('{}', encoding="utf-8")
+        identity = {"runtime_features": {"extractor_stamp": "active", "preserves_foreign_scope": False}}
+        with patch.object(common, "run") as execute:
+            with self.assertRaisesRegex(common.GraftError, "discard saved scope"):
+                common.check(self.command, self.root, cache, 20, identity)
+            execute.assert_not_called()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="graft portable & spaces ", dir=os.environ.get("GRAFT_TEST_PARENT"))
         self.root = Path(self.temp.name)
@@ -91,7 +101,8 @@ class Helpers(unittest.TestCase):
             entry.write_bytes(name.encode())
             flags = "--only-dir --no-gitignore --no-ignore" + (" --structured --documents --deep-documents" if structured else "")
             with patch.object(common, "run", side_effect=[subprocess.CompletedProcess([], 0, "0.21.1", ""),
-                                                        subprocess.CompletedProcess([], 0, flags, "")]):
+                                                        subprocess.CompletedProcess([], 0, flags, ""),
+                                                        subprocess.CompletedProcess([], 0, '{"available":false}', "")]):
                 reports.append(common.capabilities(["node", str(entry)], self.root, 30))
         published, fork = reports
         self.assertEqual(published["version"], fork["version"])

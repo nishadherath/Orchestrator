@@ -3,8 +3,9 @@
 Updated: 2026-10-14, Australia/Sydney. Status: assessment and Graft retrieval
 repair scopes complete.
 The separately requested portable Graft skill package is also complete.
-Concurrent-load qualification is documented; VirtioFS is not sufficient
-prevention, and the unique Windows blocking component remains unproven.
+Full-project freshness now passes concurrent-load qualification after source
+repairs. Captured Graft callbacks identify Defender filter delays; the unique
+cause of the entire Windows/WSL stall remains unproven.
 
 ## Completed work
 
@@ -42,6 +43,15 @@ prevention, and the unique Windows blocking component remains unproven.
   bootstrap and stage diagnostics, controlled import-search and paced-load
   comparisons, retained failures and reviewed Defender evidence. See
   [the investigation](../packages/graft-setup/CONCURRENCY.md).
+
+- Updated the portable skill to 1.0.5 with extractor/feature diagnostics, a guarded
+  source repair, hash-verified parse reuse and a portable per-PID minifilter
+  reviewer. Installed compiler-generated Windows repairs with verified backups
+  and refreshed the original three-prefix core cache. Both complete helpers
+  passed a four-worker-per-host qualification at the unchanged 180-second check
+  bound. Paired Graft callbacks show delays in Defender's `WdFilter.sys`; lost
+  and circularly overwritten traces do not support a unique full-stall cause.
+  See [the source repair and evidence](../packages/graft-setup/FRESHNESS.md).
 
 ## Verification
 

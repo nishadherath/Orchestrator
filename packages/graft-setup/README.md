@@ -3,12 +3,17 @@
 This source package updates the existing `graft-setup` skill for the installed
 Graft 0.21.1 and generalises the structural retrieval repair into configurable
 Python helpers. It is independent of Orchestrator's consumer bundle and its
-machine-specific Graft launchers. The skill is version 1.0.4.
+machine-specific Graft launchers. The skill is version 1.0.5.
 
-The [concurrent-load investigation](CONCURRENCY.md) reproduces deadline failures
-with VirtioFS active. Version 1.0.4 adds portable filesystem and stage/bootstrap
-diagnostics, paced-load controls and preserved evidence. The exact Windows
-blocking component and historical 3-second failure remain unproven.
+The [full-project freshness investigation](FRESHNESS.md) identifies and repairs
+scope loss after extractor changes, enumeration of excluded directories and
+repeated parsing of unchanged files. Version 1.0.5 adds runtime feature probes,
+a guarded source patch and hash-verified parse reuse. Both complete helpers
+passed under simultaneous Windows/WSL load at the unchanged 180-second check
+bound. Exact attribution to a unique Windows blocking component remains unproven;
+failed and incomplete profiler captures are retained in the evidence record.
+Paired task callbacks identify Defender filter delays without claiming that
+Defender uniquely caused the entire timeout.
 
 ## Contents and installation
 
@@ -68,6 +73,8 @@ host-wiring stamp even on a clean build, to avoid unintended startup defaults.
 See [the repair contract](graft-setup/references/repair.md) for ignore/settings
 side effects, concurrency assumptions, rollback and cleanup limits.
 
+The portable `filter_trace.py` reviews one PID's paired xperf callback events,
+omitting file paths and request pointers. It never captures or elevates.
 The portable `fs_probe.py` measures disposable-file operations and native
 Python startup. `trace.py` retains helper JSON stdout and records timing/frame
 locations on stderr. Read their effects and bounds in the skill's
@@ -81,7 +88,9 @@ neither promises a universal speedup nor fixes that historical provider issue.
 It preserves authorisation boundaries for any later paid deep pass.
 
 Licensing follows this repository's Apache-2.0 licence, included with the skill.
-Graft is a separate upstream dependency and is not bundled or relicensed here.
+Graft is a separate dependency. The included Graft source repair is covered by
+its bundled MIT licence; the skill itself remains Apache-2.0. No Graft executable
+or dependency archive is bundled.
 
 ## Version 1.0.1 verification, 2026-10-14
 

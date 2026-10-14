@@ -1,0 +1,18 @@
+{
+  "platform": "linux",
+  "started_unix": 1791943236.2061727,
+  "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/skill-mounted-integration",
+  "load_workers": 0,
+  "load_interval_ms": 1,
+  "load_seconds": 120,
+  "acceptance_deadlines_changed": false,
+  "runs": [
+    {
+      "name": "unit",
+      "exit_code": 1,
+      "timed_out": false,
+      "elapsed_seconds": 109.994
+    }
+  ],
+  "ok": false
+}

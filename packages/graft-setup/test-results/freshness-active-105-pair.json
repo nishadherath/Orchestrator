@@ -1,0 +1,16 @@
+{
+  "codes": [
+    0,
+    0
+  ],
+  "ok": true,
+  "elapsed_seconds": 121.52627009997377,
+  "workers_per_host": 4,
+  "worker_interval_ms": 1,
+  "requested_load_seconds": 120,
+  "graft_command_timeout_seconds": 180,
+  "windows_runtime": "active repaired global installation",
+  "linux_runtime": "same compiled candidate, native dependencies",
+  "wsl_reset": false,
+  "provider_calls": 0
+}

@@ -1,0 +1,79 @@
+✖ scoped enumeration never stats or opens excluded trees (filesystem) (1071.1878ms)
+✖ scoped enumeration never stats or opens excluded trees (Git) (2234.6196ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6567.4255
+
+✖ failing tests:
+
+test at test\scoped-walk-cost.test.ts:1:328
+✖ scoped enumeration never stats or opens excluded trees (filesystem) (1071.1878ms)
+  AssertionError [ERR_ASSERTION]: excluded files must be filtered before filesystem calls
+  + actual - expected
+
+  + [
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\0.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\1.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\2.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\3.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\4.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\5.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\6.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\7.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\8.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\9.py'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (D:\Code\Claude\Orchestrator\.graft\graft-scope-source\test\scoped-walk-cost.test.ts:34:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\0.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\1.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\2.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\3.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\4.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\5.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\6.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\7.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\8.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-fxbXtE\\excluded\\9.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test\scoped-walk-cost.test.ts:1:328
+✖ scoped enumeration never stats or opens excluded trees (Git) (2234.6196ms)
+  AssertionError [ERR_ASSERTION]: excluded files must be filtered before filesystem calls
+  + actual - expected
+
+  + [
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\0.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\1.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\2.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\3.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\4.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\5.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\6.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\7.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\8.py',
+  +   'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\9.py'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (D:\Code\Claude\Orchestrator\.graft\graft-scope-source\test\scoped-walk-cost.test.ts:34:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\0.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\1.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\2.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\3.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\4.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\5.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\6.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\7.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\8.py', 'C:\\Users\\Bob\\AppData\\Local\\Temp\\graft-scope-cost-SeY0VS\\excluded\\9.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

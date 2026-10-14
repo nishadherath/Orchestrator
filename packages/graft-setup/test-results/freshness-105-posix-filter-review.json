@@ -1,0 +1,103 @@
+{
+  "pid": 10892,
+  "own_init_events": 640,
+  "matched_callback_count": 640,
+  "unclosed_callbacks": 0,
+  "modules": {
+    "WdFilter.sys": {
+      "matched_callbacks": 156,
+      "sum_callback_elapsed_us": 458861,
+      "max_callback_elapsed_us": 138763
+    },
+    "bfs.sys": {
+      "matched_callbacks": 68,
+      "sum_callback_elapsed_us": 19910,
+      "max_callback_elapsed_us": 16322
+    },
+    "SbieDrv.sys": {
+      "matched_callbacks": 30,
+      "sum_callback_elapsed_us": 989,
+      "max_callback_elapsed_us": 49
+    },
+    "Wof.sys": {
+      "matched_callbacks": 135,
+      "sum_callback_elapsed_us": 12062,
+      "max_callback_elapsed_us": 4630
+    },
+    "fileinfo.sys": {
+      "matched_callbacks": 245,
+      "sum_callback_elapsed_us": 17847,
+      "max_callback_elapsed_us": 5054
+    },
+    "FsDepends.sys": {
+      "matched_callbacks": 6,
+      "sum_callback_elapsed_us": 264,
+      "max_callback_elapsed_us": 53
+    }
+  },
+  "slow_matched_callbacks": [
+    {
+      "module": "WdFilter.sys",
+      "elapsed_us": 138763,
+      "initial_us": 2553192370,
+      "completion_us": 2553331133,
+      "pid": 10892,
+      "tid": "30308",
+      "operation": "CREATE",
+      "callback_phase": "MiniFilterPostOp"
+    },
+    {
+      "module": "WdFilter.sys",
+      "elapsed_us": 122125,
+      "initial_us": 2553833983,
+      "completion_us": 2553956108,
+      "pid": 10892,
+      "tid": "30308",
+      "operation": "CREATE",
+      "callback_phase": "MiniFilterPostOp"
+    },
+    {
+      "module": "WdFilter.sys",
+      "elapsed_us": 115617,
+      "initial_us": 2554818524,
+      "completion_us": 2554934141,
+      "pid": 10892,
+      "tid": "30308",
+      "operation": "CREATE",
+      "callback_phase": "MiniFilterPostOp"
+    },
+    {
+      "module": "WdFilter.sys",
+      "elapsed_us": 38566,
+      "initial_us": 2559428366,
+      "completion_us": 2559466932,
+      "pid": 10892,
+      "tid": "30308",
+      "operation": "READ",
+      "callback_phase": "MiniFilterPostOp"
+    },
+    {
+      "module": "WdFilter.sys",
+      "elapsed_us": 30381,
+      "initial_us": 2558049590,
+      "completion_us": 2558079971,
+      "pid": 10892,
+      "tid": "30308",
+      "operation": "READ",
+      "callback_phase": "MiniFilterPreOp"
+    },
+    {
+      "module": "bfs.sys",
+      "elapsed_us": 16322,
+      "initial_us": 2560232112,
+      "completion_us": 2560248434,
+      "pid": 10892,
+      "tid": "30308",
+      "operation": "CREATE",
+      "callback_phase": "MiniFilterPreOp"
+    }
+  ],
+  "paths_and_request_pointers_omitted": true,
+  "unique_timeout_cause_proven": false,
+  "limits": "Callback elapsed includes scheduling waits. Check trace loss, circular overwrite, module identity and workload overlap separately. Totals cover matched retained events only."
+}

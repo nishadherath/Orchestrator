@@ -5,7 +5,7 @@ then exercised against isolated repositories on Windows and, on 2026-10-14,
 native WSL/Linux Node. These are version-specific notes;
 read the current CLI help after changing installations. The existing Windows
 installation carries a local fork's compiled output; Linux initially used the
-published npm package. Both report 0.21.1. Their optional capability difference
+published npm package. Both originally reported 0.21.1. Their optional capability difference
 comes from build contents, rather than the operating system.
 
 - `build` produces the local wiring graph and cards without an LLM call.
@@ -97,3 +97,11 @@ version labels alone do not establish origin. Diagnose capabilities separately
 from archive identity, preserving the operator's intended installation.
 
 Primary publication metadata: [npm Graft 0.21.1](https://registry.npmjs.org/@nanonets/graft/0.21.1).
+## Current repaired fork identity
+
+The latest repair also verifies `0.21.1-nishadherath`. It preserves the installed
+fork metadata rather than disguising it as the npm release. Runtime feature and
+extractor probes distinguish early scope pruning, saved scope recovery and
+content-hash-checked parse reuse. An unfamiliar build label still requires review
+before MCP startup upkeep; inspect existing wiring before acknowledging it.
+See [full-project freshness](freshness.md) for the guarded source patch.

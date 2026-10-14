@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "applied": false,
+  "backup": null,
+  "source": "D:\\Code\\Claude\\Orchestrator\\.graft\\source-patch-105-zero-aff49ba8",
+  "files": [
+    "src/ingest/fs.ts",
+    "src/graph/source-files.ts",
+    "src/graph/fingerprint.ts",
+    "src/graph/check.ts",
+    "src/graph/refresh.ts",
+    "src/context/build.ts",
+    "test/scoped-walk-cost.test.ts",
+    "test/fingerprint-scope-upgrade.test.ts",
+    "test/check-hash-memo.test.ts"
+  ],
+  "installed_runtime_changed": false,
+  "next": "Run the source project's build/test gate, then its reviewed runtime synchronisation workflow."
+}

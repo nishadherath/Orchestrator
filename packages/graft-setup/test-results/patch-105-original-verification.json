@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "operation": "dry",
+      "exit_code": 0
+    },
+    {
+      "operation": "apply",
+      "exit_code": 0
+    },
+    {
+      "operation": "repeat",
+      "exit_code": 1
+    }
+  ],
+  "applied_source_matches_tested_source": true,
+  "installed_runtime_changed": false
+}

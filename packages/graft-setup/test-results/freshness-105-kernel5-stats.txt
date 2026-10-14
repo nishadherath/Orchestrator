@@ -1,0 +1,23 @@
+Number of Processors : 12
+CPU Speed            : 2592 MHz
+OS Version           : 10.00.00.00
+OS Build Number      : 26200
+Clock type           : PerfCounter
+Boot time            : 2026/10/10:07:36:54.5000000
+Native Pointer Size  : 8 (64bit)
+Start time (UTC)     : 2026/10/14:01:46:52.8484190
+End time (UTC)       : 2026/10/14:01:49:08.8409462  (+         0:00:02:15.9925272)
+Total # Lost Buffers : 0
+Total # Lost Events  : 0
+
+Number of Traces     : 1
+
+Trace name: .graft/kernel5-merged.etl
+    Log file mode        : Sequential Relogged Compressed
+    Pointer size         : 8 (64bit)
+    Start time (UTC)     : 2026/10/14:01:46:52.8484190
+    End time (UTC)       : 2026/10/14:01:49:08.8409462  (+         0:00:02:15.9925272)
+    Start time (Local)   : 2026/10/14:12:46:52.8484190
+    End time (Local)     : 2026/10/14:12:49:08.8409462
+    # Lost Buffers       : 0
+    # Lost Events        : 0

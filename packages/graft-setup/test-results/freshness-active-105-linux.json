@@ -1,0 +1,1212 @@
+{
+  "platform": "linux",
+  "started_unix": 1791944456.3263364,
+  "elapsed_seconds": 42.215,
+  "exit_code": 0,
+  "command_deadline_seconds": 180,
+  "workers": 4,
+  "load_seconds": 120,
+  "provider_calls": 0,
+  "cache_rebuilt": false,
+  "ok": true,
+  "diagnosis": {
+    "ok": true,
+    "repo": "/mnt/d/Code/Claude/Orchestrator",
+    "cache": "/mnt/d/Code/Claude/Orchestrator/.graft/linux-memo",
+    "filesystem": {
+      "available": true,
+      "mount_point": "/mnt/d",
+      "filesystem_type": "virtiofs",
+      "source": "drvfs",
+      "host_shared": true
+    },
+    "launcher": [
+      "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+      "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js"
+    ],
+    "capabilities": {
+      "version": "0.21.1-nishadherath",
+      "tested_version": "0.21.1",
+      "version_matches": false,
+      "supports_structured": true,
+      "supports_documents": true,
+      "supports_deep_documents": true,
+      "identity": {
+        "available": true,
+        "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification",
+        "package_version": "0.21.1-nishadherath",
+        "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js",
+        "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+        "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+        "runtime_features": {
+          "available": true,
+          "extractor_stamp": "b7973c42b807124f",
+          "preserves_foreign_scope": true,
+          "prunes_scoped_walk": true,
+          "hash_checked_memo": true
+        }
+      }
+    },
+    "graph": {
+      "present": true,
+      "files": 346,
+      "nodes": 3948,
+      "edges": 12453,
+      "languages": [
+        "python"
+      ],
+      "file_groups": {
+        "test/harness": 120,
+        "tools/controller_x5_worker_adapter.py": 1,
+        "tools/worker_wsl_q4s_auth_probe.py": 1,
+        "tools/worker_wsl_q3_grade_probe.py": 1,
+        "tools/controller_pilot_runtime.py": 1,
+        "tools/controller_x5_h02_pair.py": 1,
+        "tools/worker_oracles.py": 1,
+        "tools/worker_wsl_q3_expansion_probe.py": 1,
+        "tools/worker_q4s_admission.py": 1,
+        "tools/controller_x5_v4_isolation.py": 1,
+        "tools/worker_q4s_public_source.py": 1,
+        "tools/worker_q4u_canary_live.py": 1,
+        "tools/worker_q4_reconcile.py": 1,
+        "tools/worker_q4t_screen.py": 1,
+        "tools/worker_statistics.py": 1,
+        "tools/worker_wsl_q4r_probe.py": 1,
+        "tools/worker_q4s_structured.py": 1,
+        "tools/worker_wsl_q3_probe.py": 1,
+        "tools/worker_wsl_q4s_adapter.py": 1,
+        "tools/worker_n5_screen.py": 1,
+        "tools/worker_q4u_canary_manifest.py": 1,
+        "tools/worker_wsl_q4t_probe.py": 1,
+        "tools/system_prompts.py": 1,
+        "tools/controller_x5_first_failure_f03.py": 1,
+        "tools/controller_x5_v7_pilot.py": 1,
+        "tools/worker_q4s_screen.py": 1,
+        "tools/worker_wsl_q4t_auth_probe.py": 1,
+        "tools/build_dist.py": 1,
+        "tools/controller_x3_probe.py": 1,
+        "tools/controller_x5_h02c_producer.py": 1,
+        "tools/worker_wsl_q4_probe.py": 1,
+        "tools/controller_x5_v4_screen.py": 1,
+        "tools/worker_wsl_q1_attestation.py": 1,
+        "tools/controller_x0_power.py": 1,
+        "tools/worker_wsl_q4u_auth_probe.py": 1,
+        "tools/worker_q4_screen_live.py": 1,
+        "tools/controller_policy.py": 1,
+        "tools/worker_q3_stability.py": 1,
+        "tools/worker_wsl_q3_grade.py": 1,
+        "tools/controller_x5_first_failure_smoke.py": 1,
+        "tools/controller_x5_v6_isolation.py": 1,
+        "tools/worker_q4u_h08.py": 1,
+        "tools/worker_q4r_structured.py": 1,
+        "tools/worker_q4r_screen.py": 1,
+        "tools/worker_wsl_q4r_attestation.py": 1,
+        "tools/worker_wsl_public_verify.py": 1,
+        "tools/worker_wsl_q4u.py": 1,
+        "tools/controller_x5_first_failure.py": 1,
+        "tools/controller_workflow.py": 1,
+        "tools/controller_x5_h02_grade.py": 1,
+        "tools/worker_wsl_grade.py": 1,
+        "tools/controller_x5_h03_risk.py": 1,
+        "tools/evaluation_reserved_result.py": 1,
+        "tools/controller_x5_v7_pilot_grade.py": 1,
+        "tools/task_executor.py": 1,
+        "tools/worker_wsl_q3_public.py": 1,
+        "tools/controller_x5_v4_actor_probe.py": 1,
+        "tools/controller_x5_v6_pilot.py": 1,
+        "tools/controller_x3_corpus.py": 1,
+        "tools/worker_wsl_q4r_adapter.py": 1,
+        "tools/worker_wsl_q1_actor_probe.py": 1,
+        "tools/worker_q4s_partial.py": 1,
+        "tools/controller_campaign_state.py": 1,
+        "tools/worker_q4t_canary_live.py": 1,
+        "tools/worker_q4u_grade.py": 1,
+        "tools/controller_evaluation.py": 1,
+        "tools/handoff.py": 1,
+        "tools/worker_q4u_f07.py": 1,
+        "tools/controller_profile_policy.py": 1,
+        "tools/worker_q4_public_calibrate.py": 1,
+        "tools/dispatch_budget.py": 1,
+        "tools/worker_n5_corpus.py": 1,
+        "tools/controller_wsl_launch.py": 1,
+        "tools/controller_dispatch.py": 1,
+        "tools/controller_x5_h03_freeze.py": 1,
+        "tools/worker_wsl_q4t_adapter.py": 1,
+        "tools/worker_wsl_q4s_attestation.py": 1,
+        "tools/worker_wsl_q1.py": 1,
+        "tools/worker_wsl_q3_public_probe.py": 1,
+        "tools/worker_q3_public_calibrate.py": 1,
+        "tools/worker_corpus.py": 1,
+        "tools/evaluation_development_result.py": 1,
+        "tools/worker_q4u_missing.py": 1,
+        "tools/worker_q2_public.py": 1,
+        "tools/worker_q3_public_source.py": 1,
+        "tools/controller_x5_first_failure_f02.py": 1,
+        "tools/controller_x5_h01_producer.py": 1,
+        "tools/worker_q4t_public.py": 1,
+        "tools/controller_x3_manifest.py": 1,
+        "tools/controller_x5_first_failure_f01.py": 1,
+        "tools/worker_q3_contract_audit.py": 1,
+        "tools/worker_wsl_transport_probe.py": 1,
+        "tools/context_probe.py": 1,
+        "tools/controller_corpus.py": 1,
+        "tools/evaluation_live_episode.py": 1,
+        "tools/controller_campaign_manifest.py": 1,
+        "tools/model_registry.py": 1,
+        "tools/worker_wsl_collect.py": 1,
+        "tools/controller_x5_public_risk_review.py": 1,
+        "tools/controller_x5_v4_grade_probe.py": 1,
+        "tools/controller_x5_v5_screen.py": 1,
+        "tools/worker_n5_analysis.py": 1,
+        "tools/worker_quality_v2.py": 1,
+        "tools/system_controller.py": 1,
+        "tools/worker_qualification_power.py": 1,
+        "tools/worker_q4_adapter.py": 1,
+        "tools/worker_q4t_policy.py": 1,
+        "tools/evaluation_freeze.py": 1,
+        "tools/role_probe.py": 1,
+        "tools/worker_n5_live_screen.py": 1,
+        "tools/worker_wsl_attestation.py": 1,
+        "tools/worker_q3_expansion.py": 1,
+        "tools/worker_q4t_public_grade.py": 1,
+        "tools/worker_q4t_structured.py": 1,
+        "tools/live_calibration.py": 1,
+        "tools/live_calibration_adjudication.py": 1,
+        "tools/controller_x5_recovery_r4.py": 1,
+        "tools/worker_q4u_executor.py": 1,
+        "tools/worker_q4s_rubric.py": 1,
+        "tools/controller_x5_recovery_protocol.py": 1,
+        "tools/worker_wsl_q1_probe.py": 1,
+        "tools/worker_q4s_canary_live.py": 1,
+        "tools/worker_wsl_q3_auth_probe.py": 1,
+        "tools/controller_wsl_interpreter.py": 1,
+        "tools/worker_wsl_adapter_probe.py": 1,
+        "tools/worker_wsl_materialize.py": 1,
+        "tools/install.py": 1,
+        "tools/worker_wsl_subscription_attestation.py": 1,
+        "tools/worker_q4_screen.py": 1,
+        "tools/controller_x5_v6_pilot_analyse.py": 1,
+        "tools/worker_wsl_q3_adapter.py": 1,
+        "tools/worker_n5_development.py": 1,
+        "tools/worker_q4s_public_catalogue.py": 1,
+        "tools/worker_q4_screen_continue.py": 1,
+        "tools/worker_q4t_screen_evidence.py": 1,
+        "tools/worker_wsl_q4s_probe.py": 1,
+        "tools/worker_q4u_coverage.py": 1,
+        "tools/worker_wsl_auth.py": 1,
+        "tools/worker_q4t_screen_live.py": 1,
+        "tools/controller_x5_h02_producer.py": 1,
+        "tools/controller_x5_v4_audit.py": 1,
+        "tools/controller_x5_v6_screen.py": 1,
+        "tools/evaluation_pilot.py": 1,
+        "tools/worker_wsl_q2_case.py": 1,
+        "tools/worker_q4u_assess_public.py": 1,
+        "tools/worker_wsl_actor_probe.py": 1,
+        "tools/worker_q4u_public.py": 1,
+        "tools/worker_wsl_q4u_probe.py": 1,
+        "tools/cells.py": 1,
+        "tools/validate_records.py": 1,
+        "tools/generate_priors.py": 1,
+        "tools/worker_q3_public_catalogue.py": 1,
+        "tools/worker_wsl_q2_verify.py": 1,
+        "tools/worker_q4u_grader_attack_probe.py": 1,
+        "tools/worker_q3_canary.py": 1,
+        "tools/controller_x3_actor_probe.py": 1,
+        "tools/route.py": 1,
+        "tools/evaluation_live_controller.py": 1,
+        "tools/worker_wsl_q3_adapter_probe.py": 1,
+        "tools/controller_x5_v6_pilot_grade.py": 1,
+        "tools/worker_q4s_trigger.py": 1,
+        "tools/worker_adapter.py": 1,
+        "tools/controller_x5_first_failure_corpus.py": 1,
+        "tools/realworld_isolation.py": 1,
+        "tools/worker_wsl_transport.py": 1,
+        "tools/worker_wsl_q3_episode_probe.py": 1,
+        "tools/controller_x5_v7_pilot_analyse.py": 1,
+        "tools/worker_wsl_q3_attestation.py": 1,
+        "tools/worker_q4r_reconcile.py": 1,
+        "tools/claudep.py": 1,
+        "src/preflight.py": 1,
+        "tools/worker_wsl_q3_uncertain_probe.py": 1,
+        "tools/worker_tasks.py": 1,
+        "tools/generate_workers.py": 1,
+        "tools/controller_control.py": 1,
+        "tools/controller_x5_h03_fixture.py": 1,
+        "tools/controller_x5_v6_audit.py": 1,
+        "tools/context_inventory.py": 1,
+        "tools/worker_q4s_screen_live.py": 1,
+        "tools/controller_x5_h01_grade.py": 1,
+        "tools/controller_x5_recovery_feasibility.py": 1,
+        "tools/worker_wsl_q3_auth.py": 1,
+        "tools/controller_integrity.py": 1,
+        "tools/controller_x5_public_risk_live.py": 1,
+        "tools/worker_evaluation.py": 1,
+        "tools/controller_matrix_runtime.py": 1,
+        "tools/worker_q4u_dependency_audit.py": 1,
+        "tools/worker_selector.py": 1,
+        "tools/controller_x5_recovery_isolation.py": 1,
+        "tools/controller_x5_v4_grade.py": 1,
+        "tools/controller_x5_v6_grade_probe.py": 1,
+        "tools/worker_graft_probe.py": 1,
+        "tools/worker_q4u_reserve.py": 1,
+        "tools/controller_x0_probe.py": 1,
+        "tools/worker_q4u_controls.py": 1,
+        "tools/worker_q4u_reserve_manifest.py": 1,
+        "tools/worker_wsl_q4u_adapter.py": 1,
+        "tools/controller_x5_host_canary.py": 1,
+        "tools/evaluation_live_worker.py": 1,
+        "tools/worker_q3_live.py": 1,
+        "tools/worker_wsl_q4_adapter.py": 1,
+        "tools/worker_q4s_public_grade.py": 1,
+        "tools/worker_q3_expansion_live.py": 1,
+        "tools/managed_delegation.py": 1,
+        "tools/worker_wsl_q4_auth_probe.py": 1,
+        "tools/worker_wsl_q3_expansion_adjudicate.py": 1,
+        "tools/controller_x5_v6_grade.py": 1,
+        "tools/controller_x5_recovery_grade.py": 1,
+        "tools/controller_x3_language.py": 1,
+        "tools/controller_x5_public_risk_corpus.py": 1,
+        "tools/worker_q4r_screen_live.py": 1,
+        "tools/controller_x3_isolation_probe.py": 1,
+        "tools/worker_wsl_subscription_sentinel.py": 1,
+        "tools/controller_x5_screen.py": 1,
+        "tools/worker_wsl_q4_attestation.py": 1,
+        "tools/worker_q4r_preflight_archive.py": 1,
+        "tools/controller_x3_grade.py": 1,
+        "tools/worker_q4u_boltons.py": 1,
+        "tools/worker_n5_live_development.py": 1,
+        "tools/controller_x5_h03_pilot.py": 1,
+        "tools/worker_q3_sentinel_gate.py": 1,
+        "tools/controller_public_assessment.py": 1,
+        "tools/release_check.py": 1,
+        "tools/evaluation_runner.py": 1,
+        "tools/worker_q4u_contract.py": 1,
+        "tools/controller_x5_h02b_producer.py": 1,
+        "tools/acceptance.py": 1
+      },
+      "summary_states": {
+        "pending": 3948
+      },
+      "fingerprints": [
+        {
+          "name": "fingerprint.b7973c42b807124f.json",
+          "extractor": "b7973c42b807124f",
+          "only_dirs": [
+            "src",
+            "tools",
+            "test/harness"
+          ],
+          "files": 346
+        }
+      ],
+      "semantic_manifest": false
+    },
+    "provider_calls": 0,
+    "mcp_startup_upkeep_review_needed": true,
+    "freshness": {
+      "structural_fresh": true,
+      "semantic": "absent",
+      "files_reused": 346,
+      "files_parsed": 0,
+      "stale_summaries": 0,
+      "pending_summaries": 3948,
+      "exit_code": 0,
+      "elapsed_seconds": 16.982
+    },
+    "elapsed_seconds": 41.845
+  },
+  "load_exit_code": 0,
+  "load_report": {
+    "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.7 (main, Sep  5 2026, 05:55:41) [GCC 16.2.0]",
+    "parent": "/mnt/d/Code/Claude/Orchestrator/.graft",
+    "workers": 4,
+    "interval_ms": 1.0,
+    "requested_seconds": 120.0,
+    "started_unix": 1791944456.766278,
+    "pressure_before": {
+      "cpu": "some avg10=0.60 avg60=0.20 avg300=0.06 total=451552\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+      "io": "some avg10=0.99 avg60=0.33 avg300=0.10 total=462975\nfull avg10=0.99 avg60=0.32 avg300=0.09 total=446596\n",
+      "memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n"
+    },
+    "filesystem": {
+      "available": true,
+      "mount_point": "/mnt/d",
+      "filesystem_type": "virtiofs",
+      "source": "drvfs",
+      "host_shared": true
+    },
+    "slow_operations": [],
+    "errors": [],
+    "operations": {
+      "stat": {
+        "count": 3716,
+        "median_seconds": 0.008516,
+        "p95_seconds": 0.022838,
+        "p99_seconds": 0.035361,
+        "max_seconds": 0.09245
+      },
+      "read": {
+        "count": 3716,
+        "median_seconds": 0.012724,
+        "p95_seconds": 0.032501,
+        "p99_seconds": 0.048505,
+        "max_seconds": 0.145698
+      },
+      "resolve": {
+        "count": 3716,
+        "median_seconds": 0.034121,
+        "p95_seconds": 0.078729,
+        "p99_seconds": 0.109841,
+        "max_seconds": 0.280122
+      },
+      "replace": {
+        "count": 3716,
+        "median_seconds": 0.031292,
+        "p95_seconds": 0.070899,
+        "p99_seconds": 0.099141,
+        "max_seconds": 0.183636
+      },
+      "unlink": {
+        "count": 3716,
+        "median_seconds": 0.022194,
+        "p95_seconds": 0.051454,
+        "p99_seconds": 0.071365,
+        "max_seconds": 0.269574
+      }
+    },
+    "child_startups": [
+      {
+        "seconds": 0.064448,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080959,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.096487,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084844,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.088013,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080719,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071065,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.076388,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.07734,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081159,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072586,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.090005,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072537,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082586,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.085693,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08556,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082098,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.073269,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.103773,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083498,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.122259,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.120273,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.077555,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.103678,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.073608,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071087,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.092175,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086486,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074783,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074811,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080491,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.0832,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084429,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.103706,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08382,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081907,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082079,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.0756,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074951,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.095633,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072931,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072918,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.091626,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.180152,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084892,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.102122,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.10539,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.100179,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.104257,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.091721,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.094764,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.07897,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.075653,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082664,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.0776,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072256,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.110743,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.106892,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.102295,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.075056,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086407,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.114614,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.105681,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.099975,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.096784,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.079957,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.078887,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.079967,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.088731,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.07327,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.093123,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.076913,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083359,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072582,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083592,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072074,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08529,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.069266,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072068,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08297,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086829,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.095693,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.090901,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071864,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086208,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070351,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084224,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.075994,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083879,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070978,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083297,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.073024,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071209,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083493,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.11067,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082252,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.088363,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081102,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072698,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.09583,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086656,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082037,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070447,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082954,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08491,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.095139,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.089147,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.088253,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.093942,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071305,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.092841,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.069216,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081786,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082358,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.077484,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.077904,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070549,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074461,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081604,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084851,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072286,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.07522,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072725,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.079455,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081608,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.078829,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070151,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.073437,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080209,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072459,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072184,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086707,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08091,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081018,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08136,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.079132,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.093902,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071835,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074129,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072253,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.08212,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071513,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083804,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086327,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082303,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086698,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.086626,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083375,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084939,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082676,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.071712,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081749,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.0955,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083795,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074565,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.087126,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.069142,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.09136,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070814,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.07284,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.078176,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082662,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.092056,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.095564,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.072502,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084087,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.089674,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.116057,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.099737,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.073833,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070748,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.070212,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082187,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.078805,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.081939,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082579,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083917,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080476,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.075708,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.084251,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074092,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.089469,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.098992,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.090046,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080242,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.083395,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.082551,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.079075,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080735,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.077385,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074955,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.069465,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074478,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080531,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.091068,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.093709,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.074358,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.085447,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.073938,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.089672,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080705,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.076078,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.112251,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.096951,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.085972,
+        "exit_code": 0
+      },
+      {
+        "seconds": 0.080552,
+        "exit_code": 0
+      }
+    ],
+    "pressure_after": {
+      "cpu": "some avg10=0.00 avg60=0.02 avg300=0.03 total=1230365\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+      "io": "some avg10=0.00 avg60=0.07 avg300=0.09 total=613125\nfull avg10=0.00 avg60=0.07 avg300=0.09 total=596114\n",
+      "memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n"
+    },
+    "elapsed_seconds": 120.496,
+    "ok": true
+  }
+}

@@ -106,12 +106,19 @@ def capabilities(command: list[str], root: Path, timeout: float) -> dict:
     required = ("--only-dir", "--no-gitignore", "--no-ignore")
     if any(flag not in help_result.stdout for flag in required):
         raise GraftError("Installed Graft lacks required scope/ignore flags. Read its help; do not apply this repair blindly.")
+    identity = launcher_identity(command)
+    if identity["available"] and len(command) == 2 and Path(command[0]).name.lower() in {"node", "node.exe"}:
+        probe = run([command[0], str(Path(__file__).with_name("runtime_probe.mjs")), identity["cli_path"]], root, timeout)
+        try:
+            identity["runtime_features"] = json.loads(probe.stdout) if probe.returncode == 0 else {"available": False}
+        except ValueError:
+            identity["runtime_features"] = {"available": False}
     return {"version": version.stdout.strip(), "tested_version": TESTED_VERSION,
             "version_matches": version.stdout.strip() == TESTED_VERSION,
             "supports_structured": "--structured" in help_result.stdout,
             "supports_documents": "--documents" in help_result.stdout,
             "supports_deep_documents": "--deep-documents" in help_result.stdout,
-            "identity": launcher_identity(command)}
+            "identity": identity}
 
 
 def launcher_identity(command: list[str]) -> dict:
@@ -233,7 +240,14 @@ def graph_summary(cache: Path, root: Path) -> dict:
         raise GraftError("Graph or fingerprint is malformed. Preserve the cache and inspect before a clean rebuild.") from exc
 
 
-def check(command: list[str], root: Path, cache: Path, timeout: float) -> dict:
+def check(command: list[str], root: Path, cache: Path, timeout: float, identity: dict | None = None) -> dict:
+    # A cache built by another extractor can lose its saved whitelist in old
+    # Graft builds. Refuse that widening before launching an expensive check.
+    features = (identity or {}).get("runtime_features", {})
+    stamp = features.get("extractor_stamp")
+    prints = list((cache / ".cache").glob("fingerprint.*.json"))
+    if stamp and prints and not (cache / ".cache" / f"fingerprint.{stamp}.json").is_file() and not features.get("preserves_foreign_scope"):
+        raise GraftError("Cache extractor differs from this launcher. This Graft build can discard saved scope. Refresh with the same explicit source prefixes and launcher, or apply the documented source repair; do not widen the check or increase its timeout.")
     start = time.monotonic()
     result = run([*command, "--dir", str(cache), "check", "--json", str(root)], root, timeout)
     try:
@@ -250,6 +264,7 @@ def check(command: list[str], root: Path, cache: Path, timeout: float) -> dict:
         if result.returncode == 1 and structural and semantic != "stale" and not graph.get("stale"):
             raise ValueError("failed check without reported drift")
         return {"structural_fresh": structural, "semantic": semantic,
+                "files_reused": graph.get("filesReused"), "files_parsed": graph.get("filesParsed"),
                 "stale_summaries": len(graph.get("stale", [])), "pending_summaries": graph.get("pending"),
                 "exit_code": result.returncode, "elapsed_seconds": round(time.monotonic() - start, 3)}
     except (ValueError, TypeError, AttributeError) as exc:

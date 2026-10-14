@@ -125,7 +125,7 @@ def main() -> int:
             raise GraftError("Build indexed the old cache as source. Use explicit source prefixes or a hidden cache.")
         if not value["graph"]["fingerprints"] or any(p["only_dirs"] != prefixes for p in value["graph"]["fingerprints"]):
             raise GraftError("Build fingerprint disagrees with the explicit scope; active cache is unchanged.")
-        value["freshness"] = check(command, root, stage, args.timeout)
+        value["freshness"] = check(command, root, stage, args.timeout, info["identity"])
         if not value["freshness"]["structural_fresh"]:
             raise GraftError("Staged structure is stale; active cache is unchanged. Resolve source drift before retrying.")
         backup = None

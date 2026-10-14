@@ -1,0 +1,759 @@
+{"trace":true,"phase":"bootstrap","started_unix":1791941910.295689,"offset_seconds":0.0}
+{"trace": true, "offset_seconds": 0.080703, "phase": "imports_end", "process_cpu_seconds": 0.061879}
+{"trace": true, "offset_seconds": 0.171787, "stage": "repo_path", "phase": "start"}
+{"trace": true, "offset_seconds": 0.175913, "stage": "repo_path", "phase": "end", "wall_seconds": 0.004117, "process_cpu_seconds": 0.001036}
+{"trace": true, "offset_seconds": 0.176344, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 0.182427, "stage": "local_path", "phase": "end", "wall_seconds": 0.006067, "process_cpu_seconds": 0.001158}
+{"trace": true, "offset_seconds": 0.18636, "stage": "capabilities", "phase": "start"}
+{"trace": true, "offset_seconds": 0.188032, "stage": "run", "command_kind": "--version", "phase": "start"}
+{"trace": true, "offset_seconds": 1.089646, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "capabilities", "line": 102}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 22}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 2.094311, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "capabilities", "line": 102}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 22}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 3.101822, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "capabilities", "line": 102}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 22}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 3.133748, "stage": "run", "command_kind": "--version", "phase": "end", "wall_seconds": 2.945709, "process_cpu_seconds": 0.010202}
+{"trace": true, "offset_seconds": 3.134431, "stage": "run", "command_kind": "--help", "phase": "start"}
+{"trace": true, "offset_seconds": 4.103865, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "capabilities", "line": 103}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 22}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 5.106555, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "capabilities", "line": 103}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 22}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 5.315644, "stage": "run", "command_kind": "--help", "phase": "end", "wall_seconds": 2.18121, "process_cpu_seconds": 0.003019}
+{"trace": true, "offset_seconds": 5.318045, "stage": "run", "command_kind": "other", "phase": "start"}
+{"trace": true, "offset_seconds": 6.111921, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "capabilities", "line": 111}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 22}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 7.022411, "stage": "run", "command_kind": "other", "phase": "end", "wall_seconds": 1.704361, "process_cpu_seconds": 0.00244}
+{"trace": true, "offset_seconds": 7.02432, "stage": "capabilities", "phase": "end", "wall_seconds": 6.837945, "process_cpu_seconds": 0.018617}
+{"trace": true, "offset_seconds": 7.02541, "stage": "graph_summary", "phase": "start"}
+{"trace": true, "offset_seconds": 7.030323, "stage": "no_links", "phase": "start"}
+{"trace": true, "offset_seconds": 7.138446, "phase": "sample", "python_stack": [{"file": "glob.py", "function": "scandir", "line": 556}, {"file": "glob.py", "function": "select_wildcard", "line": 454}, {"file": "glob.py", "function": "select_recursive_step", "line": 524}, {"file": "glob.py", "function": "select_recursive", "line": 501}, {"file": "graft_common.py", "function": "no_links", "line": 43}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 203}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}]}
+{"trace": true, "offset_seconds": 8.140068, "phase": "sample", "python_stack": [{"file": "<frozen genericpath>", "function": "islink", "line": 63}, {"file": "__init__.py", "function": "is_symlink", "line": 708}, {"file": "graft_common.py", "function": "<genexpr>", "line": 44}, {"file": "graft_common.py", "function": "no_links", "line": 44}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 203}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 9.142082, "phase": "sample", "python_stack": [{"file": "<frozen genericpath>", "function": "islink", "line": 63}, {"file": "__init__.py", "function": "is_symlink", "line": 708}, {"file": "graft_common.py", "function": "<genexpr>", "line": 44}, {"file": "graft_common.py", "function": "no_links", "line": 44}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 203}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 10.147628, "phase": "sample", "python_stack": [{"file": "<frozen genericpath>", "function": "islink", "line": 63}, {"file": "__init__.py", "function": "is_symlink", "line": 708}, {"file": "graft_common.py", "function": "<genexpr>", "line": 44}, {"file": "graft_common.py", "function": "no_links", "line": 44}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 203}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 11.149139, "phase": "sample", "python_stack": [{"file": "<frozen genericpath>", "function": "islink", "line": 63}, {"file": "__init__.py", "function": "is_symlink", "line": 708}, {"file": "graft_common.py", "function": "<genexpr>", "line": 44}, {"file": "graft_common.py", "function": "no_links", "line": 44}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 203}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 11.693257, "stage": "no_links", "phase": "end", "wall_seconds": 4.662917, "process_cpu_seconds": 0.228531}
+{"trace": true, "offset_seconds": 12.040366, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.056507, "stage": "local_path", "phase": "end", "wall_seconds": 0.01615, "process_cpu_seconds": 0.00193}
+{"trace": true, "offset_seconds": 12.057619, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.092437, "stage": "local_path", "phase": "end", "wall_seconds": 0.034794, "process_cpu_seconds": 0.002512}
+{"trace": true, "offset_seconds": 12.09347, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.109543, "stage": "local_path", "phase": "end", "wall_seconds": 0.016054, "process_cpu_seconds": 0.002009}
+{"trace": true, "offset_seconds": 12.11057, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.128495, "stage": "local_path", "phase": "end", "wall_seconds": 0.01791, "process_cpu_seconds": 0.002224}
+{"trace": true, "offset_seconds": 12.129108, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.153172, "stage": "local_path", "phase": "end", "wall_seconds": 0.024044, "process_cpu_seconds": 0.002005}
+{"trace": true, "offset_seconds": 12.154368, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.157646, "phase": "sample", "python_stack": [{"file": "trace.py", "function": "emit", "line": 46}, {"file": "trace.py", "function": "timed", "line": 62}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}, {"file": "trace.py", "function": "<module>", "line": 95}]}
+{"trace": true, "offset_seconds": 12.171718, "stage": "local_path", "phase": "end", "wall_seconds": 0.017335, "process_cpu_seconds": 0.002897}
+{"trace": true, "offset_seconds": 12.173852, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.195645, "stage": "local_path", "phase": "end", "wall_seconds": 0.021778, "process_cpu_seconds": 0.001816}
+{"trace": true, "offset_seconds": 12.196325, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.210823, "stage": "local_path", "phase": "end", "wall_seconds": 0.014506, "process_cpu_seconds": 0.002084}
+{"trace": true, "offset_seconds": 12.215312, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.244399, "stage": "local_path", "phase": "end", "wall_seconds": 0.029144, "process_cpu_seconds": 0.002469}
+{"trace": true, "offset_seconds": 12.246869, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.275676, "stage": "local_path", "phase": "end", "wall_seconds": 0.028788, "process_cpu_seconds": 0.00245}
+{"trace": true, "offset_seconds": 12.278516, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.298673, "stage": "local_path", "phase": "end", "wall_seconds": 0.020143, "process_cpu_seconds": 0.002761}
+{"trace": true, "offset_seconds": 12.299269, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.359346, "stage": "local_path", "phase": "end", "wall_seconds": 0.060055, "process_cpu_seconds": 0.001972}
+{"trace": true, "offset_seconds": 12.360183, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.413619, "stage": "local_path", "phase": "end", "wall_seconds": 0.053413, "process_cpu_seconds": 0.00627}
+{"trace": true, "offset_seconds": 12.440494, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.527671, "stage": "local_path", "phase": "end", "wall_seconds": 0.087167, "process_cpu_seconds": 0.002414}
+{"trace": true, "offset_seconds": 12.537498, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.561748, "stage": "local_path", "phase": "end", "wall_seconds": 0.024221, "process_cpu_seconds": 0.00207}
+{"trace": true, "offset_seconds": 12.562566, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.608525, "stage": "local_path", "phase": "end", "wall_seconds": 0.045941, "process_cpu_seconds": 0.002157}
+{"trace": true, "offset_seconds": 12.612893, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.635993, "stage": "local_path", "phase": "end", "wall_seconds": 0.023094, "process_cpu_seconds": 0.002142}
+{"trace": true, "offset_seconds": 12.638265, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.6714, "stage": "local_path", "phase": "end", "wall_seconds": 0.033086, "process_cpu_seconds": 0.00206}
+{"trace": true, "offset_seconds": 12.672457, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.752955, "stage": "local_path", "phase": "end", "wall_seconds": 0.080479, "process_cpu_seconds": 0.002274}
+{"trace": true, "offset_seconds": 12.759874, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.818972, "stage": "local_path", "phase": "end", "wall_seconds": 0.05908, "process_cpu_seconds": 0.002297}
+{"trace": true, "offset_seconds": 12.824545, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.871175, "stage": "local_path", "phase": "end", "wall_seconds": 0.046618, "process_cpu_seconds": 0.002081}
+{"trace": true, "offset_seconds": 12.87264, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.932309, "stage": "local_path", "phase": "end", "wall_seconds": 0.059653, "process_cpu_seconds": 0.002731}
+{"trace": true, "offset_seconds": 12.93352, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 12.967149, "stage": "local_path", "phase": "end", "wall_seconds": 0.033609, "process_cpu_seconds": 0.002167}
+{"trace": true, "offset_seconds": 12.968361, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.103195, "stage": "local_path", "phase": "end", "wall_seconds": 0.134767, "process_cpu_seconds": 0.002681}
+{"trace": true, "offset_seconds": 13.103892, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.132289, "stage": "local_path", "phase": "end", "wall_seconds": 0.028373, "process_cpu_seconds": 0.002348}
+{"trace": true, "offset_seconds": 13.158973, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.160279, "phase": "sample", "python_stack": [{"file": "trace.py", "function": "emit", "line": 46}, {"file": "trace.py", "function": "timed", "line": 66}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}, {"file": "trace.py", "function": "<module>", "line": 95}]}
+{"trace": true, "offset_seconds": 13.249648, "stage": "local_path", "phase": "end", "wall_seconds": 0.090662, "process_cpu_seconds": 0.003143}
+{"trace": true, "offset_seconds": 13.25052, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.311947, "stage": "local_path", "phase": "end", "wall_seconds": 0.061409, "process_cpu_seconds": 0.002133}
+{"trace": true, "offset_seconds": 13.313006, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.331404, "stage": "local_path", "phase": "end", "wall_seconds": 0.018379, "process_cpu_seconds": 0.001951}
+{"trace": true, "offset_seconds": 13.336142, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.407609, "stage": "local_path", "phase": "end", "wall_seconds": 0.07146, "process_cpu_seconds": 0.002631}
+{"trace": true, "offset_seconds": 13.410081, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.443812, "stage": "local_path", "phase": "end", "wall_seconds": 0.033717, "process_cpu_seconds": 0.002239}
+{"trace": true, "offset_seconds": 13.446477, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.486294, "stage": "local_path", "phase": "end", "wall_seconds": 0.039808, "process_cpu_seconds": 0.002453}
+{"trace": true, "offset_seconds": 13.486747, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.535457, "stage": "local_path", "phase": "end", "wall_seconds": 0.048691, "process_cpu_seconds": 0.002409}
+{"trace": true, "offset_seconds": 13.536094, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.592474, "stage": "local_path", "phase": "end", "wall_seconds": 0.056364, "process_cpu_seconds": 0.002605}
+{"trace": true, "offset_seconds": 13.600981, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.630046, "stage": "local_path", "phase": "end", "wall_seconds": 0.029054, "process_cpu_seconds": 0.002279}
+{"trace": true, "offset_seconds": 13.631047, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.64825, "stage": "local_path", "phase": "end", "wall_seconds": 0.017185, "process_cpu_seconds": 0.002469}
+{"trace": true, "offset_seconds": 13.648738, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.686374, "stage": "local_path", "phase": "end", "wall_seconds": 0.03762, "process_cpu_seconds": 0.002536}
+{"trace": true, "offset_seconds": 13.686923, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.712885, "stage": "local_path", "phase": "end", "wall_seconds": 0.025937, "process_cpu_seconds": 0.002076}
+{"trace": true, "offset_seconds": 13.713559, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.775717, "stage": "local_path", "phase": "end", "wall_seconds": 0.06212, "process_cpu_seconds": 0.002492}
+{"trace": true, "offset_seconds": 13.777714, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.826454, "stage": "local_path", "phase": "end", "wall_seconds": 0.048726, "process_cpu_seconds": 0.002303}
+{"trace": true, "offset_seconds": 13.839048, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.885891, "stage": "local_path", "phase": "end", "wall_seconds": 0.046816, "process_cpu_seconds": 0.002353}
+{"trace": true, "offset_seconds": 13.891054, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.921632, "stage": "local_path", "phase": "end", "wall_seconds": 0.030549, "process_cpu_seconds": 0.00271}
+{"trace": true, "offset_seconds": 13.92284, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.948728, "stage": "local_path", "phase": "end", "wall_seconds": 0.025871, "process_cpu_seconds": 0.001986}
+{"trace": true, "offset_seconds": 13.949751, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 13.975887, "stage": "local_path", "phase": "end", "wall_seconds": 0.026112, "process_cpu_seconds": 0.002021}
+{"trace": true, "offset_seconds": 13.981401, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.014282, "stage": "local_path", "phase": "end", "wall_seconds": 0.032866, "process_cpu_seconds": 0.002583}
+{"trace": true, "offset_seconds": 14.015384, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.045805, "stage": "local_path", "phase": "end", "wall_seconds": 0.030408, "process_cpu_seconds": 0.002373}
+{"trace": true, "offset_seconds": 14.047588, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.0699, "stage": "local_path", "phase": "end", "wall_seconds": 0.022299, "process_cpu_seconds": 0.001964}
+{"trace": true, "offset_seconds": 14.071243, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.098604, "stage": "local_path", "phase": "end", "wall_seconds": 0.027332, "process_cpu_seconds": 0.001991}
+{"trace": true, "offset_seconds": 14.100396, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.130715, "stage": "local_path", "phase": "end", "wall_seconds": 0.030292, "process_cpu_seconds": 0.00237}
+{"trace": true, "offset_seconds": 14.131203, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.175123, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 14.204847, "stage": "local_path", "phase": "end", "wall_seconds": 0.073624, "process_cpu_seconds": 0.002911}
+{"trace": true, "offset_seconds": 14.214618, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.284466, "stage": "local_path", "phase": "end", "wall_seconds": 0.06983, "process_cpu_seconds": 0.002892}
+{"trace": true, "offset_seconds": 14.293577, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.345507, "stage": "local_path", "phase": "end", "wall_seconds": 0.051909, "process_cpu_seconds": 0.00236}
+{"trace": true, "offset_seconds": 14.347413, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.409062, "stage": "local_path", "phase": "end", "wall_seconds": 0.061634, "process_cpu_seconds": 0.0024}
+{"trace": true, "offset_seconds": 14.410791, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.498563, "stage": "local_path", "phase": "end", "wall_seconds": 0.087757, "process_cpu_seconds": 0.002618}
+{"trace": true, "offset_seconds": 14.500959, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.59532, "stage": "local_path", "phase": "end", "wall_seconds": 0.094341, "process_cpu_seconds": 0.002738}
+{"trace": true, "offset_seconds": 14.609203, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.668294, "stage": "local_path", "phase": "end", "wall_seconds": 0.059076, "process_cpu_seconds": 0.002279}
+{"trace": true, "offset_seconds": 14.668922, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.785861, "stage": "local_path", "phase": "end", "wall_seconds": 0.116918, "process_cpu_seconds": 0.002684}
+{"trace": true, "offset_seconds": 14.79441, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 14.929369, "stage": "local_path", "phase": "end", "wall_seconds": 0.13494, "process_cpu_seconds": 0.002609}
+{"trace": true, "offset_seconds": 14.935186, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.045886, "stage": "local_path", "phase": "end", "wall_seconds": 0.110686, "process_cpu_seconds": 0.002616}
+{"trace": true, "offset_seconds": 15.048774, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.106422, "stage": "local_path", "phase": "end", "wall_seconds": 0.057635, "process_cpu_seconds": 0.002276}
+{"trace": true, "offset_seconds": 15.107638, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.196705, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 15.24489, "stage": "local_path", "phase": "end", "wall_seconds": 0.137235, "process_cpu_seconds": 0.003173}
+{"trace": true, "offset_seconds": 15.246323, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.388304, "stage": "local_path", "phase": "end", "wall_seconds": 0.141967, "process_cpu_seconds": 0.00258}
+{"trace": true, "offset_seconds": 15.395062, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.454457, "stage": "local_path", "phase": "end", "wall_seconds": 0.059386, "process_cpu_seconds": 0.002569}
+{"trace": true, "offset_seconds": 15.456057, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.574092, "stage": "local_path", "phase": "end", "wall_seconds": 0.118023, "process_cpu_seconds": 0.003598}
+{"trace": true, "offset_seconds": 15.575266, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.666001, "stage": "local_path", "phase": "end", "wall_seconds": 0.090718, "process_cpu_seconds": 0.0025}
+{"trace": true, "offset_seconds": 15.668532, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.728845, "stage": "local_path", "phase": "end", "wall_seconds": 0.060297, "process_cpu_seconds": 0.002189}
+{"trace": true, "offset_seconds": 15.73, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.829305, "stage": "local_path", "phase": "end", "wall_seconds": 0.099281, "process_cpu_seconds": 0.00241}
+{"trace": true, "offset_seconds": 15.829758, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 15.952968, "stage": "local_path", "phase": "end", "wall_seconds": 0.123174, "process_cpu_seconds": 0.0026}
+{"trace": true, "offset_seconds": 15.956166, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.048728, "stage": "local_path", "phase": "end", "wall_seconds": 0.092545, "process_cpu_seconds": 0.00276}
+{"trace": true, "offset_seconds": 16.04957, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.107118, "stage": "local_path", "phase": "end", "wall_seconds": 0.05753, "process_cpu_seconds": 0.002286}
+{"trace": true, "offset_seconds": 16.115465, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.14671, "stage": "local_path", "phase": "end", "wall_seconds": 0.031213, "process_cpu_seconds": 0.002398}
+{"trace": true, "offset_seconds": 16.148019, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.18399, "stage": "local_path", "phase": "end", "wall_seconds": 0.035953, "process_cpu_seconds": 0.002147}
+{"trace": true, "offset_seconds": 16.186356, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.199146, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 16.217085, "stage": "local_path", "phase": "end", "wall_seconds": 0.030718, "process_cpu_seconds": 0.00316}
+{"trace": true, "offset_seconds": 16.217524, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.239556, "stage": "local_path", "phase": "end", "wall_seconds": 0.021886, "process_cpu_seconds": 0.001733}
+{"trace": true, "offset_seconds": 16.240317, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.278629, "stage": "local_path", "phase": "end", "wall_seconds": 0.038266, "process_cpu_seconds": 0.002437}
+{"trace": true, "offset_seconds": 16.287404, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.338789, "stage": "local_path", "phase": "end", "wall_seconds": 0.051376, "process_cpu_seconds": 0.002285}
+{"trace": true, "offset_seconds": 16.340322, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.380683, "stage": "local_path", "phase": "end", "wall_seconds": 0.040325, "process_cpu_seconds": 0.002419}
+{"trace": true, "offset_seconds": 16.390311, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.436127, "stage": "local_path", "phase": "end", "wall_seconds": 0.045784, "process_cpu_seconds": 0.002379}
+{"trace": true, "offset_seconds": 16.438992, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.463697, "stage": "local_path", "phase": "end", "wall_seconds": 0.02469, "process_cpu_seconds": 0.002614}
+{"trace": true, "offset_seconds": 16.464439, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.489134, "stage": "local_path", "phase": "end", "wall_seconds": 0.024653, "process_cpu_seconds": 0.002286}
+{"trace": true, "offset_seconds": 16.492043, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.520259, "stage": "local_path", "phase": "end", "wall_seconds": 0.028165, "process_cpu_seconds": 0.00245}
+{"trace": true, "offset_seconds": 16.521201, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.546061, "stage": "local_path", "phase": "end", "wall_seconds": 0.024818, "process_cpu_seconds": 0.002096}
+{"trace": true, "offset_seconds": 16.546526, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.569965, "stage": "local_path", "phase": "end", "wall_seconds": 0.023422, "process_cpu_seconds": 0.002237}
+{"trace": true, "offset_seconds": 16.5706, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.63272, "stage": "local_path", "phase": "end", "wall_seconds": 0.062083, "process_cpu_seconds": 0.002824}
+{"trace": true, "offset_seconds": 16.633325, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.662061, "stage": "local_path", "phase": "end", "wall_seconds": 0.028716, "process_cpu_seconds": 0.002609}
+{"trace": true, "offset_seconds": 16.66338, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.725486, "stage": "local_path", "phase": "end", "wall_seconds": 0.062089, "process_cpu_seconds": 0.002845}
+{"trace": true, "offset_seconds": 16.726263, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.795708, "stage": "local_path", "phase": "end", "wall_seconds": 0.069427, "process_cpu_seconds": 0.002726}
+{"trace": true, "offset_seconds": 16.797587, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.827879, "stage": "local_path", "phase": "end", "wall_seconds": 0.030277, "process_cpu_seconds": 0.002879}
+{"trace": true, "offset_seconds": 16.828984, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.900151, "stage": "local_path", "phase": "end", "wall_seconds": 0.071147, "process_cpu_seconds": 0.003207}
+{"trace": true, "offset_seconds": 16.901495, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 16.954972, "stage": "local_path", "phase": "end", "wall_seconds": 0.053453, "process_cpu_seconds": 0.002914}
+{"trace": true, "offset_seconds": 16.956797, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.007403, "stage": "local_path", "phase": "end", "wall_seconds": 0.050626, "process_cpu_seconds": 0.002806}
+{"trace": true, "offset_seconds": 17.00848, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.045281, "stage": "local_path", "phase": "end", "wall_seconds": 0.036787, "process_cpu_seconds": 0.002446}
+{"trace": true, "offset_seconds": 17.045647, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.06109, "stage": "local_path", "phase": "end", "wall_seconds": 0.015427, "process_cpu_seconds": 0.001807}
+{"trace": true, "offset_seconds": 17.061706, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.082803, "stage": "local_path", "phase": "end", "wall_seconds": 0.021082, "process_cpu_seconds": 0.002024}
+{"trace": true, "offset_seconds": 17.083354, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.10994, "stage": "local_path", "phase": "end", "wall_seconds": 0.026567, "process_cpu_seconds": 0.002356}
+{"trace": true, "offset_seconds": 17.110933, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.144226, "stage": "local_path", "phase": "end", "wall_seconds": 0.033257, "process_cpu_seconds": 0.002408}
+{"trace": true, "offset_seconds": 17.146088, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.167143, "stage": "local_path", "phase": "end", "wall_seconds": 0.021037, "process_cpu_seconds": 0.002207}
+{"trace": true, "offset_seconds": 17.167744, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.194282, "stage": "local_path", "phase": "end", "wall_seconds": 0.026522, "process_cpu_seconds": 0.002356}
+{"trace": true, "offset_seconds": 17.195094, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.200339, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 17.220593, "stage": "local_path", "phase": "end", "wall_seconds": 0.025483, "process_cpu_seconds": 0.002665}
+{"trace": true, "offset_seconds": 17.221373, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.239233, "stage": "local_path", "phase": "end", "wall_seconds": 0.017839, "process_cpu_seconds": 0.001632}
+{"trace": true, "offset_seconds": 17.241419, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.27391, "stage": "local_path", "phase": "end", "wall_seconds": 0.032478, "process_cpu_seconds": 0.002039}
+{"trace": true, "offset_seconds": 17.27658, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.290874, "stage": "local_path", "phase": "end", "wall_seconds": 0.014287, "process_cpu_seconds": 0.001651}
+{"trace": true, "offset_seconds": 17.293432, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.323602, "stage": "local_path", "phase": "end", "wall_seconds": 0.030155, "process_cpu_seconds": 0.002142}
+{"trace": true, "offset_seconds": 17.326051, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.352106, "stage": "local_path", "phase": "end", "wall_seconds": 0.026039, "process_cpu_seconds": 0.002372}
+{"trace": true, "offset_seconds": 17.353564, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.378782, "stage": "local_path", "phase": "end", "wall_seconds": 0.025205, "process_cpu_seconds": 0.002182}
+{"trace": true, "offset_seconds": 17.379346, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.404465, "stage": "local_path", "phase": "end", "wall_seconds": 0.025098, "process_cpu_seconds": 0.001965}
+{"trace": true, "offset_seconds": 17.407155, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.427303, "stage": "local_path", "phase": "end", "wall_seconds": 0.020137, "process_cpu_seconds": 0.001977}
+{"trace": true, "offset_seconds": 17.429063, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.468041, "stage": "local_path", "phase": "end", "wall_seconds": 0.038964, "process_cpu_seconds": 0.002101}
+{"trace": true, "offset_seconds": 17.470823, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.507793, "stage": "local_path", "phase": "end", "wall_seconds": 0.036922, "process_cpu_seconds": 0.002275}
+{"trace": true, "offset_seconds": 17.514278, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.537294, "stage": "local_path", "phase": "end", "wall_seconds": 0.022969, "process_cpu_seconds": 0.002025}
+{"trace": true, "offset_seconds": 17.538674, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.566767, "stage": "local_path", "phase": "end", "wall_seconds": 0.028073, "process_cpu_seconds": 0.002298}
+{"trace": true, "offset_seconds": 17.567732, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.589926, "stage": "local_path", "phase": "end", "wall_seconds": 0.022175, "process_cpu_seconds": 0.001853}
+{"trace": true, "offset_seconds": 17.593384, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.626998, "stage": "local_path", "phase": "end", "wall_seconds": 0.03364, "process_cpu_seconds": 0.002425}
+{"trace": true, "offset_seconds": 17.628309, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.66701, "stage": "local_path", "phase": "end", "wall_seconds": 0.038683, "process_cpu_seconds": 0.002782}
+{"trace": true, "offset_seconds": 17.667613, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.712836, "stage": "local_path", "phase": "end", "wall_seconds": 0.04521, "process_cpu_seconds": 0.002593}
+{"trace": true, "offset_seconds": 17.713755, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.77267, "stage": "local_path", "phase": "end", "wall_seconds": 0.058893, "process_cpu_seconds": 0.00262}
+{"trace": true, "offset_seconds": 17.775097, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.816452, "stage": "local_path", "phase": "end", "wall_seconds": 0.041341, "process_cpu_seconds": 0.002719}
+{"trace": true, "offset_seconds": 17.817671, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.83162, "stage": "local_path", "phase": "end", "wall_seconds": 0.013966, "process_cpu_seconds": 0.001774}
+{"trace": true, "offset_seconds": 17.832204, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.848498, "stage": "local_path", "phase": "end", "wall_seconds": 0.016282, "process_cpu_seconds": 0.002091}
+{"trace": true, "offset_seconds": 17.84934, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.873131, "stage": "local_path", "phase": "end", "wall_seconds": 0.023771, "process_cpu_seconds": 0.001846}
+{"trace": true, "offset_seconds": 17.873711, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.886591, "stage": "local_path", "phase": "end", "wall_seconds": 0.012825, "process_cpu_seconds": 0.002059}
+{"trace": true, "offset_seconds": 17.887416, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.907812, "stage": "local_path", "phase": "end", "wall_seconds": 0.020381, "process_cpu_seconds": 0.001979}
+{"trace": true, "offset_seconds": 17.909406, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.929355, "stage": "local_path", "phase": "end", "wall_seconds": 0.019933, "process_cpu_seconds": 0.001511}
+{"trace": true, "offset_seconds": 17.930432, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.94191, "stage": "local_path", "phase": "end", "wall_seconds": 0.011463, "process_cpu_seconds": 0.001543}
+{"trace": true, "offset_seconds": 17.94243, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.959351, "stage": "local_path", "phase": "end", "wall_seconds": 0.016903, "process_cpu_seconds": 0.001515}
+{"trace": true, "offset_seconds": 17.960808, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.978329, "stage": "local_path", "phase": "end", "wall_seconds": 0.017512, "process_cpu_seconds": 0.001457}
+{"trace": true, "offset_seconds": 17.978773, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 17.99619, "stage": "local_path", "phase": "end", "wall_seconds": 0.017361, "process_cpu_seconds": 0.001645}
+{"trace": true, "offset_seconds": 17.996675, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.00955, "stage": "local_path", "phase": "end", "wall_seconds": 0.012823, "process_cpu_seconds": 0.00156}
+{"trace": true, "offset_seconds": 18.010039, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.021356, "stage": "local_path", "phase": "end", "wall_seconds": 0.011302, "process_cpu_seconds": 0.001511}
+{"trace": true, "offset_seconds": 18.022, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.040733, "stage": "local_path", "phase": "end", "wall_seconds": 0.018697, "process_cpu_seconds": 0.001853}
+{"trace": true, "offset_seconds": 18.041745, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.054929, "stage": "local_path", "phase": "end", "wall_seconds": 0.013165, "process_cpu_seconds": 0.001402}
+{"trace": true, "offset_seconds": 18.055613, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.073196, "stage": "local_path", "phase": "end", "wall_seconds": 0.017567, "process_cpu_seconds": 0.001764}
+{"trace": true, "offset_seconds": 18.076986, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.090751, "stage": "local_path", "phase": "end", "wall_seconds": 0.013756, "process_cpu_seconds": 0.001573}
+{"trace": true, "offset_seconds": 18.092861, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.118537, "stage": "local_path", "phase": "end", "wall_seconds": 0.025661, "process_cpu_seconds": 0.002051}
+{"trace": true, "offset_seconds": 18.11941, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.140603, "stage": "local_path", "phase": "end", "wall_seconds": 0.021171, "process_cpu_seconds": 0.001688}
+{"trace": true, "offset_seconds": 18.144843, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.164968, "stage": "local_path", "phase": "end", "wall_seconds": 0.020112, "process_cpu_seconds": 0.001629}
+{"trace": true, "offset_seconds": 18.165324, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.181339, "stage": "local_path", "phase": "end", "wall_seconds": 0.015962, "process_cpu_seconds": 0.001721}
+{"trace": true, "offset_seconds": 18.184725, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.201403, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 18.205412, "stage": "local_path", "phase": "end", "wall_seconds": 0.018813, "process_cpu_seconds": 0.002244}
+{"trace": true, "offset_seconds": 18.206063, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.226045, "stage": "local_path", "phase": "end", "wall_seconds": 0.019963, "process_cpu_seconds": 0.001739}
+{"trace": true, "offset_seconds": 18.228598, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.243372, "stage": "local_path", "phase": "end", "wall_seconds": 0.014758, "process_cpu_seconds": 0.001538}
+{"trace": true, "offset_seconds": 18.244958, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.265026, "stage": "local_path", "phase": "end", "wall_seconds": 0.02005, "process_cpu_seconds": 0.001713}
+{"trace": true, "offset_seconds": 18.267678, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.289567, "stage": "local_path", "phase": "end", "wall_seconds": 0.021877, "process_cpu_seconds": 0.001749}
+{"trace": true, "offset_seconds": 18.294284, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.305081, "stage": "local_path", "phase": "end", "wall_seconds": 0.010783, "process_cpu_seconds": 0.0015}
+{"trace": true, "offset_seconds": 18.306001, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.324405, "stage": "local_path", "phase": "end", "wall_seconds": 0.018386, "process_cpu_seconds": 0.001758}
+{"trace": true, "offset_seconds": 18.327687, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.340945, "stage": "local_path", "phase": "end", "wall_seconds": 0.013251, "process_cpu_seconds": 0.001754}
+{"trace": true, "offset_seconds": 18.341615, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.355765, "stage": "local_path", "phase": "end", "wall_seconds": 0.014131, "process_cpu_seconds": 0.001734}
+{"trace": true, "offset_seconds": 18.357324, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.372039, "stage": "local_path", "phase": "end", "wall_seconds": 0.014701, "process_cpu_seconds": 0.001575}
+{"trace": true, "offset_seconds": 18.37293, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.410809, "stage": "local_path", "phase": "end", "wall_seconds": 0.037863, "process_cpu_seconds": 0.001689}
+{"trace": true, "offset_seconds": 18.41146, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.437311, "stage": "local_path", "phase": "end", "wall_seconds": 0.025835, "process_cpu_seconds": 0.001621}
+{"trace": true, "offset_seconds": 18.437869, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.468373, "stage": "local_path", "phase": "end", "wall_seconds": 0.030439, "process_cpu_seconds": 0.001775}
+{"trace": true, "offset_seconds": 18.469077, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.485305, "stage": "local_path", "phase": "end", "wall_seconds": 0.016206, "process_cpu_seconds": 0.001859}
+{"trace": true, "offset_seconds": 18.492532, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.513437, "stage": "local_path", "phase": "end", "wall_seconds": 0.020897, "process_cpu_seconds": 0.001662}
+{"trace": true, "offset_seconds": 18.513954, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.529348, "stage": "local_path", "phase": "end", "wall_seconds": 0.015361, "process_cpu_seconds": 0.001713}
+{"trace": true, "offset_seconds": 18.529961, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.549849, "stage": "local_path", "phase": "end", "wall_seconds": 0.019857, "process_cpu_seconds": 0.001792}
+{"trace": true, "offset_seconds": 18.55061, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.572168, "stage": "local_path", "phase": "end", "wall_seconds": 0.021542, "process_cpu_seconds": 0.001853}
+{"trace": true, "offset_seconds": 18.572756, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.606586, "stage": "local_path", "phase": "end", "wall_seconds": 0.033811, "process_cpu_seconds": 0.001717}
+{"trace": true, "offset_seconds": 18.608879, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.626965, "stage": "local_path", "phase": "end", "wall_seconds": 0.018092, "process_cpu_seconds": 0.001775}
+{"trace": true, "offset_seconds": 18.62787, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.647373, "stage": "local_path", "phase": "end", "wall_seconds": 0.019488, "process_cpu_seconds": 0.001612}
+{"trace": true, "offset_seconds": 18.656752, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.669809, "stage": "local_path", "phase": "end", "wall_seconds": 0.013046, "process_cpu_seconds": 0.001417}
+{"trace": true, "offset_seconds": 18.67183, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.698081, "stage": "local_path", "phase": "end", "wall_seconds": 0.026235, "process_cpu_seconds": 0.001651}
+{"trace": true, "offset_seconds": 18.698851, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.717357, "stage": "local_path", "phase": "end", "wall_seconds": 0.018489, "process_cpu_seconds": 0.0017}
+{"trace": true, "offset_seconds": 18.717906, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.73429, "stage": "local_path", "phase": "end", "wall_seconds": 0.016365, "process_cpu_seconds": 0.001994}
+{"trace": true, "offset_seconds": 18.735599, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.751313, "stage": "local_path", "phase": "end", "wall_seconds": 0.015693, "process_cpu_seconds": 0.001424}
+{"trace": true, "offset_seconds": 18.752836, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.769309, "stage": "local_path", "phase": "end", "wall_seconds": 0.016418, "process_cpu_seconds": 0.001782}
+{"trace": true, "offset_seconds": 18.771088, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.781671, "stage": "local_path", "phase": "end", "wall_seconds": 0.010572, "process_cpu_seconds": 0.00137}
+{"trace": true, "offset_seconds": 18.782974, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.792574, "stage": "local_path", "phase": "end", "wall_seconds": 0.00957, "process_cpu_seconds": 0.001295}
+{"trace": true, "offset_seconds": 18.793206, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.813795, "stage": "local_path", "phase": "end", "wall_seconds": 0.020571, "process_cpu_seconds": 0.001765}
+{"trace": true, "offset_seconds": 18.81434, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.835017, "stage": "local_path", "phase": "end", "wall_seconds": 0.020656, "process_cpu_seconds": 0.001647}
+{"trace": true, "offset_seconds": 18.835923, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.856348, "stage": "local_path", "phase": "end", "wall_seconds": 0.020395, "process_cpu_seconds": 0.001831}
+{"trace": true, "offset_seconds": 18.857784, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.897411, "stage": "local_path", "phase": "end", "wall_seconds": 0.039605, "process_cpu_seconds": 0.002082}
+{"trace": true, "offset_seconds": 18.898541, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.928152, "stage": "local_path", "phase": "end", "wall_seconds": 0.029559, "process_cpu_seconds": 0.001939}
+{"trace": true, "offset_seconds": 18.930536, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.954582, "stage": "local_path", "phase": "end", "wall_seconds": 0.024031, "process_cpu_seconds": 0.001623}
+{"trace": true, "offset_seconds": 18.955816, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 18.993132, "stage": "local_path", "phase": "end", "wall_seconds": 0.03727, "process_cpu_seconds": 0.00175}
+{"trace": true, "offset_seconds": 18.997411, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.029941, "stage": "local_path", "phase": "end", "wall_seconds": 0.032511, "process_cpu_seconds": 0.001668}
+{"trace": true, "offset_seconds": 19.031423, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.072689, "stage": "local_path", "phase": "end", "wall_seconds": 0.041282, "process_cpu_seconds": 0.002063}
+{"trace": true, "offset_seconds": 19.077531, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.111199, "stage": "local_path", "phase": "end", "wall_seconds": 0.033656, "process_cpu_seconds": 0.001652}
+{"trace": true, "offset_seconds": 19.113675, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.127525, "stage": "local_path", "phase": "end", "wall_seconds": 0.013832, "process_cpu_seconds": 0.001524}
+{"trace": true, "offset_seconds": 19.128023, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.150005, "stage": "local_path", "phase": "end", "wall_seconds": 0.021961, "process_cpu_seconds": 0.001426}
+{"trace": true, "offset_seconds": 19.151111, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.175362, "stage": "local_path", "phase": "end", "wall_seconds": 0.024235, "process_cpu_seconds": 0.001742}
+{"trace": true, "offset_seconds": 19.176137, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.204765, "stage": "local_path", "phase": "end", "wall_seconds": 0.028612, "process_cpu_seconds": 0.001595}
+{"trace": true, "offset_seconds": 19.206353, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.207854, "phase": "sample", "python_stack": [{"file": "trace.py", "function": "emit", "line": 46}, {"file": "trace.py", "function": "timed", "line": 66}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}, {"file": "trace.py", "function": "<module>", "line": 95}]}
+{"trace": true, "offset_seconds": 19.267367, "stage": "local_path", "phase": "end", "wall_seconds": 0.060993, "process_cpu_seconds": 0.00264}
+{"trace": true, "offset_seconds": 19.268147, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.291616, "stage": "local_path", "phase": "end", "wall_seconds": 0.023453, "process_cpu_seconds": 0.001469}
+{"trace": true, "offset_seconds": 19.293801, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.321142, "stage": "local_path", "phase": "end", "wall_seconds": 0.02731, "process_cpu_seconds": 0.001921}
+{"trace": true, "offset_seconds": 19.32178, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.363366, "stage": "local_path", "phase": "end", "wall_seconds": 0.041566, "process_cpu_seconds": 0.0019}
+{"trace": true, "offset_seconds": 19.364134, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.38507, "stage": "local_path", "phase": "end", "wall_seconds": 0.020909, "process_cpu_seconds": 0.001871}
+{"trace": true, "offset_seconds": 19.38557, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.417103, "stage": "local_path", "phase": "end", "wall_seconds": 0.031512, "process_cpu_seconds": 0.001728}
+{"trace": true, "offset_seconds": 19.417817, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.453982, "stage": "local_path", "phase": "end", "wall_seconds": 0.036107, "process_cpu_seconds": 0.001614}
+{"trace": true, "offset_seconds": 19.460052, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.474864, "stage": "local_path", "phase": "end", "wall_seconds": 0.014801, "process_cpu_seconds": 0.001794}
+{"trace": true, "offset_seconds": 19.476509, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.488472, "stage": "local_path", "phase": "end", "wall_seconds": 0.011946, "process_cpu_seconds": 0.0014}
+{"trace": true, "offset_seconds": 19.489248, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.507061, "stage": "local_path", "phase": "end", "wall_seconds": 0.0178, "process_cpu_seconds": 0.001597}
+{"trace": true, "offset_seconds": 19.508174, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.523187, "stage": "local_path", "phase": "end", "wall_seconds": 0.014996, "process_cpu_seconds": 0.00162}
+{"trace": true, "offset_seconds": 19.524158, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.565145, "stage": "local_path", "phase": "end", "wall_seconds": 0.040969, "process_cpu_seconds": 0.00169}
+{"trace": true, "offset_seconds": 19.566288, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.589686, "stage": "local_path", "phase": "end", "wall_seconds": 0.023383, "process_cpu_seconds": 0.001689}
+{"trace": true, "offset_seconds": 19.591604, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.612003, "stage": "local_path", "phase": "end", "wall_seconds": 0.020385, "process_cpu_seconds": 0.001591}
+{"trace": true, "offset_seconds": 19.61279, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.627906, "stage": "local_path", "phase": "end", "wall_seconds": 0.0151, "process_cpu_seconds": 0.001554}
+{"trace": true, "offset_seconds": 19.629656, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.681874, "stage": "local_path", "phase": "end", "wall_seconds": 0.052192, "process_cpu_seconds": 0.002324}
+{"trace": true, "offset_seconds": 19.682809, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.710653, "stage": "local_path", "phase": "end", "wall_seconds": 0.027792, "process_cpu_seconds": 0.00188}
+{"trace": true, "offset_seconds": 19.711385, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.758689, "stage": "local_path", "phase": "end", "wall_seconds": 0.047289, "process_cpu_seconds": 0.002029}
+{"trace": true, "offset_seconds": 19.759535, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.807877, "stage": "local_path", "phase": "end", "wall_seconds": 0.048285, "process_cpu_seconds": 0.002017}
+{"trace": true, "offset_seconds": 19.810076, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.857676, "stage": "local_path", "phase": "end", "wall_seconds": 0.047583, "process_cpu_seconds": 0.002408}
+{"trace": true, "offset_seconds": 19.859569, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.890764, "stage": "local_path", "phase": "end", "wall_seconds": 0.031179, "process_cpu_seconds": 0.002341}
+{"trace": true, "offset_seconds": 19.895843, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.929346, "stage": "local_path", "phase": "end", "wall_seconds": 0.033489, "process_cpu_seconds": 0.002015}
+{"trace": true, "offset_seconds": 19.931511, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 19.987104, "stage": "local_path", "phase": "end", "wall_seconds": 0.05558, "process_cpu_seconds": 0.002466}
+{"trace": true, "offset_seconds": 19.98769, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.014892, "stage": "local_path", "phase": "end", "wall_seconds": 0.027183, "process_cpu_seconds": 0.001788}
+{"trace": true, "offset_seconds": 20.015345, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.046464, "stage": "local_path", "phase": "end", "wall_seconds": 0.031074, "process_cpu_seconds": 0.002212}
+{"trace": true, "offset_seconds": 20.04854, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.088976, "stage": "local_path", "phase": "end", "wall_seconds": 0.04042, "process_cpu_seconds": 0.002613}
+{"trace": true, "offset_seconds": 20.091413, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.130846, "stage": "local_path", "phase": "end", "wall_seconds": 0.039415, "process_cpu_seconds": 0.002117}
+{"trace": true, "offset_seconds": 20.13252, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.154384, "stage": "local_path", "phase": "end", "wall_seconds": 0.021837, "process_cpu_seconds": 0.002015}
+{"trace": true, "offset_seconds": 20.155101, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.17152, "stage": "local_path", "phase": "end", "wall_seconds": 0.0164, "process_cpu_seconds": 0.001746}
+{"trace": true, "offset_seconds": 20.173952, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.184818, "stage": "local_path", "phase": "end", "wall_seconds": 0.010849, "process_cpu_seconds": 0.00159}
+{"trace": true, "offset_seconds": 20.188393, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.204512, "stage": "local_path", "phase": "end", "wall_seconds": 0.016106, "process_cpu_seconds": 0.001586}
+{"trace": true, "offset_seconds": 20.205107, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.211434, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 20.224661, "stage": "local_path", "phase": "end", "wall_seconds": 0.019537, "process_cpu_seconds": 0.002218}
+{"trace": true, "offset_seconds": 20.227032, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.245491, "stage": "local_path", "phase": "end", "wall_seconds": 0.018449, "process_cpu_seconds": 0.001511}
+{"trace": true, "offset_seconds": 20.247348, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.269665, "stage": "local_path", "phase": "end", "wall_seconds": 0.022297, "process_cpu_seconds": 0.001775}
+{"trace": true, "offset_seconds": 20.271003, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.28828, "stage": "local_path", "phase": "end", "wall_seconds": 0.017264, "process_cpu_seconds": 0.001486}
+{"trace": true, "offset_seconds": 20.289888, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.307108, "stage": "local_path", "phase": "end", "wall_seconds": 0.017203, "process_cpu_seconds": 0.001709}
+{"trace": true, "offset_seconds": 20.307547, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.320539, "stage": "local_path", "phase": "end", "wall_seconds": 0.012958, "process_cpu_seconds": 0.00183}
+{"trace": true, "offset_seconds": 20.321243, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.33556, "stage": "local_path", "phase": "end", "wall_seconds": 0.014297, "process_cpu_seconds": 0.001597}
+{"trace": true, "offset_seconds": 20.338287, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.3459, "stage": "local_path", "phase": "end", "wall_seconds": 0.00761, "process_cpu_seconds": 0.001372}
+{"trace": true, "offset_seconds": 20.346444, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.365962, "stage": "local_path", "phase": "end", "wall_seconds": 0.019466, "process_cpu_seconds": 0.00176}
+{"trace": true, "offset_seconds": 20.366803, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.385776, "stage": "local_path", "phase": "end", "wall_seconds": 0.01896, "process_cpu_seconds": 0.001846}
+{"trace": true, "offset_seconds": 20.386237, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.40526, "stage": "local_path", "phase": "end", "wall_seconds": 0.019004, "process_cpu_seconds": 0.00186}
+{"trace": true, "offset_seconds": 20.405759, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.425006, "stage": "local_path", "phase": "end", "wall_seconds": 0.019232, "process_cpu_seconds": 0.001811}
+{"trace": true, "offset_seconds": 20.427574, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.441041, "stage": "local_path", "phase": "end", "wall_seconds": 0.013456, "process_cpu_seconds": 0.001537}
+{"trace": true, "offset_seconds": 20.442157, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.462869, "stage": "local_path", "phase": "end", "wall_seconds": 0.020689, "process_cpu_seconds": 0.002173}
+{"trace": true, "offset_seconds": 20.464442, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.474798, "stage": "local_path", "phase": "end", "wall_seconds": 0.010342, "process_cpu_seconds": 0.001459}
+{"trace": true, "offset_seconds": 20.475216, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.491552, "stage": "local_path", "phase": "end", "wall_seconds": 0.016303, "process_cpu_seconds": 0.0018}
+{"trace": true, "offset_seconds": 20.492323, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.512749, "stage": "local_path", "phase": "end", "wall_seconds": 0.020411, "process_cpu_seconds": 0.001933}
+{"trace": true, "offset_seconds": 20.515717, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.53827, "stage": "local_path", "phase": "end", "wall_seconds": 0.022543, "process_cpu_seconds": 0.001693}
+{"trace": true, "offset_seconds": 20.538719, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.557795, "stage": "local_path", "phase": "end", "wall_seconds": 0.019058, "process_cpu_seconds": 0.001599}
+{"trace": true, "offset_seconds": 20.558364, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.585928, "stage": "local_path", "phase": "end", "wall_seconds": 0.027545, "process_cpu_seconds": 0.00188}
+{"trace": true, "offset_seconds": 20.586824, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.607587, "stage": "local_path", "phase": "end", "wall_seconds": 0.020749, "process_cpu_seconds": 0.001964}
+{"trace": true, "offset_seconds": 20.611605, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.641417, "stage": "local_path", "phase": "end", "wall_seconds": 0.029788, "process_cpu_seconds": 0.001798}
+{"trace": true, "offset_seconds": 20.641805, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.663699, "stage": "local_path", "phase": "end", "wall_seconds": 0.021875, "process_cpu_seconds": 0.001913}
+{"trace": true, "offset_seconds": 20.664742, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.684933, "stage": "local_path", "phase": "end", "wall_seconds": 0.020139, "process_cpu_seconds": 0.001691}
+{"trace": true, "offset_seconds": 20.68599, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.70633, "stage": "local_path", "phase": "end", "wall_seconds": 0.020327, "process_cpu_seconds": 0.00167}
+{"trace": true, "offset_seconds": 20.707398, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.724637, "stage": "local_path", "phase": "end", "wall_seconds": 0.017215, "process_cpu_seconds": 0.001742}
+{"trace": true, "offset_seconds": 20.729481, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.749024, "stage": "local_path", "phase": "end", "wall_seconds": 0.019513, "process_cpu_seconds": 0.001883}
+{"trace": true, "offset_seconds": 20.749616, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.765325, "stage": "local_path", "phase": "end", "wall_seconds": 0.015689, "process_cpu_seconds": 0.001416}
+{"trace": true, "offset_seconds": 20.766227, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.79116, "stage": "local_path", "phase": "end", "wall_seconds": 0.024918, "process_cpu_seconds": 0.001871}
+{"trace": true, "offset_seconds": 20.792144, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.813984, "stage": "local_path", "phase": "end", "wall_seconds": 0.021816, "process_cpu_seconds": 0.001588}
+{"trace": true, "offset_seconds": 20.814784, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.83402, "stage": "local_path", "phase": "end", "wall_seconds": 0.019256, "process_cpu_seconds": 0.001864}
+{"trace": true, "offset_seconds": 20.835754, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.849392, "stage": "local_path", "phase": "end", "wall_seconds": 0.013623, "process_cpu_seconds": 0.001744}
+{"trace": true, "offset_seconds": 20.850828, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.862849, "stage": "local_path", "phase": "end", "wall_seconds": 0.012005, "process_cpu_seconds": 0.001649}
+{"trace": true, "offset_seconds": 20.863527, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.883566, "stage": "local_path", "phase": "end", "wall_seconds": 0.020022, "process_cpu_seconds": 0.001475}
+{"trace": true, "offset_seconds": 20.884329, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.906353, "stage": "local_path", "phase": "end", "wall_seconds": 0.022005, "process_cpu_seconds": 0.00169}
+{"trace": true, "offset_seconds": 20.906993, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.9276, "stage": "local_path", "phase": "end", "wall_seconds": 0.020585, "process_cpu_seconds": 0.001956}
+{"trace": true, "offset_seconds": 20.928381, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.945374, "stage": "local_path", "phase": "end", "wall_seconds": 0.016974, "process_cpu_seconds": 0.001815}
+{"trace": true, "offset_seconds": 20.947697, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.970355, "stage": "local_path", "phase": "end", "wall_seconds": 0.022643, "process_cpu_seconds": 0.002034}
+{"trace": true, "offset_seconds": 20.971541, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 20.984543, "stage": "local_path", "phase": "end", "wall_seconds": 0.012986, "process_cpu_seconds": 0.001437}
+{"trace": true, "offset_seconds": 20.985566, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.003411, "stage": "local_path", "phase": "end", "wall_seconds": 0.017826, "process_cpu_seconds": 0.00175}
+{"trace": true, "offset_seconds": 21.005425, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.01443, "stage": "local_path", "phase": "end", "wall_seconds": 0.00899, "process_cpu_seconds": 0.001523}
+{"trace": true, "offset_seconds": 21.015146, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.024451, "stage": "local_path", "phase": "end", "wall_seconds": 0.009254, "process_cpu_seconds": 0.001608}
+{"trace": true, "offset_seconds": 21.024884, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.037066, "stage": "local_path", "phase": "end", "wall_seconds": 0.012164, "process_cpu_seconds": 0.001677}
+{"trace": true, "offset_seconds": 21.037829, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.055746, "stage": "local_path", "phase": "end", "wall_seconds": 0.017901, "process_cpu_seconds": 0.001693}
+{"trace": true, "offset_seconds": 21.05614, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.083945, "stage": "local_path", "phase": "end", "wall_seconds": 0.027791, "process_cpu_seconds": 0.001784}
+{"trace": true, "offset_seconds": 21.084556, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.120301, "stage": "local_path", "phase": "end", "wall_seconds": 0.035724, "process_cpu_seconds": 0.001642}
+{"trace": true, "offset_seconds": 21.120922, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.145009, "stage": "local_path", "phase": "end", "wall_seconds": 0.024069, "process_cpu_seconds": 0.001666}
+{"trace": true, "offset_seconds": 21.147695, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.194368, "stage": "local_path", "phase": "end", "wall_seconds": 0.046656, "process_cpu_seconds": 0.002027}
+{"trace": true, "offset_seconds": 21.195583, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.221485, "stage": "local_path", "phase": "end", "wall_seconds": 0.025885, "process_cpu_seconds": 0.001678}
+{"trace": true, "offset_seconds": 21.22216, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.224598, "phase": "sample", "python_stack": [{"file": "trace.py", "function": "emit", "line": 46}, {"file": "trace.py", "function": "timed", "line": 62}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}, {"file": "trace.py", "function": "<module>", "line": 95}]}
+{"trace": true, "offset_seconds": 21.255047, "stage": "local_path", "phase": "end", "wall_seconds": 0.032868, "process_cpu_seconds": 0.002737}
+{"trace": true, "offset_seconds": 21.255688, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.269537, "stage": "local_path", "phase": "end", "wall_seconds": 0.01383, "process_cpu_seconds": 0.001472}
+{"trace": true, "offset_seconds": 21.271025, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.28861, "stage": "local_path", "phase": "end", "wall_seconds": 0.017569, "process_cpu_seconds": 0.001526}
+{"trace": true, "offset_seconds": 21.291001, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.315031, "stage": "local_path", "phase": "end", "wall_seconds": 0.024014, "process_cpu_seconds": 0.001749}
+{"trace": true, "offset_seconds": 21.316025, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.328053, "stage": "local_path", "phase": "end", "wall_seconds": 0.012013, "process_cpu_seconds": 0.001503}
+{"trace": true, "offset_seconds": 21.32873, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.339992, "stage": "local_path", "phase": "end", "wall_seconds": 0.011241, "process_cpu_seconds": 0.001445}
+{"trace": true, "offset_seconds": 21.340756, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.353447, "stage": "local_path", "phase": "end", "wall_seconds": 0.012677, "process_cpu_seconds": 0.001629}
+{"trace": true, "offset_seconds": 21.35451, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.367004, "stage": "local_path", "phase": "end", "wall_seconds": 0.012478, "process_cpu_seconds": 0.001598}
+{"trace": true, "offset_seconds": 21.367942, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.387858, "stage": "local_path", "phase": "end", "wall_seconds": 0.019902, "process_cpu_seconds": 0.001478}
+{"trace": true, "offset_seconds": 21.390254, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.404992, "stage": "local_path", "phase": "end", "wall_seconds": 0.014723, "process_cpu_seconds": 0.00138}
+{"trace": true, "offset_seconds": 21.405846, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.42871, "stage": "local_path", "phase": "end", "wall_seconds": 0.022808, "process_cpu_seconds": 0.00156}
+{"trace": true, "offset_seconds": 21.429303, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.441691, "stage": "local_path", "phase": "end", "wall_seconds": 0.012366, "process_cpu_seconds": 0.001572}
+{"trace": true, "offset_seconds": 21.442534, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.475582, "stage": "local_path", "phase": "end", "wall_seconds": 0.03303, "process_cpu_seconds": 0.001622}
+{"trace": true, "offset_seconds": 21.477203, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.496743, "stage": "local_path", "phase": "end", "wall_seconds": 0.019531, "process_cpu_seconds": 0.001648}
+{"trace": true, "offset_seconds": 21.498579, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.513988, "stage": "local_path", "phase": "end", "wall_seconds": 0.01539, "process_cpu_seconds": 0.001599}
+{"trace": true, "offset_seconds": 21.515109, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.551382, "stage": "local_path", "phase": "end", "wall_seconds": 0.036256, "process_cpu_seconds": 0.001673}
+{"trace": true, "offset_seconds": 21.55214, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.573028, "stage": "local_path", "phase": "end", "wall_seconds": 0.020871, "process_cpu_seconds": 0.00151}
+{"trace": true, "offset_seconds": 21.573926, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.587394, "stage": "local_path", "phase": "end", "wall_seconds": 0.01345, "process_cpu_seconds": 0.001601}
+{"trace": true, "offset_seconds": 21.588158, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.602561, "stage": "local_path", "phase": "end", "wall_seconds": 0.014386, "process_cpu_seconds": 0.001444}
+{"trace": true, "offset_seconds": 21.60365, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.618291, "stage": "local_path", "phase": "end", "wall_seconds": 0.014623, "process_cpu_seconds": 0.00162}
+{"trace": true, "offset_seconds": 21.62192, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.635182, "stage": "local_path", "phase": "end", "wall_seconds": 0.013251, "process_cpu_seconds": 0.001713}
+{"trace": true, "offset_seconds": 21.635628, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.666761, "stage": "local_path", "phase": "end", "wall_seconds": 0.031115, "process_cpu_seconds": 0.001391}
+{"trace": true, "offset_seconds": 21.672603, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.741714, "stage": "local_path", "phase": "end", "wall_seconds": 0.069094, "process_cpu_seconds": 0.00249}
+{"trace": true, "offset_seconds": 21.744282, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.793445, "stage": "local_path", "phase": "end", "wall_seconds": 0.049149, "process_cpu_seconds": 0.001946}
+{"trace": true, "offset_seconds": 21.796613, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 21.941644, "stage": "local_path", "phase": "end", "wall_seconds": 0.145018, "process_cpu_seconds": 0.002276}
+{"trace": true, "offset_seconds": 21.944906, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.037953, "stage": "local_path", "phase": "end", "wall_seconds": 0.093032, "process_cpu_seconds": 0.002273}
+{"trace": true, "offset_seconds": 22.04509, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.107049, "stage": "local_path", "phase": "end", "wall_seconds": 0.061942, "process_cpu_seconds": 0.00204}
+{"trace": true, "offset_seconds": 22.107637, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.191834, "stage": "local_path", "phase": "end", "wall_seconds": 0.084177, "process_cpu_seconds": 0.001958}
+{"trace": true, "offset_seconds": 22.1938, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.231193, "stage": "local_path", "phase": "end", "wall_seconds": 0.037373, "process_cpu_seconds": 0.002241}
+{"trace": true, "offset_seconds": 22.232445, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.239451, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 22.26278, "stage": "local_path", "phase": "end", "wall_seconds": 0.030316, "process_cpu_seconds": 0.002415}
+{"trace": true, "offset_seconds": 22.265981, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.292336, "stage": "local_path", "phase": "end", "wall_seconds": 0.026346, "process_cpu_seconds": 0.002167}
+{"trace": true, "offset_seconds": 22.293684, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.338419, "stage": "local_path", "phase": "end", "wall_seconds": 0.044719, "process_cpu_seconds": 0.002005}
+{"trace": true, "offset_seconds": 22.339681, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.364437, "stage": "local_path", "phase": "end", "wall_seconds": 0.024742, "process_cpu_seconds": 0.001752}
+{"trace": true, "offset_seconds": 22.365099, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.412732, "stage": "local_path", "phase": "end", "wall_seconds": 0.047596, "process_cpu_seconds": 0.00217}
+{"trace": true, "offset_seconds": 22.414452, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.470317, "stage": "local_path", "phase": "end", "wall_seconds": 0.055845, "process_cpu_seconds": 0.002398}
+{"trace": true, "offset_seconds": 22.471445, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.51683, "stage": "local_path", "phase": "end", "wall_seconds": 0.045372, "process_cpu_seconds": 0.002071}
+{"trace": true, "offset_seconds": 22.522415, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.567745, "stage": "local_path", "phase": "end", "wall_seconds": 0.045314, "process_cpu_seconds": 0.002029}
+{"trace": true, "offset_seconds": 22.568239, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.605204, "stage": "local_path", "phase": "end", "wall_seconds": 0.036948, "process_cpu_seconds": 0.002163}
+{"trace": true, "offset_seconds": 22.610875, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.677871, "stage": "local_path", "phase": "end", "wall_seconds": 0.066981, "process_cpu_seconds": 0.002559}
+{"trace": true, "offset_seconds": 22.682927, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.743942, "stage": "local_path", "phase": "end", "wall_seconds": 0.06102, "process_cpu_seconds": 0.002315}
+{"trace": true, "offset_seconds": 22.748151, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.789025, "stage": "local_path", "phase": "end", "wall_seconds": 0.040861, "process_cpu_seconds": 0.001905}
+{"trace": true, "offset_seconds": 22.79829, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.847254, "stage": "local_path", "phase": "end", "wall_seconds": 0.048957, "process_cpu_seconds": 0.002051}
+{"trace": true, "offset_seconds": 22.848019, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 22.988205, "stage": "local_path", "phase": "end", "wall_seconds": 0.140166, "process_cpu_seconds": 0.002242}
+{"trace": true, "offset_seconds": 22.990045, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.032619, "stage": "local_path", "phase": "end", "wall_seconds": 0.04256, "process_cpu_seconds": 0.001944}
+{"trace": true, "offset_seconds": 23.0338, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.10646, "stage": "local_path", "phase": "end", "wall_seconds": 0.07264, "process_cpu_seconds": 0.00243}
+{"trace": true, "offset_seconds": 23.107742, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.141483, "stage": "local_path", "phase": "end", "wall_seconds": 0.033715, "process_cpu_seconds": 0.001898}
+{"trace": true, "offset_seconds": 23.143151, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.185816, "stage": "local_path", "phase": "end", "wall_seconds": 0.04265, "process_cpu_seconds": 0.002113}
+{"trace": true, "offset_seconds": 23.188836, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.233891, "stage": "local_path", "phase": "end", "wall_seconds": 0.045045, "process_cpu_seconds": 0.002181}
+{"trace": true, "offset_seconds": 23.236101, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.240693, "phase": "sample", "python_stack": [{"file": "<frozen posixpath>", "function": "realpath", "line": 457}, {"file": "__init__.py", "function": "resolve", "line": 939}, {"file": "graft_common.py", "function": "local_path", "line": 36}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}]}
+{"trace": true, "offset_seconds": 23.264009, "stage": "local_path", "phase": "end", "wall_seconds": 0.027893, "process_cpu_seconds": 0.002501}
+{"trace": true, "offset_seconds": 23.264538, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.308485, "stage": "local_path", "phase": "end", "wall_seconds": 0.043928, "process_cpu_seconds": 0.001984}
+{"trace": true, "offset_seconds": 23.31963, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.374485, "stage": "local_path", "phase": "end", "wall_seconds": 0.054844, "process_cpu_seconds": 0.002335}
+{"trace": true, "offset_seconds": 23.382069, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.431633, "stage": "local_path", "phase": "end", "wall_seconds": 0.049549, "process_cpu_seconds": 0.002378}
+{"trace": true, "offset_seconds": 23.432173, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.463643, "stage": "local_path", "phase": "end", "wall_seconds": 0.03145, "process_cpu_seconds": 0.002144}
+{"trace": true, "offset_seconds": 23.469865, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.511897, "stage": "local_path", "phase": "end", "wall_seconds": 0.042018, "process_cpu_seconds": 0.001982}
+{"trace": true, "offset_seconds": 23.51227, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.584938, "stage": "local_path", "phase": "end", "wall_seconds": 0.072649, "process_cpu_seconds": 0.002238}
+{"trace": true, "offset_seconds": 23.587634, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.620096, "stage": "local_path", "phase": "end", "wall_seconds": 0.032462, "process_cpu_seconds": 0.00216}
+{"trace": true, "offset_seconds": 23.620584, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.658703, "stage": "local_path", "phase": "end", "wall_seconds": 0.0381, "process_cpu_seconds": 0.001789}
+{"trace": true, "offset_seconds": 23.67075, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.717562, "stage": "local_path", "phase": "end", "wall_seconds": 0.046804, "process_cpu_seconds": 0.002298}
+{"trace": true, "offset_seconds": 23.720707, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.768821, "stage": "local_path", "phase": "end", "wall_seconds": 0.048098, "process_cpu_seconds": 0.002642}
+{"trace": true, "offset_seconds": 23.783178, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.837908, "stage": "local_path", "phase": "end", "wall_seconds": 0.054718, "process_cpu_seconds": 0.002247}
+{"trace": true, "offset_seconds": 23.839092, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.879025, "stage": "local_path", "phase": "end", "wall_seconds": 0.03992, "process_cpu_seconds": 0.002222}
+{"trace": true, "offset_seconds": 23.883037, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 23.935375, "stage": "local_path", "phase": "end", "wall_seconds": 0.052321, "process_cpu_seconds": 0.002174}
+{"trace": true, "offset_seconds": 23.951055, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.002736, "stage": "local_path", "phase": "end", "wall_seconds": 0.051669, "process_cpu_seconds": 0.001962}
+{"trace": true, "offset_seconds": 24.019374, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.066357, "stage": "local_path", "phase": "end", "wall_seconds": 0.046985, "process_cpu_seconds": 0.00221}
+{"trace": true, "offset_seconds": 24.083488, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.179815, "stage": "local_path", "phase": "end", "wall_seconds": 0.096308, "process_cpu_seconds": 0.002647}
+{"trace": true, "offset_seconds": 24.18067, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.239183, "stage": "local_path", "phase": "end", "wall_seconds": 0.058499, "process_cpu_seconds": 0.002423}
+{"trace": true, "offset_seconds": 24.242059, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.243976, "phase": "sample", "python_stack": [{"file": "trace.py", "function": "emit", "line": 46}, {"file": "trace.py", "function": "timed", "line": 62}, {"file": "graft_common.py", "function": "graph_summary", "line": 220}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}, {"file": "trace.py", "function": "<module>", "line": 95}]}
+{"trace": true, "offset_seconds": 24.26808, "stage": "local_path", "phase": "end", "wall_seconds": 0.026005, "process_cpu_seconds": 0.002738}
+{"trace": true, "offset_seconds": 24.269014, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.304764, "stage": "local_path", "phase": "end", "wall_seconds": 0.035724, "process_cpu_seconds": 0.001959}
+{"trace": true, "offset_seconds": 24.306319, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.35544, "stage": "local_path", "phase": "end", "wall_seconds": 0.049104, "process_cpu_seconds": 0.002184}
+{"trace": true, "offset_seconds": 24.35663, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.398507, "stage": "local_path", "phase": "end", "wall_seconds": 0.041819, "process_cpu_seconds": 0.002307}
+{"trace": true, "offset_seconds": 24.399809, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.470018, "stage": "local_path", "phase": "end", "wall_seconds": 0.070158, "process_cpu_seconds": 0.002896}
+{"trace": true, "offset_seconds": 24.471327, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.528397, "stage": "local_path", "phase": "end", "wall_seconds": 0.057057, "process_cpu_seconds": 0.002486}
+{"trace": true, "offset_seconds": 24.529863, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.568732, "stage": "local_path", "phase": "end", "wall_seconds": 0.038832, "process_cpu_seconds": 0.002307}
+{"trace": true, "offset_seconds": 24.573223, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.607159, "stage": "local_path", "phase": "end", "wall_seconds": 0.033912, "process_cpu_seconds": 0.002398}
+{"trace": true, "offset_seconds": 24.608366, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.64415, "stage": "local_path", "phase": "end", "wall_seconds": 0.035761, "process_cpu_seconds": 0.002172}
+{"trace": true, "offset_seconds": 24.64491, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.685706, "stage": "local_path", "phase": "end", "wall_seconds": 0.040778, "process_cpu_seconds": 0.001922}
+{"trace": true, "offset_seconds": 24.687004, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.774297, "stage": "local_path", "phase": "end", "wall_seconds": 0.087277, "process_cpu_seconds": 0.002476}
+{"trace": true, "offset_seconds": 24.776341, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.805987, "stage": "local_path", "phase": "end", "wall_seconds": 0.029617, "process_cpu_seconds": 0.002271}
+{"trace": true, "offset_seconds": 24.807616, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.839266, "stage": "local_path", "phase": "end", "wall_seconds": 0.031636, "process_cpu_seconds": 0.001981}
+{"trace": true, "offset_seconds": 24.841285, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.888276, "stage": "local_path", "phase": "end", "wall_seconds": 0.046978, "process_cpu_seconds": 0.002124}
+{"trace": true, "offset_seconds": 24.889227, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.922202, "stage": "local_path", "phase": "end", "wall_seconds": 0.032959, "process_cpu_seconds": 0.002141}
+{"trace": true, "offset_seconds": 24.922845, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 24.958573, "stage": "local_path", "phase": "end", "wall_seconds": 0.035707, "process_cpu_seconds": 0.002202}
+{"trace": true, "offset_seconds": 24.961084, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 25.016604, "stage": "local_path", "phase": "end", "wall_seconds": 0.055506, "process_cpu_seconds": 0.002279}
+{"trace": true, "offset_seconds": 25.017891, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 25.078432, "stage": "local_path", "phase": "end", "wall_seconds": 0.060514, "process_cpu_seconds": 0.002308}
+{"trace": true, "offset_seconds": 25.080257, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 25.12147, "stage": "local_path", "phase": "end", "wall_seconds": 0.041197, "process_cpu_seconds": 0.001764}
+{"trace": true, "offset_seconds": 25.132054, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 25.165218, "stage": "local_path", "phase": "end", "wall_seconds": 0.033158, "process_cpu_seconds": 0.002196}
+{"trace": true, "offset_seconds": 25.166308, "stage": "local_path", "phase": "start"}
+{"trace": true, "offset_seconds": 25.233299, "stage": "local_path", "phase": "end", "wall_seconds": 0.066975, "process_cpu_seconds": 0.002375}
+{"trace": true, "offset_seconds": 25.245166, "phase": "sample", "python_stack": [{"file": "glob.py", "function": "scandir", "line": 555}, {"file": "glob.py", "function": "select_wildcard", "line": 454}, {"file": "graft_common.py", "function": "graph_summary", "line": 231}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "diagnose.py", "function": "main", "line": 23}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}, {"file": "trace.py", "function": "main", "line": 87}, {"file": "trace.py", "function": "<module>", "line": 95}]}
+{"trace": true, "offset_seconds": 25.329821, "stage": "graph_summary", "phase": "end", "wall_seconds": 18.304381, "process_cpu_seconds": 1.339331}
+{"trace": true, "offset_seconds": 25.367533, "stage": "run", "command_kind": "check", "phase": "start"}
+{"trace": true, "offset_seconds": 26.246253, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 27.247658, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 28.251032, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 29.254274, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 30.257087, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 31.257977, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 32.26038, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 33.262626, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 34.265978, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 35.269549, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 36.270739, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 37.276894, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 38.301393, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 39.33693, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 40.338488, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 41.359114, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 42.381358, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 43.430273, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 44.436466, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 45.437678, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 46.452383, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 47.454774, "phase": "sample", "python_stack": [{"file": "selectors.py", "function": "select", "line": 398}, {"file": "subprocess.py", "function": "_communicate", "line": 2153}, {"file": "subprocess.py", "function": "communicate", "line": 1221}, {"file": "subprocess.py", "function": "run", "line": 557}, {"file": "graft_common.py", "function": "run", "line": 92}, {"file": "trace.py", "function": "timed", "line": 64}, {"file": "graft_common.py", "function": "check", "line": 252}, {"file": "diagnose.py", "function": "main", "line": 27}, {"file": "diagnose.py", "function": "<module>", "line": 37}, {"file": "<frozen runpy>", "function": "_run_code", "line": 88}, {"file": "<frozen runpy>", "function": "_run_module_code", "line": 98}, {"file": "<frozen runpy>", "function": "run_path", "line": 294}]}
+{"trace": true, "offset_seconds": 48.159038, "stage": "run", "command_kind": "check", "phase": "end", "wall_seconds": 22.791511, "process_cpu_seconds": 0.017784}

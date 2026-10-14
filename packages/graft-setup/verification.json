@@ -1,185 +1,1626 @@
 {
-  "recorded_at": "2026-10-13T23:57:53.645901+00:00",
-  "skill_version": "1.0.4",
-  "graft_version": "0.21.1",
+  "recorded_at": "2026-10-14T02:32:37.836407+00:00",
+  "skill_version": "1.0.5",
+  "graft_version": "0.21.1-nishadherath",
+  "graft_base_release": "0.21.1",
   "provider_calls": 0,
   "offline_tests": {
-    "Windows": {
-      "python": "3.14.7",
-      "tests": 25,
+    "windows": {
       "status": "PASS",
-      "elapsed_seconds": 70.621,
-      "source_and_fixtures": "Windows physical project drive",
+      "tests": 28,
+      "elapsed_seconds": 39.485,
       "deadlines_changed": false,
-      "evidence": "unit-final-104-windows.unit.log"
+      "evidence": "unit-release-105-windows.unit.log"
     },
-    "WSL/Linux Windows-mounted": {
-      "python": "3.14.7",
-      "tests": 25,
+    "mounted-linux": {
       "status": "PASS",
-      "elapsed_seconds": 62.273,
-      "source_and_fixtures": "Windows-mounted project",
+      "tests": 28,
+      "elapsed_seconds": 27.576,
       "deadlines_changed": false,
-      "evidence": "unit-final-104-mounted-linux.unit.log"
+      "evidence": "unit-release-105-mounted-linux.unit.log"
     }
   },
   "real_graft_integration": {
-    "Windows local fork": {
-      "steps": 14,
-      "status": "PASS",
+    "windows": {
+      "platform": "Windows",
       "python": "3.14.7",
+      "provider_calls": 0,
+      "steps": [
+        {
+          "script": "refresh.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 22.256,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 18.147,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "probe_mcp.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 20.792,
+          "reviewed_fixture_wiring": {
+            "hosts": [],
+            "stamp": null
+          },
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "checks": [
+            {
+              "name": "initialize",
+              "ok": true,
+              "elapsed_seconds": 4.558
+            },
+            {
+              "name": "tools",
+              "ok": true,
+              "elapsed_seconds": 0.001
+            },
+            {
+              "name": "freshness",
+              "ok": true,
+              "elapsed_seconds": 0.347
+            },
+            {
+              "name": "source",
+              "ok": true,
+              "elapsed_seconds": 0.214
+            },
+            {
+              "name": "api",
+              "ok": true,
+              "elapsed_seconds": 0.278
+            },
+            {
+              "name": "literal",
+              "ok": true,
+              "elapsed_seconds": 0.346
+            },
+            {
+              "name": "callers",
+              "ok": true,
+              "elapsed_seconds": 0.391
+            },
+            {
+              "name": "map",
+              "ok": true,
+              "elapsed_seconds": 0.335
+            },
+            {
+              "name": "detect_addition",
+              "ok": true,
+              "elapsed_seconds": 0.334
+            },
+            {
+              "name": "automatic_addition",
+              "ok": true,
+              "elapsed_seconds": 0.872
+            },
+            {
+              "name": "automatic_removal",
+              "ok": true,
+              "elapsed_seconds": 0.779
+            },
+            {
+              "name": "final_freshness",
+              "ok": true,
+              "elapsed_seconds": 0.185
+            }
+          ]
+        },
+        {
+          "script": "refresh.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 27.516,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "probe_mcp.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 20.884,
+          "reviewed_fixture_wiring": {
+            "hosts": [],
+            "stamp": null
+          },
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "checks": [
+            {
+              "name": "initialize",
+              "ok": true,
+              "elapsed_seconds": 5.664
+            },
+            {
+              "name": "tools",
+              "ok": true,
+              "elapsed_seconds": 0.001
+            },
+            {
+              "name": "freshness",
+              "ok": true,
+              "elapsed_seconds": 0.302
+            },
+            {
+              "name": "source",
+              "ok": true,
+              "elapsed_seconds": 0.039
+            },
+            {
+              "name": "api",
+              "ok": true,
+              "elapsed_seconds": 0.009
+            },
+            {
+              "name": "literal",
+              "ok": true,
+              "elapsed_seconds": 0.008
+            },
+            {
+              "name": "callers",
+              "ok": true,
+              "elapsed_seconds": 0.007
+            },
+            {
+              "name": "map",
+              "ok": true,
+              "elapsed_seconds": 0.005
+            }
+          ]
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 14.896,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "refresh.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 10.943,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "native bare build",
+          "layout": "app project",
+          "ok": true,
+          "scope_widened": true,
+          "files_before": 1,
+          "files_after": 2
+        },
+        {
+          "script": "refresh.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 9.876,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "probe_mcp.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 11.245,
+          "reviewed_fixture_wiring": {
+            "hosts": [],
+            "stamp": null
+          },
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "checks": [
+            {
+              "name": "initialize",
+              "ok": true,
+              "elapsed_seconds": 2.957
+            },
+            {
+              "name": "tools",
+              "ok": true,
+              "elapsed_seconds": 0.002
+            },
+            {
+              "name": "freshness",
+              "ok": true,
+              "elapsed_seconds": 0.179
+            },
+            {
+              "name": "source",
+              "ok": true,
+              "elapsed_seconds": 0.159
+            },
+            {
+              "name": "api",
+              "ok": true,
+              "elapsed_seconds": 0.162
+            },
+            {
+              "name": "literal",
+              "ok": true,
+              "elapsed_seconds": 0.124
+            },
+            {
+              "name": "callers",
+              "ok": true,
+              "elapsed_seconds": 0.125
+            },
+            {
+              "name": "map",
+              "ok": true,
+              "elapsed_seconds": 0.121
+            },
+            {
+              "name": "detect_addition",
+              "ok": true,
+              "elapsed_seconds": 0.164
+            },
+            {
+              "name": "automatic_addition",
+              "ok": true,
+              "elapsed_seconds": 0.491
+            },
+            {
+              "name": "automatic_removal",
+              "ok": true,
+              "elapsed_seconds": 0.359
+            },
+            {
+              "name": "final_freshness",
+              "ok": true,
+              "elapsed_seconds": 0.097
+            }
+          ]
+        },
+        {
+          "script": "refresh.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 12.688,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 9.425,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "refresh.py",
+          "layout": "structured documents",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 10.321,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "markdown"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "structured documents",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 8.457,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "markdown"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        }
+      ],
       "runtime": {
         "platform": "win32",
         "arch": "x64",
         "node": "v26.7.0",
         "execPath": "C:\\nvm4w\\nodejs\\node.exe"
       },
+      "launcher": [
+        "C:/nvm4w/nodejs/node.exe",
+        "C:/nvm4w/nodejs/node_modules/@nanonets/graft/dist/cli.js"
+      ],
+      "workspace": {
+        "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration\\graft portable & unicode \u03a9 nf6sa0gx",
+        "filesystem": {
+          "available": false,
+          "reason": "Linux mount information is unavailable on this host."
+        }
+      },
       "capabilities": {
-        "version": "0.21.1",
+        "version": "0.21.1-nishadherath",
         "tested_version": "0.21.1",
-        "version_matches": true,
+        "version_matches": false,
         "supports_structured": true,
         "supports_documents": true,
         "supports_deep_documents": true,
         "identity": {
           "available": true,
           "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
-          "package_version": "0.21.1",
+          "package_version": "0.21.1-nishadherath",
           "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
-          "cli_sha256": "cb273239344d288c9eefd8f64dd018dddbf075b747adf0bec008f565998a76c2",
-          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
-        }
-      },
-      "workspace": {
-        "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration\\graft portable & unicode \u03a9 x7e2lnk9",
-        "filesystem": {
-          "available": false,
-          "reason": "Linux mount information is unavailable on this host."
+          "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+          "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+          "runtime_features": {
+            "available": true,
+            "extractor_stamp": "b7973c42b807124f",
+            "preserves_foreign_scope": true,
+            "prunes_scoped_walk": true,
+            "hash_checked_memo": true
+          }
         }
       },
       "structured_indexing": "PASS",
-      "manual_build_scope_widening_verified": true,
-      "mcp_tools": 6,
-      "automatic_addition_removal_and_retained_scope": "PASS"
+      "ok": true
     },
-    "Windows-mounted Linux fork": {
-      "steps": 14,
-      "status": "PASS",
+    "linux": {
+      "platform": "Linux",
       "python": "3.14.7",
+      "provider_calls": 0,
+      "steps": [
+        {
+          "script": "refresh.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 8.745,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 6.56,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "probe_mcp.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 13.767,
+          "reviewed_fixture_wiring": {
+            "hosts": [],
+            "stamp": null
+          },
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "checks": [
+            {
+              "name": "initialize",
+              "ok": true,
+              "elapsed_seconds": 1.677
+            },
+            {
+              "name": "tools",
+              "ok": true,
+              "elapsed_seconds": 0.003
+            },
+            {
+              "name": "freshness",
+              "ok": true,
+              "elapsed_seconds": 0.267
+            },
+            {
+              "name": "source",
+              "ok": true,
+              "elapsed_seconds": 0.36
+            },
+            {
+              "name": "api",
+              "ok": true,
+              "elapsed_seconds": 0.268
+            },
+            {
+              "name": "literal",
+              "ok": true,
+              "elapsed_seconds": 0.395
+            },
+            {
+              "name": "callers",
+              "ok": true,
+              "elapsed_seconds": 0.508
+            },
+            {
+              "name": "map",
+              "ok": true,
+              "elapsed_seconds": 0.366
+            },
+            {
+              "name": "detect_addition",
+              "ok": true,
+              "elapsed_seconds": 0.7
+            },
+            {
+              "name": "automatic_addition",
+              "ok": true,
+              "elapsed_seconds": 1.848
+            },
+            {
+              "name": "automatic_removal",
+              "ok": true,
+              "elapsed_seconds": 1.087
+            },
+            {
+              "name": "final_freshness",
+              "ok": true,
+              "elapsed_seconds": 0.214
+            }
+          ]
+        },
+        {
+          "script": "refresh.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 9.968,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "probe_mcp.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 7.269,
+          "reviewed_fixture_wiring": {
+            "hosts": [],
+            "stamp": null
+          },
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "checks": [
+            {
+              "name": "initialize",
+              "ok": true,
+              "elapsed_seconds": 2.05
+            },
+            {
+              "name": "tools",
+              "ok": true,
+              "elapsed_seconds": 0.002
+            },
+            {
+              "name": "freshness",
+              "ok": true,
+              "elapsed_seconds": 0.277
+            },
+            {
+              "name": "source",
+              "ok": true,
+              "elapsed_seconds": 0.115
+            },
+            {
+              "name": "api",
+              "ok": true,
+              "elapsed_seconds": 0.026
+            },
+            {
+              "name": "literal",
+              "ok": true,
+              "elapsed_seconds": 0.032
+            },
+            {
+              "name": "callers",
+              "ok": true,
+              "elapsed_seconds": 0.019
+            },
+            {
+              "name": "map",
+              "ok": true,
+              "elapsed_seconds": 0.052
+            }
+          ]
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 6.243,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "refresh.py",
+          "layout": "app project",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 10.228,
+          "graph": {
+            "files": 1,
+            "nodes": 3,
+            "edges": 3,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "native bare build",
+          "layout": "app project",
+          "ok": true,
+          "scope_widened": true,
+          "files_before": 1,
+          "files_after": 2
+        },
+        {
+          "script": "refresh.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 13.194,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "probe_mcp.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 15.532,
+          "reviewed_fixture_wiring": {
+            "hosts": [],
+            "stamp": null
+          },
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "checks": [
+            {
+              "name": "initialize",
+              "ok": true,
+              "elapsed_seconds": 2.443
+            },
+            {
+              "name": "tools",
+              "ok": true,
+              "elapsed_seconds": 0.003
+            },
+            {
+              "name": "freshness",
+              "ok": true,
+              "elapsed_seconds": 0.31
+            },
+            {
+              "name": "source",
+              "ok": true,
+              "elapsed_seconds": 0.359
+            },
+            {
+              "name": "api",
+              "ok": true,
+              "elapsed_seconds": 0.223
+            },
+            {
+              "name": "literal",
+              "ok": true,
+              "elapsed_seconds": 0.361
+            },
+            {
+              "name": "callers",
+              "ok": true,
+              "elapsed_seconds": 0.391
+            },
+            {
+              "name": "map",
+              "ok": true,
+              "elapsed_seconds": 0.327
+            },
+            {
+              "name": "detect_addition",
+              "ok": true,
+              "elapsed_seconds": 0.519
+            },
+            {
+              "name": "automatic_addition",
+              "ok": true,
+              "elapsed_seconds": 1.789
+            },
+            {
+              "name": "automatic_removal",
+              "ok": true,
+              "elapsed_seconds": 1.26
+            },
+            {
+              "name": "final_freshness",
+              "ok": true,
+              "elapsed_seconds": 0.244
+            }
+          ]
+        },
+        {
+          "script": "refresh.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 12.2,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "non git build-source",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 8.322,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "python"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "refresh.py",
+          "layout": "structured documents",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 5.658,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "markdown"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        },
+        {
+          "script": "diagnose.py",
+          "layout": "structured documents",
+          "exit_code": 0,
+          "ok": true,
+          "elapsed_seconds": 3.558,
+          "graph": {
+            "files": 1,
+            "nodes": 2,
+            "edges": 1,
+            "languages": [
+              "markdown"
+            ]
+          },
+          "graft_version": "0.21.1-nishadherath"
+        }
+      ],
       "runtime": {
         "platform": "linux",
         "arch": "x64",
         "node": "v22.23.0",
         "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
       },
+      "launcher": [
+        "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+        "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js"
+      ],
+      "workspace": {
+        "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/skill-mounted-integration/graft portable & unicode \u03a9 ln5yg1rd",
+        "filesystem": {
+          "available": true,
+          "mount_point": "/mnt/d",
+          "filesystem_type": "virtiofs",
+          "source": "drvfs",
+          "host_shared": true
+        }
+      },
       "capabilities": {
-        "version": "0.21.1",
+        "version": "0.21.1-nishadherath",
         "tested_version": "0.21.1",
-        "version_matches": true,
+        "version_matches": false,
         "supports_structured": true,
         "supports_documents": true,
         "supports_deep_documents": true,
         "identity": {
           "available": true,
-          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82",
-          "package_version": "0.21.1",
-          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82/dist/cli.js",
-          "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
-          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
-        }
-      },
-      "workspace": {
-        "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-verification/graft portable & unicode \u03a9 dycimb__",
-        "filesystem": {
-          "available": true,
-          "mount_point": "/mnt/d",
-          "filesystem_type": "virtiofs",
-          "source": "drvfs",
-          "host_shared": true
+          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification",
+          "package_version": "0.21.1-nishadherath",
+          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js",
+          "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+          "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+          "runtime_features": {
+            "available": true,
+            "extractor_stamp": "b7973c42b807124f",
+            "preserves_foreign_scope": true,
+            "prunes_scoped_walk": true,
+            "hash_checked_memo": true
+          }
         }
       },
       "structured_indexing": "PASS",
-      "manual_build_scope_widening_verified": true,
-      "mcp_tools": 6,
-      "automatic_addition_removal_and_retained_scope": "PASS"
-    },
-    "Windows-mounted Linux published npm": {
-      "steps": 13,
-      "status": "PASS",
-      "python": "3.14.7",
-      "runtime": {
-        "platform": "linux",
-        "arch": "x64",
-        "node": "v22.23.0",
-        "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
-      },
-      "capabilities": {
-        "version": "0.21.1",
-        "tested_version": "0.21.1",
-        "version_matches": true,
-        "supports_structured": false,
-        "supports_documents": false,
-        "supports_deep_documents": false,
-        "identity": {
-          "available": true,
-          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft",
-          "package_version": "0.21.1",
-          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js",
-          "cli_sha256": "5d744a3aad0bb9580e3ae6ecd9a06c1e818521bb331acb4f457732554bcbf2af",
-          "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
-        }
-      },
-      "workspace": {
-        "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-published-verification/graft portable & unicode \u03a9 pen2_s19",
-        "filesystem": {
-          "available": true,
-          "mount_point": "/mnt/d",
-          "filesystem_type": "virtiofs",
-          "source": "drvfs",
-          "host_shared": true
-        }
-      },
-      "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
-      "manual_build_scope_widening_verified": true,
-      "mcp_tools": 6,
-      "automatic_addition_removal_and_retained_scope": "PASS"
+      "ok": true
     }
   },
-  "wsl_startup": {
-    "status": "PASS",
-    "wsl_version": "3.0.3.0",
-    "cold_starts": 3,
-    "elapsed_seconds": [
-      6.882,
-      6.943,
-      6.72
-    ],
-    "action": "Reset idle shared VM with wsl --shutdown, then run bounded direct Linux probes",
-    "root_cause": "Not established: the historical timeout was no longer reproducible before intervention.",
-    "configuration_changes": [],
-    "service_restart": false
+  "real_graft_load": {
+    "workers_per_host": 4,
+    "interval_ms": 50,
+    "load_seconds": 120,
+    "windows_total_seconds": 203.201,
+    "linux_total_seconds": 128.521,
+    "all_final_steps_inside_load_window": false,
+    "evidence": "real-retry-105-pair.json"
   },
-  "native_runtime_repair": "Installed checksum-verified native Linux Node and npm Graft 0.21.1 in an isolated user prefix; explicit launcher avoids inherited Windows shims.",
-  "skill_validation": "PASS",
-  "installed_parity": {
-    "status": "PASS",
-    "version": "1.0.4",
-    "files": 15,
-    "backup": ".graft/installed-skill-backup-2026-10-14-9673126a"
+  "graft_source_gate": {
+    "node": "26.7.0",
+    "version_metadata": "0.21.1",
+    "test_file_workers": 2,
+    "tests": 1556,
+    "passed": 1551,
+    "failed": 0,
+    "skipped": 5,
+    "duration_ms": 1046107.3384
   },
-  "deterministic_release": {
-    "archive": "graft-setup-1.0.4.zip",
-    "sha256": "ad764dabf8dc4366091aeab5b233fa52d3d59d8a45545126b45da3eddbca0a04",
-    "archive_bytes": 99628,
-    "files": 15,
-    "status": "PASS",
-    "verified_on": [
-      "Windows",
-      "WSL/Linux Windows-mounted"
+  "source_patch": {
+    "ok": true,
+    "results": [
+      {
+        "operation": "dry",
+        "exit_code": 0
+      },
+      {
+        "operation": "apply",
+        "exit_code": 0
+      },
+      {
+        "operation": "repeat",
+        "exit_code": 1
+      }
     ],
-    "source_frontmatter": "PASS"
+    "applied_source_matches_tested_source": true,
+    "installed_runtime_changed": false,
+    "format": "zero context; exact source SHA guards before --unidiff-zero"
+  },
+  "active_installation": {
+    "ok": true,
+    "compiled_files": [
+      {
+        "path": "context/build.js",
+        "before": "3f48cee1cd21c9d164d6cd9e19d0002cafecdfeee2040bdd7aa8643a4391bea9",
+        "after": "9c40850592cdc3651f8a914448b5cce8adfac1d64b9450baa8568750377e5d62"
+      },
+      {
+        "path": "context/build.js.map",
+        "before": "86ea753876a68b02a92dd7a73ddc9869c263720b0d5be0165fff4cceee4fbde0",
+        "after": "fabb57277456e77812c7eb3b0a741f2f4d52e77efd26641c6626cb1e632b121d"
+      },
+      {
+        "path": "graph/check.d.ts",
+        "before": "56ba8de1ac097d570cc7859150849e9432244978d4b47f2a4b8bf87994d56be2",
+        "after": "e3e8e26c02f3af5ca6e074c6927e3c924577835a6eafe9afa20b5a54f5bb0c54"
+      },
+      {
+        "path": "graph/check.d.ts.map",
+        "before": "41ddc7121bf1bf62065b17939aa5f3a50a2812de5f874962edda0548df961e5e",
+        "after": "e5ce55c4341e8cf1cc4e961f370a73bf14cb1f1b438a2ae9bce9eb45e37b6d48"
+      },
+      {
+        "path": "graph/check.js",
+        "before": "6e1fb442b7941da30af99dba4060e7cc746e4fafa953f5b9906f0022b551e6d0",
+        "after": "1c17e47264da424fca7ac1068a6343981a4b4b5ae31b94d00c9d4fd737b483c2"
+      },
+      {
+        "path": "graph/check.js.map",
+        "before": "ecd125008cad3e24eec674d4e0190620ca47c5ea58f2629ea2062f47df4bdfb3",
+        "after": "a516140b53f7556f380391f3f91f03261ce472c17ff0d2ff211143b59057c435"
+      },
+      {
+        "path": "graph/fingerprint.d.ts",
+        "before": "7a2d70e90b476311726930a3b661ce66f819cb396c0945737d80159b95710021",
+        "after": "6a5794f01f9726654b61f23e8e601f22ed4b0489eb7009f1bafec000daddd18a"
+      },
+      {
+        "path": "graph/fingerprint.d.ts.map",
+        "before": "4488bb48ca696f2e11a669f383bf3f5195e3ead4dd89ff2f34e612504cc2c562",
+        "after": "3334db8afa58d9cc4dedda62783f2749d24d3ab9fec12404a5e7a7710b5e36fc"
+      },
+      {
+        "path": "graph/fingerprint.js",
+        "before": "c65d721a2775d4845ec280747ff4441e7792f4bd278a52c1c19f1471039c818a",
+        "after": "13bdfef0d982a3478e45c3f67a338f2d7ba3252043143ced3adfe430c0c8ca36"
+      },
+      {
+        "path": "graph/fingerprint.js.map",
+        "before": "8a8e37e9196be6c5e2b15005856b80cbba96aff5610aa173b55f7bcd3141d4ee",
+        "after": "32d7364fda4920ed477249425c29741031f635048b9c6b489e75a7675bf9978f"
+      },
+      {
+        "path": "graph/refresh.d.ts.map",
+        "before": "74bd6cab577b854167c71d88c0993bb0b49ffdcea1569bda4a9681a04870937b",
+        "after": "78a34a2ac1399403c1d13dc3a78faf31e1a434ca53c0eee7a10bf3079f684afb"
+      },
+      {
+        "path": "graph/refresh.js",
+        "before": "c8f8e3ea530ad3d2e198af992117c248522d87f790919101e646a84a4470cebd",
+        "after": "0002d0988deff7acc2419be8100918ce9322dd40d6b7f3e57ecebac83bd0488e"
+      },
+      {
+        "path": "graph/refresh.js.map",
+        "before": "5bea23fb014472f1bd76c1978d6f813324019e4de55af27be54cc563804118fa",
+        "after": "d49c8da864a516f55db4b14024d53c1d072c6e21a8ccc6dc4068b8a5503ecba4"
+      },
+      {
+        "path": "graph/source-files.d.ts",
+        "before": "bf0aa3b08c69d5086533aae705522d1fa9ff952b05f0e14d90e0a1eb465f3dad",
+        "after": "beabc2f5850d144660f728ddd854152ce7d21454ef1350a21f4c379601e265de"
+      },
+      {
+        "path": "graph/source-files.d.ts.map",
+        "before": "93c6ebb6b7d1fb44e64db0590a44efd2c814eea1943c803ccdf2d44d84c1136d",
+        "after": "e148b3440e258fe83fe8a6da84914feda639c512256f0f1a59fd10910e4e3344"
+      },
+      {
+        "path": "graph/source-files.js",
+        "before": "62c4e120c25eb562dccff4c4716a96eab35f59cb277284eb95f65cbbaaf7cb29",
+        "after": "4168bb7d4f485f27031d0417bbdb822d871b46fcf0d57e5ad980bd6e48c953a1"
+      },
+      {
+        "path": "graph/source-files.js.map",
+        "before": "ca0834510a6b8ad1812e1eb541e3caace63143c2a9b6c687e393415b55aeabbf",
+        "after": "b900cfad608cd5c73f8569aa3273f67ae05274e569c20c4884c5155e49c9c67e"
+      },
+      {
+        "path": "ingest/fs.d.ts",
+        "before": "12262861ae41c043fdeefb0dbd96d5d569f33c0e2a1f29c95e8f9b326153717b",
+        "after": "3cd97b54073170eb4860d2baaab87924ec669be5e295f06136de1bb8da54e9df"
+      },
+      {
+        "path": "ingest/fs.d.ts.map",
+        "before": "4396f41dd932ca411f8d32418770106455ba49cb8799b00071a9c438918a45bc",
+        "after": "fe88a0cbb876e178b9999a99f5da797537c38b52649af325b42382ec79a4e97c"
+      },
+      {
+        "path": "ingest/fs.js",
+        "before": "6ffd48f716b0ae7002ed99fdd3a6cfa1d501da967cc5398b2de3173d00d49298",
+        "after": "d595cb8eb4a6cb3a85c301e3d5bd6e2ad0cdd88b55d9b110f60327dc24b711d7"
+      },
+      {
+        "path": "ingest/fs.js.map",
+        "before": "de47e78a5dbca5463563d8c43c7994999fcb9bc81f1bf1035a7d51a1058aa0f4",
+        "after": "1a00484dbb4d0e58681d88227ff8bdadba142cf5110f6b8ce3442b5749fad5d0"
+      }
+    ],
+    "backup": ".graft/graft-runtime-backup-105-60f18712",
+    "global_package_metadata_preserved": true,
+    "external_fork_checkout_changed": false,
+    "source_gate": {
+      "node": "26.7.0",
+      "version_metadata": "0.21.1",
+      "test_file_workers": 2,
+      "tests": 1556,
+      "passed": 1551,
+      "failed": 0,
+      "skipped": 5,
+      "duration_ms": 1046107.3384
+    },
+    "future_sync_warning": "External fork source is unchanged; its next rebuild/sync can overwrite this repair. Apply the bundled guarded source patch before rebuilding that checkout."
+  },
+  "full_project_freshness": {
+    "scope": [
+      "src",
+      "tools",
+      "test/harness"
+    ],
+    "files": 346,
+    "nodes": 3948,
+    "edges": 12453,
+    "deadline_seconds": 180,
+    "candidate_300_second_pair": "freshness-final-105-pair.json",
+    "active_120_second_pair": "freshness-active-105-pair.json",
+    "active_checks": {
+      "windows": {
+        "helper_seconds": 31.219,
+        "freshness": {
+          "structural_fresh": true,
+          "semantic": "absent",
+          "files_reused": 346,
+          "files_parsed": 0,
+          "stale_summaries": 0,
+          "pending_summaries": 3948,
+          "exit_code": 0,
+          "elapsed_seconds": 11.017
+        },
+        "runtime": {
+          "version": "0.21.1-nishadherath",
+          "tested_version": "0.21.1",
+          "version_matches": false,
+          "supports_structured": true,
+          "supports_documents": true,
+          "supports_deep_documents": true,
+          "identity": {
+            "available": true,
+            "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
+            "package_version": "0.21.1-nishadherath",
+            "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
+            "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+            "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+            "runtime_features": {
+              "available": true,
+              "extractor_stamp": "b7973c42b807124f",
+              "preserves_foreign_scope": true,
+              "prunes_scoped_walk": true,
+              "hash_checked_memo": true
+            }
+          }
+        }
+      },
+      "linux": {
+        "helper_seconds": 42.215,
+        "freshness": {
+          "structural_fresh": true,
+          "semantic": "absent",
+          "files_reused": 346,
+          "files_parsed": 0,
+          "stale_summaries": 0,
+          "pending_summaries": 3948,
+          "exit_code": 0,
+          "elapsed_seconds": 16.982
+        },
+        "runtime": {
+          "version": "0.21.1-nishadherath",
+          "tested_version": "0.21.1",
+          "version_matches": false,
+          "supports_structured": true,
+          "supports_documents": true,
+          "supports_deep_documents": true,
+          "identity": {
+            "available": true,
+            "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification",
+            "package_version": "0.21.1-nishadherath",
+            "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js",
+            "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+            "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+            "runtime_features": {
+              "available": true,
+              "extractor_stamp": "b7973c42b807124f",
+              "preserves_foreign_scope": true,
+              "prunes_scoped_walk": true,
+              "hash_checked_memo": true
+            }
+          }
+        }
+      }
+    },
+    "independent_parser": {
+      "ok": true,
+      "seconds": 31.116337599989492,
+      "parsed": 346,
+      "reused": 0
+    }
+  },
+  "windows_attribution": {
+    "observed_component": {
+      "Name": "WdFilter",
+      "DisplayName": "Microsoft Defender Antivirus Mini-Filter Driver",
+      "State": "Running",
+      "PathName": "C:\\WINDOWS\\system32\\drivers\\wd\\WdFilter.sys"
+    },
+    "task_pid": 10892,
+    "matched_callbacks": 640,
+    "modules": {
+      "WdFilter.sys": {
+        "matched_callbacks": 156,
+        "sum_callback_elapsed_us": 458861,
+        "max_callback_elapsed_us": 138763
+      },
+      "bfs.sys": {
+        "matched_callbacks": 68,
+        "sum_callback_elapsed_us": 19910,
+        "max_callback_elapsed_us": 16322
+      },
+      "SbieDrv.sys": {
+        "matched_callbacks": 30,
+        "sum_callback_elapsed_us": 989,
+        "max_callback_elapsed_us": 49
+      },
+      "Wof.sys": {
+        "matched_callbacks": 135,
+        "sum_callback_elapsed_us": 12062,
+        "max_callback_elapsed_us": 4630
+      },
+      "fileinfo.sys": {
+        "matched_callbacks": 245,
+        "sum_callback_elapsed_us": 17847,
+        "max_callback_elapsed_us": 5054
+      },
+      "FsDepends.sys": {
+        "matched_callbacks": 6,
+        "sum_callback_elapsed_us": 264,
+        "max_callback_elapsed_us": 53
+      }
+    },
+    "raw_circular_cap_reached": true,
+    "lost_events_reported": 0,
+    "complete_workload_preserved": false,
+    "unique_full_timeout_cause_proven": false,
+    "callback_elapsed_includes_descheduling": true,
+    "raw_traces_redistributed": false,
+    "evidence": "freshness-105-portable-filter-review.json",
+    "posix_reviewer_parity": "PASS; identical reviewed results on native Windows and Linux"
+  },
+  "repository_offline": [
+    {
+      "id": "PROSE",
+      "covers": "no em-dash, banned words, US spelling, CR, or missing final newline in authored files",
+      "status": "PASS",
+      "detail": "925 files clean"
+    },
+    {
+      "id": "CONTEXT",
+      "covers": "prompt reduction preserves the operating contract",
+      "status": "PASS",
+      "detail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.080s\n\nOK"
+    },
+    {
+      "id": "DIST",
+      "covers": "dist/ matches build_dist.planned_files() at its committed stamp",
+      "status": "PASS",
+      "detail": "85 files match at 2026-10-13-82a077a-dirty"
+    },
+    {
+      "id": "DIAGNOSTICS",
+      "covers": "operational status and detailed explanation pass",
+      "status": "PASS",
+      "detail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.083s\n\nOK"
+    }
+  ],
+  "installed_skill": {
+    "ok": true,
+    "skill": "graft-setup",
+    "version": "1.0.5",
+    "tested_graft": "0.21.1",
+    "files": {
+      "SKILL.md": "9de0f1b78ef869c0920772b25d7fd8f8911116db09ba001cdf4a56f720aefdaf",
+      "VERSION": "8c54bfab7f1ae9bd1a7148eae41e7b0a8f4ad3726e0cac70f823a2d45db9e60c",
+      "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
+      "scripts/graft_common.py": "ae3a49209d0c5d13443d537a1d7b2f2d1a6b739facefff23d01768903df14f4c",
+      "scripts/diagnose.py": "9d5284c3add892ca6ab1a3faec0f56c10fe759b3c989783b2f8b5ca399c4f83f",
+      "scripts/refresh.py": "e6aee9fba4d9a9ae80103aca35bd057164f653e46b35dddc0c32b0312d685cff",
+      "scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
+      "scripts/fs_probe.py": "97bea149afc0a19f83e269a2113554e8da150192d02a925fee3bb308a95983d0",
+      "scripts/trace.py": "1e399bf537ad1aa4c006a9acd28b0e85aebda35e58b921060915871f9d1bb699",
+      "references/version-0211.md": "258adbc91bb45d4d3e238f6700dd1e21a84e1c98a058598afab9a1fbf0f6448a",
+      "references/repair.md": "3aec356fdc21fbb1c669b03b97848d83963368cf55ce1847e6e572094bc11551",
+      "references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
+      "references/hosts.md": "da07f2d95c83eca8852ec5e4db14a916b8ca734f24c5980f60cb37e63e82633c",
+      "references/installation.md": "e09f04a315ae53ddbbab5772cedba51f29e71b215bc67c720b7c11fbe602cbb8",
+      "references/freshness.md": "b10a8467a2e7b8c40a1516453b7f6ed605e34d03711be66899073abf74dc28bf",
+      "scripts/runtime_probe.mjs": "dd27f1048e7584352f4cfe90b728d2da88876665d3794487b162a8f7e04c50a2",
+      "scripts/apply_source_patch.py": "4ef36b41519afef9b576e7c08ad749c8cd2bd93fec2d9c9856c2e09e5bcede4d",
+      "scripts/filter_trace.py": "b8771b6e1204de657f132189c55a9a3a444e6d1cba6e49e032f1ab6f54fba027",
+      "assets/graft-scoped-walk.patch": "f34c1548bfc97dfb39817f7adf4888fae5268084b5ae8ae7fae7f4adb4683791",
+      "assets/graft-scoped-walk.json": "bd71999a6eb001982010786641202a192daa2b10442ad325f46c2f83f45cc210",
+      "assets/GRAFT-LICENSE.txt": "d671f52607b002fad21b4a09cf3a7bd6c507e95abfd90040c775fdd4d83e3d7c"
+    },
+    "installed_destination": "existing user graft-setup skill directory",
+    "backup": ".graft/installed-skill-backup-2026-10-14-d304af86"
+  },
+  "archive": {
+    "package": "graft-setup",
+    "version": "1.0.5",
+    "tested_graft": "0.21.1",
+    "archive": "graft-setup-1.0.5.zip",
+    "archive_sha256": "839768f5ea0e52e9f88138bbf86f34fea33f84c40053bd4d6709349107a1c474",
+    "archive_bytes": 133330,
+    "files": {
+      "graft-setup/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "graft-setup/SKILL.md": "9de0f1b78ef869c0920772b25d7fd8f8911116db09ba001cdf4a56f720aefdaf",
+      "graft-setup/VERSION": "8c54bfab7f1ae9bd1a7148eae41e7b0a8f4ad3726e0cac70f823a2d45db9e60c",
+      "graft-setup/agents/openai.yaml": "072bd3a154f28ba698bd7592bdf2059241aefdea632cef5de78afcd9ec8de33d",
+      "graft-setup/assets/GRAFT-LICENSE.txt": "d671f52607b002fad21b4a09cf3a7bd6c507e95abfd90040c775fdd4d83e3d7c",
+      "graft-setup/assets/graft-scoped-walk.json": "bd71999a6eb001982010786641202a192daa2b10442ad325f46c2f83f45cc210",
+      "graft-setup/assets/graft-scoped-walk.patch": "f34c1548bfc97dfb39817f7adf4888fae5268084b5ae8ae7fae7f4adb4683791",
+      "graft-setup/references/deep.md": "f7b89a76bded7aeaf9c239cfab8b0e7e3d66cf1347432576ae6fd114fc2a7a6c",
+      "graft-setup/references/freshness.md": "b10a8467a2e7b8c40a1516453b7f6ed605e34d03711be66899073abf74dc28bf",
+      "graft-setup/references/hosts.md": "da07f2d95c83eca8852ec5e4db14a916b8ca734f24c5980f60cb37e63e82633c",
+      "graft-setup/references/installation.md": "e09f04a315ae53ddbbab5772cedba51f29e71b215bc67c720b7c11fbe602cbb8",
+      "graft-setup/references/repair.md": "3aec356fdc21fbb1c669b03b97848d83963368cf55ce1847e6e572094bc11551",
+      "graft-setup/references/version-0211.md": "258adbc91bb45d4d3e238f6700dd1e21a84e1c98a058598afab9a1fbf0f6448a",
+      "graft-setup/scripts/apply_source_patch.py": "4ef36b41519afef9b576e7c08ad749c8cd2bd93fec2d9c9856c2e09e5bcede4d",
+      "graft-setup/scripts/diagnose.py": "9d5284c3add892ca6ab1a3faec0f56c10fe759b3c989783b2f8b5ca399c4f83f",
+      "graft-setup/scripts/filter_trace.py": "b8771b6e1204de657f132189c55a9a3a444e6d1cba6e49e032f1ab6f54fba027",
+      "graft-setup/scripts/fs_probe.py": "97bea149afc0a19f83e269a2113554e8da150192d02a925fee3bb308a95983d0",
+      "graft-setup/scripts/graft_common.py": "ae3a49209d0c5d13443d537a1d7b2f2d1a6b739facefff23d01768903df14f4c",
+      "graft-setup/scripts/probe_mcp.py": "daa2300c1e69f58c56e8762165a27afc6fdfe6f31a52e8a11b44b1c05aa0c32a",
+      "graft-setup/scripts/refresh.py": "e6aee9fba4d9a9ae80103aca35bd057164f653e46b35dddc0c32b0312d685cff",
+      "graft-setup/scripts/runtime_probe.mjs": "dd27f1048e7584352f4cfe90b728d2da88876665d3794487b162a8f7e04c50a2",
+      "graft-setup/scripts/trace.py": "1e399bf537ad1aa4c006a9acd28b0e85aebda35e58b921060915871f9d1bb699"
+    }
+  },
+  "limitations": [
+    "Defender callback delays were measured, but the entire Windows/WSL stall is not uniquely attributed.",
+    "Circular overwrite discarded early events even with zero reported event loss.",
+    "Global package metadata and the external fork checkout were preserved; future fork build/sync can overwrite compiled repairs.",
+    "Existing MCP processes need a host reload to load new modules.",
+    "Real 14-step fixture acceptance overlapped paced load; some final steps followed load completion. Full-project check load coverage was tested separately.",
+    "Forced full-project independent parsing was audited on Windows; native Linux received normal memo checks, source regressions and real MCP acceptance.",
+    "Native POSIX verification covers WSL/Linux on VirtioFS, not macOS or other Unix variants."
+  ],
+  "historical_1_0_4_verification": {
+    "recorded_at": "2026-10-13T23:57:53.645901+00:00",
+    "skill_version": "1.0.4",
+    "graft_version": "0.21.1",
+    "provider_calls": 0,
+    "offline_tests": {
+      "Windows": {
+        "python": "3.14.7",
+        "tests": 25,
+        "status": "PASS",
+        "elapsed_seconds": 70.621,
+        "source_and_fixtures": "Windows physical project drive",
+        "deadlines_changed": false,
+        "evidence": "unit-final-104-windows.unit.log"
+      },
+      "WSL/Linux Windows-mounted": {
+        "python": "3.14.7",
+        "tests": 25,
+        "status": "PASS",
+        "elapsed_seconds": 62.273,
+        "source_and_fixtures": "Windows-mounted project",
+        "deadlines_changed": false,
+        "evidence": "unit-final-104-mounted-linux.unit.log"
+      }
+    },
+    "real_graft_integration": {
+      "Windows local fork": {
+        "steps": 14,
+        "status": "PASS",
+        "python": "3.14.7",
+        "runtime": {
+          "platform": "win32",
+          "arch": "x64",
+          "node": "v26.7.0",
+          "execPath": "C:\\nvm4w\\nodejs\\node.exe"
+        },
+        "capabilities": {
+          "version": "0.21.1",
+          "tested_version": "0.21.1",
+          "version_matches": true,
+          "supports_structured": true,
+          "supports_documents": true,
+          "supports_deep_documents": true,
+          "identity": {
+            "available": true,
+            "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
+            "package_version": "0.21.1",
+            "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
+            "cli_sha256": "cb273239344d288c9eefd8f64dd018dddbf075b747adf0bec008f565998a76c2",
+            "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+          }
+        },
+        "workspace": {
+          "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration\\graft portable & unicode \u03a9 x7e2lnk9",
+          "filesystem": {
+            "available": false,
+            "reason": "Linux mount information is unavailable on this host."
+          }
+        },
+        "structured_indexing": "PASS",
+        "manual_build_scope_widening_verified": true,
+        "mcp_tools": 6,
+        "automatic_addition_removal_and_retained_scope": "PASS"
+      },
+      "Windows-mounted Linux fork": {
+        "steps": 14,
+        "status": "PASS",
+        "python": "3.14.7",
+        "runtime": {
+          "platform": "linux",
+          "arch": "x64",
+          "node": "v22.23.0",
+          "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+        },
+        "capabilities": {
+          "version": "0.21.1",
+          "tested_version": "0.21.1",
+          "version_matches": true,
+          "supports_structured": true,
+          "supports_documents": true,
+          "supports_deep_documents": true,
+          "identity": {
+            "available": true,
+            "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82",
+            "package_version": "0.21.1",
+            "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/fork-snapshot-bf802a82/dist/cli.js",
+            "cli_sha256": "f04afe2f33502213425895e33e55baf5235045270941611ba46fc7e7612e6dfc",
+            "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+          }
+        },
+        "workspace": {
+          "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-verification/graft portable & unicode \u03a9 dycimb__",
+          "filesystem": {
+            "available": true,
+            "mount_point": "/mnt/d",
+            "filesystem_type": "virtiofs",
+            "source": "drvfs",
+            "host_shared": true
+          }
+        },
+        "structured_indexing": "PASS",
+        "manual_build_scope_widening_verified": true,
+        "mcp_tools": 6,
+        "automatic_addition_removal_and_retained_scope": "PASS"
+      },
+      "Windows-mounted Linux published npm": {
+        "steps": 13,
+        "status": "PASS",
+        "python": "3.14.7",
+        "runtime": {
+          "platform": "linux",
+          "arch": "x64",
+          "node": "v22.23.0",
+          "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+        },
+        "capabilities": {
+          "version": "0.21.1",
+          "tested_version": "0.21.1",
+          "version_matches": true,
+          "supports_structured": false,
+          "supports_documents": false,
+          "supports_deep_documents": false,
+          "identity": {
+            "available": true,
+            "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft",
+            "package_version": "0.21.1",
+            "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/graft/dist/cli.js",
+            "cli_sha256": "5d744a3aad0bb9580e3ae6ecd9a06c1e818521bb331acb4f457732554bcbf2af",
+            "package_json_sha256": "47f7e4977b9bea1ba7abe0d0bc9ab468922faca82a8281f13315e6b49e663ff1"
+          }
+        },
+        "workspace": {
+          "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/mounted-published-verification/graft portable & unicode \u03a9 pen2_s19",
+          "filesystem": {
+            "available": true,
+            "mount_point": "/mnt/d",
+            "filesystem_type": "virtiofs",
+            "source": "drvfs",
+            "host_shared": true
+          }
+        },
+        "structured_indexing": "UNSUPPORTED; rejection without project mutation verified",
+        "manual_build_scope_widening_verified": true,
+        "mcp_tools": 6,
+        "automatic_addition_removal_and_retained_scope": "PASS"
+      }
+    },
+    "wsl_startup": {
+      "status": "PASS",
+      "wsl_version": "3.0.3.0",
+      "cold_starts": 3,
+      "elapsed_seconds": [
+        6.882,
+        6.943,
+        6.72
+      ],
+      "action": "Reset idle shared VM with wsl --shutdown, then run bounded direct Linux probes",
+      "root_cause": "Not established: the historical timeout was no longer reproducible before intervention.",
+      "configuration_changes": [],
+      "service_restart": false
+    },
+    "native_runtime_repair": "Installed checksum-verified native Linux Node and npm Graft 0.21.1 in an isolated user prefix; explicit launcher avoids inherited Windows shims.",
+    "skill_validation": "PASS",
+    "installed_parity": {
+      "status": "PASS",
+      "version": "1.0.4",
+      "files": 15,
+      "backup": ".graft/installed-skill-backup-2026-10-14-9673126a"
+    },
+    "deterministic_release": {
+      "archive": "graft-setup-1.0.4.zip",
+      "sha256": "ad764dabf8dc4366091aeab5b233fa52d3d59d8a45545126b45da3eddbca0a04",
+      "archive_bytes": 99628,
+      "files": 15,
+      "status": "PASS",
+      "verified_on": [
+        "Windows",
+        "WSL/Linux Windows-mounted"
+      ],
+      "source_frontmatter": "PASS"
+    },
+    "limitations": [
+      "Earlier multi-second stall spikes were not reproduced in the initial serial baseline; the exact internal 9P defect or historical host-load cause remains unproven.",
+      "VirtioFS is experimental and affects all WSL 2 distros for this user. Docker was stopped and Docker workloads were not qualified.",
+      "The first transport trial failed its 45-second boot bound and restored configuration. A sequential trial with explicit Linux cwd and a separate 90-second platform boot bound succeeded; acceptance test deadlines stayed unchanged.",
+      "A native check against the old Windows cache produced unusable output naming added files beyond intended scope. That failure is retained; a separate explicitly scoped native cache for the actual project passed.",
+      "Filesystem and diagnostic averages improved, but no universal latency bound is established.",
+      "Binary-document rendering, paid deep passes, macOS, Python 3.12, new host chats and general filesystem isolation remain unqualified.",
+      "Refresh locks coordinate the helper only; pause other automatic refresh clients before cache replacement.",
+      "The complete Orchestrator harness was not rerun; relevant existing checks passed and consumer source/bundle were unchanged.",
+      "VirtioFS does not prevent concurrent-load timeouts. Exact low-level Windows blocker and historical 3-second MCP trigger remain unproven; full-project traced freshness exceeded 180-second command bound. Raw Defender ETL is intentionally local."
+    ],
+    "corrected_test_setup": [
+      "Initial non-Git fixture inherited an ignored parent Git tree; corrected using a canonical Git ceiling.",
+      "Git identity assertion initially decoded a Unicode path with the Windows locale; corrected to explicit UTF-8.",
+      "Isolated Linux fork snapshot initially omitted a nested npm dependency from module resolution; corrected the fixture layout without installing new dependencies."
+    ],
+    "initial_posix_failure": "Optional structured indexing was unsupported in the npm-distributed package; retained failure evidence and verified rejection without project mutation.",
+    "build_provenance": {
+      "status": "PASS",
+      "published_members_matching_linux": 620,
+      "fork_dist_members_matching_windows": 739,
+      "cause": "Local fork dist sync preserves published package metadata, so both labels remain 0.21.1",
+      "published_cli_on_windows": "PASS; optional flags absent",
+      "fork_on_native_linux": "PASS; structured Markdown indexed"
+    },
+    "mounted_filesystem": {
+      "status": "PASS",
+      "wsl_version": "3.0.3.0",
+      "setting": "wsl2.virtiofs=true",
+      "experimental": true,
+      "scope": "User-wide WSL 2 configuration",
+      "transport_before": "9p",
+      "transport_after": "virtiofs",
+      "rollback": ".graft/wslconfig-before-mount-fix-2026-10-14.ini",
+      "cold_starts": 2,
+      "cross_host_visibility": "PASS",
+      "test_deadlines_changed": false,
+      "source_location_changed": false,
+      "antivirus_or_permissions_changed": false,
+      "historical_spike_root_cause": "Not established; serial baseline passed before transport change, but boundary latency was measured and targeted.",
+      "qualification_version": "1.0.3 serial qualification; superseded for concurrent prevention claims"
+    },
+    "graph_summary_performance": {
+      "before_seconds": 30.56,
+      "after_seconds": 2.266,
+      "validations_before": 3948,
+      "validations_after": 346,
+      "files": 346,
+      "nodes": 3948,
+      "escape_checks_preserved": true
+    },
+    "actual_mounted_project": {
+      "status": "PASS",
+      "cache": ".graft/wsl-core",
+      "scope": [
+        "src",
+        "tools",
+        "test/harness"
+      ],
+      "files": 346,
+      "nodes": 3948,
+      "structural_fresh": true,
+      "semantic": "absent",
+      "original_windows_cache_preserved": true,
+      "ignore_configuration_preserved": true,
+      "qualification_version": "1.0.3",
+      "latest_check": {
+        "ok": false,
+        "exit_code": 1,
+        "error": "Command timed out. Measure scope and choose an explicit larger timeout if justified.",
+        "original_graft_command_bound_seconds": 180,
+        "trace_elapsed_seconds": 260.139766,
+        "provider_calls": 0,
+        "experimental_driver_report_error": "Assumed success-only filesystem field; corrected by interpreting preserved helper output without rerunning."
+      }
+    },
+    "historical_evidence": {
+      "unit-posix.log": "1.0.2 native-source test run",
+      "unit-posix-source.json": "1.0.2 native-source hashes",
+      "integration-posix.json": "1.0.2 published Linux acceptance",
+      "integration-posix-fork.json": "1.0.2 native fork acceptance"
+    },
+    "concurrent_load": {
+      "status": "REPRODUCED",
+      "virtiofs_eliminates_stalls": false,
+      "windows_native_20_second_timeout": true,
+      "linux_20_second_timeout_with_virtiofs": true,
+      "linux_pressure_16": "3 errors in 4 focused attempts; warmed replay failed 2/2; import-search control failed 1/2",
+      "causal_findings": "Mounted metadata and runtime/process delays consume the same deadline under shared host pressure. Pacing reduced latency and CPU pressure. Unique Windows wait/scan component not identified.",
+      "defender": "Heavy scan/CPU activity measured; long scan durations did not establish synchronous blocking. Raw ETL local; reviewed scoped evidence tracked.",
+      "historical_3_second_failure_reproduced": false,
+      "test_deadlines_changed": false,
+      "configuration": "Original VirtioFS config restored and actual mount verified after reverse trial; protection unchanged",
+      "real_graft_trace_smoke": {
+        "provider_calls": 0,
+        "runs": [
+          {
+            "operation": "refresh",
+            "exit_code": 0,
+            "ok": true,
+            "elapsed_seconds": 26.541
+          },
+          {
+            "operation": "diagnose",
+            "exit_code": 0,
+            "ok": true,
+            "elapsed_seconds": 12.868
+          },
+          {
+            "operation": "probe_mcp",
+            "exit_code": 0,
+            "ok": true,
+            "elapsed_seconds": 55.9
+          }
+        ],
+        "ok": true
+      },
+      "summary": "concurrency-summary.json",
+      "report": "CONCURRENCY.md",
+      "retained_experimental_errors": [
+        "Python traceback-dumper SIGSEGV",
+        "protected proc-read denials",
+        "initial coordinator aggregate timeout",
+        "Windows text/bytes trace recorder bug (fixed and regression tested)",
+        "full mounted-project Graft check timeout at existing 180-second bound"
+      ]
+    }
   },
   "evidence": {
+    "active-refresh-105-windows.json": "28df4053664471dfa319eb5662df6bb0da48e41643258e6b6aabcbf9d937db64",
     "actual-check-detail.json": "8c17d6a8bf45bf7223b6e70ead629ff0aeb94c8e918e0f3edc901e3604db563b",
     "actual-mounted-core-diagnose.json": "8e345f415870fdb714661ea26aff34d99b8d8df7b3f099eff81cfa9832048832",
     "actual-mounted-core-refresh.json": "1413c701983e77155875ed0e6e5c06458b0262bfa941958597c0ecfab514437f",
@@ -339,10 +1780,99 @@
     "concurrency-virtiofs-traced-windows.trace.json": "ab89a535b73c8c003b1596947b56aa95a538b737c8b845ac5ae010a6b2a4f005",
     "concurrency-virtiofs-traced-windows.unit.log": "4538d4f597419ee4dd597ae353ee5c20d9910a115e23a15c77e18d066238075f",
     "cross-host-visibility.json": "81fe4dbfd712f219615c34bde4c65c63ec96bd78d4ccbee1a29c3c725d7d89bb",
+    "freshness-105-arm_kernel_pair5.py": "5bd915fce29db9d4b4a0d796e29b922605170e9217f87031788983e9af8954fa",
+    "freshness-105-armed_load5.py": "0245f3df42d267535e6bb95da1820789a7f6516a502a805cac16c98a485b8d84",
+    "freshness-105-blocker-linux-check.json": "6344c956320737b2b8ca943bb6fe6de77e237cce360997229aa0c6701b3444e8",
+    "freshness-105-blocker-linux-fs.jsonl": "27f65f110f63df8239155ee5423442a5cba1ecb096a464744d8efe2b3860cb6a",
+    "freshness-105-blocker-linux-load.json": "842b2adb4096e722651378109361e7ea64fbd318119416d9cfb7606179c32d25",
+    "freshness-105-blocker-memory-recording.json": "3b5267f291cb46eed427e784fdda451867202513931a0332313d06784eb88e9d",
+    "freshness-105-blocker-recording.json": "cbccc67a4be6e7a85b6db043224de685dda959fce2fb362ab76bae0f7d6ad45c",
+    "freshness-105-blocker-windows-check.json": "991a8e3ff6a432d949c5ec029c6849d82c8d6c7d2eef8dc70c6c607d0d04c649",
+    "freshness-105-blocker-windows-fs.jsonl": "31eb2b51e198f61f0b03bfe7df9da7309db8eefb6cbf806fc0753c02146daee2",
+    "freshness-105-blocker-windows-load.json": "fc31ef424a6760b680c011f3a5ea866c7d2dbf7725e75840a1c678715538289c",
+    "freshness-105-comparison.json": "0e33b039f18fe4b6d1bdb945e76f8013dc158b762c4c85421491083e4f386485",
+    "freshness-105-independent.json": "9ba853f02fce796339355823b81c03c0872b6715a54962db6c00f3ce1e282633",
+    "freshness-105-independent.stderr.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-105-independent.stdout.json": "6dae3f18e7d0239da9d913a21595f5609d6af4c8aa8dbc661e77285db1d3533f",
+    "freshness-105-kernel4-linux-load.json": "5a06c02bcc0bb4dc7bec7056790d204aeff8b91f38b0d15084a0ab47ce394c7e",
+    "freshness-105-kernel4-node.json": "5a9a9d46337fb498e62f713ddb3e16e2adf26b2c31e62e7cce8dfe56d930aefa",
+    "freshness-105-kernel4-recording.json": "d8e6d861f61c5fea4de810102294f934d375392cd65bbbc563995a3fa8cf1c5c",
+    "freshness-105-kernel4-windows-load.json": "d5f4e60a6e63b493a948235fa4f82d4acfbd2348a52d0cbdf4f9e98606bf4d17",
+    "freshness-105-kernel5-linux-load.json": "c7a837bad89cb0c7ed08900e09594e2e138e9533c6678f89677e404c7b351524",
+    "freshness-105-kernel5-node.json": "df205f63184e02d5a11c05afec3cf3a0bd7efe332658d437039c6185bb6217a3",
+    "freshness-105-kernel5-recording.json": "9997de6af2d4f564de86e0e7454e7838dd75bbb44b8970066fc02c398db3dfa6",
+    "freshness-105-kernel5-stats.txt": "1ed15ba0c7ed369af5652a75dd6c5d14a735d1c80cc08eacca874a1ac1d4a2ae",
+    "freshness-105-kernel5-windows-load.json": "f0772a2f4793350daa299e384cc5e46049ba2116ad4dfe7e9a848b4c0047e5d6",
+    "freshness-105-mcp-version-aligned.log": "44875f488c8fe7b63b7e34c1193a7eb2647fe1212b90e4f21fa73026bd70017a",
+    "freshness-105-memo-after.log": "cb5c7f4f91d62590e54b3692c0e49d9d34c39291632956dc3a81ea2ff7e7a8ab",
+    "freshness-105-memo-before.log": "02bbe49492e6e2a9e6c824410a9189f6e23759d83b84b369ba11cefb7a0d7af1",
+    "freshness-105-memo-refresh-linux.json": "06a3eeba606fc8fd5fa854fe9cbaa54bd501e25a96e022da0d8a01b27cddd2f7",
+    "freshness-105-memo-refresh-windows.json": "bd01b7a17846b3846fea344d00a154e1591af93dfeddc902f36fca5ba5004529",
+    "freshness-105-portable-filter-review.json": "f525edeb70d54b872530556a3c9cd88165badf88ac94524fe5e31b3fab394ec4",
+    "freshness-105-posix-filter-review.json": "f525edeb70d54b872530556a3c9cd88165badf88ac94524fe5e31b3fab394ec4",
+    "freshness-105-raw-trace-digests.json": "d45eb0751bcb02be3af25bdbfa1ec55dca04f4d31d1300e0861e785aa49343b7",
+    "freshness-105-record_kernel_filters5.ps1": "68d5e4dbfbe0d9443191e4575090d51d7896663d6c109c93764dab6333c6e9a8",
+    "freshness-105-record_kernel_waits4.ps1": "04c3ff551ad2208522e28c18c6b4a84a1727ddaa6b340a2655dda608e8894686",
+    "freshness-105-scope-aligned-build.log": "bdc1e95f7d4a4713a60a20d562226df0b39fce8a514a234960be4f61ef1c22dc",
+    "freshness-105-scope-aligned-test.log": "6798d9d2aed984c767a1eb849668c31e17ce954d41570f9bc0d91b40a4caf574",
+    "freshness-105-scope-final-build.log": "a69f39738fb8e4a0eff33372857a3a74f3694b6db7cb58d59b5fa5d7c1272d52",
+    "freshness-105-scope-final-test.log": "778e699894ab2e6d93f16c5ad8f9ca2bdcf9d1789e6abd0e41ab411a01d6715c",
+    "freshness-105-scope-gate-owned-stop.json": "ea4171c99fd1c4d49063e0774af4ce6242b9973bb3c69cd063a6bd6ec40a658c",
+    "freshness-105-scope-paced-build.log": "a69f39738fb8e4a0eff33372857a3a74f3694b6db7cb58d59b5fa5d7c1272d52",
+    "freshness-105-scope-paced-test.log": "0ac06d118d99f1ccfead86f8aef540ba9502b19d6bf8cb44f67ce4be5e1a48ef",
+    "freshness-105-scope-regression-before-fixed.log": "03db9ceb9672c8e527fe57f8d84db836fb1069f9ec64a7f1ae71c6c52c26ee3c",
+    "freshness-105-scope-regression-before.log": "4c0accca763e41a7f04da6eaac0fe81a37368633ae4e77ed8a79d4aaa2000b00",
+    "freshness-105-scoped-linux-check.json": "1453e9eb21264a507be980fac35e1efe42f12c2b713aa4c5d491f73d4fc0d78e",
+    "freshness-105-scoped-linux-load.json": "c5c3f01bd0dda11f4ac9fb60c563702429a0f0e5d88f9084edee2c218508d0f7",
+    "freshness-105-scoped-windows-check.json": "584f2243c1cc74e57d4a9f905e41f8265b3b6dd6f44c61ad4d4871f35bec001d",
+    "freshness-105-scoped-windows-load.json": "502dbd3008af10a53deaede9e4cd6848275274c82fcb16e37425d6f2ca584d43",
+    "freshness-105-skill-105-windows-unit-final.log": "1b712e453ec0747849b7ebaebed6e7004176d74c8bf5a6ce6b1b724cb8071e91",
+    "freshness-105-skill-105-windows-unit.log": "69ae57a2a31e8de478a7e1f59fdeda81ad8b722a0d05e721accb99e6812e99d0",
+    "freshness-105-task-filter-extract.json": "dee16270905721051f1a48ccfd9d5f1ed6fa3ccfb3d5a6d1c71f3c3869ce83d6",
+    "freshness-105-wdfilter-identity.json": "5c4bfac4f090e8e18c91e77f48c7d0163809eaaf7feb852bc4a5daf5e90d3ae6",
+    "freshness-active-105-host-0.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-active-105-host-1.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-active-105-linux.json": "9f7ee8cda9b66b908e119ac35ca86e22340becedf4ca421399ff30fb368eeaea",
+    "freshness-active-105-linux.load.json": "6de099f2fe84c0118951b72f57c7cc50ea1ac6de1888aa946cf2ad32d8901473",
+    "freshness-active-105-linux.load.log": "ec1a6f7872133eba3bb7fdf3eecd559bc701c389367f383af66ec659da43ff71",
+    "freshness-active-105-linux.stdout.json": "da24af2576bdb28fcff3f464f8a88396255cbc4c4a2c32e8e4846a5a49facf19",
+    "freshness-active-105-linux.trace.jsonl": "83aac6b3139b40d601557a5e4ad89aba0bed7da5f030363e61444d9bb4d1edd5",
+    "freshness-active-105-pair.json": "e1c48f17cc2133b5a597a7894c660100ab7ded79a5b5d4a2085186f795e3c12c",
+    "freshness-active-105-windows.json": "9b4c702a9e844fc407a553d54fa70554a1452e4efcc55041bfdd60c9950f3e3a",
+    "freshness-active-105-windows.load.json": "685cfa15c7e2cd7348f1282e2b0b0f5a830da0723216cdd6236c5e3c1b663391",
+    "freshness-active-105-windows.load.log": "0848525a1ff4dbb9905fd2c7f3dd86684412ef2edc311cc429875b45fe14aea4",
+    "freshness-active-105-windows.stdout.json": "f7a81646f9deb0a7f9da12e8c0049c57686aa0c4d01f6117a99a08df03b00885",
+    "freshness-active-105-windows.trace.jsonl": "6bfb22b74011f916825a3f698fefd97d5d0597f20a2533be8d256efe2736c797",
+    "freshness-final-105-host-0.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-final-105-host-1.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-final-105-linux.json": "19191965796a6a595633550407c205dbb2d348b310ebd703eef61a7fccd189df",
+    "freshness-final-105-linux.load.json": "a2bce791e179009cada59ca1cb6fe537fb240754ba64dfd71910c332db9179c6",
+    "freshness-final-105-linux.load.log": "25e480b7a0f92728f6cd3f40e5d4eeb95fae55454b87b7be8cab1203e4ab6db5",
+    "freshness-final-105-linux.stdout.json": "df00f443ec478d1368421c3594b28fd38ba9a288b45823af0a78cf849800cccb",
+    "freshness-final-105-linux.trace.jsonl": "c9aa7b48d50e318d25cb29fdeb98a0fa2d9715aec53b33670db55e7580d58b7b",
+    "freshness-final-105-pair.json": "006f35a9785978c4d233612396a9f59bb8088f1ec53dec21e9f8a5141dbb2393",
+    "freshness-final-105-windows.json": "5c4100eee73ed5723aec0b16678a57da3fde14a490f343c5375b0f8339700dd1",
+    "freshness-final-105-windows.load.json": "1cf223e740ef53755a70ee86f4365d0b8da75735efcee42d4a3fc552996e86e1",
+    "freshness-final-105-windows.load.log": "a6ffd47f11db55a5404303d354bd2095020ea6b505041685f19116116c4f6505",
+    "freshness-final-105-windows.stdout.json": "d864bab0d917336802ed7de994abe8872c8db308603db659441b63f5e59fdc4a",
+    "freshness-final-105-windows.trace.jsonl": "7f49b0e3f77bd59c3391a1496e40a0bd060d2d462eae8bf67c4bf781bab32a2a",
+    "freshness-full-helper-host-0.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-full-helper-host-1.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "freshness-full-helper-linux.json": "5b5e476b84d1e9da3015cda8565070657425e72c6fbd91373a2d08f98718e79a",
+    "freshness-full-helper-linux.load.json": "e0089d23b7dbf2178867268d7f3033125ee9f347c9997f7bdc6d4932ea5805d6",
+    "freshness-full-helper-linux.load.log": "eb7646f7dfe80a84ca0ba46719af63d253f5f4421068e70ed797f0edb884a76e",
+    "freshness-full-helper-linux.stdout.json": "0cbb41bede183bb5daa1d447a5b78fdf6d2e03964e651b38f2fa10ca8475c649",
+    "freshness-full-helper-linux.trace.jsonl": "0007454c425187c51019e221349fd695dbaa26246fc4f1c8c11ade94dadabc4e",
+    "freshness-full-helper-pair.json": "a2465a3ced90a5cfcbd51bb221cbd4f4d324af6f19f9f5de93b24ce6b301332e",
+    "freshness-full-helper-windows.json": "a2388b6939243c4487164faa19624629527076dc1ff5f3baace95f81fbf1334f",
+    "freshness-full-helper-windows.load.json": "0d8767aab139cd649ec70de433a36c4cc4a775ad45d6fcd7307a9aeb3ea52383",
+    "freshness-full-helper-windows.load.log": "c7931c463348089b3d53a5a0af7e71670dac53425c1fea7e3c13cc38b47d9c9e",
+    "freshness-full-helper-windows.stdout.json": "53f7579c8734438d5e1e8f0c3bffe7d34021934bf9e595fd380812e46a810611",
+    "freshness-full-helper-windows.trace.jsonl": "e63fa6942c2d2bc90931d7db9154a7ba6efc4f079f1ff1f20fec0e1ce8ef471a",
     "git-identity-initial-failure.json": "70edb07e3182d47e0b303571af5b7ebf98d125329bd967de9e39c93b35166a25",
     "graph-paths-after.json": "4121072278a9b8df81689ba6f880a7b1a4734d273465b853f9b9051f4b9ee70e",
     "graph-paths-before.json": "6ab7b16432c5d4f33dbe7b77585fe76ae4d28384a85f6806b46b6efc9d6aebda",
-    "installed-parity.json": "3766559797a8d37282ec62b8dc8dc64c5ebd40a09a87ad7ea5c28243ea62cf56",
+    "installed-parity.json": "95ea7d32373d6436c3a801d61616c244a308de20c2c0482c0da79c2265cfbf2c",
     "integration-initial-failure.json": "5eb1494906ecb36695abb7f6082c668677084b45b7857f9fcbefb23518059d6d",
     "integration-mounted-fork.json": "ae89e664633914ef994108c459f76aac71a084a0f6b2b3823f62e7783cf9a7c2",
     "integration-mounted-published.json": "a2ff66825a04c4bef0a1118bbb70d402131bb4219b495db034e0c2046cd3d65f",
@@ -355,7 +1885,40 @@
     "mounted-io-after.json": "1de1890a0ad54a24e5e36c9990fd0eb049fbd5fa678b957ff7fc7639dc748867",
     "mounted-io-before.json": "66b1837661f5967287469b55260d49e3d851e671a62a43aaa686d11a77d08b60",
     "mounted-verification.json": "46043ce4ad10fb1f329ca61b2d3fa8190a7c2dab29df05bb1e0507356d476993",
-    "repository-offline.json": "fd04a434939fa163d747654afbfae5ef17fd505666347322762b7af532cce1bd",
+    "patch-105-apply.json": "99d5b647cdde9655a220954ce7c1da045a8cf0925452dac586321c1f0cc2505e",
+    "patch-105-dry.json": "9283f24b26558be10b10721cdb5e21f7b3e823e90bceed463ecc7ed6316f98e4",
+    "patch-105-original-apply.json": "f6c9fcb1ff73d6a4471bea322a8e7fb2ae38e7b56337d4980b3bb0aa80fcea69",
+    "patch-105-original-dry.json": "20963bbeb24478d396561489e02155cd43075fbceaca647e4e472bf2a80bd358",
+    "patch-105-original-repeat.json": "93a779de795d0839425af27c00897caa89e75271d988d94f9074ed5b3fdcedf3",
+    "patch-105-original-verification.json": "f2b236d4c81fd1cb2730764b58af2b42f7101362fb100b700c597219609175d8",
+    "patch-105-repeat.json": "93a779de795d0839425af27c00897caa89e75271d988d94f9074ed5b3fdcedf3",
+    "patch-105-verification.json": "fdee8fb0101c0870f128f7cdf873882b19de773d69d8d53c8b7cdbf53d8a2374",
+    "real-final-105-host-0.log": "e4baf25c0011cee62a23400a052fd3f7969e5cce00e4acc582af59ed8ba896cd",
+    "real-final-105-host-1.log": "0fe6f79f8d5a086754e05674a919b27428266d13ccc0f3f7662d95e01555e82c",
+    "real-final-105-linux.integration.json": "4c8a6e50b5035bd5bb6b5e6f8aac8adb819fb6a64c55285920854d88e7a57c58",
+    "real-final-105-linux.json": "1ae8ad82d8bf1e98d748efdf8d40806356d5a8098bc1bf260a425cab22551960",
+    "real-final-105-linux.load.json": "e67bdac9adcace069ff68688f0d541d4be0b5a052be5df5ec6fcaafbcd669894",
+    "real-final-105-linux.native.json": "0befc4e7a15e30314e8f51fa00b302a55c3ac5003e2ef70d0d468667dce9d088",
+    "real-final-105-linux.real_graft.log": "4c8a6e50b5035bd5bb6b5e6f8aac8adb819fb6a64c55285920854d88e7a57c58",
+    "real-final-105-pair.json": "a3902cdd3f84cc17cf0904b49f420ad178e50c61dfdf048b3ba0b53f18402565",
+    "real-final-105-windows.integration.json": "d3535687cf4147fd61e80c2084adf942cc2daf20107cb15b573f38a3c9373b09",
+    "real-final-105-windows.json": "6356340305ef5d08ace8ae71dce9a91f6e47c1bdf944e34158b75d0597e1b134",
+    "real-final-105-windows.load.json": "64e4ecfb78b2b09c98f3e28fec6cd0da59b08c16e6deb5aa5477b3049054a690",
+    "real-final-105-windows.real_graft.log": "d3535687cf4147fd61e80c2084adf942cc2daf20107cb15b573f38a3c9373b09",
+    "real-retry-105-host-0.log": "8eff9dae51c34e44b1b804ccf65e46334fa43f16a2b12089d177fa23f518439a",
+    "real-retry-105-host-1.log": "ee53c67cbf20118286a3595bc02370f755b9c44dd7eb3ba8905f282c0916ff50",
+    "real-retry-105-linux.integration.json": "32b5b029d6c23d63a6e2e8e5a3d7c49cbf15eef3cad2b73b188d2ffa73144f90",
+    "real-retry-105-linux.json": "31f1a6d791a9f9cbfd146a92c4c5faf623733c5f652ecc20bc879eeebe962400",
+    "real-retry-105-linux.load.json": "46302fbeabb19774396a548e24e4e71c18686f120898d8f972b3aa6ae29462f6",
+    "real-retry-105-linux.native.json": "13d1f4831376945170b4615d4fbbc7f9a3f01c90b766864321bae58852efdada",
+    "real-retry-105-linux.real_graft.log": "32b5b029d6c23d63a6e2e8e5a3d7c49cbf15eef3cad2b73b188d2ffa73144f90",
+    "real-retry-105-pair.json": "cf6b5cfb0f40c968ac9d76fcf8f1b5188072595e7c4245953817834409063020",
+    "real-retry-105-windows.integration.json": "eaaa431c29c0e17a8e999b32c11f7772163eb0eb35e79796f033de083e22d475",
+    "real-retry-105-windows.json": "c06de4b12378756aaf87f9ec0859ede95fa035fbd6f8d8efaff21953d5528dd4",
+    "real-retry-105-windows.load.json": "9a15fd74df0f555f39158bd3b0ec7ea67db00ab7fb155f0ab96a827fa31f0dbe",
+    "real-retry-105-windows.real_graft.log": "eaaa431c29c0e17a8e999b32c11f7772163eb0eb35e79796f033de083e22d475",
+    "repository-offline.json": "86eedf96bd59bbff2ea0551f1cd80c1c0cd73dd2e172b1c21eb4817cfdc39453",
+    "runtime-install-105.json": "a206767c15fa63ad5f7d08979d68eba273c85937a8868078c9883aeb83cf26b1",
     "runtime-posix-fork.json": "2a42683c7584142e890dc6514654c5dc7f1f0a41722717d178a7f29ca5a34f1c",
     "runtime-posix.json": "f9347123ff3faf9ef676960b51f7f7a8877a5607758782682dd27e2feb7b7b78",
     "trace-actual-104.json": "231384864a8bcd01e844c76542e2426bb441f20a1632744bd485d86ec634468c",
@@ -373,6 +1936,10 @@
     "unit-final-104-mounted-linux.unit.log": "49f3834200ee5d3766d338d67a7ddd06d341aa23c45a86792aa5839293b2353f",
     "unit-final-104-windows.json": "3be8d5a8a0656b4f130f1d0a578319bcf9f8e8f152e3dec0acadf9bf909ce1c7",
     "unit-final-104-windows.unit.log": "c8e8a18f23e264cc4c880b92a4397b7f4ad130061a302fdf453f7c5080507a28",
+    "unit-final-105-mounted-linux.json": "031867608295a433fd842905c0c9865423e01919a13846ec02b9dd05f99ce69e",
+    "unit-final-105-mounted-linux.unit.log": "0584d21b161bf16658875577ad01838f3861801e0c17ad010ebba4c5d388a2bf",
+    "unit-final-105-windows.json": "6ce65cc39b8adab6e88e8cce7e076ed34489aeb1050226e51dfff142f7c8a617",
+    "unit-final-105-windows.unit.log": "7e2583e776eca3783a4cc093001c63f6b98a29e0719f752475b48f30f4d60dd0",
     "unit-mounted-1.log": "a0f5b7587612d1d7490c11048097c1d6b8a995eb446ef22667d1cd8e8f0d4637",
     "unit-mounted-2.log": "c072ef12353ed8725a76c4b484dde6b6e7db24e4fc5fb62fa3729c7f0442fc89",
     "unit-mounted-baseline.log": "c9cec6c1ff557c65c1b1c571aa97d7892c13c118790f3099d7422d5dcb87bac1",
@@ -380,137 +1947,16 @@
     "unit-posix-mounted-retry-failure.log": "d6d34c6eb0e82301678f3244ee7100c9591b52dd5cf3805b1bbe164463a03433",
     "unit-posix-source.json": "5289855cc613d69bb1508c8c76ff84d2b92e6e2afa45696c27efd68f7b7c65cb",
     "unit-posix.log": "9d6ffbaf2e714ff710081ab9c634916f8b1de46681aa37eebdcedca2a2d8c5d4",
+    "unit-release-105-mounted-linux.json": "47e5614e9bf5bb1b2b6f2960a17ccd299ec0c51244da8ddf7bbca3bd66992130",
+    "unit-release-105-mounted-linux.unit.log": "c87630d4554418692f141dc53768f68c4cf1afdf2bbef7a691feb44d3fc191f3",
+    "unit-release-105-windows.json": "4024bd8b4132803bb49fe14d0472eaf74376394145f8703044e0a06e61250e5a",
+    "unit-release-105-windows.unit.log": "71958ef61e2c21297da05724b5605eb9425285bbe695d8f5e6785035c3588846",
+    "unit-retry-105-mounted-linux.json": "e63100defbb616bee51b51a1c94c186af7287f97c368f674ef0fa0f2375d58db",
+    "unit-retry-105-mounted-linux.unit.log": "bcc90dede0a7d4e271f795c2be48b59025b971834d168b7b49cfa4a87e5d0c54",
     "unit-windows.log": "3e2383718cd9a31d0708275b85fb74fe0f3ae29c695b452d14ed24b0f4627930",
     "virtiofs-cold-starts.json": "84884a9abdb4cde4f40ced936d8a88e49812ea18c4592385418424214db3fdda",
     "virtiofs-sequential-trial.json": "4e9ac20f41741b3a3c12d2c779ab0e1d9de843b6b40781e5e3be844d94223966",
     "virtiofs-trial.json": "b7e6dbe8d4beed08d0f91b911571a22b5ef21c9430979a5859fa19115918adf2",
     "wsl-startup.json": "f9d6b422cb90c4cebeca4cb44602e0f2f5af5348a5c8f3cccfa57337ce4659db"
-  },
-  "limitations": [
-    "Earlier multi-second stall spikes were not reproduced in the initial serial baseline; the exact internal 9P defect or historical host-load cause remains unproven.",
-    "VirtioFS is experimental and affects all WSL 2 distros for this user. Docker was stopped and Docker workloads were not qualified.",
-    "The first transport trial failed its 45-second boot bound and restored configuration. A sequential trial with explicit Linux cwd and a separate 90-second platform boot bound succeeded; acceptance test deadlines stayed unchanged.",
-    "A native check against the old Windows cache produced unusable output naming added files beyond intended scope. That failure is retained; a separate explicitly scoped native cache for the actual project passed.",
-    "Filesystem and diagnostic averages improved, but no universal latency bound is established.",
-    "Binary-document rendering, paid deep passes, macOS, Python 3.12, new host chats and general filesystem isolation remain unqualified.",
-    "Refresh locks coordinate the helper only; pause other automatic refresh clients before cache replacement.",
-    "The complete Orchestrator harness was not rerun; relevant existing checks passed and consumer source/bundle were unchanged.",
-    "VirtioFS does not prevent concurrent-load timeouts. Exact low-level Windows blocker and historical 3-second MCP trigger remain unproven; full-project traced freshness exceeded 180-second command bound. Raw Defender ETL is intentionally local."
-  ],
-  "corrected_test_setup": [
-    "Initial non-Git fixture inherited an ignored parent Git tree; corrected using a canonical Git ceiling.",
-    "Git identity assertion initially decoded a Unicode path with the Windows locale; corrected to explicit UTF-8.",
-    "Isolated Linux fork snapshot initially omitted a nested npm dependency from module resolution; corrected the fixture layout without installing new dependencies."
-  ],
-  "initial_posix_failure": "Optional structured indexing was unsupported in the npm-distributed package; retained failure evidence and verified rejection without project mutation.",
-  "build_provenance": {
-    "status": "PASS",
-    "published_members_matching_linux": 620,
-    "fork_dist_members_matching_windows": 739,
-    "cause": "Local fork dist sync preserves published package metadata, so both labels remain 0.21.1",
-    "published_cli_on_windows": "PASS; optional flags absent",
-    "fork_on_native_linux": "PASS; structured Markdown indexed"
-  },
-  "mounted_filesystem": {
-    "status": "PASS",
-    "wsl_version": "3.0.3.0",
-    "setting": "wsl2.virtiofs=true",
-    "experimental": true,
-    "scope": "User-wide WSL 2 configuration",
-    "transport_before": "9p",
-    "transport_after": "virtiofs",
-    "rollback": ".graft/wslconfig-before-mount-fix-2026-10-14.ini",
-    "cold_starts": 2,
-    "cross_host_visibility": "PASS",
-    "test_deadlines_changed": false,
-    "source_location_changed": false,
-    "antivirus_or_permissions_changed": false,
-    "historical_spike_root_cause": "Not established; serial baseline passed before transport change, but boundary latency was measured and targeted.",
-    "qualification_version": "1.0.3 serial qualification; superseded for concurrent prevention claims"
-  },
-  "graph_summary_performance": {
-    "before_seconds": 30.56,
-    "after_seconds": 2.266,
-    "validations_before": 3948,
-    "validations_after": 346,
-    "files": 346,
-    "nodes": 3948,
-    "escape_checks_preserved": true
-  },
-  "actual_mounted_project": {
-    "status": "PASS",
-    "cache": ".graft/wsl-core",
-    "scope": [
-      "src",
-      "tools",
-      "test/harness"
-    ],
-    "files": 346,
-    "nodes": 3948,
-    "structural_fresh": true,
-    "semantic": "absent",
-    "original_windows_cache_preserved": true,
-    "ignore_configuration_preserved": true,
-    "qualification_version": "1.0.3",
-    "latest_check": {
-      "ok": false,
-      "exit_code": 1,
-      "error": "Command timed out. Measure scope and choose an explicit larger timeout if justified.",
-      "original_graft_command_bound_seconds": 180,
-      "trace_elapsed_seconds": 260.139766,
-      "provider_calls": 0,
-      "experimental_driver_report_error": "Assumed success-only filesystem field; corrected by interpreting preserved helper output without rerunning."
-    }
-  },
-  "historical_evidence": {
-    "unit-posix.log": "1.0.2 native-source test run",
-    "unit-posix-source.json": "1.0.2 native-source hashes",
-    "integration-posix.json": "1.0.2 published Linux acceptance",
-    "integration-posix-fork.json": "1.0.2 native fork acceptance"
-  },
-  "concurrent_load": {
-    "status": "REPRODUCED",
-    "virtiofs_eliminates_stalls": false,
-    "windows_native_20_second_timeout": true,
-    "linux_20_second_timeout_with_virtiofs": true,
-    "linux_pressure_16": "3 errors in 4 focused attempts; warmed replay failed 2/2; import-search control failed 1/2",
-    "causal_findings": "Mounted metadata and runtime/process delays consume the same deadline under shared host pressure. Pacing reduced latency and CPU pressure. Unique Windows wait/scan component not identified.",
-    "defender": "Heavy scan/CPU activity measured; long scan durations did not establish synchronous blocking. Raw ETL local; reviewed scoped evidence tracked.",
-    "historical_3_second_failure_reproduced": false,
-    "test_deadlines_changed": false,
-    "configuration": "Original VirtioFS config restored and actual mount verified after reverse trial; protection unchanged",
-    "real_graft_trace_smoke": {
-      "provider_calls": 0,
-      "runs": [
-        {
-          "operation": "refresh",
-          "exit_code": 0,
-          "ok": true,
-          "elapsed_seconds": 26.541
-        },
-        {
-          "operation": "diagnose",
-          "exit_code": 0,
-          "ok": true,
-          "elapsed_seconds": 12.868
-        },
-        {
-          "operation": "probe_mcp",
-          "exit_code": 0,
-          "ok": true,
-          "elapsed_seconds": 55.9
-        }
-      ],
-      "ok": true
-    },
-    "summary": "concurrency-summary.json",
-    "report": "CONCURRENCY.md",
-    "retained_experimental_errors": [
-      "Python traceback-dumper SIGSEGV",
-      "protected proc-read denials",
-      "initial coordinator aggregate timeout",
-      "Windows text/bytes trace recorder bug (fixed and regression tested)",
-      "full mounted-project Graft check timeout at existing 180-second bound"
-    ]
   }
 }

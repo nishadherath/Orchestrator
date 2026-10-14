@@ -1,0 +1,443 @@
+{
+  "platform": "Linux",
+  "python": "3.14.7",
+  "provider_calls": 0,
+  "steps": [
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 8.745,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 6.56,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 13.767,
+      "reviewed_fixture_wiring": {
+        "hosts": [],
+        "stamp": null
+      },
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "checks": [
+        {
+          "name": "initialize",
+          "ok": true,
+          "elapsed_seconds": 1.677
+        },
+        {
+          "name": "tools",
+          "ok": true,
+          "elapsed_seconds": 0.003
+        },
+        {
+          "name": "freshness",
+          "ok": true,
+          "elapsed_seconds": 0.267
+        },
+        {
+          "name": "source",
+          "ok": true,
+          "elapsed_seconds": 0.36
+        },
+        {
+          "name": "api",
+          "ok": true,
+          "elapsed_seconds": 0.268
+        },
+        {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.395
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.508
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.366
+        },
+        {
+          "name": "detect_addition",
+          "ok": true,
+          "elapsed_seconds": 0.7
+        },
+        {
+          "name": "automatic_addition",
+          "ok": true,
+          "elapsed_seconds": 1.848
+        },
+        {
+          "name": "automatic_removal",
+          "ok": true,
+          "elapsed_seconds": 1.087
+        },
+        {
+          "name": "final_freshness",
+          "ok": true,
+          "elapsed_seconds": 0.214
+        }
+      ]
+    },
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 9.968,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 7.269,
+      "reviewed_fixture_wiring": {
+        "hosts": [],
+        "stamp": null
+      },
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "checks": [
+        {
+          "name": "initialize",
+          "ok": true,
+          "elapsed_seconds": 2.05
+        },
+        {
+          "name": "tools",
+          "ok": true,
+          "elapsed_seconds": 0.002
+        },
+        {
+          "name": "freshness",
+          "ok": true,
+          "elapsed_seconds": 0.277
+        },
+        {
+          "name": "source",
+          "ok": true,
+          "elapsed_seconds": 0.115
+        },
+        {
+          "name": "api",
+          "ok": true,
+          "elapsed_seconds": 0.026
+        },
+        {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.032
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.019
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.052
+        }
+      ]
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 6.243,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 10.228,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "native bare build",
+      "layout": "app project",
+      "ok": true,
+      "scope_widened": true,
+      "files_before": 1,
+      "files_after": 2
+    },
+    {
+      "script": "refresh.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 13.194,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 15.532,
+      "reviewed_fixture_wiring": {
+        "hosts": [],
+        "stamp": null
+      },
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "checks": [
+        {
+          "name": "initialize",
+          "ok": true,
+          "elapsed_seconds": 2.443
+        },
+        {
+          "name": "tools",
+          "ok": true,
+          "elapsed_seconds": 0.003
+        },
+        {
+          "name": "freshness",
+          "ok": true,
+          "elapsed_seconds": 0.31
+        },
+        {
+          "name": "source",
+          "ok": true,
+          "elapsed_seconds": 0.359
+        },
+        {
+          "name": "api",
+          "ok": true,
+          "elapsed_seconds": 0.223
+        },
+        {
+          "name": "literal",
+          "ok": true,
+          "elapsed_seconds": 0.361
+        },
+        {
+          "name": "callers",
+          "ok": true,
+          "elapsed_seconds": 0.391
+        },
+        {
+          "name": "map",
+          "ok": true,
+          "elapsed_seconds": 0.327
+        },
+        {
+          "name": "detect_addition",
+          "ok": true,
+          "elapsed_seconds": 0.519
+        },
+        {
+          "name": "automatic_addition",
+          "ok": true,
+          "elapsed_seconds": 1.789
+        },
+        {
+          "name": "automatic_removal",
+          "ok": true,
+          "elapsed_seconds": 1.26
+        },
+        {
+          "name": "final_freshness",
+          "ok": true,
+          "elapsed_seconds": 0.244
+        }
+      ]
+    },
+    {
+      "script": "refresh.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 12.2,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "non git build-source",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 8.322,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "refresh.py",
+      "layout": "structured documents",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 5.658,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "markdown"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "structured documents",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 3.558,
+      "graph": {
+        "files": 1,
+        "nodes": 2,
+        "edges": 1,
+        "languages": [
+          "markdown"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    }
+  ],
+  "runtime": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.0",
+    "execPath": "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node"
+  },
+  "launcher": [
+    "/home/wsl/.local/share/graft-verification/node-v22.23.0-linux-x64/bin/node",
+    "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js"
+  ],
+  "workspace": {
+    "parent": "/mnt/d/Code/Claude/Orchestrator/.graft/skill-mounted-integration/graft portable & unicode \u03a9 ln5yg1rd",
+    "filesystem": {
+      "available": true,
+      "mount_point": "/mnt/d",
+      "filesystem_type": "virtiofs",
+      "source": "drvfs",
+      "host_shared": true
+    }
+  },
+  "capabilities": {
+    "version": "0.21.1-nishadherath",
+    "tested_version": "0.21.1",
+    "version_matches": false,
+    "supports_structured": true,
+    "supports_documents": true,
+    "supports_deep_documents": true,
+    "identity": {
+      "available": true,
+      "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification",
+      "package_version": "0.21.1-nishadherath",
+      "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js",
+      "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+      "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+      "runtime_features": {
+        "available": true,
+        "extractor_stamp": "b7973c42b807124f",
+        "preserves_foreign_scope": true,
+        "prunes_scoped_walk": true,
+        "hash_checked_memo": true
+      }
+    }
+  },
+  "structured_indexing": "PASS",
+  "ok": true
+}

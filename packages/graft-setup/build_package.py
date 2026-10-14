@@ -14,7 +14,9 @@ SKILL = ROOT / "graft-setup"
 FILES = ("SKILL.md", "VERSION", "LICENSE", "agents/openai.yaml",
          "scripts/graft_common.py", "scripts/diagnose.py", "scripts/refresh.py", "scripts/probe_mcp.py", "scripts/fs_probe.py", "scripts/trace.py",
          "references/version-0211.md", "references/repair.md", "references/deep.md",
-         "references/hosts.md", "references/installation.md")
+         "references/hosts.md", "references/installation.md", "references/freshness.md",
+         "scripts/runtime_probe.mjs", "scripts/apply_source_patch.py", "scripts/filter_trace.py",
+         "assets/graft-scoped-walk.patch", "assets/graft-scoped-walk.json", "assets/GRAFT-LICENSE.txt")
 
 
 def release_bytes() -> tuple[bytes, bytes, str]:

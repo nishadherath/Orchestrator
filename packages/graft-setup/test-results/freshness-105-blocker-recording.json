@@ -1,0 +1,12 @@
+{
+    "started_at":  "2026-10-14T00:07:20.6659318Z",
+    "ok":  false,
+    "protection_changed":  false,
+    "profiles":  [
+                     "CPU",
+                     "FileIO",
+                     "Minifilter"
+                 ],
+    "error":  "WPR stop failed",
+    "ended_at":  "2026-10-14T00:50:25.6464597Z"
+}

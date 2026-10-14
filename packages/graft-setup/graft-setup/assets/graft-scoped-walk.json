@@ -1,0 +1,16 @@
+{
+  "base_source_head": "1107b1bf519991d8722abee93f2f485e8b92e74a",
+  "before": {
+    "src/ingest/fs.ts": "d9d0981b6986c029160899fb5f4c8cf500dffd727a8a611deb05ce1f7db640d9",
+    "src/graph/source-files.ts": "f6ccf53eefce6cdba5d3c951cdec63fad963d7736af8ca06c79c46013e7384de",
+    "src/graph/fingerprint.ts": "16426f19aa138c006f3fd79f027b791ba88434be180c0637db6c706f92d71548",
+    "src/graph/check.ts": "2d957d7f3223cf210050d8408a6399e4850582a1ab81f4fb4c3662edc9cc4ab2",
+    "src/graph/refresh.ts": "646c44319e51e3f0cc43c48529ba6ffc331681b1e68d99d5968e2fab97b662ea",
+    "src/context/build.ts": "7b58089f3a620352de9c3fb4843f5159a094b833813ddc63e2f307fef38b53ad",
+    "test/scoped-walk-cost.test.ts": null,
+    "test/fingerprint-scope-upgrade.test.ts": null,
+    "test/check-hash-memo.test.ts": null
+  },
+  "patch_sha256": "f34c1548bfc97dfb39817f7adf4888fae5268084b5ae8ae7fae7f4adb4683791",
+  "license": "MIT; see GRAFT-LICENSE.txt"
+}

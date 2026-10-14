@@ -1,0 +1,13 @@
+✔ initialize → tools/list → tools/call round-trip (3121.0931ms)
+✔ a built repo advertises every tool (1443.1455ms)
+✔ a fresh worktree advertises every tool, on the strength of its parent (2420.7711ms)
+✔ initialize carries instructions — the layer that survives tool deferral (1137.042ms)
+✔ unknown method returns -32601 (1265.3874ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11354.1508

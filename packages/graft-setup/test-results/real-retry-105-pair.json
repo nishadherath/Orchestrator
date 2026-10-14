@@ -1,0 +1,60 @@
+{
+  "commands": [
+    [
+      "C:\\Users\\Bob\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+      "D:\\Code\\Claude\\Orchestrator\\packages\\graft-setup\\tests\\concurrent_worker.py",
+      "--parent",
+      ".graft\\skill-integration",
+      "--runtime-json",
+      ".graft\\runtime-windows-active.json",
+      "--output",
+      "packages\\graft-setup\\test-results\\real-retry-105-windows.json",
+      "--load-workers",
+      "4",
+      "--load-interval-ms",
+      "50.0",
+      "--load-seconds",
+      "120.0",
+      "--real-only",
+      "--isolate-imports"
+    ],
+    [
+      "wsl.exe",
+      "-d",
+      "kali-linux",
+      "--cd",
+      "/",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/tests/concurrent_worker.py",
+      "--parent",
+      "/mnt/d/Code/Claude/Orchestrator/.graft/skill-mounted-integration",
+      "--runtime-json",
+      "/mnt/d/Code/Claude/Orchestrator/.graft/runtime-linux-memo.json",
+      "--output",
+      "/mnt/d/Code/Claude/Orchestrator/packages/graft-setup/test-results/real-retry-105-linux.json",
+      "--load-workers",
+      "4",
+      "--load-interval-ms",
+      "50.0",
+      "--load-seconds",
+      "120.0",
+      "--real-only",
+      "--isolate-imports"
+    ]
+  ],
+  "serial": false,
+  "workers_per_host": 4,
+  "started_unix": 1791944110.8285797,
+  "elapsed_seconds": 205.602,
+  "exit_codes": [
+    0,
+    0
+  ],
+  "ok": true,
+  "wsl_configuration_changed": false,
+  "warm_probe": {
+    "seconds": 8.807,
+    "output": "Python 3.14.7"
+  }
+}

@@ -1,0 +1,28 @@
+✖ check reuses only same-extractor byte-verified parses; detects same-stat edits, additions and removals (827.033ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5105.0505
+
+✖ failing tests:
+
+test at test\check-hash-memo.test.ts:1:373
+✖ check reuses only same-extractor byte-verified parses; detects same-stat edits, additions and removals (827.033ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  undefined !== 1
+
+      at TestContext.<anonymous> (D:\Code\Claude\Orchestrator\.graft\graft-scope-source\test\check-hash-memo.test.ts:18:12)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,19 @@
+{
+  "platform": "win32",
+  "started_unix": 1791943834.5690482,
+  "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration",
+  "load_workers": 4,
+  "load_interval_ms": 50.0,
+  "load_seconds": 120.0,
+  "acceptance_deadlines_changed": false,
+  "runs": [
+    {
+      "name": "real_graft",
+      "exit_code": 1,
+      "timed_out": false,
+      "elapsed_seconds": 49.262
+    }
+  ],
+  "load_exit_code": 0,
+  "ok": false
+}

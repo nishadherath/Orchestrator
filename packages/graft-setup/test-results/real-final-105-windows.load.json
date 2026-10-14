@@ -1,0 +1,742 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration",
+  "workers": 4,
+  "interval_ms": 50.0,
+  "requested_seconds": 120.0,
+  "started_unix": 1791943835.325651,
+  "pressure_before": {},
+  "filesystem": {
+    "available": false,
+    "reason": "Linux mount information is unavailable on this host."
+  },
+  "slow_operations": [],
+  "errors": [],
+  "operations": {
+    "stat": {
+      "count": 8165,
+      "median_seconds": 0.000158,
+      "p95_seconds": 0.000361,
+      "p99_seconds": 0.000784,
+      "max_seconds": 0.007902
+    },
+    "read": {
+      "count": 8165,
+      "median_seconds": 0.002777,
+      "p95_seconds": 0.006224,
+      "p99_seconds": 0.013258,
+      "max_seconds": 0.081229
+    },
+    "resolve": {
+      "count": 8165,
+      "median_seconds": 0.000693,
+      "p95_seconds": 0.001282,
+      "p99_seconds": 0.00243,
+      "max_seconds": 0.029717
+    },
+    "replace": {
+      "count": 8165,
+      "median_seconds": 0.001841,
+      "p95_seconds": 0.003774,
+      "p99_seconds": 0.007851,
+      "max_seconds": 0.049439
+    },
+    "unlink": {
+      "count": 8165,
+      "median_seconds": 0.001165,
+      "p95_seconds": 0.002579,
+      "p99_seconds": 0.005565,
+      "max_seconds": 0.025872
+    }
+  },
+  "child_startups": [
+    {
+      "seconds": 0.243027,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.232068,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.275247,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.263626,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.261837,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.155213,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.212392,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.236556,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.294627,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.227883,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.186573,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.367739,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.270161,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.198879,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.244285,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.237984,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.353303,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.144025,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.468967,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.213762,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.160523,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.219045,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.23916,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.192564,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.171197,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.246593,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.287398,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.210503,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.187241,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.188454,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.222951,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.232292,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.189618,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.178629,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.19377,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.187085,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.313744,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.216802,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.181889,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.170728,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.164918,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.164165,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.22682,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.152241,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.177257,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.191073,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.188367,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.152459,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.137606,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.195698,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.231655,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.156771,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.172273,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.172757,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.154425,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.141213,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.178853,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.138488,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.172028,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.187867,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.212119,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.212608,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.193002,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.163922,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.166134,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.235521,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.222262,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.248808,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.30873,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.17309,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.173595,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.30037,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.267008,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.175344,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.154388,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.207014,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.19458,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.156291,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.16227,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.197091,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.191591,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.152055,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.198919,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.16141,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.176862,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.21097,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.144631,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.175068,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.178451,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.156045,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.19115,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.142272,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.13303,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.178316,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.268974,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.137181,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.158113,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.218642,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.192949,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.183809,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.233058,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.23303,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.20757,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.24588,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.294903,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.220874,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.317726,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.401014,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.323882,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.2361,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.1682,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.208486,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.121297,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.171772,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.195407,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.176428,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.163329,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.17293,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.284991,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.219299,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.208678,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.264641,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.144217,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.163727,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.165352,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.107901,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.13491,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.144621,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.11372,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.152475,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.117924,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.17197,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.125134,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.114736,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.106573,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.17408,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.183766,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.174108,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.120308,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.148689,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.152404,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.201537,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.17256,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.219233,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.196966,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.171846,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.211733,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.14791,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.162084,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.144274,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.157107,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.150772,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.196621,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.228956,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.265848,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.233322,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.253208,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.254465,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.168902,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.159444,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.190299,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.211036,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.188756,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.148945,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.123085,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.253977,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.219237,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.27681,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.190693,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.232179,
+      "exit_code": 0
+    },
+    {
+      "seconds": 0.192908,
+      "exit_code": 0
+    }
+  ],
+  "pressure_after": {},
+  "elapsed_seconds": 120.135,
+  "ok": true
+}

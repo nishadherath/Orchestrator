@@ -1,0 +1,89 @@
+{
+  "platform": "Windows",
+  "python": "3.14.7",
+  "provider_calls": 0,
+  "steps": [
+    {
+      "script": "refresh.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 23.787,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "diagnose.py",
+      "layout": "app project",
+      "exit_code": 0,
+      "ok": true,
+      "elapsed_seconds": 13.174,
+      "graph": {
+        "files": 1,
+        "nodes": 3,
+        "edges": 3,
+        "languages": [
+          "python"
+        ]
+      },
+      "graft_version": "0.21.1-nishadherath"
+    },
+    {
+      "script": "probe_mcp.py",
+      "layout": "app project",
+      "exit_code": 1,
+      "ok": false,
+      "elapsed_seconds": 10.096,
+      "checks": []
+    }
+  ],
+  "runtime": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v26.7.0",
+    "execPath": "C:\\nvm4w\\nodejs\\node.exe"
+  },
+  "launcher": [
+    "C:/nvm4w/nodejs/node.exe",
+    "C:/nvm4w/nodejs/node_modules/@nanonets/graft/dist/cli.js"
+  ],
+  "workspace": {
+    "parent": "D:\\Code\\Claude\\Orchestrator\\.graft\\skill-integration\\graft portable & unicode \u03a9 d7fi7e25",
+    "filesystem": {
+      "available": false,
+      "reason": "Linux mount information is unavailable on this host."
+    }
+  },
+  "capabilities": {
+    "version": "0.21.1-nishadherath",
+    "tested_version": "0.21.1",
+    "version_matches": false,
+    "supports_structured": true,
+    "supports_documents": true,
+    "supports_deep_documents": true,
+    "identity": {
+      "available": true,
+      "package_root": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft",
+      "package_version": "0.21.1-nishadherath",
+      "cli_path": "C:\\Users\\Bob\\AppData\\Roaming\\nvm\\v26.7.0\\node_modules\\@nanonets\\graft\\dist\\cli.js",
+      "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+      "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+      "runtime_features": {
+        "available": true,
+        "extractor_stamp": "b7973c42b807124f",
+        "preserves_foreign_scope": true,
+        "prunes_scoped_walk": true,
+        "hash_checked_memo": true
+      }
+    }
+  },
+  "ok": false,
+  "error": "probe_mcp.py failed in app project: MCP startup may replay existing host wiring, including global entries. Review it first; --allow-startup-upkeep acknowledges that review."
+}

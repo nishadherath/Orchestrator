@@ -58,6 +58,20 @@ def main() -> int:
 
             def execute(name: str, root: Path, *options: str, expect_error: str | None = None):
                 command = [sys.executable, str(SCRIPTS / name), "--repo", str(root), *options]
+                wiring_review = None
+                if name == "probe_mcp.py" and results.get("capabilities", {}).get("version") != "0.21.1":
+                    # The helper deliberately requires review of unfamiliar build
+                    # labels. Review the actual runtime's policy in this owned
+                    # fixture; never acknowledge an existing host/global replay.
+                    entry = Path(results["launcher"][1])
+                    code = "import {pathToFileURL} from 'node:url'; const u=await import(pathToFileURL(process.argv[1]).href); console.log(JSON.stringify({hosts:u.wiredHostIds(process.argv[2]),stamp:u.readStamp(process.argv[2])}));"
+                    review = subprocess.run([node, "--input-type=module", "-e", code,
+                                             str(entry.parent / "upkeep.js"), str(root)],
+                                            env=env, capture_output=True, text=True,
+                                            encoding="utf-8", timeout=30, check=True)
+                    wiring_review = json.loads(review.stdout)
+                    assert not wiring_review["hosts"] and not (wiring_review["stamp"] or {}).get("hosts"), "Fixture has existing host wiring; refusing upkeep acknowledgement"
+                    command.append("--allow-startup-upkeep")
                 if args.launcher_json:
                     command.extend(["--launcher-json", args.launcher_json])
                 start = time.monotonic()
@@ -66,6 +80,8 @@ def main() -> int:
                 data = json.loads(result.stdout)
                 step = {"script": name, "layout": root.name, "exit_code": result.returncode,
                         "ok": data.get("ok"), "elapsed_seconds": round(time.monotonic() - start, 3)}
+                if wiring_review is not None:
+                    step["reviewed_fixture_wiring"] = wiring_review
                 if "graph" in data:
                     step["graph"] = {k: data["graph"].get(k) for k in ("files", "nodes", "edges", "languages")}
                 if "capabilities" in data:

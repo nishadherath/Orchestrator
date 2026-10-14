@@ -1,0 +1,16 @@
+{
+  "codes": [
+    0,
+    0
+  ],
+  "ok": true,
+  "elapsed_seconds": 301.6580362999812,
+  "workers_per_host": 4,
+  "worker_interval_ms": 1,
+  "requested_load_seconds": 300,
+  "graft_command_timeout_seconds": 180,
+  "windows_runtime": "compiled source candidate",
+  "linux_runtime": "same compiled candidate, native dependencies",
+  "wsl_reset": false,
+  "provider_calls": 0
+}

@@ -198,3 +198,24 @@ Official references checked 2026-09-17:
 After changing worker policy, run `tools/generate_workers.py`, rebuild with
 `tools/build_dist.py`, then run `test/harness/check.py`. Keep live MCP checks
 separate from offline checks and report what was actually exercised.
+
+## Full-project freshness repair, 2026-10-14
+
+The active Windows runtime now includes the tested scope and hash-verified parse
+repair from [skill package 1.0.5](../packages/graft-setup/FRESHNESS.md). The original
+`graft/` cache retains `src`, `tools`, `test/harness`: 346 files, 3,948 nodes and
+12,453 edges. The refresh preserved its previous cache in a local backup.
+Runtime feature probes distinguish this repair from other builds in the same
+0.21.1 lineage; the active package now reports `0.21.1-nishadherath`.
+
+The external fork checkout was preserved. Its future build/sync can overwrite
+the installed compiled repair; apply the package's guarded source patch there
+before the next rebuild. Existing long-lived MCP processes reload code when
+restarted by their host. Use a fresh process for installation verification.
+`GRAFT_CHECK_REPARSE=1` forces the independent full-parser audit; normal checks
+still read/hash current source before replaying a matching-extractor parse.
+
+Defender's filter has measured delays in callbacks from the captured Graft PID.
+That result does not prove Defender uniquely caused the entire 180-second check
+or all WSL stalls. The report retains failed captures and the final trace's
+circular-overwrite limitation. No protection settings were changed.

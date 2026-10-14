@@ -8,7 +8,8 @@ license: Apache-2.0
 
 Target `@nanonets/graft`, not other products named Graft. Revised on 2026-10-14
 from the earlier 0.18.0 setup guidance and verified against installed
-**Graft 0.21.1**. Python helpers
+**Graft 0.21.1 lineage**, including the tested `0.21.1-nishadherath` fork.
+Python helpers
 need Python 3.12 or newer, use only its standard library, and never request an
 LLM pass. Graft and its Node runtime are separately installed dependencies.
 
@@ -54,7 +55,9 @@ Compare `capabilities.identity` and advertised flags when installations differ;
 the version label can survive replacement of compiled files by a local fork.
 See the [build provenance notes](references/version-0211.md#build-provenance).
 Freshness re-extracts indexed source and can be much slower than ordinary
-retrieval. Distinguish startup failure, request timeout, structural drift,
+retrieval. For full-project timeouts or a changed extractor, read the
+[scope preservation and source repair](references/freshness.md) guidance.
+Distinguish startup failure, request timeout, structural drift,
 semantic drift and blocked filesystem operations. Measure before changing a
 timeout; a longer timeout does not correct an overbroad index or a failed write.
 

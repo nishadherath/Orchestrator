@@ -62,7 +62,7 @@ Claude project `.mcp.json` can use an explicit project root or its supported
 Review the host's project-server approval and narrow retrieval permissions.
 Do not grant blanket permission to unrelated future servers/tools.
 
-For ZCode, merge the server under `.zcode/config.json` → `mcp.servers` using
+For ZCode, merge the server under `.zcode/config.json` Ã¢â€ â€™ `mcp.servers` using
 the installed host's schema. Use a directly resolved Node/CLI launcher on
 Windows, or an executable `graft` on Unix. Verify the target host actually
 loads this entry; a generic stdio smoke is a different piece of evidence.
@@ -238,3 +238,42 @@ sampling and timing instead. That crash is not evidence of a Graft timeout.
 See [Microsoft's Defender analyzer guidance](https://learn.microsoft.com/en-us/defender-endpoint/tune-performance-defender-antivirus)
 for the optional Windows recording. The package's outer concurrency report
 contains the tested host, exact outcomes and remaining causal uncertainty.
+
+## Windows kernel trace evidence
+
+When portable timing cannot distinguish a filesystem wait from CPU starvation,
+use a separately authorised Windows Performance Toolkit capture. Kernel tracing
+requires Windows administrator access. Capture only the necessary providers,
+refuse an existing kernel logger, and stop only the recorder you started.
+Use bounded buffers and a size cap, arm both native workloads before release,
+and record actual process IDs, source-operation times and the trace window.
+
+A successful recorder exit or zero lost-event count is insufficient evidence.
+A circular trace can overwrite the workload beginning and module rundown without
+incrementing that count. Check raw size against the cap, retained event times,
+image metadata and overlap with the actual slow operation. If the trace wrapped,
+retain the failure and reduce event volume or duration before repeating. Do not
+report all-process filter totals as the latency of one Graft request. A callback
+interval also includes time when its thread was not running; correlate waits
+and scheduling before attributing a unique blocker. Mere driver presence or CPU
+usage does not prove responsibility.
+
+Raw ETLs and whole-machine exports can include unrelated paths and process data.
+Keep them local; redistribute reviewed task-only extracts and raw digests. The
+helpers neither elevate Windows nor change protection settings. Microsoft explains
+[minifilter analysis](https://learn.microsoft.com/en-us/shows/defrag-tools/47-wpt-minifilter-analysis)
+and the [limits of processing traces with lost events](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/xperf/processing).
+
+For an approved local xperf CSV export, the portable reviewer correlates one
+process's init/completion events by request identity, including completions whose
+PID is unknown. It omits file paths and request pointers:
+
+```sh
+python scripts/filter_trace.py --csv /approved/trace.csv --pid 1234 --output /approved/task-review.json
+```
+
+Use a complete export or a reviewed subset retaining both paired events. Exported
+`TimeStamp` values are microseconds; completion `Initial Time` values are raw QPC
+and must not be subtracted from them. Unmatched callbacks are reported, rather
+than assigned to other processes. The script does not capture, elevate, resolve
+missing driver metadata or certify that a trace is complete.

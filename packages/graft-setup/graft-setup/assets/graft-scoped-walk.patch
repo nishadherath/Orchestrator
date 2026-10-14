@@ -1,0 +1,259 @@
+--- a/src/ingest/fs.ts
++++ b/src/ingest/fs.ts
+@@ -108,0 +109,2 @@
++  /** Source prefixes, applied before enumeration/stat. Empty means the whole repo. */
++  onlyDirs?: ReadonlySet<string>;
+@@ -121,0 +124,3 @@
++
++/** Advertise early scope pruning to local diagnostics without version guessing. */
++export const SCOPED_WALK_VERSION = 1;
+@@ -225 +230 @@
+-    ["ls-files", "-t", "--stage", "--cached", "--others", "--exclude-standard", "-z", "--"],
++    ["ls-files", "-t", "--stage", "--cached", "--others", "--exclude-standard", "-z", "--", ...scopePathspecs(root, opts.onlyDirs, state.topRoot, true)],
+@@ -277,0 +283 @@
++    if (!inScope(relative(state.topRoot, abs).split(sep).join("/"), opts.onlyDirs, entry.gitlink || entry.nested)) continue;
+@@ -302 +308 @@
+-        childFiles = walkFilesystem(abs, includes, opts);
++        childFiles = walkFilesystem(abs, includes, opts, state.topRoot);
+@@ -322,0 +329,19 @@
++/** Segment-aware scope test. Ancestors are admitted only for directory traversal. */
++function inScope(rel: string, onlyDirs?: ReadonlySet<string>, ancestor = false): boolean {
++  if (!onlyDirs?.size) return true;
++  return [...onlyDirs].some((d) => rel === d || rel.startsWith(`${d}/`) ||
++    (ancestor && d.startsWith(`${rel}/`)));
++}
++
++/** Literal pathspecs avoid glob/magic interpretation of user directory names. */
++function scopePathspecs(root: string, onlyDirs?: ReadonlySet<string>, topRoot = root, follow = false): string[] {
++  if (!onlyDirs?.size) return [];
++  const base = relative(topRoot, root).split(sep).join("/");
++  if (base && [...onlyDirs].some((d) => base === d || base.startsWith(`${d}/`))) return [];
++  const paths = [...onlyDirs].filter((d) => !base || d.startsWith(`${base}/`))
++    .map((d) => base ? d.slice(base.length + 1) : d);
++  // A Git child boundary must remain visible when following is opted in.
++  return [...new Set(paths.map((d) => follow ? d.split("/")[0] : d))]
++    .map((d) => `:(top,literal)${d}`);
++}
++
+@@ -329 +354 @@
+-  opts: Pick<WalkOptions, "admitDotPaths" | "sizeCap">,
++  opts: Pick<WalkOptions, "admitDotPaths" | "sizeCap" | "onlyDirs">,
+@@ -334 +359 @@
+-    ["ls-files", "--cached", "--others", "--exclude-standard", "-z", "--"],
++    ["ls-files", "--cached", "--others", "--exclude-standard", "-z", "--", ...scopePathspecs(root, opts.onlyDirs)],
+@@ -346 +371 @@
+-    if (!rel || skippedPath(rel, includes, admit)) continue;
++    if (!rel || !inScope(rel, opts.onlyDirs) || skippedPath(rel, includes, admit)) continue;
+@@ -377 +402 @@
+-  opts: Pick<WalkOptions, "admitDotPaths" | "sizeCap">,
++  opts: Pick<WalkOptions, "admitDotPaths" | "sizeCap" | "onlyDirs">,
+@@ -384,0 +410 @@
++    if (!inScope(rel, opts.onlyDirs, entry.isDirectory())) continue;
+--- a/src/graph/source-files.ts
++++ b/src/graph/source-files.ts
+@@ -115 +115 @@
+-  repoFiles: string[] = walkDir(root, readIncludeDirs(resolve(root)), sourceWalkOptions(root)),
++  repoFiles: string[] | undefined = undefined,
+@@ -124,0 +125 @@
++  const files = repoFiles ?? walkDir(root, readIncludeDirs(resolve(root)), { ...sourceWalkOptions(root), onlyDirs });
+@@ -126 +127 @@
+-    repoFiles.filter(
++    files.filter(
+--- a/src/graph/fingerprint.ts
++++ b/src/graph/fingerprint.ts
+@@ -21 +21 @@
+-import { readFileSync } from "node:fs";
++import { readFileSync, readdirSync } from "node:fs";
+@@ -83,0 +84,27 @@
++}
++
++
++/** Scope is policy, not a parse cache. A changed extractor must not widen it.
++ * Foreign fingerprints supply only a validated, unanimous whitelist. Their
++ * file hashes and extraction results are never reused. Conflicts fail closed. */
++export function readFingerprintScope(outDir: string): string[] | undefined {
++  const active = readFingerprint(outDir);
++  if (active) return active.onlyDirs;
++  let names: string[];
++  try { names = readdirSync(join(outDir, CACHE_DIR)); } catch { return undefined; }
++  let selected: string[] | undefined;
++  let key: string | undefined;
++  for (const name of names.filter((n) => /^fingerprint\.[^.]+\.json$/.test(n))) {
++    const record = readJson<{version?: number; onlyDirs?: unknown}>(join(outDir, CACHE_DIR, name));
++    if (!record || record.version !== FINGERPRINT_VERSION) continue;
++    const dirs = record.onlyDirs ?? [];
++    if (!Array.isArray(dirs) || dirs.some((d) => typeof d !== "string" || !d ||
++        d.includes("\\") || d.split("/").some((p) => !p || p === "." || p === ".." || p.includes(":")))) {
++      throw new Error("Invalid saved source scope; rebuild with explicit --only-dir choices.");
++    }
++    const normal = [...new Set(dirs as string[])].sort();
++    const next = JSON.stringify(normal);
++    if (key !== undefined && next !== key) throw new Error("Conflicting saved source scopes; rebuild with explicit --only-dir choices.");
++    key = next; selected = normal.length ? normal : undefined;
++  }
++  return selected;
+--- a/src/graph/check.ts
++++ b/src/graph/check.ts
+@@ -32 +32 @@
+-import { readFingerprint } from "./fingerprint.js";
++import { readFingerprintScope } from "./fingerprint.js";
+@@ -33,0 +34,4 @@
++import { contentHash } from "../util/id.js";
++import { emptyExtractCache, readExtractCache } from "./extract-cache.js";
++
++export const HASH_CHECKED_MEMO_VERSION = 1;
+@@ -51,0 +56,2 @@
++  filesReused: number;
++  filesParsed: number;
+@@ -55,0 +62,2 @@
++  /** Independent parser audit. Source bytes are always hashed even with reuse. */
++  reuse?: boolean;
+@@ -78,0 +87,2 @@
++    filesReused: 0,
++    filesParsed: 0,
+@@ -91 +101 @@
+-  const fpOnlyDirs = readFingerprint(outDir)?.onlyDirs;
++  const fpOnlyDirs = readFingerprintScope(outDir);
+@@ -107,0 +118,2 @@
++  const memo = opts.reuse === false || process.env.GRAFT_CHECK_REPARSE === "1"
++    ? emptyExtractCache() : readExtractCache(outDir);
+@@ -133,0 +146,13 @@
++    const cached = memo.files[rel];
++    // Reuse only the parse, after hashing the bytes read NOW. A stat match is
++    // insufficient: same-size edits with restored/coarse mtimes must drift.
++    // readExtractCache also checks the extractor identity. Malformed entries
++    // and prior parse failures fall back to the independent extractor below.
++    if (cached && !cached.error && cached.hash === contentHash(source) && Array.isArray(cached.nodes) &&
++        cached.nodes.every((n) => n && typeof n.id === "string" && n.path === rel && typeof n.body_hash === "string") &&
++        cached.nodes.some((n) => n.id === rel && n.kind === "file" && n.body_hash === cached.hash)) {
++      for (const node of cached.nodes) current.set(node.id, node.body_hash);
++      result.filesReused++;
++      continue;
++    }
++    result.filesParsed++;
+--- a/src/graph/refresh.ts
++++ b/src/graph/refresh.ts
+@@ -40 +40 @@
+-import { driftCount, isClean, probeDrift, readFingerprint, type Drift } from "./fingerprint.js";
++import { driftCount, isClean, probeDrift, readFingerprintScope, type Drift } from "./fingerprint.js";
+@@ -215 +215 @@
+-      const onlyDirs = readFingerprint(outDir)?.onlyDirs;
++      const onlyDirs = readFingerprintScope(outDir);
+--- a/src/context/build.ts
++++ b/src/context/build.ts
+@@ -18 +18 @@
+-import { readFingerprint } from "../graph/fingerprint.js";
++import { readFingerprintScope } from "../graph/fingerprint.js";
+@@ -101 +101 @@
+-  const list = explicit && explicit.length > 0 ? explicit : (readFingerprint(outDir)?.onlyDirs ?? []);
++  const list = explicit && explicit.length > 0 ? explicit : (readFingerprintScope(outDir) ?? []);
+--- /dev/null
++++ b/test/scoped-walk-cost.test.ts
+@@ -0,0 +1,40 @@
++import { test } from "node:test";
++import assert from "node:assert/strict";
++import fs from "node:fs";
++import { syncBuiltinESMExports } from "node:module";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { execFileSync } from "node:child_process";
++import { listSourceFiles } from "../src/graph/source-files.js";
++
++for (const git of [false, true]) {
++  test(`scoped enumeration never stats or opens excluded trees (${git ? "Git" : "filesystem"})`, () => {
++    const root = fs.mkdtempSync(join(tmpdir(), "graft-scope-cost-"));
++    const scope = "source space[1]";
++    const excluded = join(root, "excluded");
++    fs.mkdirSync(join(root, scope)); fs.mkdirSync(excluded);
++    fs.writeFileSync(join(root, scope, "new.py"), "def new():\n    return 1\n");
++    fs.writeFileSync(join(root, scope + "-sibling.py"), "def sibling():\n    return 2\n");
++    for (let i = 0; i < 10; i++) fs.writeFileSync(join(excluded, `${i}.py`), "def skip():\n    return 0\n");
++    if (git) execFileSync("git", ["init", "-q"], {cwd:root});
++    const mutable = fs as unknown as Record<string, (...args: unknown[]) => unknown>;
++    const originals = new Map<string, (...args: unknown[]) => unknown>();
++    const visits: string[] = [];
++    for (const name of ["statSync", "lstatSync", "readdirSync"]) {
++      const original = mutable[name]; originals.set(name, original);
++      mutable[name] = (...args) => {
++        if (String(args[0]).startsWith(excluded)) visits.push(String(args[0]));
++        return original(...args);
++      };
++    }
++    syncBuiltinESMExports();
++    try {
++      const files = listSourceFiles(root, join(root,"graft"), undefined, new Set([scope]));
++      assert.deepEqual(files, [join(root,scope,"new.py")]);
++      assert.deepEqual(visits, [], "excluded files must be filtered before filesystem calls");
++    } finally {
++      for (const [name, original] of originals) mutable[name] = original;
++      syncBuiltinESMExports(); fs.rmSync(root,{recursive:true,force:true});
++    }
++  });
++}
+--- /dev/null
++++ b/test/fingerprint-scope-upgrade.test.ts
+@@ -0,0 +1,23 @@
++import {test} from "node:test";
++import assert from "node:assert/strict";
++import {mkdtempSync,mkdirSync,writeFileSync,rmSync} from "node:fs";
++import {tmpdir} from "node:os";
++import {join} from "node:path";
++import {readFingerprint,readFingerprintScope} from "../src/graph/fingerprint.js";
++
++test("foreign extractor supplies scope policy without accepting its cached hashes",()=>{
++  const root=mkdtempSync(join(tmpdir(),"graft-scope-upgrade-"));
++  mkdirSync(join(root,".cache"));
++  const write=(name:string,dirs:unknown)=>writeFileSync(join(root,".cache",`fingerprint.${name}.json`),JSON.stringify({version:1,extractor:name,files:{"src/x.py":[1,2,"untrusted"]},onlyDirs:dirs}));
++  try {
++    write("foreign",["tools","src"]);
++    assert.equal(readFingerprint(root),null);
++    assert.deepEqual(readFingerprintScope(root),["src","tools"]);
++    write("older",["src","tools"]);
++    assert.deepEqual(readFingerprintScope(root),["src","tools"]);
++    write("older",["src"]);
++    assert.throws(()=>readFingerprintScope(root),/Conflicting saved source scopes/);
++    write("older",["../outside"]);
++    assert.throws(()=>readFingerprintScope(root),/Invalid saved source scope/);
++  } finally {rmSync(root,{recursive:true,force:true});}
++});
+--- /dev/null
++++ b/test/check-hash-memo.test.ts
+@@ -0,0 +1,38 @@
++import {test} from "node:test";
++import assert from "node:assert/strict";
++import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,statSync,utimesSync,rmSync} from "node:fs";
++import {tmpdir} from "node:os";
++import {join} from "node:path";
++import {buildGraph} from "../src/graph/build.js";
++import {checkGraph} from "../src/graph/check.js";
++import {extractCachePath} from "../src/graph/extract-cache.js";
++
++test("check reuses only same-extractor byte-verified parses; detects same-stat edits, additions and removals",async()=>{
++  const root=mkdtempSync(join(tmpdir(),"graft-check-memo-"));
++  const cache=join(root,"graft"),file=join(root,"src","app.py");
++  mkdirSync(join(root,"src"));writeFileSync(file,"def compute():\n    return 1\n");
++  try {
++    await buildGraph(root,{onlyDirs:["src"],graphOnly:true});
++    const first=await checkGraph(root);
++    assert.equal(first.ok,true);
++    assert.equal((first as unknown as {filesReused:number}).filesReused,1);
++    const independent=await checkGraph(root,{reuse:false});
++    assert.equal(independent.ok,true);assert.equal(independent.filesReused,0);assert.equal(independent.filesParsed,1);
++    const old=statSync(file);
++    writeFileSync(file,"def compute():\n    return 2\n");utimesSync(file,old.atime,old.mtime);
++    assert.equal(statSync(file).size,old.size);
++    const edit=await checkGraph(root);
++    assert.ok(edit.changed.includes("src/app.py#compute"));
++    writeFileSync(join(root,"src","new.py"),"def added():\n    return 3\n");
++    assert.ok((await checkGraph(root)).added.includes("src/new.py#added"));
++    rmSync(file);assert.ok((await checkGraph(root)).removed.includes("src/app.py#compute"));
++    rmSync(join(root,"src","new.py"));writeFileSync(file,"def compute():\n    return 1\n");
++    const path=extractCachePath(cache)!; const memo=JSON.parse(readFileSync(path,"utf8"));
++    memo.files["src/app.py"].nodes=[null];writeFileSync(path,JSON.stringify(memo));
++    assert.equal((await checkGraph(root)).ok,true,"malformed memo must fall back to parsing");
++    memo.files["src/app.py"].nodes=[];writeFileSync(path,JSON.stringify(memo));
++    assert.equal((await checkGraph(root)).ok,true,"memo without its file hash witness must fall back to parsing");
++    memo.extractor="foreign";writeFileSync(path,JSON.stringify(memo));
++    assert.equal((await checkGraph(root)).ok,true,"foreign memo is never accepted");
++  } finally {rmSync(root,{recursive:true,force:true});}
++});

@@ -1,0 +1,124 @@
+{
+  "ok": true,
+  "compiled_files": [
+    {
+      "path": "context/build.js",
+      "before": "3f48cee1cd21c9d164d6cd9e19d0002cafecdfeee2040bdd7aa8643a4391bea9",
+      "after": "9c40850592cdc3651f8a914448b5cce8adfac1d64b9450baa8568750377e5d62"
+    },
+    {
+      "path": "context/build.js.map",
+      "before": "86ea753876a68b02a92dd7a73ddc9869c263720b0d5be0165fff4cceee4fbde0",
+      "after": "fabb57277456e77812c7eb3b0a741f2f4d52e77efd26641c6626cb1e632b121d"
+    },
+    {
+      "path": "graph/check.d.ts",
+      "before": "56ba8de1ac097d570cc7859150849e9432244978d4b47f2a4b8bf87994d56be2",
+      "after": "e3e8e26c02f3af5ca6e074c6927e3c924577835a6eafe9afa20b5a54f5bb0c54"
+    },
+    {
+      "path": "graph/check.d.ts.map",
+      "before": "41ddc7121bf1bf62065b17939aa5f3a50a2812de5f874962edda0548df961e5e",
+      "after": "e5ce55c4341e8cf1cc4e961f370a73bf14cb1f1b438a2ae9bce9eb45e37b6d48"
+    },
+    {
+      "path": "graph/check.js",
+      "before": "6e1fb442b7941da30af99dba4060e7cc746e4fafa953f5b9906f0022b551e6d0",
+      "after": "1c17e47264da424fca7ac1068a6343981a4b4b5ae31b94d00c9d4fd737b483c2"
+    },
+    {
+      "path": "graph/check.js.map",
+      "before": "ecd125008cad3e24eec674d4e0190620ca47c5ea58f2629ea2062f47df4bdfb3",
+      "after": "a516140b53f7556f380391f3f91f03261ce472c17ff0d2ff211143b59057c435"
+    },
+    {
+      "path": "graph/fingerprint.d.ts",
+      "before": "7a2d70e90b476311726930a3b661ce66f819cb396c0945737d80159b95710021",
+      "after": "6a5794f01f9726654b61f23e8e601f22ed4b0489eb7009f1bafec000daddd18a"
+    },
+    {
+      "path": "graph/fingerprint.d.ts.map",
+      "before": "4488bb48ca696f2e11a669f383bf3f5195e3ead4dd89ff2f34e612504cc2c562",
+      "after": "3334db8afa58d9cc4dedda62783f2749d24d3ab9fec12404a5e7a7710b5e36fc"
+    },
+    {
+      "path": "graph/fingerprint.js",
+      "before": "c65d721a2775d4845ec280747ff4441e7792f4bd278a52c1c19f1471039c818a",
+      "after": "13bdfef0d982a3478e45c3f67a338f2d7ba3252043143ced3adfe430c0c8ca36"
+    },
+    {
+      "path": "graph/fingerprint.js.map",
+      "before": "8a8e37e9196be6c5e2b15005856b80cbba96aff5610aa173b55f7bcd3141d4ee",
+      "after": "32d7364fda4920ed477249425c29741031f635048b9c6b489e75a7675bf9978f"
+    },
+    {
+      "path": "graph/refresh.d.ts.map",
+      "before": "74bd6cab577b854167c71d88c0993bb0b49ffdcea1569bda4a9681a04870937b",
+      "after": "78a34a2ac1399403c1d13dc3a78faf31e1a434ca53c0eee7a10bf3079f684afb"
+    },
+    {
+      "path": "graph/refresh.js",
+      "before": "c8f8e3ea530ad3d2e198af992117c248522d87f790919101e646a84a4470cebd",
+      "after": "0002d0988deff7acc2419be8100918ce9322dd40d6b7f3e57ecebac83bd0488e"
+    },
+    {
+      "path": "graph/refresh.js.map",
+      "before": "5bea23fb014472f1bd76c1978d6f813324019e4de55af27be54cc563804118fa",
+      "after": "d49c8da864a516f55db4b14024d53c1d072c6e21a8ccc6dc4068b8a5503ecba4"
+    },
+    {
+      "path": "graph/source-files.d.ts",
+      "before": "bf0aa3b08c69d5086533aae705522d1fa9ff952b05f0e14d90e0a1eb465f3dad",
+      "after": "beabc2f5850d144660f728ddd854152ce7d21454ef1350a21f4c379601e265de"
+    },
+    {
+      "path": "graph/source-files.d.ts.map",
+      "before": "93c6ebb6b7d1fb44e64db0590a44efd2c814eea1943c803ccdf2d44d84c1136d",
+      "after": "e148b3440e258fe83fe8a6da84914feda639c512256f0f1a59fd10910e4e3344"
+    },
+    {
+      "path": "graph/source-files.js",
+      "before": "62c4e120c25eb562dccff4c4716a96eab35f59cb277284eb95f65cbbaaf7cb29",
+      "after": "4168bb7d4f485f27031d0417bbdb822d871b46fcf0d57e5ad980bd6e48c953a1"
+    },
+    {
+      "path": "graph/source-files.js.map",
+      "before": "ca0834510a6b8ad1812e1eb541e3caace63143c2a9b6c687e393415b55aeabbf",
+      "after": "b900cfad608cd5c73f8569aa3273f67ae05274e569c20c4884c5155e49c9c67e"
+    },
+    {
+      "path": "ingest/fs.d.ts",
+      "before": "12262861ae41c043fdeefb0dbd96d5d569f33c0e2a1f29c95e8f9b326153717b",
+      "after": "3cd97b54073170eb4860d2baaab87924ec669be5e295f06136de1bb8da54e9df"
+    },
+    {
+      "path": "ingest/fs.d.ts.map",
+      "before": "4396f41dd932ca411f8d32418770106455ba49cb8799b00071a9c438918a45bc",
+      "after": "fe88a0cbb876e178b9999a99f5da797537c38b52649af325b42382ec79a4e97c"
+    },
+    {
+      "path": "ingest/fs.js",
+      "before": "6ffd48f716b0ae7002ed99fdd3a6cfa1d501da967cc5398b2de3173d00d49298",
+      "after": "d595cb8eb4a6cb3a85c301e3d5bd6e2ad0cdd88b55d9b110f60327dc24b711d7"
+    },
+    {
+      "path": "ingest/fs.js.map",
+      "before": "de47e78a5dbca5463563d8c43c7994999fcb9bc81f1bf1035a7d51a1058aa0f4",
+      "after": "1a00484dbb4d0e58681d88227ff8bdadba142cf5110f6b8ce3442b5749fad5d0"
+    }
+  ],
+  "backup": ".graft/graft-runtime-backup-105-60f18712",
+  "global_package_metadata_preserved": true,
+  "external_fork_checkout_changed": false,
+  "source_gate": {
+    "node": "26.7.0",
+    "version_metadata": "0.21.1",
+    "test_file_workers": 2,
+    "tests": 1556,
+    "passed": 1551,
+    "failed": 0,
+    "skipped": 5,
+    "duration_ms": 1046107.3384
+  },
+  "future_sync_warning": "External fork source is unchanged; its next rebuild/sync can overwrite this repair. Apply the bundled guarded source patch before rebuilding that checkout."
+}

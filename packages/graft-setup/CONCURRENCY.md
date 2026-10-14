@@ -1,5 +1,10 @@
 # Concurrent Windows and WSL investigation, 2026-10-14
 
+
+The later [full-project freshness repair](FRESHNESS.md) adds source scope pruning
+and content-hash-verified parse reuse. Its larger project checks passed under
+concurrent load. This report retains the earlier 1.0.4 experiments and limits.
+
 VirtioFS does **not** eliminate the intermittent timeout class. Concurrent file
 churn reproduced a native Windows helper's original 20-second timeout with
 VirtioFS active. A focused 16-worker replay then reproduced three Linux

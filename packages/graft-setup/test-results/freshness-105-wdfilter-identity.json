@@ -1,0 +1,6 @@
+{
+  "Name": "WdFilter",
+  "DisplayName": "Microsoft Defender Antivirus Mini-Filter Driver",
+  "State": "Running",
+  "PathName": "C:\\WINDOWS\\system32\\drivers\\wd\\WdFilter.sys"
+}

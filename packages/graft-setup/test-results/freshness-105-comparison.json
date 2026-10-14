@@ -1,0 +1,140 @@
+{
+  "runs": [
+    {
+      "host": "windows",
+      "ok": true,
+      "helper_elapsed_seconds": 48.537,
+      "freshness": {
+        "structural_fresh": true,
+        "semantic": "absent",
+        "files_reused": 346,
+        "files_parsed": 0,
+        "stale_summaries": 0,
+        "pending_summaries": 3948,
+        "exit_code": 0,
+        "elapsed_seconds": 6.646
+      },
+      "stage_timings": [
+        {
+          "trace": true,
+          "offset_seconds": 40.938026,
+          "stage": "capabilities",
+          "phase": "end",
+          "wall_seconds": 40.584562,
+          "process_cpu_seconds": 0.15625
+        },
+        {
+          "trace": true,
+          "offset_seconds": 41.675683,
+          "stage": "graph_summary",
+          "phase": "end",
+          "wall_seconds": 0.737527,
+          "process_cpu_seconds": 0.625
+        },
+        {
+          "trace": true,
+          "offset_seconds": 48.320512,
+          "stage": "run",
+          "command_kind": "check",
+          "phase": "end",
+          "wall_seconds": 6.643974,
+          "process_cpu_seconds": 0.015625
+        }
+      ],
+      "runtime": {
+        "version": "0.21.1-nishadherath",
+        "tested_version": "0.21.1",
+        "version_matches": false,
+        "supports_structured": true,
+        "supports_documents": true,
+        "supports_deep_documents": true,
+        "identity": {
+          "available": true,
+          "package_root": "D:\\Code\\Claude\\Orchestrator\\.graft\\graft-memo-runtime",
+          "package_version": "0.21.1-nishadherath",
+          "cli_path": "D:\\Code\\Claude\\Orchestrator\\.graft\\graft-memo-runtime\\dist\\cli.js",
+          "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+          "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+          "runtime_features": {
+            "available": true,
+            "extractor_stamp": "b7973c42b807124f",
+            "preserves_foreign_scope": true,
+            "prunes_scoped_walk": true,
+            "hash_checked_memo": true
+          }
+        }
+      },
+      "scope": null
+    },
+    {
+      "host": "linux",
+      "ok": true,
+      "helper_elapsed_seconds": 48.359,
+      "freshness": {
+        "structural_fresh": true,
+        "semantic": "absent",
+        "files_reused": 346,
+        "files_parsed": 0,
+        "stale_summaries": 0,
+        "pending_summaries": 3948,
+        "exit_code": 0,
+        "elapsed_seconds": 22.8
+      },
+      "stage_timings": [
+        {
+          "trace": true,
+          "offset_seconds": 7.02432,
+          "stage": "capabilities",
+          "phase": "end",
+          "wall_seconds": 6.837945,
+          "process_cpu_seconds": 0.018617
+        },
+        {
+          "trace": true,
+          "offset_seconds": 25.329821,
+          "stage": "graph_summary",
+          "phase": "end",
+          "wall_seconds": 18.304381,
+          "process_cpu_seconds": 1.339331
+        },
+        {
+          "trace": true,
+          "offset_seconds": 48.159038,
+          "stage": "run",
+          "command_kind": "check",
+          "phase": "end",
+          "wall_seconds": 22.791511,
+          "process_cpu_seconds": 0.017784
+        }
+      ],
+      "runtime": {
+        "version": "0.21.1-nishadherath",
+        "tested_version": "0.21.1",
+        "version_matches": false,
+        "supports_structured": true,
+        "supports_documents": true,
+        "supports_deep_documents": true,
+        "identity": {
+          "available": true,
+          "package_root": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification",
+          "package_version": "0.21.1-nishadherath",
+          "cli_path": "/home/wsl/.local/share/graft-verification/graft-0.21.1/node_modules/@nanonets/scoped-memo-verification/dist/cli.js",
+          "cli_sha256": "ab03522e5186e56e4890fa764d2426ca509e813589065240cb62e9233303edb9",
+          "package_json_sha256": "02b8cc2bb72ebc33facd4b994df95866ce72da28c202b79ca8a82eebe2236cc8",
+          "runtime_features": {
+            "available": true,
+            "extractor_stamp": "b7973c42b807124f",
+            "preserves_foreign_scope": true,
+            "prunes_scoped_walk": true,
+            "hash_checked_memo": true
+          }
+        }
+      },
+      "scope": null
+    }
+  ],
+  "deadline_seconds": 180,
+  "load_workers_per_host": 4,
+  "load_seconds": 300,
+  "provider_calls": 0
+}
